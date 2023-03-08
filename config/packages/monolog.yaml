@@ -1,0 +1,37 @@
+monolog:
+  channels:
+    - deprecation
+
+when@dev:
+  monolog:
+    handlers:
+      nested:
+        type: stream
+        level: debug
+        path: php://stdout
+        channels: [ '!php', '!event' ]
+        formatter: monolog.formatter.json
+
+when@test:
+  monolog:
+    handlers:
+      main:
+        type: fingers_crossed
+        action_level: error
+        handler: nested
+        excluded_http_codes: [ 404, 405 ]
+        channels: [ '!event' ]
+      nested:
+        type: stream
+        path: '%kernel.logs_dir%/%kernel.environment%.log'
+        level: debug
+
+when@prod:
+  monolog:
+    handlers:
+      nested:
+        type: stream
+        level: debug
+        path: php://stdout
+        channels: [ '!doctrine', '!event', '!messenger', '!php', '!security' ]
+        formatter: monolog.formatter.json

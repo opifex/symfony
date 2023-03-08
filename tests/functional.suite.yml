@@ -1,0 +1,13 @@
+actor: FunctionalTester
+modules:
+  enabled:
+    - Cli:
+    - REST:
+        depends: Symfony
+    - Symfony:
+        app_path: 'src'
+        environment: 'test'
+    - Doctrine2:
+        depends: Symfony
+        cleanup: true
+        transaction: false

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+  <entity name="App\Domain\Entity\Account\Account" table="account">
+    <id name="uuid" column="uuid" type="guid">
+      <custom-id-generator class="Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator"/>
+      <generator strategy="CUSTOM"/>
+    </id>
+
+    <field name="createdAt" column="created_at" type="datetime_immutable" updatable="false"/>
+    <field name="email" column="email" length="320" unique="true"/>
+    <field name="password" column="password" length="60"/>
+    <field name="roles" column="roles" type="json"/>
+    <field name="status" column="status" length="24"/>
+    <field name="updatedAt" column="updated_at" type="datetime_immutable"/>
+
+    <lifecycle-callbacks>
+      <lifecycle-callback type="prePersist" method="prePersistDateTime"/>
+      <lifecycle-callback type="preUpdate" method="preUpdateDateTime"/>
+    </lifecycle-callbacks>
+  </entity>
+
+</doctrine-mapping>

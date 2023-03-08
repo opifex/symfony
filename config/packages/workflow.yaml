@@ -1,0 +1,24 @@
+framework:
+  workflows:
+    account:
+      type: state_machine
+      marking_store:
+        type: 'method'
+        property: 'status'
+      supports:
+        - App\Domain\Entity\Account\Account
+      initial_marking: !php/const App\Domain\Entity\Account\AccountStatus::CREATED
+      places:
+        - !php/const App\Domain\Entity\Account\AccountStatus::CREATED
+        - !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
+        - !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
+      transitions:
+        !php/enum App\Domain\Entity\Account\AccountAction::VERIFY->value:
+          from: !php/const App\Domain\Entity\Account\AccountStatus::CREATED
+          to: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
+        !php/enum App\Domain\Entity\Account\AccountAction::BLOCK->value:
+          from: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
+          to: !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
+        !php/enum App\Domain\Entity\Account\AccountAction::UNBLOCK->value:
+          from: !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
+          to: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED

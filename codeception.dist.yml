@@ -1,0 +1,30 @@
+namespace: App\Tests
+paths:
+  tests: tests
+  output: tests/_output
+  data: tests/_data
+  support: tests/_support
+actor_suffix: Tester
+coverage:
+  enabled: true
+  low_limit: 50
+  high_limit: 80
+  show_only_summary: true
+  show_uncovered: true
+  include:
+    - src/Application/*
+    - src/Domain/*
+    - src/Infrastructure/*
+    - src/Presentation/*
+  exclude:
+    - src/Domain/Contract/*
+    - src/Domain/Message/*
+    - src/Infrastructure/Persistence/Fixture/*
+    - src/Infrastructure/Persistence/Migration/*
+    - src/Presentation/Resources/*
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed
+params:
+  - .env
+  - .env.test

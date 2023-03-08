@@ -1,0 +1,16 @@
+framework:
+  cache:
+    prefix_seed: '%env(APP_NAME)%'
+    default_redis_provider: '%env(REDIS_DSN)%'
+
+    pools:
+      cache.doctrine:
+        default_lifetime: 60
+        adapters:
+          - cache.adapter.redis
+          - cache.adapter.array
+      cache.storage:
+        default_lifetime: 60
+        adapters:
+          - cache.adapter.redis
+          - cache.adapter.array

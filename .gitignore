@@ -1,0 +1,18 @@
+###> symfony/framework-bundle ###
+/.env.*.local
+/.env.local
+/.idea/
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> codeception/codeception ###
+/codeception.yml
+###< codeception/codeception ###
+
+###> phpunit/phpunit ###
+/.phpunit.cache/
+/phpunit.xml
+###< phpunit/phpunit ###

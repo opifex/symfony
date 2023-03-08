@@ -1,0 +1,33 @@
+parameters:
+  container.dumper.inline_factories: true
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\:
+    resource: '../src/'
+    exclude:
+      - '../src/Kernel.php'
+      - '../src/Domain/{Entity,Event,Exception,Messenger,Notification}/'
+      - '../src/Infrastructure/Persistence/{Migration}/'
+
+  Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer:
+    tags: { name: serializer.normalizer }
+
+  Symfony\Component\Serializer\Normalizer\DateTimeNormalizer:
+    tags: { name: serializer.normalizer }
+
+  Symfony\Component\Serializer\Normalizer\PropertyNormalizer:
+    arguments:
+      $nameConverter: '@serializer.name_converter.camel_case_to_snake_case'
+    tags: { name: serializer.normalizer }
+
+  App\Domain\Contract\Adapter\JwtTokenAdapterInterface:
+    class: App\Infrastructure\Adapter\JwtTokenAdapter
+    arguments:
+      $lifetime: '%env(int:JWT_LIFETIME)%'
+      $passphrase: '%env(JWT_PASSPHRASE)%'
+      $signingKey: '%env(default::JWT_SIGNING_KEY)%'
+      $verificationKey: '%env(default::JWT_VERIFICATION_KEY)%'

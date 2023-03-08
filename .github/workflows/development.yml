@@ -1,0 +1,49 @@
+name: development
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    services:
+      postgres:
+        image: postgres:15.2
+        env:
+          POSTGRES_DB: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_USER: root
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 2s
+          --health-timeout 2s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=15&charset=utf8
+      MAILER_DSN: null://null
+      MESSENGER_TRANSPORT_DSN: sync://
+      PHP_VERSION: 8.2.3
+
+    steps:
+      - name: Setup environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+
+      - name: Checkout sources
+        uses: actions/checkout@v3
+
+      - name: Install composer dependencies
+        run: /usr/bin/composer install
+
+      - name: Run automated code quality assurance
+        run: /usr/bin/composer auto-analyze
+
+      - name: Run automated project quality assurance
+        run: /usr/bin/composer auto-quality

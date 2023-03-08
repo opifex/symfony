@@ -1,0 +1,181 @@
+services:
+  application:
+    build: .
+    hostname: application
+    container_name: "${APP_NAME}-application"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "true" ]
+    ports:
+      - "${APP_PORT:-80}:80"
+    depends_on:
+      - mailcatcher
+      - postgres
+      - rabbitmq
+      - redis
+    environment:
+      APP_ENV: "${APP_ENV}"
+      APP_NAME: "${APP_NAME}"
+      APP_PORT: "${APP_PORT}"
+      APP_URL: "${APP_URL}"
+      DATABASE_URL: "${DATABASE_URL}"
+      LOCK_DSN: "${LOCK_DSN}"
+      MAILER_DSN: "${MAILER_DSN}"
+      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
+      REDIS_DSN: "${REDIS_DSN}"
+    volumes:
+      - ./:/opt/project:consistent
+      - bundles:/opt/project/public/bundles
+      - storage:/opt/project/var
+    networks:
+      internal:
+
+  crontab:
+    build: .
+    hostname: crontab
+    command: crontab
+    container_name: "${APP_NAME}-crontab"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "true" ]
+    depends_on:
+      - application
+      - mailcatcher
+      - postgres
+      - rabbitmq
+      - redis
+    environment:
+      APP_ENV: "${APP_ENV}"
+      APP_NAME: "${APP_NAME}"
+      APP_PORT: "${APP_PORT}"
+      APP_URL: "${APP_URL}"
+      DATABASE_URL: "${DATABASE_URL}"
+      LOCK_DSN: "${LOCK_DSN}"
+      MAILER_DSN: "${MAILER_DSN}"
+      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
+      REDIS_DSN: "${REDIS_DSN}"
+    volumes:
+      - ./:/opt/project:consistent
+      - bundles:/opt/project/public/bundles
+      - storage:/opt/project/var
+    networks:
+      internal:
+
+  messenger:
+    build: .
+    hostname: messenger
+    command: messenger
+    container_name: "${APP_NAME}-messenger"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "true" ]
+    depends_on:
+      - application
+      - mailcatcher
+      - postgres
+      - rabbitmq
+      - redis
+    environment:
+      APP_ENV: "${APP_ENV}"
+      APP_NAME: "${APP_NAME}"
+      APP_PORT: "${APP_PORT}"
+      APP_URL: "${APP_URL}"
+      DATABASE_URL: "${DATABASE_URL}"
+      LOCK_DSN: "${LOCK_DSN}"
+      MAILER_DSN: "${MAILER_DSN}"
+      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
+      REDIS_DSN: "${REDIS_DSN}"
+    volumes:
+      - ./:/opt/project:consistent
+      - bundles:/opt/project/public/bundles
+      - storage:/opt/project/var
+    networks:
+      internal:
+
+  migration:
+    build: .
+    hostname: migration
+    command: migration
+    container_name: "${APP_NAME}-migration"
+    healthcheck:
+      test: [ "CMD", "true" ]
+    depends_on:
+      - application
+      - postgres
+    environment:
+      APP_ENV: "${APP_ENV}"
+      APP_NAME: "${APP_NAME}"
+      APP_PORT: "${APP_PORT}"
+      APP_URL: "${APP_URL}"
+      DATABASE_URL: "${DATABASE_URL}"
+      LOCK_DSN: "${LOCK_DSN}"
+      MAILER_DSN: "${MAILER_DSN}"
+      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
+      REDIS_DSN: "${REDIS_DSN}"
+    volumes:
+      - ./:/opt/project:consistent
+      - bundles:/opt/project/public/bundles
+      - storage:/opt/project/var
+    networks:
+      internal:
+
+  redis:
+    image: redis:latest
+    hostname: redis
+    container_name: "${APP_NAME}-redis"
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+    networks:
+      internal:
+
+  rabbitmq:
+    image: rabbitmq:management
+    hostname: rabbitmq
+    container_name: "${APP_NAME}-rabbitmq"
+    restart: unless-stopped
+    ports:
+      - "15672:15672"
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    networks:
+      internal:
+
+  postgres:
+    image: postgres:15.2
+    hostname: postgres
+    container_name: "${APP_NAME}-postgres"
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: symfony
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      internal:
+
+  mailcatcher:
+    image: opifex/mailcatcher:latest
+    hostname: mailcatcher
+    container_name: "${APP_NAME}-mailcatcher"
+    restart: unless-stopped
+    ports:
+      - "1080:1080"
+    networks:
+      internal:
+
+volumes:
+  bundles:
+  postgres:
+  rabbitmq:
+  redis:
+  storage:
+
+networks:
+  internal:
+    name: "${APP_NAME}-network"

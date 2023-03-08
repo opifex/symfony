@@ -1,0 +1,10 @@
+doctrine_migrations:
+  all_or_nothing: true
+  custom_template: '%kernel.project_dir%/src/Presentation/Resource/Template/Doctrine/migration.php.twig'
+  enable_profiler: '%kernel.debug%'
+  migrations_paths:
+    App\Infrastructure\Persistence\Migration: '%kernel.project_dir%/src/Infrastructure/Persistence/Migration'
+  storage:
+    table_storage:
+      table_name: 'migration'
+  transactional: true

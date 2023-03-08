@@ -1,0 +1,37 @@
+doctrine:
+  dbal:
+    url: '%env(resolve:DATABASE_URL)%'
+  orm:
+    auto_generate_proxy_classes: true
+    auto_mapping: true
+    mappings:
+      Default:
+        alias: Default
+        dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Mapping'
+        prefix: 'App\Domain\Entity'
+        type: xml
+    naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+
+when@test:
+  doctrine:
+    dbal:
+      dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+  doctrine:
+    orm:
+      auto_generate_proxy_classes: false
+      metadata_cache_driver:
+        type: pool
+        pool: cache.doctrine
+      query_cache_driver:
+        type: pool
+        pool: cache.doctrine
+      result_cache_driver:
+        type: pool
+        pool: cache.doctrine
+      second_level_cache:
+        enabled: true
+        region_cache_driver:
+          type: pool
+          pool: cache.doctrine

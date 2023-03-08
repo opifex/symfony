@@ -1,0 +1,173 @@
+{
+    "name": "opifex/symfony",
+    "description": "An example application using Symfony Framework",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.2",
+        "ext-amqp": "*",
+        "ext-apcu": "*",
+        "ext-ctype": "*",
+        "ext-gd": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-redis": "*",
+        "ext-xsl": "*",
+        "ext-zend-opcache": "*",
+        "ext-zip": "*",
+        "doctrine/doctrine-bundle": "^2.9",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.14",
+        "lcobucci/jwt": "^4.3",
+        "nelmio/api-doc-bundle": "^4.11",
+        "symfony/amqp-messenger": "6.2.*",
+        "symfony/asset": "6.2.*",
+        "symfony/console": "6.2.*",
+        "symfony/doctrine-messenger": "6.2.*",
+        "symfony/dotenv": "6.2.*",
+        "symfony/expression-language": "6.2.*",
+        "symfony/flex": "^2",
+        "symfony/framework-bundle": "6.2.*",
+        "symfony/http-client": "6.2.*",
+        "symfony/lock": "6.2.*",
+        "symfony/mailer": "6.2.*",
+        "symfony/messenger": "6.2.*",
+        "symfony/monolog-bundle": "^3.8",
+        "symfony/notifier": "6.2.*",
+        "symfony/property-access": "6.2.*",
+        "symfony/requirements-checker": "^2.0",
+        "symfony/runtime": "6.2.*",
+        "symfony/security-bundle": "6.2.*",
+        "symfony/serializer": "6.2.*",
+        "symfony/stopwatch": "6.2.*",
+        "symfony/translation": "6.2.*",
+        "symfony/twig-bundle": "6.2.*",
+        "symfony/uid": "6.2.*",
+        "symfony/validator": "6.2.*",
+        "symfony/workflow": "6.2.*",
+        "symfony/yaml": "6.2.*",
+        "twig/cssinliner-extra": "^3.5",
+        "twig/extra-bundle": "^3.5",
+        "twig/inky-extra": "^3.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "exclude-from-classmap": [
+            "config/",
+            "tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Reports\\": "config/markup/Reports",
+            "App\\Sniffs\\": "config/markup/Sniffs",
+            "App\\Tests\\": [
+                "tests/_data",
+                "tests/_output",
+                "tests/_support",
+                "tests/functional",
+                "tests/unit"
+            ]
+        }
+    },
+    "scripts": {
+        "auto-analyze": [
+            "composer validate --strict",
+            "phpcs --standard=config/markup/phpcs.xml",
+            "phpstan --configuration=config/markup/phpstan.neon --memory-limit=4G --no-progress --xdebug"
+        ],
+        "auto-migrate": [
+            "bin/console doctrine:database:create --if-not-exists",
+            "bin/console doctrine:migrations:migrate",
+            "bin/console messenger:setup-transports"
+        ],
+        "auto-quality": [
+            "requirements-checker",
+            "bin/console cache:clear -e test",
+            "bin/console doctrine:mapping:info -e test",
+            "bin/console doctrine:database:drop -e test --if-exists --force",
+            "bin/console doctrine:database:create -e test",
+            "bin/console doctrine:migration:migrate -e test -n",
+            "codecept run unit,functional --coverage-html --fail-fast"
+        ],
+        "auto-scripts": {
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "cache:clear": "symfony-cmd"
+        },
+        "auto-workflow": [
+            "bin/console workflow:dump account | dot -Tsvg -o config/workflow/account.svg"
+        ],
+        "debug-composer": "composer validate --strict && composer diagnose",
+        "debug-container": "bin/console debug:container",
+        "debug-recipes": "composer symfony:recipes",
+        "debug-router": "bin/console debug:router | grep -v '^  _'",
+        "fix-style": "phpcbf --standard=config/markup/phpcs.xml",
+        "load-fixtures": "bin/console doctrine:fixtures:load -n",
+        "migrate-create": "bin/console doctrine:migration:generate",
+        "migrate-down": "bin/console doctrine:migrations:migrate prev",
+        "migrate-up": "bin/console doctrine:migrations:migrate",
+        "run-unit": "codecept run unit --coverage-html",
+        "post-install-cmd": "@auto-scripts",
+        "post-update-cmd": "@auto-scripts"
+    },
+    "scripts-descriptions": {
+        "auto-analyze": "Analyze code quality with Composer, PHPCS and PHPStan",
+        "auto-migrate": "Automatically set up database migrations and messenger transports",
+        "auto-quality": "Run quality checks for Symfony application",
+        "auto-scripts": "Install public assets and clear the cache",
+        "auto-workflow": "Generate graphical visualization of Symfony workflow",
+        "debug-composer": "Validate and diagnose Composer installation",
+        "debug-container": "List registered services for application",
+        "debug-recipes": "List available recipes for application",
+        "debug-router": "List registered routes for application",
+        "fix-style": "Automatically fix PHP code style violations",
+        "load-fixtures": "Load data fixtures into database",
+        "migrate-create": "Create new blank database migration file",
+        "migrate-down": "Rollback database schema to previous migration",
+        "migrate-up": "Update database schema to latest migration",
+        "run-unit": "Run codeception unit test suite with code coverage report"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.2.*"
+        }
+    },
+    "require-dev": {
+        "codeception/codeception": "^5.0",
+        "codeception/module-asserts": "^3.0",
+        "codeception/module-cli": "^2.0",
+        "codeception/module-doctrine2": "^3.0",
+        "codeception/module-rest": "^3.3",
+        "codeception/module-symfony": "^3.1",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "fakerphp/faker": "^1.21",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-doctrine": "^1.3",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpstan/phpstan-symfony": "^1.2",
+        "squizlabs/php_codesniffer": "^3.7",
+        "symfony/web-profiler-bundle": "6.2.*"
+    }
+}

@@ -1,0 +1,26 @@
+framework:
+  secret: '%env(APP_SECRET)%'
+  trusted_proxies: '%env(TRUSTED_PROXIES)%'
+  http_method_override: false
+  set_locale_from_accept_language: true
+  set_content_language_from_locale: true
+  enabled_locales: [ 'en', 'uk' ]
+
+  serializer:
+    name_converter: 'serializer.name_converter.camel_case_to_snake_case'
+
+  php_errors:
+    log: true
+
+  http_client:
+    scoped_clients:
+      httpbin.client:
+        base_uri: 'https://httpbin.org'
+        headers:
+          Accept: 'application/json'
+
+when@test:
+  framework:
+    test: true
+    session:
+      storage_factory_id: session.storage.factory.mock_file
