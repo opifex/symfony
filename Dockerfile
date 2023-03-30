@@ -37,7 +37,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --from=composer /tmp/vendor ./vendor
 COPY . .
 # set owners and system rights
-RUN mkdir -p $PWD/var $PWD/public/bundles && chown -R www-data:www-data $PWD
+RUN mkdir -p $PWD/public/bundles $PWD/var && chown -R www-data:www-data $PWD
 # clear environment variables and dump autoload
 RUN runuser -u www-data -- composer dump-autoload --classmap-authoritative
 RUN runuser -u www-data -- composer dump-env prod --empty
