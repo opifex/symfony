@@ -139,4 +139,29 @@ final class LifecycleAccountCest
         $i->sendPost(url: '/api/account', params: json_encode($newCredentials));
         $i->seeResponseCodeIsClientError();
     }
+
+    public function updateAccountWithExistedEmail(FunctionalTester $i): void
+    {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+
+        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
+        $updatedCredentials = ['email' => 'user@example.com'];
+
+        $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
+        $i->seeResponseCodeIsSuccessful();
+        $i->seeHttpHeader(name: 'Authorization');
+
+        $adminAuthToken = $i->grabHttpHeader(name: 'Authorization');
+
+        $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
+
+        $i->sendGet(url: '/api/account', params: ['email' => $adminCredentials['email']]);
+        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseIsJson();
+
+        $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
+
+        $i->sendPatch(url: '/api/account/' . $uuid, params: json_encode($updatedCredentials));
+        $i->seeResponseCodeIsClientError();
+    }
 }

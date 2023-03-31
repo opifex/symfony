@@ -56,7 +56,7 @@ class AccountRepository implements AccountRepositoryInterface
         try {
             $entity = $builder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
-            throw new AccountNotFoundException($e->getMessage());
+            throw new AccountNotFoundException($e->getMessage(), previous: $e);
         }
 
         return $entity instanceof Account ? $entity : throw new UnexpectedResultException();
@@ -78,7 +78,7 @@ class AccountRepository implements AccountRepositoryInterface
         try {
             $entity = $builder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
-            throw new AccountNotFoundException($e->getMessage());
+            throw new AccountNotFoundException($e->getMessage(), previous: $e);
         }
 
         return $entity instanceof Account ? $entity : throw new UnexpectedResultException();
