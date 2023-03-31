@@ -6,6 +6,7 @@ namespace App\Application\Handler\Account;
 
 use App\Application\Service\AccountManager;
 use App\Domain\Contract\Message\MessageInterface;
+use App\Domain\Entity\Account\AccountAction;
 use App\Domain\Exception\Account\AccountActionFailedException;
 use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Message\Account\ApplyAccountActionCommand;
@@ -23,7 +24,8 @@ class ApplyAccountActionHandler
     public function __invoke(ApplyAccountActionCommand $message): void
     {
         try {
-            $this->accountManager->applyAction($message->uuid, $message->action);
+            $action = AccountAction::from($message->action);
+            $this->accountManager->applyAction($message->uuid, $action);
         } catch (AccountNotFoundException $e) {
             throw new NotFoundHttpException(
                 message: 'Account with provided identifier not found.',

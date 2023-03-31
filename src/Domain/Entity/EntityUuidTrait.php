@@ -12,8 +12,8 @@ trait EntityUuidTrait
     #[Groups([EntityInterface::GROUP_INDEX, EntityInterface::GROUP_VIEW])]
     protected ?string $uuid = null;
 
-    public function getUuid(): ?string
+    public function getUuid(): string
     {
-        return $this->uuid;
+        return $this->uuid ?? '';
     }
 }

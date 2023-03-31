@@ -6,7 +6,7 @@ namespace App\Application\Service;
 
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Entity\Account\Account;
-use App\Domain\Entity\Account\AccountStatus;
+use App\Domain\Entity\Account\AccountAction;
 use App\Domain\Exception\Account\AccountActionFailedException;
 use App\Domain\Exception\Account\AccountAlreadyExistException;
 use App\Domain\Exception\Account\AccountNotFoundException;
@@ -16,6 +16,7 @@ use Symfony\Component\Workflow\WorkflowInterface;
 class AccountManager
 {
     public function __construct(
+        private AccountFactory $accountFactory,
         private AccountRepositoryInterface $accountRepository,
         private UserPasswordHasherInterface $userPasswordHasher,
         private WorkflowInterface $accountStateMachine,
@@ -26,15 +27,15 @@ class AccountManager
      * @throws AccountActionFailedException
      * @throws AccountNotFoundException
      */
-    public function applyAction(string $uuid, string $action): void
+    public function applyAction(string $uuid, AccountAction $action): void
     {
         $account = $this->accountRepository->findOneByUuid($uuid);
 
-        if (!$this->accountStateMachine->can($account, $action)) {
+        if (!$this->accountStateMachine->can($account, $action->value)) {
             throw new AccountActionFailedException();
         }
 
-        $this->accountStateMachine->apply($account, $action);
+        $this->accountStateMachine->apply($account, $action->value);
     }
 
     /**
@@ -48,9 +49,7 @@ class AccountManager
             $this->accountRepository->findOneByEmail($email);
             throw new AccountAlreadyExistException();
         } catch (AccountNotFoundException) {
-            $account = new Account($email, $roles);
-            $account->setPassword($this->userPasswordHasher->hashPassword($account, $password));
-            $account->setStatus(status: AccountStatus::VERIFIED);
+            $account = $this->accountFactory->create($email, $password, $roles);
 
             $this->accountRepository->persist($account);
 
