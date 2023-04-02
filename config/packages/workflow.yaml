@@ -13,12 +13,12 @@ framework:
         - !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
         - !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
       transitions:
-        !php/enum App\Domain\Entity\Account\AccountAction::VERIFY->value:
+        !php/const App\Domain\Entity\Account\AccountAction::VERIFY:
           from: !php/const App\Domain\Entity\Account\AccountStatus::CREATED
           to: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
-        !php/enum App\Domain\Entity\Account\AccountAction::BLOCK->value:
+        !php/const App\Domain\Entity\Account\AccountAction::BLOCK:
           from: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
           to: !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
-        !php/enum App\Domain\Entity\Account\AccountAction::UNBLOCK->value:
+        !php/const App\Domain\Entity\Account\AccountAction::UNBLOCK:
           from: !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
           to: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED

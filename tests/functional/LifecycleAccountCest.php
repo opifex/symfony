@@ -35,7 +35,7 @@ final class LifecycleAccountCest
         $i->sendDelete(url: '/api/account/' . $invalidUserIdentifier);
         $i->seeResponseCodeIsClientError();
 
-        $i->sendPost(url: '/api/account/' . $invalidUserIdentifier . '/' . AccountAction::VERIFY->value);
+        $i->sendPost(url: '/api/account/' . $invalidUserIdentifier . '/' . AccountAction::VERIFY);
         $i->seeResponseCodeIsClientError();
     }
 
@@ -74,7 +74,7 @@ final class LifecycleAccountCest
         $i->sendPatch(url: $location, params: json_encode($updatedCredentials));
         $i->seeResponseCodeIsSuccessful();
 
-        $i->sendPost(url: $location . '/' . AccountAction::BLOCK->value);
+        $i->sendPost(url: $location . '/' . AccountAction::BLOCK);
         $i->seeResponseCodeIsSuccessful();
 
         $i->sendGet(url: $location);
@@ -113,7 +113,7 @@ final class LifecycleAccountCest
 
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
 
-        $i->sendPost(url: '/api/account/' . $uuid . '/' . AccountAction::VERIFY->value);
+        $i->sendPost(url: '/api/account/' . $uuid . '/' . AccountAction::VERIFY);
         $i->seeResponseCodeIsClientError();
     }
 

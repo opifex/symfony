@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Requirement\EnumRequirement;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -46,7 +45,7 @@ class ApplyAccountActionController extends AbstractController
     #[Route(
         path: '/api/account/{uuid}/{action}',
         name: __CLASS__,
-        requirements: ['uuid' => Requirement::UUID_V6, 'action' => new EnumRequirement(cases: AccountAction::class)],
+        requirements: ['uuid' => Requirement::UUID_V6],
         methods: [Request::METHOD_POST],
         format: JsonEncoder::FORMAT,
     )]

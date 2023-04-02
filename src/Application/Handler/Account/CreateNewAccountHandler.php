@@ -36,7 +36,7 @@ class CreateNewAccountHandler
             );
         } catch (AccountNotFoundException) {
             $account = $this->accountFactory->create($message->email, $message->password, $message->roles);
-            $this->accountStateMachine->apply($account, AccountAction::VERIFY->value);
+            $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
             $this->accountRepository->persist($account);
             $this->eventDispatcher->dispatch(new AccountCreatedEvent($account));
         }

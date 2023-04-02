@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity\Account;
 
-enum AccountAction: string
+class AccountAction
 {
-    case BLOCK = 'block';
+    public const BLOCK = 'block';
 
-    case UNBLOCK = 'unblock';
+    public const UNBLOCK = 'unblock';
 
-    case VERIFY = 'verify';
+    public const VERIFY = 'verify';
+
+    public const LIST = [
+        self::BLOCK,
+        self::UNBLOCK,
+        self::VERIFY,
+    ];
 }
