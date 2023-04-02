@@ -91,7 +91,7 @@
         "auto-analyze": [
             "composer validate --strict",
             "phpcs --standard=config/markup/phpcs.xml",
-            "phpstan --configuration=config/markup/phpstan.neon --memory-limit=4G --no-progress --xdebug"
+            "phpstan --configuration=config/markup/phpstan.neon --memory-limit=4G --no-progress"
         ],
         "auto-migrate": [
             "bin/console doctrine:database:create --if-not-exists",

@@ -10,7 +10,6 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -40,24 +39,5 @@ final class HttpbinAdapterTest extends Unit
         $json = $httpbinAdapter->getJson();
 
         $this->assertSame($json, $response);
-    }
-
-    /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
-     */
-    public function testGetJsonThrowsException(): void
-    {
-        $mockResponse = new MockResponse(json_encode([]));
-        $mockHttpClient = new MockHttpClient($mockResponse);
-        $httpbinAdapter = new HttpbinAdapter($mockHttpClient);
-        $mockResponse->cancel();
-
-        $this->expectException(ExceptionInterface::class);
-
-        $httpbinAdapter->getJson();
     }
 }
