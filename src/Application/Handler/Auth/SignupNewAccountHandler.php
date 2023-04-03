@@ -7,7 +7,6 @@ namespace App\Application\Handler\Auth;
 use App\Application\Service\AccountFactory;
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
-use App\Domain\Entity\Account\AccountRole;
 use App\Domain\Event\Account\AccountCreatedEvent;
 use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Message\Auth\SignupNewAccountCommand;
@@ -33,11 +32,7 @@ class SignupNewAccountHandler
                 message: 'Email address is already associated with another account.',
             );
         } catch (AccountNotFoundException) {
-            $account = $this->accountFactory->create(
-                email: $message->email,
-                password: $message->password,
-                roles: [AccountRole::ROLE_USER],
-            );
+            $account = $this->accountFactory->createUserAccount($message->email, $message->password);
             $this->accountRepository->persist($account);
             $this->eventDispatcher->dispatch(new AccountCreatedEvent($account));
         }

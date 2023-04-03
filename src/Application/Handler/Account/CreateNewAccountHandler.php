@@ -35,7 +35,11 @@ class CreateNewAccountHandler
                 message: 'Email address is already associated with another account.',
             );
         } catch (AccountNotFoundException) {
-            $account = $this->accountFactory->create($message->email, $message->password, $message->roles);
+            $account = $this->accountFactory->createCustomAccount(
+                email: $message->email,
+                password: $message->password,
+                roles: $message->roles,
+            );
             $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
             $this->accountRepository->persist($account);
             $this->eventDispatcher->dispatch(new AccountCreatedEvent($account));

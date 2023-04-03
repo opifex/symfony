@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Domain\Entity\Account\Account;
+use App\Domain\Entity\Account\AccountRole;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AccountFactory
@@ -16,11 +17,16 @@ class AccountFactory
     /**
      * @param string[] $roles
      */
-    public function create(string $email, string $password, array $roles): Account
+    public function createCustomAccount(string $email, string $password, array $roles): Account
     {
         $account = new Account($email, $roles);
         $account->setPassword($this->userPasswordHasher->hashPassword($account, $password));
 
         return $account;
+    }
+
+    public function createUserAccount(string $email, string $password): Account
+    {
+        return $this->createCustomAccount($email, $password, [AccountRole::ROLE_USER]);
     }
 }
