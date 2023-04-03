@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install composer dependencies
-        run: /usr/bin/composer install
+        run: /usr/bin/composer install --no-scripts
 
       - name: Run automated code quality assurance
         run: /usr/bin/composer auto-analyze
