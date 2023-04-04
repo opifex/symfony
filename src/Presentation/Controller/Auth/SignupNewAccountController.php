@@ -38,7 +38,7 @@ class SignupNewAccountController extends AbstractController
     #[Route(
         path: '/api/auth/signup',
         name: __CLASS__,
-        methods: [Request::METHOD_POST],
+        methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]
     public function __invoke(SignupNewAccountCommand $message): Envelope

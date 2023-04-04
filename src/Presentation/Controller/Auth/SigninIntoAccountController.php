@@ -48,7 +48,7 @@ class SigninIntoAccountController extends AbstractController
     #[Route(
         path: '/api/auth/signin',
         name: __CLASS__,
-        methods: [Request::METHOD_POST],
+        methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]
     public function __invoke(SigninIntoAccountCommand $message): Envelope

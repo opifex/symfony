@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
@@ -36,8 +35,7 @@ class DeleteAccountByIdController extends AbstractController
     #[Route(
         path: '/api/account/{uuid}',
         name: __CLASS__,
-        requirements: ['uuid' => Requirement::UUID_V6],
-        methods: [Request::METHOD_DELETE],
+        methods: Request::METHOD_DELETE,
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]

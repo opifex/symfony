@@ -38,7 +38,7 @@ class GetHealthStatusController extends AbstractController
     #[Route(
         path: '/api/health',
         name: __CLASS__,
-        methods: [Request::METHOD_GET],
+        methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]
     public function __invoke(GetHealthStatusQuery $message): Envelope

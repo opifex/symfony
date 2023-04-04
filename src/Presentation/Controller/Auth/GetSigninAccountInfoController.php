@@ -42,7 +42,7 @@ class GetSigninAccountInfoController extends AbstractController
     #[Route(
         path: '/api/auth/me',
         name: __CLASS__,
-        methods: [Request::METHOD_GET],
+        methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED, message: 'Not privileged to request the resource.')]

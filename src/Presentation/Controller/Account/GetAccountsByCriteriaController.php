@@ -59,7 +59,7 @@ class GetAccountsByCriteriaController extends AbstractController
     #[Route(
         path: '/api/account',
         name: __CLASS__,
-        methods: [Request::METHOD_GET],
+        methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]

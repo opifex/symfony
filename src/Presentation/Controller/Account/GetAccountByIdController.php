@@ -17,7 +17,6 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Stamp\SerializerStamp;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -47,8 +46,7 @@ class GetAccountByIdController extends AbstractController
     #[Route(
         path: '/api/account/{uuid}',
         name: __CLASS__,
-        requirements: ['uuid' => Requirement::UUID_V6],
-        methods: [Request::METHOD_GET],
+        methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]

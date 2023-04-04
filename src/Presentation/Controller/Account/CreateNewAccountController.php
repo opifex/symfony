@@ -60,7 +60,7 @@ class CreateNewAccountController extends AbstractController
     #[Route(
         path: '/api/account',
         name: __CLASS__,
-        methods: [Request::METHOD_POST],
+        methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
