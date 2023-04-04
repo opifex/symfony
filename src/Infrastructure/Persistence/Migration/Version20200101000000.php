@@ -10,11 +10,6 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20200101000000 extends AbstractMigration
 {
-    public function down(Schema $schema): void
-    {
-        $schema->dropTable(name: 'account');
-    }
-
     public function up(Schema $schema): void
     {
         $table = $schema->createTable(name: 'account');
@@ -27,5 +22,10 @@ final class Version20200101000000 extends AbstractMigration
         $table->addColumn(name: 'uuid', typeName: Types::GUID);
         $table->addUniqueIndex(['email']);
         $table->setPrimaryKey(columnNames: ['uuid']);
+    }
+
+    public function down(Schema $schema): void
+    {
+        $schema->dropTable(name: 'account');
     }
 }

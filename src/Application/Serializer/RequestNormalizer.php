@@ -12,11 +12,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class RequestNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
-    }
-
     /**
      * @param mixed $object
      * @param string|null $format
@@ -45,6 +40,11 @@ class RequestNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof Request;
+    }
+
+    public function hasCacheableSupportsMethod(): bool
+    {
+        return true;
     }
 
     /**

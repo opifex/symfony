@@ -23,11 +23,6 @@ use Throwable;
 
 class ExceptionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
-    }
-
     /**
      * @param mixed $object
      * @param string|null $format
@@ -82,5 +77,10 @@ class ExceptionNormalizer implements NormalizerInterface, CacheableSupportsMetho
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof Throwable;
+    }
+
+    public function hasCacheableSupportsMethod(): bool
+    {
+        return true;
     }
 }

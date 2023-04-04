@@ -16,11 +16,6 @@ class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMet
     {
     }
 
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
-    }
-
     /**
      * @param mixed $object
      * @param string|null $format
@@ -47,5 +42,10 @@ class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMet
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof TranslatableMessage;
+    }
+
+    public function hasCacheableSupportsMethod(): bool
+    {
+        return true;
     }
 }
