@@ -23,7 +23,7 @@ final class SymfonyRunCommandTest extends Unit
     public function testExecuteWithSuccessResult(): void
     {
         $commandTester = new CommandTester($this->application->get('app:symfony:run'));
-        $commandTester->execute([]);
+        $commandTester->execute(['--count' => 1, '--delay' => 0]);
 
         $this->assertSame(expected: Command::SUCCESS, actual: $commandTester->getStatusCode());
         $this->assertStringContainsString(needle: '[OK] Success', haystack: $commandTester->getDisplay());
