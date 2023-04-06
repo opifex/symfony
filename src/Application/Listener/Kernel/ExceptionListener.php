@@ -37,11 +37,9 @@ class ExceptionListener
         $isNormalizedException = is_array($exception);
 
         if ($isNormalizedException && !$this->kernel->isDebug()) {
-            if (isset($exception['validation'])) {
-                if (is_array($exception['validation'])) {
-                    foreach ($exception['validation'] as &$item) {
-                        unset($item['object'], $item['value']);
-                    }
+            if (is_array(value: $exception['validation'] ?? null)) {
+                foreach ($exception['validation'] as &$item) {
+                    unset($item['object'], $item['value']);
                 }
             }
 

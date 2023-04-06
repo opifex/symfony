@@ -23,7 +23,7 @@ class ControllerListener
      */
     public function __invoke(ControllerArgumentsEvent $event): void
     {
-        $request = $this->filterRequest($event->getRequest()->attributes->all());
+        $request = $this->filterAttributes($event->getRequest()->attributes->all());
         $arguments = $event->getArguments();
 
         foreach ($arguments as &$argument) {
@@ -42,7 +42,7 @@ class ControllerListener
      *
      * @return array<string, mixed>
      */
-    private function filterRequest(array $data): array
+    private function filterAttributes(array $data): array
     {
         return array_filter($data, fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
     }
