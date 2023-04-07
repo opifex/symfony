@@ -37,7 +37,6 @@
         "symfony/monolog-bundle": "^3.8",
         "symfony/notifier": "6.2.*",
         "symfony/property-access": "6.2.*",
-        "symfony/requirements-checker": "^2.0",
         "symfony/runtime": "6.2.*",
         "symfony/security-bundle": "6.2.*",
         "symfony/serializer": "6.2.*",
@@ -98,7 +97,7 @@
             "bin/console messenger:setup-transports"
         ],
         "auto-quality": [
-            "requirements-checker",
+            "bin/console lint:container",
             "bin/console cache:clear -e test",
             "bin/console doctrine:mapping:info -e test",
             "bin/console doctrine:database:drop -e test --if-exists --force",
