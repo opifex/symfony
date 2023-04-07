@@ -15,7 +15,6 @@ APP_PORT=8030
 APP_URL=http://localhost:8030
 
 DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=15&charset=utf8
-LOCK_DSN=redis://redis:6379?timeout=1&read_timeout=1
 MAILER_DSN=smtp://mailcatcher:1025
 MESSENGER_TRANSPORT_DSN=amqp://rabbitmq:5672/%2f/messages
 REDIS_DSN=redis://redis:6379?timeout=1&read_timeout=1
