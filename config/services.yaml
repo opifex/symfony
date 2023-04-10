@@ -13,8 +13,11 @@ services:
       - '../src/Domain/{Entity,Event,Exception,Messenger,Notification}/'
       - '../src/Infrastructure/Persistence/{Migration}/'
 
+  App\Domain\Contract\Adapter\ApiClientAdapterInterface:
+    class: App\Infrastructure\Adapter\KennethreitzHttpbinAdapter
+
   App\Domain\Contract\Adapter\JwtTokenAdapterInterface:
-    class: App\Infrastructure\Adapter\JwtTokenAdapter
+    class: App\Infrastructure\Adapter\LcobucciJwtAdapter
     arguments:
       $lifetime: '%env(int:JWT_LIFETIME)%'
       $passphrase: '%env(JWT_PASSPHRASE)%'

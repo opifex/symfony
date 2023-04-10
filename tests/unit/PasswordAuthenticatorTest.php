@@ -20,8 +20,8 @@ final class PasswordAuthenticatorTest extends Unit
      */
     protected function setUp(): void
     {
-        $tokenAdapter = $this->createMock(originalClassName: JwtTokenAdapterInterface::class);
-        $this->passwordAuthenticator = new PasswordAuthenticator($tokenAdapter);
+        $jwtTokenAdapter = $this->createMock(originalClassName: JwtTokenAdapterInterface::class);
+        $this->passwordAuthenticator = new PasswordAuthenticator($jwtTokenAdapter);
     }
 
     public function testAuthenticateThrowsExceptionOnEmptyCredentials(): void

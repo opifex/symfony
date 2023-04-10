@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Infrastructure\Adapter\HttpbinAdapter;
+use App\Infrastructure\Adapter\KennethreitzHttpbinAdapter;
 use Codeception\Test\Unit;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-final class HttpbinAdapterTest extends Unit
+final class KennethreitzHttpbinAdapterTest extends Unit
 {
     /**
      * @throws TransportExceptionInterface
@@ -34,9 +34,9 @@ final class HttpbinAdapterTest extends Unit
 
         $mockResponse = new MockResponse(json_encode($response));
         $mockHttpClient = new MockHttpClient($mockResponse);
-        $httpbinAdapter = new HttpbinAdapter($mockHttpClient);
+        $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($mockHttpClient);
 
-        $json = $httpbinAdapter->getJson();
+        $json = $kennethreitzHttpbinAdapter->getJson();
 
         $this->assertSame($json, $response);
     }

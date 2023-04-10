@@ -24,7 +24,7 @@ use SensitiveParameter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\UuidV4;
 
-class JwtTokenAdapter implements JwtTokenAdapterInterface
+class LcobucciJwtAdapter implements JwtTokenAdapterInterface
 {
     private Configuration $configuration;
 

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Domain\Exception\TokenAdapterException;
-use App\Infrastructure\Adapter\JwtTokenAdapter;
+use App\Infrastructure\Adapter\LcobucciJwtAdapter;
 use Codeception\Test\Unit;
 use Exception;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class JwtTokenAdapterTest extends Unit
+final class LcobucciJwtAdapterTest extends Unit
 {
     private UserInterface&MockObject $user;
 
@@ -31,7 +31,7 @@ final class JwtTokenAdapterTest extends Unit
     {
         $this->expectException(TokenAdapterException::class);
 
-        new JwtTokenAdapter(lifetime: 86400, passphrase: '');
+        new LcobucciJwtAdapter(lifetime: 86400, passphrase: '');
     }
 
     /**
@@ -40,14 +40,18 @@ final class JwtTokenAdapterTest extends Unit
      */
     public function testExtractIdentifierFromToken(): void
     {
-        $jwtTokenAdapter = new JwtTokenAdapter(lifetime: 86400, passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca');
         $this->user
             ->expects($this->once())
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $jwtTokenAdapter->generateToken($this->user);
-        $identifier = $jwtTokenAdapter->extractIdentifier($token);
+        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            lifetime: 86400,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+        );
+
+        $token = $lcobucciJwtAdapter->generateToken($this->user);
+        $identifier = $lcobucciJwtAdapter->extractIdentifier($token);
 
         $this->assertEquals(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
     }
@@ -99,19 +103,20 @@ final class JwtTokenAdapterTest extends Unit
         $verificationKey .= 'pwIDAQAB' . PHP_EOL;
         $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
-        $jwtTokenAdapter = new JwtTokenAdapter(
-            lifetime: 86400,
-            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
-            signingKey: $signingKey,
-            verificationKey: $verificationKey,
-        );
         $this->user
             ->expects($this->once())
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $jwtTokenAdapter->generateToken($this->user);
-        $identifier = $jwtTokenAdapter->extractIdentifier($token);
+        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            lifetime: 86400,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+            signingKey: $signingKey,
+            verificationKey: $verificationKey,
+        );
+
+        $token = $lcobucciJwtAdapter->generateToken($this->user);
+        $identifier = $lcobucciJwtAdapter->extractIdentifier($token);
 
         $this->assertEquals(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
     }
@@ -126,12 +131,17 @@ final class JwtTokenAdapterTest extends Unit
             ->expects($this->once())
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
-        $jwtTokenAdapter = new JwtTokenAdapter(lifetime: 0, passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca');
-        $token = $jwtTokenAdapter->generateToken($this->user);
+
+        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            lifetime: 0,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+        );
+
+        $token = $lcobucciJwtAdapter->generateToken($this->user);
 
         $this->expectException(TokenAdapterException::class);
 
-        $jwtTokenAdapter->extractIdentifier($token);
+        $lcobucciJwtAdapter->extractIdentifier($token);
     }
 
     /**
@@ -139,14 +149,17 @@ final class JwtTokenAdapterTest extends Unit
      */
     public function testExtractIdentifierThrowsExceptionWithInvalidTokenContent(): void
     {
-        $jwtTokenAdapter = new JwtTokenAdapter(lifetime: 1, passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca');
+        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            lifetime: 1,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+        );
 
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $token .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
         $this->expectException(TokenAdapterException::class);
 
-        $jwtTokenAdapter->extractIdentifier($token);
+        $lcobucciJwtAdapter->extractIdentifier($token);
     }
 
     /**
@@ -154,11 +167,14 @@ final class JwtTokenAdapterTest extends Unit
      */
     public function testExtractIdentifierThrowsExceptionWithInvalidTokenStructure(): void
     {
-        $jwtTokenAdapter = new JwtTokenAdapter(lifetime: 1, passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca');
+        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            lifetime: 1,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+        );
 
         $this->expectException(TokenAdapterException::class);
 
-        $jwtTokenAdapter->extractIdentifier(accessToken: 'invalid');
+        $lcobucciJwtAdapter->extractIdentifier(accessToken: 'invalid');
     }
 
     /**
@@ -166,7 +182,10 @@ final class JwtTokenAdapterTest extends Unit
      */
     public function testExtractIdentifierThrowsExceptionWithTokenWithoutSubject(): void
     {
-        $jwtTokenAdapter = new JwtTokenAdapter(lifetime: 86400, passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca');
+        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            lifetime: 86400,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+        );
 
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $token .= 'Tg1MTQ3NjEuMjA1NzU4LCJleHAiOjMzMTk0NTE0NzYxLjIwNT';
@@ -176,6 +195,6 @@ final class JwtTokenAdapterTest extends Unit
 
         $this->expectException(TokenAdapterException::class);
 
-        $jwtTokenAdapter->extractIdentifier($token);
+        $lcobucciJwtAdapter->extractIdentifier($token);
     }
 }

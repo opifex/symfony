@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Contract\Adapter;
 
-interface HttpbinAdapterInterface
+interface ApiClientAdapterInterface
 {
     /**
      * @return array<string, mixed>
