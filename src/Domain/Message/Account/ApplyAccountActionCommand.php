@@ -17,5 +17,5 @@ class ApplyAccountActionCommand implements MessageInterface
     #[Assert\Choice(choices: AccountAction::LIST)]
     #[Assert\NotBlank]
     #[Groups(self::GROUP_URL)]
-    public string $action;
+    public string $action = '';
 }
