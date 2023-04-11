@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Doctrine\ORM\UnexpectedResultException;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
 #[Autoconfigure(lazy: true)]
@@ -43,7 +42,6 @@ class AccountRepository implements AccountRepositoryInterface
     /**
      * @throws AccountNotFoundException
      * @throws NonUniqueResultException
-     * @throws UnexpectedResultException
      */
     public function findOneByEmail(string $email): Account
     {
@@ -54,18 +52,16 @@ class AccountRepository implements AccountRepositoryInterface
         $builder->setParameter(key: 'email', value: $email);
 
         try {
-            $entity = $builder->getQuery()->getSingleResult();
+            /** @var Account */
+            return $builder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
             throw new AccountNotFoundException($e->getMessage(), previous: $e);
         }
-
-        return $entity instanceof Account ? $entity : throw new UnexpectedResultException();
     }
 
     /**
      * @throws AccountNotFoundException
      * @throws NonUniqueResultException
-     * @throws UnexpectedResultException
      */
     public function findOneByUuid(string $uuid): Account
     {
@@ -76,12 +72,11 @@ class AccountRepository implements AccountRepositoryInterface
         $builder->setParameter(key: 'uuid', value: $uuid);
 
         try {
-            $entity = $builder->getQuery()->getSingleResult();
+            /** @var Account */
+            return $builder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
             throw new AccountNotFoundException($e->getMessage(), previous: $e);
         }
-
-        return $entity instanceof Account ? $entity : throw new UnexpectedResultException();
     }
 
     public function persist(Account $account): void
