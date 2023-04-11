@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\Domain\Contract\Adapter\JwtTokenAdapterInterface;
+use App\Domain\Contract\Adapter\JwtAdapterInterface;
 use App\Domain\Exception\TokenAdapterException;
 use DateInterval;
 use DateTimeImmutable;
@@ -24,7 +24,7 @@ use SensitiveParameter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\UuidV4;
 
-class LcobucciJwtAdapter implements JwtTokenAdapterInterface
+class LcobucciJwtAdapter implements JwtAdapterInterface
 {
     private Configuration $configuration;
 

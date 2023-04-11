@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
-use App\Domain\Contract\Adapter\JwtTokenAdapterInterface;
+use App\Domain\Contract\Adapter\JwtAdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 class PasswordAuthenticator implements AuthenticatorInterface
 {
-    public function __construct(private JwtTokenAdapterInterface $jwtTokenAdapter)
+    public function __construct(private JwtAdapterInterface $jwtAdapter)
     {
     }
 
@@ -36,7 +36,7 @@ class PasswordAuthenticator implements AuthenticatorInterface
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         $user = $passport->getUser();
-        $token = $this->jwtTokenAdapter->generateToken($user);
+        $token = $this->jwtAdapter->generateToken($user);
 
         return new JwtAccessToken($user, $token);
     }

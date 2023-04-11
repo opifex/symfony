@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Security\PasswordAuthenticator;
-use App\Domain\Contract\Adapter\JwtTokenAdapterInterface;
+use App\Domain\Contract\Adapter\JwtAdapterInterface;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +20,8 @@ final class PasswordAuthenticatorTest extends Unit
      */
     protected function setUp(): void
     {
-        $jwtTokenAdapter = $this->createMock(originalClassName: JwtTokenAdapterInterface::class);
-        $this->passwordAuthenticator = new PasswordAuthenticator($jwtTokenAdapter);
+        $jwtAdapter = $this->createMock(originalClassName: JwtAdapterInterface::class);
+        $this->passwordAuthenticator = new PasswordAuthenticator($jwtAdapter);
     }
 
     public function testAuthenticateThrowsExceptionOnEmptyCredentials(): void

@@ -8,7 +8,7 @@ use App\Domain\Exception\TokenAdapterException;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-interface JwtTokenAdapterInterface
+interface JwtAdapterInterface
 {
     /**
      * @throws TokenAdapterException
