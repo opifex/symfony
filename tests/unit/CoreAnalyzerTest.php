@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Service\CoreAnalyzer;
-use App\Domain\Contract\Adapter\ApiClientAdapterInterface;
+use App\Domain\Contract\Adapter\HttpbinAdapterInterface;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -16,15 +16,15 @@ final class CoreAnalyzerTest extends Unit
 {
     private CoreAnalyzer $coreAnalyzer;
 
-    private ApiClientAdapterInterface&MockObject $apiClientAdapter;
+    private HttpbinAdapterInterface&MockObject $httpbinAdapter;
 
     /**
      * @throws Exception
      */
     protected function setUp(): void
     {
-        $this->apiClientAdapter = $this->createMock(originalClassName: ApiClientAdapterInterface::class);
-        $this->coreAnalyzer = new CoreAnalyzer(new ArrayAdapter(), $this->apiClientAdapter);
+        $this->httpbinAdapter = $this->createMock(originalClassName: HttpbinAdapterInterface::class);
+        $this->coreAnalyzer = new CoreAnalyzer(new ArrayAdapter(), $this->httpbinAdapter);
     }
 
     /**
@@ -43,7 +43,7 @@ final class CoreAnalyzerTest extends Unit
                 'title' => 'Sample Slide Show',
             ],
         ];
-        $this->apiClientAdapter
+        $this->httpbinAdapter
             ->expects($this->once())
             ->method(constraint: 'getJson')
             ->willReturn($httpbinResponse);

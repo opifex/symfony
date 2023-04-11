@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\Adapter\ApiClientAdapterInterface;
+use App\Domain\Contract\Adapter\HttpbinAdapterInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -12,7 +12,7 @@ class CoreAnalyzer
 {
     public function __construct(
         private CacheInterface $cacheStorage,
-        private ApiClientAdapterInterface $apiClientAdapter,
+        private HttpbinAdapterInterface $httpbinAdapter,
     ) {
     }
 
@@ -29,6 +29,6 @@ class CoreAnalyzer
      */
     public function httpbin(): array
     {
-        return $this->apiClientAdapter->getJson();
+        return $this->httpbinAdapter->getJson();
     }
 }

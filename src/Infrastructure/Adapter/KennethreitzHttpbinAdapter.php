@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\Domain\Contract\Adapter\ApiClientAdapterInterface;
+use App\Domain\Contract\Adapter\HttpbinAdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class KennethreitzHttpbinAdapter implements ApiClientAdapterInterface
+class KennethreitzHttpbinAdapter implements HttpbinAdapterInterface
 {
     public function __construct(private HttpClientInterface $httpbinClient)
     {
