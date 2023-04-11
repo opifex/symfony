@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\TokenAdapterException;
+use App\Domain\Exception\Adapter\JwtAdapterException;
 use App\Infrastructure\Adapter\LcobucciJwtAdapter;
 use Codeception\Test\Unit;
 use Exception;
@@ -29,13 +29,13 @@ final class LcobucciJwtAdapterTest extends Unit
      */
     public function testCreateThrowsExceptionWithEmptyPassphrase(): void
     {
-        $this->expectException(TokenAdapterException::class);
+        $this->expectException(JwtAdapterException::class);
 
         new LcobucciJwtAdapter(lifetime: 86400, passphrase: '');
     }
 
     /**
-     * @throws TokenAdapterException
+     * @throws JwtAdapterException
      * @throws Exception
      */
     public function testExtractIdentifierFromToken(): void
@@ -57,7 +57,7 @@ final class LcobucciJwtAdapterTest extends Unit
     }
 
     /**
-     * @throws TokenAdapterException
+     * @throws JwtAdapterException
      * @throws Exception
      */
     public function testExtractIdentifierFromTokenWithVerificationKey(): void
@@ -122,7 +122,7 @@ final class LcobucciJwtAdapterTest extends Unit
     }
 
     /**
-     * @throws TokenAdapterException
+     * @throws JwtAdapterException
      * @throws Exception
      */
     public function testExtractIdentifierThrowsExceptionWithExpiredToken(): void
@@ -139,7 +139,7 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
 
-        $this->expectException(TokenAdapterException::class);
+        $this->expectException(JwtAdapterException::class);
 
         $lcobucciJwtAdapter->extractIdentifier($token);
     }
@@ -157,7 +157,7 @@ final class LcobucciJwtAdapterTest extends Unit
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $token .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
-        $this->expectException(TokenAdapterException::class);
+        $this->expectException(JwtAdapterException::class);
 
         $lcobucciJwtAdapter->extractIdentifier($token);
     }
@@ -172,7 +172,7 @@ final class LcobucciJwtAdapterTest extends Unit
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
         );
 
-        $this->expectException(TokenAdapterException::class);
+        $this->expectException(JwtAdapterException::class);
 
         $lcobucciJwtAdapter->extractIdentifier(accessToken: 'invalid');
     }
@@ -193,7 +193,7 @@ final class LcobucciJwtAdapterTest extends Unit
         $token .= '3ZmFlNDViNTkzIiwiaWF0IjoxNjU4NTE0NzYxLjIwNTc1OH0.';
         $token .= 'eIwfBFdKBNocw9sYFTikflp7c4xM3RI02XUKH3w7re0';
 
-        $this->expectException(TokenAdapterException::class);
+        $this->expectException(JwtAdapterException::class);
 
         $lcobucciJwtAdapter->extractIdentifier($token);
     }

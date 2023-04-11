@@ -6,7 +6,7 @@ namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Entity\Account\Account;
-use App\Domain\Exception\Account\AccountNotFoundException;
+use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;

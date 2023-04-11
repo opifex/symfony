@@ -6,7 +6,7 @@ namespace App\Application\Security;
 
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Entity\Account\Account;
-use App\Domain\Exception\Account\AccountNotFoundException;
+use App\Domain\Exception\AccountNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;

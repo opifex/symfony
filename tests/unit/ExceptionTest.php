@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\BaseHttpException;
-use App\Domain\Exception\ExtraAttributesHttpException;
-use App\Domain\Exception\NormalizationFailedHttpException;
-use App\Domain\Exception\ValidationFailedHttpException;
+use App\Domain\Exception\Serializer\BaseHttpException;
+use App\Domain\Exception\Serializer\ExtraAttributesHttpException;
+use App\Domain\Exception\Serializer\NormalizationFailedHttpException;
+use App\Domain\Exception\Serializer\ValidationFailedHttpException;
 use Codeception\Test\Unit;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolation;

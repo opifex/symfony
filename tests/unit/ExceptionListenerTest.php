@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Listener\Kernel\ExceptionListener;
-use App\Domain\Exception\ValidationFailedHttpException;
+use App\Domain\Exception\Serializer\ValidationFailedHttpException;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;

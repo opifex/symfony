@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Exception;
+namespace App\Domain\Exception\Serializer;
 
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\ConstraintViolation;
