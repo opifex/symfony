@@ -55,7 +55,7 @@ class AccountRepository implements AccountRepositoryInterface
             /** @var Account */
             return $builder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
-            throw new AccountNotFoundException($e->getMessage(), previous: $e);
+            throw new AccountNotFoundException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -75,7 +75,7 @@ class AccountRepository implements AccountRepositoryInterface
             /** @var Account */
             return $builder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
-            throw new AccountNotFoundException($e->getMessage(), previous: $e);
+            throw new AccountNotFoundException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
