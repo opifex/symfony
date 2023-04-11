@@ -7,7 +7,7 @@ namespace App\Application\Handler\Auth;
 use App\Application\Service\AccountFactory;
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
-use App\Domain\Event\AccountCreatedEvent;
+use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Domain\Message\Auth\SignupNewAccountCommand;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -34,7 +34,7 @@ class SignupNewAccountHandler
         } catch (AccountNotFoundException) {
             $account = $this->accountFactory->createUserAccount($message->email, $message->password);
             $this->accountRepository->persist($account);
-            $this->eventDispatcher->dispatch(new AccountCreatedEvent($account));
+            $this->eventDispatcher->dispatch(new AccountCreateEvent($account));
         }
     }
 }

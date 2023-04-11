@@ -1,3 +1,3 @@
-account.signup:
+account.create:
   email.subject: 'Thank you for registration'
   email.message: 'New account with email address {account_email} successfully created.'

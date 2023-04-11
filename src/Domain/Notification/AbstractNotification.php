@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class AbstractNotification extends Notification implements EmailNotificationInterface
+abstract class AbstractNotification extends Notification implements EmailNotificationInterface
 {
     public const CHANNEL_EMAIL = 'email';
 

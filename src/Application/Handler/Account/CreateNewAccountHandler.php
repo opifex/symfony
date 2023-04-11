@@ -8,7 +8,7 @@ use App\Application\Service\AccountFactory;
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Entity\Account\AccountAction;
-use App\Domain\Event\AccountCreatedEvent;
+use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Domain\Message\Account\CreateNewAccountCommand;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -42,7 +42,7 @@ class CreateNewAccountHandler
             );
             $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
             $this->accountRepository->persist($account);
-            $this->eventDispatcher->dispatch(new AccountCreatedEvent($account));
+            $this->eventDispatcher->dispatch(new AccountCreateEvent($account));
         }
     }
 }

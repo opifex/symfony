@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Entity\Account\AccountRole;
-use App\Domain\Event\AccountCreatedEvent;
+use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Message\Account\CreateNewAccountCommand;
 use App\Domain\Messenger\ResponseStamp;
 use App\Presentation\Controller\AbstractController;
@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 #[AsController]
 class CreateNewAccountController extends AbstractController
 {
-    protected ?AccountCreatedEvent $accountCreatedEvent = null;
+    protected ?AccountCreateEvent $accountCreateEvent = null;
 
     #[OA\Post(
         summary: 'Create new account',
@@ -67,15 +67,15 @@ class CreateNewAccountController extends AbstractController
     public function __invoke(CreateNewAccountCommand $message): Envelope
     {
         $this->eventDispatcher->addListener(
-            eventName: AccountCreatedEvent::class,
-            listener: fn(AccountCreatedEvent $event) => $this->accountCreatedEvent = $event,
+            eventName: AccountCreateEvent::class,
+            listener: fn(AccountCreateEvent $event) => $this->accountCreateEvent = $event,
         );
 
         return $this->commandBus->dispatch($message)->with(
             new ResponseStamp(headers: [
                 'Location' => $this->urlGenerator->generate(
                     name: GetAccountByIdController::class,
-                    parameters: ['uuid' => $this->accountCreatedEvent?->account->getUuid()],
+                    parameters: ['uuid' => $this->accountCreateEvent?->account->getUuid()],
                 ),
             ]),
         );

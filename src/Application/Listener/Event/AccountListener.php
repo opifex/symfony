@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Application\Listener\Event;
 
-use App\Domain\Event\AccountCreatedEvent;
+use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Notification\AbstractNotification;
-use App\Domain\Notification\Account\AccountSignupNotification;
+use App\Domain\Notification\Account\AccountCreateNotification;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[AsEventListener(event: AccountCreatedEvent::class)]
-class AccountCreatedListener
+class AccountListener
 {
     public function __construct(
         private NotifierInterface $notifier,
@@ -21,10 +20,11 @@ class AccountCreatedListener
     ) {
     }
 
-    public function __invoke(AccountCreatedEvent $event): void
+    #[AsEventListener(event: AccountCreateEvent::class)]
+    public function onAccountCreate(AccountCreateEvent $event): void
     {
         $recipient = new Recipient($event->account->getEmail());
-        $notification = new AccountSignupNotification(
+        $notification = new AccountCreateNotification(
             channels: [AbstractNotification::CHANNEL_EMAIL],
             translator: $this->translator,
         );

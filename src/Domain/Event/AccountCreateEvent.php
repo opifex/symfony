@@ -7,7 +7,7 @@ namespace App\Domain\Event;
 use App\Domain\Entity\Account\Account;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class AccountCreatedEvent extends Event
+class AccountCreateEvent extends Event
 {
     public function __construct(public Account $account)
     {
