@@ -7,7 +7,7 @@ namespace App\Application\Handler\Auth;
 use App\Application\Service\AccountFactory;
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
-use App\Domain\Event\Account\AccountCreatedEvent;
+use App\Domain\Event\AccountCreatedEvent;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Domain\Message\Auth\SignupNewAccountCommand;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Listener\Event\Account;
+namespace App\Application\Listener\Event;
 
-use App\Domain\Event\Account\AccountCreatedEvent;
+use App\Domain\Event\AccountCreatedEvent;
 use App\Domain\Notification\AbstractNotification;
 use App\Domain\Notification\Account\AccountSignupNotification;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -13,7 +13,7 @@ use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsEventListener(event: AccountCreatedEvent::class)]
-class AccountSignupListener
+class AccountCreatedListener
 {
     public function __construct(
         private NotifierInterface $notifier,

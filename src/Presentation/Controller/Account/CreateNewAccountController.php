@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Entity\Account\AccountRole;
-use App\Domain\Event\Account\AccountCreatedEvent;
+use App\Domain\Event\AccountCreatedEvent;
 use App\Domain\Message\Account\CreateNewAccountCommand;
 use App\Domain\Messenger\ResponseStamp;
 use App\Presentation\Controller\AbstractController;
