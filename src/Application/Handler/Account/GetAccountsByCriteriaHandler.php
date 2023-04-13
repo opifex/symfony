@@ -23,7 +23,8 @@ class GetAccountsByCriteriaHandler
     public function __invoke(GetAccountsByCriteriaQuery $message): iterable
     {
         return $this->accountRepository->findByCriteria(
-            criteria: ['email' => $message->email],
+            criteria: $message->criteria,
+            sort: $message->sort,
             limit: $message->limit,
             offset: $message->offset,
         );

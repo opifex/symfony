@@ -8,6 +8,7 @@ use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Entity\Account\Account;
 use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -20,18 +21,37 @@ class AccountRepository implements AccountRepositoryInterface
     {
     }
 
-    public function findByCriteria(array $criteria, int $limit, int $offset): iterable
+    /**
+     * @throws MappingException
+     */
+    public function findByCriteria(array $criteria, array $sort, int $limit, int $offset): iterable
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->select(select: 'account');
         $builder->from(from: Account::class, alias: 'account');
+
+        $accountMetadata = $this->entityManager->getClassMetadata(Account::class);
 
         if (isset($criteria['email']) && is_scalar($criteria['email'])) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
             $builder->setParameter(key: 'email', value: '%' . $criteria['email'] . '%');
         }
 
-        $builder->orderBy(sort: 'account.createdAt', order: 'ASC');
+        if (isset($criteria['status']) && is_scalar($criteria['status'])) {
+            $builder->andWhere($builder->expr()->eq(x: 'account.status', y: ':status'));
+            $builder->setParameter(key: 'status', value: $criteria['status']);
+        }
+
+        foreach ($sort as $sortField => $sortOrder) {
+            $builder->addOrderBy(
+                sort: 'account.' . $accountMetadata->getFieldForColumn($sortField),
+                order: $sortOrder === 'desc' ? 'desc' : 'asc',
+            );
+        }
+
+        if (!$builder->getDQLPart(queryPartName: 'orderBy')) {
+            $builder->orderBy(sort: 'account.createdAt', order: 'desc');
+        }
 
         $paginator = new Paginator($builder);
         $paginator->getQuery()->setFirstResult($offset)->setMaxResults($limit);

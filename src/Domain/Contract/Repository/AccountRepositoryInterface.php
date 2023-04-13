@@ -11,12 +11,13 @@ interface AccountRepositoryInterface
 {
     /**
      * @param array&array<string, mixed> $criteria
+     * @param array&array<string, string> $sort
      * @param int $limit
      * @param int $offset
      *
      * @return Account[]
      */
-    public function findByCriteria(array $criteria, int $limit, int $offset): iterable;
+    public function findByCriteria(array $criteria, array $sort, int $limit, int $offset): iterable;
 
     /**
      * @throws AccountNotFoundException

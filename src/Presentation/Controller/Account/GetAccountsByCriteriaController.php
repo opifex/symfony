@@ -7,6 +7,7 @@ namespace App\Presentation\Controller\Account;
 use App\Domain\Contract\Entity\EntityInterface;
 use App\Domain\Entity\Account\Account;
 use App\Domain\Entity\Account\AccountRole;
+use App\Domain\Entity\Account\AccountStatus;
 use App\Domain\Message\Account\GetAccountsByCriteriaQuery;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -29,9 +30,23 @@ class GetAccountsByCriteriaController extends AbstractController
         security: [['bearer' => []]],
         tags: ['Account'],
         parameters: [
-            new OA\Parameter(name: 'email', description: 'Account email', in: 'query'),
-            new OA\Parameter(name: 'limit', description: 'Number of results', in: 'query'),
-            new OA\Parameter(name: 'offset', description: 'Results offset', in: 'query'),
+            new OA\Parameter(
+                name: 'criteria[email]',
+                description: 'Search by email field',
+                in: 'query',
+            ),
+            new OA\Parameter(
+                name: 'criteria[status]',
+                description: 'Search by status field',
+                in: 'query',
+                schema: new OA\Schema(type: 'string', enum: AccountStatus::LIST),
+            ),
+            new OA\Parameter(
+                name: 'sort[created_at]',
+                description: 'Sorting field',
+                in: 'query',
+                schema: new OA\Schema(type: 'string', enum: ['asc', 'desc']),
+            ),
         ],
         responses: [
             new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),

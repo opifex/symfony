@@ -51,6 +51,14 @@ final class LifecycleAccountCest
         ];
         $updatedCredentials = ['email' => 'updated@example.com', 'password' => 'password'];
 
+        $searchParams = [
+            'criteria' => [
+                'email' => $newCredentials['email'],
+                'status' => AccountStatus::VERIFIED,
+            ],
+            'sort' => ['email' => 'asc'],
+        ];
+
         $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
         $i->seeResponseCodeIsSuccessful();
         $i->seeHttpHeader(name: 'Authorization');
@@ -65,7 +73,7 @@ final class LifecycleAccountCest
 
         $location = $i->grabHttpHeader(name: 'Location');
 
-        $i->sendGet(url: '/api/account', params: ['email' => $newCredentials['email']]);
+        $i->sendGet(url: '/api/account', params: $searchParams);
         $i->seeResponseCodeIsSuccessful();
         $i->seeResponseIsJson();
 
@@ -107,7 +115,7 @@ final class LifecycleAccountCest
 
         $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
 
-        $i->sendGet(url: '/api/account', params: ['email' => $userCredentials['email']]);
+        $i->sendGet(url: '/api/account', params: ['criteria' => ['email' => $userCredentials['email']]]);
         $i->seeResponseCodeIsSuccessful();
         $i->seeResponseIsJson();
 
@@ -155,7 +163,7 @@ final class LifecycleAccountCest
 
         $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
 
-        $i->sendGet(url: '/api/account', params: ['email' => $adminCredentials['email']]);
+        $i->sendGet(url: '/api/account', params: ['criteria' => ['email' => $adminCredentials['email']]]);
         $i->seeResponseCodeIsSuccessful();
         $i->seeResponseIsJson();
 

@@ -26,9 +26,9 @@ Create `codeception.yml` with the following set of parameters.
 
 ```yaml
 params:
-    - .env
-    - .env.local
-    - .env.test
+  - .env
+  - .env.local
+  - .env.test
 ```
 
 ## Development
