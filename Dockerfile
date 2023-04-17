@@ -8,7 +8,7 @@ RUN composer validate --strict && composer diagnose
 # install composer dependencies
 RUN composer install --ignore-platform-reqs --no-cache --no-dev --no-plugins --no-scripts
 
-FROM php:8.2.4-fpm-alpine AS php
+FROM php:8.2.5-fpm-alpine AS php
 # set working directory
 WORKDIR /opt/project
 # install system packages
