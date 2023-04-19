@@ -9,7 +9,7 @@ use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class ValidationFailedHttpException extends BaseHttpException
+class ValidationFailedHttpException extends AbstractHttpException
 {
     protected string $exception = 'Parameters validation failed.';
 

@@ -6,7 +6,7 @@ namespace App\Domain\Exception\Serializer;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class BaseHttpException extends HttpException
+abstract class AbstractHttpException extends HttpException
 {
     /**
      * @param int $statusCode

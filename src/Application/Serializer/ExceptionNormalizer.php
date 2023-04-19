@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use App\Domain\Exception\Serializer\BaseHttpException;
+use App\Domain\Exception\Serializer\AbstractHttpException;
 use App\Domain\Exception\Serializer\ExtraAttributesHttpException;
 use App\Domain\Exception\Serializer\NormalizationFailedHttpException;
 use App\Domain\Exception\Serializer\ValidationFailedHttpException;
@@ -51,7 +51,7 @@ class ExceptionNormalizer implements NormalizerInterface, CacheableSupportsMetho
 
         $message = $object->getMessage();
         $code = $object instanceof HttpException ? $object->getStatusCode() : (int)$object->getCode();
-        $context = $object instanceof BaseHttpException ? $object->getContext() : [];
+        $context = $object instanceof AbstractHttpException ? $object->getContext() : [];
         $trace = fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
         $filterPrevious = $object->getPrevious() ? $trace($object->getPrevious()) : [];
         $context['trace'] = array_filter([$trace($object), $filterPrevious]);

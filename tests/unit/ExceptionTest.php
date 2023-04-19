@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\Serializer\BaseHttpException;
 use App\Domain\Exception\Serializer\ExtraAttributesHttpException;
 use App\Domain\Exception\Serializer\NormalizationFailedHttpException;
 use App\Domain\Exception\Serializer\ValidationFailedHttpException;
@@ -15,18 +14,6 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 final class ExceptionTest extends Unit
 {
-    public function testBaseHttpException(): void
-    {
-        $exception = new BaseHttpException(
-            statusCode: Response::HTTP_UNAUTHORIZED,
-            message: 'Error message information.',
-            context: ['debug' => true],
-        );
-
-        $this->assertEquals(expected: Response::HTTP_UNAUTHORIZED, actual: $exception->getStatusCode());
-        $this->assertEquals(expected: ['debug' => true], actual: $exception->getContext());
-    }
-
     public function testExtraAttributesHttpException(): void
     {
         $extraAttributes = ['attribute1', 'attribute2', 'attribute3'];
