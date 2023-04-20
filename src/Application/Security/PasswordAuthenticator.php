@@ -23,8 +23,8 @@ class PasswordAuthenticator implements AuthenticatorInterface
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->attributes->get(key: 'email');
-        $password = $request->attributes->get(key: 'password');
+        $email = $request->query->get(key: 'email');
+        $password = $request->query->get(key: 'password');
 
         if (!is_string($email) || !is_string($password)) {
             throw new BadCredentialsException();
@@ -53,6 +53,6 @@ class PasswordAuthenticator implements AuthenticatorInterface
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->has(key: 'email') && $request->attributes->has(key: 'password');
+        return $request->query->has(key: 'email') && $request->query->has(key: 'password');
     }
 }

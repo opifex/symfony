@@ -23,7 +23,9 @@ class ControllerListener
      */
     public function __invoke(ControllerArgumentsEvent $event): void
     {
-        $request = $this->filterAttributes($event->getRequest()->attributes->all());
+        $attributes = (array)$event->getRequest()->attributes->get(key: '_route_params', default: []);
+        $request = $this->filterParameters(array_merge($event->getRequest()->query->all(), $attributes));
+
         $arguments = $event->getArguments();
 
         foreach ($arguments as &$argument) {
@@ -42,7 +44,7 @@ class ControllerListener
      *
      * @return array<string, mixed>
      */
-    private function filterAttributes(array $data): array
+    private function filterParameters(array $data): array
     {
         return array_filter($data, fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
     }

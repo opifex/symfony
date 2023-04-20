@@ -32,7 +32,7 @@ class RequestListener
             $uuid = new UuidV4();
         }
 
-        $event->getRequest()->attributes->add(is_array($parameters) ? $parameters : []);
+        $event->getRequest()->query->add(is_array($parameters) ? $parameters : []);
         $event->getRequest()->headers->add(['X-Request-Id' => $uuid->toRfc4122()]);
     }
 }

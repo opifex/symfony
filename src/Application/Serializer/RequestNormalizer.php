@@ -67,7 +67,6 @@ class RequestNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     private function extractParametersFromRequest(Request $request): array
     {
         return array_merge_recursive(
-            $request->attributes->all(),
             $request->query->all(),
             $request->request->all(),
             $this->extractContentFromRequest($request),
