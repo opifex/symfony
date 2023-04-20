@@ -10,7 +10,7 @@ services:
     resource: '../src/'
     exclude:
       - '../src/Kernel.php'
-      - '../src/Domain/{Entity,Event,Exception,Message,Messenger,Notification}/'
+      - '../src/Domain/{Entity,Event,Exception,Messenger,Notification}/'
       - '../src/Infrastructure/Persistence/{Migration}/'
 
   App\Domain\Contract\Adapter\HttpbinAdapterInterface:
