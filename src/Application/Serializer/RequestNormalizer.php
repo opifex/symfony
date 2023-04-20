@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
@@ -50,26 +49,12 @@ class RequestNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * @return array<string, mixed>
      */
-    private function extractContentFromRequest(Request $request): array
-    {
-        try {
-            $content = $request->toArray();
-        } catch (JsonException) {
-            $content = [];
-        }
-
-        return $content;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
     private function extractParametersFromRequest(Request $request): array
     {
         return array_merge_recursive(
             $request->query->all(),
             $request->request->all(),
-            $this->extractContentFromRequest($request),
+            (array)json_decode($request->getContent(), associative: true),
         );
     }
 

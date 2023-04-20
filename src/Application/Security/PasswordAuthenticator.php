@@ -23,8 +23,9 @@ class PasswordAuthenticator implements AuthenticatorInterface
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->query->get(key: 'email');
-        $password = $request->query->get(key: 'password');
+        $credentials = $this->extractCredentialsFromRequest($request);
+        $email = $credentials['email'] ?? null;
+        $password = $credentials['password'] ?? null;
 
         if (!is_string($email) || !is_string($password)) {
             throw new BadCredentialsException();
@@ -35,10 +36,7 @@ class PasswordAuthenticator implements AuthenticatorInterface
 
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        $user = $passport->getUser();
-        $token = $this->jwtAdapter->generateToken($user);
-
-        return new JwtAccessToken($user, $token);
+        return new JwtAccessToken($passport->getUser(), $this->jwtAdapter->generateToken($passport->getUser()));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
@@ -53,6 +51,16 @@ class PasswordAuthenticator implements AuthenticatorInterface
 
     public function supports(Request $request): ?bool
     {
-        return $request->query->has(key: 'email') && $request->query->has(key: 'password');
+        $credentials = $this->extractCredentialsFromRequest($request);
+
+        return isset($credentials['email']) && isset($credentials['password']);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function extractCredentialsFromRequest(Request $request): array
+    {
+        return (array)json_decode($request->getContent(), associative: true, depth: 2);
     }
 }
