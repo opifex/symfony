@@ -9,7 +9,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class AccountCreateEvent extends Event
 {
-    public function __construct(public Account $account)
+    public function __construct(public readonly Account $account)
     {
     }
 }

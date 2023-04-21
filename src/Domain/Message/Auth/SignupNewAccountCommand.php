@@ -10,14 +10,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class SignupNewAccountCommand implements MessageInterface
 {
-    #[Assert\Email]
-    #[Assert\NotBlank]
-    #[Groups(self::GROUP_BODY)]
-    public string $email = '';
+    public function __construct(
+        #[Assert\Email]
+        #[Assert\NotBlank]
+        #[Groups(self::GROUP_BODY)]
+        public readonly string $email = '',
 
-    #[Assert\Length(min: 8, max: 32)]
-    #[Assert\NotBlank]
-    #[Assert\NotCompromisedPassword]
-    #[Groups(self::GROUP_BODY)]
-    public string $password = '';
+        #[Assert\Length(min: 8, max: 32)]
+        #[Assert\NotBlank]
+        #[Assert\NotCompromisedPassword]
+        #[Groups(self::GROUP_BODY)]
+        public readonly string $password = '',
+    ) {
+    }
 }

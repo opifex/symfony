@@ -6,16 +6,21 @@ namespace App\Domain\Message\Account;
 
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Entity\Account\AccountAction;
-use App\Domain\Message\MessageUuidTrait;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ApplyAccountActionCommand implements MessageInterface
 {
-    use MessageUuidTrait;
+    public function __construct(
+        #[Assert\NotBlank]
+        #[Assert\Uuid]
+        #[Groups(MessageInterface::GROUP_URL)]
+        public readonly string $uuid = '',
 
-    #[Assert\Choice(choices: AccountAction::LIST)]
-    #[Assert\NotBlank]
-    #[Groups(self::GROUP_URL)]
-    public string $action = '';
+        #[Assert\Choice(choices: AccountAction::LIST)]
+        #[Assert\NotBlank]
+        #[Groups(self::GROUP_URL)]
+        public readonly string $action = '',
+    ) {
+    }
 }

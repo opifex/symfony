@@ -11,22 +11,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CreateNewAccountCommand implements MessageInterface
 {
-    #[Assert\Email]
-    #[Assert\NotBlank]
-    #[Groups(self::GROUP_BODY)]
-    public string $email = '';
-
-    #[Assert\Length(min: 8, max: 32)]
-    #[Assert\NotBlank]
-    #[Assert\NotCompromisedPassword]
-    #[Groups(self::GROUP_BODY)]
-    public string $password = '';
-
     /**
-     * @var string[]
+     * @param string[] $roles
      */
-    #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
-    #[Assert\NotBlank]
-    #[Groups(self::GROUP_BODY)]
-    public array $roles = [];
+    public function __construct(
+        #[Assert\Email]
+        #[Assert\NotBlank]
+        #[Groups(self::GROUP_BODY)]
+        public readonly string $email = '',
+
+        #[Assert\Length(min: 8, max: 32)]
+        #[Assert\NotBlank]
+        #[Assert\NotCompromisedPassword]
+        #[Groups(self::GROUP_BODY)]
+        public readonly string $password = '',
+
+        #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
+        #[Assert\NotBlank]
+        #[Groups(self::GROUP_BODY)]
+        public readonly array $roles = [],
+    ) {
+    }
 }
