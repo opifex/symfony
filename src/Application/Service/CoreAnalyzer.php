@@ -8,7 +8,7 @@ use App\Domain\Contract\Adapter\HttpbinAdapterInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Contracts\Cache\CacheInterface;
 
-class CoreAnalyzer
+final class CoreAnalyzer
 {
     public function __construct(
         private CacheInterface $cacheStorage,

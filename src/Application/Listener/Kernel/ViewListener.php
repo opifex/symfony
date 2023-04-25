@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[AsEventListener(event: ViewEvent::class)]
-class ViewListener
+final class ViewListener
 {
     public function __construct(private SerializerInterface $serializer)
     {

@@ -6,6 +6,6 @@ namespace App\Domain\Message\Health;
 
 use App\Domain\Contract\Message\MessageInterface;
 
-class GetHealthStatusQuery implements MessageInterface
+final class GetHealthStatusQuery implements MessageInterface
 {
 }

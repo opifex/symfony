@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
-class DeleteAccountByIdController extends AbstractController
+final class DeleteAccountByIdController extends AbstractController
 {
     #[OA\Delete(
         summary: 'Delete account by identifier',

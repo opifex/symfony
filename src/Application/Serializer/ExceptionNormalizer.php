@@ -21,7 +21,7 @@ use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Exception\ValidationFailedException as ValidatorValidationFailedException;
 use Throwable;
 
-class ExceptionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+final class ExceptionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     /**
      * @param mixed $object

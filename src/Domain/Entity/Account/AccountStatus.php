@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity\Account;
 
-class AccountStatus
+final class AccountStatus
 {
-    public const BLOCKED = 'BLOCKED';
+    final public const BLOCKED = 'BLOCKED';
 
-    public const CREATED = 'CREATED';
+    final public const CREATED = 'CREATED';
 
-    public const VERIFIED = 'VERIFIED';
+    final public const VERIFIED = 'VERIFIED';
 
-    public const LIST = [
+    final public const LIST = [
         self::BLOCKED,
         self::CREATED,
         self::VERIFIED,

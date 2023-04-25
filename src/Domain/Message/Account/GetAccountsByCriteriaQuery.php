@@ -9,7 +9,7 @@ use App\Domain\Entity\Account\AccountStatus;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class GetAccountsByCriteriaQuery implements MessageInterface
+final class GetAccountsByCriteriaQuery implements MessageInterface
 {
     /**
      * @param string[] $criteria

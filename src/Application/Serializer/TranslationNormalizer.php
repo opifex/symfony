@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+final class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     public function __construct(private TranslatorInterface $translator)
     {

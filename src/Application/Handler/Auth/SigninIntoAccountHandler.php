@@ -12,7 +12,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 #[AsMessageHandler(bus: MessageInterface::COMMAND)]
-class SigninIntoAccountHandler
+final class SigninIntoAccountHandler
 {
     public function __construct(private Security $security)
     {

@@ -14,7 +14,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsMessageHandler(bus: MessageInterface::COMMAND)]
-class UpdateAccountByIdHandler
+final class UpdateAccountByIdHandler
 {
     public function __construct(
         private AccountRepositoryInterface $accountRepository,

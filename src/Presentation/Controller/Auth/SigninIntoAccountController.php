@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
-class SigninIntoAccountController extends AbstractController
+final class SigninIntoAccountController extends AbstractController
 {
     #[OA\Post(
         summary: 'Signin into account',

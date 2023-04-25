@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsDoctrineListener(event: Events::prePersist)]
-class PrePersistListener
+final class PrePersistListener
 {
     public function __construct(private ValidatorInterface $validator)
     {

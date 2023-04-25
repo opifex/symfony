@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Uid\UuidV6;
 
-class AccountUserProvider implements UserProviderInterface
+final class AccountUserProvider implements UserProviderInterface
 {
     public function __construct(private AccountRepositoryInterface $accountRepository)
     {

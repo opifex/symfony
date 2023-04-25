@@ -8,13 +8,14 @@ use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Entity\Health\Health;
 use App\Domain\Entity\Health\HealthStatus;
 use App\Domain\Message\Health\GetHealthStatusQuery;
+use App\Domain\Response\GetHealthStatusResponse;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: MessageInterface::QUERY)]
-class GetHealthStatusHandler
+final class GetHealthStatusHandler
 {
-    public function __invoke(GetHealthStatusQuery $message): Health
+    public function __invoke(GetHealthStatusQuery $message): GetHealthStatusResponse
     {
-        return new Health(status: HealthStatus::OK);
+        return new GetHealthStatusResponse(new Health(status: HealthStatus::OK));
     }
 }

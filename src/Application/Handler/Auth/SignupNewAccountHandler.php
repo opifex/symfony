@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: MessageInterface::COMMAND)]
-class SignupNewAccountHandler
+final class SignupNewAccountHandler
 {
     public function __construct(
         private AccountFactory $accountFactory,

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusExce
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AccountUserChecker implements UserCheckerInterface
+final class AccountUserChecker implements UserCheckerInterface
 {
     public function checkPostAuth(UserInterface $user): void
     {

@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class RequestNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+final class RequestNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     /**
      * @param mixed $object

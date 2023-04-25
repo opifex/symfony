@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: MessageInterface::COMMAND)]
-class DeleteAccountByIdHandler
+final class DeleteAccountByIdHandler
 {
     public function __construct(private AccountRepositoryInterface $accountRepository)
     {

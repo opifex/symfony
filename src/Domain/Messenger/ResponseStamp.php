@@ -6,7 +6,7 @@ namespace App\Domain\Messenger;
 
 use Symfony\Component\Messenger\Stamp\NonSendableStampInterface;
 
-class ResponseStamp implements NonSendableStampInterface
+final class ResponseStamp implements NonSendableStampInterface
 {
     /**
      * @param int|null $code

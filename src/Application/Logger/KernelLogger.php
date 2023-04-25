@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 #[AutoconfigureTag(name: 'monolog.processor')]
-class KernelLogger
+final class KernelLogger
 {
     public function __construct(private RequestStack $requestStack)
     {

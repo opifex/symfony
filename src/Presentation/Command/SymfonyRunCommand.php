@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: 'app:symfony:run', description: 'Symfony console command')]
-class SymfonyRunCommand extends Command
+final class SymfonyRunCommand extends Command
 {
     protected function configure(): void
     {

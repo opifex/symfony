@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
-class SignupNewAccountController extends AbstractController
+final class SignupNewAccountController extends AbstractController
 {
     #[OA\Post(
         summary: 'Signup new account',

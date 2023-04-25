@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsEventListener(event: ControllerArgumentsEvent::class)]
-class ControllerListener
+final class ControllerListener
 {
     public function __construct(
         private DenormalizerInterface $denormalizer,

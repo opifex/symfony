@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
-class ApplyAccountActionController extends AbstractController
+final class ApplyAccountActionController extends AbstractController
 {
     #[OA\Post(
         summary: 'Apply account action',

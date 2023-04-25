@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsEventListener(event: ResponseEvent::class)]
-class ResponseListener
+final class ResponseListener
 {
     public function __invoke(ResponseEvent $event): void
     {

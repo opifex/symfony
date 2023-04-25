@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Domain\Contract\Entity\EntityInterface;
-use App\Domain\Entity\Account\Account;
 use App\Domain\Message\Auth\GetSigninAccountInfoQuery;
+use App\Domain\Response\GetSigninAccountInfoResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -14,15 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\Stamp\SerializerStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 #[AsController]
-class GetSigninAccountInfoController extends AbstractController
+final class GetSigninAccountInfoController extends AbstractController
 {
     #[OA\Get(
         summary: 'Get signin account information',
@@ -33,7 +30,7 @@ class GetSigninAccountInfoController extends AbstractController
                 response: Response::HTTP_OK,
                 description: 'OK',
                 content: new OA\JsonContent(
-                    ref: new Model(type: Account::class, groups: [EntityInterface::GROUP_VIEW]),
+                    ref: new Model(type: GetSigninAccountInfoResponse::class),
                 ),
             ),
             new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized'),
@@ -48,8 +45,6 @@ class GetSigninAccountInfoController extends AbstractController
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED, message: 'Not privileged to request the resource.')]
     public function __invoke(GetSigninAccountInfoQuery $message): Envelope
     {
-        return $this->queryBus->dispatch($message)->with(
-            new SerializerStamp([AbstractNormalizer::GROUPS => [EntityInterface::GROUP_VIEW]]),
-        );
+        return $this->queryBus->dispatch($message);
     }
 }

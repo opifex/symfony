@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class JwtAccessToken extends AbstractToken
+final class JwtAccessToken extends AbstractToken
 {
     public function __construct(UserInterface $user, #[SensitiveParameter] string $accessToken)
     {

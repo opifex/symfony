@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
 #[AsEventListener(event: ExceptionEvent::class)]
-class ExceptionListener
+final class ExceptionListener
 {
     public function __construct(
         private KernelInterface $kernel,

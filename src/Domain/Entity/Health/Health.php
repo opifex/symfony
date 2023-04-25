@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity\Health;
 
-use App\Domain\Contract\Entity\EntityInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
-
-class Health implements EntityInterface
+final class Health
 {
-    #[Groups([self::GROUP_VIEW])]
     protected HealthStatus $status;
 
     public function __construct(HealthStatus $status)

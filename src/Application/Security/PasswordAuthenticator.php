@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
-class PasswordAuthenticator implements AuthenticatorInterface
+final class PasswordAuthenticator implements AuthenticatorInterface
 {
     public function __construct(private JwtAdapterInterface $jwtAdapter)
     {

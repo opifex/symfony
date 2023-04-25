@@ -9,7 +9,7 @@ use App\Domain\Entity\Account\AccountRole;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreateNewAccountCommand implements MessageInterface
+final class CreateNewAccountCommand implements MessageInterface
 {
     /**
      * @param string[] $roles

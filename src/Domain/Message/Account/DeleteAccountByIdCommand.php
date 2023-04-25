@@ -8,7 +8,7 @@ use App\Domain\Contract\Message\MessageInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class DeleteAccountByIdCommand implements MessageInterface
+final class DeleteAccountByIdCommand implements MessageInterface
 {
     public function __construct(
         #[Assert\NotBlank]

@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
-class UpdateAccountByIdController extends AbstractController
+final class UpdateAccountByIdController extends AbstractController
 {
     #[OA\Patch(
         summary: 'Update account by identifier',

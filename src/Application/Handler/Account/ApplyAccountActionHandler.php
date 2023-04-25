@@ -14,7 +14,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 #[AsMessageHandler(bus: MessageInterface::COMMAND)]
-class ApplyAccountActionHandler
+final class ApplyAccountActionHandler
 {
     public function __construct(
         private AccountRepositoryInterface $accountRepository,

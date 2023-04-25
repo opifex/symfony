@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractNotification extends Notification implements EmailNotificationInterface
 {
-    public const CHANNEL_EMAIL = 'email';
+    final public const CHANNEL_EMAIL = 'email';
 
     protected string $theme = 'default';
 

@@ -4,21 +4,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity\Account;
 
-use App\Domain\Contract\Entity\EntityInterface;
 use App\Domain\Entity\EntityDateTimeTrait;
 use App\Domain\Entity\EntityUuidTrait;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
-class Account implements EntityInterface, UserInterface, PasswordAuthenticatedUserInterface
+final class Account implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use EntityDateTimeTrait;
     use EntityUuidTrait;
 
-    #[Groups([self::GROUP_INDEX, self::GROUP_VIEW])]
     protected string $email = '';
 
     protected string $password = '';
@@ -26,12 +22,8 @@ class Account implements EntityInterface, UserInterface, PasswordAuthenticatedUs
     /**
      * @var string[]
      */
-    #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
-    #[Groups([self::GROUP_INDEX, self::GROUP_VIEW])]
     protected array $roles = [];
 
-    #[Assert\Choice(choices: AccountStatus::LIST)]
-    #[Groups([self::GROUP_INDEX, self::GROUP_VIEW])]
     protected string $status = AccountStatus::CREATED;
 
     /**

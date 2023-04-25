@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 
-class JwtAccessTokenHandler implements AccessTokenHandlerInterface
+final class JwtAccessTokenHandler implements AccessTokenHandlerInterface
 {
     public function __construct(private JwtAdapterInterface $jwtAdapter)
     {

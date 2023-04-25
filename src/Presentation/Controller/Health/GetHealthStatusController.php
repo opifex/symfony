@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Health;
 
-use App\Domain\Contract\Entity\EntityInterface;
-use App\Domain\Entity\Health\Health;
 use App\Domain\Message\Health\GetHealthStatusQuery;
+use App\Domain\Response\GetHealthStatusResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -14,13 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\Stamp\SerializerStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 #[AsController]
-class GetHealthStatusController extends AbstractController
+final class GetHealthStatusController extends AbstractController
 {
     #[OA\Get(
         summary: 'Get health status',
@@ -30,7 +27,7 @@ class GetHealthStatusController extends AbstractController
                 response: Response::HTTP_OK,
                 description: 'OK',
                 content: new OA\JsonContent(
-                    ref: new Model(type: Health::class, groups: [EntityInterface::GROUP_VIEW]),
+                    ref: new Model(type: GetHealthStatusResponse::class),
                 ),
             ),
         ],
@@ -43,8 +40,6 @@ class GetHealthStatusController extends AbstractController
     )]
     public function __invoke(GetHealthStatusQuery $message): Envelope
     {
-        return $this->queryBus->dispatch($message)->with(
-            new SerializerStamp([AbstractNormalizer::GROUPS => [EntityInterface::GROUP_VIEW]]),
-        );
+        return $this->queryBus->dispatch($message);
     }
 }

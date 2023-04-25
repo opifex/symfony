@@ -6,7 +6,7 @@ namespace App\Domain\Notification\Account;
 
 use App\Domain\Notification\AbstractNotification;
 
-class AccountCreateNotification extends AbstractNotification
+final class AccountCreateNotification extends AbstractNotification
 {
     public string $accountEmail = '';
 }

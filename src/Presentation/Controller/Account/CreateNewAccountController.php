@@ -22,7 +22,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
-class CreateNewAccountController extends AbstractController
+final class CreateNewAccountController extends AbstractController
 {
     protected ?AccountCreateEvent $accountCreateEvent = null;
 

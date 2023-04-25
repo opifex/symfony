@@ -17,7 +17,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 #[AsMessageHandler(bus: MessageInterface::COMMAND)]
-class CreateNewAccountHandler
+final class CreateNewAccountHandler
 {
     public function __construct(
         private AccountFactory $accountFactory,

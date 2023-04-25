@@ -9,7 +9,7 @@ use App\Domain\Entity\Account\AccountAction;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ApplyAccountActionCommand implements MessageInterface
+final class ApplyAccountActionCommand implements MessageInterface
 {
     public function __construct(
         #[Assert\NotBlank]

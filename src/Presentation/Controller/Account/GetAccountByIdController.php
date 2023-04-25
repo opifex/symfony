@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Contract\Entity\EntityInterface;
-use App\Domain\Entity\Account\Account;
 use App\Domain\Entity\Account\AccountRole;
 use App\Domain\Message\Account\GetAccountByIdQuery;
+use App\Domain\Response\GetAccountByIdResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -15,14 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\Stamp\SerializerStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 #[AsController]
-class GetAccountByIdController extends AbstractController
+final class GetAccountByIdController extends AbstractController
 {
     #[OA\Get(
         summary: 'Get account by identifier',
@@ -37,7 +34,7 @@ class GetAccountByIdController extends AbstractController
                 response: Response::HTTP_OK,
                 description: 'OK',
                 content: new OA\JsonContent(
-                    ref: new Model(type: Account::class, groups: [EntityInterface::GROUP_VIEW]),
+                    ref: new Model(type: GetAccountByIdResponse::class),
                 ),
             ),
             new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized'),
@@ -52,8 +49,6 @@ class GetAccountByIdController extends AbstractController
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
     public function __invoke(GetAccountByIdQuery $message): Envelope
     {
-        return $this->queryBus->dispatch($message)->with(
-            new SerializerStamp([AbstractNormalizer::GROUPS => [EntityInterface::GROUP_VIEW]]),
-        );
+        return $this->queryBus->dispatch($message);
     }
 }

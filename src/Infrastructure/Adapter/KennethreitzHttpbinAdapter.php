@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class KennethreitzHttpbinAdapter implements HttpbinAdapterInterface
+final class KennethreitzHttpbinAdapter implements HttpbinAdapterInterface
 {
     public function __construct(private HttpClientInterface $httpbinClient)
     {

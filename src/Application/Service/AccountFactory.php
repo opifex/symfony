@@ -8,7 +8,7 @@ use App\Domain\Entity\Account\Account;
 use App\Domain\Entity\Account\AccountRole;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AccountFactory
+final class AccountFactory
 {
     public function __construct(private UserPasswordHasherInterface $userPasswordHasher)
     {

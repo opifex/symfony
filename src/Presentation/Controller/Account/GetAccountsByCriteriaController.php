@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Contract\Entity\EntityInterface;
-use App\Domain\Entity\Account\Account;
 use App\Domain\Entity\Account\AccountRole;
 use App\Domain\Entity\Account\AccountStatus;
 use App\Domain\Message\Account\GetAccountsByCriteriaQuery;
+use App\Domain\Response\Account\AccountResponseItem;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -16,14 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\Stamp\SerializerStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 #[AsController]
-class GetAccountsByCriteriaController extends AbstractController
+final class GetAccountsByCriteriaController extends AbstractController
 {
     #[OA\Get(
         summary: 'Get accounts by criteria',
@@ -64,7 +61,7 @@ class GetAccountsByCriteriaController extends AbstractController
                 content: new OA\JsonContent(
                     type: 'array',
                     items: new OA\Items(
-                        ref: new Model(type: Account::class, groups: [EntityInterface::GROUP_INDEX]),
+                        ref: new Model(type: AccountResponseItem::class),
                     ),
                 ),
             ),
@@ -80,8 +77,6 @@ class GetAccountsByCriteriaController extends AbstractController
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
     public function __invoke(GetAccountsByCriteriaQuery $message): Envelope
     {
-        return $this->queryBus->dispatch($message)->with(
-            new SerializerStamp([AbstractNormalizer::GROUPS => [EntityInterface::GROUP_INDEX]]),
-        );
+        return $this->queryBus->dispatch($message);
     }
 }
