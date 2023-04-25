@@ -26,7 +26,7 @@ final class SigninIntoAccountController extends AbstractController
         requestBody: new RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: SigninIntoAccountCommand::class, groups: [MessageInterface::GROUP_BODY]),
+                ref: new Model(type: SigninIntoAccountCommand::class, groups: [MessageInterface::BODY_PARAM]),
             ),
         ),
         tags: ['Authorization'],

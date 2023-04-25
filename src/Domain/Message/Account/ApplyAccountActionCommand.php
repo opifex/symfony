@@ -14,12 +14,12 @@ final class ApplyAccountActionCommand implements MessageInterface
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        #[Groups(self::GROUP_URL)]
+        #[Groups(self::URL_PARAM)]
         public readonly string $uuid = '',
 
         #[Assert\Choice(choices: AccountAction::LIST)]
         #[Assert\NotBlank]
-        #[Groups(self::GROUP_URL)]
+        #[Groups(self::URL_PARAM)]
         public readonly string $action = '',
     ) {
     }

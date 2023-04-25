@@ -10,7 +10,7 @@ interface MessageInterface
 
     final public const QUERY = 'query.bus';
 
-    final public const GROUP_BODY = 'body.group';
+    final public const BODY_PARAM = 'body.param';
 
-    final public const GROUP_URL = 'url.group';
+    final public const URL_PARAM = 'url.param';
 }

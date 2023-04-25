@@ -17,20 +17,20 @@ final class UpdateAccountByIdCommand implements MessageInterface
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        #[Groups(self::GROUP_URL)]
+        #[Groups(self::URL_PARAM)]
         public readonly string $uuid = '',
 
         #[Assert\Email]
-        #[Groups(self::GROUP_BODY)]
+        #[Groups(self::BODY_PARAM)]
         public readonly ?string $email = null,
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\NotCompromisedPassword]
-        #[Groups(self::GROUP_BODY)]
+        #[Groups(self::BODY_PARAM)]
         public readonly ?string $password = null,
 
         #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
-        #[Groups(self::GROUP_BODY)]
+        #[Groups(self::BODY_PARAM)]
         public readonly ?array $roles = null,
     ) {
     }

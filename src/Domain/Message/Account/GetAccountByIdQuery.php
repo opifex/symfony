@@ -13,7 +13,7 @@ final class GetAccountByIdQuery implements MessageInterface
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        #[Groups(self::GROUP_URL)]
+        #[Groups(self::URL_PARAM)]
         public readonly string $uuid = '',
     ) {
     }

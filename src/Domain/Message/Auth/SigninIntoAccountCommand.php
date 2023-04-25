@@ -13,11 +13,11 @@ final class SigninIntoAccountCommand implements MessageInterface
     public function __construct(
         #[Assert\Email]
         #[Assert\NotBlank]
-        #[Groups(self::GROUP_BODY)]
+        #[Groups(self::BODY_PARAM)]
         public readonly string $email = '',
 
         #[Assert\NotBlank]
-        #[Groups(self::GROUP_BODY)]
+        #[Groups(self::BODY_PARAM)]
         public readonly string $password = '',
     ) {
     }

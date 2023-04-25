@@ -32,7 +32,7 @@ final class CreateNewAccountController extends AbstractController
         requestBody: new RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: CreateNewAccountCommand::class, groups: [MessageInterface::GROUP_BODY]),
+                ref: new Model(type: CreateNewAccountCommand::class, groups: [MessageInterface::BODY_PARAM]),
             ),
         ),
         tags: ['Account'],

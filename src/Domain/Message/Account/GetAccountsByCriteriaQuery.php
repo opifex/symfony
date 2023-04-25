@@ -18,12 +18,12 @@ final class GetAccountsByCriteriaQuery implements MessageInterface
     public function __construct(
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\Positive]
-        #[Groups(self::GROUP_URL)]
+        #[Groups(self::URL_PARAM)]
         public readonly int $limit = 10,
 
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\PositiveOrZero]
-        #[Groups(self::GROUP_URL)]
+        #[Groups(self::URL_PARAM)]
         public readonly int $offset = 0,
 
         #[Assert\Collection(

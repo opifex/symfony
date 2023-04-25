@@ -17,18 +17,18 @@ final class CreateNewAccountCommand implements MessageInterface
     public function __construct(
         #[Assert\Email]
         #[Assert\NotBlank]
-        #[Groups(self::GROUP_BODY)]
+        #[Groups(self::BODY_PARAM)]
         public readonly string $email = '',
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\NotBlank]
         #[Assert\NotCompromisedPassword]
-        #[Groups(self::GROUP_BODY)]
+        #[Groups(self::BODY_PARAM)]
         public readonly string $password = '',
 
         #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
         #[Assert\NotBlank]
-        #[Groups(self::GROUP_BODY)]
+        #[Groups(self::BODY_PARAM)]
         public readonly array $roles = [],
     ) {
     }

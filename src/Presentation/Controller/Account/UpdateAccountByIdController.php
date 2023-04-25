@@ -27,7 +27,7 @@ final class UpdateAccountByIdController extends AbstractController
         security: [['bearer' => []]],
         requestBody: new RequestBody(
             content: new OA\JsonContent(
-                ref: new Model(type: UpdateAccountByIdCommand::class, groups: [MessageInterface::GROUP_BODY]),
+                ref: new Model(type: UpdateAccountByIdCommand::class, groups: [MessageInterface::BODY_PARAM]),
             ),
         ),
         tags: ['Account'],
