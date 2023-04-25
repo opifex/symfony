@@ -14,7 +14,7 @@ final class ApplyAccountActionCommand implements MessageInterface
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        #[Groups(MessageInterface::GROUP_URL)]
+        #[Groups(self::GROUP_URL)]
         public readonly string $uuid = '',
 
         #[Assert\Choice(choices: AccountAction::LIST)]
