@@ -26,9 +26,9 @@ use Symfony\Component\Uid\UuidV4;
 
 final class LcobucciJwtAdapter implements JwtAdapterInterface
 {
-    private Configuration $configuration;
+    private readonly Configuration $configuration;
 
-    private DateInterval $expiration;
+    private readonly DateInterval $expiration;
 
     /**
      * @throws Exception

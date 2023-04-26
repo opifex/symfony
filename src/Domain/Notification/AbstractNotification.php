@@ -21,9 +21,9 @@ abstract class AbstractNotification extends Notification implements EmailNotific
 
     protected string $theme = 'default';
 
-    private string $translationAlias;
+    private readonly string $translationAlias;
 
-    private ?string $translationLocale;
+    private readonly ?string $translationLocale;
 
     public function __construct(
         private array $channels = [],
