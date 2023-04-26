@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Listener\Event;
 
 use App\Domain\Event\AccountCreateEvent;
-use App\Domain\Notification\AbstractNotification;
-use App\Domain\Notification\Account\AccountCreateNotification;
+use App\Domain\Notification\AccountCreateNotification;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
@@ -25,10 +24,9 @@ final class AccountListener
     {
         $recipient = new Recipient($event->account->getEmail());
         $notification = new AccountCreateNotification(
-            channels: [AbstractNotification::CHANNEL_EMAIL],
+            accountEmail: $event->account->getEmail(),
             translator: $this->translator,
         );
-        $notification->accountEmail = $event->account->getEmail();
 
         $this->notifier->send($notification, $recipient);
     }
