@@ -24,7 +24,7 @@ final class AccountCreateNotification extends Notification implements EmailNotif
     {
         $domain = 'notifications+intl-icu';
         $subject = 'account.create.email.subject';
-        $content = 'account.create.email.message';
+        $content = 'account.create.email.content';
         $locale = $this->translator->getLocale();
         $context = [
             'account_email' => $this->accountEmail,
