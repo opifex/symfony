@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\Account;
 
-use App\Application\Service\AccountFactory;
+use App\Application\Factory\AccountFactory;
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Entity\Account\AccountAction;
