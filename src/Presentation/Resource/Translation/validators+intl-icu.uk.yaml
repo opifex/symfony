@@ -1,2 +1,3 @@
 'This field was not expected.': 'Вказаний параметр недопустимий.'
 'This value should be of type {type}.': 'Вказаний параметр повинен бути типом {type}.'
+'This value should have only lowercase letters.': 'Це значення має містити лише літери нижнього регістру.'

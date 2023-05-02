@@ -33,6 +33,7 @@ final class UpdateAccountByIdHandler
             );
         }
 
+        $account->setLocale(locale: $message->locale ?? $account->getLocale());
         $account->setRoles(roles: $message->roles ?? $account->getRoles());
 
         if ($message->email !== null && $message->email !== $account->getEmail()) {

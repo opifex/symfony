@@ -19,12 +19,14 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
 
     protected string $password = '';
 
+    protected string $locale = 'en';
+
+    protected string $status = AccountStatus::CREATED;
+
     /**
      * @var string[]
      */
     protected array $roles = [];
-
-    protected string $status = AccountStatus::CREATED;
 
     /**
      * @param string[] $roles
@@ -33,10 +35,6 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->email = $email;
         $this->roles = $roles;
-    }
-
-    public function eraseCredentials(): void
-    {
     }
 
     public function getEmail(): string
@@ -51,7 +49,7 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -59,6 +57,30 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(#[SensitiveParameter] string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
@@ -78,20 +100,12 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     public function getUserIdentifier(): string
     {
         return $this->uuid ?? '';
+    }
+
+    public function eraseCredentials(): void
+    {
     }
 }

@@ -13,6 +13,8 @@ class AccountResponseItem
 
     public readonly string $email;
 
+    public readonly string $locale;
+
     public readonly string $status;
 
     /**
@@ -29,6 +31,7 @@ class AccountResponseItem
         $this->createdAt = $account->getCreatedAt();
         $this->email = $account->getEmail();
         $this->roles = $account->getRoles();
+        $this->locale = $account->getLocale();
         $this->status = $account->getStatus();
         $this->updatedAt = $account->getUpdatedAt();
         $this->uuid = $account->getUuid();
