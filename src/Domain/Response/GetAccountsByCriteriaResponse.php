@@ -9,6 +9,8 @@ use App\Domain\Response\Account\AccountResponseItem;
 
 final class GetAccountsByCriteriaResponse extends AbstractCountableResponse
 {
+    final public const GROUP_VIEW = __CLASS__ . ':view';
+
     /**
      * @param Account[] $items
      */

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Application\Handler\Auth;
 
 use App\Application\Factory\AccountFactory;
-use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Exception\AccountNotFoundException;
@@ -15,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[AsMessageHandler(bus: MessageInterface::COMMAND)]
+#[AsMessageHandler(bus: 'command.bus')]
 final class SignupNewAccountHandler
 {
     public function __construct(

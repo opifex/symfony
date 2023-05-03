@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\Account;
 
-use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Domain\Message\Account\DeleteAccountByIdCommand;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler(bus: MessageInterface::COMMAND)]
+#[AsMessageHandler(bus: 'command.bus')]
 final class DeleteAccountByIdHandler
 {
     public function __construct(private AccountRepositoryInterface $accountRepository)

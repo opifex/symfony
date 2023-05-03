@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Application\Handler\Account;
 
 use App\Application\Factory\AccountFactory;
-use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Entity\Account\AccountAction;
 use App\Domain\Event\AccountCreateEvent;
@@ -16,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-#[AsMessageHandler(bus: MessageInterface::COMMAND)]
+#[AsMessageHandler(bus: 'command.bus')]
 final class CreateNewAccountHandler
 {
     public function __construct(

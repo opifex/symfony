@@ -13,8 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Stamp\SerializerStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 #[AsController]
 final class GetHealthStatusController extends AbstractController
@@ -27,7 +29,10 @@ final class GetHealthStatusController extends AbstractController
                 response: Response::HTTP_OK,
                 description: 'OK',
                 content: new OA\JsonContent(
-                    ref: new Model(type: GetHealthStatusResponse::class),
+                    ref: new Model(
+                        type: GetHealthStatusResponse::class,
+                        groups: [GetHealthStatusResponse::GROUP_VIEW],
+                    ),
                 ),
             ),
         ],
@@ -40,6 +45,12 @@ final class GetHealthStatusController extends AbstractController
     )]
     public function __invoke(GetHealthStatusQuery $message): Envelope
     {
-        return $this->queryBus->dispatch($message);
+        return $this->queryBus->dispatch($message)->with(
+            new SerializerStamp([
+                AbstractNormalizer::GROUPS => [
+                    GetHealthStatusResponse::GROUP_VIEW,
+                ],
+            ]),
+        );
     }
 }
