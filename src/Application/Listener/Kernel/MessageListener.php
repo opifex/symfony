@@ -22,8 +22,9 @@ final class MessageListener
 
         if ($message instanceof NotificationEmail) {
             $domain = 'notifications+intl-icu';
+            $subject = $message->getSubject() ?? '';
+            $content = $message->getContext()['content'] ?? '';
             $locale = $message->getContext()['locale'] ?? $this->translator->getLocale();
-            [$subject, $content] = [$message->getSubject() ?? '', $message->getContext()['content'] ?? ''];
 
             $message->subject($this->translator->trans($subject, $message->getContext(), $domain, $locale));
             $message->content($this->translator->trans($content, $message->getContext(), $domain, $locale));
