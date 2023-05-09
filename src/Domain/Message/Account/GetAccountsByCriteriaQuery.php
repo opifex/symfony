@@ -6,7 +6,6 @@ namespace App\Domain\Message\Account;
 
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Entity\Account\AccountStatus;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class GetAccountsByCriteriaQuery implements MessageInterface
@@ -18,12 +17,10 @@ final class GetAccountsByCriteriaQuery implements MessageInterface
     public function __construct(
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\Positive]
-        #[Groups(self::URL_PARAM)]
         public readonly int $limit = 10,
 
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\PositiveOrZero]
-        #[Groups(self::URL_PARAM)]
         public readonly int $offset = 0,
 
         #[Assert\Collection(

@@ -11,32 +11,33 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class UpdateAccountByIdCommand implements MessageInterface
 {
+    final public const GROUP_EDITABLE = __CLASS__ . ':editable';
+
     /**
      * @param string[]|null $roles
      */
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        #[Groups(self::URL_PARAM)]
         public readonly string $uuid = '',
 
         #[Assert\Email]
-        #[Groups(self::BODY_PARAM)]
+        #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $email = null,
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\NotCompromisedPassword]
-        #[Groups(self::BODY_PARAM)]
+        #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $password = null,
 
         #[Assert\Length(min: 2, max: 2)]
         #[Assert\Locale]
         #[Assert\Regex(pattern: '/^[a-z]+$/', message: 'This value should have only lowercase letters.')]
-        #[Groups(self::BODY_PARAM)]
+        #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $locale = null,
 
         #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
-        #[Groups(self::BODY_PARAM)]
+        #[Groups(self::GROUP_EDITABLE)]
         public readonly ?array $roles = null,
     ) {
     }

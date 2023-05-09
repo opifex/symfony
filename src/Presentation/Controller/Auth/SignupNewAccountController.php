@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Message\Auth\SignupNewAccountCommand;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -25,7 +24,7 @@ final class SignupNewAccountController extends AbstractController
         requestBody: new RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: SignupNewAccountCommand::class, groups: [MessageInterface::BODY_PARAM]),
+                ref: new Model(type: SignupNewAccountCommand::class),
             ),
         ),
         tags: ['Authorization'],

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Entity\Account\AccountRole;
 use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Message\Account\CreateNewAccountCommand;
@@ -32,7 +31,7 @@ final class CreateNewAccountController extends AbstractController
         requestBody: new RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: CreateNewAccountCommand::class, groups: [MessageInterface::BODY_PARAM]),
+                ref: new Model(type: CreateNewAccountCommand::class),
             ),
         ),
         tags: ['Account'],

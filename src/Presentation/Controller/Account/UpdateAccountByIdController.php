@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Contract\Message\MessageInterface;
-use App\Domain\Entity\Account\AccountRole;
+ use App\Domain\Entity\Account\AccountRole;
 use App\Domain\Message\Account\UpdateAccountByIdCommand;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -27,7 +26,10 @@ final class UpdateAccountByIdController extends AbstractController
         security: [['bearer' => []]],
         requestBody: new RequestBody(
             content: new OA\JsonContent(
-                ref: new Model(type: UpdateAccountByIdCommand::class, groups: [MessageInterface::BODY_PARAM]),
+                ref: new Model(
+                    type: UpdateAccountByIdCommand::class,
+                    groups: [UpdateAccountByIdCommand::GROUP_EDITABLE],
+                ),
             ),
         ),
         tags: ['Account'],

@@ -6,7 +6,6 @@ namespace App\Domain\Message\Account;
 
 use App\Domain\Contract\Message\MessageInterface;
 use App\Domain\Entity\Account\AccountAction;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class ApplyAccountActionCommand implements MessageInterface
@@ -14,12 +13,10 @@ final class ApplyAccountActionCommand implements MessageInterface
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        #[Groups(self::URL_PARAM)]
         public readonly string $uuid = '',
 
         #[Assert\Choice(choices: AccountAction::LIST)]
         #[Assert\NotBlank]
-        #[Groups(self::URL_PARAM)]
         public readonly string $action = '',
     ) {
     }
