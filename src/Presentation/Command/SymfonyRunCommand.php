@@ -6,6 +6,7 @@ namespace App\Presentation\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,8 +36,18 @@ final class SymfonyRunCommand extends Command
         $console = new SymfonyStyle($input, $output);
         $console->title($this->getDescription());
 
-        $count = intval($input->getOption(name: 'count'));
-        $delay = intval($input->getOption(name: 'delay'));
+        $count = $input->getOption(name: 'count');
+        $delay = $input->getOption(name: 'delay');
+
+        if (!is_numeric($count) || $count <= 0) {
+            throw new InvalidOptionException(message: 'Count value should be positive.');
+        }
+
+        if (!is_numeric($delay) || $delay < 0) {
+            throw new InvalidOptionException(message: 'Delay value should be either positive or zero.');
+        }
+
+        [$count, $delay] = [intval($count), intval($delay)];
 
         foreach ($console->progressIterate(array_pad([], length: $count, value: null)) as $item) {
             if ($item === null) {
