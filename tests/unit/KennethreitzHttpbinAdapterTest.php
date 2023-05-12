@@ -4,24 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Domain\Exception\Adapter\HttpbinAdapterException;
 use App\Infrastructure\Adapter\KennethreitzHttpbinAdapter;
 use Codeception\Test\Unit;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 final class KennethreitzHttpbinAdapterTest extends Unit
 {
     /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
+     * @throws HttpbinAdapterException
      */
     public function testGetJson(): void
     {
@@ -39,5 +31,18 @@ final class KennethreitzHttpbinAdapterTest extends Unit
         $json = $kennethreitzHttpbinAdapter->getJson();
 
         $this->assertSame($json, $response);
+    }
+
+    public function testGetJsonThrowsExceptionOnHttpError(): void
+    {
+        $mockResponse = new MockResponse();
+        $mockResponse->cancel();
+
+        $mockHttpClient = new MockHttpClient($mockResponse);
+        $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($mockHttpClient);
+
+        $this->expectException(HttpbinAdapterException::class);
+
+        $kennethreitzHttpbinAdapter->getJson();
     }
 }
