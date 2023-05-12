@@ -9,19 +9,25 @@ use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 #[AsMonologProcessor]
-final class MonologProcessor
+final class RequestProcessor
 {
+    private ?string $uuid = null;
+
     public function __construct(private RequestStack $requestStack)
     {
     }
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $request = $this->requestStack->getMainRequest();
-        $identifier = $request?->headers->get(key: 'X-Request-Id');
+        $this->uuid ??= $this->extractIdentifierFromRequest();
 
-        $record->extra['identifier'] = $identifier;
+        $record->extra['uuid'] = $this->uuid ?? '';
 
         return $record;
+    }
+
+    private function extractIdentifierFromRequest(): ?string
+    {
+        return $this->requestStack->getMainRequest()?->headers->get(key: 'X-Request-Id');
     }
 }
