@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 final class GetHealthStatusResponse
 {
-    final public const GROUP_VIEW = __CLASS__ . ':view';
+    public const GROUP_VIEW = __CLASS__ . ':view';
 
     #[Groups(self::GROUP_VIEW)]
     public readonly HealthStatus $status;

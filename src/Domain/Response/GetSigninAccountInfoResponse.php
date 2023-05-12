@@ -8,5 +8,5 @@ use App\Domain\Response\Account\AccountResponseItem;
 
 final class GetSigninAccountInfoResponse extends AccountResponseItem
 {
-    final public const GROUP_VIEW = __CLASS__ . ':view';
+    public const GROUP_VIEW = __CLASS__ . ':view';
 }

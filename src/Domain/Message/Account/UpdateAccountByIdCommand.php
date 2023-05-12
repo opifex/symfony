@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class UpdateAccountByIdCommand implements MessageInterface
 {
-    final public const GROUP_EDITABLE = __CLASS__ . ':editable';
+    public const GROUP_EDITABLE = __CLASS__ . ':editable';
 
     /**
      * @param string[]|null $roles
