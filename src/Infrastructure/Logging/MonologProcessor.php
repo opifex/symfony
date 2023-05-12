@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Logger;
+namespace App\Infrastructure\Logging;
 
+use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
-use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-#[AutoconfigureTag(name: 'monolog.processor')]
-final class KernelLogger
+#[AsMonologProcessor]
+final class MonologProcessor
 {
     public function __construct(private RequestStack $requestStack)
     {
