@@ -17,7 +17,6 @@ use Symfony\Component\Messenger\Stamp\SerializerStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 #[AsController]
@@ -45,7 +44,7 @@ final class GetSigninAccountInfoController extends AbstractController
         path: '/api/auth/me',
         name: __CLASS__,
         methods: Request::METHOD_GET,
-        format: JsonEncoder::FORMAT,
+        format: 'json',
     )]
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED, message: 'Not privileged to request the resource.')]
     public function __invoke(GetSigninAccountInfoQuery $message): Envelope
