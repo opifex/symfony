@@ -17,7 +17,6 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Stamp\SerializerStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 #[AsController]
@@ -49,7 +48,7 @@ final class GetAccountByIdController extends AbstractController
         path: '/api/account/{uuid}',
         name: __CLASS__,
         methods: Request::METHOD_GET,
-        format: JsonEncoder::FORMAT,
+        format: 'json',
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
     public function __invoke(GetAccountByIdQuery $message): Envelope

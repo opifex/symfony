@@ -18,7 +18,6 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
 final class CreateNewAccountController extends AbstractController
@@ -60,7 +59,7 @@ final class CreateNewAccountController extends AbstractController
         path: '/api/account',
         name: __CLASS__,
         methods: Request::METHOD_POST,
-        format: JsonEncoder::FORMAT,
+        format: 'json',
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
     public function __invoke(CreateNewAccountCommand $message): Envelope

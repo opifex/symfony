@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
 final class SigninIntoAccountController extends AbstractController
@@ -48,7 +47,7 @@ final class SigninIntoAccountController extends AbstractController
         path: '/api/auth/signin',
         name: __CLASS__,
         methods: Request::METHOD_POST,
-        format: JsonEncoder::FORMAT,
+        format: 'json',
     )]
     public function __invoke(SigninIntoAccountCommand $message): Envelope
     {
