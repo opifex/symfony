@@ -51,10 +51,13 @@ final class RequestNormalizer implements NormalizerInterface, CacheableSupportsM
      */
     private function extractParametersFromRequest(Request $request): array
     {
-        return array_merge_recursive(
-            $request->query->all(),
-            $request->request->all(),
-            (array)json_decode($request->getContent(), associative: true),
+        return $this->filterParameters(
+            data: array_merge_recursive(
+                $request->query->all(),
+                $request->request->all(),
+                $request->attributes->get(key: '_route_params') ?? [],
+                (array)json_decode($request->getContent(), associative: true),
+            )
         );
     }
 
@@ -80,5 +83,15 @@ final class RequestNormalizer implements NormalizerInterface, CacheableSupportsM
             is_array($data) => array_map(fn($item) => $cast($item), $data),
             default => $data,
         };
+    }
+
+    /**
+     * @param array&array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     */
+    private function filterParameters(array $data): array
+    {
+        return array_filter($data, fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
     }
 }
