@@ -83,6 +83,7 @@ final class ExceptionListenerTest extends Unit
             requestType: HttpKernelInterface::MAIN_REQUEST,
             e: new ValidationFailedHttpException($constraintViolationList),
         );
+
         ($exceptionListener)($exceptionEvent);
 
         $this->expectNotToPerformAssertions();

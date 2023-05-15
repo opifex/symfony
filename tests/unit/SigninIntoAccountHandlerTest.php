@@ -33,6 +33,7 @@ final class SigninIntoAccountHandlerTest extends Unit
             ->expects($this->once())
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
+
         $this->expectException(AccessDeniedHttpException::class);
 
         ($this->signinIntoAccountHandler)(new SigninIntoAccountCommand());

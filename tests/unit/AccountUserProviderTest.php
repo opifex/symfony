@@ -52,6 +52,7 @@ class AccountUserProviderTest extends Unit
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
             ->willThrowException(new AccountNotFoundException());
+
         $this->expectException(UserNotFoundException::class);
 
         $this->userProvider->loadUserByIdentifier(identifier: 'invalid@example.com');

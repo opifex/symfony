@@ -35,6 +35,7 @@ final class SymfonyRunCommandTest extends Unit
         $commandTester = new CommandTester($this->application->get('app:symfony:run'));
 
         $this->expectException(InvalidOptionException::class);
+
         $commandTester->execute(['--count' => -1, '--delay' => 0]);
     }
 
@@ -43,6 +44,7 @@ final class SymfonyRunCommandTest extends Unit
         $commandTester = new CommandTester($this->application->get('app:symfony:run'));
 
         $this->expectException(InvalidOptionException::class);
+
         $commandTester->execute(['--count' => 1, '--delay' => -1]);
     }
 }

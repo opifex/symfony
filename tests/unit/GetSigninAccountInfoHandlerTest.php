@@ -33,6 +33,7 @@ final class GetSigninAccountInfoHandlerTest extends Unit
             ->expects($this->once())
             ->method(constraint: 'getUser')
             ->willReturn(value: null);
+
         $this->expectException(AccessDeniedHttpException::class);
 
         ($this->getSigninAccountInfoHandler)(new GetSigninAccountInfoQuery());
