@@ -1,9 +1,12 @@
 framework:
   messenger:
-    default_bus: command.bus
+    default_bus: default.bus
     failure_transport: failed
 
     buses:
+      default.bus:
+        middleware:
+          - App\Infrastructure\Middleware\Messenger\LocaleMiddleware
       command.bus:
         middleware:
           - doctrine_close_connection

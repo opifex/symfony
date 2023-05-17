@@ -24,7 +24,7 @@ final class RequestNormalizer implements NormalizerInterface, CacheableSupportsM
             throw new InvalidArgumentException(message: 'Object expected to be a valid request type.');
         }
 
-        $parameters = $this->extractParametersFromRequest($object);
+        $parameters = $this->extractParameters($object);
         $parameters = $this->filterParameters($parameters);
         $parameters = $this->transformTypes($parameters);
 
@@ -51,7 +51,7 @@ final class RequestNormalizer implements NormalizerInterface, CacheableSupportsM
     /**
      * @return array<string, mixed>
      */
-    private function extractParametersFromRequest(Request $request): array
+    private function extractParameters(Request $request): array
     {
         return array_merge_recursive(
             $request->query->all(),

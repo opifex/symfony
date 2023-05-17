@@ -12,21 +12,13 @@ use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 
 final class AccountCreateNotification extends Notification implements EmailNotificationInterface
 {
-    public function __construct(private readonly string $locale)
-    {
-        parent::__construct(channels: ['email']);
-    }
-
     public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
     {
         $email = NotificationEmail::asPublicEmail();
         $email->to($recipient->getEmail());
         $email->subject(subject: 'account.create.email.subject');
         $email->content(content: 'account.create.email.content');
-        $email->context([
-            'account_email' => $recipient->getEmail(),
-            'locale' => $this->locale,
-        ]);
+        $email->context(['account_email' => $recipient->getEmail()]);
 
         return new EmailMessage($email);
     }

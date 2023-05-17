@@ -25,11 +25,8 @@ final class AccountFactory
         return $account;
     }
 
-    public function createUserAccount(string $email, string $password, string $locale): Account
+    public function createUserAccount(string $email, string $password): Account
     {
-        $account = $this->createCustomAccount($email, $password, roles: [AccountRole::ROLE_USER]);
-        $account->setLocale($locale);
-
-        return $account;
+        return $this->createCustomAccount($email, $password, roles: [AccountRole::ROLE_USER]);
     }
 }

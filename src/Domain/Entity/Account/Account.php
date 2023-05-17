@@ -19,8 +19,6 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
 
     protected string $password = '';
 
-    protected string $locale = 'en';
-
     protected string $status = AccountStatus::CREATED;
 
     /**
@@ -57,18 +55,6 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(#[SensitiveParameter] string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getLocale(): string
-    {
-        return $this->locale;
-    }
-
-    public function setLocale(string $locale): self
-    {
-        $this->locale = $locale;
 
         return $this;
     }

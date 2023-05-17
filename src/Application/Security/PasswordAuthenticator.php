@@ -23,7 +23,7 @@ final class PasswordAuthenticator implements AuthenticatorInterface
 
     public function authenticate(Request $request): Passport
     {
-        $credentials = $this->extractCredentialsFromRequest($request);
+        $credentials = $this->extractCredentials($request);
         $email = $credentials['email'] ?? null;
         $password = $credentials['password'] ?? null;
 
@@ -51,7 +51,7 @@ final class PasswordAuthenticator implements AuthenticatorInterface
 
     public function supports(Request $request): ?bool
     {
-        $credentials = $this->extractCredentialsFromRequest($request);
+        $credentials = $this->extractCredentials($request);
 
         return isset($credentials['email']) && isset($credentials['password']);
     }
@@ -59,7 +59,7 @@ final class PasswordAuthenticator implements AuthenticatorInterface
     /**
      * @return array<string, mixed>
      */
-    private function extractCredentialsFromRequest(Request $request): array
+    private function extractCredentials(Request $request): array
     {
         return (array)json_decode($request->getContent(), associative: true, depth: 2);
     }

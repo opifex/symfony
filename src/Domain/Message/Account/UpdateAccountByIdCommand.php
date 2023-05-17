@@ -30,12 +30,6 @@ final class UpdateAccountByIdCommand implements MessageInterface
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $password = null,
 
-        #[Assert\Length(min: 2, max: 2)]
-        #[Assert\Locale]
-        #[Assert\Regex(pattern: '/^[a-z]+$/', message: 'This value should have only lowercase letters.')]
-        #[Groups(self::GROUP_EDITABLE)]
-        public readonly ?string $locale = null,
-
         #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?array $roles = null,

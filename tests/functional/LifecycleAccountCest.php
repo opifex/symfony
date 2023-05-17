@@ -52,7 +52,6 @@ final class LifecycleAccountCest
         $updatedCredentials = [
             'email' => 'updated@example.com',
             'password' => 'password',
-            'locale' => 'en',
         ];
 
         $searchParams = [

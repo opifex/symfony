@@ -20,7 +20,7 @@ final class AccountListener
     public function onAccountCreate(AccountCreateEvent $event): void
     {
         $recipient = new Recipient($event->account->getEmail());
-        $notification = new AccountCreateNotification($event->account->getLocale());
+        $notification = new AccountCreateNotification(channels: ['email']);
 
         $this->notifier->send($notification, $recipient);
     }

@@ -32,13 +32,6 @@ class AccountResponseItem
         GetAccountsByCriteriaResponse::GROUP_VIEW,
         GetSigninAccountInfoResponse::GROUP_VIEW,
     ])]
-    public readonly string $locale;
-
-    #[Groups([
-        GetAccountByIdResponse::GROUP_VIEW,
-        GetAccountsByCriteriaResponse::GROUP_VIEW,
-        GetSigninAccountInfoResponse::GROUP_VIEW,
-    ])]
     public readonly string $status;
 
     /**
@@ -70,7 +63,6 @@ class AccountResponseItem
         $this->createdAt = $account->getCreatedAt();
         $this->email = $account->getEmail();
         $this->roles = $account->getRoles();
-        $this->locale = $account->getLocale();
         $this->status = $account->getStatus();
         $this->updatedAt = $account->getUpdatedAt();
         $this->uuid = $account->getUuid();
