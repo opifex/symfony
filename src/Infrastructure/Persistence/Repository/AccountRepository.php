@@ -27,8 +27,7 @@ class AccountRepository implements AccountRepositoryInterface
     public function findByCriteria(array $criteria, array $sort, int $limit, int $offset): iterable
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->select(select: 'account');
-        $builder->from(from: Account::class, alias: 'account');
+        $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
 
         $accountMetadata = $this->entityManager->getClassMetadata(Account::class);
 
@@ -66,8 +65,7 @@ class AccountRepository implements AccountRepositoryInterface
     public function findOneByEmail(string $email): Account
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->select(select: 'account');
-        $builder->from(from: Account::class, alias: 'account');
+        $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
         $builder->andWhere($builder->expr()->eq(x: 'account.email', y: ':email'));
         $builder->setParameter(key: 'email', value: $email);
 
