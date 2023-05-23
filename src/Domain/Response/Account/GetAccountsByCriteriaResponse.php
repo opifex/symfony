@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Response;
+namespace App\Domain\Response\Account;
 
 use App\Domain\Entity\Account;
-use App\Domain\Response\Account\AccountResponseItem;
+use App\Domain\Response\AbstractCountableResponse;
 
 final class GetAccountsByCriteriaResponse extends AbstractCountableResponse
 {
@@ -16,6 +16,6 @@ final class GetAccountsByCriteriaResponse extends AbstractCountableResponse
      */
     public function __construct(iterable $items)
     {
-        parent::__construct($items, fn(Account $account) => new AccountResponseItem($account));
+        parent::__construct($items, fn(Account $account) => new GetAccountsByCriteriaItem($account));
     }
 }

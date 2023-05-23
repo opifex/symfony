@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Domain\Entity\AccountRole;
 use App\Domain\Message\Account\GetAccountByIdQuery;
-use App\Domain\Response\GetAccountByIdResponse;
+use App\Domain\Response\Account\GetAccountByIdResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;

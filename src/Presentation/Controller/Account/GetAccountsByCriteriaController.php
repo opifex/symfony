@@ -7,8 +7,8 @@ namespace App\Presentation\Controller\Account;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Message\Account\GetAccountsByCriteriaQuery;
-use App\Domain\Response\Account\AccountResponseItem;
-use App\Domain\Response\GetAccountsByCriteriaResponse;
+use App\Domain\Response\Account\GetAccountsByCriteriaItem;
+use App\Domain\Response\Account\GetAccountsByCriteriaResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -64,7 +64,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                     type: 'array',
                     items: new OA\Items(
                         ref: new Model(
-                            type: AccountResponseItem::class,
+                            type: GetAccountsByCriteriaItem::class,
                             groups: [GetAccountsByCriteriaResponse::GROUP_VIEW],
                         ),
                     ),

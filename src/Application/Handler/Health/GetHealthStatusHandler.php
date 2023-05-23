@@ -6,7 +6,7 @@ namespace App\Application\Handler\Health;
 
 use App\Application\Factory\HealthFactory;
 use App\Domain\Message\Health\GetHealthStatusQuery;
-use App\Domain\Response\GetHealthStatusResponse;
+use App\Domain\Response\Health\GetHealthStatusResponse;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: 'query.bus')]

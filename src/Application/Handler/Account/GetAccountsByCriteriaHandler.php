@@ -8,7 +8,7 @@ use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Criteria\AccountSearchCriteria;
 use App\Domain\Entity\SortingOrder;
 use App\Domain\Message\Account\GetAccountsByCriteriaQuery;
-use App\Domain\Response\GetAccountsByCriteriaResponse;
+use App\Domain\Response\Account\GetAccountsByCriteriaResponse;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: 'query.bus')]

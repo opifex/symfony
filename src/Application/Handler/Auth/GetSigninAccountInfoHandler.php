@@ -6,7 +6,7 @@ namespace App\Application\Handler\Auth;
 
 use App\Domain\Entity\Account;
 use App\Domain\Message\Auth\GetSigninAccountInfoQuery;
-use App\Domain\Response\GetSigninAccountInfoResponse;
+use App\Domain\Response\Auth\GetSigninAccountInfoResponse;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;

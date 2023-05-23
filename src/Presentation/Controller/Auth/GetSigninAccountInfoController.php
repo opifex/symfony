@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Domain\Message\Auth\GetSigninAccountInfoQuery;
-use App\Domain\Response\GetSigninAccountInfoResponse;
+use App\Domain\Response\Auth\GetSigninAccountInfoResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;

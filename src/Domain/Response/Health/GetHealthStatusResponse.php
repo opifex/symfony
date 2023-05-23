@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Response;
+namespace App\Domain\Response\Health;
 
 use App\Domain\Entity\Health;
 use App\Domain\Entity\HealthStatus;
