@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
+use App\Domain\Criteria\AccountSearchCriteria;
 use App\Domain\Entity\Account\Account;
 use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\String\UnicodeString;
 
 #[Autoconfigure(lazy: true)]
 class AccountRepository implements AccountRepositoryInterface
@@ -21,30 +22,25 @@ class AccountRepository implements AccountRepositoryInterface
     {
     }
 
-    /**
-     * @throws MappingException
-     */
-    public function findByCriteria(array $criteria, array $sort, int $limit, int $offset): iterable
+    public function findByCriteria(AccountSearchCriteria $criteria): iterable
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
 
-        $accountMetadata = $this->entityManager->getClassMetadata(Account::class);
-
-        if (isset($criteria['email']) && is_scalar($criteria['email'])) {
+        if (!is_null($criteria->email)) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
-            $builder->setParameter(key: 'email', value: '%' . $criteria['email'] . '%');
+            $builder->setParameter(key: 'email', value: '%' . $criteria->email . '%');
         }
 
-        if (isset($criteria['status']) && is_scalar($criteria['status'])) {
+        if (!is_null($criteria->status)) {
             $builder->andWhere($builder->expr()->eq(x: 'account.status', y: ':status'));
-            $builder->setParameter(key: 'status', value: $criteria['status']);
+            $builder->setParameter(key: 'status', value: $criteria->status);
         }
 
-        foreach ($sort as $sortField => $sortOrder) {
-            $builder->addOrderBy(
-                sort: 'account.' . $accountMetadata->getFieldForColumn($sortField),
-                order: $sortOrder === 'desc' ? 'desc' : 'asc',
+        if (!is_null($criteria->sort)) {
+            $builder->orderBy(
+                sort: 'account.' . (new UnicodeString($criteria->sort))->camel()->toString(),
+                order: $criteria->order === 'desc' ? 'desc' : 'asc',
             );
         }
 
@@ -53,7 +49,7 @@ class AccountRepository implements AccountRepositoryInterface
         }
 
         $paginator = new Paginator($builder);
-        $paginator->getQuery()->setFirstResult($offset)->setMaxResults($limit);
+        $paginator->getQuery()->setFirstResult($criteria->offset)->setMaxResults($criteria->limit);
 
         return $paginator;
     }

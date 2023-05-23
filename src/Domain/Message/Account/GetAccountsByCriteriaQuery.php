@@ -10,11 +10,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class GetAccountsByCriteriaQuery implements MessageInterface
 {
-    /**
-     * @param string[] $criteria
-     * @param string[] $sort
-     */
     public function __construct(
+        public readonly ?string $email = null,
+
+        #[Assert\Choice(choices: AccountStatus::LIST)]
+        public readonly ?string $status = null,
+
+        #[Assert\Choice(choices: ['created_at', 'email', 'status', 'updated_at'])]
+        public readonly ?string $sort = null,
+
+        #[Assert\Choice(choices: ['asc', 'desc'])]
+        public readonly ?string $order = null,
+
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\Positive]
         public readonly int $limit = 10,
@@ -22,26 +29,6 @@ final class GetAccountsByCriteriaQuery implements MessageInterface
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\PositiveOrZero]
         public readonly int $offset = 0,
-
-        #[Assert\Collection(
-            fields: [
-                'email' => new Assert\Type(type: ['string', 'int', 'float']),
-                'status' => new Assert\Choice(choices: AccountStatus::LIST),
-            ],
-            allowMissingFields: true,
-        )]
-        public readonly array $criteria = [],
-
-        #[Assert\Collection(
-            fields: [
-                'created_at' => new Assert\Choice(choices: ['asc', 'desc']),
-                'email' => new Assert\Choice(choices: ['asc', 'desc']),
-                'status' => new Assert\Choice(choices: ['asc', 'desc']),
-                'updated_at' => new Assert\Choice(choices: ['asc', 'desc']),
-            ],
-            allowMissingFields: true,
-        )]
-        public readonly array $sort = [],
     ) {
     }
 }
