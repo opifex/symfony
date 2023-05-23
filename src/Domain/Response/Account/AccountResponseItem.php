@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Response\Account;
 
-use App\Domain\Entity\Account\Account;
+use App\Domain\Entity\Account;
 use App\Domain\Response\GetAccountByIdResponse;
 use App\Domain\Response\GetAccountsByCriteriaResponse;
 use App\Domain\Response\GetSigninAccountInfoResponse;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Entity\Account\AccountRole;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Message\Account\UpdateAccountByIdCommand;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;

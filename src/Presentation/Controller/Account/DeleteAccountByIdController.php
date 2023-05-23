@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Entity\Account\AccountRole;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Message\Account\DeleteAccountByIdCommand;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;

@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Entity\Account;
+namespace App\Domain\Entity;
 
-use App\Domain\Entity\EntityDateTimeTrait;
-use App\Domain\Entity\EntityUuidTrait;
+use DateTimeImmutable;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class Account implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use EntityDateTimeTrait;
-    use EntityUuidTrait;
+    protected ?string $uuid = null;
 
     protected string $email = '';
 
@@ -26,6 +24,10 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
      */
     protected array $roles = [];
 
+    protected ?DateTimeImmutable $createdAt = null;
+
+    protected ?DateTimeImmutable $updatedAt = null;
+
     /**
      * @param string[] $roles
      */
@@ -33,6 +35,11 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->email = $email;
         $this->roles = $roles;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid ?? '';
     }
 
     public function getEmail(): string
@@ -86,6 +93,16 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
     public function getUserIdentifier(): string
     {
         return $this->uuid ?? '';
@@ -93,5 +110,17 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
+    }
+
+    public function prePersistDateTime(): void
+    {
+        $datetime = new DateTimeImmutable();
+        $this->createdAt = $datetime;
+        $this->updatedAt = $datetime;
+    }
+
+    public function preUpdateDateTime(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 }

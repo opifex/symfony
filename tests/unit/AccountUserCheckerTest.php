@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Security\AccountUserChecker;
-use App\Domain\Entity\Account\Account;
-use App\Domain\Entity\Account\AccountStatus;
+use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountStatus;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;

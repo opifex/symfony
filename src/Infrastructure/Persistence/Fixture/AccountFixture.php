@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Fixture;
 
-use App\Domain\Entity\Account\Account;
-use App\Domain\Entity\Account\AccountRole;
-use App\Domain\Entity\Account\AccountStatus;
+use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;

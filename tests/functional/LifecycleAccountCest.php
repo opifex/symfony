@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Entity\Account\AccountAction;
-use App\Domain\Entity\Account\AccountRole;
-use App\Domain\Entity\Account\AccountStatus;
+use App\Domain\Entity\AccountAction;
+use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountStatus;
 use App\Infrastructure\Persistence\Fixture\AccountFixture;
 
 final class LifecycleAccountCest
@@ -57,8 +57,6 @@ final class LifecycleAccountCest
         $searchParams = [
             'email' => $newCredentials['email'],
             'status' => AccountStatus::VERIFIED,
-            'sort' => 'email',
-            'order' => 'asc',
         ];
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));

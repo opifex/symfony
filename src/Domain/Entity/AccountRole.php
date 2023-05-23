@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Entity\Account;
+namespace App\Domain\Entity;
 
 final class AccountRole
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
-use App\Domain\Entity\Account\Account;
-use App\Domain\Entity\Account\AccountStatus;
+use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountStatus;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

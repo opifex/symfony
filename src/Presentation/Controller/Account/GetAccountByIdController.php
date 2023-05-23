@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Entity\Account\AccountRole;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Message\Account\GetAccountByIdQuery;
 use App\Domain\Response\GetAccountByIdResponse;
 use App\Presentation\Controller\AbstractController;

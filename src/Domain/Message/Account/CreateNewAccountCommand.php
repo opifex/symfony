@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Message\Account;
 
 use App\Domain\Contract\Message\MessageInterface;
-use App\Domain\Entity\Account\AccountRole;
+use App\Domain\Entity\AccountRole;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class CreateNewAccountCommand implements MessageInterface

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Response;
 
-use App\Domain\Entity\Account\Account;
+use App\Domain\Entity\Account;
 use App\Domain\Response\Account\AccountResponseItem;
 
 final class GetAccountsByCriteriaResponse extends AbstractCountableResponse

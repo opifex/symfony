@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\Auth;
 
-use App\Domain\Entity\Account\Account;
+use App\Domain\Entity\Account;
 use App\Domain\Message\Auth\GetSigninAccountInfoQuery;
 use App\Domain\Response\GetSigninAccountInfoResponse;
 use Symfony\Bundle\SecurityBundle\Security;

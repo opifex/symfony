@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Factory;
 
-use App\Domain\Entity\Account\Account;
-use App\Domain\Entity\Account\AccountRole;
+use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountRole;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class AccountFactory

@@ -6,7 +6,7 @@ namespace App\Tests;
 
 use App\Application\Security\AccountUserProvider;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
-use App\Domain\Entity\Account\Account;
+use App\Domain\Entity\Account;
 use App\Domain\Exception\AccountNotFoundException;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;

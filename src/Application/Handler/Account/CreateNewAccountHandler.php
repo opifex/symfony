@@ -6,7 +6,7 @@ namespace App\Application\Handler\Account;
 
 use App\Application\Factory\AccountFactory;
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
-use App\Domain\Entity\Account\AccountAction;
+use App\Domain\Entity\AccountAction;
 use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Domain\Message\Account\CreateNewAccountCommand;

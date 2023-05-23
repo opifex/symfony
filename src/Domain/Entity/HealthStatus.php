@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Entity\Health;
+namespace App\Domain\Entity;
 
 enum HealthStatus: string
 {

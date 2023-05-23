@@ -6,19 +6,19 @@ framework:
         type: 'method'
         property: 'status'
       supports:
-        - App\Domain\Entity\Account\Account
-      initial_marking: !php/const App\Domain\Entity\Account\AccountStatus::CREATED
+        - App\Domain\Entity\Account
+      initial_marking: !php/const App\Domain\Entity\AccountStatus::CREATED
       places:
-        - !php/const App\Domain\Entity\Account\AccountStatus::CREATED
-        - !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
-        - !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
+        - !php/const App\Domain\Entity\AccountStatus::CREATED
+        - !php/const App\Domain\Entity\AccountStatus::BLOCKED
+        - !php/const App\Domain\Entity\AccountStatus::VERIFIED
       transitions:
-        !php/const App\Domain\Entity\Account\AccountAction::VERIFY:
-          from: !php/const App\Domain\Entity\Account\AccountStatus::CREATED
-          to: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
-        !php/const App\Domain\Entity\Account\AccountAction::BLOCK:
-          from: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
-          to: !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
-        !php/const App\Domain\Entity\Account\AccountAction::UNBLOCK:
-          from: !php/const App\Domain\Entity\Account\AccountStatus::BLOCKED
-          to: !php/const App\Domain\Entity\Account\AccountStatus::VERIFIED
+        !php/const App\Domain\Entity\AccountAction::VERIFY:
+          from: !php/const App\Domain\Entity\AccountStatus::CREATED
+          to: !php/const App\Domain\Entity\AccountStatus::VERIFIED
+        !php/const App\Domain\Entity\AccountAction::BLOCK:
+          from: !php/const App\Domain\Entity\AccountStatus::VERIFIED
+          to: !php/const App\Domain\Entity\AccountStatus::BLOCKED
+        !php/const App\Domain\Entity\AccountAction::UNBLOCK:
+          from: !php/const App\Domain\Entity\AccountStatus::BLOCKED
+          to: !php/const App\Domain\Entity\AccountStatus::VERIFIED

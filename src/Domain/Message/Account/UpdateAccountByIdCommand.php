@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Message\Account;
 
 use App\Domain\Contract\Message\MessageInterface;
-use App\Domain\Entity\Account\AccountRole;
+use App\Domain\Entity\AccountRole;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Entity\Account\AccountRole;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Message\Account\CreateNewAccountCommand;
 use App\Domain\Messenger\ResponseStamp;

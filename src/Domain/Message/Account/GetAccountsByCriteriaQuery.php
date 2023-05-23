@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Message\Account;
 
 use App\Domain\Contract\Message\MessageInterface;
-use App\Domain\Entity\Account\AccountStatus;
+use App\Domain\Entity\AccountStatus;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class GetAccountsByCriteriaQuery implements MessageInterface
@@ -17,10 +17,10 @@ final class GetAccountsByCriteriaQuery implements MessageInterface
         public readonly ?string $status = null,
 
         #[Assert\Choice(choices: ['created_at', 'email', 'status', 'updated_at'])]
-        public readonly ?string $sort = null,
+        public readonly string $sort = 'created_at',
 
         #[Assert\Choice(choices: ['asc', 'desc'])]
-        public readonly ?string $order = null,
+        public readonly string $order = 'desc',
 
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\Positive]

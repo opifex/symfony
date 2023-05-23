@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Domain\Entity\Account\AccountRole;
-use App\Domain\Entity\Account\AccountStatus;
+use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountStatus;
 use App\Domain\Message\Account\GetAccountsByCriteriaQuery;
 use App\Domain\Response\Account\AccountResponseItem;
 use App\Domain\Response\GetAccountsByCriteriaResponse;

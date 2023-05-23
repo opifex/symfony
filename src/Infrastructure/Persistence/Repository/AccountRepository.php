@@ -6,7 +6,7 @@ namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Contract\Repository\AccountRepositoryInterface;
 use App\Domain\Criteria\AccountSearchCriteria;
-use App\Domain\Entity\Account\Account;
+use App\Domain\Entity\Account;
 use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -37,15 +37,11 @@ class AccountRepository implements AccountRepositoryInterface
             $builder->setParameter(key: 'status', value: $criteria->status);
         }
 
-        if (!is_null($criteria->sort)) {
+        if (!is_null($criteria->sort) && !is_null($criteria->order)) {
             $builder->orderBy(
                 sort: 'account.' . (new UnicodeString($criteria->sort))->camel()->toString(),
-                order: $criteria->order === 'desc' ? 'desc' : 'asc',
+                order: $criteria->order->value === 'desc' ? 'desc' : 'asc',
             );
-        }
-
-        if (!$builder->getDQLPart(queryPartName: 'orderBy')) {
-            $builder->orderBy(sort: 'account.createdAt', order: 'desc');
         }
 
         $paginator = new Paginator($builder);

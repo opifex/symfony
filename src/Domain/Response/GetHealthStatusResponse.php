@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Response;
 
-use App\Domain\Entity\Health\Health;
-use App\Domain\Entity\Health\HealthStatus;
+use App\Domain\Entity\Health;
+use App\Domain\Entity\HealthStatus;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 final class GetHealthStatusResponse

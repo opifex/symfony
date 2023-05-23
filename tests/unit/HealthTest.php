@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Entity\Health\Health;
-use App\Domain\Entity\Health\HealthStatus;
+use App\Domain\Entity\Health;
+use App\Domain\Entity\HealthStatus;
 use Codeception\Test\Unit;
 
 final class HealthTest extends Unit
