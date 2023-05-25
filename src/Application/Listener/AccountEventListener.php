@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 
-final class AccountListener
+final class AccountEventListener
 {
     public function __construct(private NotifierInterface $notifier)
     {

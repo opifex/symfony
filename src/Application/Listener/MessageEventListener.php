@@ -10,7 +10,7 @@ use Symfony\Component\Mailer\Event\MessageEvent;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsEventListener(event: MessageEvent::class)]
-final class MailerMessageListener
+final class MessageEventListener
 {
     public function __construct(private TranslatorInterface $translator)
     {
