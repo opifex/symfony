@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Security\PasswordAuthenticator;
-use App\Domain\Contract\Adapter\JwtAdapterInterface;
+use App\Domain\Contract\JwtAdapterInterface;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\HttpFoundation\Request;

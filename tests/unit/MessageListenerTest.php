@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Listener\Kernel\MessageListener;
+use App\Application\Listener\MailerMessageListener;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use Symfony\Bridge\Twig\Mime\NotificationEmail;
@@ -14,7 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MessageListenerTest extends Unit
 {
-    private MessageListener $messageListener;
+    private MailerMessageListener $messageListener;
 
     /**
      * @throws MockObjectException
@@ -22,7 +22,7 @@ class MessageListenerTest extends Unit
     protected function setUp(): void
     {
         $translator = $this->createMock(originalClassName: TranslatorInterface::class);
-        $this->messageListener = new MessageListener($translator);
+        $this->messageListener = new MailerMessageListener($translator);
     }
 
     /**

@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
-use App\Domain\Message\Account\ApplyAccountActionCommand;
+use App\Domain\Message\ApplyAccountActionCommand;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

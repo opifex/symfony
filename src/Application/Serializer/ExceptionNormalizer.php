@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use App\Domain\Exception\Serializer\AbstractHttpException;
-use App\Domain\Exception\Serializer\ExtraAttributesHttpException;
-use App\Domain\Exception\Serializer\NormalizationFailedHttpException;
-use App\Domain\Exception\Serializer\ValidationFailedHttpException;
+use App\Domain\Exception\AbstractHttpException;
+use App\Domain\Exception\ExtraAttributesHttpException;
+use App\Domain\Exception\NormalizationFailedHttpException;
+use App\Domain\Exception\ValidationFailedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Exception\ValidationFailedException as MessengerValidationFailedException;

@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Domain\Entity\AccountRole;
 use App\Domain\Event\AccountCreateEvent;
-use App\Domain\Message\Account\CreateNewAccountCommand;
+use App\Domain\Message\CreateNewAccountCommand;
 use App\Domain\Messenger\ResponseStamp;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;

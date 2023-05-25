@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Health;
 
-use App\Domain\Message\Health\GetHealthStatusQuery;
-use App\Domain\Response\Health\GetHealthStatusResponse;
+use App\Domain\Message\GetHealthStatusQuery;
+use App\Domain\Response\GetHealthStatusResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;

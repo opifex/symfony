@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\Domain\Contract\Adapter\JwtAdapterInterface;
-use App\Domain\Exception\Adapter\JwtAdapterException;
+use App\Domain\Contract\JwtAdapterInterface;
+use App\Domain\Exception\JwtAdapterException;
 use DateInterval;
 use DateTimeImmutable;
 use Exception;

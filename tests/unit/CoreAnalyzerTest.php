@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Service\CoreAnalyzer;
-use App\Domain\Contract\Adapter\HttpbinAdapterInterface;
+use App\Domain\Contract\HttpbinAdapterInterface;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;

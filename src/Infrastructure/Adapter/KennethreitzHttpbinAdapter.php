@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\Domain\Contract\Adapter\HttpbinAdapterInterface;
-use App\Domain\Exception\Adapter\HttpbinAdapterException;
+use App\Domain\Contract\HttpbinAdapterInterface;
+use App\Domain\Exception\HttpbinAdapterException;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

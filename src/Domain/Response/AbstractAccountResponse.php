@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Response;
 
 use App\Domain\Entity\Account;
-use App\Domain\Response\Account\GetAccountByIdResponse;
-use App\Domain\Response\Account\GetAccountsByCriteriaResponse;
-use App\Domain\Response\Auth\GetSigninAccountInfoResponse;
 use DateTimeImmutable;
 use Symfony\Component\Serializer\Annotation\Groups;
 

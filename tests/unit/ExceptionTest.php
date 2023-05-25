@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\Serializer\ExtraAttributesHttpException;
-use App\Domain\Exception\Serializer\NormalizationFailedHttpException;
-use App\Domain\Exception\Serializer\ValidationFailedHttpException;
+use App\Domain\Exception\ExtraAttributesHttpException;
+use App\Domain\Exception\NormalizationFailedHttpException;
+use App\Domain\Exception\ValidationFailedHttpException;
 use Codeception\Test\Unit;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolation;

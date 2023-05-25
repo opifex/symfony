@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\Adapter\TwigAdapterException;
+use App\Domain\Exception\TwigAdapterException;
 use App\Infrastructure\Adapter\SensiolabsTwigAdapter;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;

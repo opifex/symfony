@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
-use App\Domain\Contract\Adapter\JwtAdapterInterface;
-use App\Domain\Exception\Adapter\JwtAdapterException;
+use App\Domain\Contract\JwtAdapterInterface;
+use App\Domain\Exception\JwtAdapterException;
 use SensitiveParameter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;

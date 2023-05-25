@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use App\Domain\Contract\Adapter\TwigAdapterInterface;
-use App\Domain\Exception\Adapter\TwigAdapterException;
+use App\Domain\Contract\TwigAdapterInterface;
+use App\Domain\Exception\TwigAdapterException;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Exception\RuntimeException;

@@ -6,7 +6,7 @@ namespace App\Domain\Criteria;
 
 use App\Domain\Entity\SortingOrder;
 
-class AccountSearchCriteria
+final class AccountSearchCriteria
 {
     public function __construct(
         public readonly ?string $email = null,

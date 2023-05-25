@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\Adapter\JwtAdapterException;
+use App\Domain\Exception\JwtAdapterException;
 use App\Infrastructure\Adapter\LcobucciJwtAdapter;
 use Codeception\Test\Unit;
 use Exception;

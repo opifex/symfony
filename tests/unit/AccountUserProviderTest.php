@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Security\AccountUserProvider;
-use App\Domain\Contract\Repository\AccountRepositoryInterface;
+use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Exception\AccountNotFoundException;
 use Codeception\Test\Unit;

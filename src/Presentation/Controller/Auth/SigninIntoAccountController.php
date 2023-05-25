@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Domain\Message\Auth\SigninIntoAccountCommand;
+use App\Domain\Message\SigninIntoAccountCommand;
 use App\Domain\Messenger\ResponseStamp;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\Adapter\HttpbinAdapterException;
+use App\Domain\Exception\HttpbinAdapterException;
 use App\Infrastructure\Adapter\KennethreitzHttpbinAdapter;
 use Codeception\Test\Unit;
 use Symfony\Component\HttpClient\MockHttpClient;

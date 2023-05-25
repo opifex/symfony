@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\Adapter\HttpbinAdapterInterface;
-use App\Domain\Exception\Adapter\HttpbinAdapterException;
+use App\Domain\Contract\HttpbinAdapterInterface;
+use App\Domain\Exception\HttpbinAdapterException;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Contracts\Cache\CacheInterface;
 

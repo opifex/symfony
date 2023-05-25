@@ -6,9 +6,9 @@ namespace App\Presentation\Controller\Account;
 
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
-use App\Domain\Message\Account\GetAccountsByCriteriaQuery;
-use App\Domain\Response\Account\GetAccountsByCriteriaItem;
-use App\Domain\Response\Account\GetAccountsByCriteriaResponse;
+use App\Domain\Message\GetAccountsByCriteriaQuery;
+use App\Domain\Response\GetAccountsByCriteriaItem;
+use App\Domain\Response\GetAccountsByCriteriaResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;

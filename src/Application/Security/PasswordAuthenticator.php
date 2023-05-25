@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
-use App\Domain\Contract\Adapter\JwtAdapterInterface;
+use App\Domain\Contract\JwtAdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

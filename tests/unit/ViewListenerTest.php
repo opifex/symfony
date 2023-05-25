@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Listener\Kernel\ViewListener;
+use App\Application\Listener\HttpViewListener;
 use App\Domain\Messenger\TemplateStamp;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ViewListenerTest extends Unit
 {
-    private ViewListener $viewListener;
+    private HttpViewListener $viewListener;
 
     /**
      * @throws Exception
@@ -25,7 +25,7 @@ class ViewListenerTest extends Unit
     protected function setUp(): void
     {
         $serializer = $this->createMock(originalClassName: SerializerInterface::class);
-        $this->viewListener = new ViewListener($serializer);
+        $this->viewListener = new HttpViewListener($serializer);
     }
 
     /**

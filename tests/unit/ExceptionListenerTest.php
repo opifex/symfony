@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Listener\Kernel\ExceptionListener;
-use App\Domain\Exception\Serializer\ValidationFailedHttpException;
+use App\Application\Listener\HttpExceptionListener;
+use App\Domain\Exception\ValidationFailedHttpException;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -75,7 +75,12 @@ final class ExceptionListenerTest extends Unit
             ->method(constraint: 'normalize')
             ->willReturn($normalizedViolation);
 
-        $exceptionListener = new ExceptionListener($this->kernel, $this->logger, $this->normalizer, $this->serializer);
+        $exceptionListener = new HttpExceptionListener(
+            kernel: $this->kernel,
+            logger: $this->logger,
+            normalizer: $this->normalizer,
+            serializer: $this->serializer,
+        );
         $constraintViolationList = new ConstraintViolationList([$constraintViolation]);
         $exceptionEvent = new ExceptionEvent(
             kernel: $this->kernel,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Domain\Messenger\LocaleStamp;
-use App\Infrastructure\Middleware\Messenger\LocaleMiddleware;
+use App\Infrastructure\Middleware\MessengerLocaleMiddleware;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -17,7 +17,7 @@ use Symfony\Component\Translation\LocaleSwitcher;
 
 class LocaleMiddlewareTest extends Unit
 {
-    private LocaleMiddleware $localeMiddleware;
+    private MessengerLocaleMiddleware $localeMiddleware;
 
     private LocaleSwitcher&MockObject $localeSwitcher;
 
@@ -33,7 +33,7 @@ class LocaleMiddlewareTest extends Unit
         $this->localeSwitcher = $this->createMock(originalClassName: LocaleSwitcher::class);
         $this->nextMiddleware = $this->createMock(originalClassName: MiddlewareInterface::class);
         $this->stack = $this->createMock(originalClassName: StackInterface::class);
-        $this->localeMiddleware = new LocaleMiddleware($this->localeSwitcher);
+        $this->localeMiddleware = new MessengerLocaleMiddleware($this->localeSwitcher);
     }
 
     public function testHandleWithLocaleStamp(): void

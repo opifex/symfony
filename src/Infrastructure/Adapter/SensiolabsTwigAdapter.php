@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\Domain\Contract\Adapter\TwigAdapterInterface;
-use App\Domain\Exception\Adapter\TwigAdapterException;
+use App\Domain\Contract\TwigAdapterInterface;
+use App\Domain\Exception\TwigAdapterException;
 use Twig\Environment;
 use Twig\Error\Error;
 

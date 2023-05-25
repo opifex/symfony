@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Serializer\HtmlTemplateEncoder;
-use App\Domain\Contract\Adapter\TwigAdapterInterface;
-use App\Domain\Exception\Adapter\TwigAdapterException;
+use App\Domain\Contract\TwigAdapterInterface;
+use App\Domain\Exception\TwigAdapterException;
 use Codeception\Test\Unit;
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\Exception;
