@@ -1,4 +1,4 @@
-FROM composer:2.5.5 AS composer
+FROM composer:2.5.7 AS composer
 # set working directory
 WORKDIR /tmp
 # copy composer files
@@ -13,7 +13,7 @@ FROM php:8.2.6-fpm-alpine AS php
 WORKDIR /opt/project
 # install system packages
 RUN set -e \
-    && apk add --update ca-certificates git graphviz linux-headers nginx p7zip runuser supervisor unzip \
+    && apk add --update ca-certificates git linux-headers nginx p7zip runuser supervisor unzip \
     && apk add --update icu-dev libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev rabbitmq-c-dev zlib-dev \
     && apk add --virtual .build-deps $PHPIZE_DEPS \
     && docker-php-ext-install gd intl opcache pdo_pgsql xsl zip \

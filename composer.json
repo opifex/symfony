@@ -110,9 +110,6 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "cache:clear": "symfony-cmd"
         },
-        "auto-workflow": [
-            "bin/console workflow:dump account | dot -Tsvg -o config/workflow/account.svg"
-        ],
         "debug-composer": "composer validate --strict && composer diagnose",
         "debug-container": "bin/console lint:container",
         "debug-recipes": "composer symfony:recipes",
@@ -131,7 +128,6 @@
         "auto-migrate": "Automatically set up database migrations and messenger transports",
         "auto-quality": "Run quality checks for Symfony application",
         "auto-scripts": "Install public assets and clear the cache",
-        "auto-workflow": "Generate graphical visualization of Symfony workflow",
         "debug-composer": "Validate and diagnose Composer installation",
         "debug-container": "List registered services for application",
         "debug-recipes": "List available recipes for application",
