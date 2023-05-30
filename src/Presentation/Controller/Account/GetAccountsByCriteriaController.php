@@ -30,21 +30,37 @@ final class GetAccountsByCriteriaController extends AbstractController
         tags: ['Account'],
         parameters: [
             new OA\Parameter(
-                name: 'criteria[email]',
-                description: 'Search by email field',
+                name: 'email',
+                description: 'Account email template',
                 in: 'query',
             ),
             new OA\Parameter(
-                name: 'criteria[status]',
-                description: 'Search by status field',
+                name: 'status',
+                description: 'Account status name',
                 in: 'query',
                 schema: new OA\Schema(type: 'string', enum: AccountStatus::LIST),
             ),
             new OA\Parameter(
-                name: 'sort[created_at]',
-                description: 'Sorting field',
+                name: 'sort',
+                description: 'Sorting field name',
+                in: 'query',
+                schema: new OA\Schema(type: 'string', enum: ['created_at', 'email', 'status', 'updated_at'])
+            ),
+            new OA\Parameter(
+                name: 'order',
+                description: 'Sorting order direction',
                 in: 'query',
                 schema: new OA\Schema(type: 'string', enum: ['asc', 'desc']),
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Result items limit',
+                in: 'query',
+            ),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Result items offset',
+                in: 'query',
             ),
         ],
         responses: [

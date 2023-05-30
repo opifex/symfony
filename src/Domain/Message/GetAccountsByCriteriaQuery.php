@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class GetAccountsByCriteriaQuery implements MessageInterface
 {
     public function __construct(
+        #[Assert\Length(max: 320)]
         public readonly ?string $email = null,
 
         #[Assert\Choice(choices: AccountStatus::LIST)]
