@@ -48,8 +48,6 @@ final class TranslationNormalizer implements NormalizerInterface
      */
     public function getSupportedTypes(?string $format): array
     {
-        return [
-            TranslatableMessage::class => true,
-        ];
+        return [TranslatableMessage::class => true];
     }
 }

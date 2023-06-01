@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Exception\ExtraAttributesException as Serialize
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Exception\ValidationFailedException as ValidatorValidationFailedException;
+use Throwable;
 
 final class ExceptionNormalizerTest extends Unit
 {
@@ -31,9 +32,12 @@ final class ExceptionNormalizerTest extends Unit
 
     public function testNormalizeObject(): void
     {
-        $this->assertTrue($this->normalizer->hasCacheableSupportsMethod());
         $this->assertTrue($this->normalizer->supportsNormalization(new Exception()));
         $this->assertFalse($this->normalizer->supportsNormalization(data: null));
+
+        $supportedTypes = $this->normalizer->getSupportedTypes(format: null);
+
+        $this->assertEquals(expected: [Throwable::class => true], actual: $supportedTypes);
 
         $normalized = $this->normalizer->normalize(object: null);
         $this->assertIsArray($normalized);

@@ -83,8 +83,6 @@ final class ExceptionNormalizer implements NormalizerInterface
      */
     public function getSupportedTypes(?string $format): array
     {
-        return [
-            Throwable::class => true,
-        ];
+        return [Throwable::class => true];
     }
 }

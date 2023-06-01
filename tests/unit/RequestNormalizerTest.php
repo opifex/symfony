@@ -20,9 +20,11 @@ final class RequestNormalizerTest extends Unit
         $this->requestNormalizer = new RequestNormalizer();
     }
 
-    public function testHasCacheableSupportsMethod(): void
+    public function testGetSupportedTypes(): void
     {
-        $this->assertTrue($this->requestNormalizer->hasCacheableSupportsMethod());
+        $supportedTypes = $this->requestNormalizer->getSupportedTypes(format: null);
+
+        $this->assertEquals(expected: [Request::class => true], actual: $supportedTypes);
     }
 
     /**

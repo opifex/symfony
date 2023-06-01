@@ -30,9 +30,11 @@ final class TranslationNormalizerTest extends Unit
         $this->translationNormalizer = new TranslationNormalizer($this->translator);
     }
 
-    public function testHasCacheableSupportsMethod(): void
+    public function testGetSupportedTypes(): void
     {
-        $this->assertTrue($this->translationNormalizer->hasCacheableSupportsMethod());
+        $supportedTypes = $this->translationNormalizer->getSupportedTypes(format: null);
+
+        $this->assertEquals(expected: [TranslatableMessage::class => true], actual: $supportedTypes);
     }
 
     /**

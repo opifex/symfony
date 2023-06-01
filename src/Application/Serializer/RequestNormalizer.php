@@ -47,9 +47,7 @@ final class RequestNormalizer implements NormalizerInterface
      */
     public function getSupportedTypes(?string $format): array
     {
-        return [
-            Request::class => true,
-        ];
+        return [Request::class => true];
     }
 
     /**
