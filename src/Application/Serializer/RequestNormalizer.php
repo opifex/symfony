@@ -42,6 +42,9 @@ final class RequestNormalizer implements NormalizerInterface
         return $data instanceof Request;
     }
 
+    /**
+     * @return array<string, bool>
+     */
     public function getSupportedTypes(?string $format): array
     {
         return [

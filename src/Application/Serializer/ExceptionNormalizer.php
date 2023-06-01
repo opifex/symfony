@@ -78,6 +78,9 @@ final class ExceptionNormalizer implements NormalizerInterface
         return $data instanceof Throwable;
     }
 
+    /**
+     * @return array<string, bool>
+     */
     public function getSupportedTypes(?string $format): array
     {
         return [

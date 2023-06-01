@@ -43,6 +43,9 @@ final class TranslationNormalizer implements NormalizerInterface
         return $data instanceof TranslatableMessage;
     }
 
+    /**
+     * @return array<string, bool>
+     */
     public function getSupportedTypes(?string $format): array
     {
         return [
