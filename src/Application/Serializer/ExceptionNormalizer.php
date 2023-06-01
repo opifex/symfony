@@ -15,13 +15,12 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Serializer\Exception\ExtraAttributesException;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Exception\ValidationFailedException as ValidatorValidationFailedException;
 use Throwable;
 
-final class ExceptionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+final class ExceptionNormalizer implements NormalizerInterface
 {
     /**
      * @param mixed $object
@@ -79,8 +78,10 @@ final class ExceptionNormalizer implements NormalizerInterface, CacheableSupport
         return $data instanceof Throwable;
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return [
+            Throwable::class => true,
+        ];
     }
 }

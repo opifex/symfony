@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Application\Serializer;
 
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+final class TranslationNormalizer implements NormalizerInterface
 {
     public function __construct(private TranslatorInterface $translator)
     {
@@ -44,8 +43,10 @@ final class TranslationNormalizer implements NormalizerInterface, CacheableSuppo
         return $data instanceof TranslatableMessage;
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return [
+            TranslatableMessage::class => true,
+        ];
     }
 }

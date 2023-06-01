@@ -6,10 +6,9 @@ namespace App\Application\Serializer;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class RequestNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+final class RequestNormalizer implements NormalizerInterface
 {
     /**
      * @param mixed $object
@@ -43,9 +42,11 @@ final class RequestNormalizer implements NormalizerInterface, CacheableSupportsM
         return $data instanceof Request;
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return [
+            Request::class => true,
+        ];
     }
 
     /**
