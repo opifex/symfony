@@ -6,6 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
+use App\Domain\Entity\SortingOrder;
 use App\Domain\Message\GetAccountsByCriteriaQuery;
 use App\Domain\Response\GetAccountsByCriteriaItem;
 use App\Domain\Response\GetAccountsByCriteriaResponse;
@@ -50,7 +51,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                 name: 'order',
                 description: 'Sorting order direction',
                 in: 'query',
-                schema: new OA\Schema(type: 'string', enum: ['asc', 'desc']),
+                schema: new OA\Schema(type: 'string', enum: SortingOrder::LIST),
             ),
             new OA\Parameter(
                 name: 'limit',
