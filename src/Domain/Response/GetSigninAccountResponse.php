@@ -8,7 +8,7 @@ use App\Domain\Entity\Account;
 use DateTimeImmutable;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-final class GetSigninAccountInfoResponse
+final class GetSigninAccountResponse
 {
     public const GROUP_VIEW = __CLASS__ . ':view';
 

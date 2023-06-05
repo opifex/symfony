@@ -6,6 +6,6 @@ namespace App\Domain\Message;
 
 use App\Domain\Contract\MessageInterface;
 
-final class GetSigninAccountInfoQuery implements MessageInterface
+final class GetSigninAccountQuery implements MessageInterface
 {
 }

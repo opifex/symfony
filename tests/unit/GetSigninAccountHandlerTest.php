@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Handler\GetSigninAccountInfoHandler;
-use App\Domain\Message\GetSigninAccountInfoQuery;
+use App\Application\Handler\GetSigninAccountHandler;
+use App\Domain\Message\GetSigninAccountQuery;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-final class GetSigninAccountInfoHandlerTest extends Unit
+final class GetSigninAccountHandlerTest extends Unit
 {
-    private GetSigninAccountInfoHandler $getSigninAccountInfoHandler;
+    private GetSigninAccountHandler $getSigninAccountHandler;
 
     private Security&MockObject $security;
 
@@ -24,7 +24,7 @@ final class GetSigninAccountInfoHandlerTest extends Unit
     protected function setUp(): void
     {
         $this->security = $this->createMock(originalClassName: Security::class);
-        $this->getSigninAccountInfoHandler = new GetSigninAccountInfoHandler($this->security);
+        $this->getSigninAccountHandler = new GetSigninAccountHandler($this->security);
     }
 
     public function testInvokeWithInvalidUser(): void
@@ -36,6 +36,6 @@ final class GetSigninAccountInfoHandlerTest extends Unit
 
         $this->expectException(AccessDeniedHttpException::class);
 
-        ($this->getSigninAccountInfoHandler)(new GetSigninAccountInfoQuery());
+        ($this->getSigninAccountHandler)(new GetSigninAccountQuery());
     }
 }
