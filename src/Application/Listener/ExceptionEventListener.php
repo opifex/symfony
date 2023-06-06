@@ -34,9 +34,8 @@ final class ExceptionEventListener
     {
         $exception = $this->normalizer->normalize($event->getThrowable(), Throwable::class);
         $this->logger->error('Kernel exception event.', is_array($exception) ? $exception : []);
-        $isNormalizedException = is_array($exception);
 
-        if ($isNormalizedException && !$this->kernel->isDebug()) {
+        if (is_array($exception) && !$this->kernel->isDebug()) {
             if (is_array(value: $exception['validation'] ?? null)) {
                 foreach ($exception['validation'] as &$item) {
                     unset($item['object'], $item['value']);
@@ -46,7 +45,7 @@ final class ExceptionEventListener
             unset($exception['trace']);
         }
 
-        if ($isNormalizedException) {
+        if (is_array($exception)) {
             $code = $exception['code'] ?? Response::HTTP_INTERNAL_SERVER_ERROR;
             $context = [JsonEncode::OPTIONS => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT];
             $response = new Response(
