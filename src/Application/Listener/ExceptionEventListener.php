@@ -32,10 +32,10 @@ final class ExceptionEventListener
      */
     public function __invoke(ExceptionEvent $event): void
     {
-        $exception = $this->normalizer->normalize($event->getThrowable(), Throwable::class);
-        $this->logger->error('Kernel exception event.', is_array($exception) ? $exception : []);
+        $exception = (array)$this->normalizer->normalize($event->getThrowable(), Throwable::class);
+        $this->logger->error('Kernel exception event.', $exception);
 
-        if (is_array($exception) && !$this->kernel->isDebug()) {
+        if (!$this->kernel->isDebug()) {
             if (is_array(value: $exception['validation'] ?? null)) {
                 foreach ($exception['validation'] as &$item) {
                     unset($item['object'], $item['value']);
@@ -45,15 +45,13 @@ final class ExceptionEventListener
             unset($exception['trace']);
         }
 
-        if (is_array($exception)) {
-            $code = $exception['code'] ?? Response::HTTP_INTERNAL_SERVER_ERROR;
-            $context = [JsonEncode::OPTIONS => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT];
-            $response = new Response(
-                content: $this->serializer->serialize($exception, format: JsonEncoder::FORMAT, context: $context),
-                status: is_int($code) ? $code : Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+        $code = $exception['code'] ?? Response::HTTP_INTERNAL_SERVER_ERROR;
+        $context = [JsonEncode::OPTIONS => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT];
+        $response = new Response(
+            content: $this->serializer->serialize($exception, format: JsonEncoder::FORMAT, context: $context),
+            status: is_int($code) ? $code : Response::HTTP_INTERNAL_SERVER_ERROR,
+        );
 
-            $event->setResponse($response);
-        }
+        $event->setResponse($response);
     }
 }
