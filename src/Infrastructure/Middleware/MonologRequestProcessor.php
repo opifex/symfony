@@ -19,15 +19,10 @@ final class MonologRequestProcessor
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $this->uuid ??= $this->extractIdentifierFromRequest();
+        $this->uuid ??= $this->requestStack->getMainRequest()?->headers->get(key: 'X-Request-Id');
 
         $record->extra['uuid'] = $this->uuid ?? '';
 
         return $record;
-    }
-
-    private function extractIdentifierFromRequest(): ?string
-    {
-        return $this->requestStack->getMainRequest()?->headers->get(key: 'X-Request-Id');
     }
 }
