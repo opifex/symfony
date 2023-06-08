@@ -6,7 +6,6 @@ namespace App\Application\Handler;
 
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Criteria\AccountSearchCriteria;
-use App\Domain\Entity\SortingOrder;
 use App\Domain\Message\GetAccountsByCriteriaQuery;
 use App\Domain\Response\GetAccountsByCriteriaResponse;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -25,7 +24,7 @@ final class GetAccountsByCriteriaHandler
                 email: $message->email,
                 status: $message->status,
                 sort: $message->sort,
-                order: SortingOrder::tryFrom($message->order),
+                order: $message->order,
                 limit: $message->limit,
                 offset: $message->offset,
             ),

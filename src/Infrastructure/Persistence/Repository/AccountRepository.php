@@ -40,7 +40,7 @@ class AccountRepository implements AccountRepositoryInterface
         if (!is_null($criteria->sort) && !is_null($criteria->order)) {
             $builder->orderBy(
                 sort: 'account.' . (new UnicodeString($criteria->sort))->camel()->toString(),
-                order: $criteria->order->value,
+                order: $criteria->order === 'desc' ? 'desc' : 'asc',
             );
         }
 
