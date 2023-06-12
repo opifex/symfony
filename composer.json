@@ -125,7 +125,7 @@
     },
     "scripts-descriptions": {
         "auto-analyze": "Analyze code quality with Composer, PHPCS and PHPStan",
-        "auto-migrate": "Automatically set up database migrations and messenger transports",
+        "auto-migrate": "Set up database migrations and messenger transports",
         "auto-quality": "Run quality checks for Symfony application",
         "auto-scripts": "Install public assets and clear the cache",
         "debug-composer": "Validate and diagnose Composer installation",
