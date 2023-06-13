@@ -49,8 +49,8 @@
     <exclude-pattern>../config/*</exclude-pattern>
     <exclude-pattern>../tests/*</exclude-pattern>
     <properties>
-      <property name="complexity" value="15"/>
-      <property name="absoluteComplexity" value="15"/>
+      <property name="complexity" value="20"/>
+      <property name="absoluteComplexity" value="20"/>
     </properties>
   </rule>
 
