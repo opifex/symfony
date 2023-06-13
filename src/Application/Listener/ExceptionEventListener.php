@@ -8,7 +8,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
@@ -20,7 +19,6 @@ use Throwable;
 final class ExceptionEventListener
 {
     public function __construct(
-        private KernelInterface $kernel,
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer,
         private SerializerInterface $serializer,
@@ -34,16 +32,6 @@ final class ExceptionEventListener
     {
         $exception = (array)$this->normalizer->normalize($event->getThrowable(), Throwable::class);
         $this->logger->error('Kernel exception event.', $exception);
-
-        if (!$this->kernel->isDebug()) {
-            if (is_array(value: $exception['validation'] ?? null)) {
-                foreach ($exception['validation'] as &$item) {
-                    unset($item['object'], $item['value']);
-                }
-            }
-
-            unset($exception['trace']);
-        }
 
         $code = $exception['code'] ?? Response::HTTP_INTERNAL_SERVER_ERROR;
         $context = [JsonEncode::OPTIONS => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT];

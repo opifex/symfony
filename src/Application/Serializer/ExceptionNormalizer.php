@@ -9,6 +9,7 @@ use App\Domain\Exception\ExtraAttributesHttpException;
 use App\Domain\Exception\NormalizationFailedHttpException;
 use App\Domain\Exception\ValidationFailedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Exception\ValidationFailedException as MessengerValidationFailedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -22,6 +23,10 @@ use Throwable;
 
 final class ExceptionNormalizer implements NormalizerInterface
 {
+    public function __construct(private KernelInterface $kernel)
+    {
+    }
+
     /**
      * @param mixed $object
      * @param string|null $format
@@ -37,15 +42,16 @@ final class ExceptionNormalizer implements NormalizerInterface
 
         $object = $object instanceof HandlerFailedException ? ($object->getPrevious() ?? $object) : $object;
         $previous = $object->getPrevious();
+        $debug = $this->kernel->isDebug();
 
         if ($object instanceof MessengerValidationFailedException) {
-            $object = new ValidationFailedHttpException($object->getViolations());
+            $object = new ValidationFailedHttpException($object->getViolations(), $debug);
         } elseif ($object instanceof NotNormalizableValueException) {
-            $object = new NormalizationFailedHttpException($object->getExpectedTypes(), $object->getPath());
+            $object = new NormalizationFailedHttpException($object->getExpectedTypes(), $object->getPath(), $debug);
         } elseif ($object instanceof ExtraAttributesException) {
-            $object = new ExtraAttributesHttpException($object->getExtraAttributes());
+            $object = new ExtraAttributesHttpException($object->getExtraAttributes(), $debug);
         } elseif ($object instanceof ValidatorValidationFailedException) {
-            $object = new ValidationFailedHttpException($object->getViolations());
+            $object = new ValidationFailedHttpException($object->getViolations(), $debug);
         }
 
         $message = $object->getMessage();
@@ -53,7 +59,10 @@ final class ExceptionNormalizer implements NormalizerInterface
         $context = $object instanceof AbstractHttpException ? $object->getContext() : [];
         $trace = fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
         $filterPrevious = $object->getPrevious() ? $trace($object->getPrevious()) : [];
-        $context['trace'] = array_filter([$trace($object), $filterPrevious]);
+
+        if ($debug) {
+            $context['trace'] = array_filter([$trace($object), $filterPrevious]);
+        }
 
         if ($previous instanceof AuthenticationException) {
             $message = $previous->getMessage() ?: $previous->getMessageKey();

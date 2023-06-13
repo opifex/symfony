@@ -13,7 +13,7 @@ class NormalizationFailedHttpException extends ValidationFailedHttpException
     /**
      * @param string[]|null $expected
      */
-    public function __construct(?array $expected, ?string $path)
+    public function __construct(?array $expected, ?string $path, bool $debug = false)
     {
         $constraint = new ConstraintViolationList();
 
@@ -34,6 +34,6 @@ class NormalizationFailedHttpException extends ValidationFailedHttpException
             );
         }
 
-        parent::__construct($constraint);
+        parent::__construct($constraint, $debug);
     }
 }

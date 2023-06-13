@@ -65,18 +65,12 @@ final class ExceptionEventListenerTest extends Unit
             ],
         ];
 
-        $this->kernel
-            ->expects($this->once())
-            ->method(constraint: 'isDebug')
-            ->willReturn(value: false);
-
         $this->normalizer
             ->expects($this->once())
             ->method(constraint: 'normalize')
             ->willReturn($normalizedViolation);
 
         $exceptionListener = new ExceptionEventListener(
-            kernel: $this->kernel,
             logger: $this->logger,
             normalizer: $this->normalizer,
             serializer: $this->serializer,

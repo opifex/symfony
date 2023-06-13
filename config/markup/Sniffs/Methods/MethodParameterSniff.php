@@ -9,7 +9,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 class MethodParameterSniff implements Sniff
 {
-    public array $allowedBoolPrefixes = ['set', 'with'];
+    public array $allowedBoolPrefixes = ['__construct', 'set', 'with'];
 
     public int $parameterLimit = 10;
 
@@ -20,7 +20,7 @@ class MethodParameterSniff implements Sniff
         $methodName = $isLambda ? 'lambda' : $phpcsFile->getDeclarationName($stackPtr);
         $methodParams = $phpcsFile->getMethodParameters($stackPtr);
         $methodParamsCount = count($methodParams);
-        preg_match(pattern: '/^[a-z]*/', subject: $methodName, matches: $matches);
+        preg_match(pattern: '/^[a-z_]*/', subject: $methodName, matches: $matches);
         $methodNamePrefix = $matches[0] ?? '';
 
         if ($methodParamsCount > $this->parameterLimit) {

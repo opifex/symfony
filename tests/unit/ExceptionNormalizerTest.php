@@ -7,9 +7,11 @@ namespace App\Tests;
 use App\Application\Serializer\ExceptionNormalizer;
 use Codeception\Test\Unit;
 use Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use stdClass;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\Exception\ValidationFailedException as MessengerValidationFailedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Serializer\Exception\ExtraAttributesException as SerializerExtraAttributesException;
@@ -24,9 +26,13 @@ final class ExceptionNormalizerTest extends Unit
 
     private ExceptionNormalizer $normalizer;
 
+    /**
+     * @throws MockObjectException
+     */
     protected function setUp(): void
     {
-        $this->normalizer = new ExceptionNormalizer();
+        $kernel = $this->createMock(originalClassName: KernelInterface::class);
+        $this->normalizer = new ExceptionNormalizer($kernel);
         $this->violations = new ConstraintViolationList();
     }
 

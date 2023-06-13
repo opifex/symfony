@@ -13,7 +13,7 @@ class ValidationFailedHttpException extends AbstractHttpException
 {
     protected string $exception = 'Parameters validation failed.';
 
-    public function __construct(ConstraintViolationListInterface $constraint)
+    public function __construct(ConstraintViolationListInterface $constraint, bool $debug = false)
     {
         $context = [];
 
@@ -21,12 +21,14 @@ class ValidationFailedHttpException extends AbstractHttpException
             if ($item instanceof ConstraintViolationInterface) {
                 $object = is_object($item->getRoot()) ? $item->getRoot()::class : null;
                 $parameter = (new UnicodeString($item->getPropertyPath()))->snake()->toString();
-                $context['validation'][] = [
-                    'name' => $parameter,
-                    'reason' => $item->getMessage(),
-                    'object' => $object,
-                    'value' => $item->getInvalidValue(),
-                ];
+                $validation = ['name' => $parameter, 'reason' => $item->getMessage()];
+
+                if ($debug) {
+                    $validation['object'] = $object;
+                    $validation['value'] = $item->getInvalidValue();
+                }
+
+                $context['validation'][] = $validation;
             }
         }
 

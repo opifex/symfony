@@ -13,7 +13,7 @@ class ExtraAttributesHttpException extends ValidationFailedHttpException
     /**
      * @param string[] $extraAttributes
      */
-    public function __construct(array $extraAttributes)
+    public function __construct(array $extraAttributes, bool $debug = false)
     {
         $constraint = new ConstraintViolationList();
 
@@ -33,6 +33,6 @@ class ExtraAttributesHttpException extends ValidationFailedHttpException
             );
         }
 
-        parent::__construct($constraint);
+        parent::__construct($constraint, $debug);
     }
 }
