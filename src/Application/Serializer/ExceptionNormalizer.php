@@ -40,9 +40,9 @@ final class ExceptionNormalizer implements NormalizerInterface
             $object = new InvalidArgumentException(message: 'Object expected to be a valid exception type.');
         }
 
-        $object = $object instanceof HandlerFailedException ? ($object->getPrevious() ?? $object) : $object;
-        $previous = $object->getPrevious();
         $debug = $this->kernel->isDebug();
+        $trace = fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
+        $object = $object instanceof HandlerFailedException ? ($object->getPrevious() ?? $object) : $object;
 
         if ($object instanceof MessengerValidationFailedException) {
             $object = new ValidationFailedHttpException($object->getViolations(), $debug);
@@ -54,23 +54,24 @@ final class ExceptionNormalizer implements NormalizerInterface
             $object = new ValidationFailedHttpException($object->getViolations(), $debug);
         }
 
-        $message = $object->getMessage();
         $code = $object instanceof HttpException ? $object->getStatusCode() : (int)$object->getCode();
         $context = $object instanceof AbstractHttpException ? $object->getContext() : [];
-        $trace = fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
-        $filterPrevious = $object->getPrevious() ? $trace($object->getPrevious()) : [];
 
-        if ($debug) {
-            $context['trace'] = array_filter([$trace($object), $filterPrevious]);
+        if ($object->getPrevious() instanceof AuthenticationException) {
+            $message = $object->getPrevious()->getMessage() ?: $object->getPrevious()->getMessageKey();
         }
 
-        if ($previous instanceof AuthenticationException) {
-            $message = $previous->getMessage() ?: $previous->getMessageKey();
+        if ($debug) {
+            $filterPrevious = $object->getPrevious() ? $trace($object->getPrevious()) : [];
+            $context['trace'] = array_filter([$trace($object), $filterPrevious]);
         }
 
         return [
             'code' => $code < 100 || $code >= 600 ? 500 : $code,
-            'message' => new TranslatableMessage($message, domain: 'exceptions+intl-icu'),
+            'message' => new TranslatableMessage(
+                message: $message ?? $object->getMessage(),
+                domain: 'exceptions+intl-icu',
+            ),
             ...$context,
         ];
     }
