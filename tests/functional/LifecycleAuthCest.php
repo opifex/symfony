@@ -10,6 +10,8 @@ final class LifecycleAuthCest
 {
     public function getUserInfoWithInvalidHeader(FunctionalTester $i): void
     {
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+
         $i->sendGet(url: '/api/auth/me');
         $i->seeResponseCodeIsClientError();
 
@@ -26,6 +28,8 @@ final class LifecycleAuthCest
     {
         $credentials = ['email' => 'bad@example.com', 'password' => 'password'];
 
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+
         $i->sendPost(url: '/api/auth/signin', params: json_encode($credentials));
         $i->seeResponseCodeIsClientError();
     }
@@ -35,6 +39,8 @@ final class LifecycleAuthCest
         $i->loadFixtures(fixtures: AccountFixture::class);
 
         $credentials = ['email' => 'user@example.com', 'password' => 'password'];
+
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($credentials));
         $i->seeResponseCodeIsSuccessful();
@@ -53,6 +59,8 @@ final class LifecycleAuthCest
     {
         $credentials = ['email' => 'bad@example.com', 'password' => 'password', 'extra' => 'value'];
 
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIsClientError();
     }
@@ -60,6 +68,8 @@ final class LifecycleAuthCest
     public function signupWithBadCredentials(FunctionalTester $i): void
     {
         $credentials = ['email' => 'example.com', 'password' => 'password'];
+
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIsClientError();
@@ -76,6 +86,8 @@ final class LifecycleAuthCest
 
         $credentials = ['email' => 'user@example.com', 'password' => 'password'];
 
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIsClientError();
     }
@@ -83,6 +95,8 @@ final class LifecycleAuthCest
     public function signupWithValidCredentials(FunctionalTester $i): void
     {
         $credentials = ['email' => 'email@example.com', 'password' => 'password'];
+
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIsSuccessful();

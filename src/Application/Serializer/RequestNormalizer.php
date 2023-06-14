@@ -59,7 +59,7 @@ final class RequestNormalizer implements NormalizerInterface
             $request->query->all(),
             $request->request->all(),
             (array)$request->attributes->get(key: '_route_params'),
-            (array)json_decode($request->getContent(), associative: true),
+            $request->getContent() !== '' ? $request->toArray() : [],
         );
     }
 

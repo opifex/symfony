@@ -7,6 +7,7 @@ namespace App\Tests;
 use App\Application\Serializer\RequestNormalizer;
 use Codeception\Test\Unit;
 use stdClass;
+use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
@@ -120,9 +121,9 @@ final class RequestNormalizerTest extends Unit
      */
     public function testNormalizeWithInvalidRequest(): void
     {
-        $result = $this->requestNormalizer->normalize(new Request(content: 'invalid'));
+        $this->expectException(JsonException::class);
 
-        $this->assertSame([], $result);
+        $this->requestNormalizer->normalize(new Request(content: 'invalid'));
     }
 
     public function testSupportsNormalization(): void

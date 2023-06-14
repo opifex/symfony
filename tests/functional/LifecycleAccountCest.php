@@ -18,6 +18,8 @@ final class LifecycleAccountCest
         $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
         $invalidUserIdentifier = '00000000-0000-6000-8000-000000000000';
 
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+
         $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
         $i->seeResponseCodeIsSuccessful();
         $i->seeHttpHeader(name: 'Authorization');
@@ -58,6 +60,8 @@ final class LifecycleAccountCest
             'email' => $newCredentials['email'],
             'status' => AccountStatus::VERIFIED,
         ];
+
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
         $i->seeResponseCodeIsSuccessful();
@@ -107,6 +111,8 @@ final class LifecycleAccountCest
         $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
         $userCredentials = ['email' => 'user@example.com'];
 
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+
         $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
         $i->seeResponseCodeIsSuccessful();
         $i->seeHttpHeader(name: 'Authorization');
@@ -136,6 +142,8 @@ final class LifecycleAccountCest
             'roles' => [AccountRole::ROLE_USER],
         ];
 
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+
         $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
         $i->seeResponseCodeIsSuccessful();
         $i->seeHttpHeader(name: 'Authorization');
@@ -154,6 +162,8 @@ final class LifecycleAccountCest
 
         $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
         $updatedCredentials = ['email' => 'user@example.com'];
+
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
         $i->seeResponseCodeIsSuccessful();

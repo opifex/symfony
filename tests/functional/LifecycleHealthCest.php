@@ -10,6 +10,7 @@ final class LifecycleHealthCest
 {
     public function checkHealthStatus(FunctionalTester $i): void
     {
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
         $i->haveHttpHeader(name: 'X-Request-Id', value: 'none');
         $i->sendGet(url: '/api/health');
         $i->seeResponseCodeIsSuccessful();
@@ -20,6 +21,7 @@ final class LifecycleHealthCest
 
     public function checkHealthStatusUsingInvalidMethod(FunctionalTester $i): void
     {
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
         $i->sendPost(url: '/api/health');
         $i->seeResponseCodeIsClientError();
     }
