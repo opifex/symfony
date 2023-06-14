@@ -1,11 +1,9 @@
 security:
   password_hashers:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-
   providers:
     account:
       id: App\Application\Security\AccountUserProvider
-
   firewalls:
     develop:
       pattern: ^/(_(profiler|wdt))
@@ -24,7 +22,6 @@ security:
       user_checker: App\Application\Security\AccountUserChecker
       access_token:
         token_handler: App\Application\Security\JwtAccessTokenHandler
-
   role_hierarchy:
     !php/const App\Domain\Entity\AccountRole::ROLE_ADMIN: [
       !php/const App\Domain\Entity\AccountRole::ROLE_USER,

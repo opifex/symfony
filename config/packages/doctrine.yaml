@@ -1,16 +1,23 @@
 doctrine:
   dbal:
-    url: '%env(resolve:DATABASE_URL)%'
+    default_connection: default
+    connections:
+      default:
+        url: '%env(resolve:DATABASE_URL)%'
   orm:
     auto_generate_proxy_classes: true
-    auto_mapping: true
-    mappings:
-      Default:
-        alias: Default
-        dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Mapping'
-        prefix: 'App\Domain\Entity'
-        type: xml
-    naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+    default_entity_manager: default
+    entity_managers:
+      default:
+        auto_mapping: true
+        connection: default
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        mappings:
+          Default:
+            alias: Default
+            dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Mapping'
+            prefix: 'App\Domain\Entity'
+            type: xml
 
 when@test:
   doctrine:

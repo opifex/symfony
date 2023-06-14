@@ -2,7 +2,6 @@ framework:
   messenger:
     default_bus: default.bus
     failure_transport: failed
-
     buses:
       default.bus:
         middleware:
@@ -18,7 +17,6 @@ framework:
           - doctrine_close_connection
           - doctrine_ping_connection
           - validation
-
     transports:
       internal:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
@@ -52,6 +50,5 @@ framework:
       #   delay: 60000
       #   max_retries: 24
       #   multiplier: 1
-
     routing:
       Symfony\Component\Mailer\Messenger\SendEmailMessage: notification

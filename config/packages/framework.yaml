@@ -5,13 +5,10 @@ framework:
   set_locale_from_accept_language: true
   set_content_language_from_locale: true
   enabled_locales: [ 'en', 'uk' ]
-
   serializer:
     name_converter: 'serializer.name_converter.camel_case_to_snake_case'
-
   php_errors:
     log: true
-
   http_client:
     scoped_clients:
       httpbin.client:
