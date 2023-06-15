@@ -86,13 +86,5 @@ final class ExceptionNormalizerTest extends Unit
         $normalized = $this->normalizer->normalize($exception);
         $this->assertIsArray($normalized);
         $this->assertEquals(expected: Response::HTTP_BAD_REQUEST, actual: $normalized['code']);
-
-        $authenticationMessage = 'Custom authentication exception.';
-        $authenticationException = new AuthenticationException(message: $authenticationMessage);
-        $exception = new Exception(code: Response::HTTP_BAD_REQUEST, previous: $authenticationException);
-        $normalized = $this->normalizer->normalize($exception);
-        $this->assertIsArray($normalized);
-        $this->assertEquals(expected: Response::HTTP_BAD_REQUEST, actual: $normalized['code']);
-        $this->assertEquals(expected: $authenticationMessage, actual: $normalized['message']);
     }
 }

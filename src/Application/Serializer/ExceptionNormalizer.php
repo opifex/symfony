@@ -12,7 +12,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Exception\ValidationFailedException as MessengerValidationFailedException;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Serializer\Exception\ExtraAttributesException;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
@@ -57,10 +56,6 @@ final class ExceptionNormalizer implements NormalizerInterface
         $code = $object instanceof HttpException ? $object->getStatusCode() : (int)$object->getCode();
         $context = $object instanceof AbstractHttpException ? $object->getContext() : [];
 
-        if ($object->getPrevious() instanceof AuthenticationException) {
-            $message = $object->getPrevious()->getMessage() ?: $object->getPrevious()->getMessageKey();
-        }
-
         if ($debug) {
             $filterPrevious = $object->getPrevious() ? $trace($object->getPrevious()) : [];
             $context['trace'] = array_filter([$trace($object), $filterPrevious]);
@@ -68,10 +63,7 @@ final class ExceptionNormalizer implements NormalizerInterface
 
         return [
             'code' => $code < 100 || $code >= 600 ? 500 : $code,
-            'message' => new TranslatableMessage(
-                message: $message ?? $object->getMessage(),
-                domain: 'exceptions+intl-icu',
-            ),
+            'message' => new TranslatableMessage($object->getMessage(), domain: 'exceptions+intl-icu'),
             ...$context,
         ];
     }
