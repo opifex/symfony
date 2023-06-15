@@ -34,9 +34,10 @@ final class ExceptionEventListener
         $this->logger->error('Kernel exception event.', $exception);
 
         $code = $exception['code'] ?? Response::HTTP_INTERNAL_SERVER_ERROR;
+        $format = $event->getRequest()->getPreferredFormat(default: JsonEncoder::FORMAT) ?? '';
         $context = [JsonEncode::OPTIONS => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT];
         $response = new Response(
-            content: $this->serializer->serialize($exception, format: JsonEncoder::FORMAT, context: $context),
+            content: $this->serializer->serialize($exception, $format, $context),
             status: is_int($code) ? $code : Response::HTTP_INTERNAL_SERVER_ERROR,
         );
 

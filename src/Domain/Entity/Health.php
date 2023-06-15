@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-final class Health
+class Health
 {
     protected HealthStatus $status;
 
