@@ -11,12 +11,10 @@ framework:
           - doctrine_close_connection
           - doctrine_ping_connection
           - doctrine_transaction
-          - validation
       query.bus:
         middleware:
           - doctrine_close_connection
           - doctrine_ping_connection
-          - validation
     transports:
       internal:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'

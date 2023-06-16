@@ -19,12 +19,15 @@ class ValidationFailedHttpException extends AbstractHttpException
 
         foreach ($constraint as $item) {
             if ($item instanceof ConstraintViolationInterface) {
-                $object = is_object($item->getRoot()) ? $item->getRoot()::class : null;
                 $parameter = (new UnicodeString($item->getPropertyPath()))->snake()->toString();
                 $validation = ['name' => $parameter, 'reason' => $item->getMessage()];
 
                 if ($debug) {
-                    $validation['object'] = $object;
+                    $validation['object'] = match (true) {
+                        is_object($item->getRoot()) => $item->getRoot()::class,
+                        is_string($item->getRoot()) => $item->getRoot(),
+                        default => null,
+                    };
                     $validation['value'] = $item->getInvalidValue();
                 }
 
