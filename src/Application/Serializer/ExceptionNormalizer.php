@@ -7,7 +7,6 @@ namespace App\Application\Serializer;
 use App\Domain\Exception\AbstractHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Translation\TranslatableMessage;
@@ -32,8 +31,6 @@ final class ExceptionNormalizer implements NormalizerInterface
             $object = new InvalidArgumentException(message: 'Object expected to be a valid exception type.');
         }
 
-        $object = $object instanceof HandlerFailedException ? ($object->getPrevious() ?? $object) : $object;
-        $code = $object instanceof HttpException ? $object->getStatusCode() : (int)$object->getCode();
         $context = $object instanceof AbstractHttpException ? $object->getContext() : [];
 
         if ($this->kernel->isDebug()) {
@@ -43,7 +40,7 @@ final class ExceptionNormalizer implements NormalizerInterface
         }
 
         return [
-            'code' => $code < 100 || $code >= 600 ? 500 : $code,
+            'code' => $object instanceof HttpException ? $object->getStatusCode() : $object->getCode(),
             'message' => new TranslatableMessage($object->getMessage(), domain: 'exceptions+intl-icu'),
             ...$context,
         ];
