@@ -35,28 +35,18 @@ final class ViolationListNormalizer implements NormalizerInterface
 
         $violationList = [];
 
-        foreach ($object as $constraint) {
-            if ($constraint instanceof ConstraintViolationInterface) {
-                $messageTemplate = $constraint->getMessageTemplate();
-                $violation = [
-                    'name' => (new UnicodeString($constraint->getPropertyPath()))->snake()->toString(),
-                    'reason' => $this->translator->trans(
-                        id: $messageTemplate !== '' ? $messageTemplate : (string)$constraint->getMessage(),
-                        parameters: $constraint->getParameters(),
-                        domain: 'validators+intl-icu',
-                    ),
-                ];
+        foreach ($object as $violation) {
+            if ($violation instanceof ConstraintViolationInterface) {
+                $violationItem = [];
+                $violationItem['name'] = $this->formatViolationName($violation);
+                $violationItem['reason'] = $this->formatViolationMessage($violation);
 
                 if ($this->kernel->isDebug()) {
-                    $violation['object'] = match (true) {
-                        is_object($constraint->getRoot()) => $constraint->getRoot()::class,
-                        is_string($constraint->getRoot()) => $constraint->getRoot(),
-                        default => null,
-                    };
-                    $violation['value'] = $constraint->getInvalidValue();
+                    $violationItem['object'] = $this->extractViolationObject($violation);
+                    $violationItem['value'] = $violation->getInvalidValue();
                 }
 
-                $violationList[] = $violation;
+                $violationList[] = $violationItem;
             }
         }
 
@@ -81,5 +71,27 @@ final class ViolationListNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [ConstraintViolationListInterface::class => true];
+    }
+
+    private function formatViolationName(ConstraintViolationInterface $violation): string
+    {
+        return (new UnicodeString($violation->getPropertyPath()))->snake()->toString();
+    }
+
+    private function formatViolationMessage(ConstraintViolationInterface $violation): string
+    {
+        $messageTemplate = $violation->getMessageTemplate();
+        $message = $messageTemplate !== '' ? $messageTemplate : (string)$violation->getMessage();
+
+        return $this->translator->trans($message, $violation->getParameters(), domain: 'validators+intl-icu');
+    }
+
+    private function extractViolationObject(ConstraintViolationInterface $violation): ?string
+    {
+        return match (true) {
+            is_object($violation->getRoot()) => $violation->getRoot()::class,
+            is_string($violation->getRoot()) => $violation->getRoot(),
+            default => null,
+        };
     }
 }
