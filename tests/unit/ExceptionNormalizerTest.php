@@ -12,7 +12,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 final class ExceptionNormalizerTest extends Unit
 {
-    private ExceptionNormalizer $normalizer;
+    private ExceptionNormalizer $exceptionNormalizer;
 
     /**
      * @throws MockObjectException
@@ -20,13 +20,13 @@ final class ExceptionNormalizerTest extends Unit
     protected function setUp(): void
     {
         $kernel = $this->createMock(originalClassName: KernelInterface::class);
-        $this->normalizer = new ExceptionNormalizer($kernel);
+        $this->exceptionNormalizer = new ExceptionNormalizer($kernel);
         $this->violations = new ConstraintViolationList();
     }
 
     public function testNormalizeThrowsInvalidArgumentException(): void
     {
-        $normalized = $this->normalizer->normalize(object: null);
+        $normalized = $this->exceptionNormalizer->normalize(object: null);
 
         $this->assertArrayHasKey(key: 'message', array: $normalized);
         $this->assertEquals(expected: 'Object expected to be a valid exception type.', actual: $normalized['message']);

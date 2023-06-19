@@ -11,7 +11,6 @@ use App\Domain\Exception\ValidationFailedHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\ExtraAttributesException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
@@ -24,7 +23,6 @@ final class ControllerMessageValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private DenormalizerInterface $denormalizer,
-        private KernelInterface $kernel,
         private NormalizerInterface $normalizer,
         private ValidatorInterface $validator,
     ) {
@@ -41,20 +39,19 @@ final class ControllerMessageValueResolver implements ValueResolverInterface
         if (is_string($type) && is_subclass_of($type, class: MessageInterface::class)) {
             $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
             $parameters = $this->normalizer->normalize($request);
-            $debug = $this->kernel->isDebug();
 
             try {
                 $message = $this->denormalizer->denormalize($parameters, $type, context: $context);
             } catch (ExtraAttributesException $e) {
-                throw new ExtraAttributesHttpException($e->getExtraAttributes(), $type, $debug);
+                throw new ExtraAttributesHttpException($e->getExtraAttributes(), $type);
             } catch (NotNormalizableValueException $e) {
-                throw new NormalizationFailedHttpException($e->getExpectedTypes(), $e->getPath(), $type, $debug);
+                throw new NormalizationFailedHttpException($e->getExpectedTypes(), $e->getPath(), $type);
             }
 
-            $constraintViolationList = $this->validator->validate($message);
+            $violations = $this->validator->validate($message);
 
-            if ($constraintViolationList->count()) {
-                throw new ValidationFailedHttpException($constraintViolationList, $debug);
+            if ($violations->count()) {
+                throw new ValidationFailedHttpException($violations);
             }
         }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Exception;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 
@@ -13,17 +12,14 @@ class ExtraAttributesHttpException extends ValidationFailedHttpException
     /**
      * @param string[] $extraAttributes
      */
-    public function __construct(array $extraAttributes, ?string $root, bool $debug = false)
+    public function __construct(array $extraAttributes, ?string $root)
     {
         $constraint = new ConstraintViolationList();
 
         foreach ($extraAttributes as $attribute) {
             $constraint->add(
                 new ConstraintViolation(
-                    message: new TranslatableMessage(
-                        message: 'This field was not expected.',
-                        domain: 'validators+intl-icu',
-                    ),
+                    message: 'This field was not expected.',
                     messageTemplate: null,
                     parameters: [],
                     root: $root,
@@ -33,6 +29,6 @@ class ExtraAttributesHttpException extends ValidationFailedHttpException
             );
         }
 
-        parent::__construct($constraint, $debug);
+        parent::__construct($constraint);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use App\Domain\Exception\AbstractHttpException;
+use App\Domain\Exception\ValidationFailedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
@@ -31,7 +31,11 @@ final class ExceptionNormalizer implements NormalizerInterface
             $object = new InvalidArgumentException(message: 'Object expected to be a valid exception type.');
         }
 
-        $context = $object instanceof AbstractHttpException ? $object->getContext() : [];
+        $context = [];
+
+        if ($object instanceof ValidationFailedHttpException) {
+            $context['violations'] = $object->getViolations();
+        }
 
         if ($this->kernel->isDebug()) {
             $trace = fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
