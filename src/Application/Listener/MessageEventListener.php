@@ -7,11 +7,14 @@ namespace App\Application\Listener;
 use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Mailer\Event\MessageEvent;
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsEventListener(event: MessageEvent::class)]
 final class MessageEventListener
 {
+    private const TRANSLATOR_DOMAIN_NOTIFICATIONS = 'notifications';
+
     public function __construct(private TranslatorInterface $translator)
     {
     }
@@ -21,10 +24,10 @@ final class MessageEventListener
         $message = $event->getMessage();
 
         if ($message instanceof NotificationEmail) {
-            $domain = 'notifications+intl-icu';
             $subject = $message->getSubject() ?? '';
             $content = $message->getContext()['content'] ?? '';
             $locale = $message->getContext()['locale'] ?? $this->translator->getLocale();
+            $domain = self::TRANSLATOR_DOMAIN_NOTIFICATIONS . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
 
             $message->subject($this->translator->trans($subject, $message->getContext(), $domain, $locale));
             $message->content($this->translator->trans($content, $message->getContext(), $domain, $locale));

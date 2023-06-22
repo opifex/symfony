@@ -8,12 +8,15 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ViolationListNormalizer implements NormalizerInterface
 {
+    private const TRANSLATOR_DOMAIN_VALIDATORS = 'validators';
+
     public function __construct(
         private KernelInterface $kernel,
         private TranslatorInterface $translator,
@@ -35,19 +38,19 @@ final class ViolationListNormalizer implements NormalizerInterface
 
         $violationList = [];
 
+        /** @var ConstraintViolationInterface $violation */
         foreach ($object as $violation) {
-            if ($violation instanceof ConstraintViolationInterface) {
-                $violationItem = [];
-                $violationItem['name'] = $this->formatViolationName($violation);
-                $violationItem['reason'] = $this->formatViolationMessage($violation);
+            $violationItem = [
+                'name' => $this->formatViolationName($violation),
+                'reason' => $this->formatViolationMessage($violation),
+            ];
 
-                if ($this->kernel->isDebug()) {
-                    $violationItem['object'] = $this->extractViolationObject($violation);
-                    $violationItem['value'] = $violation->getInvalidValue();
-                }
-
-                $violationList[] = $violationItem;
+            if ($this->kernel->isDebug()) {
+                $violationItem['object'] = $this->extractViolationObject($violation);
+                $violationItem['value'] = $violation->getInvalidValue();
             }
+
+            $violationList[] = $violationItem;
         }
 
         return $violationList;
@@ -81,9 +84,11 @@ final class ViolationListNormalizer implements NormalizerInterface
     private function formatViolationMessage(ConstraintViolationInterface $violation): string
     {
         $messageTemplate = $violation->getMessageTemplate();
+
+        $domain = self::TRANSLATOR_DOMAIN_VALIDATORS . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
         $message = $messageTemplate !== '' ? $messageTemplate : (string)$violation->getMessage();
 
-        return $this->translator->trans($message, $violation->getParameters(), domain: 'validators+intl-icu');
+        return $this->translator->trans($message, $violation->getParameters(), $domain);
     }
 
     private function extractViolationObject(ConstraintViolationInterface $violation): ?string
