@@ -8,8 +8,6 @@ use App\Domain\Entity\Account;
 
 final class GetAccountsByCriteriaResponse extends AbstractCountableResponse
 {
-    public const GROUP_VIEW = __CLASS__ . ':view';
-
     /**
      * @param Account[] $items
      */
