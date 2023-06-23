@@ -35,7 +35,7 @@ final class ViewEventListener
             $templateStamp = $controllerResult->last(stampFqcn: TemplateStamp::class);
 
             $format = $event->getRequest()->getPreferredFormat(default: JsonEncoder::FORMAT) ?? '';
-            $code = $responseStamp instanceof ResponseStamp ? $responseStamp->getCode() : null;
+            $status = $responseStamp instanceof ResponseStamp ? $responseStamp->getCode() : null;
             $context = $serializerStamp instanceof SerializerStamp ? $serializerStamp->getContext() : [];
             $headers = $responseStamp instanceof ResponseStamp ? $responseStamp->getHeaders() : [];
             $result = $handledStamp instanceof HandledStamp ? $handledStamp->getResult() : '';
@@ -52,7 +52,7 @@ final class ViewEventListener
 
             $response = new Response(
                 content: $this->serializer->serialize($result, $format, $context),
-                status: $code ?? (empty($result) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK),
+                status: $status ?? (empty($result) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK),
                 headers: $headers,
             );
 
