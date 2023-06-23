@@ -9,29 +9,29 @@ use App\Domain\Message\GetSigninAccountQuery;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class GetSigninAccountHandlerTest extends Unit
 {
     private GetSigninAccountHandler $getSigninAccountHandler;
 
-    private Security&MockObject $security;
+    private TokenStorageInterface&MockObject $tokenStorage;
 
     /**
      * @throws Exception
      */
     protected function setUp(): void
     {
-        $this->security = $this->createMock(originalClassName: Security::class);
-        $this->getSigninAccountHandler = new GetSigninAccountHandler($this->security);
+        $this->tokenStorage = $this->createMock(originalClassName: TokenStorageInterface::class);
+        $this->getSigninAccountHandler = new GetSigninAccountHandler($this->tokenStorage);
     }
 
     public function testInvokeWithInvalidUser(): void
     {
-        $this->security
+        $this->tokenStorage
             ->expects($this->once())
-            ->method(constraint: 'getUser')
+            ->method(constraint: 'getToken')
             ->willReturn(value: null);
 
         $this->expectException(AccessDeniedHttpException::class);

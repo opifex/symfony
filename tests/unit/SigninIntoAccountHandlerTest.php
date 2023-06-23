@@ -9,27 +9,27 @@ use App\Domain\Message\SigninIntoAccountCommand;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class SigninIntoAccountHandlerTest extends Unit
 {
     private SigninIntoAccountHandler $signinIntoAccountHandler;
 
-    private Security&MockObject $security;
+    private TokenStorageInterface&MockObject $tokenStorage;
 
     /**
      * @throws Exception
      */
     protected function setUp(): void
     {
-        $this->security = $this->createMock(originalClassName: Security::class);
-        $this->signinIntoAccountHandler = new SigninIntoAccountHandler($this->security);
+        $this->tokenStorage = $this->createMock(originalClassName: TokenStorageInterface::class);
+        $this->signinIntoAccountHandler = new SigninIntoAccountHandler($this->tokenStorage);
     }
 
     public function testInvokeThrowsExceptionOnAccessDenied(): void
     {
-        $this->security
+        $this->tokenStorage
             ->expects($this->once())
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
