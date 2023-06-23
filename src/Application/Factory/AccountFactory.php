@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Application\Factory;
 
+use App\Domain\Contract\AccountFactoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountRole;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-final class AccountFactory
+final class AccountFactory implements AccountFactoryInterface
 {
     public function __construct(private UserPasswordHasherInterface $userPasswordHasher)
     {
     }
 
-    /**
-     * @param string[] $roles
-     */
     public function createCustomAccount(string $email, string $password, array $roles): Account
     {
         $account = new Account($email, $roles);

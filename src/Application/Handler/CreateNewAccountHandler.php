@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler;
 
-use App\Application\Factory\AccountFactory;
+use App\Domain\Contract\AccountFactoryInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Event\AccountCreateEvent;
@@ -19,7 +19,7 @@ use Symfony\Component\Workflow\WorkflowInterface;
 final class CreateNewAccountHandler
 {
     public function __construct(
-        private AccountFactory $accountFactory,
+        private AccountFactoryInterface $accountFactory,
         private AccountRepositoryInterface $accountRepository,
         private EventDispatcherInterface $eventDispatcher,
         private WorkflowInterface $accountStateMachine,

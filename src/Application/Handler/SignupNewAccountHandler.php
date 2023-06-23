@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler;
 
-use App\Application\Factory\AccountFactory;
+use App\Domain\Contract\AccountFactoryInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Exception\AccountNotFoundException;
@@ -17,7 +17,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class SignupNewAccountHandler
 {
     public function __construct(
-        private AccountFactory $accountFactory,
+        private AccountFactoryInterface $accountFactory,
         private AccountRepositoryInterface $accountRepository,
         private EventDispatcherInterface $eventDispatcher,
     ) {
