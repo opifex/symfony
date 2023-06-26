@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
+use App\Domain\Contract\CoreAnalyzerInterface;
 use App\Domain\Contract\HttpbinAdapterInterface;
-use App\Domain\Exception\HttpbinAdapterException;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Contracts\Cache\CacheInterface;
 
-final class CoreAnalyzer
+final class CoreAnalyzer implements CoreAnalyzerInterface
 {
     public function __construct(
         private CacheInterface $cacheStorage,
@@ -25,10 +25,6 @@ final class CoreAnalyzer
         return $this->cacheStorage->get($key, fn() => $value);
     }
 
-    /**
-     * @return array<string, mixed>
-     * @throws HttpbinAdapterException
-     */
     public function httpbin(): array
     {
         return $this->httpbinAdapter->getJson();
