@@ -13,12 +13,9 @@ coverage:
   show_uncovered: true
   include:
     - src/Application/*
-    - src/Domain/*
     - src/Infrastructure/*
     - src/Presentation/*
   exclude:
-    - src/Domain/Contract/*
-    - src/Domain/Message/*
     - src/Infrastructure/Persistence/Fixture/*
     - src/Infrastructure/Persistence/Migration/*
     - src/Presentation/Resources/*

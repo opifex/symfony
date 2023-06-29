@@ -70,7 +70,7 @@ final class ExceptionEventListenerTest extends Unit
             ->method(constraint: 'normalize')
             ->willReturn($normalizedViolation);
 
-        $exceptionListener = new ExceptionEventListener(
+        $exceptionEventListener = new ExceptionEventListener(
             logger: $this->logger,
             normalizer: $this->normalizer,
             serializer: $this->serializer,
@@ -83,7 +83,7 @@ final class ExceptionEventListenerTest extends Unit
             e: new ValidationFailedHttpException($constraintViolationList),
         );
 
-        ($exceptionListener)($exceptionEvent);
+        ($exceptionEventListener)($exceptionEvent);
 
         $this->expectNotToPerformAssertions();
     }

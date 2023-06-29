@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ViewEventListenerTest extends Unit
 {
-    private ViewEventListener $viewListener;
+    private ViewEventListener $viewEventListener;
 
     /**
      * @throws Exception
@@ -25,7 +25,7 @@ class ViewEventListenerTest extends Unit
     protected function setUp(): void
     {
         $serializer = $this->createMock(originalClassName: SerializerInterface::class);
-        $this->viewListener = new ViewEventListener($serializer);
+        $this->viewEventListener = new ViewEventListener($serializer);
     }
 
     /**
@@ -43,6 +43,6 @@ class ViewEventListenerTest extends Unit
             controllerArgumentsEvent: null,
         );
 
-        ($this->viewListener)($viewEvent);
+        ($this->viewEventListener)($viewEvent);
     }
 }

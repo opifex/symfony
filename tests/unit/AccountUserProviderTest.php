@@ -20,7 +20,7 @@ class AccountUserProviderTest extends Unit
 {
     private AccountRepositoryInterface&MockObject $accountRepository;
 
-    private AccountUserProvider $userProvider;
+    private AccountUserProvider $accountUserProvider;
 
     /**
      * @throws Exception
@@ -28,7 +28,7 @@ class AccountUserProviderTest extends Unit
     protected function setUp(): void
     {
         $this->accountRepository = $this->createMock(originalClassName: AccountRepositoryInterface::class);
-        $this->userProvider = new AccountUserProvider($this->accountRepository);
+        $this->accountUserProvider = new AccountUserProvider($this->accountRepository);
     }
 
     public function testLoadUserByIdentifierWithEmail(): void
@@ -41,7 +41,7 @@ class AccountUserProviderTest extends Unit
             ->with($email)
             ->willReturn($account);
 
-        $loadedUser = $this->userProvider->loadUserByIdentifier($email);
+        $loadedUser = $this->accountUserProvider->loadUserByIdentifier($email);
 
         $this->assertSame($account, $loadedUser);
     }
@@ -55,7 +55,7 @@ class AccountUserProviderTest extends Unit
 
         $this->expectException(UserNotFoundException::class);
 
-        $this->userProvider->loadUserByIdentifier(identifier: 'invalid@example.com');
+        $this->accountUserProvider->loadUserByIdentifier(identifier: 'invalid@example.com');
     }
 
     public function testLoadUserByIdentifierWithUuid(): void
@@ -68,7 +68,7 @@ class AccountUserProviderTest extends Unit
             ->with($uuid)
             ->willReturn($account);
 
-        $loadedUser = $this->userProvider->loadUserByIdentifier($uuid->toRfc4122());
+        $loadedUser = $this->accountUserProvider->loadUserByIdentifier($uuid->toRfc4122());
 
         $this->assertSame($account, $loadedUser);
     }
@@ -77,16 +77,16 @@ class AccountUserProviderTest extends Unit
     {
         $this->expectException(UnsupportedUserException::class);
 
-        $this->userProvider->refreshUser(new Account(email: 'email@example.com'));
+        $this->accountUserProvider->refreshUser(new Account(email: 'email@example.com'));
     }
 
     public function testSupportsClassWithMatchingClass(): void
     {
-        $this->assertTrue($this->userProvider->supportsClass(class: Account::class));
+        $this->assertTrue($this->accountUserProvider->supportsClass(class: Account::class));
     }
 
     public function testSupportsClassWithNonMatchingClass(): void
     {
-        $this->assertFalse($this->userProvider->supportsClass(class: stdClass::class));
+        $this->assertFalse($this->accountUserProvider->supportsClass(class: stdClass::class));
     }
 }

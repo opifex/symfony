@@ -5,19 +5,13 @@ declare(strict_types=1);
 namespace App\Domain\Contract;
 
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Exception\AccountNotFoundException;
-use Countable;
-use Traversable;
 
 interface AccountRepositoryInterface
 {
-    /**
-     * @param AccountSearchCriteria $criteria
-     *
-     * @return Countable&Traversable<int, Account>
-     */
-    public function findByCriteria(AccountSearchCriteria $criteria): Countable&Traversable;
+    public function findByCriteria(AccountSearchCriteria $criteria): AccountCollection;
 
     /**
      * @throws AccountNotFoundException
