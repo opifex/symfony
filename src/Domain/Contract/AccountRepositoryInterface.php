@@ -7,13 +7,17 @@ namespace App\Domain\Contract;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Exception\AccountNotFoundException;
+use Countable;
+use Traversable;
 
 interface AccountRepositoryInterface
 {
     /**
-     * @return Account[]
+     * @param AccountSearchCriteria $criteria
+     *
+     * @return Countable&Traversable<int, Account>
      */
-    public function findByCriteria(AccountSearchCriteria $criteria): iterable;
+    public function findByCriteria(AccountSearchCriteria $criteria): Countable&Traversable;
 
     /**
      * @throws AccountNotFoundException

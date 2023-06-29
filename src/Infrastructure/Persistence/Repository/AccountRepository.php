@@ -8,12 +8,14 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Exception\AccountNotFoundException;
+use Countable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\String\UnicodeString;
+use Traversable;
 
 #[Autoconfigure(lazy: true)]
 class AccountRepository implements AccountRepositoryInterface
@@ -22,7 +24,7 @@ class AccountRepository implements AccountRepositoryInterface
     {
     }
 
-    public function findByCriteria(AccountSearchCriteria $criteria): iterable
+    public function findByCriteria(AccountSearchCriteria $criteria): Countable&Traversable
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
