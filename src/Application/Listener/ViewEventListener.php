@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Listener;
 
+use App\Application\Messenger\ResponseStamp;
+use App\Application\Messenger\TemplateStamp;
 use App\Application\Serializer\HtmlTemplateEncoder;
-use App\Domain\Messenger\ResponseStamp;
-use App\Domain\Messenger\TemplateStamp;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ViewEvent;

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
+use App\Application\Attribute\MapRequestMessage;
+use App\Application\Handler\DeleteAccountById\DeleteAccountByIdCommand;
 use App\Domain\Entity\AccountRole;
-use App\Domain\Message\DeleteAccountByIdCommand;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
 final class DeleteAccountByIdController extends AbstractController
@@ -35,10 +37,10 @@ final class DeleteAccountByIdController extends AbstractController
         path: '/api/account/{uuid}',
         name: __CLASS__,
         methods: Request::METHOD_DELETE,
-        format: 'json',
+        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(DeleteAccountByIdCommand $message): Envelope
+    public function __invoke(#[MapRequestMessage] DeleteAccountByIdCommand $message): Envelope
     {
         return $this->commandBus->dispatch($message);
     }

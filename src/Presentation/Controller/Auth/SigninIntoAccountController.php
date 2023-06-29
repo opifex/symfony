@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Domain\Message\SigninIntoAccountCommand;
-use App\Domain\Messenger\ResponseStamp;
+use App\Application\Attribute\MapRequestMessage;
+use App\Application\Handler\SigninIntoAccount\SigninIntoAccountCommand;
+use App\Application\Messenger\ResponseStamp;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
 final class SigninIntoAccountController extends AbstractController
@@ -47,9 +49,9 @@ final class SigninIntoAccountController extends AbstractController
         path: '/api/auth/signin',
         name: __CLASS__,
         methods: Request::METHOD_POST,
-        format: 'json',
+        format: JsonEncoder::FORMAT,
     )]
-    public function __invoke(SigninIntoAccountCommand $message): Envelope
+    public function __invoke(#[MapRequestMessage] SigninIntoAccountCommand $message): Envelope
     {
         return $this->commandBus->dispatch($message)->with(
             new ResponseStamp(headers: [

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Contract;
 
-use App\Domain\Criteria\AccountSearchCriteria;
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Exception\AccountNotFoundException;
 
 interface AccountRepositoryInterface

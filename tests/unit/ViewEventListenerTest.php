@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Listener\ViewEventListener;
-use App\Domain\Messenger\TemplateStamp;
+use App\Application\Messenger\TemplateStamp;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use stdClass;

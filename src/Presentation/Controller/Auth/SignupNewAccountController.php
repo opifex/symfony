@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Domain\Message\SignupNewAccountCommand;
+use App\Application\Attribute\MapRequestMessage;
+use App\Application\Handler\SignupNewAccount\SignupNewAccountCommand;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
 final class SignupNewAccountController extends AbstractController
@@ -37,9 +39,9 @@ final class SignupNewAccountController extends AbstractController
         path: '/api/auth/signup',
         name: __CLASS__,
         methods: Request::METHOD_POST,
-        format: 'json',
+        format: JsonEncoder::FORMAT,
     )]
-    public function __invoke(SignupNewAccountCommand $message): Envelope
+    public function __invoke(#[MapRequestMessage] SignupNewAccountCommand $message): Envelope
     {
         return $this->commandBus->dispatch($message);
     }

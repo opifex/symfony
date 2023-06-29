@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Domain\Message\GetSigninAccountQuery;
-use App\Domain\Response\GetSigninAccountResponse;
+use App\Application\Attribute\MapRequestMessage;
+use App\Application\Handler\GetSigninAccount\GetSigninAccountQuery;
+use App\Application\Handler\GetSigninAccount\GetSigninAccountResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -16,6 +17,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
 final class GetSigninAccountController extends AbstractController
@@ -37,10 +39,10 @@ final class GetSigninAccountController extends AbstractController
         path: '/api/auth/me',
         name: __CLASS__,
         methods: Request::METHOD_GET,
-        format: 'json',
+        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED, message: 'Not privileged to request the resource.')]
-    public function __invoke(GetSigninAccountQuery $message): Envelope
+    public function __invoke(#[MapRequestMessage] GetSigninAccountQuery $message): Envelope
     {
         return $this->queryBus->dispatch($message);
     }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Criteria\AccountSearchCriteria;
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;

@@ -66,11 +66,11 @@ provides **JSON-based** contracts with **JSON Web Token** (JWT) authorization.
 └──────────────────────────────────────────────────────────┘
         │                    │                    │
 ┌────────────────┐   ┌────────────────┐   ┌────────────────┐
-│  Application   │   │ Infrastructure │   │  Presentation  │
+│  Application   │ ─ │  Presentation  │   │ Infrastructure │
 └────────────────┘   └────────────────┘   └────────────────┘
         │                    │                    │
 ┌────────────────┐   ┌────────────────┐   ┌────────────────┐       
-│    Services    │   │   3rd-party    │   │     Client     │       
+│    Services    │   │     Client     │   │   3rd-party    │       
 └────────────────┘   └────────────────┘   └────────────────┘
 ```
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Handler\SigninIntoAccountHandler;
-use App\Domain\Message\SigninIntoAccountCommand;
+use App\Application\Handler\SigninIntoAccount\SigninIntoAccountCommand;
+use App\Application\Handler\SigninIntoAccount\SigninIntoAccountHandler;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;

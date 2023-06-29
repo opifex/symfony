@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
+use App\Application\Attribute\MapRequestMessage;
+use App\Application\Handler\UpdateAccountById\UpdateAccountByIdCommand;
 use App\Domain\Entity\AccountRole;
-use App\Domain\Message\UpdateAccountByIdCommand;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
 final class UpdateAccountByIdController extends AbstractController
@@ -45,10 +47,10 @@ final class UpdateAccountByIdController extends AbstractController
         path: '/api/account/{uuid}',
         name: __CLASS__,
         methods: Request::METHOD_PATCH,
-        format: 'json',
+        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(UpdateAccountByIdCommand $message): Envelope
+    public function __invoke(#[MapRequestMessage] UpdateAccountByIdCommand $message): Envelope
     {
         return $this->commandBus->dispatch($message);
     }

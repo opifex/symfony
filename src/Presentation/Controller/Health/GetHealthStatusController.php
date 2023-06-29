@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Health;
 
-use App\Domain\Message\GetHealthStatusQuery;
-use App\Domain\Response\GetHealthStatusResponse;
+use App\Application\Attribute\MapRequestMessage;
+use App\Application\Handler\GetHealthStatus\GetHealthStatusQuery;
+use App\Application\Handler\GetHealthStatus\GetHealthStatusResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -35,7 +36,7 @@ final class GetHealthStatusController extends AbstractController
         methods: Request::METHOD_GET,
         format: 'json',
     )]
-    public function __invoke(GetHealthStatusQuery $message): Envelope
+    public function __invoke(#[MapRequestMessage] GetHealthStatusQuery $message): Envelope
     {
         return $this->queryBus->dispatch($message);
     }

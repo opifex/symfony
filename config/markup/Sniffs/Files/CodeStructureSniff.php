@@ -9,21 +9,16 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 class CodeStructureSniff implements Sniff
 {
-    public array $appNamespaces = ['App'];
+    public string $appNamespace = 'App';
 
-    public array $domainNamespaces = ['App\\Domain'];
-
-    public array $testsNamespaces = ['App\\Tests'];
-
-    public array $internalNamespaces = [
-        'App\\Reports',
-        'App\\Sniffs',
-    ];
-
-    public array $mainNamespaces = [
-        'App\\Application',
-        'App\\Infrastructure',
-        'App\\Presentation',
+    public array $allowedNamespaces = [
+        'App\\Application' => ['App\\Domain'],
+        'App\\Domain' => [],
+        'App\\Infrastructure' => ['App\\Domain'],
+        'App\\Presentation' => ['App\\Application', 'App\\Domain'],
+        'App\\Reports' => [],
+        'App\\Sniffs' => [],
+        'App\\Tests' => ['App\\Application', 'App\\Domain', 'App\\Infrastructure', 'App\\Presentation'],
     ];
 
     public function process(File $phpcsFile, mixed $stackPtr): int
@@ -33,22 +28,16 @@ class CodeStructureSniff implements Sniff
         if ($stackPtr !== false) {
             $endPtr = $phpcsFile->findNext([T_SEMICOLON], start: $stackPtr + 1);
             $namespaceName = $phpcsFile->getTokensAsString(start: $stackPtr + 2, length: $endPtr - $stackPtr - 2);
-            $namespaceSlice = $this->sliceNamespace($namespaceName);
-            $availableNamespaces = array_merge(
-                $this->appNamespaces,
-                $this->domainNamespaces,
-                $this->internalNamespaces,
-                $this->mainNamespaces,
-                $this->testsNamespaces,
-            );
-            $availableImports = array_merge($this->domainNamespaces, [$namespaceSlice]);
+            $namespacePrefix = $this->sliceNamespace($namespaceName);
+            $availableImports = [...$this->allowedNamespaces[$namespacePrefix] ?? [], ...[$namespacePrefix]];
+            $isNamespaceAllowed = in_array($namespacePrefix, array_keys($this->allowedNamespaces));
 
-            if (!in_array($namespaceSlice, $availableNamespaces)) {
+            if (!$isNamespaceAllowed && $namespaceName !== $this->appNamespace) {
                 $phpcsFile->addError(
                     error: 'Namespace must starts with %s',
                     stackPtr: $stackPtr + 1,
                     code: 'CodeStructure',
-                    data: [implode(' or ', array_merge($this->domainNamespaces, $this->mainNamespaces))],
+                    data: [implode(separator: ' or ', array: array_keys($this->allowedNamespaces))],
                 );
             }
 
@@ -57,15 +46,11 @@ class CodeStructureSniff implements Sniff
                 $endPtr = $phpcsFile->findNext([T_SEMICOLON], start: $stackPtr + 1);
                 $dependencyName = $phpcsFile->getTokensAsString($stackPtr, length: $endPtr - $stackPtr);
 
-                if (in_array($namespaceSlice, $this->testsNamespaces)) {
-                    continue;
-                }
-
                 if (mb_substr_count(haystack: $dependencyName, needle: '\\') === 0) {
                     continue;
                 }
 
-                if (!in_array($this->sliceNamespace($dependencyName, length: 1), $this->appNamespaces)) {
+                if ($this->sliceNamespace($dependencyName, length: 1) !== $this->appNamespace) {
                     continue;
                 }
 
@@ -74,7 +59,7 @@ class CodeStructureSniff implements Sniff
                         error: 'Usage must starts with %s',
                         stackPtr: $stackPtr + 1,
                         code: 'CodeStructure',
-                        data: [implode(' or ', $availableImports)],
+                        data: [implode(separator: ' or ', array: $availableImports)],
                     );
                 }
             }
