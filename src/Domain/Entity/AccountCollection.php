@@ -6,6 +6,7 @@ namespace App\Domain\Entity;
 
 use ArrayIterator;
 use Countable;
+use InvalidArgumentException;
 use IteratorAggregate;
 use Traversable;
 
@@ -23,8 +24,14 @@ class AccountCollection implements Countable, IteratorAggregate
      */
     public function __construct(iterable $accounts)
     {
+        foreach ($accounts as $account) {
+            if (!$account instanceof Account) {
+                throw new InvalidArgumentException(message: 'The array must contain Account objects.');
+            }
+        }
+
         $this->accounts = $accounts instanceof Traversable ? iterator_to_array($accounts) : $accounts;
-        $this->count = $accounts instanceof Countable || is_array($accounts) ? count($accounts) : 0;
+        $this->count = is_countable($accounts) ? count($accounts) : 0;
     }
 
     public function count(): int
@@ -32,16 +39,11 @@ class AccountCollection implements Countable, IteratorAggregate
         return $this->count;
     }
 
+    /**
+     * @return Traversable<int, Account>
+     */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->accounts);
-    }
-
-    /**
-     * @return array&array<int, Account>
-     */
-    public function all(): array
-    {
-        return $this->accounts;
     }
 }

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\GetAccountsByCriteria;
 
-use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
-use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use Traversable;
@@ -24,8 +22,8 @@ final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregat
 
     public function getIterator(): Traversable
     {
-        $callback = fn(Account $account) => new GetAccountsByCriteriaItem($account);
-
-        return new ArrayIterator(array_map(callback: $callback, array: $this->accounts->all()));
+        foreach ($this->accounts as $account) {
+            yield new GetAccountsByCriteriaItem($account);
+        }
     }
 }
