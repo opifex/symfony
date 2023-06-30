@@ -19,9 +19,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
 
     protected string $status = AccountStatus::CREATED;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $roles = [];
 
     protected ?DateTimeImmutable $createdAt = null;

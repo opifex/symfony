@@ -15,9 +15,7 @@ final class GetAccountByIdResponse
 
     public readonly string $status;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     public readonly array $roles;
 
     public readonly ?DateTimeImmutable $createdAt;
