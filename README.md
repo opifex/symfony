@@ -19,7 +19,7 @@ MAILER_DSN=smtp://mailcatcher:1025
 MESSENGER_TRANSPORT_DSN=amqp://rabbitmq:5672/%2f/messages
 REDIS_DSN=redis://redis:6379?timeout=1&read_timeout=1
 
-SYMFONY_IDE=idea://open?file=%f&line=%l&/opt/project/>/local/path/
+SYMFONY_IDE=idea://open?file=%f&line=%l&/opt/project>/local/path/
 ```
 
 Create `codeception.yml` with the following set of parameters.
