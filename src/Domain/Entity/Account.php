@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Contract\AccountInterface;
 use DateTimeImmutable;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Account implements UserInterface, PasswordAuthenticatedUserInterface
+class Account implements AccountInterface, UserInterface, PasswordAuthenticatedUserInterface
 {
     protected ?string $uuid = null;
 
