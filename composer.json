@@ -22,7 +22,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
         "lcobucci/jwt": "^4.3",
-        "nelmio/api-doc-bundle": "^4.11",
+        "nelmio/api-doc-bundle": "^4.12",
         "symfony/amqp-messenger": "6.3.*",
         "symfony/asset": "6.3.*",
         "symfony/console": "6.3.*",
