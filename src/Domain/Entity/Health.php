@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-class Health
+use App\Domain\Contract\HealthInterface;
+
+class Health implements HealthInterface
 {
     protected HealthStatus $status;
 
