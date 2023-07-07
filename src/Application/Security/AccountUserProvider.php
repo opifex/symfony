@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
+use App\Domain\Contract\AccountInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Entity\Account;
 use App\Domain\Exception\AccountNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -38,6 +38,6 @@ final class AccountUserProvider implements UserProviderInterface
 
     public function supportsClass(string $class): bool
     {
-        return $class === Account::class;
+        return is_subclass_of($class, class: AccountInterface::class);
     }
 }
