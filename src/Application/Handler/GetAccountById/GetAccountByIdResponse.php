@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\GetAccountById;
 
-use App\Domain\Entity\Account;
-use DateTimeImmutable;
+use App\Domain\Contract\AccountInterface;
+use DateTimeInterface;
 
 final class GetAccountByIdResponse
 {
@@ -18,11 +18,11 @@ final class GetAccountByIdResponse
     /** @var string[] */
     public readonly array $roles;
 
-    public readonly ?DateTimeImmutable $createdAt;
+    public readonly ?DateTimeInterface $createdAt;
 
-    public readonly ?DateTimeImmutable $updatedAt;
+    public readonly ?DateTimeInterface $updatedAt;
 
-    public function __construct(Account $account)
+    public function __construct(AccountInterface $account)
     {
         $this->createdAt = $account->getCreatedAt();
         $this->email = $account->getEmail();
