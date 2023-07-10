@@ -54,6 +54,7 @@ final class LifecycleAccountCest
         $updatedCredentials = [
             'email' => 'updated@example.com',
             'password' => 'password',
+            'roles' => [AccountRole::ROLE_USER],
         ];
 
         $searchParams = [
