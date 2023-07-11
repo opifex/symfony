@@ -15,12 +15,6 @@
     <field name="password" column="password" length="60"/>
     <field name="roles" column="roles" type="json"/>
     <field name="status" column="status" length="24"/>
-    <field name="updatedAt" column="updated_at" type="datetime_immutable"/>
-
-    <lifecycle-callbacks>
-      <lifecycle-callback type="prePersist" method="prePersistDateTime"/>
-      <lifecycle-callback type="preUpdate" method="preUpdateDateTime"/>
-    </lifecycle-callbacks>
   </entity>
 
 </doctrine-mapping>

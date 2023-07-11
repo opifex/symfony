@@ -18,7 +18,6 @@ final class Version20200101000000 extends AbstractMigration
         $table->addColumn(name: 'password', typeName: Types::STRING, options: ['length' => 60]);
         $table->addColumn(name: 'roles', typeName: Types::JSON);
         $table->addColumn(name: 'status', typeName: Types::STRING, options: ['length' => 24]);
-        $table->addColumn(name: 'updated_at', typeName: Types::DATETIME_IMMUTABLE);
         $table->addColumn(name: 'uuid', typeName: Types::GUID);
         $table->addUniqueIndex(['email']);
         $table->setPrimaryKey(columnNames: ['uuid']);

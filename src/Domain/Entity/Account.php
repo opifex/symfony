@@ -14,26 +14,18 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
 {
     protected ?string $uuid = null;
 
-    protected string $email = '';
-
-    protected string $password = '';
+    protected ?string $password = null;
 
     protected string $status = AccountStatus::CREATED;
 
-    /** @var string[] */
-    protected array $roles = [];
-
-    protected ?DateTimeImmutable $createdAt = null;
-
-    protected ?DateTimeImmutable $updatedAt = null;
+    protected DateTimeImmutable $createdAt;
 
     /**
      * @param string[] $roles
      */
-    public function __construct(string $email, array $roles = [])
+    public function __construct(protected string $email, protected array $roles = [])
     {
-        $this->email = $email;
-        $this->roles = $roles;
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getUuid(): string
@@ -53,7 +45,7 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -92,34 +84,17 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): ?DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
     public function getUserIdentifier(): string
     {
-        return $this->uuid ?? '';
+        return $this->getUuid();
     }
 
     public function eraseCredentials(): void
     {
-    }
-
-    public function prePersistDateTime(): void
-    {
-        $datetime = new DateTimeImmutable();
-        $this->createdAt = $datetime;
-        $this->updatedAt = $datetime;
-    }
-
-    public function preUpdateDateTime(): void
-    {
-        $this->updatedAt = new DateTimeImmutable();
     }
 }

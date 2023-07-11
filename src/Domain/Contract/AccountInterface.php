@@ -19,7 +19,5 @@ interface AccountInterface
      */
     public function getRoles(): array;
 
-    public function getCreatedAt(): ?DateTimeInterface;
-
-    public function getUpdatedAt(): ?DateTimeInterface;
+    public function getCreatedAt(): DateTimeInterface;
 }

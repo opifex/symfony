@@ -18,9 +18,7 @@ final class GetAccountsByCriteriaItem
     /** @var string[] */
     public readonly array $roles;
 
-    public readonly ?DateTimeInterface $createdAt;
-
-    public readonly ?DateTimeInterface $updatedAt;
+    public readonly DateTimeInterface $createdAt;
 
     public function __construct(AccountInterface $account)
     {
@@ -28,7 +26,6 @@ final class GetAccountsByCriteriaItem
         $this->email = $account->getEmail();
         $this->roles = $account->getRoles();
         $this->status = $account->getStatus();
-        $this->updatedAt = $account->getUpdatedAt();
         $this->uuid = $account->getUuid();
     }
 }

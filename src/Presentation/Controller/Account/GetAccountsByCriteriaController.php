@@ -43,7 +43,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                 name: 'sort',
                 description: 'Sorting field name',
                 in: 'query',
-                schema: new OA\Schema(type: 'string', enum: ['created_at', 'email', 'status', 'updated_at']),
+                schema: new OA\Schema(type: 'string', enum: ['created_at', 'email', 'status']),
             ),
             new OA\Parameter(
                 name: 'order',

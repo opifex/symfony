@@ -16,7 +16,7 @@ final class GetAccountsByCriteriaQuery
         #[Assert\Choice(choices: AccountStatus::LIST)]
         public readonly ?string $status = null,
 
-        #[Assert\Choice(choices: ['created_at', 'email', 'status', 'updated_at'])]
+        #[Assert\Choice(choices: ['created_at', 'email', 'status'])]
         public readonly string $sort = 'created_at',
 
         #[Assert\Choice(choices: ['asc', 'desc'])]
