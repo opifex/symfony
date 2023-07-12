@@ -19,8 +19,8 @@ class NormalizationFailedHttpException extends ValidationFailedHttpException
         if ($expected !== null && $path !== null) {
             $constraint->add(
                 new ConstraintViolation(
-                    message: 'This value should have a valid type.',
-                    messageTemplate: 'This value should be of type {type}.',
+                    message: 'This value should be of type {type}.',
+                    messageTemplate: null,
                     parameters: ['type' => implode(separator: ', ', array: $expected)],
                     root: $root,
                     propertyPath: $path,

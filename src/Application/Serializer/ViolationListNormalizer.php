@@ -83,12 +83,9 @@ final class ViolationListNormalizer implements NormalizerInterface
 
     private function formatViolationMessage(ConstraintViolationInterface $violation): string
     {
-        $messageTemplate = $violation->getMessageTemplate();
-
         $domain = self::TRANSLATOR_DOMAIN_VALIDATORS . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
-        $message = $messageTemplate !== '' ? $messageTemplate : (string)$violation->getMessage();
 
-        return $this->translator->trans($message, $violation->getParameters(), $domain);
+        return $this->translator->trans(strval($violation->getMessage()), $violation->getParameters(), $domain);
     }
 
     private function extractViolationObject(ConstraintViolationInterface $violation): ?string
