@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
 final class GetHealthStatusController extends AbstractController
@@ -34,7 +35,7 @@ final class GetHealthStatusController extends AbstractController
         path: '/api/health',
         name: __CLASS__,
         methods: Request::METHOD_GET,
-        format: 'json',
+        format: JsonEncoder::FORMAT,
     )]
     public function __invoke(#[MapRequestMessage] GetHealthStatusQuery $message): Envelope
     {
