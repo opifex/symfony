@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\Presentation\Command\SymfonyRunCommand;
 use Codeception\Test\Unit;
+use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
@@ -18,7 +19,7 @@ final class SymfonyRunCommandTest extends Unit
     protected function setUp(): void
     {
         $this->application = new Application();
-        $this->application->add(new SymfonyRunCommand());
+        $this->application->add(new SymfonyRunCommand(new MockClock()));
     }
 
     public function testExecuteWithSuccessResult(): void

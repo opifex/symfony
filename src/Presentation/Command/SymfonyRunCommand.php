@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Command;
 
+use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
@@ -15,6 +16,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'app:symfony:run', description: 'Symfony console command')]
 final class SymfonyRunCommand extends Command
 {
+    public function __construct(private ClockInterface $clock)
+    {
+        parent::__construct();
+    }
+
     protected function configure(): void
     {
         $this->addOption(
@@ -51,7 +57,7 @@ final class SymfonyRunCommand extends Command
 
         foreach ($console->progressIterate(array_pad([], length: $count, value: null)) as $item) {
             if ($item === null) {
-                sleep($delay);
+                $this->clock->sleep($delay);
             }
         }
 

@@ -7,7 +7,6 @@ namespace App\Infrastructure\Adapter;
 use App\Domain\Contract\JwtAdapterInterface;
 use App\Domain\Exception\JwtAdapterException;
 use DateInterval;
-use DateTimeImmutable;
 use Exception;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
@@ -21,6 +20,7 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use SensitiveParameter;
+use Symfony\Component\Clock\Clock;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\UuidV4;
 
@@ -63,7 +63,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
      */
     public function generateToken(UserInterface $user): string
     {
-        $time = new DateTimeImmutable();
+        $time = Clock::get()->now();
 
         return $this->configuration->builder()
             ->canOnlyBeUsedAfter($time)
