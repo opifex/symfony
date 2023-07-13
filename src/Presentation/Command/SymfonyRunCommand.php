@@ -32,7 +32,7 @@ final class SymfonyRunCommand extends Command
         $this->addOption(
             name: 'delay',
             mode: InputOption::VALUE_OPTIONAL,
-            description: 'Delay between iterations in seconds.',
+            description: 'Delay in seconds between iterations.',
             default: 1,
         );
     }
