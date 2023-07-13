@@ -75,24 +75,16 @@ final class RequestNormalizer implements NormalizerInterface
 
     private function transformTypes(mixed $data): mixed
     {
-        $cast = function (mixed $data): mixed {
-            return match (true) {
-                is_array($data) => $this->transformTypes($data),
-                is_null($data) || $data === 'null' => null,
-                is_bool($data) || $data === 'true' => (bool)$data,
-                is_scalar($data) => match (true) {
-                    $data === (string)(int)$data => (int)$data,
-                    $data === (string)(float)$data => (float)$data,
-                    $data === 'false' => false,
-                    default => $data,
-                },
-                default => $data,
-            };
-        };
-
         return match (true) {
-            is_scalar($data) => $cast($data),
-            is_array($data) => array_map(fn($item) => $cast($item), $data),
+            is_array($data) => array_map(fn($item) => $this->transformTypes($item), $data),
+            is_null($data) || $data === 'null' => null,
+            is_bool($data) || $data === 'true' => (bool)$data,
+            is_scalar($data) => match (true) {
+                $data === (string)(int)$data => (int)$data,
+                $data === (string)(float)$data => (float)$data,
+                $data === 'false' => false,
+                default => $data,
+            },
             default => $data,
         };
     }
