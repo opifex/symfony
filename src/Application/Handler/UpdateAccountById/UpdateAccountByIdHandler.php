@@ -31,8 +31,6 @@ final class UpdateAccountByIdHandler
             );
         }
 
-        $account->setRoles(roles: $message->roles ?? $account->getRoles());
-
         if ($message->email !== null && $message->email !== $account->getEmail()) {
             try {
                 $this->accountRepository->findOneByEmail($message->email);
@@ -42,6 +40,10 @@ final class UpdateAccountByIdHandler
             } catch (AccountNotFoundException) {
                 $account->setEmail($message->email);
             }
+        }
+
+        if ($message->roles !== null) {
+            $account->setRoles($message->roles);
         }
 
         if ($message->password !== null) {
