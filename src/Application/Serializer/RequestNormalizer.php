@@ -57,7 +57,6 @@ final class RequestNormalizer implements NormalizerInterface
     {
         return array_merge_recursive(
             $request->query->all(),
-            $request->request->all(),
             (array)$request->attributes->get(key: '_route_params'),
             $request->getContent() !== '' ? $request->toArray() : [],
         );
