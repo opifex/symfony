@@ -13,6 +13,7 @@ use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 use stdClass;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class HtmlTemplateEncoderTest extends Unit
 {
@@ -59,7 +60,7 @@ final class HtmlTemplateEncoderTest extends Unit
 
     public function testEncodeThrowsExceptionWithoutTemplate(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(NotFoundHttpException::class);
 
         $this->htmlTemplateEncoder->encode(data: [], format: HtmlTemplateEncoder::FORMAT);
     }
