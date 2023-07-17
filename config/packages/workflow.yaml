@@ -2,6 +2,8 @@ framework:
   workflows:
     account:
       type: state_machine
+      audit_trail:
+        enabled: '%kernel.debug%'
       marking_store:
         type: 'method'
         property: 'status'
