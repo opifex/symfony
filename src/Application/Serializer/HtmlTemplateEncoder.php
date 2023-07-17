@@ -6,7 +6,6 @@ namespace App\Application\Serializer;
 
 use App\Domain\Contract\TwigAdapterInterface;
 use App\Domain\Exception\TwigAdapterException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Exception\RuntimeException;
@@ -28,7 +27,7 @@ final class HtmlTemplateEncoder implements EncoderInterface
         }
 
         if (!is_string(value: $context[self::TEMPLATE] ?? null)) {
-            throw new NotFoundHttpException(message: 'Template expected to be a valid string.');
+            throw new InvalidArgumentException(message: 'Template expected to be a valid string.');
         }
 
         try {

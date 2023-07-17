@@ -50,13 +50,10 @@ final class ViewEventListener
                 $headers['X-Total-Count'] = count($result);
             }
 
-            $response = new Response(
-                content: $this->serializer->serialize($result, $format, $context),
-                status: $status ?? (empty($result) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK),
-                headers: $headers,
-            );
+            $status = $status ?? (empty($result) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK);
+            $content = $this->serializer->serialize($result, $format, $context);
 
-            $event->setResponse($response);
+            $event->setResponse(new Response($content, $status, $headers));
         }
     }
 }

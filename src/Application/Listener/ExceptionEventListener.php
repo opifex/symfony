@@ -41,11 +41,11 @@ final class ExceptionEventListener
         $exception = (array)$this->normalizer->normalize($throwable, Throwable::class);
         $this->logger->error('Kernel exception event.', $exception);
 
+        $headers = ['Content-Type' => 'application/json'];
         $status = $throwable instanceof HttpException ? $throwable->getStatusCode() : 500;
-        $format = $event->getRequest()->getPreferredFormat(default: JsonEncoder::FORMAT) ?? JsonEncoder::FORMAT;
         $context = [JsonEncode::OPTIONS => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT];
-        $response = new Response($this->serializer->serialize($exception, $format, $context), $status);
+        $content = $this->serializer->serialize($exception, format: JsonEncoder::FORMAT, context: $context);
 
-        $event->setResponse($response);
+        $event->setResponse(new Response($content, $status, $headers));
     }
 }
