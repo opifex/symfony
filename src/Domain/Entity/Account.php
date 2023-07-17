@@ -7,6 +7,7 @@ namespace App\Domain\Entity;
 use App\Domain\Contract\AccountInterface;
 use DateTimeImmutable;
 use SensitiveParameter;
+use Symfony\Component\Clock\Clock;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -25,7 +26,7 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
      */
     public function __construct(protected string $email, protected array $roles = [])
     {
-        $this->createdAt = new DateTimeImmutable();
+        $this->createdAt = Clock::get()->now();
     }
 
     public function getUuid(): string
