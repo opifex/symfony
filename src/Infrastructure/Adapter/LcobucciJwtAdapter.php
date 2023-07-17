@@ -22,7 +22,7 @@ use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use SensitiveParameter;
 use Symfony\Component\Clock\Clock;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Uid\UuidV4;
+use Symfony\Component\Uid\Uuid;
 
 final class LcobucciJwtAdapter implements JwtAdapterInterface
 {
@@ -68,7 +68,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
         return $this->configuration->builder()
             ->canOnlyBeUsedAfter($time)
             ->expiresAt($time->add($this->expiration))
-            ->identifiedBy((new UuidV4())->toRfc4122())
+            ->identifiedBy(Uuid::v4()->toRfc4122())
             ->issuedAt($time)
             ->relatedTo($user->getUserIdentifier())
             ->getToken($this->configuration->signer(), $this->configuration->signingKey())

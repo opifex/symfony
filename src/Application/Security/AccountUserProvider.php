@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Uid\UuidV6;
+use Symfony\Component\Uid\Uuid;
 
 final class AccountUserProvider implements UserProviderInterface
 {
@@ -22,7 +22,7 @@ final class AccountUserProvider implements UserProviderInterface
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         try {
-            return match (UuidV6::isValid($identifier)) {
+            return match (Uuid::isValid($identifier)) {
                 true => $this->accountRepository->findOneByUuid($identifier),
                 false => $this->accountRepository->findOneByEmail($identifier),
             };
