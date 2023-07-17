@@ -34,9 +34,10 @@ final class RequestMessageValueResolver implements ValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $attributeClass = MapRequestMessage::class;
-        $attributeFlags = ArgumentMetadata::IS_INSTANCEOF;
-        $attribute = $argument->getAttributesOfType($attributeClass, $attributeFlags)[0] ?? null;
+        $attribute = $argument->getAttributesOfType(
+            name: MapRequestMessage::class,
+            flags: ArgumentMetadata::IS_INSTANCEOF,
+        )[0] ?? null;
 
         if ($attribute instanceof MapRequestMessage) {
             $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
