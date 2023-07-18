@@ -12,7 +12,7 @@ final class ResponseEventListener
 {
     public function __invoke(ResponseEvent $event): void
     {
-        $uuid = $event->getRequest()->headers->get(key: 'X-Request-Id');
-        $event->getResponse()->headers->add(['X-Request-Id' => $uuid]);
+        $requestId = $event->getRequest()->headers->get(key: 'X-Request-Id');
+        $event->getResponse()->headers->add(['X-Request-Id' => $requestId]);
     }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 #[AsMonologProcessor]
 final class RequestIdProcessor
 {
-    private ?string $uuid = null;
+    private ?string $requestId = null;
 
     public function __construct(private RequestStack $requestStack)
     {
@@ -19,9 +19,10 @@ final class RequestIdProcessor
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $this->uuid ??= $this->requestStack->getMainRequest()?->headers->get(key: 'X-Request-Id');
+        $mainRequest = $this->requestStack->getMainRequest();
+        $this->requestId ??= $mainRequest?->headers->get(key: 'X-Request-Id');
 
-        $record->extra['uuid'] = $this->uuid ?? '';
+        $record->extra['uuid'] = $this->requestId ?? '';
 
         return $record;
     }

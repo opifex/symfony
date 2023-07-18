@@ -14,11 +14,11 @@ final class RequestEventListener
 {
     public function __invoke(RequestEvent $event): void
     {
-        $uuid = $event->getRequest()->headers->get(key: 'X-Request-Id');
+        $requestId = $event->getRequest()->headers->get(key: 'X-Request-Id');
 
         try {
-            $uuid = is_null($uuid) ? Uuid::v4() : Uuid::fromString($uuid);
-            $event->getRequest()->headers->add(['X-Request-Id' => $uuid]);
+            $requestId = is_null($requestId) ? Uuid::v4() : Uuid::fromString($requestId);
+            $event->getRequest()->headers->add(['X-Request-Id' => $requestId]);
         } catch (InvalidArgumentException) {
             $event->getRequest()->headers->add(['X-Request-Id' => Uuid::v4()]);
         }
