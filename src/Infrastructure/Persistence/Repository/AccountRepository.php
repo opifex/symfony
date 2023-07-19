@@ -77,8 +77,7 @@ class AccountRepository implements AccountRepositoryInterface
     public function findOneByUuid(string $uuid): Account
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->select(select: 'account');
-        $builder->from(from: Account::class, alias: 'account');
+        $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
         $builder->andWhere($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid);
 
