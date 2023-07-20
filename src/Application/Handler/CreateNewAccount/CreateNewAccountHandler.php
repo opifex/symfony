@@ -12,6 +12,7 @@ use App\Domain\Exception\AccountNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 #[AsMessageHandler(bus: 'command.bus')]
@@ -21,6 +22,7 @@ final class CreateNewAccountHandler
         private AccountFactoryInterface $accountFactory,
         private AccountRepositoryInterface $accountRepository,
         private EventDispatcherInterface $eventDispatcher,
+        private UserPasswordHasherInterface $userPasswordHasher,
         private WorkflowInterface $accountStateMachine,
     ) {
     }
@@ -33,11 +35,8 @@ final class CreateNewAccountHandler
                 message: 'Email address is already associated with another account.',
             );
         } catch (AccountNotFoundException) {
-            $account = $this->accountFactory->createCustomAccount(
-                email: $message->email,
-                password: $message->password,
-                roles: $message->roles,
-            );
+            $account = $this->accountFactory->createCustomAccount($message->email, $message->roles);
+            $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
             $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
             $this->accountRepository->persist($account);
             $this->eventDispatcher->dispatch(new AccountCreateEvent($account));

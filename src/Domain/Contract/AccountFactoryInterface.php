@@ -11,7 +11,7 @@ interface AccountFactoryInterface
     /**
      * @param string[] $roles
      */
-    public function createCustomAccount(string $email, string $password, array $roles): Account;
+    public function createCustomAccount(string $email, array $roles): Account;
 
-    public function createUserAccount(string $email, string $password): Account;
+    public function createUserAccount(string $email): Account;
 }
