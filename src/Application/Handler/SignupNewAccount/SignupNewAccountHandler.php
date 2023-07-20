@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\SignupNewAccount;
 
-use App\Domain\Contract\AccountFactoryInterface;
+use App\Application\Factory\AccountFactory;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Event\AccountCreateEvent;
 use App\Domain\Exception\AccountNotFoundException;
@@ -17,7 +17,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class SignupNewAccountHandler
 {
     public function __construct(
-        private AccountFactoryInterface $accountFactory,
         private AccountRepositoryInterface $accountRepository,
         private EventDispatcherInterface $eventDispatcher,
         private UserPasswordHasherInterface $userPasswordHasher,
@@ -32,7 +31,7 @@ final class SignupNewAccountHandler
                 message: 'Email address is already associated with another account.',
             );
         } catch (AccountNotFoundException) {
-            $account = $this->accountFactory->createUserAccount($message->email);
+            $account = AccountFactory::createUserAccount($message->email);
             $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
             $this->accountRepository->persist($account);
             $this->eventDispatcher->dispatch(new AccountCreateEvent($account));

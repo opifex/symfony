@@ -24,14 +24,6 @@ class MethodScopeSniff implements Sniff
             );
         }
 
-        if ($methodProperties['is_static'] === true) {
-            $phpcsFile->addError(
-                error: 'Declaring static methods are forbidden',
-                stackPtr: $stackPtr,
-                code: 'MethodScope',
-            );
-        }
-
         return $stackPtr + 1;
     }
 
