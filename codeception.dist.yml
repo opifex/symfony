@@ -18,7 +18,6 @@ coverage:
   exclude:
     - src/Infrastructure/Persistence/Fixture/*
     - src/Infrastructure/Persistence/Migration/*
-    - src/Presentation/Resources/*
 extensions:
   enabled:
     - Codeception\Extension\RunFailed
