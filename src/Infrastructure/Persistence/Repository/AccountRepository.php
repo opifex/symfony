@@ -8,6 +8,7 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountSearchCriteria;
+use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -41,7 +42,7 @@ class AccountRepository implements AccountRepositoryInterface
         if (!is_null($criteria->sort) && !is_null($criteria->order)) {
             $builder->orderBy(
                 sort: 'account.' . (new UnicodeString($criteria->sort))->camel()->toString(),
-                order: $criteria->order === 'desc' ? 'desc' : 'asc',
+                order: $criteria->order === SortingOrder::DESC ? SortingOrder::DESC : SortingOrder::ASC,
             );
         }
 

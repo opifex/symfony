@@ -8,7 +8,9 @@ use App\Application\Attribute\MapRequestMessage;
 use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaItem;
 use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountSorting;
 use App\Domain\Entity\AccountStatus;
+use App\Domain\Entity\SortingOrder;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -43,13 +45,13 @@ final class GetAccountsByCriteriaController extends AbstractController
                 name: 'sort',
                 description: 'Sorting field name',
                 in: 'query',
-                schema: new OA\Schema(type: 'string', enum: ['created_at', 'email', 'status']),
+                schema: new OA\Schema(type: 'string', enum: AccountSorting::LIST),
             ),
             new OA\Parameter(
                 name: 'order',
                 description: 'Sorting order direction',
                 in: 'query',
-                schema: new OA\Schema(type: 'string', enum: ['asc', 'desc']),
+                schema: new OA\Schema(type: 'string', enum: SortingOrder::LIST),
             ),
             new OA\Parameter(
                 name: 'limit',

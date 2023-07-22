@@ -6,7 +6,7 @@ namespace App\Domain\Entity;
 
 use App\Domain\Contract\HealthInterface;
 
-class Health implements HealthInterface
+final class Health implements HealthInterface
 {
     protected HealthStatus $status;
 

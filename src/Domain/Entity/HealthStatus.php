@@ -6,5 +6,5 @@ namespace App\Domain\Entity;
 
 enum HealthStatus: string
 {
-    case OK = 'OK';
+    case OK = 'ok';
 }

@@ -6,11 +6,11 @@ namespace App\Domain\Entity;
 
 final class AccountStatus
 {
-    public const BLOCKED = 'BLOCKED';
+    public const BLOCKED = 'blocked';
 
-    public const CREATED = 'CREATED';
+    public const CREATED = 'created';
 
-    public const VERIFIED = 'VERIFIED';
+    public const VERIFIED = 'verified';
 
     public const LIST = [
         self::BLOCKED,

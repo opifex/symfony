@@ -9,7 +9,7 @@ use Countable;
 use IteratorAggregate;
 use Traversable;
 
-class AccountCollection implements Countable, IteratorAggregate
+final class AccountCollection implements Countable, IteratorAggregate
 {
     /** @var Account[] */
     private readonly array $accounts;

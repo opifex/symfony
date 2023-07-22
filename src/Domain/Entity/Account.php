@@ -11,7 +11,7 @@ use Symfony\Component\Clock\Clock;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Account implements AccountInterface, UserInterface, PasswordAuthenticatedUserInterface
+final class Account implements AccountInterface, UserInterface, PasswordAuthenticatedUserInterface
 {
     protected ?string $uuid = null;
 
