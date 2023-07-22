@@ -8,7 +8,7 @@ use App\Application\Attribute\MapRequestMessage;
 use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaItem;
 use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
 use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\AccountSorting;
+use App\Domain\Entity\AccountSortFields;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SortingOrder;
 use App\Presentation\Controller\AbstractController;
@@ -45,7 +45,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                 name: 'sort',
                 description: 'Sorting field name',
                 in: 'query',
-                schema: new OA\Schema(type: 'string', enum: AccountSorting::LIST),
+                schema: new OA\Schema(type: 'string', enum: AccountSortFields::LIST),
             ),
             new OA\Parameter(
                 name: 'order',

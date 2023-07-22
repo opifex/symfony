@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-final class AccountSorting
+final class AccountSortFields
 {
     public const CREATED_AT = 'created_at';
 
