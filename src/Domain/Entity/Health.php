@@ -8,11 +8,8 @@ use App\Domain\Contract\HealthInterface;
 
 final class Health implements HealthInterface
 {
-    protected HealthStatus $status;
-
-    public function __construct(HealthStatus $status)
+    public function __construct(protected HealthStatus $status)
     {
-        $this->status = $status;
     }
 
     public function getStatus(): HealthStatus
