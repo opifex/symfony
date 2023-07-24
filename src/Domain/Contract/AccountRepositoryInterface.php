@@ -23,6 +23,9 @@ interface AccountRepositoryInterface
      */
     public function findOneByUuid(string $uuid): Account;
 
+    /**
+     * @throws AccountNotFoundException
+     */
     public function deleteByUuid(string $uuid): void;
 
     public function persist(Account $account): void;

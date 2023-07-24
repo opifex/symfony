@@ -19,14 +19,12 @@ final class DeleteAccountByIdHandler
     public function __invoke(DeleteAccountByIdCommand $message): void
     {
         try {
-            $account = $this->accountRepository->findOneByUuid($message->uuid);
+            $this->accountRepository->deleteByUuid($message->uuid);
         } catch (AccountNotFoundException $e) {
             throw new NotFoundHttpException(
                 message: 'Account with provided identifier not found.',
                 previous: $e,
             );
         }
-
-        $this->accountRepository->deleteByUuid($account->getUuid());
     }
 }

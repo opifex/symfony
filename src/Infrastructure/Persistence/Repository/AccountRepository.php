@@ -90,12 +90,16 @@ class AccountRepository implements AccountRepositoryInterface
         }
     }
 
+    /**
+     * @throws AccountNotFoundException
+     * @throws NonUniqueResultException
+     */
     public function deleteByUuid(string $uuid): void
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->delete()->from(from: Account::class, alias: 'account');
         $builder->andWhere($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid);
+        $builder->setParameter(key: 'uuid', value: $this->findOneByUuid($uuid)->getUuid());
         $builder->getQuery()->execute();
     }
 
