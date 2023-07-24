@@ -13,9 +13,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class Account implements AccountInterface, UserInterface, PasswordAuthenticatedUserInterface
 {
-    protected ?string $uuid = null;
+    protected string $uuid = '';
 
-    protected ?string $password = null;
+    protected string $password = '';
 
     protected string $status = AccountStatus::CREATED;
 
@@ -31,7 +31,7 @@ final class Account implements AccountInterface, UserInterface, PasswordAuthenti
 
     public function getUuid(): string
     {
-        return $this->uuid ?? '';
+        return $this->uuid;
     }
 
     public function getEmail(): string

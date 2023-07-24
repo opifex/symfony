@@ -23,7 +23,7 @@ interface AccountRepositoryInterface
      */
     public function findOneByUuid(string $uuid): Account;
 
-    public function persist(Account $account): void;
+    public function deleteByUuid(string $uuid): void;
 
-    public function remove(Account $account): void;
+    public function persist(Account $account): void;
 }

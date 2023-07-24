@@ -90,15 +90,18 @@ class AccountRepository implements AccountRepositoryInterface
         }
     }
 
+    public function deleteByUuid(string $uuid): void
+    {
+        $builder = $this->entityManager->createQueryBuilder();
+        $builder->delete()->from(from: Account::class, alias: 'account');
+        $builder->andWhere($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
+        $builder->setParameter(key: 'uuid', value: $uuid);
+        $builder->getQuery()->execute();
+    }
+
     public function persist(Account $account): void
     {
         $this->entityManager->persist($account);
-        $this->entityManager->flush();
-    }
-
-    public function remove(Account $account): void
-    {
-        $this->entityManager->remove($account);
         $this->entityManager->flush();
     }
 }

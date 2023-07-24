@@ -27,6 +27,6 @@ final class DeleteAccountByIdHandler
             );
         }
 
-        $this->accountRepository->remove($account);
+        $this->accountRepository->deleteByUuid($account->getUuid());
     }
 }
