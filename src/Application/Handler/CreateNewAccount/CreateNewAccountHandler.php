@@ -37,7 +37,7 @@ final class CreateNewAccountHandler
             $account = AccountFactory::createCustomAccount($message->email, $message->roles);
             $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
             $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
-            $this->accountRepository->persist($account);
+            $this->accountRepository->saveNewAccount($account);
             $this->eventDispatcher->dispatch(new AccountCreateEvent($account));
         }
     }

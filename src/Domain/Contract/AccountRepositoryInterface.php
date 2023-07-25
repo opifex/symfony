@@ -28,5 +28,5 @@ interface AccountRepositoryInterface
      */
     public function deleteByUuid(string $uuid): void;
 
-    public function persist(Account $account): void;
+    public function saveNewAccount(Account $account): void;
 }

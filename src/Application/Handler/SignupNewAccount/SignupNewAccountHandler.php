@@ -33,7 +33,7 @@ final class SignupNewAccountHandler
         } catch (AccountNotFoundException) {
             $account = AccountFactory::createUserAccount($message->email);
             $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
-            $this->accountRepository->persist($account);
+            $this->accountRepository->saveNewAccount($account);
             $this->eventDispatcher->dispatch(new AccountCreateEvent($account));
         }
     }

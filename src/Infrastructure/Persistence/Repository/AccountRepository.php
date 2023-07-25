@@ -103,7 +103,7 @@ class AccountRepository implements AccountRepositoryInterface
         $builder->getQuery()->execute();
     }
 
-    public function persist(Account $account): void
+    public function saveNewAccount(Account $account): void
     {
         $this->entityManager->persist($account);
         $this->entityManager->flush();
