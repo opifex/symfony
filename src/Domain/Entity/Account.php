@@ -15,17 +15,17 @@ final class Account implements AccountInterface, UserInterface, PasswordAuthenti
 {
     protected string $uuid = '';
 
-    protected string $password = '';
-
-    protected string $status = AccountStatus::CREATED;
-
     protected DateTimeImmutable $createdAt;
 
     /**
      * @param string[] $roles
      */
-    public function __construct(protected string $email, protected array $roles = [])
-    {
+    public function __construct(
+        protected string $email,
+        protected string $password = '',
+        protected string $status = AccountStatus::CREATED,
+        protected array $roles = [],
+    ) {
         $this->createdAt = Clock::get()->now();
     }
 

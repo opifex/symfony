@@ -42,8 +42,7 @@ final class AccountUserCheckerTest extends Unit
 
     public function testCheckPostAuthWithVerifiedAccount(): void
     {
-        $account = new Account(email: 'email@example.com');
-        $account->setStatus(status: AccountStatus::VERIFIED);
+        $account = new Account(email: 'email@example.com', status: AccountStatus::VERIFIED);
 
         $this->accountUserChecker->checkPostAuth($account);
 

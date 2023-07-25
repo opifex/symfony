@@ -18,20 +18,29 @@ final class AccountFixture extends Fixture implements FixtureInterface
     {
         $faker = Faker::create();
 
-        $adminAccount = new Account(email: 'admin@example.com', roles: [AccountRole::ROLE_ADMIN]);
-        $adminAccount->setPassword(password: '$2y$13$beiwKOPtxnMLiKkI9unBheZzzi1eTaW2o9uNrxiIL9DBsaOrjXswm');
-        $adminAccount->setStatus(status: AccountStatus::VERIFIED);
+        $adminAccount = new Account(
+            email: 'admin@example.com',
+            password: '$2y$13$beiwKOPtxnMLiKkI9unBheZzzi1eTaW2o9uNrxiIL9DBsaOrjXswm',
+            status: AccountStatus::VERIFIED,
+            roles: [AccountRole::ROLE_ADMIN],
+        );
         $manager->persist($adminAccount);
 
-        $userAccount = new Account(email: 'user@example.com', roles: [AccountRole::ROLE_USER]);
-        $userAccount->setPassword(password: '$2y$13$beiwKOPtxnMLiKkI9unBheZzzi1eTaW2o9uNrxiIL9DBsaOrjXswm');
-        $userAccount->setStatus(status: AccountStatus::VERIFIED);
+        $userAccount = new Account(
+            email: 'user@example.com',
+            password: '$2y$13$beiwKOPtxnMLiKkI9unBheZzzi1eTaW2o9uNrxiIL9DBsaOrjXswm',
+            status: AccountStatus::VERIFIED,
+            roles: [AccountRole::ROLE_USER],
+        );
         $manager->persist($userAccount);
 
         for ($index = 1; $index <= 10; $index++) {
-            $account = new Account($faker->email(), [AccountRole::ROLE_USER]);
-            $account->setPassword(password: '$2y$13$beiwKOPtxnMLiKkI9unBheZzzi1eTaW2o9uNrxiIL9DBsaOrjXswm');
-            $account->setStatus(status: AccountStatus::VERIFIED);
+            $account = new Account(
+                email: $faker->email(),
+                password: '$2y$13$beiwKOPtxnMLiKkI9unBheZzzi1eTaW2o9uNrxiIL9DBsaOrjXswm',
+                status: AccountStatus::VERIFIED,
+                roles: [AccountRole::ROLE_USER],
+            );
             $manager->persist($account);
         }
 

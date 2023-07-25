@@ -14,7 +14,7 @@ final class AccountFactory
      */
     public static function createCustomAccount(string $email, array $roles): Account
     {
-        return new Account($email, $roles);
+        return new Account($email, roles: $roles);
     }
 
     public static function createUserAccount(string $email): Account
