@@ -20,7 +20,6 @@ use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use SensitiveParameter;
-use Symfony\Component\Clock\Clock;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -63,7 +62,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
      */
     public function generateToken(UserInterface $user): string
     {
-        $time = Clock::get()->now();
+        $time = SystemClock::fromSystemTimezone()->now();
 
         return $this->configuration->builder()
             ->canOnlyBeUsedAfter($time)
