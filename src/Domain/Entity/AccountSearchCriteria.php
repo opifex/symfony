@@ -6,6 +6,18 @@ namespace App\Domain\Entity;
 
 final class AccountSearchCriteria
 {
+    public const FIELD_STATUS = 'status';
+
+    public const FIELD_CREATED_AT = 'created_at';
+
+    public const FIELD_EMAIL = 'email';
+
+    public const SORT_FIELDS_LIST = [
+        self::FIELD_CREATED_AT,
+        self::FIELD_EMAIL,
+        self::FIELD_STATUS,
+    ];
+
     public function __construct(
         public readonly ?string $email = null,
         public readonly ?string $status = null,
