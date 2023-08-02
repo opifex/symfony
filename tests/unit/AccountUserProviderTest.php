@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Application\Factory\AccountFactory;
 use App\Application\Security\AccountUserProvider;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
@@ -14,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Symfony\Component\Uid\UuidV6;
+use Symfony\Component\Uid\UuidV7;
 
 class AccountUserProviderTest extends Unit
 {
@@ -33,15 +34,14 @@ class AccountUserProviderTest extends Unit
 
     public function testLoadUserByIdentifierWithEmail(): void
     {
-        $email = 'email@example.com';
-        $account = new Account($email);
+        $account = AccountFactory::createUserAccount(email: 'email@example.com');
         $this->accountRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
-            ->with($email)
+            ->with($account->getEmail())
             ->willReturn($account);
 
-        $loadedUser = $this->accountUserProvider->loadUserByIdentifier($email);
+        $loadedUser = $this->accountUserProvider->loadUserByIdentifier($account->getEmail());
 
         $this->assertSame($account, $loadedUser);
     }
@@ -60,8 +60,8 @@ class AccountUserProviderTest extends Unit
 
     public function testLoadUserByIdentifierWithUuid(): void
     {
-        $uuid = new UuidV6();
-        $account = new Account(email: 'email@example.com');
+        $uuid = new UuidV7();
+        $account = AccountFactory::createUserAccount(email: 'email@example.com');
         $this->accountRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByUuid')
@@ -77,7 +77,8 @@ class AccountUserProviderTest extends Unit
     {
         $this->expectException(UnsupportedUserException::class);
 
-        $this->accountUserProvider->refreshUser(new Account(email: 'email@example.com'));
+        $account = AccountFactory::createUserAccount(email: 'email@example.com');
+        $this->accountUserProvider->refreshUser($account);
     }
 
     public function testSupportsClassWithMatchingClass(): void

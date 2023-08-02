@@ -5,11 +5,7 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
   <entity name="App\Domain\Entity\Account" table="account">
-    <id name="uuid" column="uuid" type="guid">
-      <custom-id-generator class="Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator"/>
-      <generator strategy="CUSTOM"/>
-    </id>
-
+    <id name="uuid" column="uuid" type="guid"/>
     <field name="createdAt" column="created_at" type="datetime_immutable" updatable="false"/>
     <field name="email" column="email" length="320" unique="true"/>
     <field name="password" column="password" length="60"/>

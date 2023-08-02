@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Application\Factory\AccountFactory;
 use App\Application\Security\AccountUserChecker;
-use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountStatus;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
@@ -25,7 +25,8 @@ final class AccountUserCheckerTest extends Unit
     {
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
-        $this->accountUserChecker->checkPostAuth(new Account(email: 'email@example.com'));
+        $account = AccountFactory::createUserAccount(email: 'email@example.com');
+        $this->accountUserChecker->checkPostAuth($account);
     }
 
     /**
@@ -42,8 +43,8 @@ final class AccountUserCheckerTest extends Unit
 
     public function testCheckPostAuthWithVerifiedAccount(): void
     {
-        $account = new Account(email: 'email@example.com', status: AccountStatus::VERIFIED);
-
+        $account = AccountFactory::createUserAccount(email: 'email@example.com');
+        $account->setStatus(status: AccountStatus::VERIFIED);
         $this->accountUserChecker->checkPostAuth($account);
 
         $this->expectNotToPerformAssertions();

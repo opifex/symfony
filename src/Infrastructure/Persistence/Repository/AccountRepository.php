@@ -9,8 +9,10 @@ use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\SortingOrder;
+use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -18,12 +20,8 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\String\UnicodeString;
 
 #[Autoconfigure(lazy: true)]
-class AccountRepository implements AccountRepositoryInterface
+class AccountRepository extends AbstractRepository implements AccountRepositoryInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
-    {
-    }
-
     public function findByCriteria(AccountSearchCriteria $criteria): AccountCollection
     {
         $builder = $this->entityManager->createQueryBuilder();
@@ -92,20 +90,29 @@ class AccountRepository implements AccountRepositoryInterface
 
     /**
      * @throws AccountNotFoundException
-     * @throws NonUniqueResultException
      */
     public function deleteByUuid(string $uuid): void
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->delete()->from(from: Account::class, alias: 'account');
         $builder->andWhere($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $this->findOneByUuid($uuid)->getUuid());
-        $builder->getQuery()->execute();
+        $builder->setParameter(key: 'uuid', value: $uuid);
+
+        if (!$builder->getQuery()->execute()) {
+            throw new AccountNotFoundException();
+        }
     }
 
+    /**
+     * @throws AccountAlreadyExistsException
+     * @throws Exception
+     */
     public function saveNewAccount(Account $account): void
     {
-        $this->entityManager->persist($account);
-        $this->entityManager->flush();
+        try {
+            $this->insertOne($account);
+        } catch (UniqueConstraintViolationException) {
+            throw new AccountAlreadyExistsException();
+        }
     }
 }

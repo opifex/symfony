@@ -7,7 +7,7 @@ namespace App\Application\Handler\SignupNewAccount;
 use App\Application\Factory\AccountFactory;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Event\AccountCreateEvent;
-use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Exception\AccountAlreadyExistsException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -25,16 +25,17 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountCommand $message): void
     {
+        $account = AccountFactory::createUserAccount($message->email);
+        $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
+
         try {
-            $this->accountRepository->findOneByEmail($message->email);
+            $this->accountRepository->saveNewAccount($account);
+        } catch (AccountAlreadyExistsException) {
             throw new ConflictHttpException(
                 message: 'Email address is already associated with another account.',
             );
-        } catch (AccountNotFoundException) {
-            $account = AccountFactory::createUserAccount($message->email);
-            $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
-            $this->accountRepository->saveNewAccount($account);
-            $this->eventDispatcher->dispatch(new AccountCreateEvent($account));
         }
+
+        $this->eventDispatcher->dispatch(new AccountCreateEvent($account));
     }
 }
