@@ -6,11 +6,9 @@ namespace App\Domain\Entity;
 
 final class AccountSearchCriteria
 {
-    public const FIELD_STATUS = 'status';
-
     public const FIELD_CREATED_AT = 'created_at';
-
     public const FIELD_EMAIL = 'email';
+    public const FIELD_STATUS = 'status';
 
     public const SORT_FIELDS_LIST = [
         self::FIELD_CREATED_AT,

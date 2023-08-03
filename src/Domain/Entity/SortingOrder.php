@@ -7,7 +7,6 @@ namespace App\Domain\Entity;
 final class SortingOrder
 {
     public const ASC = 'asc';
-
     public const DESC = 'desc';
 
     public const LIST = [
