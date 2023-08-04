@@ -20,7 +20,7 @@
         "ext-zip": "*",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.15",
+        "doctrine/orm": "^2.16",
         "lcobucci/jwt": "^4.3",
         "nelmio/api-doc-bundle": "^4.12",
         "symfony/amqp-messenger": "6.3.*",
