@@ -2036,16 +2036,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.23.0",
+            "version": "1.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "a2b24135c35852b348894320d47b3902a94bc494"
+                "reference": "846ae76eef31c6d7790fac9bc399ecee45160b26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/a2b24135c35852b348894320d47b3902a94bc494",
-                "reference": "a2b24135c35852b348894320d47b3902a94bc494",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/846ae76eef31c6d7790fac9bc399ecee45160b26",
+                "reference": "846ae76eef31c6d7790fac9bc399ecee45160b26",
                 "shasum": ""
             },
             "require": {
@@ -2077,9 +2077,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.23.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.23.1"
             },
-            "time": "2023-07-23T22:17:56+00:00"
+            "time": "2023-08-03T16:32:59+00:00"
         },
         {
             "name": "psr/cache",
@@ -9061,16 +9061,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "b635f279edd83fc275f822a1188157ffea568ff6"
+                "reference": "8bd7c33a0734ae1c5d074360512beb716bef3f77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/b635f279edd83fc275f822a1188157ffea568ff6",
-                "reference": "b635f279edd83fc275f822a1188157ffea568ff6",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/8bd7c33a0734ae1c5d074360512beb716bef3f77",
+                "reference": "8bd7c33a0734ae1c5d074360512beb716bef3f77",
                 "shasum": ""
             },
             "require": {
@@ -9157,7 +9157,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.5.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.6.0"
             },
             "funding": [
                 {
@@ -9173,7 +9173,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-17T16:11:26+00:00"
+            "time": "2023-08-03T15:06:02+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -10163,16 +10163,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.2.7",
+            "version": "10.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a215d9ee8bac1733796e4ddff3306811f14414e5"
+                "reference": "d442ce7c4104d5683c12e67e4dcb5058159e9804"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a215d9ee8bac1733796e4ddff3306811f14414e5",
-                "reference": "a215d9ee8bac1733796e4ddff3306811f14414e5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d442ce7c4104d5683c12e67e4dcb5058159e9804",
+                "reference": "d442ce7c4104d5683c12e67e4dcb5058159e9804",
                 "shasum": ""
             },
             "require": {
@@ -10212,7 +10212,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "10.2-dev"
+                    "dev-main": "10.3-dev"
                 }
             },
             "autoload": {
@@ -10244,7 +10244,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.2.7"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.3.1"
             },
             "funding": [
                 {
@@ -10260,7 +10260,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-02T06:46:08+00:00"
+            "time": "2023-08-04T06:48:08+00:00"
         },
         {
             "name": "psr/http-factory",
