@@ -13,6 +13,7 @@ use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -29,12 +30,12 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
 
         if (!is_null($criteria->email)) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
-            $builder->setParameter(key: 'email', value: '%' . $criteria->email . '%');
+            $builder->setParameter(key: 'email', value: '%' . $criteria->email . '%', type: Types::STRING);
         }
 
         if (!is_null($criteria->status)) {
             $builder->andWhere($builder->expr()->eq(x: 'account.status', y: ':status'));
-            $builder->setParameter(key: 'status', value: $criteria->status);
+            $builder->setParameter(key: 'status', value: $criteria->status, type: Types::STRING);
         }
 
         if (!is_null($criteria->sort) && !is_null($criteria->order)) {
@@ -59,7 +60,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
         $builder = $this->entityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
         $builder->andWhere($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email);
+        $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
 
         try {
             /** @var Account */
@@ -78,7 +79,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
         $builder = $this->entityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
         $builder->andWhere($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 
         try {
             /** @var Account */
@@ -96,7 +97,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
         $builder = $this->entityManager->createQueryBuilder();
         $builder->delete()->from(from: Account::class, alias: 'account');
         $builder->andWhere($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 
         if (!$builder->getQuery()->execute()) {
             throw new AccountNotFoundException();
@@ -111,8 +112,8 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     {
         try {
             $this->insertOne($account);
-        } catch (UniqueConstraintViolationException) {
-            throw new AccountAlreadyExistsException();
+        } catch (UniqueConstraintViolationException $e) {
+            throw new AccountAlreadyExistsException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }
