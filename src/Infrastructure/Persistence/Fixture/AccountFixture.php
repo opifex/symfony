@@ -11,6 +11,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
+use Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher;
 use Symfony\Component\Uid\Uuid;
 
 final class AccountFixture extends Fixture implements FixtureInterface
@@ -18,7 +19,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Faker::create();
-        $password = '$2y$13$beiwKOPtxnMLiKkI9unBheZzzi1eTaW2o9uNrxiIL9DBsaOrjXswm';
+        $password = (new NativePasswordHasher())->hash(plainPassword: 'password');
 
         $adminAccount = new Account(
             uuid: Uuid::v7()->toRfc4122(),
