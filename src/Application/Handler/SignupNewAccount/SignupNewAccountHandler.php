@@ -29,7 +29,7 @@ final class SignupNewAccountHandler
         $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
 
         try {
-            $this->accountRepository->saveNewAccount($account);
+            $this->accountRepository->insert($account);
         } catch (AccountAlreadyExistsException) {
             throw new ConflictHttpException(
                 message: 'Email address is already associated with another account.',

@@ -90,9 +90,22 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     }
 
     /**
+     * @throws AccountAlreadyExistsException
+     * @throws Exception
+     */
+    public function insert(Account $account): void
+    {
+        try {
+            $this->insertOne($account);
+        } catch (UniqueConstraintViolationException $e) {
+            throw new AccountAlreadyExistsException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
      * @throws AccountNotFoundException
      */
-    public function deleteByUuid(string $uuid): void
+    public function delete(string $uuid): void
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->delete()->from(from: Account::class, alias: 'account');
@@ -101,19 +114,6 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
 
         if (!$builder->getQuery()->execute()) {
             throw new AccountNotFoundException();
-        }
-    }
-
-    /**
-     * @throws AccountAlreadyExistsException
-     * @throws Exception
-     */
-    public function saveNewAccount(Account $account): void
-    {
-        try {
-            $this->insertOne($account);
-        } catch (UniqueConstraintViolationException $e) {
-            throw new AccountAlreadyExistsException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

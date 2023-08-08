@@ -25,12 +25,12 @@ interface AccountRepositoryInterface
     public function findOneByUuid(string $uuid): Account;
 
     /**
-     * @throws AccountNotFoundException
-     */
-    public function deleteByUuid(string $uuid): void;
-
-    /**
      * @throws AccountAlreadyExistsException
      */
-    public function saveNewAccount(Account $account): void;
+    public function insert(Account $account): void;
+
+    /**
+     * @throws AccountNotFoundException
+     */
+    public function delete(string $uuid): void;
 }

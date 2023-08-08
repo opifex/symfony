@@ -33,7 +33,7 @@ final class CreateNewAccountHandler
         $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
 
         try {
-            $this->accountRepository->saveNewAccount($account);
+            $this->accountRepository->insert($account);
         } catch (AccountAlreadyExistsException) {
             throw new ConflictHttpException(
                 message: 'Email address is already associated with another account.',
