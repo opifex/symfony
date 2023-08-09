@@ -8,7 +8,7 @@ use App\Domain\Contract\HealthInterface;
 
 final class Health implements HealthInterface
 {
-    public function __construct(protected HealthStatus $status)
+    public function __construct(private HealthStatus $status)
     {
     }
 

@@ -16,12 +16,12 @@ final class Account implements AccountInterface, UserInterface, PasswordAuthenti
      * @param string[] $roles
      */
     public function __construct(
-        protected string $uuid,
-        protected string $email,
-        protected string $password = '',
-        protected string $status = AccountStatus::CREATED,
-        protected array $roles = [],
-        protected DateTimeImmutable $createdAt = new DateTimeImmutable(),
+        private string $uuid,
+        private string $email,
+        private string $password = '',
+        private string $status = AccountStatus::CREATED,
+        private array $roles = [],
+        private DateTimeImmutable $createdAt = new DateTimeImmutable(),
     ) {
     }
 

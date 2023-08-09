@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 #[AsController]
 final class CreateNewAccountController extends AbstractController
 {
-    protected ?AccountCreateEvent $accountCreateEvent = null;
+    private ?AccountCreateEvent $accountCreateEvent = null;
 
     #[OA\Post(
         summary: 'Create new account',
