@@ -8,5 +8,5 @@ interface IdentityManagerInterface
 {
     public function getIdentifier(): ?string;
 
-    public function setIdentifier(string $identifier): self;
+    public function setIdentifier(?string $identifier): self;
 }
