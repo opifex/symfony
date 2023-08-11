@@ -13,7 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AsEventListener(event: MessageEvent::class)]
 final class MessageEventListener
 {
-    private const TRANSLATOR_DOMAIN_NOTIFICATIONS = 'notifications';
+    private const TRANSLATOR_DOMAIN = 'notifications';
 
     public function __construct(private TranslatorInterface $translator)
     {
@@ -27,7 +27,7 @@ final class MessageEventListener
             $subject = $message->getSubject() ?? '';
             $content = $message->getContext()['content'] ?? '';
             $locale = $message->getContext()['locale'] ?? $this->translator->getLocale();
-            $domain = self::TRANSLATOR_DOMAIN_NOTIFICATIONS . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
+            $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
 
             $message->subject($this->translator->trans($subject, $message->getContext(), $domain, $locale));
             $message->content($this->translator->trans($content, $message->getContext(), $domain, $locale));

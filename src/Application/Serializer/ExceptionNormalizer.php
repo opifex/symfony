@@ -15,7 +15,7 @@ use Throwable;
 
 final class ExceptionNormalizer implements NormalizerInterface
 {
-    private const TRANSLATOR_DOMAIN_EXCEPTIONS = 'exceptions';
+    private const TRANSLATOR_DOMAIN = 'exceptions';
 
     public function __construct(private KernelInterface $kernel)
     {
@@ -34,7 +34,7 @@ final class ExceptionNormalizer implements NormalizerInterface
             $object = new InvalidArgumentException(message: 'Object expected to be a valid exception type.');
         }
 
-        $domain = self::TRANSLATOR_DOMAIN_EXCEPTIONS . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
+        $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
 
         $exception = [
             'code' => $object instanceof HttpException ? $object->getStatusCode() : $object->getCode(),

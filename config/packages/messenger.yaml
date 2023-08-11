@@ -5,6 +5,7 @@ framework:
     buses:
       default.bus:
         middleware:
+          - App\Application\Messenger\IdentityMiddleware
           - App\Application\Messenger\LocaleMiddleware
       command.bus:
         middleware:

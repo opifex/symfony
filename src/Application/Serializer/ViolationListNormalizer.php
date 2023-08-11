@@ -15,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ViolationListNormalizer implements NormalizerInterface
 {
-    private const TRANSLATOR_DOMAIN_VALIDATORS = 'validators';
+    private const TRANSLATOR_DOMAIN = 'validators';
 
     public function __construct(
         private KernelInterface $kernel,
@@ -83,7 +83,7 @@ final class ViolationListNormalizer implements NormalizerInterface
 
     private function formatViolationMessage(ConstraintViolationInterface $violation): string
     {
-        $domain = self::TRANSLATOR_DOMAIN_VALIDATORS . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
+        $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
 
         return $this->translator->trans(strval($violation->getMessage()), $violation->getParameters(), $domain);
     }
