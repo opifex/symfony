@@ -17,11 +17,8 @@ final class ResponseEventListener
 
     public function __invoke(ResponseEvent $event): void
     {
-        if ($this->identityManager->getIdentifier() !== null) {
-            $event->getResponse()->headers->set(
-                key: 'X-Request-Id',
-                values: $this->identityManager->getIdentifier(),
-            );
-        }
+        $event->getResponse()->headers->add([
+            'X-Request-Id' => $this->identityManager->extractIdentifier(),
+        ]);
     }
 }

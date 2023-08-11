@@ -6,7 +6,9 @@ namespace App\Domain\Contract;
 
 interface IdentityManagerInterface
 {
-    public function getIdentifier(): ?string;
+    public function validateIdentifier(string $identifier): bool;
 
-    public function setIdentifier(?string $identifier): self;
+    public function changeIdentifier(string $identifier): void;
+
+    public function extractIdentifier(): string;
 }

@@ -5,20 +5,24 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Domain\Contract\IdentityManagerInterface;
+use Symfony\Component\Uid\Uuid;
 
 class RequestIdentityManager implements IdentityManagerInterface
 {
-    private ?string $identifier = null;
+    private ?Uuid $identifier = null;
 
-    public function getIdentifier(): ?string
+    public function validateIdentifier(string $identifier): bool
     {
-        return $this->identifier;
+        return Uuid::isValid($identifier);
     }
 
-    public function setIdentifier(?string $identifier): self
+    public function changeIdentifier(string $identifier): void
     {
-        $this->identifier = $identifier;
+        $this->identifier = Uuid::fromString($identifier);
+    }
 
-        return $this;
+    public function extractIdentifier(): string
+    {
+        return ($this->identifier ??= Uuid::v4())->toRfc4122();
     }
 }

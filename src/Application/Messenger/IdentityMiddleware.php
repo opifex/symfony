@@ -18,10 +18,10 @@ final class IdentityMiddleware implements MiddlewareInterface
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
         $identityStamp = $envelope->last(stampFqcn: IdentityStamp::class);
-        $identityStamp ??= new IdentityStamp($this->identityManager->getIdentifier());
+        $identityStamp ??= new IdentityStamp($this->identityManager->extractIdentifier());
         $envelope = $envelope->withoutAll(stampFqcn: IdentityStamp::class)->with($identityStamp);
 
-        $this->identityManager->setIdentifier($identityStamp->getIdentifier());
+        $this->identityManager->changeIdentifier($identityStamp->getIdentifier());
 
         return $stack->next()->handle($envelope, $stack);
     }

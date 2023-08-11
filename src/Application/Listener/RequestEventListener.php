@@ -7,7 +7,6 @@ namespace App\Application\Listener;
 use App\Domain\Contract\IdentityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\Uid\Uuid;
 
 #[AsEventListener(event: RequestEvent::class, priority: 4096)]
 final class RequestEventListener
@@ -18,9 +17,10 @@ final class RequestEventListener
 
     public function __invoke(RequestEvent $event): void
     {
-        $identityHeader = $event->getRequest()->headers->get(key: 'X-Request-Id') ?? '';
-        $requestIdentifier = Uuid::isValid($identityHeader) ? Uuid::fromString($identityHeader) : Uuid::v4();
+        $identifier = strval($event->getRequest()->headers->get(key: 'X-Request-Id'));
 
-        $this->identityManager->setIdentifier($requestIdentifier->toRfc4122());
+        if ($this->identityManager->validateIdentifier($identifier)) {
+            $this->identityManager->changeIdentifier($identifier);
+        }
     }
 }

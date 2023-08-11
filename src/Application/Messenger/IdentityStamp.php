@@ -8,11 +8,11 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
 
 final class IdentityStamp implements StampInterface
 {
-    public function __construct(private ?string $identifier)
+    public function __construct(private string $identifier)
     {
     }
 
-    public function getIdentifier(): ?string
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }

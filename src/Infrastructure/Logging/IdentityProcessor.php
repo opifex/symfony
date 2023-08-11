@@ -17,7 +17,7 @@ final class IdentityProcessor
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $record->extra['uuid'] = $this->identityManager->getIdentifier();
+        $record->extra['uuid'] = $this->identityManager->extractIdentifier();
 
         return $record;
     }
