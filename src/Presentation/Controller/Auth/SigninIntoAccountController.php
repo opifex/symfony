@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Application\Handler\SigninIntoAccount\SigninIntoAccountCommand;
 use App\Application\Messenger\ResponseStamp;
 use App\Presentation\Controller\AbstractController;
@@ -51,7 +51,7 @@ final class SigninIntoAccountController extends AbstractController
         methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]
-    public function __invoke(#[MapRequestMessage] SigninIntoAccountCommand $message): Envelope
+    public function __invoke(#[MapMessage] SigninIntoAccountCommand $message): Envelope
     {
         return $this->commandBus->dispatch($message)->with(
             new ResponseStamp(headers: [

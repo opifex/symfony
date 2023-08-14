@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Application\Handler\ApplyAccountAction\ApplyAccountActionCommand;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
@@ -49,7 +49,7 @@ final class ApplyAccountActionController extends AbstractController
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapRequestMessage] ApplyAccountActionCommand $message): Envelope
+    public function __invoke(#[MapMessage] ApplyAccountActionCommand $message): Envelope
     {
         return $this->commandBus->dispatch($message);
     }

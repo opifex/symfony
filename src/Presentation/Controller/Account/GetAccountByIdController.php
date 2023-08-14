@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Application\Handler\GetAccountById\GetAccountByIdQuery;
 use App\Application\Handler\GetAccountById\GetAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
@@ -46,7 +46,7 @@ final class GetAccountByIdController extends AbstractController
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapRequestMessage] GetAccountByIdQuery $message): Envelope
+    public function __invoke(#[MapMessage] GetAccountByIdQuery $message): Envelope
     {
         return $this->queryBus->dispatch($message);
     }

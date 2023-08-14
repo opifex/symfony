@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaItem;
 use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
 use App\Domain\Entity\AccountRole;
@@ -92,7 +92,7 @@ final class GetAccountsByCriteriaController extends AbstractController
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapRequestMessage] GetAccountsByCriteriaQuery $message): Envelope
+    public function __invoke(#[MapMessage] GetAccountsByCriteriaQuery $message): Envelope
     {
         return $this->queryBus->dispatch($message);
     }

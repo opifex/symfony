@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 #[AsMonologProcessor]
-final class AuthorizationProcessor
+final class TokenProcessor
 {
     public function __construct(private TokenStorageInterface $tokenStorage)
     {

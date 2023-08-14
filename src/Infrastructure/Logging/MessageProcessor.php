@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Logging;
 
-use App\Domain\Contract\IdentityManagerInterface;
+use App\Domain\Contract\MessageIdentifierInterface;
 use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 
 #[AsMonologProcessor]
-final class RequestProcessor
+final class MessageProcessor
 {
-    public function __construct(private IdentityManagerInterface $identityManager)
+    public function __construct(private MessageIdentifierInterface $messageIdentifier)
     {
     }
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $record->extra['request'] = $this->identityManager->extractIdentifier();
+        $record->extra['message'] = $this->messageIdentifier->identify();
 
         return $record;
     }

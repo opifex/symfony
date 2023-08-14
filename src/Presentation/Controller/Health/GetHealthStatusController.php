@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Health;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Application\Handler\GetHealthStatus\GetHealthStatusQuery;
 use App\Application\Handler\GetHealthStatus\GetHealthStatusResponse;
 use App\Presentation\Controller\AbstractController;
@@ -37,7 +37,7 @@ final class GetHealthStatusController extends AbstractController
         methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]
-    public function __invoke(#[MapRequestMessage] GetHealthStatusQuery $message): Envelope
+    public function __invoke(#[MapMessage] GetHealthStatusQuery $message): Envelope
     {
         return $this->queryBus->dispatch($message);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Application\Handler\SignupNewAccount\SignupNewAccountCommand;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -41,7 +41,7 @@ final class SignupNewAccountController extends AbstractController
         methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]
-    public function __invoke(#[MapRequestMessage] SignupNewAccountCommand $message): Envelope
+    public function __invoke(#[MapMessage] SignupNewAccountCommand $message): Envelope
     {
         return $this->commandBus->dispatch($message);
     }

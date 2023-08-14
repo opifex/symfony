@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Application\Handler\CreateNewAccount\CreateNewAccountCommand;
 use App\Application\Messenger\ResponseStamp;
 use App\Domain\Entity\AccountRole;
@@ -64,7 +64,7 @@ final class CreateNewAccountController extends AbstractController
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapRequestMessage] CreateNewAccountCommand $message): Envelope
+    public function __invoke(#[MapMessage] CreateNewAccountCommand $message): Envelope
     {
         $this->eventDispatcher->addListener(
             eventName: AccountCreateEvent::class,

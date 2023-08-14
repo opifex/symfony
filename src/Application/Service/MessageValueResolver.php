@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Domain\Exception\ExtraAttributesHttpException;
 use App\Domain\Exception\NormalizationFailedHttpException;
 use App\Domain\Exception\ValidationFailedHttpException;
@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class RequestMessageValueResolver implements ValueResolverInterface
+final class MessageValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private DenormalizerInterface $denormalizer,
@@ -35,11 +35,11 @@ final class RequestMessageValueResolver implements ValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $attribute = $argument->getAttributesOfType(
-            name: MapRequestMessage::class,
+            name: MapMessage::class,
             flags: ArgumentMetadata::IS_INSTANCEOF,
         )[0] ?? null;
 
-        if ($attribute instanceof MapRequestMessage) {
+        if ($attribute instanceof MapMessage) {
             $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
             $parameters = $this->normalizer->normalize($request);
             $attributeType = strval($argument->getType());

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Application\Attribute\MapRequestMessage;
+use App\Application\Attribute\MapMessage;
 use App\Application\Handler\GetSigninAccount\GetSigninAccountQuery;
 use App\Application\Handler\GetSigninAccount\GetSigninAccountResponse;
 use App\Presentation\Controller\AbstractController;
@@ -42,7 +42,7 @@ final class GetSigninAccountController extends AbstractController
         format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapRequestMessage] GetSigninAccountQuery $message): Envelope
+    public function __invoke(#[MapMessage] GetSigninAccountQuery $message): Envelope
     {
         return $this->queryBus->dispatch($message);
     }
