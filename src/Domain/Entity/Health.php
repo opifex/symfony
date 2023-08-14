@@ -6,7 +6,7 @@ namespace App\Domain\Entity;
 
 use App\Domain\Contract\HealthInterface;
 
-final class Health implements HealthInterface
+class Health implements HealthInterface
 {
     public function __construct(private HealthStatus $status)
     {

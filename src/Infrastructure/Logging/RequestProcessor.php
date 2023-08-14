@@ -9,7 +9,7 @@ use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 
 #[AsMonologProcessor]
-final class IdentityProcessor
+final class RequestProcessor
 {
     public function __construct(private IdentityManagerInterface $identityManager)
     {
@@ -17,7 +17,7 @@ final class IdentityProcessor
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $record->extra['uuid'] = $this->identityManager->extractIdentifier();
+        $record->extra['request'] = $this->identityManager->extractIdentifier();
 
         return $record;
     }

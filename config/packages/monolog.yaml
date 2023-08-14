@@ -33,5 +33,5 @@ when@prod:
         type: stream
         level: debug
         path: php://stdout
-        channels: [ '!deprecation', '!doctrine', '!event', '!messenger', '!php', '!security' ]
+        channels: [ '!deprecation', '!doctrine', '!event', '!php', '!security' ]
         formatter: monolog.formatter.json

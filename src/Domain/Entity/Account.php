@@ -10,7 +10,7 @@ use SensitiveParameter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class Account implements AccountInterface, UserInterface, PasswordAuthenticatedUserInterface
+class Account implements AccountInterface, UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @param string[] $roles
