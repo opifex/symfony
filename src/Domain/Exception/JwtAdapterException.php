@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Exception;
 
-use Exception;
+use RuntimeException;
 
-class JwtAdapterException extends Exception
+class JwtAdapterException extends RuntimeException
 {
 }

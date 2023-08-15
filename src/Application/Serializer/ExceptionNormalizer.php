@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use App\Domain\Exception\ValidationFailedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use App\Domain\Exception\ValidationFailedException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatableMessage;
+use Symfony\Component\Uid\Uuid;
 use Throwable;
 
 final class ExceptionNormalizer implements NormalizerInterface
 {
     private const TRANSLATOR_DOMAIN = 'exceptions';
+    private const EXCEPTION_IDENTIFIER = 'd2a601f6-41eb-5a1f-90c1-8bbf2b5a8354';
 
     public function __construct(private KernelInterface $kernel)
     {
@@ -37,11 +38,11 @@ final class ExceptionNormalizer implements NormalizerInterface
         $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
 
         $exception = [
-            'code' => $object instanceof HttpException ? $object->getStatusCode() : $object->getCode(),
+            'code' => Uuid::v5(Uuid::fromString(uuid: self::EXCEPTION_IDENTIFIER), $object::class),
             'message' => new TranslatableMessage($object->getMessage(), domain: $domain),
         ];
 
-        if ($object instanceof ValidationFailedHttpException) {
+        if ($object instanceof ValidationFailedException) {
             $exception['violations'] = $object->getViolations();
         }
 

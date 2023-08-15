@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Exception;
 
-use Exception;
+use RuntimeException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
-class AccountNotFoundException extends Exception
+#[WithHttpStatus(statusCode: Response::HTTP_NOT_FOUND)]
+class AccountNotFoundException extends RuntimeException
 {
 }

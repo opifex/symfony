@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Listener\ExceptionEventListener;
-use App\Domain\Exception\ValidationFailedHttpException;
+use App\Domain\Exception\ValidationFailedException;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use ReflectionException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -43,6 +44,7 @@ final class ExceptionEventListenerTest extends Unit
 
     /**
      * @throws ExceptionInterface
+     * @throws ReflectionException
      */
     public function testInvokeWithKernelNonDebugMode(): void
     {
@@ -80,7 +82,7 @@ final class ExceptionEventListenerTest extends Unit
             kernel: $this->kernel,
             request: new Request(),
             requestType: HttpKernelInterface::MAIN_REQUEST,
-            e: new ValidationFailedHttpException($constraintViolationList),
+            e: new ValidationFailedException($constraintViolationList),
         );
 
         ($exceptionEventListener)($exceptionEvent);

@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Exception;
 
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class ValidationFailedHttpException extends HttpException
+#[WithHttpStatus(statusCode: Response::HTTP_BAD_REQUEST)]
+class ValidationFailedException extends RuntimeException
 {
     public function __construct(private ConstraintViolationListInterface $violations)
     {
-        parent::__construct(statusCode: Response::HTTP_BAD_REQUEST, message: 'Parameters validation failed.');
+        parent::__construct(message: 'Parameters validation failed.');
     }
 
     public function getViolations(): ConstraintViolationListInterface

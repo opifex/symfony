@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Application\Attribute\MapMessage;
-use App\Domain\Exception\ExtraAttributesHttpException;
-use App\Domain\Exception\NormalizationFailedHttpException;
-use App\Domain\Exception\ValidationFailedHttpException;
+use App\Domain\Exception\ExtraParametersException;
+use App\Domain\Exception\NormalizationFailedException;
+use App\Domain\Exception\ValidationFailedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -34,10 +34,7 @@ final class MessageValueResolver implements ValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $attribute = $argument->getAttributesOfType(
-            name: MapMessage::class,
-            flags: ArgumentMetadata::IS_INSTANCEOF,
-        )[0] ?? null;
+        $attribute = $argument->getAttributesOfType(name: MapMessage::class)[0] ?? null;
 
         if ($attribute instanceof MapMessage) {
             $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
@@ -47,15 +44,15 @@ final class MessageValueResolver implements ValueResolverInterface
             try {
                 $message = $this->denormalizer->denormalize($parameters, $attributeType, context: $context);
             } catch (ExtraAttributesException $e) {
-                throw new ExtraAttributesHttpException($e->getExtraAttributes(), $attributeType);
+                throw new ExtraParametersException($e->getExtraAttributes(), $attributeType);
             } catch (NotNormalizableValueException $e) {
-                throw new NormalizationFailedHttpException($e->getExpectedTypes(), $e->getPath(), $attributeType);
+                throw new NormalizationFailedException($e->getExpectedTypes(), $e->getPath(), $attributeType);
             }
 
             $violations = $this->validator->validate($message);
 
             if ($violations->count()) {
-                throw new ValidationFailedHttpException($violations);
+                throw new ValidationFailedException($violations);
             }
         }
 

@@ -66,7 +66,10 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
             /** @var Account */
             return $builder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
-            throw new AccountNotFoundException($e->getMessage(), $e->getCode(), $e);
+            throw new AccountNotFoundException(
+                message: 'Account with provided identifier not found.',
+                previous: $e,
+            );
         }
     }
 
@@ -85,7 +88,10 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
             /** @var Account */
             return $builder->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
-            throw new AccountNotFoundException($e->getMessage(), $e->getCode(), $e);
+            throw new AccountNotFoundException(
+                message: 'Account with provided identifier not found.',
+                previous: $e,
+            );
         }
     }
 
@@ -98,7 +104,10 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
         try {
             $this->insertOne($account);
         } catch (UniqueConstraintViolationException $e) {
-            throw new AccountAlreadyExistsException($e->getMessage(), $e->getCode(), $e);
+            throw new AccountAlreadyExistsException(
+                message: 'Email address is already associated with another account.',
+                previous: $e,
+            );
         }
     }
 
@@ -113,7 +122,9 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 
         if (!$builder->getQuery()->execute()) {
-            throw new AccountNotFoundException();
+            throw new AccountNotFoundException(
+                message: 'Account with provided identifier not found.',
+            );
         }
     }
 }
