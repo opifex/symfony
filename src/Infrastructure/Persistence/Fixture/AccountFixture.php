@@ -12,18 +12,18 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
 use Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher;
-use Symfony\Component\Uid\Uuid;
 
 final class AccountFixture extends Fixture implements FixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
         $faker = Faker::create();
-        $password = (new NativePasswordHasher())->hash(plainPassword: 'password');
+        $passwordHasher = new NativePasswordHasher();
+        $password = $passwordHasher->hash(plainPassword: 'password');
 
         $adminAccount = new Account(
-            uuid: Uuid::v7()->toRfc4122(),
-            email: 'admin@example.com',
+            uuid: $faker->unique()->uuid(),
+            email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $password,
             status: AccountStatus::VERIFIED,
             roles: [AccountRole::ROLE_ADMIN],
@@ -31,8 +31,8 @@ final class AccountFixture extends Fixture implements FixtureInterface
         $manager->persist($adminAccount);
 
         $userAccount = new Account(
-            uuid: Uuid::v7()->toRfc4122(),
-            email: 'user@example.com',
+            uuid: $faker->unique()->uuid(),
+            email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $password,
             status: AccountStatus::VERIFIED,
             roles: [AccountRole::ROLE_USER],
@@ -41,10 +41,10 @@ final class AccountFixture extends Fixture implements FixtureInterface
 
         for ($index = 1; $index <= 10; $index++) {
             $account = new Account(
-                uuid: Uuid::v7()->toRfc4122(),
-                email: $faker->email(),
+                uuid: $faker->unique()->uuid(),
+                email: $faker->unique()->email(),
                 password: $password,
-                status: AccountStatus::VERIFIED,
+                status: $faker->bothify($faker->randomElement(array: AccountStatus::LIST)),
                 roles: [AccountRole::ROLE_USER],
             );
             $manager->persist($account);
