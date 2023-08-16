@@ -6,7 +6,7 @@ namespace App\Application\Messenger;
 
 use Symfony\Component\Messenger\Stamp\StampInterface;
 
-final class IdentityStamp implements StampInterface
+final class IdentifierStamp implements StampInterface
 {
     public function __construct(private string $identifier)
     {
