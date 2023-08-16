@@ -12,6 +12,8 @@ final class GetHealthStatusHandler
 {
     public function __invoke(GetHealthStatusQuery $message): GetHealthStatusResponse
     {
-        return new GetHealthStatusResponse(HealthFactory::createAliveHealth());
+        $health = HealthFactory::createAliveHealth();
+
+        return new GetHealthStatusResponse($health);
     }
 }
