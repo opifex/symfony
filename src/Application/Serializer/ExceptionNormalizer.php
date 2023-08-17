@@ -35,11 +35,9 @@ final class ExceptionNormalizer implements NormalizerInterface
             $object = new InvalidArgumentException(message: 'Object expected to be a valid exception type.');
         }
 
-        $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
-
         $exception = [
-            'code' => Uuid::v5(Uuid::fromString(uuid: self::EXCEPTION_IDENTIFIER), $object::class),
-            'message' => new TranslatableMessage($object->getMessage(), domain: $domain),
+            'code' => $this->generateExceptionCode($object),
+            'message' => $this->localizeExceptionMessage($object),
         ];
 
         if ($object instanceof ValidationFailedException) {
@@ -73,5 +71,17 @@ final class ExceptionNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [Throwable::class => true];
+    }
+
+    private function generateExceptionCode(Throwable $object): Uuid
+    {
+        return Uuid::v5(Uuid::fromString(uuid: self::EXCEPTION_IDENTIFIER), $object::class);
+    }
+
+    private function localizeExceptionMessage(Throwable $object): TranslatableMessage
+    {
+        $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
+
+        return new TranslatableMessage($object->getMessage(), domain: $domain);
     }
 }
