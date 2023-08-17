@@ -25,7 +25,7 @@ abstract class AbstractRepository
         foreach ($classMetadata->getFieldNames() as $fieldName) {
             $tableFields[$classMetadata->getColumnName($fieldName)] = $convertToDatabaseValue(
                 value: $classMetadata->getFieldValue($entity, $fieldName),
-                type: strval($classMetadata->getTypeOfField($fieldName)),
+                type: $classMetadata->getTypeOfField($fieldName) ?? '',
             );
         }
 
