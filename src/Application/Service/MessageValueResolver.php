@@ -39,7 +39,7 @@ final class MessageValueResolver implements ValueResolverInterface
         if ($attribute instanceof MapMessage) {
             $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
             $parameters = $this->normalizer->normalize($request);
-            $attributeType = strval($argument->getType());
+            $attributeType = $argument->getType() ?? '';
 
             try {
                 $message = $this->denormalizer->denormalize($parameters, $attributeType, context: $context);

@@ -17,7 +17,7 @@ final class RequestEventListener
 
     public function __invoke(RequestEvent $event): void
     {
-        $identifier = strval($event->getRequest()->headers->get(key: 'X-Request-Id'));
+        $identifier = $event->getRequest()->headers->get(key: 'X-Request-Id') ?? '';
 
         if ($this->messageIdentifier->validate($identifier)) {
             $this->messageIdentifier->replace($identifier);
