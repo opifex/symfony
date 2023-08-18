@@ -23,11 +23,11 @@ final class RequestNormalizer implements NormalizerInterface
             throw new InvalidArgumentException(message: 'Object expected to be a valid request type.');
         }
 
-        $parameters = $this->extractParameters($object);
-        $parameters = $this->filterParameters($parameters);
-        $parameters = $this->transformTypes($parameters);
+        $params = $this->extractParams($object);
+        $params = $this->filterParams($params);
+        $params = $this->transformTypes($params);
 
-        return is_array($parameters) ? $parameters : [];
+        return is_array($params) ? $params : [];
     }
 
     /**
@@ -53,7 +53,7 @@ final class RequestNormalizer implements NormalizerInterface
     /**
      * @return array<string, mixed>
      */
-    private function extractParameters(Request $request): array
+    private function extractParams(Request $request): array
     {
         return array_merge_recursive(
             $request->query->all(),
@@ -63,28 +63,28 @@ final class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array&array<string, mixed> $data
+     * @param array&array<string, mixed> $params
      *
      * @return array<string, mixed>
      */
-    private function filterParameters(array $data): array
+    private function filterParams(array $params): array
     {
-        return array_filter($data, fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
+        return array_filter($params, fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
     }
 
-    private function transformTypes(mixed $data): mixed
+    private function transformTypes(mixed $params): mixed
     {
         return match (true) {
-            is_scalar($data) => match (true) {
-                $data === strval(intval($data)) => intval($data),
-                $data === strval(floatval($data)) => floatval($data),
-                $data === 'true' || is_bool($data) => boolval($data),
-                $data === 'false' => false,
-                $data === 'null' => null,
-                default => $data,
+            is_scalar($params) => match (true) {
+                $params === strval(intval($params)) => intval($params),
+                $params === strval(floatval($params)) => floatval($params),
+                $params === 'true' || is_bool($params) => boolval($params),
+                $params === 'false' => false,
+                $params === 'null' => null,
+                default => $params,
             },
-            is_array($data) => array_map(fn($item) => $this->transformTypes($item), $data),
-            default => $data,
+            is_array($params) => array_map(fn($item) => $this->transformTypes($item), $params),
+            default => $params,
         };
     }
 }

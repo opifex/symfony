@@ -11,7 +11,6 @@ interface TwigAdapterInterface
     /**
      * @param string $name
      * @param array&array<string, mixed> $context
-     *
      * @throws TwigAdapterException
      */
     public function render(string $name, array $context = []): string;

@@ -21,7 +21,10 @@ final class AuthorizationProcessor
         $token = $this->tokenStorage->getToken();
 
         if ($token instanceof TokenInterface) {
-            $record->extra['authorization'] = $token->getUserIdentifier();
+            $record->extra['authorization'] = [
+                'user' => $token->getUserIdentifier(),
+                'roles' => $token->getRoleNames(),
+            ];
         }
 
         return $record;

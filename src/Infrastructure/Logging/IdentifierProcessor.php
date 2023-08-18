@@ -9,15 +9,18 @@ use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 
 #[AsMonologProcessor]
-final class MessageProcessor
+final class IdentifierProcessor
 {
+    private string $identifier;
+
     public function __construct(private MessageIdentifierInterface $messageIdentifier)
     {
+        $this->identifier = $this->messageIdentifier->identify();
     }
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $record->extra['message'] = $this->messageIdentifier->identify();
+        $record->extra['identifier'] = $this->identifier;
 
         return $record;
     }
