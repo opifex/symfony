@@ -28,7 +28,7 @@ final class ExceptionNormalizerTest extends Unit
     {
         $normalized = $this->exceptionNormalizer->normalize(object: null);
 
-        $this->assertArrayHasKey(key: 'message', array: $normalized);
-        $this->assertEquals(expected: 'Object expected to be a valid exception type.', actual: $normalized['message']);
+        $this->assertArrayHasKey(key: 'error', array: $normalized);
+        $this->assertEquals(expected: 'Object expected to be a valid exception type.', actual: $normalized['error']);
     }
 }

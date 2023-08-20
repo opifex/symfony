@@ -37,7 +37,7 @@ final class ExceptionNormalizer implements NormalizerInterface
 
         $exception = [
             'code' => $this->generateExceptionCode($object),
-            'message' => $this->localizeExceptionMessage($object),
+            'error' => $this->localizeExceptionMessage($object),
         ];
 
         if ($object instanceof ValidationFailedException) {
