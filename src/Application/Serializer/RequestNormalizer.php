@@ -14,7 +14,6 @@ final class RequestNormalizer implements NormalizerInterface
      * @param mixed $object
      * @param string|null $format
      * @param array&array<string, mixed> $context
-     *
      * @return array<string, mixed>
      */
     public function normalize(mixed $object, string $format = null, array $context = []): array
@@ -34,7 +33,6 @@ final class RequestNormalizer implements NormalizerInterface
      * @param mixed $data
      * @param string|null $format
      * @param array&array<string, mixed> $context
-     *
      * @return bool
      */
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
@@ -64,7 +62,6 @@ final class RequestNormalizer implements NormalizerInterface
 
     /**
      * @param array&array<string, mixed> $params
-     *
      * @return array<string, mixed>
      */
     private function filterParams(array $params): array

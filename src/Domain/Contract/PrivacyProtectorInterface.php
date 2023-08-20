@@ -8,7 +8,6 @@ interface PrivacyProtectorInterface
 {
     /**
      * @param array&array<string, mixed> $data
-     *
      * @return array<string, mixed>
      */
     public function protect(array $data): array;

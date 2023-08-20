@@ -19,7 +19,6 @@ final class TranslationNormalizer implements NormalizerInterface
      * @param mixed $object
      * @param string|null $format
      * @param array&array<string, mixed> $context
-     *
      * @return string
      */
     public function normalize(mixed $object, string $format = null, array $context = []): string
@@ -35,7 +34,6 @@ final class TranslationNormalizer implements NormalizerInterface
      * @param mixed $data
      * @param string|null $format
      * @param array&array<string, mixed> $context
-     *
      * @return bool
      */
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
