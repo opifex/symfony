@@ -42,8 +42,8 @@ final class ExceptionEventListener
             $throwable = $throwable->getPrevious() ?? $throwable;
         }
 
-        $exception = (array)$this->normalizer->normalize($throwable, Throwable::class);
-        $this->logger->error('Kernel exception event.', $exception);
+        $exception = $this->normalizer->normalize($throwable, Throwable::class);
+        $this->logger->error('Kernel exception event.', is_array($exception) ? $exception : []);
 
         $refClass = new ReflectionClass($throwable);
         $httpStatus = ($refClass->getAttributes(name: WithHttpStatus::class)[0] ?? null)?->newInstance();
