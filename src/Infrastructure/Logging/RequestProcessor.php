@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class RequestProcessor
 {
     /** @var array&array<string, mixed> */
-    private array $request = [];
+    private array $cache = [];
 
     public function __construct(
         private NormalizerInterface $normalizer,
@@ -34,15 +34,16 @@ final class RequestProcessor
     {
         $request = $this->requestStack->getMainRequest();
 
-        $this->request['identifier'] = $this->requestIdentifier->identify($request);
-        $this->request['route'] = $request?->attributes->get(key: '_route');
-
-        if (!array_key_exists(key: 'params', array: $this->request)) {
+        if (!array_key_exists(key: 'params', array: $this->cache)) {
             $params = $request instanceof Request ? $this->normalizer->normalize($request) : null;
-            $this->request['params'] = is_array($params) ? $this->privacyProtector->protect($params) : null;
+            $this->cache['params'] = is_array($params) ? $this->privacyProtector->protect($params) : null;
         }
 
-        $record->extra['request'] = array_filter($this->request);
+        $record->extra['request'] = array_filter([
+            'identifier' => $this->requestIdentifier->identify($request),
+            'route' => $request?->attributes->get(key: '_route') ?? $record->context['route'] ?? null,
+            'params' => $this->cache['params'] ?? null
+        ]);
 
         return $record;
     }
