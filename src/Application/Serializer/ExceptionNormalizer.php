@@ -16,7 +16,6 @@ use Throwable;
 final class ExceptionNormalizer implements NormalizerInterface
 {
     private const TRANSLATOR_DOMAIN = 'exceptions';
-    private const EXCEPTION_IDENTIFIER = 'd2a601f6-41eb-5a1f-90c1-8bbf2b5a8354';
 
     public function __construct(private KernelInterface $kernel)
     {
@@ -73,7 +72,7 @@ final class ExceptionNormalizer implements NormalizerInterface
 
     private function generateExceptionCode(Throwable $object): Uuid
     {
-        return Uuid::v5(Uuid::fromString(uuid: self::EXCEPTION_IDENTIFIER), $object::class);
+        return Uuid::v5(Uuid::fromString(uuid: Uuid::NAMESPACE_OID), $object::class);
     }
 
     private function localizeExceptionMessage(Throwable $object): TranslatableMessage

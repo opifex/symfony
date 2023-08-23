@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Logging;
 
-use App\Domain\Contract\MessageIdentifierInterface;
 use App\Domain\Contract\PrivacyProtectorInterface;
+use App\Domain\Contract\RequestIdentifierInterface;
 use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,9 +20,9 @@ final class RequestProcessor
     private array $request = [];
 
     public function __construct(
-        private MessageIdentifierInterface $messageIdentifier,
         private NormalizerInterface $normalizer,
         private PrivacyProtectorInterface $privacyProtector,
+        private RequestIdentifierInterface $requestIdentifier,
         private RequestStack $requestStack,
     ) {
     }
@@ -34,13 +34,12 @@ final class RequestProcessor
     {
         $request = $this->requestStack->getMainRequest();
 
-        $this->request['identifier'] ??= $this->messageIdentifier->identify();
-        $this->request['route'] ??= $request?->attributes->get(key: '_route');
+        $this->request['identifier'] = $this->requestIdentifier->identify($request);
+        $this->request['route'] = $request?->attributes->get(key: '_route');
 
         if (!array_key_exists(key: 'params', array: $this->request)) {
             $params = $request instanceof Request ? $this->normalizer->normalize($request) : null;
-            $params = is_array($params) ? $this->privacyProtector->protect($params) : null;
-            $this->request['params'] = $params;
+            $this->request['params'] = is_array($params) ? $this->privacyProtector->protect($params) : null;
         }
 
         $record->extra['request'] = array_filter($this->request);
