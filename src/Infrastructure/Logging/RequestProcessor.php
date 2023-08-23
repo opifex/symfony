@@ -42,7 +42,7 @@ final class RequestProcessor
         $record->extra['request'] = array_filter([
             'identifier' => $this->requestIdentifier->identify($request),
             'route' => $request?->attributes->get(key: '_route') ?? $record->context['route'] ?? null,
-            'params' => $this->cache['params'] ?? null
+            'params' => $this->cache['params'] ?? null,
         ]);
 
         return $record;
