@@ -16,7 +16,7 @@ class MessagePrivacyProtectorTest extends Unit
     }
 
     #[DataProvider(methodName: 'privacyDataProvider')]
-    public function testProtectMessageData(string $type, string $value, string $protected): void
+    public function testProtectPrivacyData(string $type, string $value, string $protected): void
     {
         $protectedMessage = $this->messagePrivacyProtector->protect([$type => $value]);
 
