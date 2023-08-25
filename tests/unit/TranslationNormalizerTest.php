@@ -70,8 +70,7 @@ final class TranslationNormalizerTest extends Unit
     public function testSupportsNormalizationWithValidObject(): void
     {
         $translatableMessage = new TranslatableMessage(message: 'Translatable message');
-        $supports = $this->translationNormalizer->supportsNormalization($translatableMessage);
 
-        $this->assertTrue($supports);
+        $this->assertTrue($this->translationNormalizer->supportsNormalization($translatableMessage));
     }
 }

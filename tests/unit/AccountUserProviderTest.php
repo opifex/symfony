@@ -82,15 +82,11 @@ class AccountUserProviderTest extends Unit
 
     public function testSupportsClassWithMatchingClass(): void
     {
-        $supports = $this->accountUserProvider->supportsClass(class: Account::class);
-
-        $this->assertTrue($supports);
+        $this->assertTrue($this->accountUserProvider->supportsClass(class: Account::class));
     }
 
     public function testSupportsClassWithNonMatchingClass(): void
     {
-        $supports = $this->accountUserProvider->supportsClass(class: stdClass::class);
-
-        $this->assertFalse($supports);
+        $this->assertFalse($this->accountUserProvider->supportsClass(class: stdClass::class));
     }
 }

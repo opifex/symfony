@@ -22,6 +22,8 @@ class ViewEventListenerTest extends Unit
      */
     protected function setUp(): void
     {
+        $this->httpKernel = $this->createMock(originalClassName: HttpKernelInterface::class);
+        $this->request = $this->createMock(originalClassName: Request::class);
         $this->serializer = $this->createMock(originalClassName: SerializerInterface::class);
 
         $this->viewEventListener = new ViewEventListener($this->serializer);
@@ -33,8 +35,8 @@ class ViewEventListenerTest extends Unit
     public function testInvokeWithTemplateStamp(): void
     {
         $viewEvent = new ViewEvent(
-            kernel: $this->createMock(originalClassName: HttpKernelInterface::class),
-            request: $this->createMock(originalClassName: Request::class),
+            kernel: $this->httpKernel,
+            request: $this->request,
             requestType: HttpKernelInterface::MAIN_REQUEST,
             controllerResult: new Envelope(new stdClass(), [
                 new TemplateStamp(template: 'example.html.twig'),

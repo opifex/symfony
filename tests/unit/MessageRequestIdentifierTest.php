@@ -19,9 +19,11 @@ class MessageRequestIdentifierTest extends Unit
     public function testIdentifyTwice(): void
     {
         $identifierFirst = $this->messageRequestIdentifier->identify();
-        $identifierSecond = $this->messageRequestIdentifier->identify();
 
         $this->assertTrue(Uuid::isValid($identifierFirst));
+
+        $identifierSecond = $this->messageRequestIdentifier->identify();
+
         $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifierFirst, $identifierSecond);
     }
@@ -29,12 +31,15 @@ class MessageRequestIdentifierTest extends Unit
     public function testIdentifyWithProvidedIdentifier(): void
     {
         $identifier = 'f6f6598a-620b-48cd-a88f-eb72a85cc66d';
+
         $identifierFirst = $this->messageRequestIdentifier->identify(identifier: $identifier);
-        $identifierSecond = $this->messageRequestIdentifier->identify();
 
         $this->assertTrue(Uuid::isValid($identifierFirst));
-        $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifier, $identifierFirst);
+
+        $identifierSecond = $this->messageRequestIdentifier->identify();
+
+        $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifier, $identifierSecond);
     }
 
@@ -45,11 +50,13 @@ class MessageRequestIdentifierTest extends Unit
         $request->headers->set($this->messageRequestIdentifier->key(), $identifier);
 
         $identifierFirst = $this->messageRequestIdentifier->identify($request);
-        $identifierSecond = $this->messageRequestIdentifier->identify();
 
         $this->assertTrue(Uuid::isValid($identifierFirst));
-        $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifier, $identifierFirst);
+
+        $identifierSecond = $this->messageRequestIdentifier->identify();
+
+        $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifier, $identifierSecond);
     }
 
@@ -61,11 +68,13 @@ class MessageRequestIdentifierTest extends Unit
         $request->headers->set($this->messageRequestIdentifier->key(), $identifierRequest);
 
         $identifierFirst = $this->messageRequestIdentifier->identify($request, $identifierProvided);
-        $identifierSecond = $this->messageRequestIdentifier->identify();
 
         $this->assertTrue(Uuid::isValid($identifierFirst));
-        $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifierProvided, $identifierFirst);
+
+        $identifierSecond = $this->messageRequestIdentifier->identify();
+
+        $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifierProvided, $identifierSecond);
     }
 
@@ -73,14 +82,19 @@ class MessageRequestIdentifierTest extends Unit
     {
         $identifier = 'f6f6598a-620b-48cd-a88f-eb72a85cc66d';
         $identifierUpdated = '1a39e356-09c5-4232-9e75-8243e41700b1';
+
         $identifierFirst = $this->messageRequestIdentifier->identify(identifier: $identifier);
-        $identifierSecond = $this->messageRequestIdentifier->identify(identifier: $identifierUpdated);
-        $identifierThird = $this->messageRequestIdentifier->identify();
 
         $this->assertTrue(Uuid::isValid($identifierFirst));
-        $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifier, $identifierFirst);
+
+        $identifierSecond = $this->messageRequestIdentifier->identify(identifier: $identifierUpdated);
+
+        $this->assertTrue(Uuid::isValid($identifierSecond));
         $this->assertEquals($identifierUpdated, $identifierSecond);
+
+        $identifierThird = $this->messageRequestIdentifier->identify();
+
         $this->assertEquals($identifierUpdated, $identifierThird);
     }
 }

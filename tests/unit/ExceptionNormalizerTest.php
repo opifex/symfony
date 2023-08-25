@@ -6,13 +6,13 @@ namespace App\Tests;
 
 use App\Application\Serializer\ExceptionNormalizer;
 use Codeception\Test\Unit;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
+use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 final class ExceptionNormalizerTest extends Unit
 {
     /**
-     * @throws MockObjectException
+     * @throws Exception
      */
     protected function setUp(): void
     {

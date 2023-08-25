@@ -65,51 +65,63 @@ final class RequestNormalizerTest extends Unit
         $normalized = $this->requestNormalizer->normalize($request);
 
         $identifier = 'string';
+
         $this->assertIsString($normalized[$identifier]);
         $this->assertEquals($data[$identifier], $normalized[$identifier]);
 
         $identifier = 'array';
+
         $this->assertIsArray($normalized[$identifier]);
         $this->assertIsInt($normalized[$identifier]['integer_string']);
         $this->assertEquals($data[$identifier], $normalized[$identifier]);
 
         $identifier = 'integer';
+
         $this->assertIsInt($normalized[$identifier]);
         $this->assertEquals($data[$identifier], $normalized[$identifier]);
 
         $identifier = 'integer_string';
+
         $this->assertIsInt($normalized[$identifier]);
         $this->assertEquals($data['integer'], $normalized[$identifier]);
 
         $identifier = 'float';
+
         $this->assertIsFloat($normalized[$identifier]);
         $this->assertEquals($data[$identifier], $normalized[$identifier]);
 
         $identifier = 'float_string';
+
         $this->assertIsFloat($normalized[$identifier]);
         $this->assertEquals($data['float'], $normalized[$identifier]);
 
         $identifier = 'nullable';
+
         $this->assertNull($normalized[$identifier]);
         $this->assertEquals($data[$identifier], $normalized[$identifier]);
 
         $identifier = 'nullable_string';
+
         $this->assertNull($normalized[$identifier]);
         $this->assertEquals($data['nullable'], $normalized[$identifier]);
 
         $identifier = 'boolean_true';
+
         $this->assertIsBool($normalized[$identifier]);
         $this->assertEquals($data[$identifier], $normalized[$identifier]);
 
         $identifier = 'boolean_true_string';
+
         $this->assertIsBool($normalized[$identifier]);
         $this->assertEquals($data['boolean_true'], $normalized[$identifier]);
 
         $identifier = 'boolean_false';
+
         $this->assertIsBool($normalized[$identifier]);
         $this->assertEquals($data[$identifier], $normalized[$identifier]);
 
         $identifier = 'boolean_false_string';
+
         $this->assertIsBool($normalized[$identifier]);
         $this->assertEquals($data['boolean_false'], $normalized[$identifier]);
     }

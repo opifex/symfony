@@ -16,17 +16,21 @@ class MessagePrivacyProtectorTest extends Unit
 
     public function testProtectEmailString(): void
     {
-        $data = $this->messagePrivacyProtector->protect(['email' => 'admin@example.com']);
+        $privacyMessage = ['email' => 'admin@example.com'];
 
-        $this->assertArrayHasKey(key: 'email', array: $data);
-        $this->assertEquals(expected: 'a***n@example.com', actual: $data['email']);
+        $protectedMessage = $this->messagePrivacyProtector->protect($privacyMessage);
+
+        $this->assertArrayHasKey(key: 'email', array: $protectedMessage);
+        $this->assertEquals(expected: 'a***n@example.com', actual: $protectedMessage['email']);
     }
 
     public function testProtectPasswordString(): void
     {
-        $data = $this->messagePrivacyProtector->protect(['password' => 'password']);
+        $privacyMessage = ['password' => 'password'];
 
-        $this->assertArrayHasKey(key: 'password', array: $data);
-        $this->assertEquals(expected: '********', actual: $data['password']);
+        $protectedMessage = $this->messagePrivacyProtector->protect($privacyMessage);
+
+        $this->assertArrayHasKey(key: 'password', array: $protectedMessage);
+        $this->assertEquals(expected: '********', actual: $protectedMessage['password']);
     }
 }
