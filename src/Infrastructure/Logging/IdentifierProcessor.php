@@ -20,9 +20,9 @@ final class IdentifierProcessor
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $record->extra['identifier'] = $this->requestIdentifier->identify(
-            request: $this->requestStack->getMainRequest(),
-        );
+        $request = $this->requestStack->getMainRequest();
+
+        $record->extra['identifier'] = $this->requestIdentifier->identify($request);
 
         return $record;
     }
