@@ -8,7 +8,6 @@ use App\Application\Serializer\ExceptionNormalizer;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Validator\ConstraintViolationList;
 
 final class ExceptionNormalizerTest extends Unit
 {
@@ -17,9 +16,9 @@ final class ExceptionNormalizerTest extends Unit
      */
     protected function setUp(): void
     {
-        $kernel = $this->createMock(originalClassName: KernelInterface::class);
-        $this->exceptionNormalizer = new ExceptionNormalizer($kernel);
-        $this->violations = new ConstraintViolationList();
+        $this->kernel = $this->createMock(originalClassName: KernelInterface::class);
+
+        $this->exceptionNormalizer = new ExceptionNormalizer($this->kernel);
     }
 
     public function testNormalizeThrowsInvalidArgumentException(): void

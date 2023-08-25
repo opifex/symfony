@@ -24,12 +24,14 @@ class AccountUserProviderTest extends Unit
     protected function setUp(): void
     {
         $this->accountRepository = $this->createMock(originalClassName: AccountRepositoryInterface::class);
+
         $this->accountUserProvider = new AccountUserProvider($this->accountRepository);
     }
 
     public function testLoadUserByIdentifierWithEmail(): void
     {
         $account = AccountFactory::createUserAccount(email: 'email@example.com');
+
         $this->accountRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
@@ -57,6 +59,7 @@ class AccountUserProviderTest extends Unit
     {
         $uuid = new UuidV7();
         $account = AccountFactory::createUserAccount(email: 'email@example.com');
+
         $this->accountRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByUuid')
@@ -70,19 +73,24 @@ class AccountUserProviderTest extends Unit
 
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
+        $account = AccountFactory::createUserAccount(email: 'email@example.com');
+
         $this->expectException(UnsupportedUserException::class);
 
-        $account = AccountFactory::createUserAccount(email: 'email@example.com');
         $this->accountUserProvider->refreshUser($account);
     }
 
     public function testSupportsClassWithMatchingClass(): void
     {
-        $this->assertTrue($this->accountUserProvider->supportsClass(class: Account::class));
+        $supports = $this->accountUserProvider->supportsClass(class: Account::class);
+
+        $this->assertTrue($supports);
     }
 
     public function testSupportsClassWithNonMatchingClass(): void
     {
-        $this->assertFalse($this->accountUserProvider->supportsClass(class: stdClass::class));
+        $supports = $this->accountUserProvider->supportsClass(class: stdClass::class);
+
+        $this->assertFalse($supports);
     }
 }

@@ -20,11 +20,12 @@ class ConsoleEventListenerTest extends Unit
      */
     protected function setUp(): void
     {
-        $logger = $this->createMock(originalClassName: LoggerInterface::class);
-        $this->consoleEventListener = new ConsoleEventListener($logger);
         $this->command = $this->createMock(originalClassName: Command::class);
         $this->input = $this->createMock(originalClassName: InputInterface::class);
+        $this->logger = $this->createMock(originalClassName: LoggerInterface::class);
         $this->output = $this->createMock(originalClassName: OutputInterface::class);
+
+        $this->consoleEventListener = new ConsoleEventListener($this->logger);
     }
 
     public function testInvokeWithConsoleCommandEvent(): void
@@ -32,5 +33,7 @@ class ConsoleEventListenerTest extends Unit
         $consoleCommandEvent = new ConsoleCommandEvent($this->command, $this->input, $this->output);
 
         ($this->consoleEventListener)($consoleCommandEvent);
+
+        $this->expectNotToPerformAssertions();
     }
 }

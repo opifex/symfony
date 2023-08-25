@@ -14,27 +14,28 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class AccountUserCheckerTest extends Unit
 {
+    /**
+     * @throws Exception
+     */
     protected function setUp(): void
     {
+        $this->user = $this->createMock(originalClassName: UserInterface::class);
+
         $this->accountUserChecker = new AccountUserChecker();
     }
 
     public function testCheckPostAuthWithBlockedAccount(): void
     {
+        $account = AccountFactory::createUserAccount(email: 'email@example.com');
+
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
-        $account = AccountFactory::createUserAccount(email: 'email@example.com');
         $this->accountUserChecker->checkPostAuth($account);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCheckPostAuthWithNonAccountUser(): void
     {
-        $user = $this->createMock(originalClassName: UserInterface::class);
-
-        $this->accountUserChecker->checkPostAuth($user);
+        $this->accountUserChecker->checkPostAuth($this->user);
 
         $this->expectNotToPerformAssertions();
     }
@@ -43,6 +44,7 @@ final class AccountUserCheckerTest extends Unit
     {
         $account = AccountFactory::createUserAccount(email: 'email@example.com');
         $account->setStatus(status: AccountStatus::VERIFIED);
+
         $this->accountUserChecker->checkPostAuth($account);
 
         $this->expectNotToPerformAssertions();

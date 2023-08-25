@@ -19,6 +19,7 @@ final class SensiolabsTwigAdapterTest extends Unit
     protected function setUp(): void
     {
         $this->environment = $this->createMock(originalClassName: Environment::class);
+
         $this->sensiolabsTwigAdapter = new SensiolabsTwigAdapter($this->environment);
     }
 
@@ -28,6 +29,7 @@ final class SensiolabsTwigAdapterTest extends Unit
     public function testRenderExistedTemplate(): void
     {
         $content = 'content';
+
         $this->environment
             ->expects($this->once())
             ->method(constraint: 'render')

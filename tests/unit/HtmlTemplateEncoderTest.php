@@ -21,12 +21,14 @@ final class HtmlTemplateEncoderTest extends Unit
     protected function setUp(): void
     {
         $this->twigAdapter = $this->createMock(originalClassName: TwigAdapterInterface::class);
+
         $this->htmlTemplateEncoder = new HtmlTemplateEncoder($this->twigAdapter);
     }
 
     public function testEncodeWithExistedTemplate(): void
     {
         $content = 'content';
+
         $this->twigAdapter
             ->expects($this->once())
             ->method(constraint: 'render')

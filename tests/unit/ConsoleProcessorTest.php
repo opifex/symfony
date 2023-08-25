@@ -26,6 +26,7 @@ class ConsoleProcessorTest extends Unit
         $this->date = $this->createMock(originalClassName: DateTimeImmutable::class);
         $this->input = $this->createMock(originalClassName: InputInterface::class);
         $this->output = $this->createMock(originalClassName: OutputInterface::class);
+
         $this->consoleProcessor = new ConsoleProcessor();
     }
 

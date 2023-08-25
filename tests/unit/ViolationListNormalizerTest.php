@@ -18,9 +18,10 @@ final class ViolationListNormalizerTest extends Unit
      */
     protected function setUp(): void
     {
-        $kernel = $this->createMock(originalClassName: KernelInterface::class);
-        $translator = $this->createMock(originalClassName: TranslatorInterface::class);
-        $this->violationListNormalizer = new ViolationListNormalizer($kernel, $translator);
+        $this->kernel = $this->createMock(originalClassName: KernelInterface::class);
+        $this->translator = $this->createMock(originalClassName: TranslatorInterface::class);
+
+        $this->violationListNormalizer = new ViolationListNormalizer($this->kernel, $this->translator);
     }
 
     public function testNormalizeThrowsInvalidArgumentException(): void

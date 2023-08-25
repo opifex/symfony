@@ -22,8 +22,9 @@ class ViewEventListenerTest extends Unit
      */
     protected function setUp(): void
     {
-        $serializer = $this->createMock(originalClassName: SerializerInterface::class);
-        $this->viewEventListener = new ViewEventListener($serializer);
+        $this->serializer = $this->createMock(originalClassName: SerializerInterface::class);
+
+        $this->viewEventListener = new ViewEventListener($this->serializer);
     }
 
     /**

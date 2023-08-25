@@ -19,11 +19,14 @@ final class GetSigninAccountHandlerTest extends Unit
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(originalClassName: TokenStorageInterface::class);
+
         $this->getSigninAccountHandler = new GetSigninAccountHandler($this->tokenStorage);
     }
 
     public function testInvokeWithInvalidUser(): void
     {
+        $message = new GetSigninAccountQuery();
+
         $this->tokenStorage
             ->expects($this->once())
             ->method(constraint: 'getToken')
@@ -31,6 +34,6 @@ final class GetSigninAccountHandlerTest extends Unit
 
         $this->expectException(AccessDeniedHttpException::class);
 
-        ($this->getSigninAccountHandler)(new GetSigninAccountQuery());
+        ($this->getSigninAccountHandler)($message);
     }
 }
