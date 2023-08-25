@@ -31,7 +31,7 @@ final class SymfonyRunCommandTest extends Unit
         $this->assertStringContainsString(needle: '[OK] Success', haystack: $commandTester->getDisplay());
     }
 
-    public function testInvokeThrowsExceptionOnCountOptionInvalid(): void
+    public function testExecuteThrowsExceptionOnCountOptionInvalid(): void
     {
         $commandTester = new CommandTester($this->application->get('app:symfony:run'));
 
@@ -40,7 +40,7 @@ final class SymfonyRunCommandTest extends Unit
         $commandTester->execute(['--count' => -1, '--delay' => 0]);
     }
 
-    public function testInvokeThrowsExceptionOnDelayOptionInvalid(): void
+    public function testExecuteThrowsExceptionOnDelayOptionInvalid(): void
     {
         $commandTester = new CommandTester($this->application->get('app:symfony:run'));
 

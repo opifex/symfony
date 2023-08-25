@@ -16,7 +16,7 @@ class MessagePrivacyProtectorTest extends Unit
         $this->messagePrivacyProtector = new MessagePrivacyProtector();
     }
 
-    public function testProtectEmail(): void
+    public function testProtectEmailString(): void
     {
         $data = $this->messagePrivacyProtector->protect(['email' => 'admin@example.com']);
 
@@ -24,7 +24,7 @@ class MessagePrivacyProtectorTest extends Unit
         $this->assertEquals(expected: 'a***n@example.com', actual: $data['email']);
     }
 
-    public function testProtectPassword(): void
+    public function testProtectPasswordString(): void
     {
         $data = $this->messagePrivacyProtector->protect(['password' => 'password']);
 
