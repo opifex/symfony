@@ -8,7 +8,7 @@ RUN composer validate --strict && composer diagnose
 # install composer dependencies
 RUN composer install --ignore-platform-reqs --no-cache --no-dev --no-plugins --no-scripts
 
-FROM php:8.2.8-fpm-alpine AS php
+FROM php:8.2.9-fpm-alpine AS php
 # set working directory
 WORKDIR /opt/project
 # install system packages
@@ -17,10 +17,10 @@ RUN set -e \
     && apk add --update icu-dev libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev rabbitmq-c-dev zlib-dev \
     && apk add --virtual .build-deps $PHPIZE_DEPS \
     && docker-php-ext-install gd intl opcache pdo_pgsql xsl zip \
-    && pecl install amqp && docker-php-ext-enable amqp \
-    && pecl install apcu && docker-php-ext-enable apcu \
-    && pecl install redis && docker-php-ext-enable redis \
-    && pecl install xdebug && docker-php-ext-enable xsl \
+    && pecl install amqp-1.11.0 && docker-php-ext-enable amqp \
+    && pecl install apcu-5.1.22 && docker-php-ext-enable apcu \
+    && pecl install redis-5.3.7 && docker-php-ext-enable redis \
+    && pecl install xdebug-3.2.2 && docker-php-ext-enable xsl \
     && pecl clear-cache && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 # copy configuration files
