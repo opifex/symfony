@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Service\MessagePrivacyProtector;
+use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 
 class MessagePrivacyProtectorTest extends Unit
@@ -14,23 +15,20 @@ class MessagePrivacyProtectorTest extends Unit
         $this->messagePrivacyProtector = new MessagePrivacyProtector();
     }
 
-    public function testProtectEmailString(): void
+    #[DataProvider(methodName: 'privacyDataProvider')]
+    public function testProtectMessageData(string $type, string $value, string $protected): void
     {
-        $privacyMessage = ['email' => 'admin@example.com'];
+        $protectedMessage = $this->messagePrivacyProtector->protect([$type => $value]);
 
-        $protectedMessage = $this->messagePrivacyProtector->protect($privacyMessage);
-
-        $this->assertArrayHasKey(key: 'email', array: $protectedMessage);
-        $this->assertEquals(expected: 'a***n@example.com', actual: $protectedMessage['email']);
+        $this->assertArrayHasKey(key: $type, array: $protectedMessage);
+        $this->assertEquals(expected: $protected, actual: $protectedMessage[$type]);
     }
 
-    public function testProtectPasswordString(): void
+    protected function privacyDataProvider(): array
     {
-        $privacyMessage = ['password' => 'password'];
-
-        $protectedMessage = $this->messagePrivacyProtector->protect($privacyMessage);
-
-        $this->assertArrayHasKey(key: 'password', array: $protectedMessage);
-        $this->assertEquals(expected: '********', actual: $protectedMessage['password']);
+        return [
+            ['type' => 'email', 'value' => 'admin@example.com', 'protected' => 'a***n@example.com'],
+            ['type' => 'password', 'value' => 'password', 'protected' => '********'],
+        ];
     }
 }
