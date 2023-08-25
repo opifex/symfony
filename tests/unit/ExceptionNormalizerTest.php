@@ -12,8 +12,6 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 final class ExceptionNormalizerTest extends Unit
 {
-    private ExceptionNormalizer $exceptionNormalizer;
-
     /**
      * @throws MockObjectException
      */

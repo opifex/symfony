@@ -7,7 +7,6 @@ namespace App\Tests;
 use App\Application\Serializer\TranslationNormalizer;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
@@ -16,10 +15,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class TranslationNormalizerTest extends Unit
 {
-    private TranslationNormalizer $translationNormalizer;
-
-    private TranslatorInterface&MockObject $translator;
-
     /**
      * @throws Exception
      */

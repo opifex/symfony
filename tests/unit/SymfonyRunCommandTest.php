@@ -14,8 +14,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class SymfonyRunCommandTest extends Unit
 {
-    private Application $application;
-
     protected function setUp(): void
     {
         $this->application = new Application();

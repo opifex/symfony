@@ -10,16 +10,11 @@ use App\Domain\Exception\TwigAdapterException;
 use Codeception\Test\Unit;
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 use stdClass;
 
 final class HtmlTemplateEncoderTest extends Unit
 {
-    private TwigAdapterInterface&MockObject $twigAdapter;
-
-    private HtmlTemplateEncoder $htmlTemplateEncoder;
-
     /**
      * @throws Exception
      */

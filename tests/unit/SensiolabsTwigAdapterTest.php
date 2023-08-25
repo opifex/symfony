@@ -8,16 +8,11 @@ use App\Domain\Exception\TwigAdapterException;
 use App\Infrastructure\Adapter\SensiolabsTwigAdapter;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use Twig\Environment;
 use Twig\Error\Error;
 
 final class SensiolabsTwigAdapterTest extends Unit
 {
-    private Environment&MockObject $environment;
-
-    private SensiolabsTwigAdapter $sensiolabsTwigAdapter;
-
     /**
      * @throws Exception
      */

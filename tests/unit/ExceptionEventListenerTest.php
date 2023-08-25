@@ -8,7 +8,6 @@ use App\Application\Listener\ExceptionEventListener;
 use App\Domain\Exception\ValidationFailedException;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,14 +22,6 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 final class ExceptionEventListenerTest extends Unit
 {
-    private KernelInterface&MockObject $kernel;
-
-    private LoggerInterface&MockObject $logger;
-
-    private NormalizerInterface&MockObject $normalizer;
-
-    private SerializerInterface&MockObject $serializer;
-
     /**
      * @throws Exception
      */

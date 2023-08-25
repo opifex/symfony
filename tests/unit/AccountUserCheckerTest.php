@@ -14,8 +14,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class AccountUserCheckerTest extends Unit
 {
-    private AccountUserChecker $accountUserChecker;
-
     protected function setUp(): void
     {
         $this->accountUserChecker = new AccountUserChecker();

@@ -17,8 +17,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ViewEventListenerTest extends Unit
 {
-    private ViewEventListener $viewEventListener;
-
     /**
      * @throws Exception
      */

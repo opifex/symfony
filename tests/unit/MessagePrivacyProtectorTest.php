@@ -9,8 +9,6 @@ use Codeception\Test\Unit;
 
 class MessagePrivacyProtectorTest extends Unit
 {
-    private MessagePrivacyProtector $messagePrivacyProtector;
-
     protected function setUp(): void
     {
         $this->messagePrivacyProtector = new MessagePrivacyProtector();

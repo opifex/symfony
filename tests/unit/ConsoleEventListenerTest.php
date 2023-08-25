@@ -7,7 +7,6 @@ namespace App\Tests;
 use App\Application\Listener\ConsoleEventListener;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -16,11 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConsoleEventListenerTest extends Unit
 {
-    private Command&MockObject $command;
-    private ConsoleEventListener $consoleEventListener;
-    private InputInterface&MockObject $input;
-    private OutputInterface&MockObject $output;
-
     /**
      * @throws Exception
      */

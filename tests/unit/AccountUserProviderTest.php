@@ -11,7 +11,6 @@ use App\Domain\Entity\Account;
 use App\Domain\Exception\AccountNotFoundException;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -19,10 +18,6 @@ use Symfony\Component\Uid\UuidV7;
 
 class AccountUserProviderTest extends Unit
 {
-    private AccountRepositoryInterface&MockObject $accountRepository;
-
-    private AccountUserProvider $accountUserProvider;
-
     /**
      * @throws Exception
      */

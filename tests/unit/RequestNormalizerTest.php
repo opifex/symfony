@@ -14,8 +14,6 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 final class RequestNormalizerTest extends Unit
 {
-    private RequestNormalizer $requestNormalizer;
-
     protected function setUp(): void
     {
         $this->requestNormalizer = new RequestNormalizer();

@@ -11,8 +11,6 @@ use Symfony\Component\Uid\Uuid;
 
 class MessageRequestIdentifierTest extends Unit
 {
-    private MessageRequestIdentifier $messageRequestIdentifier;
-
     protected function setUp(): void
     {
         $this->messageRequestIdentifier = new MessageRequestIdentifier();

@@ -13,8 +13,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ViolationListNormalizerTest extends Unit
 {
-    private ViolationListNormalizer $violationListNormalizer;
-
     /**
      * @throws MockObjectException
      */

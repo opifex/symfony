@@ -10,7 +10,6 @@ use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,12 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConsoleProcessorTest extends Unit
 {
-    private Command&MockObject $command;
-    private ConsoleProcessor $consoleProcessor;
-    private DateTimeImmutable&MockObject $date;
-    private InputInterface&MockObject $input;
-    private OutputInterface&MockObject $output;
-
     /**
      * @throws Exception
      */

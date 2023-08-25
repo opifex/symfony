@@ -14,8 +14,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MessageEventListenerTest extends Unit
 {
-    private MessageEventListener $messageListener;
-
     /**
      * @throws MockObjectException
      */

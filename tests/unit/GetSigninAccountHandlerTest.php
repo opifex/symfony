@@ -8,16 +8,11 @@ use App\Application\Handler\GetSigninAccount\GetSigninAccountHandler;
 use App\Application\Handler\GetSigninAccount\GetSigninAccountQuery;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class GetSigninAccountHandlerTest extends Unit
 {
-    private GetSigninAccountHandler $getSigninAccountHandler;
-
-    private TokenStorageInterface&MockObject $tokenStorage;
-
     /**
      * @throws Exception
      */
