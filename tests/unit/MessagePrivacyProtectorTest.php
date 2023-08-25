@@ -16,19 +16,19 @@ class MessagePrivacyProtectorTest extends Unit
     }
 
     #[DataProvider(methodName: 'privacyDataProvider')]
-    public function testProtectPrivacyData(string $type, string $value, string $protected): void
+    public function testProtectPrivacyData(string $type, string $value, string $expected): void
     {
         $protectedMessage = $this->messagePrivacyProtector->protect([$type => $value]);
 
         $this->assertArrayHasKey(key: $type, array: $protectedMessage);
-        $this->assertEquals(expected: $protected, actual: $protectedMessage[$type]);
+        $this->assertSame(expected: $expected, actual: $protectedMessage[$type]);
     }
 
     protected function privacyDataProvider(): array
     {
         return [
-            ['type' => 'email', 'value' => 'admin@example.com', 'protected' => 'a***n@example.com'],
-            ['type' => 'password', 'value' => 'password', 'protected' => '********'],
+            ['type' => 'email', 'value' => 'admin@example.com', 'expected' => 'a***n@example.com'],
+            ['type' => 'password', 'value' => 'password', 'expected' => '********'],
         ];
     }
 }
