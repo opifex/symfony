@@ -53,7 +53,7 @@ final class SymfonyRunCommand extends Command
             throw new InvalidOptionException(message: 'Delay value should be either positive or zero.');
         }
 
-        [$count, $delay] = [intval($count), intval($delay)];
+        [$count, $delay] = [(int) $count, (int) $delay];
 
         foreach ($console->progressIterate(array_pad([], length: $count, value: null)) as $item) {
             if ($item === null) {

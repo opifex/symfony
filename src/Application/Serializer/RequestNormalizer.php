@@ -73,9 +73,9 @@ final class RequestNormalizer implements NormalizerInterface
     {
         return match (true) {
             is_scalar($params) => match (true) {
-                $params === strval(intval($params)) => intval($params),
-                $params === strval(floatval($params)) => floatval($params),
-                $params === 'true' || is_bool($params) => boolval($params),
+                $params === (string) (int) $params => (int) $params,
+                $params === (string) (float) $params => (float) $params,
+                $params === 'true' || is_bool($params) => (bool) $params,
                 $params === 'false' => false,
                 $params === 'null' => null,
                 default => $params,
