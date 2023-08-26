@@ -40,7 +40,7 @@ final class HtmlTemplateEncoderTest extends Unit
             context: [HtmlTemplateEncoder::TEMPLATE => 'example.html.twig'],
         );
 
-        $this->assertEquals($content, $encoded);
+        $this->assertSame($content, $encoded);
     }
 
     public function testEncodeThrowsExceptionWithInvalidData(): void

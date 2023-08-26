@@ -57,6 +57,6 @@ class ConsoleProcessorTest extends Unit
 
         $this->assertArrayHasKey(key: 'console', array: $result->extra);
         $this->assertArrayHasKey(key: 'command', array: $result->extra['console']);
-        $this->assertEquals($commandName, $result->extra['console']['command']);
+        $this->assertSame($commandName, $result->extra['console']['command']);
     }
 }

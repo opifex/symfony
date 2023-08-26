@@ -37,7 +37,7 @@ final class SensiolabsTwigAdapterTest extends Unit
 
         $rendered = $this->sensiolabsTwigAdapter->render(name: 'example.html.twig');
 
-        $this->assertEquals($content, $rendered);
+        $this->assertSame($content, $rendered);
     }
 
     public function testRenderThrowsExceptionOnTwigError(): void
