@@ -37,15 +37,15 @@ final class LcobucciJwtAdapterTest extends Unit
      */
     public function testExtractIdentifierFromToken(): void
     {
-        $this->user
-            ->expects($this->once())
-            ->method(constraint: 'getUserIdentifier')
-            ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
-
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
         );
+
+        $this->user
+            ->expects($this->once())
+            ->method(constraint: 'getUserIdentifier')
+            ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
         $identifier = $lcobucciJwtAdapter->extractIdentifier($token);
@@ -100,17 +100,17 @@ final class LcobucciJwtAdapterTest extends Unit
         $verificationKey .= 'pwIDAQAB' . PHP_EOL;
         $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
-        $this->user
-            ->expects($this->once())
-            ->method(constraint: 'getUserIdentifier')
-            ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
-
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             signingKey: $signingKey,
             verificationKey: $verificationKey,
         );
+
+        $this->user
+            ->expects($this->once())
+            ->method(constraint: 'getUserIdentifier')
+            ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
         $identifier = $lcobucciJwtAdapter->extractIdentifier($token);
@@ -124,15 +124,15 @@ final class LcobucciJwtAdapterTest extends Unit
      */
     public function testExtractIdentifierThrowsExceptionWithExpiredToken(): void
     {
-        $this->user
-            ->expects($this->once())
-            ->method(constraint: 'getUserIdentifier')
-            ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
-
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 0,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
         );
+
+        $this->user
+            ->expects($this->once())
+            ->method(constraint: 'getUserIdentifier')
+            ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
 

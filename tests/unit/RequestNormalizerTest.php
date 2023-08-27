@@ -14,16 +14,12 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 final class RequestNormalizerTest extends Unit
 {
-    protected function setUp(): void
-    {
-        $this->requestNormalizer = new RequestNormalizer();
-    }
-
     #[DataProvider(methodName: 'requestDataProvider')]
     public function testNormalizeWithDifferentTypes(mixed $value, mixed $expected): void
     {
+        $requestNormalizer = new RequestNormalizer();
         $request = new Request(content: json_encode(['value' => $value]));
-        $normalized = $this->requestNormalizer->normalize($request);
+        $normalized = $requestNormalizer->normalize($request);
 
         $this->assertArrayHasKey(key: 'value', array: $normalized);
         $this->assertSame($expected, $normalized['value']);
@@ -31,7 +27,8 @@ final class RequestNormalizerTest extends Unit
 
     public function testGetSupportedTypes(): void
     {
-        $supportedTypes = $this->requestNormalizer->getSupportedTypes(format: null);
+        $requestNormalizer = new RequestNormalizer();
+        $supportedTypes = $requestNormalizer->getSupportedTypes(format: null);
 
         $this->assertArrayHasKey(key: Request::class, array: $supportedTypes);
         $this->assertTrue($supportedTypes[Request::class]);
@@ -39,22 +36,28 @@ final class RequestNormalizerTest extends Unit
 
     public function testSupportsNormalization(): void
     {
-        $this->assertTrue($this->requestNormalizer->supportsNormalization(new Request()));
-        $this->assertFalse($this->requestNormalizer->supportsNormalization(new stdClass()));
+        $requestNormalizer = new RequestNormalizer();
+
+        $this->assertTrue($requestNormalizer->supportsNormalization(new Request()));
+        $this->assertFalse($requestNormalizer->supportsNormalization(new stdClass()));
     }
 
     public function testNormalizeThrowsInvalidArgumentException(): void
     {
+        $requestNormalizer = new RequestNormalizer();
+
         $this->expectException(InvalidArgumentException::class);
 
-        $this->requestNormalizer->normalize(new stdClass());
+        $requestNormalizer->normalize(new stdClass());
     }
 
     public function testNormalizeWithInvalidRequest(): void
     {
+        $requestNormalizer = new RequestNormalizer();
+
         $this->expectException(JsonException::class);
 
-        $this->requestNormalizer->normalize(new Request(content: 'invalid'));
+        $requestNormalizer->normalize(new Request(content: 'invalid'));
     }
 
     protected function requestDataProvider(): array

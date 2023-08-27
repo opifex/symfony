@@ -19,8 +19,6 @@ final class SensiolabsTwigAdapterTest extends Unit
     protected function setUp(): void
     {
         $this->environment = $this->createMock(originalClassName: Environment::class);
-
-        $this->sensiolabsTwigAdapter = new SensiolabsTwigAdapter($this->environment);
     }
 
     /**
@@ -28,6 +26,7 @@ final class SensiolabsTwigAdapterTest extends Unit
      */
     public function testRenderExistedTemplate(): void
     {
+        $sensiolabsTwigAdapter = new SensiolabsTwigAdapter($this->environment);
         $content = 'content';
 
         $this->environment
@@ -35,13 +34,15 @@ final class SensiolabsTwigAdapterTest extends Unit
             ->method(constraint: 'render')
             ->willReturn($content);
 
-        $rendered = $this->sensiolabsTwigAdapter->render(name: 'example.html.twig');
+        $rendered = $sensiolabsTwigAdapter->render(name: 'example.html.twig');
 
         $this->assertSame($content, $rendered);
     }
 
     public function testRenderThrowsExceptionOnTwigError(): void
     {
+        $sensiolabsTwigAdapter = new SensiolabsTwigAdapter($this->environment);
+
         $this->environment
             ->expects($this->once())
             ->method(constraint: 'render')
@@ -49,6 +50,6 @@ final class SensiolabsTwigAdapterTest extends Unit
 
         $this->expectException(TwigAdapterException::class);
 
-        $this->sensiolabsTwigAdapter->render(name: 'example.html.twig');
+        $sensiolabsTwigAdapter->render(name: 'example.html.twig');
     }
 }

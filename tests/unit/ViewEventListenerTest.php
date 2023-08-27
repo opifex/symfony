@@ -25,8 +25,6 @@ class ViewEventListenerTest extends Unit
         $this->httpKernel = $this->createMock(originalClassName: HttpKernelInterface::class);
         $this->request = $this->createMock(originalClassName: Request::class);
         $this->serializer = $this->createMock(originalClassName: SerializerInterface::class);
-
-        $this->viewEventListener = new ViewEventListener($this->serializer);
     }
 
     /**
@@ -34,6 +32,7 @@ class ViewEventListenerTest extends Unit
      */
     public function testInvokeWithTemplateStamp(): void
     {
+        $viewEventListener = new ViewEventListener($this->serializer);
         $viewEvent = new ViewEvent(
             kernel: $this->httpKernel,
             request: $this->request,
@@ -44,6 +43,8 @@ class ViewEventListenerTest extends Unit
             controllerArgumentsEvent: null,
         );
 
-        ($this->viewEventListener)($viewEvent);
+        ($viewEventListener)($viewEvent);
+
+        $this->expectNotToPerformAssertions();
     }
 }

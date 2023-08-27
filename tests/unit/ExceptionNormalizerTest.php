@@ -17,13 +17,12 @@ final class ExceptionNormalizerTest extends Unit
     protected function setUp(): void
     {
         $this->kernel = $this->createMock(originalClassName: KernelInterface::class);
-
-        $this->exceptionNormalizer = new ExceptionNormalizer($this->kernel);
     }
 
     public function testNormalizeThrowsInvalidArgumentException(): void
     {
-        $normalized = $this->exceptionNormalizer->normalize(object: null);
+        $exceptionNormalizer = new ExceptionNormalizer($this->kernel);
+        $normalized = $exceptionNormalizer->normalize(object: null);
 
         $this->assertArrayHasKey(key: 'error', array: $normalized);
         $this->assertEquals(expected: 'Object expected to be a valid exception type.', actual: $normalized['error']);

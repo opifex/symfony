@@ -20,14 +20,14 @@ final class ViolationListNormalizerTest extends Unit
     {
         $this->kernel = $this->createMock(originalClassName: KernelInterface::class);
         $this->translator = $this->createMock(originalClassName: TranslatorInterface::class);
-
-        $this->violationListNormalizer = new ViolationListNormalizer($this->kernel, $this->translator);
     }
 
     public function testNormalizeThrowsInvalidArgumentException(): void
     {
+        $violationListNormalizer = new ViolationListNormalizer($this->kernel, $this->translator);
+
         $this->expectException(InvalidArgumentException::class);
 
-        $this->violationListNormalizer->normalize(object: null);
+        $violationListNormalizer->normalize(object: null);
     }
 }

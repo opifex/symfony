@@ -26,12 +26,11 @@ class ConsoleProcessorTest extends Unit
         $this->date = $this->createMock(originalClassName: DateTimeImmutable::class);
         $this->input = $this->createMock(originalClassName: InputInterface::class);
         $this->output = $this->createMock(originalClassName: OutputInterface::class);
-
-        $this->consoleProcessor = new ConsoleProcessor();
     }
 
     public function testInvokeWithCache(): void
     {
+        $consoleProcessor = new ConsoleProcessor();
         $commandName = 'app:command:action';
 
         $this->command
@@ -51,9 +50,8 @@ class ConsoleProcessorTest extends Unit
 
         $logRecord = new LogRecord($this->date, channel: '', level: Level::Info, message: '');
         $consoleCommandEvent = new ConsoleCommandEvent($this->command, $this->input, $this->output);
-        $this->consoleProcessor->onConsoleCommand($consoleCommandEvent);
-
-        $result = ($this->consoleProcessor)($logRecord);
+        $consoleProcessor->onConsoleCommand($consoleCommandEvent);
+        $result = ($consoleProcessor)($logRecord);
 
         $this->assertArrayHasKey(key: 'console', array: $result->extra);
         $this->assertArrayHasKey(key: 'command', array: $result->extra['console']);

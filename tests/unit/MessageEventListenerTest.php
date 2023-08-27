@@ -22,14 +22,14 @@ class MessageEventListenerTest extends Unit
         $this->envelope = $this->createMock(originalClassName: Envelope::class);
         $this->rawMessage = $this->createMock(originalClassName: NotificationEmail::class);
         $this->translator = $this->createMock(originalClassName: TranslatorInterface::class);
-
-        $this->messageListener = new MessageEventListener($this->translator);
     }
 
     public function testInvokeWithNotificationEmail(): void
     {
+        $messageListener = new MessageEventListener($this->translator);
         $messageEvent = new MessageEvent($this->rawMessage, $this->envelope, transport: 'email');
+        ($messageListener)($messageEvent);
 
-        ($this->messageListener)($messageEvent);
+        $this->expectNotToPerformAssertions();
     }
 }

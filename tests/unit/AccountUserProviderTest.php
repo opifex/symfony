@@ -24,12 +24,11 @@ class AccountUserProviderTest extends Unit
     protected function setUp(): void
     {
         $this->accountRepository = $this->createMock(originalClassName: AccountRepositoryInterface::class);
-
-        $this->accountUserProvider = new AccountUserProvider($this->accountRepository);
     }
 
     public function testLoadUserByIdentifierWithEmail(): void
     {
+        $accountUserProvider = new AccountUserProvider($this->accountRepository);
         $account = AccountFactory::createUserAccount(email: 'email@example.com');
 
         $this->accountRepository
@@ -38,13 +37,15 @@ class AccountUserProviderTest extends Unit
             ->with($account->getEmail())
             ->willReturn($account);
 
-        $loadedUser = $this->accountUserProvider->loadUserByIdentifier($account->getEmail());
+        $loadedUser = $accountUserProvider->loadUserByIdentifier($account->getEmail());
 
         $this->assertSame($account, $loadedUser);
     }
 
     public function testLoadUserByIdentifierWithInvalidIdentifier(): void
     {
+        $accountUserProvider = new AccountUserProvider($this->accountRepository);
+
         $this->accountRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
@@ -52,13 +53,14 @@ class AccountUserProviderTest extends Unit
 
         $this->expectException(UserNotFoundException::class);
 
-        $this->accountUserProvider->loadUserByIdentifier(identifier: 'invalid@example.com');
+        $accountUserProvider->loadUserByIdentifier(identifier: 'invalid@example.com');
     }
 
     public function testLoadUserByIdentifierWithUuid(): void
     {
-        $uuid = new UuidV7();
+        $accountUserProvider = new AccountUserProvider($this->accountRepository);
         $account = AccountFactory::createUserAccount(email: 'email@example.com');
+        $uuid = new UuidV7();
 
         $this->accountRepository
             ->expects($this->once())
@@ -66,27 +68,34 @@ class AccountUserProviderTest extends Unit
             ->with($uuid)
             ->willReturn($account);
 
-        $loadedUser = $this->accountUserProvider->loadUserByIdentifier($uuid->toRfc4122());
+        $loadedUser = $accountUserProvider->loadUserByIdentifier($uuid->toRfc4122());
 
         $this->assertSame($account, $loadedUser);
     }
 
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
+        $accountUserProvider = new AccountUserProvider($this->accountRepository);
         $account = AccountFactory::createUserAccount(email: 'email@example.com');
 
         $this->expectException(UnsupportedUserException::class);
 
-        $this->accountUserProvider->refreshUser($account);
+        $accountUserProvider->refreshUser($account);
     }
 
     public function testSupportsClassWithMatchingClass(): void
     {
-        $this->assertTrue($this->accountUserProvider->supportsClass(class: Account::class));
+        $accountUserProvider = new AccountUserProvider($this->accountRepository);
+        $supports = $accountUserProvider->supportsClass(class: Account::class);
+
+        $this->assertTrue($supports);
     }
 
     public function testSupportsClassWithNonMatchingClass(): void
     {
-        $this->assertFalse($this->accountUserProvider->supportsClass(class: stdClass::class));
+        $accountUserProvider = new AccountUserProvider($this->accountRepository);
+        $supports = $accountUserProvider->supportsClass(class: stdClass::class);
+
+        $this->assertFalse($supports);
     }
 }

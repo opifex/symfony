@@ -20,32 +20,32 @@ final class AccountUserCheckerTest extends Unit
     protected function setUp(): void
     {
         $this->user = $this->createMock(originalClassName: UserInterface::class);
-
-        $this->accountUserChecker = new AccountUserChecker();
     }
 
     public function testCheckPostAuthWithBlockedAccount(): void
     {
+        $accountUserChecker = new AccountUserChecker();
         $account = AccountFactory::createUserAccount(email: 'email@example.com');
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
-        $this->accountUserChecker->checkPostAuth($account);
+        $accountUserChecker->checkPostAuth($account);
     }
 
     public function testCheckPostAuthWithNonAccountUser(): void
     {
-        $this->accountUserChecker->checkPostAuth($this->user);
+        $accountUserChecker = new AccountUserChecker();
+        $accountUserChecker->checkPostAuth($this->user);
 
         $this->expectNotToPerformAssertions();
     }
 
     public function testCheckPostAuthWithVerifiedAccount(): void
     {
+        $accountUserChecker = new AccountUserChecker();
         $account = AccountFactory::createUserAccount(email: 'email@example.com');
         $account->setStatus(status: AccountStatus::VERIFIED);
-
-        $this->accountUserChecker->checkPostAuth($account);
+        $accountUserChecker->checkPostAuth($account);
 
         $this->expectNotToPerformAssertions();
     }

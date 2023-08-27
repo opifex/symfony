@@ -21,13 +21,12 @@ final class TranslationNormalizerTest extends Unit
     protected function setUp(): void
     {
         $this->translator = $this->createMock(originalClassName: TranslatorInterface::class);
-
-        $this->translationNormalizer = new TranslationNormalizer($this->translator);
     }
 
     public function testGetSupportedTypes(): void
     {
-        $supportedTypes = $this->translationNormalizer->getSupportedTypes(format: null);
+        $translationNormalizer = new TranslationNormalizer($this->translator);
+        $supportedTypes = $translationNormalizer->getSupportedTypes(format: null);
 
         $this->assertArrayHasKey(key: TranslatableMessage::class, array: $supportedTypes);
         $this->assertTrue($supportedTypes[TranslatableMessage::class]);
@@ -38,9 +37,11 @@ final class TranslationNormalizerTest extends Unit
      */
     public function testNormalizeWithInvalidObject(): void
     {
+        $translationNormalizer = new TranslationNormalizer($this->translator);
+
         $this->expectException(InvalidArgumentException::class);
 
-        $this->translationNormalizer->normalize(new stdClass());
+        $translationNormalizer->normalize(new stdClass());
     }
 
     /**
@@ -49,6 +50,7 @@ final class TranslationNormalizerTest extends Unit
      */
     public function testNormalizeWithValidObject(): void
     {
+        $translationNormalizer = new TranslationNormalizer($this->translator);
         $message = 'Translatable message';
         $translatedMessage = 'Translated message';
 
@@ -58,20 +60,23 @@ final class TranslationNormalizerTest extends Unit
             ->with($message)
             ->willReturn($translatedMessage);
 
-        $normalized = $this->translationNormalizer->normalize(new TranslatableMessage($message));
+        $normalized = $translationNormalizer->normalize(new TranslatableMessage($message));
 
         $this->assertSame(expected: $translatedMessage, actual: $normalized);
     }
 
     public function testSupportsNormalizationWithInvalidObject(): void
     {
-        $this->assertFalse($this->translationNormalizer->supportsNormalization(new stdClass()));
+        $translationNormalizer = new TranslationNormalizer($this->translator);
+
+        $this->assertFalse($translationNormalizer->supportsNormalization(new stdClass()));
     }
 
     public function testSupportsNormalizationWithValidObject(): void
     {
+        $translationNormalizer = new TranslationNormalizer($this->translator);
         $translatableMessage = new TranslatableMessage(message: 'Translatable message');
 
-        $this->assertTrue($this->translationNormalizer->supportsNormalization($translatableMessage));
+        $this->assertTrue($translationNormalizer->supportsNormalization($translatableMessage));
     }
 }
