@@ -27,10 +27,13 @@ final class ConsoleProcessor
     #[AsEventListener(event: ConsoleCommandEvent::class, priority: 128)]
     public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
-        $this->cache = [
+        $callback = fn(mixed $value, string $key) => !empty($value) && !in_array($key, ['command', 'env']);
+        $filterParams = fn(array $params) => array_filter($params, $callback, mode: ARRAY_FILTER_USE_BOTH);
+
+        $this->cache = array_filter([
             'command' => $event->getCommand()?->getName(),
-            'arguments' => $event->getInput()->getArguments(),
-            'options' => array_filter($event->getInput()->getOptions()),
-        ];
+            'arguments' => $filterParams($event->getInput()->getArguments()),
+            'options' => $filterParams($event->getInput()->getOptions()),
+        ]);
     }
 }
