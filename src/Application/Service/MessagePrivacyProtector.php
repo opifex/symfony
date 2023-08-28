@@ -7,7 +7,7 @@ namespace App\Application\Service;
 use App\Domain\Contract\PrivacyProtectorInterface;
 use Symfony\Component\String\UnicodeString;
 
-class MessagePrivacyProtector implements PrivacyProtectorInterface
+final class MessagePrivacyProtector implements PrivacyProtectorInterface
 {
     /** @var string[] */
     private array $templates = [
