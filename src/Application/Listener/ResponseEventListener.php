@@ -18,8 +18,8 @@ final class ResponseEventListener
     public function __invoke(ResponseEvent $event): void
     {
         $event->getResponse()->headers->set(
-            key: $this->requestIdentifier->key(),
-            values: $this->requestIdentifier->identify($event->getRequest()),
+            key: $this->requestIdentifier->getHeaderName(),
+            values: $this->requestIdentifier->getIdentifier($event->getRequest()),
         );
     }
 }

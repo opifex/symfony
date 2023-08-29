@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface RequestIdentifierInterface
 {
-    public function identify(?Request $request = null, ?string $identifier = null): string;
+    public function getIdentifier(?Request $request = null, ?string $identifier = null): string;
 
-    public function key(): string;
+    public function getHeaderName(): string;
 }

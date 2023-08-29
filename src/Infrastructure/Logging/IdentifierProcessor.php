@@ -22,7 +22,7 @@ final class IdentifierProcessor
     {
         $request = $this->requestStack->getMainRequest();
 
-        $record->extra['identifier'] = $this->requestIdentifier->identify($request);
+        $record->extra['identifier'] = $this->requestIdentifier->getIdentifier($request);
 
         return $record;
     }

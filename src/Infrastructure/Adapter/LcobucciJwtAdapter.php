@@ -42,7 +42,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
         $this->configuration = $this->buildConfiguration($passphrase, $signingKey, $verificationKey);
     }
 
-    public function extractIdentifier(#[SensitiveParameter] string $accessToken): string
+    public function getIdentifier(#[SensitiveParameter] string $accessToken): string
     {
         try {
             $accessToken = $this->configuration->parser()->parse($accessToken);

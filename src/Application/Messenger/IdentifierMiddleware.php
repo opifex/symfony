@@ -18,10 +18,10 @@ final class IdentifierMiddleware implements MiddlewareInterface
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
         $identityStamp = $envelope->last(stampFqcn: IdentifierStamp::class);
-        $identityStamp ??= new IdentifierStamp($this->requestIdentifier->identify());
+        $identityStamp ??= new IdentifierStamp($this->requestIdentifier->getIdentifier());
         $envelope = $envelope->withoutAll($identityStamp::class)->with($identityStamp);
 
-        $this->requestIdentifier->identify(identifier: $identityStamp->getIdentifier());
+        $this->requestIdentifier->getIdentifier(identifier: $identityStamp->getIdentifier());
 
         return $stack->next()->handle($envelope, $stack);
     }

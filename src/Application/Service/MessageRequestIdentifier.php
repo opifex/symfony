@@ -12,16 +12,16 @@ final class MessageRequestIdentifier implements RequestIdentifierInterface
 {
     private ?string $identifier = null;
 
-    public function identify(?Request $request = null, ?string $identifier = null): string
+    public function getIdentifier(?Request $request = null, ?string $identifier = null): string
     {
-        $identifier ??= $request?->headers->get($this->key()) ?? '';
+        $identifier ??= $request?->headers->get($this->getHeaderName()) ?? '';
         $this->identifier = Uuid::isValid($identifier) ? $identifier : $this->identifier;
         $this->identifier ??= Uuid::v4()->toRfc4122();
 
         return $this->identifier;
     }
 
-    public function key(): string
+    public function getHeaderName(): string
     {
         return 'X-Request-Id';
     }

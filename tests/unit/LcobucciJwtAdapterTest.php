@@ -35,7 +35,7 @@ final class LcobucciJwtAdapterTest extends Unit
      * @throws JwtAdapterException
      * @throws Exception
      */
-    public function testExtractIdentifierFromToken(): void
+    public function testGetIdentifierFromToken(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 86400,
@@ -48,7 +48,7 @@ final class LcobucciJwtAdapterTest extends Unit
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
-        $identifier = $lcobucciJwtAdapter->extractIdentifier($token);
+        $identifier = $lcobucciJwtAdapter->getIdentifier($token);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
     }
@@ -57,7 +57,7 @@ final class LcobucciJwtAdapterTest extends Unit
      * @throws JwtAdapterException
      * @throws Exception
      */
-    public function testExtractIdentifierFromTokenWithVerificationKey(): void
+    public function testGetIdentifierFromTokenWithVerificationKey(): void
     {
         $signingKey = '-----BEGIN RSA PRIVATE KEY-----' . PHP_EOL;
         $signingKey .= 'Proc-Type: 4,ENCRYPTED' . PHP_EOL;
@@ -113,7 +113,7 @@ final class LcobucciJwtAdapterTest extends Unit
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
-        $identifier = $lcobucciJwtAdapter->extractIdentifier($token);
+        $identifier = $lcobucciJwtAdapter->getIdentifier($token);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
     }
@@ -122,7 +122,7 @@ final class LcobucciJwtAdapterTest extends Unit
      * @throws JwtAdapterException
      * @throws Exception
      */
-    public function testExtractIdentifierThrowsExceptionWithExpiredToken(): void
+    public function testGetIdentifierThrowsExceptionWithExpiredToken(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 0,
@@ -138,13 +138,13 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $this->expectException(JwtAdapterException::class);
 
-        $lcobucciJwtAdapter->extractIdentifier($token);
+        $lcobucciJwtAdapter->getIdentifier($token);
     }
 
     /**
      * @throws Exception
      */
-    public function testExtractIdentifierThrowsExceptionWithInvalidTokenContent(): void
+    public function testGetIdentifierThrowsExceptionWithInvalidTokenContent(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 1,
@@ -156,13 +156,13 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $this->expectException(JwtAdapterException::class);
 
-        $lcobucciJwtAdapter->extractIdentifier($token);
+        $lcobucciJwtAdapter->getIdentifier($token);
     }
 
     /**
      * @throws Exception
      */
-    public function testExtractIdentifierThrowsExceptionWithInvalidTokenStructure(): void
+    public function testGetIdentifierThrowsExceptionWithInvalidTokenStructure(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 1,
@@ -171,13 +171,13 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $this->expectException(JwtAdapterException::class);
 
-        $lcobucciJwtAdapter->extractIdentifier(accessToken: 'invalid');
+        $lcobucciJwtAdapter->getIdentifier(accessToken: 'invalid');
     }
 
     /**
      * @throws Exception
      */
-    public function testExtractIdentifierThrowsExceptionWithTokenWithoutSubject(): void
+    public function testGetIdentifierThrowsExceptionWithTokenWithoutSubject(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 86400,
@@ -192,6 +192,6 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $this->expectException(JwtAdapterException::class);
 
-        $lcobucciJwtAdapter->extractIdentifier($token);
+        $lcobucciJwtAdapter->getIdentifier($token);
     }
 }
