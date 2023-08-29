@@ -60,7 +60,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
     /**
      * @throws Exception
      */
-    public function generateToken(UserInterface $user): string
+    public function createToken(UserInterface $user): string
     {
         $time = SystemClock::fromSystemTimezone()->now();
 

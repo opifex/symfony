@@ -47,7 +47,7 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->generateToken($this->user);
+        $token = $lcobucciJwtAdapter->createToken($this->user);
         $identifier = $lcobucciJwtAdapter->getIdentifier($token);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
@@ -112,7 +112,7 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->generateToken($this->user);
+        $token = $lcobucciJwtAdapter->createToken($this->user);
         $identifier = $lcobucciJwtAdapter->getIdentifier($token);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
@@ -134,7 +134,7 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->generateToken($this->user);
+        $token = $lcobucciJwtAdapter->createToken($this->user);
 
         $this->expectException(JwtAdapterException::class);
 

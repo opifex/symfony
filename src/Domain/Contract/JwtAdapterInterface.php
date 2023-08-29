@@ -15,5 +15,5 @@ interface JwtAdapterInterface
      */
     public function getIdentifier(#[SensitiveParameter] string $accessToken): string;
 
-    public function generateToken(UserInterface $user): string;
+    public function createToken(UserInterface $user): string;
 }
