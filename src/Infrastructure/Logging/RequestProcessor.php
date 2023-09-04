@@ -7,7 +7,6 @@ namespace App\Infrastructure\Logging;
 use App\Domain\Contract\PrivacyProtectorInterface;
 use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -30,11 +29,17 @@ final class RequestProcessor
      */
     public function __invoke(LogRecord $record): LogRecord
     {
-        if ($this->cache === []) {
-            $request = $this->requestStack->getMainRequest();
-            $params = $request instanceof Request ? $this->normalizer->normalize($request) : null;
-            $this->cache['route'] = $request?->attributes->get(key: '_route') ?? $record->context['route'] ?? null;
-            $this->cache['params'] = is_array($params) ? $this->privacyProtector->protect($params) : null;
+        $request = $this->requestStack->getMainRequest();
+
+        if (!isset($this->cache['route'])) {
+            $this->cache['route'] = $request?->attributes->get(key: '_route');
+            $this->cache['route'] ??= $record->context['route'] ?? null;
+            $this->cache = array_filter($this->cache);
+        }
+
+        if (!isset($this->cache['params'])) {
+            $params = (array) $this->normalizer->normalize($request);
+            $this->cache['params'] = $this->privacyProtector->protect($params);
             $this->cache = array_filter($this->cache);
         }
 

@@ -21,8 +21,11 @@ final class IdentifierProcessor
     public function __invoke(LogRecord $record): LogRecord
     {
         $request = $this->requestStack->getMainRequest();
+        $identifier = (string) $request?->headers->get(key: 'X-Request-Id');
 
-        $record->extra['identifier'] = $this->requestIdentifier->getIdentifier($request);
+        $this->requestIdentifier->setIdentifier($identifier);
+
+        $record->extra['identifier'] = $this->requestIdentifier->getIdentifier();
 
         return $record;
     }

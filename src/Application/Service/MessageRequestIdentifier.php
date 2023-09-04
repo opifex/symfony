@@ -5,24 +5,21 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Domain\Contract\RequestIdentifierInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Uid\Uuid;
 
 final class MessageRequestIdentifier implements RequestIdentifierInterface
 {
     private ?string $identifier = null;
 
-    public function getIdentifier(?Request $request = null, ?string $identifier = null): string
+    public function setIdentifier(string $identifier): void
     {
-        $identifier ??= $request?->headers->get($this->getHeaderName()) ?? '';
-        $this->identifier = Uuid::isValid($identifier) ? $identifier : $this->identifier;
-        $this->identifier ??= Uuid::v4()->toRfc4122();
-
-        return $this->identifier;
+        if (Uuid::isValid($identifier)) {
+            $this->identifier = $identifier;
+        }
     }
 
-    public function getHeaderName(): string
+    public function getIdentifier(): string
     {
-        return 'X-Request-Id';
+        return $this->identifier ??= Uuid::v4()->toRfc4122();
     }
 }

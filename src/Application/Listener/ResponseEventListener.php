@@ -17,9 +17,8 @@ final class ResponseEventListener
 
     public function __invoke(ResponseEvent $event): void
     {
-        $event->getResponse()->headers->set(
-            key: $this->requestIdentifier->getHeaderName(),
-            values: $this->requestIdentifier->getIdentifier($event->getRequest()),
-        );
+        $identifier = $this->requestIdentifier->getIdentifier();
+
+        $event->getResponse()->headers->set(key: 'X-Request-Id', values: $identifier);
     }
 }

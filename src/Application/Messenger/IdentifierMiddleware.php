@@ -21,7 +21,7 @@ final class IdentifierMiddleware implements MiddlewareInterface
         $identityStamp ??= new IdentifierStamp($this->requestIdentifier->getIdentifier());
         $envelope = $envelope->withoutAll($identityStamp::class)->with($identityStamp);
 
-        $this->requestIdentifier->getIdentifier(identifier: $identityStamp->getIdentifier());
+        $this->requestIdentifier->setIdentifier($identityStamp->getIdentifier());
 
         return $stack->next()->handle($envelope, $stack);
     }
