@@ -13,7 +13,7 @@ final class MessageRequestIdentifier implements RequestIdentifierInterface
 
     public function setIdentifier(string $identifier): void
     {
-        if (Uuid::isValid($identifier)) {
+        if ($identifier !== $this->identifier && Uuid::isValid($identifier)) {
             $this->identifier = $identifier;
         }
     }
