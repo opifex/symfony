@@ -17,7 +17,7 @@ RUN set -e \
     && apk add --update icu-dev libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev rabbitmq-c-dev zlib-dev \
     && apk add --virtual .build-deps $PHPIZE_DEPS \
     && docker-php-ext-install gd intl opcache pdo_pgsql xsl zip \
-    && pecl install amqp-2.0.0 && docker-php-ext-enable amqp \
+    && pecl install amqp-2.1.0 && docker-php-ext-enable amqp \
     && pecl install apcu-5.1.22 && docker-php-ext-enable apcu \
     && pecl install redis-5.3.7 && docker-php-ext-enable redis \
     && pecl install xdebug-3.2.2 && docker-php-ext-enable xsl \
