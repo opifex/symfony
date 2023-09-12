@@ -8,7 +8,7 @@ final class SortingOrder
 {
     public const ASC = 'asc';
     public const DESC = 'desc';
-    public const LIST = [
+    public const SORTING = [
         self::ASC,
         self::DESC,
     ];

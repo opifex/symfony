@@ -15,13 +15,13 @@ final class GetAccountsByCriteriaQuery
         #[Assert\Length(max: 320)]
         public readonly ?string $email = null,
 
-        #[Assert\Choice(choices: AccountStatus::LIST)]
+        #[Assert\Choice(choices: AccountStatus::STATUSES)]
         public readonly ?string $status = null,
 
-        #[Assert\Choice(choices: AccountSearchCriteria::SORT_FIELDS_LIST)]
+        #[Assert\Choice(choices: AccountSearchCriteria::SORTING_FIELDS)]
         public readonly string $sort = AccountSearchCriteria::FIELD_CREATED_AT,
 
-        #[Assert\Choice(choices: SortingOrder::LIST)]
+        #[Assert\Choice(choices: SortingOrder::SORTING)]
         public readonly string $order = SortingOrder::DESC,
 
         #[Assert\DivisibleBy(value: 1)]

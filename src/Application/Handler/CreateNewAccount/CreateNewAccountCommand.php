@@ -22,7 +22,7 @@ final class CreateNewAccountCommand
         #[Assert\NotCompromisedPassword]
         public readonly string $password = '',
 
-        #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
+        #[Assert\Choice(choices: AccountRole::ROLES, multiple: true)]
         #[Assert\NotBlank]
         public readonly array $roles = [],
     ) {

@@ -44,7 +44,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 uuid: $faker->unique()->uuid(),
                 email: $faker->unique()->email(),
                 password: $password,
-                status: $faker->bothify($faker->randomElement(array: AccountStatus::LIST)),
+                status: $faker->bothify($faker->randomElement(array: AccountStatus::STATUSES)),
                 roles: [AccountRole::ROLE_USER],
             );
             $manager->persist($account);

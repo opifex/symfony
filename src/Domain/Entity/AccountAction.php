@@ -9,7 +9,7 @@ final class AccountAction
     public const BLOCK = 'block';
     public const UNBLOCK = 'unblock';
     public const VERIFY = 'verify';
-    public const LIST = [
+    public const ACTIONS = [
         self::BLOCK,
         self::UNBLOCK,
         self::VERIFY,

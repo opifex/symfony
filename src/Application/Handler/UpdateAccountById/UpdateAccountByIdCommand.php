@@ -29,7 +29,7 @@ final class UpdateAccountByIdCommand
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $password = null,
 
-        #[Assert\Choice(choices: AccountRole::LIST, multiple: true)]
+        #[Assert\Choice(choices: AccountRole::ROLES, multiple: true)]
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?array $roles = null,
     ) {
