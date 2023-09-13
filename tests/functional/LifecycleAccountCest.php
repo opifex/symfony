@@ -15,18 +15,16 @@ final class LifecycleAccountCest
     #[Before('signinWithAdminCredentials')]
     public function actionsWithInvalidAccount(FunctionalTester $i): void
     {
-        $invalidUserIdentifier = '00000000-0000-6000-8000-000000000000';
-
-        $i->sendGet(url: '/api/account/' . $invalidUserIdentifier);
+        $i->sendGet(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $i->seeResponseCodeIsClientError();
 
-        $i->sendPatch(url: '/api/account/' . $invalidUserIdentifier);
+        $i->sendPatch(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $i->seeResponseCodeIsClientError();
 
-        $i->sendDelete(url: '/api/account/' . $invalidUserIdentifier);
+        $i->sendDelete(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $i->seeResponseCodeIsClientError();
 
-        $i->sendPost(url: '/api/account/' . $invalidUserIdentifier . '/' . AccountAction::VERIFY);
+        $i->sendPost(url: '/api/account/00000000-0000-6000-8000-000000000000/' . AccountAction::VERIFY);
         $i->seeResponseCodeIsClientError();
     }
 
