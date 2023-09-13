@@ -128,16 +128,16 @@ final class LifecycleAccountCest
     protected function signinWithAdminCredentials(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
-
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
-
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
-        $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
+        $i->sendPost(
+            url: '/api/auth/signin',
+            params: json_encode([
+                'email' => 'admin@example.com',
+                'password' => 'password4#account',
+            ]),
+        );
         $i->seeResponseCodeIsSuccessful();
         $i->seeHttpHeader(name: 'Authorization');
-
-        $adminAuthToken = $i->grabHttpHeader(name: 'Authorization');
-
-        $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
+        $i->haveHttpHeader(name: 'Authorization', value: $i->grabHttpHeader(name: 'Authorization'));
     }
 }
