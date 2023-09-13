@@ -15,7 +15,7 @@ final class LifecycleAccountCest
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
 
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
+        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $invalidUserIdentifier = '00000000-0000-6000-8000-000000000000';
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
@@ -45,15 +45,15 @@ final class LifecycleAccountCest
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
 
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
+        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $newCredentials = [
             'email' => 'created@example.com',
-            'password' => 'password',
+            'password' => 'password4#account',
             'roles' => [AccountRole::ROLE_USER],
         ];
         $updatedCredentials = [
             'email' => 'updated@example.com',
-            'password' => 'password',
+            'password' => 'password4#account',
             'roles' => [AccountRole::ROLE_USER],
         ];
 
@@ -109,7 +109,7 @@ final class LifecycleAccountCest
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
 
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
+        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $userCredentials = ['email' => 'user@example.com'];
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
@@ -136,7 +136,7 @@ final class LifecycleAccountCest
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
 
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
+        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $newCredentials = [
             'email' => 'user@example.com',
             'password' => 'password',
@@ -161,7 +161,7 @@ final class LifecycleAccountCest
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
 
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password'];
+        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $updatedCredentials = ['email' => 'user@example.com'];
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');

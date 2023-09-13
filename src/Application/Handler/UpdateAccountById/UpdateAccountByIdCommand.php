@@ -25,7 +25,7 @@ final class UpdateAccountByIdCommand
         public readonly ?string $email = null,
 
         #[Assert\Length(min: 8, max: 32)]
-        #[Assert\NotCompromisedPassword]
+        #[Assert\PasswordStrength]
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $password = null,
 

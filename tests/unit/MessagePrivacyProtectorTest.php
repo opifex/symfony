@@ -24,7 +24,7 @@ class MessagePrivacyProtectorTest extends Unit
     {
         return [
             ['type' => 'email', 'value' => 'admin@example.com', 'expected' => 'a***n@example.com'],
-            ['type' => 'password', 'value' => 'password', 'expected' => '********'],
+            ['type' => 'password', 'value' => 'password4#account', 'expected' => '*****************'],
         ];
     }
 }

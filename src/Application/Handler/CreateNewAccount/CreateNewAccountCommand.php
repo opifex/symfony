@@ -19,7 +19,7 @@ final class CreateNewAccountCommand
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\NotBlank]
-        #[Assert\NotCompromisedPassword]
+        #[Assert\PasswordStrength]
         public readonly string $password = '',
 
         #[Assert\Choice(choices: AccountRole::ROLES, multiple: true)]

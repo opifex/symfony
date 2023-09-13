@@ -19,7 +19,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
     {
         $faker = Faker::create();
         $passwordHasher = new NativePasswordHasher();
-        $password = $passwordHasher->hash(plainPassword: 'password');
+        $password = $passwordHasher->hash(plainPassword: 'password4#account');
 
         $adminAccount = new Account(
             uuid: $faker->unique()->uuid(),

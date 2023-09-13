@@ -15,7 +15,7 @@ final class SignupNewAccountCommand
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\NotBlank]
-        #[Assert\NotCompromisedPassword]
+        #[Assert\PasswordStrength]
         public readonly string $password = '',
     ) {
     }

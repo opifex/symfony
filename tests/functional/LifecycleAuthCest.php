@@ -26,7 +26,7 @@ final class LifecycleAuthCest
 
     public function signinWithBadCredentials(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'bad@example.com', 'password' => 'password'];
+        $credentials = ['email' => 'bad@example.com', 'password' => 'password4#account'];
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
@@ -38,7 +38,7 @@ final class LifecycleAuthCest
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
 
-        $credentials = ['email' => 'user@example.com', 'password' => 'password'];
+        $credentials = ['email' => 'user@example.com', 'password' => 'password4#account'];
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
@@ -57,7 +57,7 @@ final class LifecycleAuthCest
 
     public function signinWithExtraAttributes(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'bad@example.com', 'password' => 'password', 'extra' => 'value'];
+        $credentials = ['email' => 'bad@example.com', 'password' => 'password4#account', 'extra' => 'value'];
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
@@ -67,14 +67,14 @@ final class LifecycleAuthCest
 
     public function signupWithBadCredentials(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'example.com', 'password' => 'password'];
+        $credentials = ['email' => 'example.com', 'password' => 'password4#account'];
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIsClientError();
 
-        $credentials = ['email' => 'example.com', 'password' => ['password']];
+        $credentials = ['email' => 'example.com', 'password' => ['password4#account']];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIsClientError();
@@ -84,7 +84,7 @@ final class LifecycleAuthCest
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
 
-        $credentials = ['email' => 'user@example.com', 'password' => 'password'];
+        $credentials = ['email' => 'user@example.com', 'password' => 'password4#account'];
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
@@ -94,7 +94,7 @@ final class LifecycleAuthCest
 
     public function signupWithValidCredentials(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'email@example.com', 'password' => 'password'];
+        $credentials = ['email' => 'email@example.com', 'password' => 'password4#account'];
 
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
