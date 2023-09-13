@@ -8,25 +8,14 @@ use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Infrastructure\Persistence\Fixture\AccountFixture;
+use Codeception\Attribute\Before;
 
 final class LifecycleAccountCest
 {
+    #[Before('signinWithAdminCredentials')]
     public function actionsWithInvalidAccount(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountFixture::class);
-
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $invalidUserIdentifier = '00000000-0000-6000-8000-000000000000';
-
-        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
-
-        $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
-        $i->seeResponseCodeIsSuccessful();
-        $i->seeHttpHeader(name: 'Authorization');
-
-        $adminAuthToken = $i->grabHttpHeader(name: 'Authorization');
-
-        $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
 
         $i->sendGet(url: '/api/account/' . $invalidUserIdentifier);
         $i->seeResponseCodeIsClientError();
@@ -41,11 +30,9 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIsClientError();
     }
 
+    #[Before('signinWithAdminCredentials')]
     public function actionsWithNewAccount(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountFixture::class);
-
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $newCredentials = [
             'email' => 'created@example.com',
             'password' => 'password4#account',
@@ -61,16 +48,6 @@ final class LifecycleAccountCest
             'email' => $newCredentials['email'],
             'status' => AccountStatus::VERIFIED,
         ];
-
-        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
-
-        $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
-        $i->seeResponseCodeIsSuccessful();
-        $i->seeHttpHeader(name: 'Authorization');
-
-        $adminAuthToken = $i->grabHttpHeader(name: 'Authorization');
-
-        $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
 
         $i->sendPost(url: '/api/account', params: json_encode($newCredentials));
         $i->seeResponseCodeIsSuccessful();
@@ -105,22 +82,10 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIsSuccessful();
     }
 
+    #[Before('signinWithAdminCredentials')]
     public function applyActionToAccount(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountFixture::class);
-
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $userCredentials = ['email' => 'user@example.com'];
-
-        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
-
-        $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
-        $i->seeResponseCodeIsSuccessful();
-        $i->seeHttpHeader(name: 'Authorization');
-
-        $adminAuthToken = $i->grabHttpHeader(name: 'Authorization');
-
-        $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
 
         $i->sendGet(url: '/api/account', params: ['email' => $userCredentials['email']]);
         $i->seeResponseCodeIsSuccessful();
@@ -132,49 +97,25 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIsClientError();
     }
 
+    #[Before('signinWithAdminCredentials')]
     public function createAccountWithExistedEmail(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountFixture::class);
-
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $newCredentials = [
             'email' => 'user@example.com',
             'password' => 'password',
             'roles' => [AccountRole::ROLE_USER],
         ];
 
-        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
-
-        $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
-        $i->seeResponseCodeIsSuccessful();
-        $i->seeHttpHeader(name: 'Authorization');
-
-        $adminAuthToken = $i->grabHttpHeader(name: 'Authorization');
-
-        $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
-
         $i->sendPost(url: '/api/account', params: json_encode($newCredentials));
         $i->seeResponseCodeIsClientError();
     }
 
+    #[Before('signinWithAdminCredentials')]
     public function updateAccountWithExistedEmail(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountFixture::class);
-
-        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
         $updatedCredentials = ['email' => 'user@example.com'];
 
-        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
-
-        $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
-        $i->seeResponseCodeIsSuccessful();
-        $i->seeHttpHeader(name: 'Authorization');
-
-        $adminAuthToken = $i->grabHttpHeader(name: 'Authorization');
-
-        $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
-
-        $i->sendGet(url: '/api/account', params: ['email' => $adminCredentials['email']]);
+        $i->sendGet(url: '/api/account', params: ['email' => 'admin@example.com']);
         $i->seeResponseCodeIsSuccessful();
         $i->seeResponseIsJson();
 
@@ -182,5 +123,21 @@ final class LifecycleAccountCest
 
         $i->sendPatch(url: '/api/account/' . $uuid, params: json_encode($updatedCredentials));
         $i->seeResponseCodeIsClientError();
+    }
+
+    protected function signinWithAdminCredentials(FunctionalTester $i): void
+    {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+
+        $adminCredentials = ['email' => 'admin@example.com', 'password' => 'password4#account'];
+
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+        $i->sendPost(url: '/api/auth/signin', params: json_encode($adminCredentials));
+        $i->seeResponseCodeIsSuccessful();
+        $i->seeHttpHeader(name: 'Authorization');
+
+        $adminAuthToken = $i->grabHttpHeader(name: 'Authorization');
+
+        $i->haveHttpHeader(name: 'Authorization', value: $adminAuthToken);
     }
 }
