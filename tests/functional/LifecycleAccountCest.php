@@ -44,7 +44,7 @@ final class LifecycleAccountCest
                 'roles' => [AccountRole::ROLE_USER],
             ]),
         );
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
         $i->seeHttpHeader(name: 'Location');
 
         $location = $i->grabHttpHeader(name: 'Location');
@@ -56,7 +56,7 @@ final class LifecycleAccountCest
                 'status' => AccountStatus::VERIFIED,
             ],
         );
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
 
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
@@ -69,13 +69,13 @@ final class LifecycleAccountCest
                 'roles' => [AccountRole::ROLE_USER],
             ]),
         );
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
 
         $i->sendPost(url: $location . '/' . AccountAction::BLOCK);
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
 
         $i->sendGet(url: $location);
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(
             [
@@ -86,7 +86,7 @@ final class LifecycleAccountCest
         );
 
         $i->sendDelete(url: $location);
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
     }
 
     #[Before('loadFixtures')]
@@ -95,7 +95,7 @@ final class LifecycleAccountCest
     public function applyActionToAccount(FunctionalTester $i): void
     {
         $i->sendGet(url: '/api/account', params: ['email' => 'user@example.com']);
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
 
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
@@ -126,7 +126,7 @@ final class LifecycleAccountCest
     public function updateAccountWithExistedEmail(FunctionalTester $i): void
     {
         $i->sendGet(url: '/api/account', params: ['email' => 'admin@example.com']);
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
 
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
@@ -154,7 +154,7 @@ final class LifecycleAccountCest
                 'password' => 'password4#account',
             ]),
         );
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
         $i->seeHttpHeader(name: 'Authorization');
 
         $authorizationHeader = $i->grabHttpHeader(name: 'Authorization');
