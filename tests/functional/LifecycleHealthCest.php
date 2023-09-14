@@ -14,7 +14,7 @@ final class LifecycleHealthCest
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
         $i->haveHttpHeader(name: 'X-Request-Id', value: '9bc545a3-2492-440c-9529-0b616a0475f0');
         $i->sendGet(url: '/api/health');
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(['status' => HealthStatus::OK->value]);
         $i->seeHttpHeader(name: 'X-Request-Id', value: '9bc545a3-2492-440c-9529-0b616a0475f0');
