@@ -12,6 +12,8 @@ use Codeception\Attribute\Before;
 
 final class LifecycleAccountCest
 {
+    #[Before('loadFixtures')]
+    #[Before('prepareHttpHeaders')]
     #[Before('signinWithAdminCredentials')]
     public function actionsWithInvalidAccount(FunctionalTester $i): void
     {
@@ -28,38 +30,44 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIsClientError();
     }
 
+    #[Before('loadFixtures')]
+    #[Before('prepareHttpHeaders')]
     #[Before('signinWithAdminCredentials')]
     public function actionsWithNewAccount(FunctionalTester $i): void
     {
-        $newCredentials = [
-            'email' => 'created@example.com',
-            'password' => 'password4#account',
-            'roles' => [AccountRole::ROLE_USER],
-        ];
-        $updatedCredentials = [
-            'email' => 'updated@example.com',
-            'password' => 'password4#account',
-            'roles' => [AccountRole::ROLE_USER],
-        ];
-
-        $searchParams = [
-            'email' => $newCredentials['email'],
-            'status' => AccountStatus::VERIFIED,
-        ];
-
-        $i->sendPost(url: '/api/account', params: json_encode($newCredentials));
+        $i->sendPost(
+            url: '/api/account',
+            params: json_encode([
+                'email' => 'created@example.com',
+                'password' => 'password4#account',
+                'roles' => [AccountRole::ROLE_USER],
+            ]),
+        );
         $i->seeResponseCodeIsSuccessful();
         $i->seeHttpHeader(name: 'Location');
 
         $location = $i->grabHttpHeader(name: 'Location');
 
-        $i->sendGet(url: '/api/account', params: $searchParams);
+        $i->sendGet(
+            url: '/api/account',
+            params: [
+                'email' => 'created@example.com',
+                'status' => AccountStatus::VERIFIED,
+            ],
+        );
         $i->seeResponseCodeIsSuccessful();
         $i->seeResponseIsJson();
 
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
 
-        $i->sendPatch(url: $location, params: json_encode($updatedCredentials));
+        $i->sendPatch(
+            url: $location,
+            params: json_encode([
+                'email' => 'updated@example.com',
+                'password' => 'password4#account',
+                'roles' => [AccountRole::ROLE_USER],
+            ]),
+        );
         $i->seeResponseCodeIsSuccessful();
 
         $i->sendPost(url: $location . '/' . AccountAction::BLOCK);
@@ -71,7 +79,7 @@ final class LifecycleAccountCest
         $i->seeResponseContainsJson(
             [
                 'uuid' => $uuid,
-                'email' => $updatedCredentials['email'],
+                'email' => 'updated@example.com',
                 'status' => AccountStatus::BLOCKED,
             ],
         );
@@ -80,12 +88,12 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIsSuccessful();
     }
 
+    #[Before('loadFixtures')]
+    #[Before('prepareHttpHeaders')]
     #[Before('signinWithAdminCredentials')]
     public function applyActionToAccount(FunctionalTester $i): void
     {
-        $userCredentials = ['email' => 'user@example.com'];
-
-        $i->sendGet(url: '/api/account', params: ['email' => $userCredentials['email']]);
+        $i->sendGet(url: '/api/account', params: ['email' => 'user@example.com']);
         $i->seeResponseCodeIsSuccessful();
         $i->seeResponseIsJson();
 
@@ -95,38 +103,49 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIsClientError();
     }
 
+    #[Before('loadFixtures')]
+    #[Before('prepareHttpHeaders')]
     #[Before('signinWithAdminCredentials')]
     public function createAccountWithExistedEmail(FunctionalTester $i): void
     {
-        $newCredentials = [
-            'email' => 'user@example.com',
-            'password' => 'password',
-            'roles' => [AccountRole::ROLE_USER],
-        ];
-
-        $i->sendPost(url: '/api/account', params: json_encode($newCredentials));
+        $i->sendPost(
+            url: '/api/account',
+            params: json_encode([
+                'email' => 'user@example.com',
+                'password' => 'password4#account',
+                'roles' => [AccountRole::ROLE_USER],
+            ]),
+        );
         $i->seeResponseCodeIsClientError();
     }
 
+    #[Before('loadFixtures')]
+    #[Before('prepareHttpHeaders')]
     #[Before('signinWithAdminCredentials')]
     public function updateAccountWithExistedEmail(FunctionalTester $i): void
     {
-        $updatedCredentials = ['email' => 'user@example.com'];
-
         $i->sendGet(url: '/api/account', params: ['email' => 'admin@example.com']);
         $i->seeResponseCodeIsSuccessful();
         $i->seeResponseIsJson();
 
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
 
-        $i->sendPatch(url: '/api/account/' . $uuid, params: json_encode($updatedCredentials));
+        $i->sendPatch(url: '/api/account/' . $uuid, params: json_encode(['email' => 'user@example.com']));
         $i->seeResponseCodeIsClientError();
+    }
+
+    protected function loadFixtures(FunctionalTester $i): void
+    {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+    }
+
+    protected function prepareHttpHeaders(FunctionalTester $i): void
+    {
+        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
     }
 
     protected function signinWithAdminCredentials(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountFixture::class);
-        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
         $i->sendPost(
             url: '/api/auth/signin',
             params: json_encode([
@@ -136,6 +155,9 @@ final class LifecycleAccountCest
         );
         $i->seeResponseCodeIsSuccessful();
         $i->seeHttpHeader(name: 'Authorization');
-        $i->haveHttpHeader(name: 'Authorization', value: $i->grabHttpHeader(name: 'Authorization'));
+
+        $authorizationHeader = $i->grabHttpHeader(name: 'Authorization');
+
+        $i->haveHttpHeader(name: 'Authorization', value: $authorizationHeader);
     }
 }
