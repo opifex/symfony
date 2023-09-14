@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Domain\Entity\HealthStatus;
+use Codeception\Util\HttpCode;
 
 final class LifecycleHealthCest
 {
@@ -23,6 +24,6 @@ final class LifecycleHealthCest
     {
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
         $i->sendPost(url: '/api/health');
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::METHOD_NOT_ALLOWED);
     }
 }
