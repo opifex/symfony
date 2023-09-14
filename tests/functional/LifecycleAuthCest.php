@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Infrastructure\Persistence\Fixture\AccountFixture;
+use Codeception\Util\HttpCode;
 
 final class LifecycleAuthCest
 {
@@ -43,14 +44,14 @@ final class LifecycleAuthCest
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($credentials));
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
         $i->seeHttpHeader(name: 'Authorization');
 
         $userAuthToken = $i->grabHttpHeader(name: 'Authorization');
 
         $i->haveHttpHeader(name: 'Authorization', value: $userAuthToken);
         $i->sendGet(url: '/api/auth/me');
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(['email' => $credentials['email']]);
     }
@@ -99,6 +100,6 @@ final class LifecycleAuthCest
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
-        $i->seeResponseCodeIsSuccessful();
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
     }
 }
