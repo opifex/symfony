@@ -101,7 +101,7 @@ final class LifecycleAccountCest
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
 
         $i->sendPost(url: '/api/account/' . $uuid . '/' . AccountAction::VERIFY);
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
     }
 
     #[Before('loadFixtures')]
@@ -117,7 +117,7 @@ final class LifecycleAccountCest
                 'roles' => [AccountRole::ROLE_USER],
             ]),
         );
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
     }
 
     #[Before('loadFixtures')]
@@ -132,7 +132,7 @@ final class LifecycleAccountCest
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
 
         $i->sendPatch(url: '/api/account/' . $uuid, params: json_encode(['email' => 'user@example.com']));
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
     }
 
     protected function loadFixtures(FunctionalTester $i): void
