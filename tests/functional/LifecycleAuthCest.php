@@ -14,15 +14,15 @@ final class LifecycleAuthCest
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendGet(url: '/api/auth/me');
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
 
         $i->haveHttpHeader(name: 'Authorization', value: 'invalid');
         $i->sendGet(url: '/api/auth/me');
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
 
         $i->haveHttpHeader(name: 'Authorization', value: 'Bearer invalid');
         $i->sendGet(url: '/api/auth/me');
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
     }
 
     public function signinWithBadCredentials(FunctionalTester $i): void
@@ -32,7 +32,7 @@ final class LifecycleAuthCest
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($credentials));
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
     }
 
     public function signinWithExistedEmail(FunctionalTester $i): void
@@ -63,7 +63,7 @@ final class LifecycleAuthCest
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
     }
 
     public function signupWithBadCredentials(FunctionalTester $i): void
@@ -73,12 +73,12 @@ final class LifecycleAuthCest
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
 
         $credentials = ['email' => 'example.com', 'password' => ['password4#account']];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
     }
 
     public function signupWithExistedEmail(FunctionalTester $i): void
