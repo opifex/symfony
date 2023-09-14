@@ -90,7 +90,7 @@ final class LifecycleAuthCest
         $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
     }
 
     public function signupWithValidCredentials(FunctionalTester $i): void
