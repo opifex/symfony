@@ -9,6 +9,7 @@ use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Infrastructure\Persistence\Fixture\AccountFixture;
 use Codeception\Attribute\Before;
+use Codeception\Util\HttpCode;
 
 final class LifecycleAccountCest
 {
@@ -18,16 +19,16 @@ final class LifecycleAccountCest
     public function actionsWithInvalidAccount(FunctionalTester $i): void
     {
         $i->sendGet(url: '/api/account/00000000-0000-6000-8000-000000000000');
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
 
         $i->sendPatch(url: '/api/account/00000000-0000-6000-8000-000000000000');
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
 
         $i->sendDelete(url: '/api/account/00000000-0000-6000-8000-000000000000');
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
 
         $i->sendPost(url: '/api/account/00000000-0000-6000-8000-000000000000/' . AccountAction::VERIFY);
-        $i->seeResponseCodeIsClientError();
+        $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
     }
 
     #[Before('loadFixtures')]
