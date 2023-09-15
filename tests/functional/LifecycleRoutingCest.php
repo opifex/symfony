@@ -12,7 +12,6 @@ final class LifecycleRoutingCest
     #[Before('prepareHttpHeaders')]
     public function getInvalidRoute(FunctionalTester $i): void
     {
-        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
         $i->sendGet(url: '/api/invalid');
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
     }
