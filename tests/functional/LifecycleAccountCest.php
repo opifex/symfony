@@ -8,16 +8,16 @@ use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Infrastructure\Persistence\Fixture\AccountFixture;
-use Codeception\Attribute\Before;
 use Codeception\Util\HttpCode;
 
 final class LifecycleAccountCest
 {
-    #[Before('loadFixtures')]
-    #[Before('prepareHttpHeaders')]
-    #[Before('signinWithAdminCredentials')]
     public function actionsWithInvalidAccount(FunctionalTester $i): void
     {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+        $i->haveHttpHeaderApplicationJson();
+        $i->haveHttpHeaderAuthorizationAdmin();
+
         $i->sendGet(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
 
@@ -31,11 +31,12 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
     }
 
-    #[Before('loadFixtures')]
-    #[Before('prepareHttpHeaders')]
-    #[Before('signinWithAdminCredentials')]
     public function actionsWithNewAccount(FunctionalTester $i): void
     {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+        $i->haveHttpHeaderApplicationJson();
+        $i->haveHttpHeaderAuthorizationAdmin();
+
         $i->sendPost(
             url: '/api/account',
             params: json_encode([
@@ -89,11 +90,12 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
     }
 
-    #[Before('loadFixtures')]
-    #[Before('prepareHttpHeaders')]
-    #[Before('signinWithAdminCredentials')]
     public function applyActionToAccount(FunctionalTester $i): void
     {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+        $i->haveHttpHeaderApplicationJson();
+        $i->haveHttpHeaderAuthorizationAdmin();
+
         $i->sendGet(url: '/api/account', params: ['email' => 'user@example.com']);
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
@@ -104,11 +106,12 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
     }
 
-    #[Before('loadFixtures')]
-    #[Before('prepareHttpHeaders')]
-    #[Before('signinWithAdminCredentials')]
     public function createAccountWithExistedEmail(FunctionalTester $i): void
     {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+        $i->haveHttpHeaderApplicationJson();
+        $i->haveHttpHeaderAuthorizationAdmin();
+
         $i->sendPost(
             url: '/api/account',
             params: json_encode([
@@ -120,11 +123,12 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
     }
 
-    #[Before('loadFixtures')]
-    #[Before('prepareHttpHeaders')]
-    #[Before('signinWithAdminCredentials')]
     public function updateAccountWithExistedEmail(FunctionalTester $i): void
     {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+        $i->haveHttpHeaderApplicationJson();
+        $i->haveHttpHeaderAuthorizationAdmin();
+
         $i->sendGet(url: '/api/account', params: ['email' => 'admin@example.com']);
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
@@ -133,32 +137,5 @@ final class LifecycleAccountCest
 
         $i->sendPatch(url: '/api/account/' . $uuid, params: json_encode(['email' => 'user@example.com']));
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
-    }
-
-    protected function loadFixtures(FunctionalTester $i): void
-    {
-        $i->loadFixtures(fixtures: AccountFixture::class);
-    }
-
-    protected function prepareHttpHeaders(FunctionalTester $i): void
-    {
-        $i->haveHttpHeader(name: 'Content-Type', value: 'application/json');
-    }
-
-    protected function signinWithAdminCredentials(FunctionalTester $i): void
-    {
-        $i->sendPost(
-            url: '/api/auth/signin',
-            params: json_encode([
-                'email' => 'admin@example.com',
-                'password' => $i->getDefaultPassword(),
-            ]),
-        );
-        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
-        $i->seeHttpHeader(name: 'Authorization');
-
-        $authorizationHeader = $i->grabHttpHeader(name: 'Authorization');
-
-        $i->haveHttpHeader(name: 'Authorization', value: $authorizationHeader);
     }
 }

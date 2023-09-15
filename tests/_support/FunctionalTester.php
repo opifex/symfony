@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use Codeception\Actor;
 use Codeception\Lib\Friend;
+use Codeception\Util\HttpCode;
 
 /**
  * Inherited Methods
@@ -28,5 +29,28 @@ class FunctionalTester extends Actor
     public function getDefaultPassword(): string
     {
         return 'password4#account';
+    }
+
+    public function haveHttpHeaderApplicationJson(): void
+    {
+        $this->haveHttpHeader(name: 'Content-Type', value: 'application/json');
+    }
+
+    public function haveHttpHeaderAuthorizationAdmin(): void
+    {
+        $this->haveHttpHeaderApplicationJson();
+        $this->sendPost(
+            url: '/api/auth/signin',
+            params: json_encode([
+                'email' => 'admin@example.com',
+                'password' => $this->getDefaultPassword(),
+            ]),
+        );
+        $this->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
+        $this->seeHttpHeader(name: 'Authorization');
+
+        $authorizationHeader = $this->grabHttpHeader(name: 'Authorization');
+
+        $this->haveHttpHeader(name: 'Authorization', value: $authorizationHeader);
     }
 }
