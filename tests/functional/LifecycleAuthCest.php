@@ -28,7 +28,7 @@ final class LifecycleAuthCest
     #[Before('prepareHttpHeaders')]
     public function signinWithBadCredentials(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'bad@example.com', 'password' => 'password4#account'];
+        $credentials = ['email' => 'bad@example.com', 'password' => $i->getDefaultPassword()];
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($credentials));
         $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
@@ -38,7 +38,7 @@ final class LifecycleAuthCest
     #[Before('prepareHttpHeaders')]
     public function signinWithExistedEmail(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'user@example.com', 'password' => 'password4#account'];
+        $credentials = ['email' => 'user@example.com', 'password' => $i->getDefaultPassword()];
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($credentials));
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
@@ -56,7 +56,7 @@ final class LifecycleAuthCest
     #[Before('prepareHttpHeaders')]
     public function signinWithExtraAttributes(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'bad@example.com', 'password' => 'password4#account', 'extra' => 'value'];
+        $credentials = ['email' => 'bad@example.com', 'password' => $i->getDefaultPassword(), 'extra' => 'value'];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
@@ -65,12 +65,12 @@ final class LifecycleAuthCest
     #[Before('prepareHttpHeaders')]
     public function signupWithBadCredentials(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'example.com', 'password' => 'password4#account'];
+        $credentials = ['email' => 'example.com', 'password' => $i->getDefaultPassword()];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
 
-        $credentials = ['email' => 'example.com', 'password' => ['password4#account']];
+        $credentials = ['email' => 'example.com', 'password' => [$i->getDefaultPassword()]];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
@@ -80,7 +80,7 @@ final class LifecycleAuthCest
     #[Before('prepareHttpHeaders')]
     public function signupWithExistedEmail(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'user@example.com', 'password' => 'password4#account'];
+        $credentials = ['email' => 'user@example.com', 'password' => $i->getDefaultPassword()];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
@@ -89,7 +89,7 @@ final class LifecycleAuthCest
     #[Before('prepareHttpHeaders')]
     public function signupWithValidCredentials(FunctionalTester $i): void
     {
-        $credentials = ['email' => 'email@example.com', 'password' => 'password4#account'];
+        $credentials = ['email' => 'email@example.com', 'password' => $i->getDefaultPassword()];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);

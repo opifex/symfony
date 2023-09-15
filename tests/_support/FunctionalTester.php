@@ -24,4 +24,9 @@ use Codeception\Lib\Friend;
 class FunctionalTester extends Actor
 {
     use _generated\FunctionalTesterActions;
+
+    public function getDefaultPassword(): string
+    {
+        return 'password4#account';
+    }
 }

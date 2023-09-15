@@ -40,7 +40,7 @@ final class LifecycleAccountCest
             url: '/api/account',
             params: json_encode([
                 'email' => 'created@example.com',
-                'password' => 'password4#account',
+                'password' => $i->getDefaultPassword(),
                 'roles' => [AccountRole::ROLE_USER],
             ]),
         );
@@ -65,7 +65,7 @@ final class LifecycleAccountCest
             url: $location,
             params: json_encode([
                 'email' => 'updated@example.com',
-                'password' => 'password4#account',
+                'password' => $i->getDefaultPassword(),
                 'roles' => [AccountRole::ROLE_USER],
             ]),
         );
@@ -113,7 +113,7 @@ final class LifecycleAccountCest
             url: '/api/account',
             params: json_encode([
                 'email' => 'user@example.com',
-                'password' => 'password4#account',
+                'password' => $i->getDefaultPassword(),
                 'roles' => [AccountRole::ROLE_USER],
             ]),
         );
@@ -151,7 +151,7 @@ final class LifecycleAccountCest
             url: '/api/auth/signin',
             params: json_encode([
                 'email' => 'admin@example.com',
-                'password' => 'password4#account',
+                'password' => $i->getDefaultPassword(),
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
