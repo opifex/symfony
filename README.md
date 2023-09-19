@@ -57,7 +57,7 @@ All you need to do is configure the debugger in the IDE, enter the required key 
 
 ## Architecture
 
-This **RESTful** application uses **Domain-Driven Design** (DDD) and **Command-Query Separation** (CSQ) principles and
+This **RESTful** application uses **Domain-Driven Design** (DDD) with **Command-Query Separation** (CSQ) principles and
 provides **JSON-based** contracts with **JSON Web Token** (JWT) authorization.
 
 ```
