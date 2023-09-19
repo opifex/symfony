@@ -104,7 +104,7 @@
             "bin/console doctrine:database:drop -e test --if-exists --force",
             "bin/console doctrine:database:create -e test",
             "bin/console doctrine:migration:migrate -e test -n",
-            "codecept run unit,functional --coverage-cobertura --coverage-html --fail-fast"
+            "codecept run unit,functional --coverage-html --fail-fast"
         ],
         "auto-scripts": {
             "assets:install %PUBLIC_DIR%": "symfony-cmd",

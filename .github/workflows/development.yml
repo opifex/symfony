@@ -47,11 +47,3 @@ jobs:
 
       - name: Run automated project quality assurance
         run: /usr/bin/composer auto-quality
-
-      - name: Code Coverage Summary Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: tests/_output/cobertura.xml
-          badge: true
-          format: markdown
-          output: console
