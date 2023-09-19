@@ -74,7 +74,7 @@ provides **JSON-based** contracts with **JSON Web Token** (JWT) authorization.
 └────────────────┘   └────────────────┘   └────────────────┘
 ```
 
-**Domain**: entities, events, exceptions and interfaces that do not have specific implementation.
+**Domain**: entities, events, exceptions and interfaces that do not have a specific implementation.
 
 **Application**: services, listeners and other parts of the application that perform core and business logic.
 
