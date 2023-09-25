@@ -19,7 +19,7 @@ RUN set -e \
     && docker-php-ext-install gd intl opcache pdo_pgsql xsl zip \
     && pecl install amqp-2.1.0 && docker-php-ext-enable amqp \
     && pecl install apcu-5.1.22 && docker-php-ext-enable apcu \
-    && pecl install redis-6.0.0 && docker-php-ext-enable redis \
+    && pecl install redis-6.0.1 && docker-php-ext-enable redis \
     && pecl install xdebug-3.2.2 && docker-php-ext-enable xsl \
     && pecl clear-cache && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
