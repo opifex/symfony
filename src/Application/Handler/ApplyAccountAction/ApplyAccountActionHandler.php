@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Handler\ApplyAccountAction;
 
 use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Exception\AccountInvalidActionException;
+use App\Domain\Exception\AccountActionInvalidException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Workflow\WorkflowInterface;
 
@@ -23,7 +23,7 @@ final class ApplyAccountActionHandler
         $account = $this->accountRepository->findOneByUuid($message->uuid);
 
         if (!$this->accountStateMachine->can($account, $message->action)) {
-            throw new AccountInvalidActionException(
+            throw new AccountActionInvalidException(
                 message: 'Provided action cannot be applied to account.',
             );
         }
