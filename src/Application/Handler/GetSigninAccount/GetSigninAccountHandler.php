@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Handler\GetSigninAccount;
 
 use App\Domain\Contract\AccountInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use App\Domain\Exception\AccessDeniedException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -21,7 +21,7 @@ final class GetSigninAccountHandler
         $account = $this->tokenStorage->getToken()?->getUser();
 
         if (!$account instanceof AccountInterface) {
-            throw new AccessDeniedHttpException(
+            throw new AccessDeniedException(
                 message: 'An authentication exception occurred.',
             );
         }

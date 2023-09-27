@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Handler\UpdateAccountById;
 
 use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -26,7 +26,7 @@ final class UpdateAccountByIdHandler
         if ($message->email !== null && $message->email !== $account->getEmail()) {
             try {
                 $this->accountRepository->findOneByEmail($message->email);
-                throw new ConflictHttpException(
+                throw new AccountAlreadyExistsException(
                     message: 'Email address is already associated with another account.',
                 );
             } catch (AccountNotFoundException) {

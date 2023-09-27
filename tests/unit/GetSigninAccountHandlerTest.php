@@ -6,9 +6,9 @@ namespace App\Tests;
 
 use App\Application\Handler\GetSigninAccount\GetSigninAccountHandler;
 use App\Application\Handler\GetSigninAccount\GetSigninAccountQuery;
+use App\Domain\Exception\AccessDeniedException;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class GetSigninAccountHandlerTest extends Unit
@@ -30,7 +30,7 @@ final class GetSigninAccountHandlerTest extends Unit
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
 
-        $this->expectException(AccessDeniedHttpException::class);
+        $this->expectException(AccessDeniedException::class);
 
         ($getSigninAccountHandler)(new GetSigninAccountQuery());
     }
