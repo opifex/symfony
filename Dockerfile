@@ -1,4 +1,4 @@
-FROM composer:2.6.3 AS composer
+FROM composer:2.6.4 AS composer
 # set working directory
 WORKDIR /tmp
 # copy composer files
