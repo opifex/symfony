@@ -55,7 +55,9 @@ final class SymfonyRunCommand extends Command
 
         [$count, $delay] = [(int) $count, (int) $delay];
 
-        foreach ($console->progressIterate(array_pad([], length: $count, value: null)) as $item) {
+        $iterableItems = array_pad([], length: $count, value: null);
+
+        foreach ($console->progressIterate($iterableItems) as $item) {
             if ($item === null) {
                 $this->clock->sleep($delay);
             }
