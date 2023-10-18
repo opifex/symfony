@@ -31,6 +31,51 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
     }
 
+    public function invalidActionsWithUserAccount(FunctionalTester $i): void
+    {
+        $i->loadFixtures(fixtures: AccountFixture::class);
+        $i->haveHttpHeaderApplicationJson();
+
+        $i->sendPost(
+            url: '/api/auth/signin',
+            params: json_encode([
+                'email' => 'user@example.com',
+                'password' => $i->getDefaultPassword(),
+            ]),
+        );
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
+        $i->seeHttpHeader(name: 'Authorization');
+
+        $authorizationHeader = $i->grabHttpHeader(name: 'Authorization');
+
+        $i->haveHttpHeader(name: 'Authorization', value: $authorizationHeader);
+
+        $i->sendPost(
+            url: '/api/account',
+            params: json_encode([
+                'email' => 'created@example.com',
+                'password' => $i->getDefaultPassword(),
+                'roles' => [AccountRole::ROLE_USER],
+            ]),
+        );
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+
+        $i->sendGet(url: '/api/account');
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+
+        $i->sendGet(url: '/api/account/00000000-0000-6000-8000-000000000000');
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+
+        $i->sendPatch(url: '/api/account/00000000-0000-6000-8000-000000000000');
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+
+        $i->sendDelete(url: '/api/account/00000000-0000-6000-8000-000000000000');
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+
+        $i->sendPost(url: '/api/account/00000000-0000-6000-8000-000000000000/' . AccountAction::VERIFY);
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+    }
+
     public function actionsWithNewAccount(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
