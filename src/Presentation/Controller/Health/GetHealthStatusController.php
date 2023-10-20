@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
@@ -37,6 +39,7 @@ final class GetHealthStatusController extends AbstractController
         methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]
+    #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
     public function __invoke(#[MapMessage] GetHealthStatusQuery $message): Envelope
     {
         return $this->queryBus->dispatch($message);

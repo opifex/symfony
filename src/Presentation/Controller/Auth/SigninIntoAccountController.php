@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 #[AsController]
@@ -51,6 +53,7 @@ final class SigninIntoAccountController extends AbstractController
         methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]
+    #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
     public function __invoke(#[MapMessage] SigninIntoAccountCommand $message): Envelope
     {
         return $this->commandBus->dispatch($message)->with(

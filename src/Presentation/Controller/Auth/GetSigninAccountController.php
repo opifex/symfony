@@ -41,7 +41,7 @@ final class GetSigninAccountController extends AbstractController
         methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]
-    #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED, message: 'Not privileged to request the resource.')]
+    #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)]
     public function __invoke(#[MapMessage] GetSigninAccountQuery $message): Envelope
     {
         return $this->queryBus->dispatch($message);
