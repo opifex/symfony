@@ -20,6 +20,9 @@ final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregat
         return $this->accounts->count();
     }
 
+    /**
+     * @return Traversable<int, GetAccountsByCriteriaItem>
+     */
     public function getIterator(): Traversable
     {
         foreach ($this->accounts as $account) {
