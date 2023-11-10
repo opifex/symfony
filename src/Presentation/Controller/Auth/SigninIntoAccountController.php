@@ -33,6 +33,7 @@ final class SigninIntoAccountController extends AbstractController
         ),
         tags: ['Authorization'],
         responses: [
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
             new OA\Response(
                 response: Response::HTTP_NO_CONTENT,
                 description: 'No Content',

@@ -26,6 +26,7 @@ final class GetHealthStatusController extends AbstractController
         summary: 'Get health status',
         tags: ['Health'],
         responses: [
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
             new OA\Response(
                 response: Response::HTTP_OK,
                 description: 'OK',
