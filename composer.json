@@ -19,7 +19,7 @@
         "ext-zend-opcache": "*",
         "ext-zip": "*",
         "doctrine/doctrine-bundle": "^2.11",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.16",
         "lcobucci/jwt": "^4.3",
         "nelmio/api-doc-bundle": "^4.12",
