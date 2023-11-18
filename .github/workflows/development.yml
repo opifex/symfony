@@ -11,7 +11,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15.4
+        image: postgres:16.1
         env:
           POSTGRES_DB: root
           POSTGRES_PASSWORD: root
@@ -28,7 +28,7 @@ jobs:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=15&charset=utf8
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
-      PHP_VERSION: 8.2.10
+      PHP_VERSION: 8.2.12
 
     steps:
       - name: Setup environment
