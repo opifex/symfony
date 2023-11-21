@@ -22,6 +22,11 @@ final class CreateNewAccountCommand
         #[Assert\PasswordStrength]
         public readonly string $password = '',
 
+        #[Assert\Length(min: 2, max: 2)]
+        #[Assert\Locale]
+        #[Assert\Regex(pattern: '/^[a-z]+$/', message: 'This value should be in lowercase.')]
+        public readonly string $locale = 'en',
+
         #[Assert\Choice(choices: AccountRole::ROLES, multiple: true)]
         #[Assert\NotBlank]
         public readonly array $roles = [],

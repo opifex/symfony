@@ -6,7 +6,6 @@ framework:
       default.bus:
         middleware:
           - App\Application\Messenger\IdentifierMiddleware
-          - App\Application\Messenger\LocaleMiddleware
       command.bus:
         middleware:
           - doctrine_close_connection

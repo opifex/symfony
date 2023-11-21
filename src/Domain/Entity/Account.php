@@ -19,8 +19,9 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         private string $uuid,
         private string $email,
         private string $password = '',
+        private string $locale = 'en',
         private string $status = AccountStatus::CREATED,
-        private array $roles = [],
+        private array $roles = [AccountRole::ROLE_USER],
         private DateTimeImmutable $createdAt = new DateTimeImmutable(),
     ) {
     }
@@ -50,6 +51,18 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
     public function setPassword(#[SensitiveParameter] string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
 
         return $this;
     }

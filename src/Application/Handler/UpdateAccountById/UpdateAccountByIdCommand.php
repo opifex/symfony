@@ -29,6 +29,12 @@ final class UpdateAccountByIdCommand
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $password = null,
 
+        #[Assert\Length(min: 2, max: 2)]
+        #[Assert\Locale]
+        #[Assert\Regex(pattern: '/^[a-z]+$/', message: 'This value should be in lowercase.')]
+        #[Groups(self::GROUP_EDITABLE)]
+        public readonly ?string $locale = null,
+
         #[Assert\Choice(choices: AccountRole::ROLES, multiple: true)]
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?array $roles = null,

@@ -23,7 +23,7 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountCommand $message): void
     {
-        $account = AccountFactory::createUserAccount($message->email);
+        $account = AccountFactory::createUserAccount($message->email, $message->locale);
         $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
 
         $this->accountRepository->insert($account);

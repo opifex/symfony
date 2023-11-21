@@ -9,6 +9,7 @@
     <field name="createdAt" column="created_at" type="datetime_immutable" updatable="false"/>
     <field name="email" column="email" length="320" unique="true"/>
     <field name="password" column="password" length="60"/>
+    <field name="locale" column="locale" length="2"/>
     <field name="roles" column="roles" type="json"/>
     <field name="status" column="status" length="24"/>
   </entity>

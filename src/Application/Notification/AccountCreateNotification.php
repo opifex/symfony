@@ -24,7 +24,10 @@ final class AccountCreateNotification extends Notification implements EmailNotif
         $email->to($recipient->getEmail());
         $email->subject(subject: 'account.create.email.subject');
         $email->content(content: 'account.create.email.content');
-        $email->context(['account_email' => $this->account->getEmail()]);
+        $email->context([
+            'account_email' => $this->account->getEmail(),
+            'locale' => $this->account->getLocale(),
+        ]);
 
         return new EmailMessage($email);
     }

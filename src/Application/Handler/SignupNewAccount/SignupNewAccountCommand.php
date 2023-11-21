@@ -17,6 +17,11 @@ final class SignupNewAccountCommand
         #[Assert\NotBlank]
         #[Assert\PasswordStrength]
         public readonly string $password = '',
+
+        #[Assert\Length(min: 2, max: 2)]
+        #[Assert\Locale]
+        #[Assert\Regex(pattern: '/^[a-z]+$/', message: 'This value should be in lowercase.')]
+        public readonly string $locale = 'en',
     ) {
     }
 }

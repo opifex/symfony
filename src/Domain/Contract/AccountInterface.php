@@ -10,14 +10,16 @@ interface AccountInterface
 {
     public function getUuid(): string;
 
+    public function getCreatedAt(): DateTimeInterface;
+
     public function getEmail(): string;
 
-    public function getStatus(): string;
+    public function getLocale(): string;
 
     /**
      * @return string[]
      */
     public function getRoles(): array;
 
-    public function getCreatedAt(): DateTimeInterface;
+    public function getStatus(): string;
 }

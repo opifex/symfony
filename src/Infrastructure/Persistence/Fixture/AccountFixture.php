@@ -35,7 +35,6 @@ final class AccountFixture extends Fixture implements FixtureInterface
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $password,
             status: AccountStatus::VERIFIED,
-            roles: [AccountRole::ROLE_USER],
         );
         $manager->persist($userAccount);
 
@@ -45,7 +44,6 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 email: $faker->unique()->email(),
                 password: $password,
                 status: $faker->bothify($faker->randomElement(array: AccountStatus::STATUSES)),
-                roles: [AccountRole::ROLE_USER],
             );
             $manager->persist($account);
         }

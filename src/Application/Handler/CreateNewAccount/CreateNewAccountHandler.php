@@ -26,7 +26,7 @@ final class CreateNewAccountHandler
 
     public function __invoke(CreateNewAccountCommand $message): void
     {
-        $account = AccountFactory::createCustomAccount($message->email, $message->roles);
+        $account = AccountFactory::createCustomAccount($message->email, $message->locale, $message->roles);
         $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
         $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
 

@@ -112,6 +112,7 @@ final class LifecycleAccountCest
             params: json_encode([
                 'email' => 'updated@example.com',
                 'password' => $i->getDefaultPassword(),
+                'locale' => 'en',
                 'roles' => [AccountRole::ROLE_USER],
             ]),
         );

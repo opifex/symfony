@@ -34,12 +34,16 @@ final class UpdateAccountByIdHandler
             }
         }
 
-        if ($message->roles !== null) {
-            $account->setRoles($message->roles);
-        }
-
         if ($message->password !== null) {
             $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
+        }
+
+        if ($message->locale !== null) {
+            $account->setLocale($message->locale);
+        }
+
+        if ($message->roles !== null) {
+            $account->setRoles($message->roles);
         }
     }
 }
