@@ -13,6 +13,8 @@ final class GetAccountsByCriteriaItem
 
     public readonly string $email;
 
+    public readonly string $locale;
+
     public readonly string $status;
 
     /** @var string[] */
@@ -22,10 +24,11 @@ final class GetAccountsByCriteriaItem
 
     public function __construct(AccountInterface $account)
     {
-        $this->createdAt = $account->getCreatedAt();
-        $this->email = $account->getEmail();
-        $this->roles = $account->getRoles();
-        $this->status = $account->getStatus();
         $this->uuid = $account->getUuid();
+        $this->email = $account->getEmail();
+        $this->locale = $account->getLocale();
+        $this->status = $account->getStatus();
+        $this->roles = $account->getRoles();
+        $this->createdAt = $account->getCreatedAt();
     }
 }
