@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
+use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -56,8 +57,22 @@ final class RequestNormalizer implements NormalizerInterface
         return array_merge_recursive(
             $request->query->all(),
             $request->attributes->all(key: '_route_params'),
-            $request->getContent() !== '' ? $request->toArray() : [],
+            $this->parseContent($request),
         );
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function parseContent(Request $request): array
+    {
+        try {
+            $params = $request->toArray();
+        } catch (JsonException) {
+            $params = [];
+        }
+
+        return $params;
     }
 
     /**

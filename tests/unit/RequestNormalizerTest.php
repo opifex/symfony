@@ -8,7 +8,6 @@ use App\Application\Serializer\RequestNormalizer;
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use stdClass;
-use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
@@ -54,10 +53,9 @@ final class RequestNormalizerTest extends Unit
     public function testNormalizeWithInvalidRequest(): void
     {
         $requestNormalizer = new RequestNormalizer();
+        $normalized = $requestNormalizer->normalize(new Request(content: 'invalid'));
 
-        $this->expectException(JsonException::class);
-
-        $requestNormalizer->normalize(new Request(content: 'invalid'));
+        $this->assertEquals(expected: [], actual: $normalized);
     }
 
     protected function requestDataProvider(): array
