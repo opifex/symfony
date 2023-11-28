@@ -13,7 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AsEventListener(event: MessageEvent::class)]
 final class MessageEventListener
 {
-    private const TRANSLATOR_DOMAIN = 'notifications';
+    private const string TRANSLATOR_DOMAIN = 'notifications';
 
     public function __construct(private TranslatorInterface $translator)
     {

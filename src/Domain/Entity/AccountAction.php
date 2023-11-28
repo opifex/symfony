@@ -6,10 +6,11 @@ namespace App\Domain\Entity;
 
 final class AccountAction
 {
-    public const BLOCK = 'block';
-    public const UNBLOCK = 'unblock';
-    public const VERIFY = 'verify';
-    public const ACTIONS = [
+    public const string BLOCK = 'block';
+    public const string UNBLOCK = 'unblock';
+    public const string VERIFY = 'verify';
+    /** @var string[] */
+    public const array ACTIONS = [
         self::BLOCK,
         self::UNBLOCK,
         self::VERIFY,

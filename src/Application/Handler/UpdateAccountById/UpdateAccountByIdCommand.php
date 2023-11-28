@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class UpdateAccountByIdCommand
 {
-    public const GROUP_EDITABLE = __CLASS__ . ':editable';
+    public const string GROUP_EDITABLE = __CLASS__ . ':editable';
 
     /**
      * @param string[]|null $roles

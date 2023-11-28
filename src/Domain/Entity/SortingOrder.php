@@ -6,9 +6,10 @@ namespace App\Domain\Entity;
 
 final class SortingOrder
 {
-    public const ASC = 'asc';
-    public const DESC = 'desc';
-    public const SORTING = [
+    public const string ASC = 'asc';
+    public const string DESC = 'desc';
+    /** @var string[] */
+    public const array SORTING = [
         self::ASC,
         self::DESC,
     ];

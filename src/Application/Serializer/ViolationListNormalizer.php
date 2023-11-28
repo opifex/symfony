@@ -15,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ViolationListNormalizer implements NormalizerInterface
 {
-    private const TRANSLATOR_DOMAIN = 'validators';
+    private const string TRANSLATOR_DOMAIN = 'validators';
 
     public function __construct(
         private KernelInterface $kernel,

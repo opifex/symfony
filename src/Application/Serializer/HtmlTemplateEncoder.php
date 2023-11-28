@@ -12,8 +12,8 @@ use Symfony\Component\Serializer\Exception\RuntimeException;
 
 final class HtmlTemplateEncoder implements EncoderInterface
 {
-    public const FORMAT = 'html';
-    public const TEMPLATE = 'template';
+    public const string FORMAT = 'html';
+    public const string TEMPLATE = 'template';
 
     public function __construct(private TwigAdapterInterface $twigAdapter)
     {

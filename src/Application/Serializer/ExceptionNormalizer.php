@@ -15,7 +15,7 @@ use Throwable;
 
 final class ExceptionNormalizer implements NormalizerInterface
 {
-    private const TRANSLATOR_DOMAIN = 'exceptions';
+    private const string TRANSLATOR_DOMAIN = 'exceptions';
 
     public function __construct(private KernelInterface $kernel)
     {
