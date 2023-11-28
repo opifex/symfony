@@ -11,6 +11,6 @@ final class HealthFactory
 {
     public static function createAliveHealth(): Health
     {
-        return new Health(status: HealthStatus::OK);
+        return new Health(status: HealthStatus::Ok);
     }
 }
