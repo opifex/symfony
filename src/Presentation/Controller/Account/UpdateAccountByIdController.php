@@ -44,8 +44,8 @@ final class UpdateAccountByIdController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/account/{uuid}',
-        name: __CLASS__,
+        path: '/account/{uuid}',
+        name: 'app_update_account_by_id',
         methods: Request::METHOD_PATCH,
         format: JsonEncoder::FORMAT,
     )]

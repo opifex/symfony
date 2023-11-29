@@ -40,8 +40,8 @@ final class GetAccountByIdController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/account/{uuid}',
-        name: __CLASS__,
+        path: '/account/{uuid}',
+        name: 'app_get_account_by_id',
         methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]

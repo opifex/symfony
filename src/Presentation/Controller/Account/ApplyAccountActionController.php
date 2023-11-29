@@ -43,8 +43,8 @@ final class ApplyAccountActionController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/account/{uuid}/{action}',
-        name: __CLASS__,
+        path: '/account/{uuid}/{action}',
+        name: 'app_apply_account_action',
         methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]

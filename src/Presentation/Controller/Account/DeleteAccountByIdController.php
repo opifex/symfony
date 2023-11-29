@@ -34,8 +34,8 @@ final class DeleteAccountByIdController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/account/{uuid}',
-        name: __CLASS__,
+        path: '/account/{uuid}',
+        name: 'app_delete_account_by_id',
         methods: Request::METHOD_DELETE,
         format: JsonEncoder::FORMAT,
     )]

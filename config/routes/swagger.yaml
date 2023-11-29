@@ -1,9 +1,9 @@
-Nelmio\ApiDocBundle\Controller\DocumentationController:
+app_swagger_json:
   path: /docs/json
   methods: GET
   defaults: { _controller: nelmio_api_doc.controller.swagger }
 
-Nelmio\ApiDocBundle\Controller\SwaggerUiController:
+app_swagger_ui:
   path: /docs
   methods: GET
   defaults: { _controller: nelmio_api_doc.controller.swagger_ui }

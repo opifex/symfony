@@ -49,7 +49,7 @@ final class CreateNewAccountController extends AbstractController
                         description: 'Contains url for created account',
                         schema: new OA\Schema(
                             type: 'string',
-                            example: '/api/account/1ed49f4d-582c-6fbe-bd13-cfd1e04cb3c6',
+                            example: '/account/1ed49f4d-582c-6fbe-bd13-cfd1e04cb3c6',
                         ),
                     ),
                 ],
@@ -58,8 +58,8 @@ final class CreateNewAccountController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/account',
-        name: __CLASS__,
+        path: '/account',
+        name: 'app_create_new_account',
         methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]
@@ -74,7 +74,7 @@ final class CreateNewAccountController extends AbstractController
         return $this->commandBus->dispatch($message)->with(
             new ResponseStamp(headers: [
                 'Location' => $this->urlGenerator->generate(
-                    name: GetAccountByIdController::class,
+                    name: 'app_get_account_by_id',
                     parameters: ['uuid' => $this->accountCreateEvent?->account->getUuid()],
                 ),
             ]),

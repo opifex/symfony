@@ -35,8 +35,8 @@ final class GetHealthStatusController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/health',
-        name: __CLASS__,
+        path: '/health',
+        name: 'app_get_health_status',
         methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]

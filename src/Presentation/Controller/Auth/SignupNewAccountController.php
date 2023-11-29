@@ -38,8 +38,8 @@ final class SignupNewAccountController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/auth/signup',
-        name: __CLASS__,
+        path: '/auth/signup',
+        name: 'app_signup_new_account',
         methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]

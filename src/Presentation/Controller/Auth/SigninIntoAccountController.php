@@ -49,8 +49,8 @@ final class SigninIntoAccountController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/auth/signin',
-        name: __CLASS__,
+        path: '/auth/signin',
+        name: 'app_signin_into_account',
         methods: Request::METHOD_POST,
         format: JsonEncoder::FORMAT,
     )]

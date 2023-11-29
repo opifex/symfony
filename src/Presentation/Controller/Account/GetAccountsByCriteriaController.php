@@ -86,8 +86,8 @@ final class GetAccountsByCriteriaController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/account',
-        name: __CLASS__,
+        path: '/account',
+        name: 'app_get_accounts_by_criteria',
         methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]

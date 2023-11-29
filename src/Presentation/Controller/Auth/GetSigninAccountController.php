@@ -37,8 +37,8 @@ final class GetSigninAccountController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/api/auth/me',
-        name: __CLASS__,
+        path: '/auth/me',
+        name: 'app_get_signin_account',
         methods: Request::METHOD_GET,
         format: JsonEncoder::FORMAT,
     )]
