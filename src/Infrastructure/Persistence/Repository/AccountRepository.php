@@ -17,12 +17,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\String\UnicodeString;
 
 #[Autoconfigure(lazy: true)]
 class AccountRepository extends AbstractRepository implements AccountRepositoryInterface
 {
+    #[Override]
     public function findByCriteria(AccountSearchCriteria $criteria): AccountCollection
     {
         $builder = $this->entityManager->createQueryBuilder();
@@ -55,6 +57,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
      * @throws AccountNotFoundException
      * @throws NonUniqueResultException
      */
+    #[Override]
     public function findOneByEmail(string $email): Account
     {
         $builder = $this->entityManager->createQueryBuilder();
@@ -77,6 +80,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
      * @throws AccountNotFoundException
      * @throws NonUniqueResultException
      */
+    #[Override]
     public function findOneByUuid(string $uuid): Account
     {
         $builder = $this->entityManager->createQueryBuilder();
@@ -99,6 +103,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
      * @throws AccountAlreadyExistsException
      * @throws Exception
      */
+    #[Override]
     public function insert(Account $account): void
     {
         try {
@@ -114,6 +119,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     /**
      * @throws AccountNotFoundException
      */
+    #[Override]
     public function delete(string $uuid): void
     {
         $builder = $this->entityManager->createQueryBuilder();

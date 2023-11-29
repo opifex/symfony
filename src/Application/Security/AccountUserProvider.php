@@ -7,6 +7,7 @@ namespace App\Application\Security;
 use App\Domain\Contract\AccountInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Exception\AccountNotFoundException;
+use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,6 +20,7 @@ final class AccountUserProvider implements UserProviderInterface
     {
     }
 
+    #[Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         try {
@@ -31,11 +33,13 @@ final class AccountUserProvider implements UserProviderInterface
         }
     }
 
+    #[Override]
     public function refreshUser(UserInterface $user): UserInterface
     {
         throw new UnsupportedUserException();
     }
 
+    #[Override]
     public function supportsClass(string $class): bool
     {
         return is_subclass_of($class, class: AccountInterface::class);

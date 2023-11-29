@@ -7,6 +7,7 @@ namespace App\Domain\Entity;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use Override;
 use Traversable;
 
 final class AccountCollection implements Countable, IteratorAggregate
@@ -25,6 +26,7 @@ final class AccountCollection implements Countable, IteratorAggregate
         $this->count = count($accounts);
     }
 
+    #[Override]
     public function count(): int
     {
         return $this->count;
@@ -33,6 +35,7 @@ final class AccountCollection implements Countable, IteratorAggregate
     /**
      * @return Traversable<int, Account>
      */
+    #[Override]
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->accounts);

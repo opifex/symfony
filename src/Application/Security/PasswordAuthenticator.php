@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Security;
 
 use App\Domain\Contract\JwtAdapterInterface;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -20,6 +21,7 @@ final class PasswordAuthenticator implements InteractiveAuthenticatorInterface
     {
     }
 
+    #[Override]
     public function authenticate(Request $request): Passport
     {
         $credentials = $request->getPayload();
@@ -30,26 +32,31 @@ final class PasswordAuthenticator implements InteractiveAuthenticatorInterface
         return new Passport(new UserBadge($email), new PasswordCredentials($password));
     }
 
+    #[Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         return new JwtAccessToken($passport->getUser(), $this->jwtAdapter->createToken($passport->getUser()));
     }
 
+    #[Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         throw $exception;
     }
 
+    #[Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         return null;
     }
 
+    #[Override]
     public function supports(Request $request): ?bool
     {
         return $request->getContentTypeFormat() === 'json';
     }
 
+    #[Override]
     public function isInteractive(): bool
     {
         return true;

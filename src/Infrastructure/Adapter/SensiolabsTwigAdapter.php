@@ -6,6 +6,7 @@ namespace App\Infrastructure\Adapter;
 
 use App\Domain\Contract\TwigAdapterInterface;
 use App\Domain\Exception\TwigAdapterException;
+use Override;
 use Twig\Environment;
 use Twig\Error\Error;
 
@@ -15,6 +16,7 @@ final class SensiolabsTwigAdapter implements TwigAdapterInterface
     {
     }
 
+    #[Override]
     public function render(string $name, array $context = []): string
     {
         try {

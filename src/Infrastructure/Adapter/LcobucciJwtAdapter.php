@@ -19,6 +19,7 @@ use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
+use Override;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
@@ -42,6 +43,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
         $this->configuration = $this->buildConfiguration($passphrase, $signingKey, $verificationKey);
     }
 
+    #[Override]
     public function getIdentifier(#[SensitiveParameter] string $accessToken): string
     {
         try {
@@ -57,9 +59,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
         return $this->extractSubjectFromToken($accessToken);
     }
 
-    /**
-     * @throws Exception
-     */
+    #[Override]
     public function createToken(UserInterface $user): string
     {
         $time = SystemClock::fromSystemTimezone()->now();

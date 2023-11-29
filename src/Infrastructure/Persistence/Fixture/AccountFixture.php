@@ -11,10 +11,12 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
+use Override;
 use Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher;
 
 final class AccountFixture extends Fixture implements FixtureInterface
 {
+    #[Override]
     public function load(ObjectManager $manager): void
     {
         $faker = Faker::create();

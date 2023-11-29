@@ -6,6 +6,7 @@ namespace App\Application\Serializer;
 
 use App\Domain\Contract\TwigAdapterInterface;
 use App\Domain\Exception\TwigAdapterException;
+use Override;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Exception\RuntimeException;
@@ -19,6 +20,7 @@ final class HtmlTemplateEncoder implements EncoderInterface
     {
     }
 
+    #[Override]
     public function encode(mixed $data, string $format, array $context = []): string
     {
         if (!is_array($data)) {
@@ -36,6 +38,7 @@ final class HtmlTemplateEncoder implements EncoderInterface
         }
     }
 
+    #[Override]
     public function supportsEncoding(string $format): bool
     {
         return self::FORMAT === $format;

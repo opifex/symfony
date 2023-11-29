@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
+use Override;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -29,6 +30,7 @@ final class ViolationListNormalizer implements NormalizerInterface
      * @param array&array<string, mixed> $context
      * @return array<int, mixed>
      */
+    #[Override]
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
         if (!$object instanceof ConstraintViolationListInterface) {
@@ -61,6 +63,7 @@ final class ViolationListNormalizer implements NormalizerInterface
      * @param array&array<string, mixed> $context
      * @return bool
      */
+    #[Override]
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof ConstraintViolationListInterface;

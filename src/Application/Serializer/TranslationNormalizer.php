@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
+use Override;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Translation\TranslatableMessage;
@@ -21,6 +22,7 @@ final class TranslationNormalizer implements NormalizerInterface
      * @param array&array<string, mixed> $context
      * @return string
      */
+    #[Override]
     public function normalize(mixed $object, string $format = null, array $context = []): string
     {
         if (!$object instanceof TranslatableMessage) {
@@ -36,6 +38,7 @@ final class TranslationNormalizer implements NormalizerInterface
      * @param array&array<string, mixed> $context
      * @return bool
      */
+    #[Override]
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof TranslatableMessage;

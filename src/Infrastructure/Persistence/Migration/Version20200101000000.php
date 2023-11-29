@@ -7,9 +7,11 @@ namespace App\Infrastructure\Persistence\Migration;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Migrations\AbstractMigration;
+use Override;
 
 final class Version20200101000000 extends AbstractMigration
 {
+    #[Override]
     public function up(Schema $schema): void
     {
         $table = $schema->createTable(name: 'account');
@@ -24,6 +26,7 @@ final class Version20200101000000 extends AbstractMigration
         $table->setPrimaryKey(columnNames: ['uuid']);
     }
 
+    #[Override]
     public function down(Schema $schema): void
     {
         $schema->dropTable(name: 'account');

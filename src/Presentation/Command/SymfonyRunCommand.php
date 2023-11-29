@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Command;
 
+use Override;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,6 +22,7 @@ final class SymfonyRunCommand extends Command
         parent::__construct();
     }
 
+    #[Override]
     protected function configure(): void
     {
         $this->addOption(
@@ -37,6 +39,7 @@ final class SymfonyRunCommand extends Command
         );
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $console = new SymfonyStyle($input, $output);

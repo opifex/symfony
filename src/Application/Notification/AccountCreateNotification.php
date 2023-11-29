@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Notification;
 
 use App\Domain\Contract\AccountInterface;
+use Override;
 use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Component\Notifier\Message\EmailMessage;
 use Symfony\Component\Notifier\Notification\EmailNotificationInterface;
@@ -18,6 +19,7 @@ final class AccountCreateNotification extends Notification implements EmailNotif
         parent::__construct(channels: $channels);
     }
 
+    #[Override]
     public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
     {
         $email = NotificationEmail::asPublicEmail();

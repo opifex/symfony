@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
+use Override;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
@@ -17,6 +18,7 @@ final class RequestNormalizer implements NormalizerInterface
      * @param array&array<string, mixed> $context
      * @return array<string, mixed>
      */
+    #[Override]
     public function normalize(mixed $object, string $format = null, array $context = []): array
     {
         if (!$object instanceof Request) {
@@ -36,6 +38,7 @@ final class RequestNormalizer implements NormalizerInterface
      * @param array&array<string, mixed> $context
      * @return bool
      */
+    #[Override]
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return $data instanceof Request;

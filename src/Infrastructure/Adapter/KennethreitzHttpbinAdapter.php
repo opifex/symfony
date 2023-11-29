@@ -6,6 +6,7 @@ namespace App\Infrastructure\Adapter;
 
 use App\Domain\Contract\HttpbinAdapterInterface;
 use App\Domain\Exception\HttpbinAdapterException;
+use Override;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -15,6 +16,7 @@ final class KennethreitzHttpbinAdapter implements HttpbinAdapterInterface
     {
     }
 
+    #[Override]
     public function getJson(): array
     {
         try {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
+use Override;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
@@ -19,6 +20,7 @@ final class JwtAccessToken extends AbstractToken
         $this->setUser($user);
     }
 
+    #[Override]
     public function __toString(): string
     {
         $token = $this->getAttribute(name: 'token');

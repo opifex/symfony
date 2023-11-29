@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Domain\Contract\PrivacyProtectorInterface;
+use Override;
 use Symfony\Component\String\UnicodeString;
 
 final class MessagePrivacyProtector implements PrivacyProtectorInterface
@@ -15,6 +16,7 @@ final class MessagePrivacyProtector implements PrivacyProtectorInterface
         'password' => '/./u',
     ];
 
+    #[Override]
     public function protect(array $data): array
     {
         foreach ($data as $key => $value) {

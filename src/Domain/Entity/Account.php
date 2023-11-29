@@ -6,6 +6,7 @@ namespace App\Domain\Entity;
 
 use App\Domain\Contract\AccountInterface;
 use DateTimeImmutable;
+use Override;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -26,11 +27,13 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
     ) {
     }
 
+    #[Override]
     public function getUuid(): string
     {
         return $this->uuid;
     }
 
+    #[Override]
     public function getEmail(): string
     {
         return $this->email;
@@ -43,6 +46,7 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
+    #[Override]
     public function getPassword(): string
     {
         return $this->password;
@@ -55,6 +59,7 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
+    #[Override]
     public function getLocale(): string
     {
         return $this->locale;
@@ -67,6 +72,7 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
+    #[Override]
     public function getStatus(): string
     {
         return $this->status;
@@ -79,6 +85,7 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
+    #[Override]
     public function getRoles(): array
     {
         return $this->roles;
@@ -94,16 +101,19 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
+    #[Override]
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
+    #[Override]
     public function getUserIdentifier(): string
     {
         return $this->getUuid();
     }
 
+    #[Override]
     public function eraseCredentials(): void
     {
     }

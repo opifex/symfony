@@ -8,6 +8,7 @@ use App\Application\Attribute\MapMessage;
 use App\Domain\Exception\ExtraParametersException;
 use App\Domain\Exception\NormalizationFailedException;
 use App\Domain\Exception\ValidationFailedException;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -32,6 +33,7 @@ final class MessageValueResolver implements ValueResolverInterface
      * @return object[]
      * @throws ExceptionInterface
      */
+    #[Override]
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $attribute = $argument->getAttributesOfType(name: MapMessage::class)[0] ?? null;
