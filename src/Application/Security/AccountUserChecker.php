@@ -16,7 +16,11 @@ final class AccountUserChecker implements UserCheckerInterface
     #[Override]
     public function checkPostAuth(UserInterface $user): void
     {
-        if ($user instanceof AccountInterface && $user->getStatus() !== AccountStatus::VERIFIED) {
+        if (!$user instanceof AccountInterface) {
+            return;
+        }
+
+        if ($user->getStatus() !== AccountStatus::VERIFIED) {
             throw new CustomUserMessageAccountStatusException(
                 message: 'The presented account is not verified.',
             );
