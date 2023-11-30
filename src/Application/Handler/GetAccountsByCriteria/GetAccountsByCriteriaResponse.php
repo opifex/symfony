@@ -7,6 +7,7 @@ namespace App\Application\Handler\GetAccountsByCriteria;
 use App\Domain\Entity\AccountCollection;
 use Countable;
 use IteratorAggregate;
+use Override;
 use Traversable;
 
 final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregate
@@ -15,6 +16,7 @@ final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregat
     {
     }
 
+    #[Override]
     public function count(): int
     {
         return $this->accounts->count();
@@ -23,6 +25,7 @@ final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregat
     /**
      * @return Traversable<int, GetAccountsByCriteriaItem>
      */
+    #[Override]
     public function getIterator(): Traversable
     {
         foreach ($this->accounts as $account) {
