@@ -8347,16 +8347,16 @@
         },
         {
             "name": "codeception/lib-innerbrowser",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/lib-innerbrowser.git",
-                "reference": "ee5d25ee93444845d34dc78a73973016695df421"
+                "reference": "9d94838fe2be861bffbca9e9b52bbbd0fc4bbcee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/lib-innerbrowser/zipball/ee5d25ee93444845d34dc78a73973016695df421",
-                "reference": "ee5d25ee93444845d34dc78a73973016695df421",
+                "url": "https://api.github.com/repos/Codeception/lib-innerbrowser/zipball/9d94838fe2be861bffbca9e9b52bbbd0fc4bbcee",
+                "reference": "9d94838fe2be861bffbca9e9b52bbbd0fc4bbcee",
                 "shasum": ""
             },
             "require": {
@@ -8367,8 +8367,8 @@
                 "ext-mbstring": "*",
                 "php": "^8.1",
                 "phpunit/phpunit": "^10.0",
-                "symfony/browser-kit": "^4.4.24 || ^5.4 || ^6.0",
-                "symfony/dom-crawler": "^4.4.30 || ^5.4 || ^6.0"
+                "symfony/browser-kit": "^4.4.24 || ^5.4 || ^6.0 || ^7.0",
+                "symfony/dom-crawler": "^4.4.30 || ^5.4 || ^6.0 || ^7.0"
             },
             "require-dev": {
                 "codeception/util-universalframework": "^1.0"
@@ -8400,29 +8400,29 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/lib-innerbrowser/issues",
-                "source": "https://github.com/Codeception/lib-innerbrowser/tree/4.0.1"
+                "source": "https://github.com/Codeception/lib-innerbrowser/tree/4.0.2"
             },
-            "time": "2023-11-16T16:24:33+00:00"
+            "time": "2023-12-01T11:28:22+00:00"
         },
         {
             "name": "codeception/lib-web",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/lib-web.git",
-                "reference": "4c02cf57c5f2d14bbb9f57ea09b38ceacec15d91"
+                "reference": "28cb2ed1169de18e720bec758015aadc37d8344c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/lib-web/zipball/4c02cf57c5f2d14bbb9f57ea09b38ceacec15d91",
-                "reference": "4c02cf57c5f2d14bbb9f57ea09b38ceacec15d91",
+                "url": "https://api.github.com/repos/Codeception/lib-web/zipball/28cb2ed1169de18e720bec758015aadc37d8344c",
+                "reference": "28cb2ed1169de18e720bec758015aadc37d8344c",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "guzzlehttp/psr7": "^2.0",
                 "php": "^8.0",
-                "symfony/css-selector": ">=4.4.24 <7.0"
+                "symfony/css-selector": ">=4.4.24 <8.0"
             },
             "conflict": {
                 "codeception/codeception": "<5.0.0-alpha3"
@@ -8453,9 +8453,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/lib-web/issues",
-                "source": "https://github.com/Codeception/lib-web/tree/1.0.3"
+                "source": "https://github.com/Codeception/lib-web/tree/1.0.4"
             },
-            "time": "2023-11-27T06:43:13+00:00"
+            "time": "2023-12-01T11:38:22+00:00"
         },
         {
             "name": "codeception/lib-xml",
