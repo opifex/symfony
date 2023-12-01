@@ -8034,16 +8034,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.7.15",
+            "version": "4.7.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "df8de8e484003f68cd2fa68db1e6cfb47a3a92cb"
+                "reference": "21366a8c43819457d458e772a4e86d0df9233b5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/df8de8e484003f68cd2fa68db1e6cfb47a3a92cb",
-                "reference": "df8de8e484003f68cd2fa68db1e6cfb47a3a92cb",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/21366a8c43819457d458e772a4e86d0df9233b5e",
+                "reference": "21366a8c43819457d458e772a4e86d0df9233b5e",
                 "shasum": ""
             },
             "require": {
@@ -8106,9 +8106,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.7.15"
+                "source": "https://github.com/zircote/swagger-php/tree/4.7.16"
             },
-            "time": "2023-10-12T20:26:34+00:00"
+            "time": "2023-11-30T21:47:39+00:00"
         }
     ],
     "packages-dev": [
@@ -10188,16 +10188,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.4.2",
+            "version": "10.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "cacd8b9dd224efa8eb28beb69004126c7ca1a1a1"
+                "reference": "80cab181aebc2efac422940443e28db556137637"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/cacd8b9dd224efa8eb28beb69004126c7ca1a1a1",
-                "reference": "cacd8b9dd224efa8eb28beb69004126c7ca1a1a1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/80cab181aebc2efac422940443e28db556137637",
+                "reference": "80cab181aebc2efac422940443e28db556137637",
                 "shasum": ""
             },
             "require": {
@@ -10237,7 +10237,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "10.4-dev"
+                    "dev-main": "10.5-dev"
                 }
             },
             "autoload": {
@@ -10269,7 +10269,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.4.2"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.0"
             },
             "funding": [
                 {
@@ -10285,7 +10285,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-26T07:21:45+00:00"
+            "time": "2023-12-01T06:12:50+00:00"
         },
         {
             "name": "psr/http-factory",
