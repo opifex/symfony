@@ -1,3 +1,0 @@
-account.create:
-  email.subject: 'Дякуємо за реєстрацію'
-  email.content: 'Новий обліковий запис з електронною поштою {account_email} успішно створено.'

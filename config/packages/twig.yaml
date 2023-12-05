@@ -1,7 +1,8 @@
 twig:
   default_path: '%kernel.project_dir%/src/Presentation/Resource/Template'
   paths:
-    '%kernel.project_dir%/src/Presentation/Resource/Template/email': 'email'
+    '%kernel.project_dir%/src/Presentation/Resource/Template/emails': 'emails'
+    '%kernel.project_dir%/src/Presentation/Resource/Template/views': 'views'
 
 when@test:
   twig:
