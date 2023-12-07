@@ -12,7 +12,6 @@ use App\Domain\Event\AccountCreateEvent;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
-use OpenApi\Attributes\RequestBody;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -29,7 +28,7 @@ final class CreateNewAccountController extends AbstractController
     #[OA\Post(
         summary: 'Create new account',
         security: [['bearer' => []]],
-        requestBody: new RequestBody(
+        requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
                 ref: new Model(type: CreateNewAccountCommand::class),

@@ -10,7 +10,6 @@ use App\Domain\Entity\AccountRole;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
-use OpenApi\Attributes\RequestBody;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -25,7 +24,7 @@ final class UpdateAccountByIdController extends AbstractController
     #[OA\Patch(
         summary: 'Update account by identifier',
         security: [['bearer' => []]],
-        requestBody: new RequestBody(
+        requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
                 ref: new Model(
                     type: UpdateAccountByIdCommand::class,
