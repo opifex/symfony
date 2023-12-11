@@ -6,7 +6,7 @@ namespace App\Application\Handler\SignupNewAccount;
 
 use App\Application\Factory\AccountFactory;
 use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Event\AccountCreateEvent;
+use App\Domain\Event\AccountCreatedEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -28,6 +28,6 @@ final class SignupNewAccountHandler
 
         $this->accountRepository->insert($account);
 
-        $this->eventDispatcher->dispatch(new AccountCreateEvent($account));
+        $this->eventDispatcher->dispatch(new AccountCreatedEvent($account));
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Listener;
 
 use App\Application\Notification\AccountCreatedNotification;
-use App\Domain\Event\AccountCreateEvent;
+use App\Domain\Event\AccountCreatedEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
@@ -19,8 +19,8 @@ final class AccountEventListener
     ) {
     }
 
-    #[AsEventListener(event: AccountCreateEvent::class)]
-    public function onAccountCreate(AccountCreateEvent $event): void
+    #[AsEventListener(event: AccountCreatedEvent::class)]
+    public function onAccountCreated(AccountCreatedEvent $event): void
     {
         $recipient = new Recipient($event->account->getEmail());
         $notification = new AccountCreatedNotification($event->account, $this->translator);
