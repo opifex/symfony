@@ -1,6 +1,7 @@
 framework:
   secret: '%env(APP_SECRET)%'
   trusted_proxies: '%env(TRUSTED_PROXIES)%'
+  handle_all_throwables: true
   http_method_override: false
   set_locale_from_accept_language: true
   set_content_language_from_locale: true
