@@ -98,6 +98,7 @@
             "bin/console messenger:setup-transports"
         ],
         "auto-quality": [
+            "bin/console lint:yaml config src -e test",
             "bin/console lint:container -e test",
             "bin/console cache:clear -e test",
             "bin/console doctrine:mapping:info -e test",
