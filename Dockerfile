@@ -1,4 +1,4 @@
-FROM composer:2.6.5 AS composer
+FROM composer:2.6.6 AS composer
 # set working directory
 WORKDIR /tmp
 # copy composer files
@@ -20,7 +20,7 @@ RUN set -e \
     && pecl install amqp-2.1.1 && docker-php-ext-enable amqp \
     && pecl install apcu-5.1.23 && docker-php-ext-enable apcu \
     && pecl install redis-6.0.2 && docker-php-ext-enable redis \
-    && pecl install xdebug-3.3.0 && docker-php-ext-enable xsl \
+    && pecl install xdebug-3.3.1 && docker-php-ext-enable xsl \
     && pecl clear-cache && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 # copy configuration files
