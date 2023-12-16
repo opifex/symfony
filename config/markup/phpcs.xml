@@ -41,10 +41,6 @@
     <exclude-pattern>../config/*</exclude-pattern>
   </rule>
 
-  <rule ref="Generic.NamingConventions.UpperCaseConstantName">
-    <severity>0</severity>
-  </rule>
-
   <rule ref="Generic.Metrics.CyclomaticComplexity">
     <exclude-pattern>../config/*</exclude-pattern>
     <exclude-pattern>../tests/*</exclude-pattern>
@@ -75,6 +71,22 @@
         <element key="var_dump" value="null"/>
       </property>
     </properties>
+  </rule>
+
+  <rule ref="Generic.NamingConventions.UpperCaseConstantName">
+    <severity>0</severity>
+  </rule>
+
+  <rule ref="Generic.PHP.LowerCaseKeyword">
+    <severity>0</severity>
+  </rule>
+
+  <rule ref="Generic.WhiteSpace.ScopeIndent.Incorrect">
+    <severity>0</severity>
+  </rule>
+
+  <rule ref="Generic.WhiteSpace.ScopeIndent.IncorrectExact">
+    <severity>0</severity>
   </rule>
 
   <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.EmptyLine">

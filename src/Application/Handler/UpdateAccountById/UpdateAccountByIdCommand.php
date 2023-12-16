@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Handler\UpdateAccountById;
 
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\Locale;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,9 +30,7 @@ final class UpdateAccountByIdCommand
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $password = null,
 
-        #[Assert\Length(min: 2, max: 2)]
-        #[Assert\Locale]
-        #[Assert\Regex(pattern: '/^[a-z]+$/', message: 'This value should be in lowercase.')]
+        #[Assert\Choice(choices: Locale::LOCALES)]
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $locale = null,
 

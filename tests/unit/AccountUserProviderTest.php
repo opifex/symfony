@@ -8,6 +8,7 @@ use App\Application\Factory\AccountFactory;
 use App\Application\Security\AccountUserProvider;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
+use App\Domain\Entity\Locale;
 use App\Domain\Exception\AccountNotFoundException;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
@@ -29,7 +30,7 @@ class AccountUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithEmail(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = AccountFactory::createUserAccount(email: 'email@example.com');
+        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::DEFAULT);
 
         $this->accountRepository
             ->expects($this->once())
@@ -59,7 +60,7 @@ class AccountUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithUuid(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = AccountFactory::createUserAccount(email: 'email@example.com');
+        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::DEFAULT);
         $uuid = new UuidV7();
 
         $this->accountRepository
@@ -76,7 +77,7 @@ class AccountUserProviderTest extends Unit
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = AccountFactory::createUserAccount(email: 'email@example.com');
+        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::DEFAULT);
 
         $this->expectException(UnsupportedUserException::class);
 

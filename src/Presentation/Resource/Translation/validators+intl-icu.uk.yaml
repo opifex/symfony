@@ -2,4 +2,3 @@
 'The value you selected is not a valid choice.': 'Вказане значення недопустиме.'
 'This field was not expected.': 'Вказаний параметр недопустимий.'
 'This value should be of type {type}.': 'Вказаний параметр повинен бути типом {type}.'
-'This value should be in lowercase.': 'Вказаний параметр повинен бути у малому регістрі.'
