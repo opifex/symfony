@@ -43,7 +43,7 @@ framework:
       failed:
         dsn: 'doctrine://default?queue_name=failed'
         options:
-          table_name: 'messenger'
+          table_name: messenger
       # retry_strategy:
       #   delay: 60000
       #   max_retries: 24

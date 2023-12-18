@@ -5,8 +5,8 @@ framework:
       audit_trail:
         enabled: '%kernel.debug%'
       marking_store:
-        type: 'method'
-        property: 'status'
+        type: method
+        property: status
       supports:
         - App\Domain\Entity\Account
       initial_marking: !php/const App\Domain\Entity\AccountStatus::CREATED

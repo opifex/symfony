@@ -6,5 +6,5 @@ doctrine_migrations:
     App\Infrastructure\Persistence\Migration: '%kernel.project_dir%/src/Infrastructure/Persistence/Migration'
   storage:
     table_storage:
-      table_name: 'migration'
+      table_name: migration
   transactional: true

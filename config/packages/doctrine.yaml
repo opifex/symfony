@@ -17,7 +17,7 @@ doctrine:
         mappings:
           default:
             dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Mapping'
-            prefix: 'App\Domain\Entity'
+            prefix: App\Domain\Entity
             type: xml
 
 when@test:

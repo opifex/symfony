@@ -7,15 +7,15 @@ framework:
   set_content_language_from_locale: true
   enabled_locales: !php/const App\Domain\Entity\Locale::LOCALES
   serializer:
-    name_converter: 'serializer.name_converter.camel_case_to_snake_case'
+    name_converter: serializer.name_converter.camel_case_to_snake_case
   php_errors:
     log: true
   http_client:
     scoped_clients:
       httpbin.client:
-        base_uri: 'https://httpbin.org'
+        base_uri: https://httpbin.org
         headers:
-          Accept: 'application/json'
+          Accept: application/json
 
 when@test:
   framework:
