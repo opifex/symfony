@@ -22,10 +22,7 @@
   <rule ref="Generic.Commenting.Fixme"/>
   <rule ref="Generic.Commenting.Todo"/>
   <rule ref="Generic.ControlStructures.DisallowYodaConditions"/>
-  <rule ref="Generic.ControlStructures.InlineControlStructure"/>
   <rule ref="Generic.Files.ByteOrderMark"/>
-  <rule ref="Generic.Files.LineEndings"/>
-  <rule ref="Generic.Files.LineLength"/>
   <rule ref="Generic.Metrics.NestingLevel"/>
   <rule ref="Generic.NamingConventions.AbstractClassNamePrefix"/>
   <rule ref="Generic.NamingConventions.InterfaceNameSuffix"/>
@@ -74,18 +71,6 @@
   </rule>
 
   <rule ref="Generic.NamingConventions.UpperCaseConstantName">
-    <severity>0</severity>
-  </rule>
-
-  <rule ref="Generic.PHP.LowerCaseKeyword">
-    <severity>0</severity>
-  </rule>
-
-  <rule ref="Generic.WhiteSpace.ScopeIndent.Incorrect">
-    <severity>0</severity>
-  </rule>
-
-  <rule ref="Generic.WhiteSpace.ScopeIndent.IncorrectExact">
     <severity>0</severity>
   </rule>
 

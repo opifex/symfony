@@ -26,7 +26,7 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithBlockedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::DEFAULT);
+        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::EN);
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
@@ -44,7 +44,7 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithVerifiedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::DEFAULT);
+        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::EN);
         $account->setStatus(status: AccountStatus::VERIFIED);
         $accountUserChecker->checkPostAuth($account);
 

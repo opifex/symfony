@@ -20,7 +20,7 @@ final class SignupNewAccountCommand
         public readonly string $password = '',
 
         #[Assert\Choice(choices: Locale::LOCALES)]
-        public readonly string $locale = Locale::DEFAULT,
+        public readonly string $locale = Locale::EN,
     ) {
     }
 }

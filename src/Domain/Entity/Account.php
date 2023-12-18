@@ -20,7 +20,7 @@ class Account implements AccountInterface, UserInterface, PasswordAuthenticatedU
         private string $uuid,
         private string $email,
         private string $password = '',
-        private string $locale = Locale::DEFAULT,
+        private string $locale = Locale::EN,
         private string $status = AccountStatus::CREATED,
         private array $roles = [AccountRole::ROLE_USER],
         private DateTimeImmutable $createdAt = new DateTimeImmutable(),
