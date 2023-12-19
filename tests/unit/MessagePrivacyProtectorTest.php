@@ -11,25 +11,20 @@ use Codeception\Test\Unit;
 class MessagePrivacyProtectorTest extends Unit
 {
     #[DataProvider(methodName: 'privacyDataProvider')]
-    public function testProtectPrivacyData(string $type, mixed $value, mixed $expected): void
+    public function testProtectPrivacyData(array $value, array $expected): void
     {
         $messagePrivacyProtector = new MessagePrivacyProtector();
-        $protectedMessage = $messagePrivacyProtector->protect([$type => $value]);
+        $protectedMessage = $messagePrivacyProtector->protect($value);
 
-        $this->assertArrayHasKey(key: $type, array: $protectedMessage);
-        $this->assertSame(expected: $expected, actual: $protectedMessage[$type]);
+        $this->assertSame($expected, $protectedMessage);
     }
 
     protected function privacyDataProvider(): array
     {
         return [
-            ['type' => 'email', 'value' => 'admin@example.com', 'expected' => 'a***n@example.com'],
-            ['type' => 'password', 'value' => 'password4#account', 'expected' => '*****************'],
-            [
-                'type' => 'array',
-                'value' => ['email' => 'admin@example.com'],
-                'expected' => ['email' => 'a***n@example.com'],
-            ],
+            ['value' => ['email' => 'admin@example.com'], 'expected' => ['email' => 'a***n@example.com']],
+            ['value' => ['password' => 'password4#account'], 'expected' => ['password' => '*****************']],
+            ['value' => [['email' => 'admin@example.com']], 'expected' => [['email' => 'a***n@example.com']]],
         ];
     }
 }
