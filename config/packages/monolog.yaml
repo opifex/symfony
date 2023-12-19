@@ -9,7 +9,7 @@ when@dev:
         type: stream
         level: debug
         path: php://stdout
-        channels: [ '!php', '!event' ]
+        channels: [ '!deprecation', '!event', '!php' ]
         formatter: monolog.formatter.json
 
 when@test:

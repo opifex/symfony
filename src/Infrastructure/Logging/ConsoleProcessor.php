@@ -13,12 +13,12 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 final class ConsoleProcessor
 {
     /** @var array&array<string, mixed> */
-    private array $cache = [];
+    private static array $cache = [];
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        if ($this->cache !== []) {
-            $record->extra['console'] = $this->cache;
+        if (self::$cache !== []) {
+            $record->extra['console'] = self::$cache;
         }
 
         return $record;
@@ -30,7 +30,7 @@ final class ConsoleProcessor
         $callback = fn(mixed $value, string $key) => !empty($value) && !in_array($key, ['command', 'env']);
         $filterParams = fn(array $params) => array_filter($params, $callback, mode: ARRAY_FILTER_USE_BOTH);
 
-        $this->cache = array_filter([
+        self::$cache = array_filter([
             'command' => $event->getCommand()?->getName(),
             'arguments' => $filterParams($event->getInput()->getArguments()),
             'options' => $filterParams($event->getInput()->getOptions()),
