@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\SignupNewAccount;
 
-use App\Domain\Entity\Locale;
+use App\Domain\Entity\LocaleCode;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class SignupNewAccountCommand
@@ -19,8 +19,8 @@ final class SignupNewAccountCommand
         #[Assert\PasswordStrength]
         public readonly string $password = '',
 
-        #[Assert\Choice(choices: Locale::LOCALES)]
-        public readonly string $locale = Locale::EN,
+        #[Assert\Choice(choices: LocaleCode::CODES)]
+        public readonly string $locale = LocaleCode::EN,
     ) {
     }
 }

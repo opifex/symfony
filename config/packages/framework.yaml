@@ -5,7 +5,7 @@ framework:
   http_method_override: false
   set_locale_from_accept_language: true
   set_content_language_from_locale: true
-  enabled_locales: !php/const App\Domain\Entity\Locale::LOCALES
+  enabled_locales: !php/const App\Domain\Entity\LocaleCode::CODES
   serializer:
     name_converter: serializer.name_converter.camel_case_to_snake_case
   php_errors:

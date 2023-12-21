@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Handler\UpdateAccountById;
 
 use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\Locale;
+use App\Domain\Entity\LocaleCode;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -30,7 +30,7 @@ final class UpdateAccountByIdCommand
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $password = null,
 
-        #[Assert\Choice(choices: Locale::LOCALES)]
+        #[Assert\Choice(choices: LocaleCode::CODES)]
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $locale = null,
 

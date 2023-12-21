@@ -7,7 +7,7 @@ namespace App\Tests;
 use App\Application\Factory\AccountFactory;
 use App\Application\Security\AccountUserChecker;
 use App\Domain\Entity\AccountStatus;
-use App\Domain\Entity\Locale;
+use App\Domain\Entity\LocaleCode;
 use Codeception\Test\Unit;
 use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
@@ -26,7 +26,7 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithBlockedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::EN);
+        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: LocaleCode::EN);
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
@@ -44,7 +44,7 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithVerifiedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: Locale::EN);
+        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: LocaleCode::EN);
         $account->setStatus(status: AccountStatus::VERIFIED);
         $accountUserChecker->checkPostAuth($account);
 
