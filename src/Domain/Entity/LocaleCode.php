@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-class LocaleCode
+final class LocaleCode
 {
     public const string EN = 'en';
     public const string UK = 'uk';

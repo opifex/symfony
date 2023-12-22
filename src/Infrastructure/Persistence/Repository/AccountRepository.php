@@ -40,15 +40,16 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
             $builder->setParameter(key: 'status', value: $criteria->status, type: Types::STRING);
         }
 
-        if (!is_null($criteria->sort) && !is_null($criteria->order)) {
+        if (!is_null($criteria->sorting)) {
             $builder->orderBy(
-                sort: 'account.' . (new UnicodeString($criteria->sort))->camel()->toString(),
-                order: $criteria->order === SortingOrder::DESC ? SortingOrder::DESC : SortingOrder::ASC,
+                sort: 'account.' . (new UnicodeString($criteria->sorting->field))->camel()->toString(),
+                order: $criteria->sorting->order === SortingOrder::DESC ? SortingOrder::DESC : SortingOrder::ASC,
             );
         }
 
         $paginator = new Paginator($builder);
-        $paginator->getQuery()->setFirstResult($criteria->offset)->setMaxResults($criteria->limit);
+        $paginator->getQuery()->setFirstResult($criteria->pagination?->offset);
+        $paginator->getQuery()->setMaxResults($criteria->pagination?->limit);
 
         return new AccountCollection($paginator);
     }
