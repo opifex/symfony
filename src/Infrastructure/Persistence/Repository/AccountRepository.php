@@ -17,9 +17,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use LogicException;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
-use Symfony\Component\String\UnicodeString;
 
 #[Autoconfigure(lazy: true)]
 class AccountRepository extends AbstractRepository implements AccountRepositoryInterface
@@ -41,10 +41,23 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
         }
 
         if (!is_null($criteria->sorting)) {
-            $builder->orderBy(
-                sort: 'account.' . (new UnicodeString($criteria->sorting->field))->camel()->toString(),
-                order: $criteria->sorting->order === SortingOrder::DESC ? SortingOrder::DESC : SortingOrder::ASC,
-            );
+            $sortingField = match ($criteria->sorting->field) {
+                AccountSearchCriteria::FIELD_CREATED_AT => 'account.createdAt',
+                AccountSearchCriteria::FIELD_EMAIL => 'account.email',
+                AccountSearchCriteria::FIELD_STATUS => 'account.status',
+                default => throw new LogicException(
+                    message: sprintf('Sorting field "%s" is not supported.', $criteria->sorting->field),
+                ),
+            };
+            $sortingOrder = match ($criteria->sorting->order) {
+                SortingOrder::DESC => $builder->expr()->desc($sortingField),
+                SortingOrder::ASC => $builder->expr()->asc($sortingField),
+                default => throw new LogicException(
+                    message: sprintf('Sorting order "%s" is not supported.', $criteria->sorting->order),
+                ),
+            };
+
+            $builder->orderBy($sortingOrder);
         }
 
         $paginator = new Paginator($builder);
