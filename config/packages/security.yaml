@@ -5,10 +5,13 @@ security:
     account:
       id: App\Application\Security\AccountUserProvider
   firewalls:
-    develop:
+    development:
       pattern: ^/(_(profiler|wdt))
       security: false
-    signin:
+    healthcheck:
+      pattern: ^/api/health
+      security: false
+    registration:
       stateless: true
       pattern: ^/api/auth/signin
       provider: account
