@@ -8,7 +8,6 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountSearchCriteria;
-use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\DBAL\Exception;
@@ -17,7 +16,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use LogicException;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
@@ -41,23 +39,12 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
         }
 
         if (!is_null($criteria->sorting)) {
-            $sortingField = match ($criteria->sorting->field) {
+            $sortingFieldsMapping = [
                 AccountSearchCriteria::FIELD_CREATED_AT => 'account.createdAt',
                 AccountSearchCriteria::FIELD_EMAIL => 'account.email',
                 AccountSearchCriteria::FIELD_STATUS => 'account.status',
-                default => throw new LogicException(
-                    message: sprintf('Sorting field "%s" is not supported.', $criteria->sorting->field),
-                ),
-            };
-            $sortingOrder = match ($criteria->sorting->order) {
-                SortingOrder::DESC => $builder->expr()->desc($sortingField),
-                SortingOrder::ASC => $builder->expr()->asc($sortingField),
-                default => throw new LogicException(
-                    message: sprintf('Sorting order "%s" is not supported.', $criteria->sorting->order),
-                ),
-            };
-
-            $builder->orderBy($sortingOrder);
+            ];
+            $builder->orderBy($this->buildOrderBy($criteria->sorting, $sortingFieldsMapping));
         }
 
         $paginator = new Paginator($builder);
