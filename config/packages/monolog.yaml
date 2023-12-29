@@ -31,7 +31,7 @@ when@prod:
     handlers:
       nested:
         type: stream
-        level: debug
+        level: info
         path: php://stdout
-        channels: [ '!deprecation', '!doctrine', '!event', '!php', '!security' ]
+        channels: [ '!deprecation', '!event', '!php', '!security' ]
         formatter: monolog.formatter.json
