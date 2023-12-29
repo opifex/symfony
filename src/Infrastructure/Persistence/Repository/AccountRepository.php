@@ -47,11 +47,10 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
             $builder->orderBy($this->buildOrderBy($criteria->sorting, $sortingFieldsMapping));
         }
 
-        $paginator = new Paginator($builder);
-        $paginator->getQuery()->setFirstResult($criteria->pagination?->offset);
-        $paginator->getQuery()->setMaxResults($criteria->pagination?->limit);
+        $builder->setFirstResult($criteria->pagination?->offset);
+        $builder->setMaxResults($criteria->pagination?->limit);
 
-        return new AccountCollection($paginator);
+        return new AccountCollection(new Paginator($builder));
     }
 
     /**
