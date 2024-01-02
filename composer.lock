@@ -7,82 +7,6 @@
     "content-hash": "79f48b223415f8b43372b69c06915219",
     "packages": [
         {
-            "name": "doctrine/annotations",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/annotations.git",
-                "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
-                "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/lexer": "^2 || ^3",
-                "ext-tokenizer": "*",
-                "php": "^7.2 || ^8.0",
-                "psr/cache": "^1 || ^2 || ^3"
-            },
-            "require-dev": {
-                "doctrine/cache": "^2.0",
-                "doctrine/coding-standard": "^10",
-                "phpstan/phpstan": "^1.8.0",
-                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "symfony/cache": "^5.4 || ^6",
-                "vimeo/psalm": "^4.10"
-            },
-            "suggest": {
-                "php": "PHP 8.0 or higher comes with attributes, a native replacement for annotations"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                },
-                {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                }
-            ],
-            "description": "Docblock Annotations Parser",
-            "homepage": "https://www.doctrine-project.org/projects/annotations.html",
-            "keywords": [
-                "annotations",
-                "docblock",
-                "parser"
-            ],
-            "support": {
-                "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/2.0.1"
-            },
-            "time": "2023-02-02T22:02:53+00:00"
-        },
-        {
             "name": "doctrine/cache",
             "version": "2.2.0",
             "source": {
@@ -1766,64 +1690,64 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.12.0",
+            "version": "v4.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "b9fc542143a4c38dc1a302b798a1caeb7d33484f"
+                "reference": "b4153009220948da67af9b25e4fc04abf3765942"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/b9fc542143a4c38dc1a302b798a1caeb7d33484f",
-                "reference": "b9fc542143a4c38dc1a302b798a1caeb7d33484f",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/b4153009220948da67af9b25e4fc04abf3765942",
+                "reference": "b4153009220948da67af9b25e4fc04abf3765942",
                 "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "^2.0",
                 "ext-json": "*",
                 "php": ">=7.2",
                 "phpdocumentor/reflection-docblock": "^3.1|^4.0|^5.0",
                 "psr/cache": "^1.0|^2.0|^3.0",
                 "psr/container": "^1.0|^2.0",
                 "psr/log": "^1.0|^2.0|^3.0",
-                "symfony/config": "^5.4|^6.0",
-                "symfony/console": "^5.4|^6.0",
-                "symfony/dependency-injection": "^5.4|^6.0",
-                "symfony/framework-bundle": "^5.4.24|^6.0",
-                "symfony/http-foundation": "^5.4|^6.0",
-                "symfony/http-kernel": "^5.4|^6.0",
-                "symfony/options-resolver": "^5.4|^6.0",
-                "symfony/property-info": "^5.4|^6.0",
-                "symfony/routing": "^5.4|^6.0",
+                "symfony/config": "^5.4|^6.0|^7.0",
+                "symfony/console": "^5.4|^6.0|^7.0",
+                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+                "symfony/framework-bundle": "^5.4.24|^6.0|^7.0",
+                "symfony/http-foundation": "^5.4|^6.0|^7.0",
+                "symfony/http-kernel": "^5.4|^6.0|^7.0",
+                "symfony/options-resolver": "^5.4|^6.0|^7.0",
+                "symfony/property-info": "^5.4|^6.0|^7.0",
+                "symfony/routing": "^5.4|^6.0|^7.0",
                 "zircote/swagger-php": "^4.2.15"
             },
-            "conflict": {
-                "symfony/framework-bundle": "4.2.7"
-            },
             "require-dev": {
-                "api-platform/core": "^2.7.0|^3@dev",
+                "api-platform/core": "^2.7.0|^3",
                 "composer/package-versions-deprecated": "1.11.99.1",
+                "doctrine/annotations": "^2.0",
                 "friendsofsymfony/rest-bundle": "^2.8|^3.0",
                 "jms/serializer": "^1.14|^3.0",
-                "jms/serializer-bundle": "^2.3|^3.0|^4.0|^5.0@beta",
+                "jms/serializer-bundle": "^2.3|^3.0|^4.0|^5.0",
+                "phpunit/phpunit": "^8.5|^9.6",
                 "sensio/framework-extra-bundle": "^5.4|^6.0",
-                "symfony/asset": "^5.4|^6.0",
-                "symfony/browser-kit": "^5.4|^6.0",
-                "symfony/cache": "^5.4|^6.0",
+                "symfony/asset": "^5.4|^6.0|^7.0",
+                "symfony/browser-kit": "^5.4|^6.0|^7.0",
+                "symfony/cache": "^5.4|^6.0|^7.0",
                 "symfony/deprecation-contracts": "^2.1|^3",
-                "symfony/dom-crawler": "^5.4|^6.0",
-                "symfony/form": "^5.4|^6.0",
-                "symfony/phpunit-bridge": "^5.4.23",
-                "symfony/property-access": "^5.4|^6.0",
-                "symfony/serializer": "^5.4|^6.0",
-                "symfony/stopwatch": "^5.4|^6.0",
-                "symfony/templating": "^5.4|^6.0",
-                "symfony/twig-bundle": "^5.4|^6.0",
-                "symfony/validator": "^5.4|^6.0",
+                "symfony/dom-crawler": "^5.4|^6.0|^7.0",
+                "symfony/expression-language": "^5.4|^6.0|^7.0",
+                "symfony/form": "^5.4|^6.0|^7.0",
+                "symfony/phpunit-bridge": "^6.4",
+                "symfony/property-access": "^5.4|^6.0|^7.0",
+                "symfony/serializer": "^5.4|^6.0|^7.0",
+                "symfony/stopwatch": "^5.4|^6.0|^7.0",
+                "symfony/templating": "^5.4|^6.0|^7.0",
+                "symfony/twig-bundle": "^5.4|^6.0|^7.0",
+                "symfony/validator": "^5.4|^6.0|^7.0",
                 "willdurand/hateoas-bundle": "^1.0|^2.0"
             },
             "suggest": {
                 "api-platform/core": "For using an API oriented framework.",
+                "doctrine/annotations": "For using doctrine annotations",
                 "friendsofsymfony/rest-bundle": "For using the parameters annotations.",
                 "jms/serializer-bundle": "For describing your models.",
                 "symfony/asset": "For using the Swagger UI.",
@@ -1872,9 +1796,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.12.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.13.0"
             },
-            "time": "2023-06-16T10:39:21+00:00"
+            "time": "2023-12-31T17:52:26+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -8759,20 +8683,20 @@
         },
         {
             "name": "codeception/module-symfony",
-            "version": "3.1.1",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-symfony.git",
-                "reference": "f758a245e7554c8deff0f0272a2be868808a34a0"
+                "reference": "5798e3e6328d20e9c41a5d1680f245e9881a4a43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/f758a245e7554c8deff0f0272a2be868808a34a0",
-                "reference": "f758a245e7554c8deff0f0272a2be868808a34a0",
+                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/5798e3e6328d20e9c41a5d1680f245e9881a4a43",
+                "reference": "5798e3e6328d20e9c41a5d1680f245e9881a4a43",
                 "shasum": ""
             },
             "require": {
-                "codeception/codeception": "^5.0.0-RC3",
+                "codeception/codeception": "^5.0.8",
                 "codeception/lib-innerbrowser": "^3.1.1 | ^4.0",
                 "ext-json": "*",
                 "php": "^8.0"
@@ -8781,13 +8705,29 @@
                 "codeception/module-asserts": "^3.0",
                 "codeception/module-doctrine2": "^3.0",
                 "doctrine/orm": "^2.10",
+                "symfony/browser-kit": "^4.4 | ^5.0 | ^6.0",
+                "symfony/cache": "^4.4 | ^5.0 | ^6.0",
+                "symfony/config": "^4.4 | ^5.0 | ^6.0",
+                "symfony/dependency-injection": "^4.4 | ^5.0 | ^6.0",
+                "symfony/dom-crawler": "^4.4 | ^5.0 | ^6.0",
+                "symfony/error-handler": "^4.4 | ^5.0 | ^6.0",
+                "symfony/filesystem": "^4.4 | ^5.0 | ^6.0",
                 "symfony/form": "^4.4 | ^5.0 | ^6.0",
                 "symfony/framework-bundle": "^4.4 | ^5.0 | ^6.0",
+                "symfony/http-foundation": "^4.4 | ^5.0 | ^6.0",
                 "symfony/http-kernel": "^4.4 | ^5.0 | ^6.0",
                 "symfony/mailer": "^4.4 | ^5.0 | ^6.0",
+                "symfony/mime": "^4.4 | ^5.0 | ^6.0",
+                "symfony/options-resolver": "^4.4 | ^5.0 | ^6.0",
+                "symfony/property-access": "^4.4 | ^5.0 | ^6.0",
+                "symfony/property-info": "^4.4 | ^5.0 | ^6.0",
                 "symfony/routing": "^4.4 | ^5.0 | ^6.0",
                 "symfony/security-bundle": "^4.4 | ^5.0 | ^6.0",
+                "symfony/security-core": "^4.4 | ^5.0 | ^6.0",
+                "symfony/security-csrf": "^4.4 | ^5.0 | ^6.0",
+                "symfony/security-http": "^4.4 | ^5.0 | ^6.0",
                 "symfony/twig-bundle": "^4.4 | ^5.0 | ^6.0",
+                "symfony/var-exporter": "^4.4 | ^5.0 | ^6.0",
                 "vlucas/phpdotenv": "^4.2 | ^5.4"
             },
             "suggest": {
@@ -8821,9 +8761,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-symfony/issues",
-                "source": "https://github.com/Codeception/module-symfony/tree/3.1.1"
+                "source": "https://github.com/Codeception/module-symfony/tree/3.2.0"
             },
-            "time": "2023-02-06T07:43:26+00:00"
+            "time": "2024-01-02T03:05:57+00:00"
         },
         {
             "name": "codeception/stub",
