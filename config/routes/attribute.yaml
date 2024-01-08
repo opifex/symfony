@@ -1,4 +1,4 @@
-controllers:
+app_attribute_api:
   resource: ../../src/Presentation/Controller
   type: attribute
   prefix: /api
