@@ -7,6 +7,7 @@ namespace App\Tests;
 use App\Domain\Exception\TwigAdapterException;
 use App\Infrastructure\Adapter\SensiolabsTwigAdapter;
 use Codeception\Test\Unit;
+use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use Twig\Environment;
 use Twig\Error\Error;
@@ -16,6 +17,7 @@ final class SensiolabsTwigAdapterTest extends Unit
     /**
      * @throws Exception
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->environment = $this->createMock(originalClassName: Environment::class);

@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\Application\Listener\ConsoleEventListener;
 use Codeception\Test\Unit;
+use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -18,6 +19,7 @@ class ConsoleEventListenerTest extends Unit
     /**
      * @throws Exception
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->command = $this->createMock(originalClassName: Command::class);

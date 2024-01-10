@@ -7,6 +7,7 @@ namespace App\Presentation\Controller\Auth;
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\SigninIntoAccount\SigninIntoAccountCommand;
 use App\Application\Messenger\ResponseStamp;
+use App\Domain\Event\AccountAuthenticatedEvent;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -22,6 +23,8 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 #[AsController]
 final class SigninIntoAccountController extends AbstractController
 {
+    private ?AccountAuthenticatedEvent $accountAuthenticatedEvent = null;
+
     #[OA\Post(
         summary: 'Signin into account',
         requestBody: new OA\RequestBody(
@@ -56,9 +59,14 @@ final class SigninIntoAccountController extends AbstractController
     #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
     public function __invoke(#[MapMessage] SigninIntoAccountCommand $message): Envelope
     {
+        $this->eventDispatcher->addListener(
+            eventName: AccountAuthenticatedEvent::class,
+            listener: fn(AccountAuthenticatedEvent $event) => $this->accountAuthenticatedEvent = $event,
+        );
+
         return $this->commandBus->dispatch($message)->with(
             new ResponseStamp(headers: [
-                'Authorization' => 'Bearer ' . $this->tokenStorage->getToken(),
+                'Authorization' => 'Bearer ' . $this->accountAuthenticatedEvent?->token->getSecret(),
             ]),
         );
     }

@@ -7,6 +7,7 @@ namespace App\Tests;
 use App\Application\Listener\ViewEventListener;
 use App\Application\Messenger\TemplateStamp;
 use Codeception\Test\Unit;
+use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ class ViewEventListenerTest extends Unit
     /**
      * @throws Exception
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->httpKernel = $this->createMock(originalClassName: HttpKernelInterface::class);

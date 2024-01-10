@@ -8,6 +8,7 @@ use App\Domain\Exception\JwtAdapterException;
 use App\Infrastructure\Adapter\LcobucciJwtAdapter;
 use Codeception\Test\Unit;
 use Exception;
+use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -16,6 +17,7 @@ final class LcobucciJwtAdapterTest extends Unit
     /**
      * @throws MockObjectException
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->user = $this->createMock(originalClassName: UserInterface::class);

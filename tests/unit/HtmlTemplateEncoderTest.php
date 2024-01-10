@@ -9,6 +9,7 @@ use App\Domain\Contract\TwigAdapterInterface;
 use App\Domain\Exception\TwigAdapterException;
 use Codeception\Test\Unit;
 use InvalidArgumentException;
+use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use RuntimeException;
 use stdClass;
@@ -18,6 +19,7 @@ final class HtmlTemplateEncoderTest extends Unit
     /**
      * @throws Exception
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->twigAdapter = $this->createMock(originalClassName: TwigAdapterInterface::class);
@@ -82,7 +84,7 @@ final class HtmlTemplateEncoderTest extends Unit
         );
     }
 
-    public function testSupportsEncoding(): void
+    public function testCheckSupportsEncoding(): void
     {
         $htmlTemplateEncoder = new HtmlTemplateEncoder($this->twigAdapter);
 

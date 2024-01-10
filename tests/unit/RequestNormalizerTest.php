@@ -33,7 +33,7 @@ final class RequestNormalizerTest extends Unit
         $this->assertTrue($supportedTypes[Request::class]);
     }
 
-    public function testSupportsNormalization(): void
+    public function testCheckSupportsNormalization(): void
     {
         $requestNormalizer = new RequestNormalizer();
 

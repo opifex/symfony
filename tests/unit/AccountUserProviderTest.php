@@ -11,6 +11,7 @@ use App\Domain\Entity\Account;
 use App\Domain\Entity\LocaleCode;
 use App\Domain\Exception\AccountNotFoundException;
 use Codeception\Test\Unit;
+use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -22,6 +23,7 @@ class AccountUserProviderTest extends Unit
     /**
      * @throws Exception
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->accountRepository = $this->createMock(originalClassName: AccountRepositoryInterface::class);
@@ -84,7 +86,7 @@ class AccountUserProviderTest extends Unit
         $accountUserProvider->refreshUser($account);
     }
 
-    public function testSupportsClassWithMatchingClass(): void
+    public function testCheckSupportsClassWithMatchingClass(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
         $supports = $accountUserProvider->supportsClass(class: Account::class);
@@ -92,7 +94,7 @@ class AccountUserProviderTest extends Unit
         $this->assertTrue($supports);
     }
 
-    public function testSupportsClassWithNonMatchingClass(): void
+    public function testCheckSupportsClassWithNonMatchingClass(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
         $supports = $accountUserProvider->supportsClass(class: stdClass::class);

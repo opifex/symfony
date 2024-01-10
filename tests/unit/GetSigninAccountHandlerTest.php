@@ -8,6 +8,7 @@ use App\Application\Handler\GetSigninAccount\GetSigninAccountHandler;
 use App\Application\Handler\GetSigninAccount\GetSigninAccountQuery;
 use App\Domain\Exception\AccessDeniedException;
 use Codeception\Test\Unit;
+use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -16,6 +17,7 @@ final class GetSigninAccountHandlerTest extends Unit
     /**
      * @throws Exception
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(originalClassName: TokenStorageInterface::class);

@@ -11,7 +11,7 @@ security:
     healthcheck:
       pattern: ^/api/health
       security: false
-    registration:
+    authentication:
       stateless: true
       pattern: ^/api/auth/signin
       provider: account

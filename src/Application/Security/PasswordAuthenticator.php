@@ -35,7 +35,9 @@ final class PasswordAuthenticator implements InteractiveAuthenticatorInterface
     #[Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        return new JwtAccessToken($passport->getUser(), $this->jwtAdapter->createToken($passport->getUser()));
+        $secret = $this->jwtAdapter->createToken($passport->getUser());
+
+        return new JwtAccessToken($passport->getUser(), $firewallName, $secret);
     }
 
     #[Override]

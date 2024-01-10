@@ -9,6 +9,7 @@ use Codeception\Test\Unit;
 use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
+use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
@@ -20,6 +21,7 @@ class ConsoleProcessorTest extends Unit
     /**
      * @throws Exception
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->command = $this->createMock(originalClassName: Command::class);
@@ -28,7 +30,7 @@ class ConsoleProcessorTest extends Unit
         $this->output = $this->createMock(originalClassName: OutputInterface::class);
     }
 
-    public function testInvokeWithCache(): void
+    public function testLogConsoleCommandRun(): void
     {
         $consoleProcessor = new ConsoleProcessor();
         $commandName = 'app:command:action';

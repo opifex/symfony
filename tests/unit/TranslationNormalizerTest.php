@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\Application\Serializer\TranslationNormalizer;
 use Codeception\Test\Unit;
+use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use stdClass;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
@@ -18,6 +19,7 @@ final class TranslationNormalizerTest extends Unit
     /**
      * @throws Exception
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(originalClassName: TranslatorInterface::class);
@@ -65,14 +67,14 @@ final class TranslationNormalizerTest extends Unit
         $this->assertSame(expected: $translatedMessage, actual: $normalized);
     }
 
-    public function testSupportsNormalizationWithInvalidObject(): void
+    public function testCheckSupportsNormalizationWithInvalidObject(): void
     {
         $translationNormalizer = new TranslationNormalizer($this->translator);
 
         $this->assertFalse($translationNormalizer->supportsNormalization(new stdClass()));
     }
 
-    public function testSupportsNormalizationWithValidObject(): void
+    public function testCheckSupportsNormalizationWithValidObject(): void
     {
         $translationNormalizer = new TranslationNormalizer($this->translator);
         $translatableMessage = new TranslatableMessage(message: 'Translatable message');

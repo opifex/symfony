@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\Presentation\Command\SymfonyRunCommand;
 use Codeception\Test\Unit;
+use Override;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -14,6 +15,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class SymfonyRunCommandTest extends Unit
 {
+    #[Override]
     protected function setUp(): void
     {
         $this->application = new Application();

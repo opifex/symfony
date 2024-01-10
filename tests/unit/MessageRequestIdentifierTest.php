@@ -10,7 +10,7 @@ use Symfony\Component\Uid\Uuid;
 
 class MessageRequestIdentifierTest extends Unit
 {
-    public function testIdentifyTwice(): void
+    public function testGenerateIdentifierTwice(): void
     {
         $messageRequestIdentifier = new MessageRequestIdentifier();
         $identifierFirst = $messageRequestIdentifier->getIdentifier();
