@@ -21,11 +21,11 @@ final class JwtAccessToken extends AbstractToken implements AuthenticationTokenI
     {
         parent::__construct($user->getRoles());
 
-        if (!$firewallName) {
+        if ($firewallName === '') {
             throw new InvalidArgumentException(message: 'Firewall name must not be empty.');
         }
 
-        if (!$secret) {
+        if ($secret === '') {
             throw new InvalidArgumentException(message: 'A non-empty token is required.');
         }
 
