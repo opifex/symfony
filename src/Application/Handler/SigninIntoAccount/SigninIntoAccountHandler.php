@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\SigninIntoAccount;
 
-use App\Domain\Contract\AuthenticationTokenInterface;
+use App\Domain\Contract\AccessTokenInterface;
 use App\Domain\Event\AccountAuthenticatedEvent;
 use App\Domain\Exception\AccessDeniedException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -24,7 +24,7 @@ final class SigninIntoAccountHandler
     {
         $token = $this->tokenStorage->getToken();
 
-        if (!$token instanceof AuthenticationTokenInterface) {
+        if (!$token instanceof AccessTokenInterface) {
             throw new AccessDeniedException(
                 message: 'An authentication exception occurred.',
             );

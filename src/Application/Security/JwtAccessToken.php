@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
-use App\Domain\Contract\AuthenticationTokenInterface;
+use App\Domain\Contract\AccessTokenInterface;
 use Override;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class JwtAccessToken extends AbstractToken implements AuthenticationTokenInterface
+final class JwtAccessToken extends AbstractToken implements AccessTokenInterface
 {
     private string $firewallName;
 

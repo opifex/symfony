@@ -66,7 +66,7 @@ final class SigninIntoAccountController extends AbstractController
 
         return $this->commandBus->dispatch($message)->with(
             new ResponseStamp(headers: [
-                'Authorization' => 'Bearer ' . $this->accountAuthenticatedEvent?->token->getSecret(),
+                'Authorization' => 'Bearer ' . $this->accountAuthenticatedEvent?->accessToken->getSecret(),
             ]),
         );
     }
