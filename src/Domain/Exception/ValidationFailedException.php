@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-#[WithHttpStatus(statusCode: Response::HTTP_BAD_REQUEST)]
+#[WithHttpStatus(statusCode: Response::HTTP_UNPROCESSABLE_ENTITY)]
 class ValidationFailedException extends RuntimeException
 {
     public function __construct(private ConstraintViolationListInterface $violations)

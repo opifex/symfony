@@ -14,7 +14,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConsoleEventListenerTest extends Unit
+final class ConsoleEventListenerTest extends Unit
 {
     /**
      * @throws Exception

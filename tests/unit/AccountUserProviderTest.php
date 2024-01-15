@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Uid\UuidV7;
 
-class AccountUserProviderTest extends Unit
+final class AccountUserProviderTest extends Unit
 {
     /**
      * @throws Exception

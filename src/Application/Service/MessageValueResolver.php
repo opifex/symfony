@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Application\Attribute\MapMessage;
-use App\Domain\Exception\ExtraParametersException;
+use App\Domain\Exception\MessageExtraParamsException;
+use App\Domain\Exception\MessageParamTypeException;
 use App\Domain\Exception\NormalizationFailedException;
 use App\Domain\Exception\ValidationFailedException;
 use Override;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\ExtraAttributesException;
+use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -37,27 +39,53 @@ final class MessageValueResolver implements ValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $attribute = $argument->getAttributesOfType(name: MapMessage::class)[0] ?? null;
+        $messageValue = null;
 
         if ($attribute instanceof MapMessage) {
-            $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
-            $parameters = $this->normalizer->normalize($request);
-            $attributeType = $argument->getType() ?? '';
+            $messageType = $argument->getType() ?? '';
+            $messageParams = $this->extractParams($request);
+            $messageValue = $this->buildMessage($messageParams, $messageType);
 
-            try {
-                $message = $this->denormalizer->denormalize($parameters, $attributeType, context: $context);
-            } catch (ExtraAttributesException $e) {
-                throw new ExtraParametersException($e->getExtraAttributes(), $attributeType);
-            } catch (NotNormalizableValueException $e) {
-                throw new NormalizationFailedException($e->getExpectedTypes(), $e->getPath(), $attributeType);
-            }
-
-            $violations = $this->validator->validate($message);
+            $violations = $this->validator->validate($messageValue);
 
             if ($violations->count()) {
                 throw new ValidationFailedException($violations);
             }
         }
 
-        return isset($message) ? [$message] : [];
+        return $messageValue !== null ? [$messageValue] : [];
+    }
+
+    /**
+     * @param Request $request
+     * @return array&array<string, mixed>
+     * @throws ExceptionInterface
+     */
+    private function extractParams(Request $request): array
+    {
+        try {
+            return (array) $this->normalizer->normalize($request);
+        } catch (LogicException $e) {
+            throw new NormalizationFailedException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param array&array<string, mixed> $params
+     * @param string $type
+     * @return object
+     * @throws ExceptionInterface
+     */
+    private function buildMessage(array $params, string $type): object
+    {
+        $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
+
+        try {
+            return $this->denormalizer->denormalize($params, $type, context: $context);
+        } catch (ExtraAttributesException $e) {
+            throw new MessageExtraParamsException($e->getExtraAttributes(), $type);
+        } catch (NotNormalizableValueException $e) {
+            throw new MessageParamTypeException($e->getExpectedTypes(), $e->getPath(), $type);
+        }
     }
 }

@@ -150,7 +150,7 @@ final class LifecycleAccountCest
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
 
         $i->sendPost(url: '/api/account/' . $uuid . '/' . AccountAction::VERIFY);
-        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
+        $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
     }
 
     public function createAccountWithExistedEmail(FunctionalTester $i): void

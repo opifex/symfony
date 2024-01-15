@@ -8,6 +8,7 @@ use Override;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
+use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class RequestNormalizer implements NormalizerInterface
@@ -70,12 +71,10 @@ final class RequestNormalizer implements NormalizerInterface
     private function parseContent(Request $request): array
     {
         try {
-            $params = $request->toArray();
-        } catch (JsonException) {
-            $params = [];
+            return $request->getContent() !== '' ? $request->toArray() : [];
+        } catch (JsonException $e) {
+            throw new LogicException($e->getMessage(), $e->getCode(), $e);
         }
-
-        return $params;
     }
 
     /**

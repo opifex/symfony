@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ViewEventListenerTest extends Unit
+final class ViewEventListenerTest extends Unit
 {
     /**
      * @throws Exception

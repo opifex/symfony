@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class JwtAccessTokenTest extends Unit
+final class JwtAccessTokenTest extends Unit
 {
     /**
      * @throws Exception

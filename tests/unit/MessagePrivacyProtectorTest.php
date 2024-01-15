@@ -8,7 +8,7 @@ use App\Application\Service\MessagePrivacyProtector;
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 
-class MessagePrivacyProtectorTest extends Unit
+final class MessagePrivacyProtectorTest extends Unit
 {
     #[DataProvider(methodName: 'privacyDataProvider')]
     public function testProtectPrivacyData(array $value, array $expected): void

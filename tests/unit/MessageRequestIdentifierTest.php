@@ -8,7 +8,7 @@ use App\Application\Service\MessageRequestIdentifier;
 use Codeception\Test\Unit;
 use Symfony\Component\Uid\Uuid;
 
-class MessageRequestIdentifierTest extends Unit
+final class MessageRequestIdentifierTest extends Unit
 {
     public function testGenerateIdentifierTwice(): void
     {

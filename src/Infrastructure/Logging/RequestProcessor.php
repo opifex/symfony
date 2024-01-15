@@ -38,7 +38,12 @@ final class RequestProcessor
         }
 
         if (!isset(self::$cache['params'])) {
-            $params = (array) $this->normalizer->normalize($request);
+            try {
+                $params = (array) $this->normalizer->normalize($request);
+            } catch (ExceptionInterface) {
+                $params = [];
+            }
+
             self::$cache['params'] = $this->privacyProtector->protect($params);
             self::$cache = array_filter(self::$cache);
         }

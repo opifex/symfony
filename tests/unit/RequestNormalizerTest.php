@@ -10,6 +10,7 @@ use Codeception\Test\Unit;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
+use Symfony\Component\Serializer\Exception\LogicException;
 
 final class RequestNormalizerTest extends Unit
 {
@@ -53,9 +54,10 @@ final class RequestNormalizerTest extends Unit
     public function testNormalizeWithInvalidRequest(): void
     {
         $requestNormalizer = new RequestNormalizer();
-        $normalized = $requestNormalizer->normalize(new Request(content: 'invalid'));
 
-        $this->assertEquals(expected: [], actual: $normalized);
+        $this->expectException(LogicException::class);
+
+        $requestNormalizer->normalize(new Request(content: 'invalid'));
     }
 
     protected function requestDataProvider(): array

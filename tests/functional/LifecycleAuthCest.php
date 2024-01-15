@@ -62,7 +62,7 @@ final class LifecycleAuthCest
         $credentials = ['email' => 'bad@example.com', 'password' => $i->getDefaultPassword(), 'extra' => 'value'];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
-        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
+        $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
     }
 
     public function signupWithBadCredentials(FunctionalTester $i): void
@@ -72,12 +72,12 @@ final class LifecycleAuthCest
         $credentials = ['email' => 'example.com', 'password' => $i->getDefaultPassword()];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
-        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
+        $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
 
         $credentials = ['email' => 'example.com', 'password' => [$i->getDefaultPassword()]];
 
         $i->sendPost(url: '/api/auth/signup', params: json_encode($credentials));
-        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
+        $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
     }
 
     public function signupWithExistedEmail(FunctionalTester $i): void
