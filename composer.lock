@@ -1690,16 +1690,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.18.0",
+            "version": "v4.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "9b642dffb5a9a68595af3e62c2772f3c7e9a1272"
+                "reference": "2360674a7bd8bbf5fb834b08e89662b6ad851618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/9b642dffb5a9a68595af3e62c2772f3c7e9a1272",
-                "reference": "9b642dffb5a9a68595af3e62c2772f3c7e9a1272",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/2360674a7bd8bbf5fb834b08e89662b6ad851618",
+                "reference": "2360674a7bd8bbf5fb834b08e89662b6ad851618",
                 "shasum": ""
             },
             "require": {
@@ -1796,9 +1796,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.18.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.18.1"
             },
-            "time": "2024-01-15T14:14:07+00:00"
+            "time": "2024-01-15T16:16:29+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
