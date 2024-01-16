@@ -44,7 +44,7 @@ final class MessageValueResolver implements ValueResolverInterface
         if ($attribute instanceof MapMessage) {
             $messageType = $argument->getType() ?? '';
             $messageParams = $this->extractParams($request);
-            $messageValue = $this->buildMessage($messageParams, $messageType);
+            $messageValue = $this->createMessage($messageParams, $messageType);
 
             $violations = $this->validator->validate($messageValue);
 
@@ -76,7 +76,7 @@ final class MessageValueResolver implements ValueResolverInterface
      * @return object
      * @throws ExceptionInterface
      */
-    private function buildMessage(array $params, string $type): object
+    private function createMessage(array $params, string $type): object
     {
         $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
 
