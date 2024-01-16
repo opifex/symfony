@@ -24,9 +24,6 @@ final class RequestProcessor
     ) {
     }
 
-    /**
-     * @throws ExceptionInterface
-     */
     public function __invoke(LogRecord $record): LogRecord
     {
         $request = $this->requestStack->getMainRequest();
