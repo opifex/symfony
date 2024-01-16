@@ -6,7 +6,7 @@ namespace App\Tests;
 
 use App\Application\Attribute\MapMessage;
 use App\Application\Service\MessageValueResolver;
-use App\Domain\Exception\NormalizationFailedException;
+use App\Domain\Exception\MessageNormalizationException;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
@@ -43,7 +43,7 @@ final class MessageValueResolverTest extends Unit
             ->method(constraint: 'normalize')
             ->willThrowException(new LogicException());
 
-        $this->expectException(NormalizationFailedException::class);
+        $this->expectException(MessageNormalizationException::class);
 
         $messageValueResolver->resolve(new Request(content: 'invalid'), new ArgumentMetadata(
             name: 'message',

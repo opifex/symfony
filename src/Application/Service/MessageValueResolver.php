@@ -6,8 +6,8 @@ namespace App\Application\Service;
 
 use App\Application\Attribute\MapMessage;
 use App\Domain\Exception\MessageExtraParamsException;
+use App\Domain\Exception\MessageNormalizationException;
 use App\Domain\Exception\MessageParamTypeException;
-use App\Domain\Exception\NormalizationFailedException;
 use App\Domain\Exception\ValidationFailedException;
 use Override;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,7 +66,7 @@ final class MessageValueResolver implements ValueResolverInterface
         try {
             return (array) $this->normalizer->normalize($request);
         } catch (LogicException $e) {
-            throw new NormalizationFailedException($e->getMessage(), $e->getCode(), $e);
+            throw new MessageNormalizationException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
