@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Listener;
 
+use App\Domain\Contract\PrivacyProtectorInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -18,7 +19,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use Throwable;
 
 #[AsEventListener(event: ExceptionEvent::class)]
 final class ExceptionEventListener
@@ -26,6 +26,7 @@ final class ExceptionEventListener
     public function __construct(
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer,
+        private PrivacyProtectorInterface $privacyProtector,
         private SerializerInterface $serializer,
     ) {
     }
@@ -42,8 +43,14 @@ final class ExceptionEventListener
             $throwable = $throwable->getPrevious() ?? $throwable;
         }
 
-        $exception = $this->normalizer->normalize($throwable, Throwable::class);
-        $this->logger->error('Application exception event.', is_array($exception) ? $exception : []);
+        $request = (array) $this->normalizer->normalize($event->getRequest());
+        $exception = (array) $this->normalizer->normalize($throwable);
+
+        $this->logger->error('Application exception event.', array_filter([
+            'route' => $event->getRequest()->attributes->get(key: '_route'),
+            'request' => $this->privacyProtector->protect($request),
+            'exception' => $exception,
+        ]));
 
         $refClass = new ReflectionClass($throwable);
         $httpStatus = ($refClass->getAttributes(name: WithHttpStatus::class)[0] ?? null)?->newInstance();

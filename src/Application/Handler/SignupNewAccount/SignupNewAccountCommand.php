@@ -15,7 +15,6 @@ final class SignupNewAccountCommand
         public readonly string $email = '',
 
         #[Assert\Length(min: 8, max: 32)]
-        #[Assert\NotBlank]
         #[Assert\PasswordStrength]
         public readonly string $password = '',
 

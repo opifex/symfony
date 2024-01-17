@@ -13,7 +13,6 @@ use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -37,11 +36,6 @@ final class MessageValueResolverTest extends Unit
     public function testResolveThrowsExceptionOnNormalizationFailed(): void
     {
         $messageValueResolver = new MessageValueResolver($this->denormalizer, $this->normalizer, $this->validator);
-
-        $this->normalizer
-            ->expects($this->once())
-            ->method(constraint: 'normalize')
-            ->willThrowException(new LogicException());
 
         $this->expectException(MessageNormalizationException::class);
 
