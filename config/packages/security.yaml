@@ -11,6 +11,9 @@ security:
     healthcheck:
       pattern: ^/api/health
       security: false
+    registration:
+      pattern: ^/api/auth/signup
+      security: false
     authentication:
       stateless: true
       pattern: ^/api/auth/signin
@@ -18,7 +21,7 @@ security:
       user_checker: App\Application\Security\AccountUserChecker
       custom_authenticators:
         - App\Application\Security\PasswordAuthenticator
-    api:
+    authorization:
       stateless: true
       pattern: ^/api
       provider: account
