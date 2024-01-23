@@ -26,7 +26,7 @@ final class JwtAccessToken extends AbstractToken implements AccessTokenInterface
         }
 
         if ($secret === '') {
-            throw new InvalidArgumentException(message: 'A non-empty token is required.');
+            throw new InvalidArgumentException(message: 'Secret must not be empty.');
         }
 
         $this->firewallName = $firewallName;
