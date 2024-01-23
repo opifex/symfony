@@ -30,20 +30,21 @@ final class UpdateAccountByIdHandler
                     message: 'Email address is already associated with another account.',
                 );
             } catch (AccountNotFoundException) {
-                $account->setEmail($message->email);
+                $this->accountRepository->updateEmailByUuid($account->getUuid(), $message->email);
             }
         }
 
         if ($message->password !== null) {
-            $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
+            $password = $this->userPasswordHasher->hashPassword($account, $message->password);
+            $this->accountRepository->updatePasswordByUuid($account->getUuid(), $password);
         }
 
         if ($message->locale !== null) {
-            $account->setLocale($message->locale);
+            $this->accountRepository->updateLocaleByUuid($account->getUuid(), $message->locale);
         }
 
         if ($message->roles !== null) {
-            $account->setRoles($message->roles);
+            $this->accountRepository->updateRolesByUuid($account->getUuid(), $message->roles);
         }
     }
 }

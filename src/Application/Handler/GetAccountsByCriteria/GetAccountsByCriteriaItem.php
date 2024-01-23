@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\GetAccountsByCriteria;
 
-use App\Domain\Contract\AccountInterface;
+use App\Domain\Entity\Account;
 use DateTimeInterface;
 
 final class GetAccountsByCriteriaItem
@@ -22,7 +22,7 @@ final class GetAccountsByCriteriaItem
 
     public readonly DateTimeInterface $createdAt;
 
-    public function __construct(AccountInterface $account)
+    public function __construct(Account $account)
     {
         $this->uuid = $account->getUuid();
         $this->email = $account->getEmail();

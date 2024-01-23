@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Notification;
 
-use App\Domain\Contract\AccountInterface;
+use App\Domain\Entity\Account;
 use Override;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Notifier\Message\EmailMessage;
@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class AccountCreatedNotification extends Notification implements EmailNotificationInterface
 {
     public function __construct(
-        private AccountInterface $account,
+        private Account $account,
         private TranslatorInterface $translator,
     ) {
         parent::__construct();

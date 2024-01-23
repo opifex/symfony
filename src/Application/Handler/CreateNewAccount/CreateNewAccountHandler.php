@@ -27,11 +27,14 @@ final class CreateNewAccountHandler
     public function __invoke(CreateNewAccountCommand $message): void
     {
         $account = AccountFactory::createCustomAccount($message->email, $message->locale, $message->roles);
-        $account->setPassword($this->userPasswordHasher->hashPassword($account, $message->password));
+        $this->accountRepository->insertOneAccount($account);
+
+        $password = $this->userPasswordHasher->hashPassword($account, $message->password);
+        $this->accountRepository->updatePasswordByUuid($account->getUuid(), $password);
+
         $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
 
-        $this->accountRepository->insert($account);
-
+        $account = $this->accountRepository->findOneByUuid($account->getUuid());
         $this->eventDispatcher->dispatch(new AccountCreatedEvent($account));
     }
 }

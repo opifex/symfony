@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Factory\AccountFactory;
 use App\Application\Security\AccountUserProvider;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
@@ -16,7 +15,7 @@ use PHPUnit\Framework\MockObject\Exception;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Symfony\Component\Uid\UuidV7;
+use Symfony\Component\Uid\Uuid;
 
 final class AccountUserProviderTest extends Unit
 {
@@ -32,7 +31,7 @@ final class AccountUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithEmail(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: LocaleCode::EN);
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: LocaleCode::EN);
 
         $this->accountRepository
             ->expects($this->once())
@@ -62,16 +61,15 @@ final class AccountUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithUuid(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: LocaleCode::EN);
-        $uuid = new UuidV7();
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: LocaleCode::EN);
 
         $this->accountRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByUuid')
-            ->with($uuid)
+            ->with($account->getUuid())
             ->willReturn($account);
 
-        $loadedUser = $accountUserProvider->loadUserByIdentifier($uuid->toRfc4122());
+        $loadedUser = $accountUserProvider->loadUserByIdentifier($account->getUuid());
 
         $this->assertSame($account, $loadedUser);
     }
@@ -79,7 +77,7 @@ final class AccountUserProviderTest extends Unit
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: LocaleCode::EN);
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: LocaleCode::EN);
 
         $this->expectException(UnsupportedUserException::class);
 

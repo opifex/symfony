@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Event;
 
-use App\Domain\Contract\AccountInterface;
+use App\Domain\Entity\Account;
 use Symfony\Contracts\EventDispatcher\Event;
 
 final class AccountCreatedEvent extends Event
 {
-    public function __construct(public readonly AccountInterface $account)
+    public function __construct(public readonly Account $account)
     {
     }
 }

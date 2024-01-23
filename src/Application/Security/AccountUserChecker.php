@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
-use App\Domain\Contract\AccountInterface;
+use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountStatus;
 use Override;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
@@ -16,7 +16,7 @@ final class AccountUserChecker implements UserCheckerInterface
     #[Override]
     public function checkPostAuth(UserInterface $user): void
     {
-        if (!$user instanceof AccountInterface) {
+        if (!$user instanceof Account) {
             return;
         }
 

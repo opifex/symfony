@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Factory\AccountFactory;
 use App\Application\Security\AccountUserChecker;
+use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\LocaleCode;
 use Codeception\Test\Unit;
@@ -13,6 +13,7 @@ use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 final class AccountUserCheckerTest extends Unit
 {
@@ -28,7 +29,7 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithBlockedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: LocaleCode::EN);
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: LocaleCode::EN);
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
@@ -46,8 +47,12 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithVerifiedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = AccountFactory::createUserAccount(email: 'email@example.com', locale: LocaleCode::EN);
-        $account->setStatus(status: AccountStatus::VERIFIED);
+        $account = new Account(
+            uuid: Uuid::v7()->toRfc4122(),
+            email: 'email@example.com',
+            locale: LocaleCode::EN,
+            status: AccountStatus::VERIFIED,
+        );
         $accountUserChecker->checkPostAuth($account);
 
         $this->expectNotToPerformAssertions();
