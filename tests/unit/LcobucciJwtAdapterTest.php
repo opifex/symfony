@@ -10,6 +10,7 @@ use Codeception\Test\Unit;
 use Exception;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
+use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class LcobucciJwtAdapterTest extends Unit
@@ -49,8 +50,10 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->createToken($this->user);
-        $identifier = $lcobucciJwtAdapter->getIdentifier($token);
+        $clock = new MockClock();
+
+        $token = $lcobucciJwtAdapter->createToken($this->user, $clock);
+        $identifier = $lcobucciJwtAdapter->getIdentifier($token, $clock);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
     }
@@ -114,8 +117,10 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->createToken($this->user);
-        $identifier = $lcobucciJwtAdapter->getIdentifier($token);
+        $clock = new MockClock();
+
+        $token = $lcobucciJwtAdapter->createToken($this->user, $clock);
+        $identifier = $lcobucciJwtAdapter->getIdentifier($token, $clock);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
     }
@@ -136,11 +141,12 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->createToken($this->user);
+        $clock = new MockClock();
+        $token = $lcobucciJwtAdapter->createToken($this->user, $clock);
 
         $this->expectException(JwtAdapterException::class);
 
-        $lcobucciJwtAdapter->getIdentifier($token);
+        $lcobucciJwtAdapter->getIdentifier($token, $clock);
     }
 
     /**
@@ -153,12 +159,14 @@ final class LcobucciJwtAdapterTest extends Unit
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
         );
 
+        $clock = new MockClock();
+
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $token .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
         $this->expectException(JwtAdapterException::class);
 
-        $lcobucciJwtAdapter->getIdentifier($token);
+        $lcobucciJwtAdapter->getIdentifier($token, $clock);
     }
 
     /**
@@ -171,9 +179,11 @@ final class LcobucciJwtAdapterTest extends Unit
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
         );
 
+        $clock = new MockClock();
+
         $this->expectException(JwtAdapterException::class);
 
-        $lcobucciJwtAdapter->getIdentifier(accessToken: 'invalid');
+        $lcobucciJwtAdapter->getIdentifier(accessToken: 'invalid', clock: $clock);
     }
 
     /**
@@ -186,6 +196,8 @@ final class LcobucciJwtAdapterTest extends Unit
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
         );
 
+        $clock = new MockClock();
+
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $token .= 'Tg1MTQ3NjEuMjA1NzU4LCJleHAiOjMzMTk0NTE0NzYxLjIwNT';
         $token .= 'c1NywianRpIjoiZmYxZDFlNGItMzM0Zi00NzcyLWExOWYtN2E';
@@ -194,6 +206,6 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $this->expectException(JwtAdapterException::class);
 
-        $lcobucciJwtAdapter->getIdentifier($token);
+        $lcobucciJwtAdapter->getIdentifier($token, $clock);
     }
 }

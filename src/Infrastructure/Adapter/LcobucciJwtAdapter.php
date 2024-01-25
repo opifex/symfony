@@ -8,7 +8,7 @@ use App\Domain\Contract\JwtAdapterInterface;
 use App\Domain\Exception\JwtAdapterException;
 use DateInterval;
 use Exception;
-use Lcobucci\Clock\SystemClock;
+use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
@@ -21,6 +21,7 @@ use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Override;
 use SensitiveParameter;
+use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -44,7 +45,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
     }
 
     #[Override]
-    public function getIdentifier(#[SensitiveParameter] string $accessToken): string
+    public function getIdentifier(#[SensitiveParameter] string $accessToken, ClockInterface $clock): string
     {
         try {
             $accessToken = $this->configuration->parser()->parse($accessToken);
@@ -54,21 +55,26 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
             throw new JwtAdapterException(message: 'Authorization token have invalid structure.');
         }
 
-        $this->validateTokenConstraints($accessToken);
+        $strictValidAt = new StrictValidAt(new FrozenClock($clock->now()));
+        $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
+
+        if (!$this->configuration->validator()->validate($accessToken, $strictValidAt, $signedWith)) {
+            throw new JwtAdapterException(message: 'Authorization token is invalid or expired.');
+        }
 
         return $this->extractSubjectFromToken($accessToken);
     }
 
     #[Override]
-    public function createToken(UserInterface $user): string
+    public function createToken(UserInterface $user, ClockInterface $clock): string
     {
-        $time = SystemClock::fromSystemTimezone()->now();
+        $tokenIssuedAt = $clock->now();
 
         return $this->configuration->builder()
-            ->canOnlyBeUsedAfter($time)
-            ->expiresAt($time->add($this->expiration))
+            ->canOnlyBeUsedAfter($tokenIssuedAt)
+            ->expiresAt($tokenIssuedAt->add($this->expiration))
             ->identifiedBy(Uuid::v4()->toRfc4122())
-            ->issuedAt($time)
+            ->issuedAt($tokenIssuedAt)
             ->relatedTo($user->getUserIdentifier())
             ->getToken($this->configuration->signer(), $this->configuration->signingKey())
             ->toString();
@@ -122,18 +128,5 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
         }
 
         return $subject;
-    }
-
-    /**
-     * @throws JwtAdapterException
-     */
-    private function validateTokenConstraints(Token $token): void
-    {
-        $strictValidAt = new StrictValidAt(SystemClock::fromSystemTimezone(), $this->expiration);
-        $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
-
-        if (!$this->configuration->validator()->validate($token, $strictValidAt, $signedWith)) {
-            throw new JwtAdapterException(message: 'Authorization token is invalid or expired.');
-        }
     }
 }

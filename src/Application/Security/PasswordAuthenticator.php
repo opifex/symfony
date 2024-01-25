@@ -6,6 +6,7 @@ namespace App\Application\Security;
 
 use App\Domain\Contract\JwtAdapterInterface;
 use Override;
+use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -17,8 +18,10 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 final class PasswordAuthenticator implements InteractiveAuthenticatorInterface
 {
-    public function __construct(private JwtAdapterInterface $jwtAdapter)
-    {
+    public function __construct(
+        private ClockInterface $clock,
+        private JwtAdapterInterface $jwtAdapter,
+    ) {
     }
 
     #[Override]
@@ -35,7 +38,7 @@ final class PasswordAuthenticator implements InteractiveAuthenticatorInterface
     #[Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        $secret = $this->jwtAdapter->createToken($passport->getUser());
+        $secret = $this->jwtAdapter->createToken($passport->getUser(), $this->clock);
 
         return new JwtAccessToken($passport->getUser(), $firewallName, $secret);
     }

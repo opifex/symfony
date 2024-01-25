@@ -6,6 +6,7 @@ namespace App\Domain\Contract;
 
 use App\Domain\Exception\JwtAdapterException;
 use SensitiveParameter;
+use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 interface JwtAdapterInterface
@@ -13,7 +14,7 @@ interface JwtAdapterInterface
     /**
      * @throws JwtAdapterException
      */
-    public function getIdentifier(#[SensitiveParameter] string $accessToken): string;
+    public function getIdentifier(#[SensitiveParameter] string $accessToken, ClockInterface $clock): string;
 
-    public function createToken(UserInterface $user): string;
+    public function createToken(UserInterface $user, ClockInterface $clock): string;
 }
