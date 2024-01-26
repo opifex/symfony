@@ -69,10 +69,11 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
     public function createToken(UserInterface $user, ClockInterface $clock): string
     {
         $tokenIssuedAt = $clock->now();
+        $tokenExpiresAt = $tokenIssuedAt->add($this->expiration);
 
         return $this->configuration->builder()
             ->canOnlyBeUsedAfter($tokenIssuedAt)
-            ->expiresAt($tokenIssuedAt->add($this->expiration))
+            ->expiresAt($tokenExpiresAt)
             ->identifiedBy(Uuid::v4()->toRfc4122())
             ->issuedAt($tokenIssuedAt)
             ->relatedTo($user->getUserIdentifier())
