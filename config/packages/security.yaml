@@ -20,14 +20,14 @@ security:
       provider: account
       user_checker: App\Application\Security\AccountUserChecker
       custom_authenticators:
-        - App\Application\Security\PasswordAuthenticator
+        - App\Application\Security\JsonLoginAuthenticator
     authorization:
       stateless: true
       pattern: ^/api
       provider: account
       user_checker: App\Application\Security\AccountUserChecker
       access_token:
-        token_handler: App\Application\Security\JwtAccessTokenHandler
+        token_handler: App\Application\Security\AuthorizationTokenHandler
   role_hierarchy:
     !php/const App\Domain\Entity\AccountRole::ROLE_ADMIN: [
       !php/const App\Domain\Entity\AccountRole::ROLE_USER,

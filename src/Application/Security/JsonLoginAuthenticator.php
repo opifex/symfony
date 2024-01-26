@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
-final class PasswordAuthenticator implements InteractiveAuthenticatorInterface
+final class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
 {
     public function __construct(
         private ClockInterface $clock,
@@ -40,7 +40,7 @@ final class PasswordAuthenticator implements InteractiveAuthenticatorInterface
     {
         $secret = $this->jwtAdapter->createToken($passport->getUser(), $this->clock);
 
-        return new JwtAccessToken($passport->getUser(), $firewallName, $secret);
+        return new AuthorizationToken($passport->getUser(), $firewallName, $secret);
     }
 
     #[Override]
