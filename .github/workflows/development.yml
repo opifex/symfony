@@ -28,7 +28,7 @@ jobs:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=15&charset=utf8
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
-      PHP_VERSION: 8.3.1
+      PHP_VERSION: 8.3.2
 
     steps:
       - name: Setup environment
