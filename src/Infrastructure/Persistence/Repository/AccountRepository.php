@@ -65,7 +65,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
-        $builder->andWhere($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
         $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
 
         try {
@@ -90,7 +90,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
-        $builder->andWhere($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
+        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 
         try {
@@ -213,7 +213,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->delete()->from(from: Account::class, alias: 'account');
-        $builder->andWhere($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
+        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 
         if (!$builder->getQuery()->execute()) {
