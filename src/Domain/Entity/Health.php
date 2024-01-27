@@ -6,7 +6,7 @@ namespace App\Domain\Entity;
 
 class Health
 {
-    public function __construct(private HealthStatus $status)
+    public function __construct(private readonly HealthStatus $status)
     {
     }
 
