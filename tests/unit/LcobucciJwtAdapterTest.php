@@ -52,7 +52,7 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $clock = new MockClock();
 
-        $token = $lcobucciJwtAdapter->createToken($this->user, $clock);
+        $token = $lcobucciJwtAdapter->generateToken($this->user, $clock);
         $identifier = $lcobucciJwtAdapter->getIdentifier($token, $clock);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
@@ -119,7 +119,7 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $clock = new MockClock();
 
-        $token = $lcobucciJwtAdapter->createToken($this->user, $clock);
+        $token = $lcobucciJwtAdapter->generateToken($this->user, $clock);
         $identifier = $lcobucciJwtAdapter->getIdentifier($token, $clock);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
@@ -142,7 +142,7 @@ final class LcobucciJwtAdapterTest extends Unit
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
         $clock = new MockClock();
-        $token = $lcobucciJwtAdapter->createToken($this->user, $clock);
+        $token = $lcobucciJwtAdapter->generateToken($this->user, $clock);
 
         $this->expectException(JwtAdapterException::class);
 

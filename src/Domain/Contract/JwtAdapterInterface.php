@@ -16,5 +16,5 @@ interface JwtAdapterInterface
      */
     public function getIdentifier(#[SensitiveParameter] string $accessToken, ClockInterface $clock): string;
 
-    public function createToken(UserInterface $user, ClockInterface $clock): string;
+    public function generateToken(UserInterface $user, ClockInterface $clock): string;
 }

@@ -66,19 +66,24 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
     }
 
     #[Override]
-    public function createToken(UserInterface $user, ClockInterface $clock): string
+    public function generateToken(UserInterface $user, ClockInterface $clock): string
     {
         $tokenIssuedAt = $clock->now();
         $tokenExpiresAt = $tokenIssuedAt->add($this->expiration);
 
-        return $this->configuration->builder()
-            ->canOnlyBeUsedAfter($tokenIssuedAt)
-            ->expiresAt($tokenExpiresAt)
-            ->identifiedBy(Uuid::v4()->toRfc4122())
-            ->issuedAt($tokenIssuedAt)
-            ->relatedTo($user->getUserIdentifier())
-            ->getToken($this->configuration->signer(), $this->configuration->signingKey())
-            ->toString();
+        $builder = $this->configuration->builder();
+        $builder->canOnlyBeUsedAfter($tokenIssuedAt);
+        $builder->expiresAt($tokenExpiresAt);
+        $builder->identifiedBy(Uuid::v4()->toRfc4122());
+        $builder->issuedAt($tokenIssuedAt);
+        $builder->relatedTo($user->getUserIdentifier());
+
+        $token = $builder->getToken(
+            signer: $this->configuration->signer(),
+            key: $this->configuration->signingKey(),
+        );
+
+        return $token->toString();
     }
 
     /**
