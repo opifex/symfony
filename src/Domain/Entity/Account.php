@@ -9,7 +9,7 @@ use Override;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Account implements UserInterface, PasswordAuthenticatedUserInterface
+final class Account implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @param string[] $roles
