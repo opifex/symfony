@@ -2,37 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Security;
+namespace App\Domain\Entity;
 
-use App\Domain\Contract\AuthorizationTokenInterface;
 use Override;
 use SensitiveParameter;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class AuthorizationToken extends AbstractToken implements AuthorizationTokenInterface
+final class AuthorizationToken extends AbstractToken
 {
-    private string $firewallName;
+    public function __construct(
+        private readonly UserInterface $user,
+        private readonly string $firewallName,
+        #[SensitiveParameter] private readonly string $secret,
+    ) {
+        parent::__construct($this->user->getRoles());
 
-    private string $secret;
-
-    public function __construct(UserInterface $user, string $firewallName, #[SensitiveParameter] string $secret)
-    {
-        parent::__construct($user->getRoles());
-
-        if ($firewallName === '') {
+        if ($this->firewallName === '') {
             throw new InvalidArgumentException(message: 'Firewall name must not be empty.');
         }
 
-        if ($secret === '') {
+        if ($this->secret === '') {
             throw new InvalidArgumentException(message: 'Secret must not be empty.');
         }
 
-        $this->firewallName = $firewallName;
-        $this->secret = $secret;
-
-        $this->setUser($user);
+        $this->setUser($this->user);
     }
 
     public function getFirewallName(): string
@@ -40,7 +35,6 @@ final class AuthorizationToken extends AbstractToken implements AuthorizationTok
         return $this->firewallName;
     }
 
-    #[Override]
     public function getSecret(): string
     {
         return $this->secret;

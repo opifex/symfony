@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Security;
 
 use App\Domain\Contract\JwtAdapterInterface;
+use App\Domain\Entity\AuthorizationToken;
 use Override;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\Request;
