@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Application\Serializer\HtmlTemplateEncoder;
-use App\Domain\Contract\TwigAdapterInterface;
-use App\Domain\Exception\TwigAdapterException;
+use App\Domain\Contract\TemplateEngineInterface;
+use App\Domain\Exception\TemplateEngineException;
 use Codeception\Test\Unit;
 use InvalidArgumentException;
 use Override;
@@ -22,15 +22,15 @@ final class HtmlTemplateEncoderTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->twigAdapter = $this->createMock(originalClassName: TwigAdapterInterface::class);
+        $this->templateEngine = $this->createMock(originalClassName: TemplateEngineInterface::class);
     }
 
     public function testEncodeWithExistedTemplate(): void
     {
-        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->twigAdapter);
+        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->templateEngine);
         $content = 'content';
 
-        $this->twigAdapter
+        $this->templateEngine
             ->expects($this->once())
             ->method(constraint: 'render')
             ->willReturn($content);
@@ -46,7 +46,7 @@ final class HtmlTemplateEncoderTest extends Unit
 
     public function testEncodeThrowsExceptionWithInvalidData(): void
     {
-        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->twigAdapter);
+        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->templateEngine);
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -59,7 +59,7 @@ final class HtmlTemplateEncoderTest extends Unit
 
     public function testEncodeThrowsExceptionWithoutTemplate(): void
     {
-        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->twigAdapter);
+        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->templateEngine);
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -68,12 +68,12 @@ final class HtmlTemplateEncoderTest extends Unit
 
     public function testEncodeThrowsExceptionOnTwigAdapterError(): void
     {
-        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->twigAdapter);
+        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->templateEngine);
 
-        $this->twigAdapter
+        $this->templateEngine
             ->expects($this->once())
             ->method(constraint: 'render')
-            ->willThrowException(new TwigAdapterException());
+            ->willThrowException(new TemplateEngineException());
 
         $this->expectException(RuntimeException::class);
 
@@ -86,7 +86,7 @@ final class HtmlTemplateEncoderTest extends Unit
 
     public function testCheckSupportsEncoding(): void
     {
-        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->twigAdapter);
+        $htmlTemplateEncoder = new HtmlTemplateEncoder($this->templateEngine);
 
         $this->assertTrue($htmlTemplateEncoder->supportsEncoding(format: HtmlTemplateEncoder::FORMAT));
         $this->assertFalse($htmlTemplateEncoder->supportsEncoding(format: ''));

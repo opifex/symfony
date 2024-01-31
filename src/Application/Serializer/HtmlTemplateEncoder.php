@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use App\Domain\Contract\TwigAdapterInterface;
-use App\Domain\Exception\TwigAdapterException;
+use App\Domain\Contract\TemplateEngineInterface;
+use App\Domain\Exception\TemplateEngineException;
 use Override;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
@@ -16,7 +16,7 @@ final class HtmlTemplateEncoder implements EncoderInterface
     public const string FORMAT = 'html';
     public const string TEMPLATE = 'template';
 
-    public function __construct(private TwigAdapterInterface $twigAdapter)
+    public function __construct(private TemplateEngineInterface $templateEngine)
     {
     }
 
@@ -32,8 +32,8 @@ final class HtmlTemplateEncoder implements EncoderInterface
         }
 
         try {
-            return $this->twigAdapter->render($context[self::TEMPLATE], $data);
-        } catch (TwigAdapterException $e) {
+            return $this->templateEngine->render($context[self::TEMPLATE], $data);
+        } catch (TemplateEngineException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
     }
