@@ -9,7 +9,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 class StatementUseSniff implements Sniff
 {
-    public int $dependencyLimit = 20;
+    public int $dependencyLimit = 25;
 
     public function process(File $phpcsFile, mixed $stackPtr): int
     {

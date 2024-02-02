@@ -21,12 +21,15 @@ use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Override;
 use SensitiveParameter;
+use Symfony\Component\Clock\Clock;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 final class LcobucciJwtAdapter implements JwtAdapterInterface
 {
+    private readonly ClockInterface $clock;
+
     private readonly Configuration $configuration;
 
     private readonly DateInterval $expiration;
@@ -35,17 +38,19 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
      * @throws Exception
      */
     public function __construct(
-        int $lifetime,
-        #[SensitiveParameter] string $passphrase,
+        int $lifetime = 0,
+        ClockInterface $clock = new Clock(),
+        #[SensitiveParameter] ?string $passphrase = null,
         #[SensitiveParameter] ?string $signingKey = null,
         #[SensitiveParameter] ?string $verificationKey = null,
     ) {
+        $this->clock = $clock;
         $this->expiration = $this->buildExpiration($lifetime);
         $this->configuration = $this->buildConfiguration($passphrase, $signingKey, $verificationKey);
     }
 
     #[Override]
-    public function getIdentifier(#[SensitiveParameter] string $accessToken, ClockInterface $clock): string
+    public function getIdentifier(#[SensitiveParameter] string $accessToken): string
     {
         try {
             $accessToken = $this->configuration->parser()->parse($accessToken);
@@ -55,7 +60,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
             throw new JwtAdapterException(message: 'Authorization token have invalid structure.');
         }
 
-        $strictValidAt = new StrictValidAt(new FrozenClock($clock->now()));
+        $strictValidAt = new StrictValidAt(new FrozenClock($this->clock->now()));
         $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
 
         if (!$this->configuration->validator()->validate($accessToken, $strictValidAt, $signedWith)) {
@@ -66,9 +71,9 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
     }
 
     #[Override]
-    public function generateToken(UserInterface $user, ClockInterface $clock): string
+    public function generateToken(UserInterface $user): string
     {
-        $tokenIssuedAt = $clock->now();
+        $tokenIssuedAt = $this->clock->now();
         $tokenExpiresAt = $tokenIssuedAt->add($this->expiration);
 
         $builder = $this->configuration->builder();
@@ -90,7 +95,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
      * @throws JwtAdapterException
      */
     private function buildConfiguration(
-        #[SensitiveParameter] string $passphrase,
+        #[SensitiveParameter] ?string $passphrase = null,
         #[SensitiveParameter] ?string $signingKey = null,
         #[SensitiveParameter] ?string $verificationKey = null,
     ): Configuration {
