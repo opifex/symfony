@@ -11,7 +11,7 @@ use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 
-final class AuthorizationTokenHandler implements AccessTokenHandlerInterface
+final class JwtAccessTokenHandler implements AccessTokenHandlerInterface
 {
     public function __construct(
         private ClockInterface $clock,
