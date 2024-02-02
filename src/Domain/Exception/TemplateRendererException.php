@@ -9,6 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
 #[WithHttpStatus(statusCode: Response::HTTP_INTERNAL_SERVER_ERROR)]
-class TemplateEngineException extends RuntimeException
+class TemplateRendererException extends RuntimeException
 {
 }

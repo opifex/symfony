@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use App\Domain\Contract\TemplateEngineInterface;
-use App\Domain\Exception\TemplateEngineException;
+use App\Domain\Contract\TemplateRendererInterface;
+use App\Domain\Exception\TemplateRendererException;
 use Override;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
@@ -16,7 +16,7 @@ final class HtmlTemplateEncoder implements EncoderInterface
     public const string FORMAT = 'html';
     public const string TEMPLATE = 'template';
 
-    public function __construct(private TemplateEngineInterface $templateEngine)
+    public function __construct(private TemplateRendererInterface $templateRenderer)
     {
     }
 
@@ -32,8 +32,8 @@ final class HtmlTemplateEncoder implements EncoderInterface
         }
 
         try {
-            return $this->templateEngine->render($context[self::TEMPLATE], $data);
-        } catch (TemplateEngineException $e) {
+            return $this->templateRenderer->render($context[self::TEMPLATE], $data);
+        } catch (TemplateRendererException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
     }
