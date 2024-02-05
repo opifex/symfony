@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\Domain\Contract\HttpbinAdapterInterface;
-use App\Domain\Exception\HttpbinAdapterException;
+use App\Domain\Contract\HttpbinResponderInterface;
+use App\Domain\Exception\HttpbinResponderException;
 use Override;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class KennethreitzHttpbinAdapter implements HttpbinAdapterInterface
+final class KennethreitzHttpbinAdapter implements HttpbinResponderInterface
 {
     public function __construct(private HttpClientInterface $httpbinClient)
     {
@@ -22,7 +22,7 @@ final class KennethreitzHttpbinAdapter implements HttpbinAdapterInterface
         try {
             return $this->httpbinClient->request('GET', 'json')->toArray();
         } catch (ExceptionInterface $e) {
-            throw new HttpbinAdapterException($e->getMessage(), $e->getCode(), $e);
+            throw new HttpbinResponderException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

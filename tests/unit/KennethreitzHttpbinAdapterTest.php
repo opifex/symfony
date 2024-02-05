@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\HttpbinAdapterException;
+use App\Domain\Exception\HttpbinResponderException;
 use App\Infrastructure\Adapter\KennethreitzHttpbinAdapter;
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 final class KennethreitzHttpbinAdapterTest extends Unit
 {
     /**
-     * @throws HttpbinAdapterException
+     * @throws HttpbinResponderException
      */
     #[DataProvider(methodName: 'httpbinResponseProvider')]
     public function testGetJsonReturnResponse(array $response): void
@@ -36,7 +36,7 @@ final class KennethreitzHttpbinAdapterTest extends Unit
         $mockHttpClient = new MockHttpClient($mockResponse);
         $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($mockHttpClient);
 
-        $this->expectException(HttpbinAdapterException::class);
+        $this->expectException(HttpbinResponderException::class);
 
         $kennethreitzHttpbinAdapter->getJson();
     }

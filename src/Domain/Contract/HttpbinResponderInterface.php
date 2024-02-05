@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Contract;
 
-use App\Domain\Exception\HttpbinAdapterException;
+use App\Domain\Exception\HttpbinResponderException;
 
-interface HttpbinAdapterInterface
+interface HttpbinResponderInterface
 {
     /**
      * @return array<string, mixed>
-     * @throws HttpbinAdapterException
+     * @throws HttpbinResponderException
      */
     public function getJson(): array;
 }

@@ -151,7 +151,7 @@
         }
     },
     "require-dev": {
-        "codeception/codeception": "^5.0",
+        "codeception/codeception": "^5.1",
         "codeception/module-asserts": "^3.0",
         "codeception/module-cli": "^2.0",
         "codeception/module-doctrine2": "^3.0",
