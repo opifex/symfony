@@ -5,7 +5,7 @@ framework:
     buses:
       default.bus:
         middleware:
-          - App\Application\Messenger\IdentifierMiddleware
+          - App\Application\Messenger\RequestIdMiddleware
       command.bus:
         middleware:
           - doctrine_close_connection
