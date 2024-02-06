@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Security;
 
-use App\Domain\Contract\JwtAdapterInterface;
+use App\Domain\Contract\JwtTokenManagerInterface;
 use App\Domain\Entity\AuthorizationToken;
 use Override;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 final class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
 {
-    public function __construct(private JwtAdapterInterface $jwtAdapter)
+    public function __construct(private JwtTokenManagerInterface $jwtTokenManager)
     {
     }
 
@@ -36,7 +36,7 @@ final class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
     #[Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        $secret = $this->jwtAdapter->generateToken($passport->getUser());
+        $secret = $this->jwtTokenManager->generateToken($passport->getUser());
 
         return new AuthorizationToken($passport->getUser(), $firewallName, $secret);
     }

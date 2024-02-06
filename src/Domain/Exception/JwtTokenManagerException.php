@@ -9,6 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
 #[WithHttpStatus(statusCode: Response::HTTP_FORBIDDEN)]
-class JwtAdapterException extends RuntimeException
+class JwtTokenManagerException extends RuntimeException
 {
 }

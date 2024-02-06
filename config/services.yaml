@@ -10,7 +10,7 @@ services:
       - '../src/Domain/{Entity,Event,Exception}/'
       - '../src/Infrastructure/Persistence/{Migration}/'
 
-  App\Domain\Contract\JwtAdapterInterface:
+  App\Domain\Contract\JwtTokenManagerInterface:
     class: App\Infrastructure\Adapter\LcobucciJwtAdapter
     arguments:
       $lifetime: '%env(int:JWT_LIFETIME)%'

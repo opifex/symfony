@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\Domain\Contract\JwtAdapterInterface;
-use App\Domain\Exception\JwtAdapterException;
+use App\Domain\Contract\JwtTokenManagerInterface;
+use App\Domain\Exception\JwtTokenManagerException;
 use DateInterval;
 use Exception;
 use Lcobucci\Clock\FrozenClock;
@@ -26,7 +26,7 @@ use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
-final class LcobucciJwtAdapter implements JwtAdapterInterface
+final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 {
     private readonly ClockInterface $clock;
 
@@ -50,24 +50,24 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
     }
 
     #[Override]
-    public function getIdentifier(#[SensitiveParameter] string $accessToken): string
+    public function extractUserIdentifier(#[SensitiveParameter] string $accessToken): string
     {
         try {
-            $accessToken = $this->configuration->parser()->parse($accessToken);
+            $token = $this->configuration->parser()->parse($accessToken);
         } catch (CannotDecodeContent) {
-            throw new JwtAdapterException(message: 'Error while decoding authorization token.');
+            throw new JwtTokenManagerException(message: 'Error while decoding authorization token.');
         } catch (InvalidTokenStructure) {
-            throw new JwtAdapterException(message: 'Authorization token have invalid structure.');
+            throw new JwtTokenManagerException(message: 'Authorization token have invalid structure.');
         }
 
         $strictValidAt = new StrictValidAt(new FrozenClock($this->clock->now()));
         $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
 
-        if (!$this->configuration->validator()->validate($accessToken, $strictValidAt, $signedWith)) {
-            throw new JwtAdapterException(message: 'Authorization token is invalid or expired.');
+        if (!$this->configuration->validator()->validate($token, $strictValidAt, $signedWith)) {
+            throw new JwtTokenManagerException(message: 'Authorization token is invalid or expired.');
         }
 
-        return $this->extractSubjectFromToken($accessToken);
+        return $this->extractSubjectFromToken($token);
     }
 
     #[Override]
@@ -92,7 +92,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
     }
 
     /**
-     * @throws JwtAdapterException
+     * @throws JwtTokenManagerException
      */
     private function buildConfiguration(
         #[SensitiveParameter] ?string $passphrase = null,
@@ -112,7 +112,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
             );
         }
 
-        return $configuration ?? throw new JwtAdapterException(
+        return $configuration ?? throw new JwtTokenManagerException(
             message: 'Authorization token signer is not configured.',
         );
     }
@@ -126,7 +126,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
     }
 
     /**
-     * @throws JwtAdapterException
+     * @throws JwtTokenManagerException
      */
     private function extractSubjectFromToken(Token $token): string
     {
@@ -135,7 +135,7 @@ final class LcobucciJwtAdapter implements JwtAdapterInterface
         }
 
         if (!isset($subject) || !is_string($subject)) {
-            throw new JwtAdapterException(message: 'Authorization token is invalid or expired.');
+            throw new JwtTokenManagerException(message: 'Authorization token is invalid or expired.');
         }
 
         return $subject;

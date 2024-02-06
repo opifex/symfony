@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Exception\JwtAdapterException;
+use App\Domain\Exception\JwtTokenManagerException;
 use App\Infrastructure\Adapter\LcobucciJwtAdapter;
 use Codeception\Test\Unit;
 use Exception;
@@ -29,13 +29,13 @@ final class LcobucciJwtAdapterTest extends Unit
      */
     public function testCreateThrowsExceptionWithEmptyPassphrase(): void
     {
-        $this->expectException(JwtAdapterException::class);
+        $this->expectException(JwtTokenManagerException::class);
 
         new LcobucciJwtAdapter(lifetime: 86400, passphrase: '');
     }
 
     /**
-     * @throws JwtAdapterException
+     * @throws JwtTokenManagerException
      * @throws Exception
      */
     public function testGetIdentifierFromToken(): void
@@ -52,13 +52,13 @@ final class LcobucciJwtAdapterTest extends Unit
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
-        $identifier = $lcobucciJwtAdapter->getIdentifier($token);
+        $userIdentifier = $lcobucciJwtAdapter->extractUserIdentifier($token);
 
-        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
+        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $userIdentifier);
     }
 
     /**
-     * @throws JwtAdapterException
+     * @throws JwtTokenManagerException
      * @throws Exception
      */
     public function testGetIdentifierFromTokenWithVerificationKey(): void
@@ -118,13 +118,13 @@ final class LcobucciJwtAdapterTest extends Unit
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
-        $identifier = $lcobucciJwtAdapter->getIdentifier($token);
+        $userIdentifier = $lcobucciJwtAdapter->extractUserIdentifier($token);
 
-        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $identifier);
+        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $userIdentifier);
     }
 
     /**
-     * @throws JwtAdapterException
+     * @throws JwtTokenManagerException
      * @throws Exception
      */
     public function testGetIdentifierThrowsExceptionWithExpiredToken(): void
@@ -142,9 +142,9 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $token = $lcobucciJwtAdapter->generateToken($this->user);
 
-        $this->expectException(JwtAdapterException::class);
+        $this->expectException(JwtTokenManagerException::class);
 
-        $lcobucciJwtAdapter->getIdentifier($token);
+        $lcobucciJwtAdapter->extractUserIdentifier($token);
     }
 
     /**
@@ -161,9 +161,9 @@ final class LcobucciJwtAdapterTest extends Unit
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $token .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
-        $this->expectException(JwtAdapterException::class);
+        $this->expectException(JwtTokenManagerException::class);
 
-        $lcobucciJwtAdapter->getIdentifier($token);
+        $lcobucciJwtAdapter->extractUserIdentifier($token);
     }
 
     /**
@@ -177,9 +177,9 @@ final class LcobucciJwtAdapterTest extends Unit
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
         );
 
-        $this->expectException(JwtAdapterException::class);
+        $this->expectException(JwtTokenManagerException::class);
 
-        $lcobucciJwtAdapter->getIdentifier(accessToken: 'invalid');
+        $lcobucciJwtAdapter->extractUserIdentifier(accessToken: 'invalid');
     }
 
     /**
@@ -199,8 +199,8 @@ final class LcobucciJwtAdapterTest extends Unit
         $token .= '3ZmFlNDViNTkzIiwiaWF0IjoxNjU4NTE0NzYxLjIwNTc1OH0.';
         $token .= 'eIwfBFdKBNocw9sYFTikflp7c4xM3RI02XUKH3w7re0';
 
-        $this->expectException(JwtAdapterException::class);
+        $this->expectException(JwtTokenManagerException::class);
 
-        $lcobucciJwtAdapter->getIdentifier($token);
+        $lcobucciJwtAdapter->extractUserIdentifier($token);
     }
 }

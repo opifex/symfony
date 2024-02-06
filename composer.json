@@ -98,10 +98,10 @@
             "bin/console messenger:setup-transports"
         ],
         "auto-quality": [
+            "bin/console cache:clear -e test",
             "bin/console lint:yaml src config -e test",
             "bin/console lint:twig src -e test",
             "bin/console lint:container -e test",
-            "bin/console cache:clear -e test",
             "bin/console doctrine:mapping:info -e test",
             "bin/console doctrine:database:drop -e test --if-exists --force",
             "bin/console doctrine:database:create -e test",
