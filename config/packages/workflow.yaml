@@ -10,16 +10,16 @@ framework:
         - App\Domain\Entity\Account
       initial_marking: !php/const App\Domain\Entity\AccountStatus::CREATED
       places:
-        - !php/const App\Domain\Entity\AccountStatus::CREATED
+        - !php/const App\Domain\Entity\AccountStatus::ACTIVATED
         - !php/const App\Domain\Entity\AccountStatus::BLOCKED
-        - !php/const App\Domain\Entity\AccountStatus::VERIFIED
+        - !php/const App\Domain\Entity\AccountStatus::CREATED
       transitions:
-        !php/const App\Domain\Entity\AccountAction::VERIFY:
+        !php/const App\Domain\Entity\AccountAction::ACTIVATE:
           from: !php/const App\Domain\Entity\AccountStatus::CREATED
-          to: !php/const App\Domain\Entity\AccountStatus::VERIFIED
+          to: !php/const App\Domain\Entity\AccountStatus::ACTIVATED
         !php/const App\Domain\Entity\AccountAction::BLOCK:
-          from: !php/const App\Domain\Entity\AccountStatus::VERIFIED
+          from: !php/const App\Domain\Entity\AccountStatus::ACTIVATED
           to: !php/const App\Domain\Entity\AccountStatus::BLOCKED
         !php/const App\Domain\Entity\AccountAction::UNBLOCK:
           from: !php/const App\Domain\Entity\AccountStatus::BLOCKED
-          to: !php/const App\Domain\Entity\AccountStatus::VERIFIED
+          to: !php/const App\Domain\Entity\AccountStatus::ACTIVATED

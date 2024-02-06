@@ -51,7 +51,7 @@ final class AccountUserCheckerTest extends Unit
             uuid: Uuid::v7()->toRfc4122(),
             email: 'email@example.com',
             locale: LocaleCode::EN,
-            status: AccountStatus::VERIFIED,
+            status: AccountStatus::ACTIVATED,
         );
         $accountUserChecker->checkPostAuth($account);
 

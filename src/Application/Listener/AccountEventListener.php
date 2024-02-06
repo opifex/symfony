@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Application\Listener;
 
 use App\Application\Notification\AccountCreatedNotification;
-use App\Domain\Event\AccountCreatedEvent;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountAction;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
+use Symfony\Component\Workflow\Attribute\AsCompletedListener;
+use Symfony\Component\Workflow\Event\CompletedEvent;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AccountEventListener
@@ -19,12 +21,15 @@ final class AccountEventListener
     ) {
     }
 
-    #[AsEventListener(event: AccountCreatedEvent::class)]
-    public function onAccountCreated(AccountCreatedEvent $event): void
+    #[AsCompletedListener(workflow: 'account', transition: AccountAction::ACTIVATE)]
+    public function onWorkflowAccountCompletedActivate(CompletedEvent $event): void
     {
-        $recipient = new Recipient($event->account->getEmail());
-        $notification = new AccountCreatedNotification($event->account, $this->translator);
+        $subject = $event->getSubject();
 
-        $this->notifier->send($notification, $recipient);
+        if ($subject instanceof Account) {
+            $recipient = new Recipient($subject->getEmail());
+            $notification = new AccountCreatedNotification($subject, $this->translator);
+            $this->notifier->send($notification, $recipient);
+        }
     }
 }

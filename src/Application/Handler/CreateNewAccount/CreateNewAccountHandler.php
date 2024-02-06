@@ -32,7 +32,7 @@ final class CreateNewAccountHandler
         $password = $this->userPasswordHasher->hashPassword($account, $message->password);
         $this->accountRepository->updatePasswordByUuid($account->getUuid(), $password);
 
-        $this->accountStateMachine->apply($account, transitionName: AccountAction::VERIFY);
+        $this->accountStateMachine->apply($account, transitionName: AccountAction::ACTIVATE);
 
         $account = $this->accountRepository->findOneByUuid($account->getUuid());
         $this->eventDispatcher->dispatch(new AccountCreatedEvent($account));

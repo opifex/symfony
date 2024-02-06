@@ -93,7 +93,7 @@ final class AccountRepositoryTest extends Unit
 
         $accountRepository->updateStatusByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
-            status: AccountStatus::VERIFIED,
+            status: AccountStatus::ACTIVATED,
         );
     }
 

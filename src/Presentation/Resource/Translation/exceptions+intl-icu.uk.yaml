@@ -11,6 +11,6 @@
 'Not privileged to request the resource.': 'Для доступу до вказаного веб-ресурсу недостатньо привілеїв.'
 'Parameters validation failed.': 'Помилка під час перевірки параметрів запиту.'
 'Provided action cannot be applied to account.': 'Зазначену дію не можливо застосувати до даного облікового запису.'
-'The presented account is not verified.': 'Обліковий запис не верифіковано.'
+'The presented account is not activated.': 'Обліковий запис не активовано.'
 'The presented password cannot be empty.': 'Пароль не може бути порожнім.'
 'The presented password is invalid.': 'Вказаний пароль для авторизації недійсний.'

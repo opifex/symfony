@@ -20,9 +20,9 @@ final class AccountUserChecker implements UserCheckerInterface
             return;
         }
 
-        if ($user->getStatus() !== AccountStatus::VERIFIED) {
+        if ($user->getStatus() !== AccountStatus::ACTIVATED) {
             throw new CustomUserMessageAccountStatusException(
-                message: 'The presented account is not verified.',
+                message: 'The presented account is not activated.',
             );
         }
     }

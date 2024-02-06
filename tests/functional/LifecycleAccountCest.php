@@ -28,7 +28,7 @@ final class LifecycleAccountCest
         $i->sendDelete(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
 
-        $i->sendPost(url: '/api/account/00000000-0000-6000-8000-000000000000/' . AccountAction::VERIFY);
+        $i->sendPost(url: '/api/account/00000000-0000-6000-8000-000000000000/' . AccountAction::ACTIVATE);
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
     }
 
@@ -73,7 +73,7 @@ final class LifecycleAccountCest
         $i->sendDelete(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
 
-        $i->sendPost(url: '/api/account/00000000-0000-6000-8000-000000000000/' . AccountAction::VERIFY);
+        $i->sendPost(url: '/api/account/00000000-0000-6000-8000-000000000000/' . AccountAction::ACTIVATE);
         $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
     }
 
@@ -100,7 +100,7 @@ final class LifecycleAccountCest
             url: '/api/account',
             params: [
                 'email' => 'created@example.com',
-                'status' => AccountStatus::VERIFIED,
+                'status' => AccountStatus::ACTIVATED,
             ],
         );
         $i->seeResponseCodeIs(code: HttpCode::OK);
@@ -149,7 +149,7 @@ final class LifecycleAccountCest
 
         $uuid = current($i->grabDataFromResponseByJsonPath(jsonPath: '$[0].uuid'));
 
-        $i->sendPost(url: '/api/account/' . $uuid . '/' . AccountAction::VERIFY);
+        $i->sendPost(url: '/api/account/' . $uuid . '/' . AccountAction::ACTIVATE);
         $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
     }
 
