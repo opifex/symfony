@@ -24,12 +24,8 @@ final class AccountEventListener
     #[AsCompletedListener(workflow: 'account', transition: AccountAction::ACTIVATE)]
     public function onWorkflowAccountCompletedActivate(CompletedEvent $event): void
     {
+        /** @var Account $account */
         $account = $event->getSubject();
-
-        if (!$account instanceof Account) {
-            return;
-        }
-
         $recipient = new Recipient($account->getEmail());
         $notification = new AccountActivatedNotification($account, $this->translator);
 
