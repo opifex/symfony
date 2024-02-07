@@ -13,13 +13,17 @@ framework:
         - !php/const App\Domain\Entity\AccountStatus::ACTIVATED
         - !php/const App\Domain\Entity\AccountStatus::BLOCKED
         - !php/const App\Domain\Entity\AccountStatus::CREATED
+        - !php/const App\Domain\Entity\AccountStatus::REGISTERED
       transitions:
         !php/const App\Domain\Entity\AccountAction::ACTIVATE:
-          from: !php/const App\Domain\Entity\AccountStatus::CREATED
+          from: !php/const App\Domain\Entity\AccountStatus::REGISTERED
           to: !php/const App\Domain\Entity\AccountStatus::ACTIVATED
         !php/const App\Domain\Entity\AccountAction::BLOCK:
           from: !php/const App\Domain\Entity\AccountStatus::ACTIVATED
           to: !php/const App\Domain\Entity\AccountStatus::BLOCKED
+        !php/const App\Domain\Entity\AccountAction::REGISTER:
+          from: !php/const App\Domain\Entity\AccountStatus::CREATED
+          to: !php/const App\Domain\Entity\AccountStatus::REGISTERED
         !php/const App\Domain\Entity\AccountAction::UNBLOCK:
           from: !php/const App\Domain\Entity\AccountStatus::BLOCKED
           to: !php/const App\Domain\Entity\AccountStatus::ACTIVATED

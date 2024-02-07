@@ -100,6 +100,19 @@ final class LifecycleAccountCest
             url: '/api/account',
             params: [
                 'email' => 'created@example.com',
+                'status' => AccountStatus::CREATED,
+            ],
+        );
+        $i->seeResponseCodeIs(code: HttpCode::OK);
+        $i->seeResponseIsJson();
+
+        $i->sendPost(url: $location . '/' . AccountAction::ACTIVATE);
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
+
+        $i->sendGet(
+            url: '/api/account',
+            params: [
+                'email' => 'created@example.com',
                 'status' => AccountStatus::ACTIVATED,
             ],
         );

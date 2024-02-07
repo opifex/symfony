@@ -8,7 +8,7 @@ use App\Application\Attribute\MapMessage;
 use App\Application\Handler\CreateNewAccount\CreateNewAccountCommand;
 use App\Application\Messenger\ResponseStamp;
 use App\Domain\Entity\AccountRole;
-use App\Domain\Event\AccountCreatedEvent;
+use App\Domain\Event\AccountRegisteredEvent;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 #[AsController]
 final class CreateNewAccountController extends AbstractController
 {
-    private ?AccountCreatedEvent $accountCreatedEvent = null;
+    private ?AccountRegisteredEvent $accountCreatedEvent = null;
 
     #[OA\Post(
         summary: 'Create new account',
@@ -66,8 +66,8 @@ final class CreateNewAccountController extends AbstractController
     public function __invoke(#[MapMessage] CreateNewAccountCommand $message): Envelope
     {
         $this->eventDispatcher->addListener(
-            eventName: AccountCreatedEvent::class,
-            listener: fn(AccountCreatedEvent $event) => $this->accountCreatedEvent = $event,
+            eventName: AccountRegisteredEvent::class,
+            listener: fn(AccountRegisteredEvent $event) => $this->accountCreatedEvent = $event,
         );
 
         return $this->commandBus->dispatch($message)->with(
