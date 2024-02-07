@@ -13,7 +13,7 @@ use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AccountCreatedNotification extends Notification implements EmailNotificationInterface
+final class AccountActivatedNotification extends Notification implements EmailNotificationInterface
 {
     public function __construct(
         private Account $account,
@@ -29,10 +29,10 @@ final class AccountCreatedNotification extends Notification implements EmailNoti
         $email->to($recipient->getEmail());
         $email->locale($this->account->getLocale());
         $email->subject($this->translator->trans(
-            id: 'Thank you for registration',
+            id: 'Your account is activated',
             locale: $this->account->getLocale(),
         ));
-        $email->htmlTemplate(template: '@emails/account.created.html.twig');
+        $email->htmlTemplate(template: '@emails/account.activated.html.twig');
         $email->context([
             'locale' => $this->account->getLocale(),
             'account' => ['email' => $this->account->getEmail()],

@@ -13,11 +13,11 @@ coverage:
   show_uncovered: true
   include:
     - src/Application/*
-    - src/Infrastructure/*
-    - src/Presentation/*
-  exclude:
+    - src/Infrastructure/Adapter/*
+    - src/Infrastructure/Logging/*
     - src/Infrastructure/Persistence/Fixture/*
-    - src/Infrastructure/Persistence/Migration/*
+    - src/Infrastructure/Persistence/Repository/*
+    - src/Presentation/*
 extensions:
   enabled:
     - Codeception\Extension\RunFailed
