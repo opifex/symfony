@@ -24,7 +24,9 @@ final class AccountMarkingStore implements MarkingStoreInterface
             throw new LogicException(message: 'Subject expected to be a valid account.');
         }
 
-        return new Marking([$subject->getStatus() => 1]);
+        $account = $this->accountRepository->findOneByUuid($subject->getUuid());
+
+        return new Marking([$account->getStatus() => 1]);
     }
 
     /**
