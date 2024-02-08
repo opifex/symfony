@@ -8,6 +8,7 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\SearchPagination;
 use App\Domain\Entity\SearchSorting;
+use App\Domain\Entity\SortingOrder;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: 'query.bus')]
@@ -23,7 +24,7 @@ final class GetAccountsByCriteriaHandler
             new AccountSearchCriteria(
                 email: $message->email,
                 status: $message->status,
-                sorting: new SearchSorting($message->sort, $message->order),
+                sorting: new SearchSorting($message->sort, SortingOrder::fromValue($message->order)),
                 pagination: new SearchPagination($message->limit, $message->offset),
             ),
         );

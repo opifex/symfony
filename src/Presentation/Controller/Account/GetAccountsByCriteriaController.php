@@ -51,7 +51,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                 name: 'order',
                 description: 'Sorting order direction',
                 in: 'query',
-                schema: new OA\Schema(type: 'string', enum: SortingOrder::SORTING),
+                schema: new OA\Schema(type: 'string', enum: SortingOrder::class),
             ),
             new OA\Parameter(
                 name: 'limit',

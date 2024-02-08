@@ -8,7 +8,7 @@ final class SearchSorting
 {
     public function __construct(
         public readonly string $field,
-        public readonly string $order,
+        public readonly SortingOrder $order,
     ) {
     }
 }

@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-final class SortingOrder
+enum SortingOrder: string
 {
-    public const string ASC = 'asc';
-    public const string DESC = 'desc';
-    /** @var string[] */
-    public const array SORTING = [
-        self::ASC,
-        self::DESC,
-    ];
+    case Asc = 'asc';
+    case Desc = 'desc';
+
+    /**
+     * @return string[]
+     */
+    public static function values(): array
+    {
+        return array_map(fn(self $order) => $order->value, self::cases());
+    }
+
+    public static function fromValue(string $value): self
+    {
+        return self::from($value);
+    }
 }

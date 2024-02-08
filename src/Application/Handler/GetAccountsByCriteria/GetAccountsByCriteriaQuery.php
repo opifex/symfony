@@ -21,8 +21,8 @@ final class GetAccountsByCriteriaQuery
         #[Assert\Choice(choices: AccountSearchCriteria::SORTING_FIELDS)]
         public readonly string $sort = AccountSearchCriteria::FIELD_CREATED_AT,
 
-        #[Assert\Choice(choices: SortingOrder::SORTING)]
-        public readonly string $order = SortingOrder::DESC,
+        #[Assert\Choice(callback: [SortingOrder::class, 'values'])]
+        public readonly string $order = SortingOrder::Desc->value,
 
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\Positive]

@@ -48,11 +48,8 @@ abstract class AbstractRepository
         );
 
         return match ($searchSorting->order) {
-            SortingOrder::ASC => $this->entityManager->getExpressionBuilder()->asc($sortingField),
-            SortingOrder::DESC => $this->entityManager->getExpressionBuilder()->desc($sortingField),
-            default => throw new LogicException(
-                message: sprintf('Sorting order "%s" is not supported.', $searchSorting->order),
-            ),
+            SortingOrder::Asc => $this->entityManager->getExpressionBuilder()->asc($sortingField),
+            SortingOrder::Desc => $this->entityManager->getExpressionBuilder()->desc($sortingField),
         };
     }
 }
