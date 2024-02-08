@@ -1,4 +1,4 @@
-'Account with email address {email} was successfully activated.': 'Обліковий запис з електронною поштою {email} успішно активовано.'
-'Account with email address {email} was successfully registered.': 'Новий обліковий запис з електронною поштою {email} успішно створено.'
+'Account confirmation': 'Підтвердження облікового запису'
+'Account with email {email} was successfully created.': 'Новий обліковий запис з електронною поштою {email} успішно створено.'
 'Thank you for registration': 'Дякуємо за реєстрацію'
-'Your account is activated': 'Ваш обліковий запис активовано'
+'Welcome, your account is now active.': 'Ласкаво просимо, ваш обліковий запис тепер активовано.'
