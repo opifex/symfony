@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 #[AsController]
 final class CreateNewAccountController extends AbstractController
 {
-    private ?AccountRegisteredEvent $accountCreatedEvent = null;
+    private ?AccountRegisteredEvent $accountRegisteredEvent = null;
 
     #[OA\Post(
         summary: 'Create new account',
@@ -67,14 +67,14 @@ final class CreateNewAccountController extends AbstractController
     {
         $this->eventDispatcher->addListener(
             eventName: AccountRegisteredEvent::class,
-            listener: fn(AccountRegisteredEvent $event) => $this->accountCreatedEvent = $event,
+            listener: fn(AccountRegisteredEvent $event) => $this->accountRegisteredEvent = $event,
         );
 
         return $this->commandBus->dispatch($message)->with(
             new ResponseStamp(headers: [
                 'Location' => $this->urlGenerator->generate(
                     name: 'app_get_account_by_id',
-                    parameters: ['uuid' => $this->accountCreatedEvent?->account->getUuid()],
+                    parameters: ['uuid' => $this->accountRegisteredEvent?->account->getUuid()],
                 ),
             ]),
         );
