@@ -7,7 +7,6 @@ namespace App\Tests;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
-use App\Domain\Entity\LocaleCode;
 use App\Infrastructure\Persistence\Fixture\AccountFixture;
 use Codeception\Util\HttpCode;
 
@@ -126,7 +125,7 @@ final class LifecycleAccountCest
             params: json_encode([
                 'email' => 'updated@example.com',
                 'password' => $i->getDefaultPassword(),
-                'locale' => LocaleCode::EN,
+                'locale' => 'en',
                 'roles' => [AccountRole::ROLE_USER],
             ]),
         );

@@ -1,5 +1,5 @@
 framework:
-  default_locale: !php/const App\Domain\Entity\LocaleCode::EN
+  default_locale: en
   translator:
     default_path: '%kernel.project_dir%/src/Presentation/Resource/Translation'
-    fallbacks: [ !php/const App\Domain\Entity\LocaleCode::EN ]
+    fallbacks: [ en ]

@@ -1,4 +1,5 @@
 'The password strength is too low. Please use a stronger password.': 'Вказаний пароль не є надійним.'
 'The value you selected is not a valid choice.': 'Вказане значення недопустиме.'
 'This field was not expected.': 'Вказаний параметр недопустимий.'
+'This value should be in lowercase.': 'Вказаний параметр повинен бути у малому регістрі.'
 'This value should be of type {type}.': 'Вказаний параметр повинен бути типом {type}.'

@@ -6,7 +6,6 @@ namespace App\Tests;
 
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
-use App\Domain\Entity\LocaleCode;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Persistence\Repository\AccountRepository;
 use Codeception\Test\Unit;
@@ -127,7 +126,7 @@ final class AccountRepositoryTest extends Unit
 
         $accountRepository->updateLocaleByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
-            locale: LocaleCode::EN,
+            locale: 'en',
         );
     }
 }

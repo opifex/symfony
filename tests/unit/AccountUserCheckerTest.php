@@ -7,7 +7,6 @@ namespace App\Tests;
 use App\Application\Security\AccountUserChecker;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountStatus;
-use App\Domain\Entity\LocaleCode;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
@@ -29,7 +28,7 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithBlockedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: LocaleCode::EN);
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: 'en');
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
@@ -50,7 +49,7 @@ final class AccountUserCheckerTest extends Unit
         $account = new Account(
             uuid: Uuid::v7()->toRfc4122(),
             email: 'email@example.com',
-            locale: LocaleCode::EN,
+            locale: 'en',
             status: AccountStatus::ACTIVATED,
         );
         $accountUserChecker->checkPostAuth($account);

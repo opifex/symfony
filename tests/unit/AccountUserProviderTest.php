@@ -7,7 +7,6 @@ namespace App\Tests;
 use App\Application\Security\AccountUserProvider;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
-use App\Domain\Entity\LocaleCode;
 use App\Domain\Exception\AccountNotFoundException;
 use Codeception\Test\Unit;
 use Override;
@@ -31,7 +30,7 @@ final class AccountUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithEmail(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: LocaleCode::EN);
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: 'en');
 
         $this->accountRepository
             ->expects($this->once())
@@ -61,7 +60,7 @@ final class AccountUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithUuid(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: LocaleCode::EN);
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: 'en');
 
         $this->accountRepository
             ->expects($this->once())
@@ -77,7 +76,7 @@ final class AccountUserProviderTest extends Unit
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: LocaleCode::EN);
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: 'en');
 
         $this->expectException(UnsupportedUserException::class);
 
