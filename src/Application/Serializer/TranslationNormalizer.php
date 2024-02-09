@@ -47,6 +47,7 @@ final class TranslationNormalizer implements NormalizerInterface
     /**
      * @return array<string, bool>
      */
+    #[Override]
     public function getSupportedTypes(?string $format): array
     {
         return [TranslatableMessage::class => true];

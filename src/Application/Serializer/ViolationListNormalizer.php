@@ -72,6 +72,7 @@ final class ViolationListNormalizer implements NormalizerInterface
     /**
      * @return array<string, bool>
      */
+    #[Override]
     public function getSupportedTypes(?string $format): array
     {
         return [ConstraintViolationListInterface::class => true];

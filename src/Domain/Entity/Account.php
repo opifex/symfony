@@ -51,6 +51,7 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->status;
     }
 
+    #[Override]
     public function getRoles(): array
     {
         return $this->roles;
