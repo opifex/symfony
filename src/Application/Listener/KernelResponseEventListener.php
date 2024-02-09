@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 #[AsEventListener(event: ResponseEvent::class)]
-final class ResponseEventListener
+final class KernelResponseEventListener
 {
     public function __construct(private RequestIdStorageInterface $requestIdStorage)
     {

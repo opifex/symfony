@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Workflow\Attribute\AsCompletedListener;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 
-final class WorkflowEventListener
+final class AccountWorkflowEventListener
 {
     public function __construct(
         private AccountRepositoryInterface $accountRepository,

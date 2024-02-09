@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Listener\ViewEventListener;
+use App\Application\Listener\KernelViewEventListener;
 use App\Application\Messenger\TemplateStamp;
 use Codeception\Test\Unit;
 use Override;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Serializer\SerializerInterface;
 
-final class ViewEventListenerTest extends Unit
+final class KernelViewEventListenerTest extends Unit
 {
     /**
      * @throws Exception
@@ -34,7 +34,7 @@ final class ViewEventListenerTest extends Unit
      */
     public function testInvokeWithTemplateStamp(): void
     {
-        $viewEventListener = new ViewEventListener($this->serializer);
+        $kernelViewEventListener = new KernelViewEventListener($this->serializer);
         $viewEvent = new ViewEvent(
             kernel: $this->httpKernel,
             request: $this->request,
@@ -45,7 +45,7 @@ final class ViewEventListenerTest extends Unit
             controllerArgumentsEvent: null,
         );
 
-        ($viewEventListener)($viewEvent);
+        ($kernelViewEventListener)($viewEvent);
 
         $this->expectNotToPerformAssertions();
     }
