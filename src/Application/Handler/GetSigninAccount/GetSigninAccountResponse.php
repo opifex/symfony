@@ -6,7 +6,10 @@ namespace App\Application\Handler\GetSigninAccount;
 
 use App\Domain\Entity\Account;
 use DateTimeInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
+#[WithHttpStatus(statusCode: Response::HTTP_OK)]
 final class GetSigninAccountResponse
 {
     public readonly string $uuid;

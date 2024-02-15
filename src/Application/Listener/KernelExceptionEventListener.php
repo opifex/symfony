@@ -52,10 +52,10 @@ final class KernelExceptionEventListener
             'exception' => $exception,
         ]));
 
-        $refClass = new ReflectionClass($throwable);
-        $httpStatus = ($refClass->getAttributes(name: WithHttpStatus::class)[0] ?? null)?->newInstance();
+        $exceptionClass = new ReflectionClass($throwable);
+        $httpStatus = ($exceptionClass->getAttributes(name: WithHttpStatus::class)[0] ?? null)?->newInstance();
 
-        [$status, $headers] = match (true) {
+        [$statusCode, $headers] = match (true) {
             $httpStatus instanceof WithHttpStatus => [$httpStatus->statusCode, $httpStatus->headers],
             $throwable instanceof HttpException => [$throwable->getStatusCode(), $throwable->getHeaders()],
             default => [Response::HTTP_INTERNAL_SERVER_ERROR, []],
@@ -65,6 +65,6 @@ final class KernelExceptionEventListener
         $context = [JsonEncode::OPTIONS => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT];
         $content = $this->serializer->serialize($exception, format: JsonEncoder::FORMAT, context: $context);
 
-        $event->setResponse(new Response($content, $status, $headers));
+        $event->setResponse(new Response($content, $statusCode, $headers));
     }
 }

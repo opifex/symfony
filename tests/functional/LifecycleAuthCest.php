@@ -43,12 +43,12 @@ final class LifecycleAuthCest
         $credentials = ['email' => 'user@example.com', 'password' => $i->getDefaultPassword()];
 
         $i->sendPost(url: '/api/auth/signin', params: json_encode($credentials));
-        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
-        $i->seeHttpHeader(name: 'Authorization');
+        $i->seeResponseCodeIs(code: HttpCode::OK);
+        $i->seeResponseIsJson();
 
-        $userAuthToken = $i->grabHttpHeader(name: 'Authorization');
+        $accessToken = current($i->grabDataFromResponseByJsonPath(jsonPath: '$access_token'));
 
-        $i->haveHttpHeader(name: 'Authorization', value: $userAuthToken);
+        $i->haveHttpHeader(name: 'Authorization', value: 'Bearer ' . $accessToken);
         $i->sendGet(url: '/api/auth/me');
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Handler\SigninIntoAccount;
 
 use App\Domain\Entity\AuthorizationToken;
-use App\Domain\Event\AccountAuthenticatedEvent;
 use App\Domain\Exception\AccessDeniedException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -15,12 +13,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class SigninIntoAccountHandler
 {
     public function __construct(
-        private EventDispatcherInterface $eventDispatcher,
         private TokenStorageInterface $tokenStorage,
     ) {
     }
 
-    public function __invoke(SigninIntoAccountCommand $message): void
+    public function __invoke(SigninIntoAccountCommand $message): SigninIntoAccountResponse
     {
         $token = $this->tokenStorage->getToken();
 
@@ -30,6 +27,6 @@ final class SigninIntoAccountHandler
             );
         }
 
-        $this->eventDispatcher->dispatch(new AccountAuthenticatedEvent($token));
+        return new SigninIntoAccountResponse($token);
     }
 }

@@ -27,7 +27,7 @@ final class SigninIntoAccountHandlerTest extends Unit
 
     public function testInvokeThrowsExceptionOnAccessDenied(): void
     {
-        $signinIntoAccountHandler = new SigninIntoAccountHandler($this->eventDispatcher, $this->tokenStorage);
+        $signinIntoAccountHandler = new SigninIntoAccountHandler($this->tokenStorage);
 
         $this->tokenStorage
             ->expects($this->once())

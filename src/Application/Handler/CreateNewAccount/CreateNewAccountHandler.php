@@ -21,7 +21,7 @@ final class CreateNewAccountHandler
     ) {
     }
 
-    public function __invoke(CreateNewAccountCommand $message): void
+    public function __invoke(CreateNewAccountCommand $message): CreateNewAccountResponse
     {
         $account = AccountFactory::createCustomAccount($message->email, $message->locale, $message->roles);
         $this->accountRepository->insertOneAccount($account);
@@ -30,5 +30,9 @@ final class CreateNewAccountHandler
         $this->accountRepository->updatePasswordByUuid($account->getUuid(), $password);
 
         $this->accountStateMachine->apply($account, transitionName: AccountAction::REGISTER);
+
+        $account = $this->accountRepository->findOneByUuid(uuid: $account->getUuid());
+
+        return new CreateNewAccountResponse($account);
     }
 }

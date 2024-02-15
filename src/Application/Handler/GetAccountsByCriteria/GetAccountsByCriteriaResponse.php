@@ -8,8 +8,11 @@ use App\Domain\Entity\AccountCollection;
 use Countable;
 use IteratorAggregate;
 use Override;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Traversable;
 
+#[WithHttpStatus(statusCode: Response::HTTP_OK)]
 final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregate
 {
     public function __construct(private AccountCollection $accounts)

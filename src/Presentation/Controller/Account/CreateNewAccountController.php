@@ -6,9 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\CreateNewAccount\CreateNewAccountCommand;
-use App\Application\Messenger\ResponseStamp;
 use App\Domain\Entity\AccountRole;
-use App\Domain\Event\AccountRegisteredEvent;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -23,8 +21,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 #[AsController]
 final class CreateNewAccountController extends AbstractController
 {
-    private ?AccountRegisteredEvent $accountRegisteredEvent = null;
-
     #[OA\Post(
         summary: 'Create new account',
         security: [['bearer' => []]],
@@ -65,18 +61,6 @@ final class CreateNewAccountController extends AbstractController
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
     public function __invoke(#[MapMessage] CreateNewAccountCommand $message): Envelope
     {
-        $this->eventDispatcher->addListener(
-            eventName: AccountRegisteredEvent::class,
-            listener: fn(AccountRegisteredEvent $event) => $this->accountRegisteredEvent = $event,
-        );
-
-        return $this->commandBus->dispatch($message)->with(
-            new ResponseStamp(headers: [
-                'Location' => $this->urlGenerator->generate(
-                    name: 'app_get_account_by_id',
-                    parameters: ['uuid' => $this->accountRegisteredEvent?->account->getUuid()],
-                ),
-            ]),
-        );
+        return $this->commandBus->dispatch($message);
     }
 }

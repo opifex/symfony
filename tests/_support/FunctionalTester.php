@@ -46,11 +46,11 @@ class FunctionalTester extends Actor
                 'password' => $this->getDefaultPassword(),
             ]),
         );
-        $this->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
-        $this->seeHttpHeader(name: 'Authorization');
+        $this->seeResponseCodeIs(code: HttpCode::OK);
+        $this->seeResponseIsJson();
 
-        $authorizationHeader = $this->grabHttpHeader(name: 'Authorization');
+        $accessToken = current($this->grabDataFromResponseByJsonPath(jsonPath: '$access_token'));
 
-        $this->haveHttpHeader(name: 'Authorization', value: $authorizationHeader);
+        $this->haveHttpHeader(name: 'Authorization', value: 'Bearer ' . $accessToken);
     }
 }
