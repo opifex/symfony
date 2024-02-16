@@ -6,15 +6,9 @@ framework:
       default.bus:
         middleware:
           - App\Application\Messenger\RequestIdMiddleware
-      command.bus:
-        middleware:
           - doctrine_close_connection
           - doctrine_ping_connection
           - doctrine_transaction
-      query.bus:
-        middleware:
-          - doctrine_close_connection
-          - doctrine_ping_connection
     transports:
       internal:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'

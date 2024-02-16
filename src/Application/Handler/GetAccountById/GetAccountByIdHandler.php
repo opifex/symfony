@@ -7,7 +7,7 @@ namespace App\Application\Handler\GetAccountById;
 use App\Domain\Contract\AccountRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler(bus: 'query.bus')]
+#[AsMessageHandler]
 final class GetAccountByIdHandler
 {
     public function __construct(private AccountRepositoryInterface $accountRepository)

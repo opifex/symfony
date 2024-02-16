@@ -7,7 +7,7 @@ namespace App\Application\Handler\GetHealthStatus;
 use App\Application\Factory\HealthFactory;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler(bus: 'query.bus')]
+#[AsMessageHandler]
 final class GetHealthStatusHandler
 {
     public function __invoke(GetHealthStatusQuery $message): GetHealthStatusResponse

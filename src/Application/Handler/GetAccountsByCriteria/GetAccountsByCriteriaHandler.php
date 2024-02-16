@@ -11,7 +11,7 @@ use App\Domain\Entity\SearchSorting;
 use App\Domain\Entity\SortingOrder;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler(bus: 'query.bus')]
+#[AsMessageHandler]
 final class GetAccountsByCriteriaHandler
 {
     public function __construct(private AccountRepositoryInterface $accountRepository)

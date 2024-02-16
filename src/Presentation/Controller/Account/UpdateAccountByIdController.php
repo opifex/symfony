@@ -6,21 +6,25 @@ namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\UpdateAccountById\UpdateAccountByIdCommand;
+use App\Application\Handler\UpdateAccountById\UpdateAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class UpdateAccountByIdController extends AbstractController
 {
+    /**
+     * @throws ExceptionInterface
+     */
     #[OA\Patch(
         summary: 'Update account by identifier',
         security: [['bearer' => []]],
@@ -46,11 +50,16 @@ final class UpdateAccountByIdController extends AbstractController
         path: '/account/{uuid}',
         name: 'app_update_account_by_id',
         methods: Request::METHOD_PATCH,
-        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] UpdateAccountByIdCommand $message): Envelope
+    public function __invoke(#[MapMessage] UpdateAccountByIdCommand $message): Response
     {
-        return $this->commandBus->dispatch($message);
+        /** @var UpdateAccountByIdResponse $handledResult */
+        $handledResult = $this->handle($message);
+
+        return new JsonResponse(
+            data: $this->normalizer->normalize($handledResult),
+            status: Response::HTTP_NO_CONTENT,
+        );
     }
 }

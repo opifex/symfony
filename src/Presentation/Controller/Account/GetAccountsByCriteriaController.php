@@ -7,6 +7,7 @@ namespace App\Presentation\Controller\Account;
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaItem;
 use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
+use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
@@ -14,17 +15,20 @@ use App\Domain\Entity\SortingOrder;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class GetAccountsByCriteriaController extends AbstractController
 {
+    /**
+     * @throws ExceptionInterface
+     */
     #[OA\Get(
         summary: 'Get accounts by criteria',
         security: [['bearer' => []]],
@@ -89,11 +93,18 @@ final class GetAccountsByCriteriaController extends AbstractController
         path: '/account',
         name: 'app_get_accounts_by_criteria',
         methods: Request::METHOD_GET,
-        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] GetAccountsByCriteriaQuery $message): Envelope
+    public function __invoke(#[MapMessage] GetAccountsByCriteriaQuery $message): Response
     {
-        return $this->queryBus->dispatch($message);
+        /** @var GetAccountsByCriteriaResponse $handledResult */
+        $handledResult = $this->handle($message);
+
+        return new JsonResponse(
+            data: $this->normalizer->normalize($handledResult),
+            headers: [
+                'X-Total-Count' => count($handledResult),
+            ],
+        );
     }
 }

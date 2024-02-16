@@ -6,21 +6,25 @@ namespace App\Presentation\Controller\Auth;
 
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\SigninIntoAccount\SigninIntoAccountCommand;
+use App\Application\Handler\SigninIntoAccount\SigninIntoAccountResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class SigninIntoAccountController extends AbstractController
 {
+    /**
+     * @throws ExceptionInterface
+     */
     #[OA\Post(
         summary: 'Signin into account',
         requestBody: new OA\RequestBody(
@@ -50,11 +54,15 @@ final class SigninIntoAccountController extends AbstractController
         path: '/auth/signin',
         name: 'app_signin_into_account',
         methods: Request::METHOD_POST,
-        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
-    public function __invoke(#[MapMessage] SigninIntoAccountCommand $message): Envelope
+    public function __invoke(#[MapMessage] SigninIntoAccountCommand $message): Response
     {
-        return $this->commandBus->dispatch($message);
+        /** @var SigninIntoAccountResponse $handledResult */
+        $handledResult = $this->handle($message);
+
+        return new JsonResponse(
+            data: $this->normalizer->normalize($handledResult),
+        );
     }
 }

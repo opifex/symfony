@@ -10,7 +10,7 @@ use App\Domain\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-#[AsMessageHandler(bus: 'command.bus')]
+#[AsMessageHandler]
 final class UpdateAccountByIdHandler
 {
     public function __construct(
@@ -19,7 +19,7 @@ final class UpdateAccountByIdHandler
     ) {
     }
 
-    public function __invoke(UpdateAccountByIdCommand $message): void
+    public function __invoke(UpdateAccountByIdCommand $message): UpdateAccountByIdResponse
     {
         $account = $this->accountRepository->findOneByUuid($message->uuid);
 
@@ -46,5 +46,7 @@ final class UpdateAccountByIdHandler
         if ($message->roles !== null) {
             $this->accountRepository->updateRolesByUuid($account->getUuid(), $message->roles);
         }
+
+        return new UpdateAccountByIdResponse();
     }
 }

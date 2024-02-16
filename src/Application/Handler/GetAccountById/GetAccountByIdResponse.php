@@ -6,10 +6,7 @@ namespace App\Application\Handler\GetAccountById;
 
 use App\Domain\Entity\Account;
 use DateTimeInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
-#[WithHttpStatus(statusCode: Response::HTTP_OK)]
 final class GetAccountByIdResponse
 {
     public readonly string $uuid;

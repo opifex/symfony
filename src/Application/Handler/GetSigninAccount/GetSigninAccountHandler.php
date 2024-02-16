@@ -9,7 +9,7 @@ use App\Domain\Exception\AccessDeniedException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-#[AsMessageHandler(bus: 'query.bus')]
+#[AsMessageHandler]
 final class GetSigninAccountHandler
 {
     public function __construct(private TokenStorageInterface $tokenStorage)

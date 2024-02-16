@@ -9,7 +9,7 @@ use App\Domain\Exception\AccountActionInvalidException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-#[AsMessageHandler(bus: 'command.bus')]
+#[AsMessageHandler]
 final class ApplyAccountActionHandler
 {
     public function __construct(
@@ -18,7 +18,7 @@ final class ApplyAccountActionHandler
     ) {
     }
 
-    public function __invoke(ApplyAccountActionCommand $message): void
+    public function __invoke(ApplyAccountActionCommand $message): ApplyAccountActionResponse
     {
         $account = $this->accountRepository->findOneByUuid($message->uuid);
 
@@ -29,5 +29,7 @@ final class ApplyAccountActionHandler
         }
 
         $this->accountStateMachine->apply($account, $message->action);
+
+        return new ApplyAccountActionResponse();
     }
 }

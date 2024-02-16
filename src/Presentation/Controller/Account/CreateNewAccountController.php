@@ -6,21 +6,25 @@ namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\CreateNewAccount\CreateNewAccountCommand;
+use App\Application\Handler\CreateNewAccount\CreateNewAccountResponse;
 use App\Domain\Entity\AccountRole;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class CreateNewAccountController extends AbstractController
 {
+    /**
+     * @throws ExceptionInterface
+     */
     #[OA\Post(
         summary: 'Create new account',
         security: [['bearer' => []]],
@@ -56,11 +60,16 @@ final class CreateNewAccountController extends AbstractController
         path: '/account',
         name: 'app_create_new_account',
         methods: Request::METHOD_POST,
-        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] CreateNewAccountCommand $message): Envelope
+    public function __invoke(#[MapMessage] CreateNewAccountCommand $message): Response
     {
-        return $this->commandBus->dispatch($message);
+        /** @var CreateNewAccountResponse $handledResult */
+        $handledResult = $this->handle($message);
+
+        return new JsonResponse(
+            data: $this->normalizer->normalize($handledResult),
+            status: Response::HTTP_CREATED,
+        );
     }
 }

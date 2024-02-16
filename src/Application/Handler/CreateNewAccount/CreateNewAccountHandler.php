@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-#[AsMessageHandler(bus: 'command.bus')]
+#[AsMessageHandler]
 final class CreateNewAccountHandler
 {
     public function __construct(

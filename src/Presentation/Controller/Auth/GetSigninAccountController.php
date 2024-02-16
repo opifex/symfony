@@ -10,18 +10,21 @@ use App\Application\Handler\GetSigninAccount\GetSigninAccountResponse;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class GetSigninAccountController extends AbstractController
 {
+    /**
+     * @throws ExceptionInterface
+     */
     #[OA\Get(
         summary: 'Get signin account information',
         security: [['bearer' => []]],
@@ -40,11 +43,15 @@ final class GetSigninAccountController extends AbstractController
         path: '/auth/me',
         name: 'app_get_signin_account',
         methods: Request::METHOD_GET,
-        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)]
-    public function __invoke(#[MapMessage] GetSigninAccountQuery $message): Envelope
+    public function __invoke(#[MapMessage] GetSigninAccountQuery $message): Response
     {
-        return $this->queryBus->dispatch($message);
+        /** @var GetSigninAccountResponse $handledResult */
+        $handledResult = $this->handle($message);
+
+        return new JsonResponse(
+            data: $this->normalizer->normalize($handledResult),
+        );
     }
 }

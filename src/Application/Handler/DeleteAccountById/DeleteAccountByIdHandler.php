@@ -7,15 +7,17 @@ namespace App\Application\Handler\DeleteAccountById;
 use App\Domain\Contract\AccountRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler(bus: 'command.bus')]
+#[AsMessageHandler]
 final class DeleteAccountByIdHandler
 {
     public function __construct(private AccountRepositoryInterface $accountRepository)
     {
     }
 
-    public function __invoke(DeleteAccountByIdCommand $message): void
+    public function __invoke(DeleteAccountByIdCommand $message): DeleteAccountByIdResponse
     {
         $this->accountRepository->deleteOneByUuid($message->uuid);
+
+        return new DeleteAccountByIdResponse();
     }
 }

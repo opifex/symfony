@@ -28,10 +28,12 @@ final class AccountActivatedNotification extends Notification implements EmailNo
         $email = new TemplatedEmail();
         $email->to($recipient->getEmail());
         $email->locale($this->account->getLocale());
-        $email->subject($this->translator->trans(
-            id: 'Account confirmation',
-            locale: $this->account->getLocale(),
-        ));
+        $email->subject(
+            $this->translator->trans(
+                id: 'Account confirmation',
+                locale: $this->account->getLocale(),
+            ),
+        );
         $email->htmlTemplate(template: '@emails/account.activated.html.twig');
         $email->context([
             'locale' => $this->account->getLocale(),

@@ -6,21 +6,25 @@ namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\ApplyAccountAction\ApplyAccountActionCommand;
+use App\Application\Handler\ApplyAccountAction\ApplyAccountActionResponse;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class ApplyAccountActionController extends AbstractController
 {
+    /**
+     * @throws ExceptionInterface
+     */
     #[OA\Post(
         summary: 'Apply account action',
         security: [['bearer' => []]],
@@ -46,11 +50,16 @@ final class ApplyAccountActionController extends AbstractController
         path: '/account/{uuid}/{action}',
         name: 'app_apply_account_action',
         methods: Request::METHOD_POST,
-        format: JsonEncoder::FORMAT,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] ApplyAccountActionCommand $message): Envelope
+    public function __invoke(#[MapMessage] ApplyAccountActionCommand $message): Response
     {
-        return $this->commandBus->dispatch($message);
+        /** @var ApplyAccountActionResponse $handledResult */
+        $handledResult = $this->handle($message);
+
+        return new JsonResponse(
+            data: $this->normalizer->normalize($handledResult),
+            status: Response::HTTP_NO_CONTENT,
+        );
     }
 }
