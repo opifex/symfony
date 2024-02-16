@@ -8,7 +8,6 @@ use App\Application\Attribute\MapMessage;
 use App\Domain\Exception\MessageExtraParamsException;
 use App\Domain\Exception\MessageNormalizationException;
 use App\Domain\Exception\MessageParamTypeException;
-use App\Domain\Exception\ValidationFailedException;
 use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
@@ -19,14 +18,12 @@ use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class MessageValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private DenormalizerInterface $denormalizer,
         private NormalizerInterface $normalizer,
-        private ValidatorInterface $validator,
     ) {
     }
 
@@ -55,12 +52,6 @@ final class MessageValueResolver implements ValueResolverInterface
                 throw new MessageExtraParamsException($e->getExtraAttributes(), $type);
             } catch (NotNormalizableValueException $e) {
                 throw new MessageParamTypeException($e->getExpectedTypes(), $e->getPath(), $type);
-            }
-
-            $violations = $this->validator->validate($message);
-
-            if ($violations->count()) {
-                throw new ValidationFailedException($violations);
             }
         }
 
