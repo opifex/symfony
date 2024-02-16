@@ -9,16 +9,14 @@ use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 #[AsEventListener(event: ExceptionEvent::class)]
 final class KernelExceptionEventListener
@@ -27,7 +25,6 @@ final class KernelExceptionEventListener
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer,
         private PrivacyProtectorInterface $privacyProtector,
-        private SerializerInterface $serializer,
     ) {
     }
 
@@ -61,10 +58,8 @@ final class KernelExceptionEventListener
             default => [Response::HTTP_INTERNAL_SERVER_ERROR, []],
         };
 
-        $headers = ['Content-Type' => 'application/json', ...$headers];
-        $context = [JsonEncode::OPTIONS => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT];
-        $content = $this->serializer->serialize($exception, format: JsonEncoder::FORMAT, context: $context);
+        $content = $this->normalizer->normalize($exception);
 
-        $event->setResponse(new Response($content, $statusCode, $headers));
+        $event->setResponse(new JsonResponse($content, $statusCode, $headers));
     }
 }
