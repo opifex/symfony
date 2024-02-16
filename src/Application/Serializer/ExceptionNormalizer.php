@@ -47,6 +47,7 @@ final class ExceptionNormalizer implements NormalizerInterface
         if ($object instanceof ValidationFailedException) {
             $exception['violations'] = [];
 
+            /** @var ConstraintViolationInterface $violation */
             foreach ($object->getViolations() as $violation) {
                 $violationItem = [
                     'name' => $this->formatViolationName($violation),
