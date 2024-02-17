@@ -28,7 +28,7 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithBlockedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: 'en');
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', password: '', locale: 'en');
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
@@ -49,6 +49,7 @@ final class AccountUserCheckerTest extends Unit
         $account = new Account(
             uuid: Uuid::v7()->toRfc4122(),
             email: 'email@example.com',
+            password: '',
             locale: 'en',
             status: AccountStatus::ACTIVATED,
         );

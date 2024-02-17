@@ -30,7 +30,7 @@ final class AccountUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithEmail(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: 'en');
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', password: '', locale: 'en');
 
         $this->accountRepository
             ->expects($this->once())
@@ -60,7 +60,7 @@ final class AccountUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithUuid(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: 'en');
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', password: '', locale: 'en');
 
         $this->accountRepository
             ->expects($this->once())
@@ -76,7 +76,7 @@ final class AccountUserProviderTest extends Unit
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', locale: 'en');
+        $account = new Account(uuid: Uuid::v7()->toRfc4122(), email: 'email@example.com', password: '', locale: 'en');
 
         $this->expectException(UnsupportedUserException::class);
 

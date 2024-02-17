@@ -17,7 +17,7 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct(
         private readonly string $uuid,
         private readonly string $email,
-        private readonly string $password = '',
+        private readonly string $password,
         private readonly string $locale = 'en',
         private readonly string $status = AccountStatus::CREATED,
         private readonly array $roles = [AccountRole::ROLE_USER],

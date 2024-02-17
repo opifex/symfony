@@ -13,13 +13,13 @@ final class AccountFactory
     /**
      * @param string[] $roles
      */
-    public static function createCustomAccount(string $email, string $locale, array $roles): Account
+    public static function createCustomAccount(string $email, string $password, string $locale, array $roles): Account
     {
-        return new Account(Uuid::v7()->toRfc4122(), $email, locale: $locale, roles: $roles);
+        return new Account(Uuid::v7()->toRfc4122(), $email, $password, $locale, roles: $roles);
     }
 
-    public static function createUserAccount(string $email, string $locale): Account
+    public static function createUserAccount(string $email, string $password, string $locale): Account
     {
-        return new Account(Uuid::v7()->toRfc4122(), $email, locale: $locale, roles: [AccountRole::ROLE_USER]);
+        return new Account(Uuid::v7()->toRfc4122(), $email, $password, $locale, roles: [AccountRole::ROLE_USER]);
     }
 }
