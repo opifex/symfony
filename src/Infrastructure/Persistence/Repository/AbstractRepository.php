@@ -20,7 +20,7 @@ abstract class AbstractRepository
     /**
      * @throws Exception
      */
-    protected function insertOne(object $entity): void
+    protected function addOneEntity(object $entity): void
     {
         $classMetadata = $this->entityManager->getClassMetadata($entity::class);
         $convertToDatabaseValue = $this->entityManager->getConnection()->convertToDatabaseValue(...);

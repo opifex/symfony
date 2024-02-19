@@ -199,7 +199,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function addOneAccount(Account $account): void
     {
         try {
-            $this->insertOne($account);
+            $this->addOneEntity($account);
         } catch (UniqueConstraintViolationException $e) {
             throw new AccountAlreadyExistsException(
                 message: 'Email address is already associated with another account.',
