@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Service\AccountMarkingStore;
+use App\Application\Workflow\AccountMarkingStore;
 use App\Domain\Contract\AccountRepositoryInterface;
 use Codeception\Test\Unit;
 use Override;
