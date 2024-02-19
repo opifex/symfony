@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\UpdateAccountById;
 
+use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Entity\Account;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 #[AsMessageHandler]
 final class UpdateAccountByIdHandler
 {
     public function __construct(
+        private AccountPasswordHasherInterface $accountPasswordHasher,
         private AccountRepositoryInterface $accountRepository,
-        private PasswordHasherFactoryInterface $passwordHasherFactory,
     ) {
     }
 
@@ -38,9 +37,7 @@ final class UpdateAccountByIdHandler
         }
 
         if ($message->password !== null) {
-            $passwordHasher = $this->passwordHasherFactory->getPasswordHasher(user: Account::class);
-            $passwordHash = $passwordHasher->hash($message->password);
-
+            $passwordHash = $this->accountPasswordHasher->hash($message->password);
             $this->accountRepository->updatePasswordByUuid($message->uuid, $passwordHash);
         }
 

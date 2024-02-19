@@ -196,7 +196,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
      * @throws Exception
      */
     #[Override]
-    public function insertOneAccount(Account $account): void
+    public function addOneAccount(Account $account): void
     {
         try {
             $this->insertOne($account);

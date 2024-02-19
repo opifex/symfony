@@ -4,28 +4,19 @@ declare(strict_types=1);
 
 namespace App\Application\Handler\SigninIntoAccount;
 
-use App\Domain\Entity\AuthorizationToken;
-use App\Domain\Exception\AccessDeniedException;
+use App\Domain\Contract\AccountAuthorizationFetcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[AsMessageHandler]
 final class SigninIntoAccountHandler
 {
-    public function __construct(
-        private TokenStorageInterface $tokenStorage,
-    ) {
+    public function __construct(private AccountAuthorizationFetcherInterface $accountAuthorizationFetcher)
+    {
     }
 
     public function __invoke(SigninIntoAccountCommand $message): SigninIntoAccountResponse
     {
-        $token = $this->tokenStorage->getToken();
-
-        if (!$token instanceof AuthorizationToken) {
-            throw new AccessDeniedException(
-                message: 'An authentication exception occurred.',
-            );
-        }
+        $token = $this->accountAuthorizationFetcher->fetchToken();
 
         return new SigninIntoAccountResponse($token);
     }

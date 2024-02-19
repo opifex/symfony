@@ -54,7 +54,7 @@ interface AccountRepositoryInterface
     /**
      * @throws AccountAlreadyExistsException
      */
-    public function insertOneAccount(Account $account): void;
+    public function addOneAccount(Account $account): void;
 
     /**
      * @throws AccountNotFoundException
