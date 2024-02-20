@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Application\Serializer;
 
-use App\Domain\Exception\ValidationFailedException;
 use Override;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
@@ -44,7 +43,7 @@ final class ExceptionNormalizer implements NormalizerInterface
             'error' => $this->localizeExceptionMessage($object),
         ];
 
-        if ($object instanceof ValidationFailedException) {
+        if (method_exists($object, method: 'getViolations')) {
             $exception['violations'] = [];
 
             /** @var ConstraintViolationInterface $violation */
