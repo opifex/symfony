@@ -6,7 +6,7 @@ namespace App\Application\Workflow;
 
 use App\Domain\Entity\Account;
 use Override;
-use Symfony\Component\Workflow\Exception\LogicException;
+use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 use Symfony\Component\Workflow\Marking;
 use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
 
@@ -16,7 +16,7 @@ final class AccountMarkingStore implements MarkingStoreInterface
     public function getMarking(object $subject): Marking
     {
         if (!$subject instanceof Account) {
-            throw new LogicException(message: 'Subject expected to be a valid account.');
+            throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
         }
 
         return new Marking([$subject->getStatus() => 1]);
@@ -31,7 +31,7 @@ final class AccountMarkingStore implements MarkingStoreInterface
     public function setMarking(object $subject, Marking $marking, array $context = []): void
     {
         if (!$subject instanceof Account) {
-            throw new LogicException(message: 'Subject expected to be a valid account.');
+            throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
         }
     }
 }
