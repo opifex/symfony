@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Application\Workflow;
 
-use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use Override;
 use Symfony\Component\Workflow\Exception\LogicException;
@@ -13,10 +12,6 @@ use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
 
 final class AccountMarkingStore implements MarkingStoreInterface
 {
-    public function __construct(private AccountRepositoryInterface $accountRepository)
-    {
-    }
-
     #[Override]
     public function getMarking(object $subject): Marking
     {
@@ -38,9 +33,5 @@ final class AccountMarkingStore implements MarkingStoreInterface
         if (!$subject instanceof Account) {
             throw new LogicException(message: 'Subject expected to be a valid account.');
         }
-
-        $status = (string) key($marking->getPlaces());
-
-        $this->accountRepository->updateStatusByUuid($subject->getUuid(), $status);
     }
 }

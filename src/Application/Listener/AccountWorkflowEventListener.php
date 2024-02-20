@@ -21,6 +21,15 @@ final class AccountWorkflowEventListener
     ) {
     }
 
+    #[AsCompletedListener(workflow: 'account')]
+    public function onWorkflowAccountCompleted(CompletedEvent $event): void
+    {
+        /** @var Account $subject */
+        $subject = $event->getSubject();
+        $status = (string) key($event->getMarking()->getPlaces());
+        $this->accountRepository->updateStatusByUuid($subject->getUuid(), $status);
+    }
+
     #[AsCompletedListener(workflow: 'account', transition: AccountAction::REGISTER)]
     public function onWorkflowAccountCompletedRegister(CompletedEvent $event): void
     {
