@@ -118,9 +118,9 @@
         "debug-router": "bin/console debug:router | grep -v '^  _'",
         "fix-style": "phpcbf --standard=config/markup/phpcs.xml",
         "load-fixtures": "bin/console doctrine:fixtures:load -n",
-        "migrate-create": "bin/console doctrine:migration:generate",
-        "migrate-down": "bin/console doctrine:migrations:migrate prev",
-        "migrate-up": "bin/console doctrine:migrations:migrate",
+        "migration-create": "bin/console doctrine:migration:generate",
+        "migration-down": "bin/console doctrine:migrations:migrate prev",
+        "migration-up": "bin/console doctrine:migrations:migrate",
         "run-unit": "codecept run unit --coverage-html",
         "post-install-cmd": "@auto-scripts",
         "post-update-cmd": "@auto-scripts"
@@ -136,9 +136,9 @@
         "debug-router": "List registered routes for application",
         "fix-style": "Automatically fix PHP code style violations",
         "load-fixtures": "Load data fixtures into database",
-        "migrate-create": "Create new blank database migration file",
-        "migrate-down": "Rollback database schema to previous migration",
-        "migrate-up": "Update database schema to latest migration",
+        "migration-create": "Create new blank database migration file",
+        "migration-down": "Rollback database schema to previous migration",
+        "migration-up": "Update database schema to latest migration",
         "run-unit": "Run codeception unit test suite with code coverage report"
     },
     "conflict": {
