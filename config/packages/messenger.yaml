@@ -16,10 +16,10 @@ framework:
         options:
           exchange:
             default_publish_routing_key: normal
-            name: '%env(APP_NAME)%_notification'
+            name: '%env(APP_NAME)%.notification.direct'
             type: direct
           queues:
-            '%env(APP_NAME)%_notification':
+            '%env(APP_NAME)%.notification.direct':
               binding_keys: [ normal ]
         retry_strategy:
           delay: 60000
