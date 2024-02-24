@@ -17,8 +17,8 @@ final class AccountPasswordHasher implements AccountPasswordHasherInterface
     }
 
     #[Override]
-    public function hash(#[SensitiveParameter] string $password): string
+    public function hash(#[SensitiveParameter] string $plainPassword): string
     {
-        return $this->passwordHasherFactory->getPasswordHasher(user: Account::class)->hash($password);
+        return $this->passwordHasherFactory->getPasswordHasher(user: Account::class)->hash($plainPassword);
     }
 }

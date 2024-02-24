@@ -8,5 +8,5 @@ use SensitiveParameter;
 
 interface AccountPasswordHasherInterface
 {
-    public function hash(#[SensitiveParameter] string $password): string;
+    public function hash(#[SensitiveParameter] string $plainPassword): string;
 }
