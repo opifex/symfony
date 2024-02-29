@@ -2,6 +2,9 @@
 
 An example application using Symfony Framework.
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/opifex/symfony/development.yml)
+![GitHub License](https://img.shields.io/github/license/opifex/symfony)
+
 ## Configuration
 
 Create custom configuration files in the project root directory.
