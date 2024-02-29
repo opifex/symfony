@@ -47,3 +47,9 @@ jobs:
 
       - name: Run automated project quality assurance
         run: /usr/bin/composer auto-quality
+
+      - name: Upload code coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: opifex/symfony
