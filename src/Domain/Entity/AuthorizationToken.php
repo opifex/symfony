@@ -15,7 +15,8 @@ final class AuthorizationToken extends AbstractToken
     public function __construct(
         private readonly UserInterface $user,
         private readonly string $firewallName,
-        #[SensitiveParameter] private readonly string $secret,
+        #[SensitiveParameter]
+        private readonly string $secret,
     ) {
         parent::__construct($this->user->getRoles());
 

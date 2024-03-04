@@ -40,13 +40,32 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     public function __construct(
         int $lifetime = 0,
         ClockInterface $clock = new Clock(),
-        #[SensitiveParameter] ?string $passphrase = null,
-        #[SensitiveParameter] ?string $signingKey = null,
-        #[SensitiveParameter] ?string $verificationKey = null,
+        #[SensitiveParameter]
+        ?string $passphrase = null,
+        #[SensitiveParameter]
+        ?string $signingKey = null,
+        #[SensitiveParameter]
+        ?string $verificationKey = null,
     ) {
+        $this->expiration = new DateInterval(sprintf('PT%sS', $lifetime));
         $this->clock = $clock;
-        $this->expiration = $this->buildExpiration($lifetime);
-        $this->configuration = $this->buildConfiguration($passphrase, $signingKey, $verificationKey);
+
+        $this->configuration = match (true) {
+            !empty($passphrase) && empty($signingKey) && empty($verificationKey) =>
+            Configuration::forSymmetricSigner(
+                signer: new HmacSha256(),
+                key: InMemory::plainText($passphrase),
+            ),
+            !empty($passphrase) && !empty($signingKey) && !empty($verificationKey) =>
+            Configuration::forAsymmetricSigner(
+                signer: new RsaSha256(),
+                signingKey: InMemory::plainText($signingKey, $passphrase),
+                verificationKey: InMemory::plainText($verificationKey, $passphrase),
+            ),
+            default => throw new JwtTokenManagerException(
+                message: 'Authorization token signer is not configured.',
+            ),
+        };
     }
 
     #[Override]
@@ -89,40 +108,6 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         );
 
         return $token->toString();
-    }
-
-    /**
-     * @throws JwtTokenManagerException
-     */
-    private function buildConfiguration(
-        #[SensitiveParameter] ?string $passphrase = null,
-        #[SensitiveParameter] ?string $signingKey = null,
-        #[SensitiveParameter] ?string $verificationKey = null,
-    ): Configuration {
-        if (!empty($passphrase) && !empty($signingKey) && !empty($verificationKey)) {
-            $configuration = Configuration::forAsymmetricSigner(
-                signer: new RsaSha256(),
-                signingKey: InMemory::plainText($signingKey, $passphrase),
-                verificationKey: InMemory::plainText($verificationKey, $passphrase),
-            );
-        } elseif (!empty($passphrase) && empty($signingKey) && empty($verificationKey)) {
-            $configuration = Configuration::forSymmetricSigner(
-                signer: new HmacSha256(),
-                key: InMemory::plainText($passphrase),
-            );
-        }
-
-        return $configuration ?? throw new JwtTokenManagerException(
-            message: 'Authorization token signer is not configured.',
-        );
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function buildExpiration(int $lifetime): DateInterval
-    {
-        return new DateInterval(sprintf('PT%sS', $lifetime));
     }
 
     /**

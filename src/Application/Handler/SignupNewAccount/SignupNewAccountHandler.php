@@ -23,8 +23,13 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountCommand $message): SignupNewAccountResponse
     {
-        $password = $this->accountPasswordHasher->hash($message->password);
-        $account = AccountFactory::createUserAccount($message->email, $password, $message->locale);
+        $hashedPassword = $this->accountPasswordHasher->hash($message->password);
+
+        $account = AccountFactory::createUserAccount(
+            emailAddress: $message->email,
+            hashedPassword: $hashedPassword,
+            defaultLocale: $message->locale,
+        );
 
         $this->accountRepository->addOneAccount($account);
         $this->accountStateMachine->apply($account->getUuid(), action: AccountAction::REGISTER);

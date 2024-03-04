@@ -23,8 +23,14 @@ final class CreateNewAccountHandler
 
     public function __invoke(CreateNewAccountCommand $message): CreateNewAccountResponse
     {
-        $password = $this->accountPasswordHasher->hash($message->password);
-        $account = AccountFactory::createCustomAccount($message->email, $password, $message->locale, $message->roles);
+        $hashedPassword = $this->accountPasswordHasher->hash($message->password);
+
+        $account = AccountFactory::createCustomAccount(
+            emailAddress: $message->email,
+            hashedPassword: $hashedPassword,
+            defaultLocale: $message->locale,
+            accessRoles: $message->roles,
+        );
 
         $this->accountRepository->addOneAccount($account);
         $this->accountStateMachine->apply($account->getUuid(), action: AccountAction::REGISTER);
