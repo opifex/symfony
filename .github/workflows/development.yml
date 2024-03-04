@@ -31,12 +31,12 @@ jobs:
       PHP_VERSION: 8.3.2
 
     steps:
-      - name: Setup environment
+      - name: Setup virtual environment
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
 
-      - name: Checkout sources
+      - name: Checkout project sources
         uses: actions/checkout@v4
 
       - name: Install composer dependencies
@@ -48,7 +48,7 @@ jobs:
       - name: Run automated project quality assurance
         run: /usr/bin/composer auto-quality
 
-      - name: Upload code coverage reports
+      - name: Upload project code coverage reports
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
