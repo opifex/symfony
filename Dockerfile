@@ -24,7 +24,6 @@ RUN set -e \
     && pecl clear-cache && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 # copy configuration files
-COPY ./config/docker/crontab.conf /etc/crontabs/root
 COPY ./config/docker/messenger.conf /etc/supervisor/messenger.conf
 COPY ./config/docker/nginx.conf /etc/nginx/nginx.conf
 COPY ./config/docker/php.conf /usr/local/etc/php/php.ini

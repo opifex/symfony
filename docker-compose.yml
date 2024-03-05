@@ -29,36 +29,6 @@ services:
     networks:
       internal:
 
-  crontab:
-    build: .
-    hostname: crontab
-    command: crontab
-    container_name: "${APP_NAME}-crontab"
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "true" ]
-    depends_on:
-      - application
-      - mailcatcher
-      - postgres
-      - rabbitmq
-      - redis
-    environment:
-      APP_ENV: "${APP_ENV}"
-      APP_NAME: "${APP_NAME}"
-      APP_PORT: "${APP_PORT}"
-      APP_URL: "${APP_URL}"
-      DATABASE_URL: "${DATABASE_URL}"
-      MAILER_DSN: "${MAILER_DSN}"
-      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
-      REDIS_DSN: "${REDIS_DSN}"
-    volumes:
-      - ./:/opt/project:consistent
-      - bundles:/opt/project/public/bundles
-      - storage:/opt/project/var
-    networks:
-      internal:
-
   messenger:
     build: .
     hostname: messenger
