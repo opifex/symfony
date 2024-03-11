@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-final class Health
+class Health
 {
     public function __construct(private readonly HealthStatus $status)
     {

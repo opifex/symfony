@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-final class AccountSearchCriteria
+class AccountSearchCriteria
 {
     public const string FIELD_CREATED_AT = 'created_at';
     public const string FIELD_EMAIL = 'email';

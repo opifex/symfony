@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-final class AccountStatus
+class AccountStatus
 {
     public const string ACTIVATED = 'activated';
     public const string BLOCKED = 'blocked';

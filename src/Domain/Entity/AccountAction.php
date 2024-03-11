@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-final class AccountAction
+class AccountAction
 {
     public const string ACTIVATE = 'activate';
     public const string BLOCK = 'block';

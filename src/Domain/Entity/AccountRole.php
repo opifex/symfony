@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-final class AccountRole
+class AccountRole
 {
     public const string ROLE_ADMIN = 'ROLE_ADMIN';
     public const string ROLE_USER = 'ROLE_USER';

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class AuthorizationToken extends AbstractToken
+class AuthorizationToken extends AbstractToken
 {
     public function __construct(
         private readonly UserInterface $user,
