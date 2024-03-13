@@ -1,7 +1,6 @@
 {
     "name": "opifex/symfony",
     "description": "An example application using Symfony Framework",
-    "version": "1.0.0",
     "type": "project",
     "license": "MIT",
     "minimum-stability": "stable",
