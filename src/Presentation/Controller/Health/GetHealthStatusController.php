@@ -7,6 +7,7 @@ namespace App\Presentation\Controller\Health;
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\GetHealthStatus\GetHealthStatusQuery;
 use App\Application\Handler\GetHealthStatus\GetHealthStatusResponse;
+use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -29,10 +30,10 @@ final class GetHealthStatusController extends AbstractController
         summary: 'Get health status',
         tags: ['Health'],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
             new OA\Response(
                 response: Response::HTTP_OK,
-                description: 'OK',
+                description: HttpSpecification::STATUS_OK,
                 content: new OA\JsonContent(ref: new Model(type: GetHealthStatusResponse::class)),
             ),
         ],

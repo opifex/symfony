@@ -8,6 +8,7 @@ use App\Application\Attribute\MapMessage;
 use App\Application\Handler\CreateNewAccount\CreateNewAccountCommand;
 use App\Application\Handler\CreateNewAccount\CreateNewAccountResponse;
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -36,24 +37,11 @@ final class CreateNewAccountController extends AbstractController
         ),
         tags: ['Account'],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
-            new OA\Response(response: Response::HTTP_CONFLICT, description: 'Conflict'),
-            new OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden'),
-            new OA\Response(
-                response: Response::HTTP_NO_CONTENT,
-                description: 'No Content',
-                headers: [
-                    new OA\Header(
-                        header: 'Location',
-                        description: 'Contains url for created account',
-                        schema: new OA\Schema(
-                            type: 'string',
-                            example: '/account/1ed49f4d-582c-6fbe-bd13-cfd1e04cb3c6',
-                        ),
-                    ),
-                ],
-            ),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized'),
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
+            new OA\Response(response: Response::HTTP_CONFLICT, description: HttpSpecification::STATUS_CONFLICT),
+            new OA\Response(response: Response::HTTP_CREATED, description: HttpSpecification::STATUS_CREATED),
+            new OA\Response(response: Response::HTTP_FORBIDDEN, description: HttpSpecification::STATUS_FORBIDDEN),
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
         ],
     )]
     #[Route(

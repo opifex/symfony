@@ -11,6 +11,7 @@ use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
+use App\Domain\Entity\HttpSpecification;
 use App\Domain\Entity\SortingOrder;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -69,14 +70,14 @@ final class GetAccountsByCriteriaController extends AbstractController
             ),
         ],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
-            new OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden'),
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
+            new OA\Response(response: Response::HTTP_FORBIDDEN, description: HttpSpecification::STATUS_FORBIDDEN),
             new OA\Response(
                 response: Response::HTTP_OK,
-                description: 'OK',
+                description: HttpSpecification::STATUS_OK,
                 headers: [
                     new OA\Header(
-                        header: 'X-Total-Count',
+                        header: HttpSpecification::HEADER_X_TOTAL_COUNT,
                         description: 'Total count of items without limit',
                         schema: new OA\Schema(type: 'int', example: '10'),
                     ),
@@ -86,7 +87,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                     items: new OA\Items(ref: new Model(type: GetAccountsByCriteriaItem::class)),
                 ),
             ),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized'),
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
         ],
     )]
     #[Route(
@@ -103,7 +104,7 @@ final class GetAccountsByCriteriaController extends AbstractController
         return new JsonResponse(
             data: $this->normalizer->normalize($handledResult),
             headers: [
-                'X-Total-Count' => count($handledResult),
+                HttpSpecification::HEADER_X_TOTAL_COUNT => count($handledResult),
             ],
         );
     }

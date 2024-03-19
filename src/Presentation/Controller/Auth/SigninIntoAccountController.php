@@ -7,6 +7,7 @@ namespace App\Presentation\Controller\Auth;
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\SigninIntoAccount\SigninIntoAccountCommand;
 use App\Application\Handler\SigninIntoAccount\SigninIntoAccountResponse;
+use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -35,19 +36,9 @@ final class SigninIntoAccountController extends AbstractController
         ),
         tags: ['Authorization'],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
-            new OA\Response(
-                response: Response::HTTP_NO_CONTENT,
-                description: 'No Content',
-                headers: [
-                    new OA\Header(
-                        header: 'Authorization',
-                        description: 'Contains authorization jwt token',
-                        schema: new OA\Schema(type: 'string', example: 'Bearer czZCaGRSa3F0Mzo3RmPmcDBa'),
-                    ),
-                ],
-            ),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized'),
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
+            new OA\Response(response: Response::HTTP_NO_CONTENT, description: HttpSpecification::STATUS_NO_CONTENT),
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
         ],
     )]
     #[Route(

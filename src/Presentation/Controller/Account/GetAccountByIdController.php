@@ -8,6 +8,7 @@ use App\Application\Attribute\MapMessage;
 use App\Application\Handler\GetAccountById\GetAccountByIdQuery;
 use App\Application\Handler\GetAccountById\GetAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -31,15 +32,15 @@ final class GetAccountByIdController extends AbstractController
         tags: ['Account'],
         parameters: [new OA\Parameter(name: 'uuid', description: 'Account identifier', in: 'path')],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
-            new OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden'),
-            new OA\Response(response: Response::HTTP_NOT_FOUND, description: 'Not Found'),
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
+            new OA\Response(response: Response::HTTP_FORBIDDEN, description: HttpSpecification::STATUS_FORBIDDEN),
+            new OA\Response(response: Response::HTTP_NOT_FOUND, description: HttpSpecification::STATUS_NOT_FOUND),
             new OA\Response(
                 response: Response::HTTP_OK,
-                description: 'OK',
+                description: HttpSpecification::STATUS_OK,
                 content: new OA\JsonContent(ref: new Model(type: GetAccountByIdResponse::class)),
             ),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized'),
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
         ],
     )]
     #[Route(

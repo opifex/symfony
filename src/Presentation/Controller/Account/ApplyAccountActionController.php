@@ -9,6 +9,7 @@ use App\Application\Handler\ApplyAccountAction\ApplyAccountActionCommand;
 use App\Application\Handler\ApplyAccountAction\ApplyAccountActionResponse;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,11 +40,11 @@ final class ApplyAccountActionController extends AbstractController
             ),
         ],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
-            new OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden'),
-            new OA\Response(response: Response::HTTP_NOT_FOUND, description: 'Not Found'),
-            new OA\Response(response: Response::HTTP_NO_CONTENT, description: 'No Content'),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized'),
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
+            new OA\Response(response: Response::HTTP_FORBIDDEN, description: HttpSpecification::STATUS_FORBIDDEN),
+            new OA\Response(response: Response::HTTP_NOT_FOUND, description: HttpSpecification::STATUS_NOT_FOUND),
+            new OA\Response(response: Response::HTTP_NO_CONTENT, description: HttpSpecification::STATUS_NO_CONTENT),
+            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
         ],
     )]
     #[Route(

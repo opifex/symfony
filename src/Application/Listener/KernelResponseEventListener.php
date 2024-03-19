@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Listener;
 
 use App\Domain\Contract\RequestIdStorageInterface;
+use App\Domain\Entity\HttpSpecification;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
@@ -17,8 +18,9 @@ final class KernelResponseEventListener
 
     public function __invoke(ResponseEvent $event): void
     {
-        $requestId = $this->requestIdStorage->getRequestId();
-
-        $event->getResponse()->headers->set(key: 'X-Request-Id', values: $requestId);
+        $event->getResponse()->headers->set(
+            key: HttpSpecification::HEADER_X_REQUEST_ID,
+            values: $this->requestIdStorage->getRequestId(),
+        );
     }
 }

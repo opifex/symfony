@@ -7,6 +7,7 @@ namespace App\Presentation\Controller\Auth;
 use App\Application\Attribute\MapMessage;
 use App\Application\Handler\SignupNewAccount\SignupNewAccountCommand;
 use App\Application\Handler\SignupNewAccount\SignupNewAccountResponse;
+use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -35,9 +36,9 @@ final class SignupNewAccountController extends AbstractController
         ),
         tags: ['Authorization'],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request'),
-            new OA\Response(response: Response::HTTP_CONFLICT, description: 'Conflict'),
-            new OA\Response(response: Response::HTTP_NO_CONTENT, description: 'No Content'),
+            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
+            new OA\Response(response: Response::HTTP_CONFLICT, description: HttpSpecification::STATUS_CONFLICT),
+            new OA\Response(response: Response::HTTP_NO_CONTENT, description: HttpSpecification::STATUS_NO_CONTENT),
         ],
     )]
     #[Route(
