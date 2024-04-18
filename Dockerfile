@@ -8,7 +8,7 @@ RUN composer validate --strict && composer diagnose
 # install composer dependencies
 RUN composer install --ignore-platform-reqs --no-cache --no-dev --no-plugins --no-scripts
 
-FROM php:8.3.4-fpm-alpine AS php
+FROM php:8.3.6-fpm-alpine AS php
 # set working directory
 WORKDIR /opt/project
 # install system packages
@@ -40,8 +40,8 @@ RUN mkdir -p $PWD/public/bundles $PWD/var && chown -R www-data:www-data $PWD
 # clear environment variables and dump autoload
 RUN runuser -u www-data -- composer dump-autoload --classmap-authoritative
 RUN runuser -u www-data -- composer dump-env prod --empty
-# expose web server port
-EXPOSE 80
+# expose web server and php-fpm port
+EXPOSE 80 9000
 # set healthcheck
 HEALTHCHECK --interval=2s --timeout=5s --retries=1 \
     CMD curl -f http://localhost/api/health || exit 1
