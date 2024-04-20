@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a94cd440212ea62fb784d1f1c380aa87",
+    "content-hash": "8ec9ff4ec6c48021a79b0f81316eb1f1",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -1690,16 +1690,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "4.25.3",
+            "version": "v4.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "38682dd1055abd547a2bdd77e9b6460d203a42c6"
+                "reference": "2d0f12d7495286350a72d451d9c19b3838dc5564"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/38682dd1055abd547a2bdd77e9b6460d203a42c6",
-                "reference": "38682dd1055abd547a2bdd77e9b6460d203a42c6",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/2d0f12d7495286350a72d451d9c19b3838dc5564",
+                "reference": "2d0f12d7495286350a72d451d9c19b3838dc5564",
                 "shasum": ""
             },
             "require": {
@@ -1799,9 +1799,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/4.25.3"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.26.0"
             },
-            "time": "2024-04-15T17:00:50+00:00"
+            "time": "2024-04-19T14:28:17+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

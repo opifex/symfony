@@ -22,7 +22,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.19",
         "lcobucci/jwt": "^4.3",
-        "nelmio/api-doc-bundle": "^4.25",
+        "nelmio/api-doc-bundle": "^4.26",
         "symfony/amqp-messenger": "7.0.*",
         "symfony/asset": "7.0.*",
         "symfony/console": "7.0.*",
@@ -49,9 +49,9 @@
         "symfony/validator": "7.0.*",
         "symfony/workflow": "7.0.*",
         "symfony/yaml": "7.0.*",
-        "twig/cssinliner-extra": "^3.8",
-        "twig/extra-bundle": "^3.8",
-        "twig/inky-extra": "^3.8"
+        "twig/cssinliner-extra": "^3.9",
+        "twig/extra-bundle": "^3.9",
+        "twig/inky-extra": "^3.9"
     },
     "config": {
         "allow-plugins": {
