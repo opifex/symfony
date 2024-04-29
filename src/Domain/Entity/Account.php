@@ -18,7 +18,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
         private readonly string $uuid,
         private readonly string $email,
         private readonly string $password,
-        private readonly string $locale = 'en',
+        private readonly string $locale = 'en_US',
         private readonly string $status = AccountStatus::CREATED,
         private readonly array $roles = [AccountRole::ROLE_USER],
         private readonly DateTimeImmutable $createdAt = new DateTimeImmutable(),

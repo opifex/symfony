@@ -126,7 +126,7 @@ final class AccountRepositoryTest extends Unit
 
         $accountRepository->updateLocaleByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
-            locale: 'en',
+            locale: 'en_US',
         );
     }
 }

@@ -1,5 +1,5 @@
 framework:
-  default_locale: en
+  default_locale: en_US
   translator:
     default_path: '%kernel.project_dir%/src/Presentation/Resource/Translation'
-    fallbacks: [ en ]
+    fallbacks: [ en_US ]

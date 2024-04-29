@@ -19,7 +19,7 @@ final class Version20200101000000 extends AbstractMigration
         $table->addColumn(name: 'created_at', typeName: Types::DATETIME_IMMUTABLE);
         $table->addColumn(name: 'email', typeName: Types::STRING, options: ['length' => 320]);
         $table->addColumn(name: 'password', typeName: Types::STRING, options: ['length' => 60]);
-        $table->addColumn(name: 'locale', typeName: Types::STRING, options: ['length' => 2]);
+        $table->addColumn(name: 'locale', typeName: Types::STRING, options: ['length' => 5]);
         $table->addColumn(name: 'roles', typeName: Types::JSON);
         $table->addColumn(name: 'status', typeName: Types::STRING, options: ['length' => 24]);
         $table->addUniqueIndex(['email']);
