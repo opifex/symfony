@@ -19,11 +19,14 @@ final class RequestIdMiddleware implements MiddlewareInterface
     #[Override]
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
+        $requestId = $this->requestIdStorage->getRequestId();
         $requestIdStamp = $envelope->last(stampFqcn: RequestIdStamp::class);
-        $requestIdStamp ??= new RequestIdStamp($this->requestIdStorage->getRequestId());
-        $envelope = $envelope->withoutAll($requestIdStamp::class)->with($requestIdStamp);
 
-        $this->requestIdStorage->setRequestId($requestIdStamp->getRequestId());
+        if ($requestIdStamp instanceof RequestIdStamp) {
+            $this->requestIdStorage->setRequestId($requestIdStamp->getRequestId());
+        } elseif ($requestId !== null) {
+            $envelope = $envelope->with(new RequestIdStamp($requestId));
+        }
 
         return $stack->next()->handle($envelope, $stack);
     }
