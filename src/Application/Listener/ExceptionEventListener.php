@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExcep
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsEventListener(event: ExceptionEvent::class)]
-final class KernelExceptionEventListener
+final class ExceptionEventListener
 {
     public function __construct(
         private LoggerInterface $logger,
