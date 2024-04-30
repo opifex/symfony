@@ -10,6 +10,9 @@ use App\Domain\Contract\RequestIdStorageInterface;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -27,6 +30,24 @@ final class RequestIdEventListenerTest extends Unit
         $this->requestIdGenerator = $this->createMock(originalClassName: RequestIdGeneratorInterface::class);
         $this->requestIdStorage = $this->createMock(originalClassName: RequestIdStorageInterface::class);
         $this->httpKernel = $this->createMock(originalClassName: HttpKernelInterface::class);
+        $this->input = $this->createMock(originalClassName: InputInterface::class);
+        $this->output = $this->createMock(originalClassName: OutputInterface::class);
+    }
+
+    public function testOnConsoleCommand(): void
+    {
+        $requestIdEventListener = new RequestIdEventListener(
+            requestIdGenerator: $this->requestIdGenerator,
+            requestIdStorage: $this->requestIdStorage,
+        );
+
+        $consoleCommandEvent = new ConsoleCommandEvent(
+            command: null,
+            input: $this->input,
+            output: $this->output,
+        );
+
+        $requestIdEventListener->onConsoleCommand($consoleCommandEvent);
     }
 
     public function testOnRequestEventNotForMainRequest(): void
@@ -36,11 +57,11 @@ final class RequestIdEventListenerTest extends Unit
             requestIdStorage: $this->requestIdStorage,
         );
 
-        $requestEvent = (new RequestEvent(
+        $requestEvent = new RequestEvent(
             kernel: $this->httpKernel,
             request: new Request(),
             requestType: HttpKernelInterface::SUB_REQUEST,
-        ));
+        );
 
         $requestIdEventListener->onRequest($requestEvent);
     }
@@ -52,12 +73,12 @@ final class RequestIdEventListenerTest extends Unit
             requestIdStorage: $this->requestIdStorage,
         );
 
-        $responseEvent = (new ResponseEvent(
+        $responseEvent = new ResponseEvent(
             kernel: $this->httpKernel,
             request: new Request(),
             requestType: HttpKernelInterface::SUB_REQUEST,
             response: new Response(),
-        ));
+        );
 
         $requestIdEventListener->onResponse($responseEvent);
     }

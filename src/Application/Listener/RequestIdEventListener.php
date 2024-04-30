@@ -7,6 +7,7 @@ namespace App\Application\Listener;
 use App\Domain\Contract\RequestIdGeneratorInterface;
 use App\Domain\Contract\RequestIdStorageInterface;
 use App\Domain\Entity\HttpSpecification;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -17,6 +18,13 @@ final class RequestIdEventListener
         private RequestIdGeneratorInterface $requestIdGenerator,
         private RequestIdStorageInterface $requestIdStorage,
     ) {
+    }
+
+    #[AsEventListener(event: ConsoleCommandEvent::class, priority: 100)]
+    public function onConsoleCommand(ConsoleCommandEvent $event): void
+    {
+        $requestId = $this->requestIdGenerator->generate();
+        $this->requestIdStorage->setRequestId($requestId);
     }
 
     #[AsEventListener(event: RequestEvent::class, priority: 100)]
