@@ -6,7 +6,7 @@ namespace App\Domain\Contract;
 
 interface RequestIdStorageInterface
 {
-    public function setRequestId(string $requestId): void;
+    public function setRequestId(?string $requestId): void;
 
-    public function getRequestId(): string;
+    public function getRequestId(): ?string;
 }

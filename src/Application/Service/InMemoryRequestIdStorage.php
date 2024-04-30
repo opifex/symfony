@@ -6,21 +6,27 @@ namespace App\Application\Service;
 
 use App\Domain\Contract\RequestIdStorageInterface;
 use Override;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\Service\ResetInterface;
 
-final class InMemoryRequestIdStorage implements RequestIdStorageInterface
+final class InMemoryRequestIdStorage implements RequestIdStorageInterface, ResetInterface
 {
     private ?string $requestId = null;
 
     #[Override]
-    public function setRequestId(string $requestId): void
+    public function setRequestId(?string $requestId): void
     {
         $this->requestId = $requestId;
     }
 
     #[Override]
-    public function getRequestId(): string
+    public function getRequestId(): ?string
     {
-        return $this->requestId ??= Uuid::v4()->toRfc4122();
+        return $this->requestId;
+    }
+
+    #[Override]
+    public function reset(): void
+    {
+        $this->requestId = null;
     }
 }

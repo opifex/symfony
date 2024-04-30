@@ -17,7 +17,11 @@ final class RequestIdProcessor
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $record->extra['identifier'] = $this->requestIdStorage->getRequestId();
+        $requestId = $this->requestIdStorage->getRequestId();
+
+        if ($requestId !== null) {
+            $record->extra['identifier'] = $requestId;
+        }
 
         return $record;
     }
