@@ -13,7 +13,7 @@ use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AccountEventListener
+final class AccountNotificationEventListener
 {
     public function __construct(
         private NotifierInterface $notifier,
