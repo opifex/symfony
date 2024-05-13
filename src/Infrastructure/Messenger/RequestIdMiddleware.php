@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Messenger;
+namespace App\Infrastructure\Messenger;
 
 use App\Domain\Contract\RequestIdStorageInterface;
 use Override;

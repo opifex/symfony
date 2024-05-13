@@ -5,8 +5,8 @@ framework:
     buses:
       default.bus:
         middleware:
-          - App\Application\Messenger\RequestIdMiddleware
-          - App\Application\Messenger\ValidationMiddleware
+          - App\Infrastructure\Messenger\RequestIdMiddleware
+          - App\Infrastructure\Messenger\ValidationMiddleware
           - doctrine_close_connection
           - doctrine_ping_connection
           - doctrine_transaction

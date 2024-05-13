@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Messenger\RequestIdMiddleware;
-use App\Application\Messenger\RequestIdStamp;
 use App\Domain\Contract\RequestIdStorageInterface;
+use App\Infrastructure\Messenger\RequestIdMiddleware;
+use App\Infrastructure\Messenger\RequestIdStamp;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
