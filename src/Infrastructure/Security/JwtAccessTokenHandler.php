@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Security;
+namespace App\Infrastructure\Security;
 
 use App\Domain\Contract\JwtTokenManagerInterface;
 use Override;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Security\AccountUserProvider;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Exception\AccountNotFoundException;
+use App\Infrastructure\Security\AccountUserProvider;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;

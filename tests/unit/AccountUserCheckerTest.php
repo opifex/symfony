@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Security\AccountUserChecker;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountStatus;
+use App\Infrastructure\Security\AccountUserChecker;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
