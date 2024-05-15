@@ -7,7 +7,7 @@ namespace App\Tests;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountNotFoundException;
-use App\Infrastructure\Persistence\Repository\AccountRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\AccountRepository;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;

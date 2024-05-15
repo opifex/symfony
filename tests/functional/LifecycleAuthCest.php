@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Infrastructure\Persistence\Fixture\AccountFixture;
+use App\Infrastructure\Persistence\Doctrine\Fixture\AccountFixture;
 use Codeception\Util\HttpCode;
 
 final class LifecycleAuthCest

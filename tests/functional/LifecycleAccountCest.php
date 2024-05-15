@@ -7,7 +7,7 @@ namespace App\Tests;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
-use App\Infrastructure\Persistence\Fixture\AccountFixture;
+use App\Infrastructure\Persistence\Doctrine\Fixture\AccountFixture;
 use Codeception\Util\HttpCode;
 
 final class LifecycleAccountCest

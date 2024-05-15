@@ -16,7 +16,7 @@ doctrine:
         validate_xml_mapping: true
         mappings:
           default:
-            dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Mapping'
+            dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Doctrine/Mapping'
             prefix: App\Domain\Entity
             type: xml
 

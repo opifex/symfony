@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Fixture;
+namespace App\Infrastructure\Persistence\Doctrine\Fixture;
 
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountRole;
