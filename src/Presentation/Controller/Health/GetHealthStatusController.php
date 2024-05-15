@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Health;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\Handler\GetHealthStatus\GetHealthStatusQuery;
-use App\Application\Handler\GetHealthStatus\GetHealthStatusResponse;
+use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusQuery;
+use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;

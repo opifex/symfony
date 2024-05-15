@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\Handler\DeleteAccountById\DeleteAccountByIdCommand;
-use App\Application\Handler\DeleteAccountById\DeleteAccountByIdResponse;
+use App\Application\MessageHandler\DeleteAccountById\DeleteAccountByIdCommand;
+use App\Application\MessageHandler\DeleteAccountById\DeleteAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;

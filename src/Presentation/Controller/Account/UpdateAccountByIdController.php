@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\Handler\UpdateAccountById\UpdateAccountByIdCommand;
-use App\Application\Handler\UpdateAccountById\UpdateAccountByIdResponse;
+use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdCommand;
+use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;

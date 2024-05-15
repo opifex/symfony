@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Application\Listener\RequestIdEventListener;
+use App\Application\EventListener\RequestIdEventListener;
 use App\Domain\Contract\RequestIdGeneratorInterface;
 use App\Domain\Contract\RequestIdStorageInterface;
 use Codeception\Test\Unit;

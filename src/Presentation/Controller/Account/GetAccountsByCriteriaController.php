@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaItem;
-use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
-use App\Application\Handler\GetAccountsByCriteria\GetAccountsByCriteriaResponse;
+use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaItem;
+use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
+use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;

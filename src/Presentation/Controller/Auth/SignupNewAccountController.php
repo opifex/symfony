@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\Handler\SignupNewAccount\SignupNewAccountCommand;
-use App\Application\Handler\SignupNewAccount\SignupNewAccountResponse;
+use App\Application\MessageHandler\SignupNewAccount\SignupNewAccountCommand;
+use App\Application\MessageHandler\SignupNewAccount\SignupNewAccountResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use Nelmio\ApiDocBundle\Annotation\Model;

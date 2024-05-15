@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\Handler\CreateNewAccount\CreateNewAccountCommand;
-use App\Application\Handler\CreateNewAccount\CreateNewAccountResponse;
+use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountCommand;
+use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
