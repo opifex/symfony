@@ -15,8 +15,10 @@ coverage:
     - src/Application/*
     - src/Infrastructure/Adapter/*
     - src/Infrastructure/Logging/*
-    - src/Infrastructure/Persistence/Fixture/*
-    - src/Infrastructure/Persistence/Repository/*
+    - src/Infrastructure/Messenger/*
+    - src/Infrastructure/Persistence/Doctrine/Fixture/*
+    - src/Infrastructure/Persistence/Doctrine/Repository/*
+    - src/Infrastructure/Security/*
     - src/Presentation/*
 extensions:
   enabled:
