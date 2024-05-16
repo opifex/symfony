@@ -95,8 +95,7 @@
         ],
         "auto-migrate": [
             "bin/console doctrine:database:create --if-not-exists",
-            "bin/console doctrine:migrations:migrate",
-            "bin/console messenger:setup-transports failed"
+            "bin/console doctrine:migrations:migrate"
         ],
         "auto-quality": [
             "bin/console cache:clear -e test",
