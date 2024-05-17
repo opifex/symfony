@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Workflow;
+namespace App\Infrastructure\Workflow;
 
 use App\Domain\Entity\Account;
 use Override;

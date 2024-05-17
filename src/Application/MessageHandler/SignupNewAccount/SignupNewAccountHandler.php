@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SignupNewAccount;
 
-use App\Application\Builder\AccountBuilder;
+use App\Application\Service\AccountEntityBuilder;
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Contract\AccountStateMachineInterface;
@@ -26,7 +26,7 @@ final class SignupNewAccountHandler
     {
         $hashedPassword = $this->accountPasswordHasher->hash($message->password);
 
-        $accountBuilder = new AccountBuilder();
+        $accountBuilder = new AccountEntityBuilder();
         $accountBuilder->setEmailAddress($message->email);
         $accountBuilder->setHashedPassword($hashedPassword);
         $accountBuilder->setDefaultLocale($message->locale);

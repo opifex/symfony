@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Builder;
+namespace App\Application\Service;
 
 use App\Domain\Entity\Health;
 use App\Domain\Entity\HealthStatus;
 
-final class HealthBuilder
+final class HealthEntityBuilder
 {
     public static function getAliveHealth(): Health
     {

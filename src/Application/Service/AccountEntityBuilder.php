@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Builder;
+namespace App\Application\Service;
 
 use App\Domain\Entity\Account;
 use Symfony\Component\Uid\Uuid;
 
-final class AccountBuilder
+final class AccountEntityBuilder
 {
     private string $emailAddress = '';
 
