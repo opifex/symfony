@@ -11,8 +11,8 @@
   <file>../../config</file>
   <file>../../public</file>
   <file>../../src</file>
-  <file>../../tests/functional</file>
-  <file>../../tests/unit</file>
+  <file>../../tests/Functional</file>
+  <file>../../tests/Unit</file>
 
   <rule ref="PSR12"/>
 
