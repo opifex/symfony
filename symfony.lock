@@ -3,30 +3,28 @@
         "version": "v4.9.0"
     },
     "codeception/codeception": {
-        "version": "5.0",
+        "version": "5.1",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
-            "version": "2.3",
-            "ref": "89689e24507d8cb2c4a7937ece549db3836b608c"
+            "version": "5.0",
+            "ref": "0d213956834c5652a34e4bf9456ef26119132a8a"
         },
         "files": [
             "codeception.yml",
-            "tests/_data/.gitignore",
-            "tests/_output/.gitignore",
-            "tests/_support/AcceptanceTester.php",
-            "tests/_support/FunctionalTester.php",
-            "tests/_support/Helper/Acceptance.php",
-            "tests/_support/Helper/Functional.php",
-            "tests/_support/Helper/Unit.php",
-            "tests/_support/UnitTester.php",
-            "tests/_support/_generated/.gitignore",
-            "tests/acceptance.suite.yml",
-            "tests/acceptance/.gitignore",
-            "tests/functional.suite.yml",
-            "tests/functional/.gitignore",
-            "tests/unit.suite.yml",
-            "tests/unit/.gitignore"
+            "tests/Acceptance.suite.yml",
+            "tests/Acceptance/.gitignore",
+            "tests/Functional.suite.yml",
+            "tests/Functional/.gitignore",
+            "tests/Support/AcceptanceTester.php",
+            "tests/Support/Data/.gitignore",
+            "tests/Support/FunctionalTester.php",
+            "tests/Support/Helper/.gitignore",
+            "tests/Support/UnitTester.php",
+            "tests/Support/_generated/.gitignore",
+            "tests/Unit.suite.yml",
+            "tests/Unit/.gitignore",
+            "tests/_output/.gitignore"
         ]
     },
     "codeception/lib-asserts": {

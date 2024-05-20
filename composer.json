@@ -78,13 +78,7 @@
         "psr-4": {
             "App\\Reports\\": "config/markup/Reports",
             "App\\Sniffs\\": "config/markup/Sniffs",
-            "App\\Tests\\": [
-                "tests/_data",
-                "tests/_output",
-                "tests/_support",
-                "tests/functional",
-                "tests/unit"
-            ]
+            "App\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -106,7 +100,7 @@
             "bin/console doctrine:database:drop -e test --if-exists --force",
             "bin/console doctrine:database:create -e test",
             "bin/console doctrine:migration:migrate -e test -n",
-            "codecept run unit,functional --coverage-html --coverage-xml --fail-fast"
+            "codecept run Unit,Functional --coverage-html --coverage-xml --fail-fast"
         ],
         "auto-scripts": {
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
