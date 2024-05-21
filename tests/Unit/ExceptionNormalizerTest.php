@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit;
+namespace Tests\Unit;
 
 use App\Application\Serializer\ExceptionNormalizer;
 use Codeception\Test\Unit;

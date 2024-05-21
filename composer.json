@@ -76,9 +76,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Reports\\": "config/markup/Reports",
-            "App\\Sniffs\\": "config/markup/Sniffs",
-            "App\\Tests\\": "tests"
+            "Reports\\": "config/markup/Reports",
+            "Sniffs\\": "config/markup/Sniffs",
+            "Tests\\": "tests"
         }
     },
     "scripts": {

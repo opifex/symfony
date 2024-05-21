@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Sniffs\Variables;
+namespace Sniffs\Variables;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;

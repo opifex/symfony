@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit;
+namespace Tests\Unit;
 
 use App\Domain\Contract\RequestIdStorageInterface;
 use App\Infrastructure\Messenger\RequestIdMiddleware;

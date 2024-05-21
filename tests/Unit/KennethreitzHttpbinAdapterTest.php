@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit;
+namespace Tests\Unit;
 
 use App\Domain\Exception\HttpbinResponderException;
 use App\Infrastructure\Adapter\KennethreitzHttpbinAdapter;

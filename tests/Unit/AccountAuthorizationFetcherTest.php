@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit;
+namespace Tests\Unit;
 
 use App\Application\Service\AccountAuthorizationFetcher;
 use App\Domain\Exception\AccountUnauthorizedException;

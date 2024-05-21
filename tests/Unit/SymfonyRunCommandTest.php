@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit;
+namespace Tests\Unit;
 
 use App\Presentation\Command\SymfonyRunCommand;
 use Codeception\Test\Unit;

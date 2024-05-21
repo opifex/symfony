@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional;
+namespace Tests\Functional;
 
 use App\Domain\Entity\HealthStatus;
-use App\Tests\Support\FunctionalTester;
 use Codeception\Util\HttpCode;
+use Tests\Support\FunctionalTester;
 
 final class LifecycleHealthCest
 {

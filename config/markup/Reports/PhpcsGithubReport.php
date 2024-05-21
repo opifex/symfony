@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Reports;
+namespace Reports;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Reports\Report;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit;
+namespace Tests\Unit;
 
 use App\Presentation\Controller\AbstractController;
 use Codeception\Test\Unit;

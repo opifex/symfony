@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional;
+namespace Tests\Functional;
 
 use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Infrastructure\Persistence\Doctrine\Fixture\AccountFixture;
-use App\Tests\Support\FunctionalTester;
 use Codeception\Util\HttpCode;
+use Tests\Support\FunctionalTester;
 
 final class LifecycleAccountCest
 {

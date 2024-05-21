@@ -1,4 +1,4 @@
-namespace: App\Tests
+namespace: Tests
 support_namespace: Support
 actor_suffix: Tester
 paths:
