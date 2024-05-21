@@ -8,6 +8,7 @@ use App\Domain\Contract\AccountAuthorizationFetcherInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AuthorizationToken;
 use App\Domain\Exception\AccountUnauthorizedException;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class AccountAuthorizationFetcher implements AccountAuthorizationFetcherInterface
@@ -16,6 +17,7 @@ final class AccountAuthorizationFetcher implements AccountAuthorizationFetcherIn
     {
     }
 
+    #[Override]
     public function fetchAccount(): Account
     {
         $user = $this->tokenStorage->getToken()?->getUser();
@@ -29,6 +31,7 @@ final class AccountAuthorizationFetcher implements AccountAuthorizationFetcherIn
         return $user;
     }
 
+    #[Override]
     public function fetchToken(): AuthorizationToken
     {
         $token = $this->tokenStorage->getToken();
