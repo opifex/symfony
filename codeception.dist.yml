@@ -24,6 +24,7 @@ coverage:
     - src/Infrastructure/Persistence/Doctrine/Fixture/*
     - src/Infrastructure/Persistence/Doctrine/Repository/*
     - src/Infrastructure/Security/*
+    - src/Infrastructure/Workflow/*
     - src/Presentation/*
 extensions:
   enabled:
