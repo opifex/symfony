@@ -27,20 +27,8 @@ class CodeStructureSniff implements Sniff
             $namespaceName = $phpcsFile->getTokensAsString(start: $stackPtr + 2, length: $endPtr - $stackPtr - 2);
             $namespacePrefix = $this->sliceNamespace($namespaceName);
             $availableImports = [...$this->allowedNamespaces[$namespacePrefix] ?? [], ...[$namespacePrefix]];
-            $isNamespaceAllowed = in_array($namespacePrefix, array_keys($this->allowedNamespaces));
-            $isRootNamespace = $namespaceName === $namespacePrefix;
-            $isAppNamespace = $namespaceName === $this->appNamespace;
 
-            if (!$isNamespaceAllowed && !$isRootNamespace && $isAppNamespace) {
-                $phpcsFile->addError(
-                    error: 'Namespace must starts with %s',
-                    stackPtr: $stackPtr + 1,
-                    code: 'CodeStructure',
-                    data: [implode(separator: ' or ', array: array_keys($this->allowedNamespaces))],
-                );
-            }
-
-            if ($namespaceName === $this->appNamespace) {
+            if (in_array($namespacePrefix, array_keys($this->allowedNamespaces))) {
                 while ($stackPtr = $phpcsFile->findNext([T_USE], start: $stackPtr + 1)) {
                     $stackPtr = $phpcsFile->findNext([T_WHITESPACE], start: $stackPtr + 1, exclude: true);
                     $endPtr = $phpcsFile->findNext([T_SEMICOLON], start: $stackPtr + 1);
