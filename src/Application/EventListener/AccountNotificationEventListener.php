@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\EventListener;
 
+use App\Application\Event\AccountActivatedEvent;
+use App\Application\Event\AccountRegisteredEvent;
 use App\Application\Notification\AccountActivatedNotification;
 use App\Application\Notification\AccountRegisteredNotification;
-use App\Domain\Event\AccountActivatedEvent;
-use App\Domain\Event\AccountRegisteredEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;

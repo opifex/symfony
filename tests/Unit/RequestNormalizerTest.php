@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Serializer\RequestNormalizer;
+use App\Infrastructure\Serializer\RequestNormalizer;
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use stdClass;

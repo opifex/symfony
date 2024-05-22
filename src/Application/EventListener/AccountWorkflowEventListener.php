@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\EventListener;
 
+use App\Application\Event\AccountActivatedEvent;
+use App\Application\Event\AccountRegisteredEvent;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountAction;
-use App\Domain\Event\AccountActivatedEvent;
-use App\Domain\Event\AccountRegisteredEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Workflow\Attribute\AsCompletedListener;
 use Symfony\Component\Workflow\Event\CompletedEvent;

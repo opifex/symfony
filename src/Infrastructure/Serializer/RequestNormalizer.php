@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Serializer;
+namespace App\Infrastructure\Serializer;
 
 use Override;
 use Symfony\Component\HttpFoundation\Exception\JsonException;

@@ -78,11 +78,11 @@ provides **JSON-based** contracts with **JSON Web Token** (JWT) authorization.
 └────────────────┘   └────────────────┘   └────────────────┘
 ```
 
-**Domain**: entities, events, exceptions and interfaces that do not have a specific implementation.
+**Domain**: entities, exceptions and interfaces that do not have a specific implementation.
 
-**Application**: services, listeners and other parts of the application that perform core and business logic.
+**Application**: services, events, listeners and other parts of the application that perform core and business logic.
 
-**Infrastructure**: adapters and repositories that provide low-level access to resources and 3rd-party libraries.
+**Infrastructure**: adapters, repositories and framework modules that provide low-level access to resources and 3rd-party libraries.
 
 **Presentation**: controllers, console commands, translations and views for interacting with the client.
 
