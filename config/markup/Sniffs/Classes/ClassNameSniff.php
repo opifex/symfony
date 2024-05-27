@@ -19,7 +19,6 @@ class ClassNameSniff implements Sniff
         if (isset($this->declaredNames[$className])) {
             $file = $this->declaredNames[$className]['file'];
             $line = $this->declaredNames[$className]['line'];
-
             $phpcsFile->addError(
                 error: 'Duplicate "%s" was first defined in %s on line %s',
                 stackPtr: $stackPtr,
