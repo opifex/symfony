@@ -9,8 +9,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 class StatementUseSniff implements Sniff
 {
-    public int $dependencyLimit = 25;
-
     public function process(File $phpcsFile, mixed $stackPtr): int
     {
         $usedDependencies = $declaredDependencies = $stackPointers = [];
@@ -67,17 +65,6 @@ class StatementUseSniff implements Sniff
             }
 
             $phpcsFile->fixer->endChangeset();
-        }
-
-        $dependenciesCount = count($declaredDependencies);
-
-        if ($dependenciesCount > $this->dependencyLimit) {
-            $phpcsFile->addError(
-                error: 'File have %s dependencies, but only %s is allowed',
-                stackPtr: $stackPtr,
-                code: 'StatementUse',
-                data: [$dependenciesCount, $this->dependencyLimit],
-            );
         }
 
         $usedDependencies = [];
