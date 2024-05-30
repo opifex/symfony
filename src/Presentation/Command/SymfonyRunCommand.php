@@ -8,17 +8,20 @@ use Override;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsCommand(name: 'app:symfony:run', description: 'Symfony console command')]
 final class SymfonyRunCommand extends Command
 {
-    public function __construct(private ClockInterface $clock)
-    {
+    public function __construct(
+        private ClockInterface $clock,
+        private ValidatorInterface $validator,
+    ) {
         parent::__construct();
     }
 
@@ -45,18 +48,24 @@ final class SymfonyRunCommand extends Command
         $console = new SymfonyStyle($input, $output);
         $console->title($this->getDescription());
 
+        /** @var int $count */
         $count = $input->getOption(name: 'count');
+        /** @var int $delay */
         $delay = $input->getOption(name: 'delay');
 
-        if (!is_numeric($count) || $count <= 0) {
-            throw new InvalidOptionException(message: 'Count value should be positive.');
-        }
+        $violations = $this->validator->validate(
+            value: ['count' => $count, 'delay' => $delay],
+            constraints: new Assert\Collection([
+                'count' => [new Assert\DivisibleBy(value: 1), new Assert\Positive()],
+                'delay' => [new Assert\DivisibleBy(value: 1), new Assert\PositiveOrZero()],
+            ]),
+        );
 
-        if (!is_numeric($delay) || $delay < 0) {
-            throw new InvalidOptionException(message: 'Delay value should be either positive or zero.');
-        }
+        if ($violations->count()) {
+            $console->error($violations->get(0)->getPropertyPath() . ' ' . $violations->get(0)->getMessage());
 
-        [$count, $delay] = [(int) $count, (int) $delay];
+            return self::FAILURE;
+        }
 
         $iterableItems = array_pad([], length: $count, value: null);
 
