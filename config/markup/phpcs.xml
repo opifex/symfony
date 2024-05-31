@@ -29,6 +29,7 @@
   <rule ref="Generic.PHP.BacktickOperator"/>
   <rule ref="Generic.PHP.NoSilencedErrors"/>
   <rule ref="Generic.PHP.RequireStrictTypes"/>
+  <rule ref="Squiz.NamingConventions.ValidVariableName"/>
   <rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops"/>
   <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
   <rule ref="Squiz.PHP.NonExecutableCode"/>
@@ -74,6 +75,14 @@
   </rule>
 
   <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.EmptyLine">
+    <severity>0</severity>
+  </rule>
+
+  <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+    <severity>0</severity>
+  </rule>
+
+  <rule ref="Squiz.NamingConventions.ValidVariableName.PublicHasUnderscore">
     <severity>0</severity>
   </rule>
 </ruleset>
