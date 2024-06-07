@@ -17,15 +17,11 @@ coverage:
   show_only_summary: true
   show_uncovered: true
   include:
-    - src/Application/*
-    - src/Infrastructure/Adapter/*
-    - src/Infrastructure/Logging/*
-    - src/Infrastructure/Messenger/*
-    - src/Infrastructure/Persistence/Doctrine/Fixture/*
-    - src/Infrastructure/Persistence/Doctrine/Repository/*
-    - src/Infrastructure/Security/*
-    - src/Infrastructure/Workflow/*
-    - src/Presentation/*
+    - src/*
+  exclude:
+    - src/Domain/*
+    - src/Infrastructure/Persistence/Doctrine/Migration/*
+    - src/Kernel.php
 extensions:
   enabled:
     - Codeception\Extension\RunFailed
