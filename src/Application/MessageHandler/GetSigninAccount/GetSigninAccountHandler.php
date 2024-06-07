@@ -14,7 +14,7 @@ final class GetSigninAccountHandler
     {
     }
 
-    public function __invoke(GetSigninAccountQuery $message): GetSigninAccountResponse
+    public function __invoke(GetSigninAccountRequest $message): GetSigninAccountResponse
     {
         $account = $this->accountAuthorizationFetcher->fetchAccount();
 

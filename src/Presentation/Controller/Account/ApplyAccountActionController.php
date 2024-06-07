@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\ApplyAccountAction\ApplyAccountActionCommand;
+use App\Application\MessageHandler\ApplyAccountAction\ApplyAccountActionRequest;
 use App\Application\MessageHandler\ApplyAccountAction\ApplyAccountActionResponse;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Entity\AccountRole;
@@ -53,7 +53,7 @@ final class ApplyAccountActionController extends AbstractController
         methods: Request::METHOD_POST,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] ApplyAccountActionCommand $message): Response
+    public function __invoke(#[MapMessage] ApplyAccountActionRequest $message): Response
     {
         /** @var ApplyAccountActionResponse $handledResult */
         $handledResult = $this->handle($message);

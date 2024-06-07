@@ -22,7 +22,7 @@ final class SignupNewAccountHandler
     ) {
     }
 
-    public function __invoke(SignupNewAccountCommand $message): SignupNewAccountResponse
+    public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResponse
     {
         $hashedPassword = $this->accountPasswordHasher->hash($message->password);
 

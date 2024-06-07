@@ -18,7 +18,7 @@ final class GetAccountsByCriteriaHandler
     {
     }
 
-    public function __invoke(GetAccountsByCriteriaQuery $message): GetAccountsByCriteriaResponse
+    public function __invoke(GetAccountsByCriteriaRequest $message): GetAccountsByCriteriaResponse
     {
         $accounts = $this->accountRepository->findByCriteria(
             new AccountSearchCriteria(

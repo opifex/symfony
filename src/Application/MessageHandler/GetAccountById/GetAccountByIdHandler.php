@@ -14,7 +14,7 @@ final class GetAccountByIdHandler
     {
     }
 
-    public function __invoke(GetAccountByIdQuery $message): GetAccountByIdResponse
+    public function __invoke(GetAccountByIdRequest $message): GetAccountByIdResponse
     {
         $account = $this->accountRepository->findOneByUuid($message->uuid);
 

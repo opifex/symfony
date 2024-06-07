@@ -9,7 +9,7 @@ use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SortingOrder;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class GetAccountsByCriteriaQuery
+final class GetAccountsByCriteriaRequest
 {
     public function __construct(
         #[Assert\Length(max: 320)]

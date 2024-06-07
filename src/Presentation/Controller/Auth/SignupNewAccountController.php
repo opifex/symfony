@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\SignupNewAccount\SignupNewAccountCommand;
+use App\Application\MessageHandler\SignupNewAccount\SignupNewAccountRequest;
 use App\Application\MessageHandler\SignupNewAccount\SignupNewAccountResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
@@ -31,7 +31,7 @@ final class SignupNewAccountController extends AbstractController
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: SignupNewAccountCommand::class),
+                ref: new Model(type: SignupNewAccountRequest::class),
             ),
         ),
         tags: ['Authorization'],
@@ -47,7 +47,7 @@ final class SignupNewAccountController extends AbstractController
         methods: Request::METHOD_POST,
     )]
     #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
-    public function __invoke(#[MapMessage] SignupNewAccountCommand $message): Response
+    public function __invoke(#[MapMessage] SignupNewAccountRequest $message): Response
     {
         /** @var SignupNewAccountResponse $handledResult */
         $handledResult = $this->handle($message);

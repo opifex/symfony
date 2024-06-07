@@ -21,7 +21,7 @@ final class CreateNewAccountHandler
     ) {
     }
 
-    public function __invoke(CreateNewAccountCommand $message): CreateNewAccountResponse
+    public function __invoke(CreateNewAccountRequest $message): CreateNewAccountResponse
     {
         $hashedPassword = $this->accountPasswordHasher->hash($message->password);
 

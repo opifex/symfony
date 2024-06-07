@@ -7,7 +7,7 @@ namespace App\Application\MessageHandler\ApplyAccountAction;
 use App\Domain\Entity\AccountAction;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class ApplyAccountActionCommand
+final class ApplyAccountActionRequest
 {
     public function __construct(
         #[Assert\NotBlank]

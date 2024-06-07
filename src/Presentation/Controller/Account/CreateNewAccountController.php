@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountCommand;
+use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountRequest;
 use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
@@ -32,7 +32,7 @@ final class CreateNewAccountController extends AbstractController
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: CreateNewAccountCommand::class),
+                ref: new Model(type: CreateNewAccountRequest::class),
             ),
         ),
         tags: ['Account'],
@@ -50,7 +50,7 @@ final class CreateNewAccountController extends AbstractController
         methods: Request::METHOD_POST,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] CreateNewAccountCommand $message): Response
+    public function __invoke(#[MapMessage] CreateNewAccountRequest $message): Response
     {
         /** @var CreateNewAccountResponse $handledResult */
         $handledResult = $this->handle($message);

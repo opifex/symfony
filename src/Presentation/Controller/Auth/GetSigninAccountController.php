@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountQuery;
+use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
 use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
@@ -46,7 +46,7 @@ final class GetSigninAccountController extends AbstractController
         methods: Request::METHOD_GET,
     )]
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)]
-    public function __invoke(#[MapMessage] GetSigninAccountQuery $message): Response
+    public function __invoke(#[MapMessage] GetSigninAccountRequest $message): Response
     {
         /** @var GetSigninAccountResponse $handledResult */
         $handledResult = $this->handle($message);

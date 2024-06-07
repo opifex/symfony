@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdCommand;
+use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdRequest;
 use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
@@ -32,8 +32,8 @@ final class UpdateAccountByIdController extends AbstractController
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
                 ref: new Model(
-                    type: UpdateAccountByIdCommand::class,
-                    groups: [UpdateAccountByIdCommand::GROUP_EDITABLE],
+                    type: UpdateAccountByIdRequest::class,
+                    groups: [UpdateAccountByIdRequest::GROUP_EDITABLE],
                 ),
             ),
         ),
@@ -53,7 +53,7 @@ final class UpdateAccountByIdController extends AbstractController
         methods: Request::METHOD_PATCH,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] UpdateAccountByIdCommand $message): Response
+    public function __invoke(#[MapMessage] UpdateAccountByIdRequest $message): Response
     {
         /** @var UpdateAccountByIdResponse $handledResult */
         $handledResult = $this->handle($message);

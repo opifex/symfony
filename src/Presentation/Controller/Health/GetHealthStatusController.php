@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Health;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusQuery;
+use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusRequest;
 use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
@@ -44,7 +44,7 @@ final class GetHealthStatusController extends AbstractController
         methods: Request::METHOD_GET,
     )]
     #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
-    public function __invoke(#[MapMessage] GetHealthStatusQuery $message): Response
+    public function __invoke(#[MapMessage] GetHealthStatusRequest $message): Response
     {
         /** @var GetHealthStatusResponse $handledResult */
         $handledResult = $this->handle($message);

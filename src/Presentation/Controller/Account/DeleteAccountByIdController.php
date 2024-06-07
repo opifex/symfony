@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\DeleteAccountById\DeleteAccountByIdCommand;
+use App\Application\MessageHandler\DeleteAccountById\DeleteAccountByIdRequest;
 use App\Application\MessageHandler\DeleteAccountById\DeleteAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
@@ -44,7 +44,7 @@ final class DeleteAccountByIdController extends AbstractController
         methods: Request::METHOD_DELETE,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] DeleteAccountByIdCommand $message): Response
+    public function __invoke(#[MapMessage] DeleteAccountByIdRequest $message): Response
     {
         /** @var DeleteAccountByIdResponse $handledResult */
         $handledResult = $this->handle($message);

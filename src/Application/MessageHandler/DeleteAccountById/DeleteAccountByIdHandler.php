@@ -14,7 +14,7 @@ final class DeleteAccountByIdHandler
     {
     }
 
-    public function __invoke(DeleteAccountByIdCommand $message): DeleteAccountByIdResponse
+    public function __invoke(DeleteAccountByIdRequest $message): DeleteAccountByIdResponse
     {
         $this->accountRepository->deleteOneByUuid($message->uuid);
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Application\MessageHandler\DeleteAccountById;
+namespace App\Application\MessageHandler\GetAccountById;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class DeleteAccountByIdCommand
+final class GetAccountByIdRequest
 {
     public function __construct(
         #[Assert\NotBlank]

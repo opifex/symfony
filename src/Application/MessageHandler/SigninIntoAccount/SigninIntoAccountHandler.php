@@ -14,7 +14,7 @@ final class SigninIntoAccountHandler
     {
     }
 
-    public function __invoke(SigninIntoAccountCommand $message): SigninIntoAccountResponse
+    public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResponse
     {
         $token = $this->accountAuthorizationFetcher->fetchToken();
 

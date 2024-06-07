@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\GetAccountById\GetAccountByIdQuery;
+use App\Application\MessageHandler\GetAccountById\GetAccountByIdRequest;
 use App\Application\MessageHandler\GetAccountById\GetAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
@@ -49,7 +49,7 @@ final class GetAccountByIdController extends AbstractController
         methods: Request::METHOD_GET,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] GetAccountByIdQuery $message): Response
+    public function __invoke(#[MapMessage] GetAccountByIdRequest $message): Response
     {
         /** @var GetAccountByIdResponse $handledResult */
         $handledResult = $this->handle($message);

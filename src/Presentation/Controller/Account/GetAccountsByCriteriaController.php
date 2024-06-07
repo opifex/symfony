@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
 use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaItem;
-use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
+use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaRequest;
 use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
@@ -96,7 +96,7 @@ final class GetAccountsByCriteriaController extends AbstractController
         methods: Request::METHOD_GET,
     )]
     #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] GetAccountsByCriteriaQuery $message): Response
+    public function __invoke(#[MapMessage] GetAccountsByCriteriaRequest $message): Response
     {
         /** @var GetAccountsByCriteriaResponse $handledResult */
         $handledResult = $this->handle($message);

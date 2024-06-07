@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountCommand;
+use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountRequest;
 use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
@@ -31,7 +31,7 @@ final class SigninIntoAccountController extends AbstractController
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: SigninIntoAccountCommand::class),
+                ref: new Model(type: SigninIntoAccountRequest::class),
             ),
         ),
         tags: ['Authorization'],
@@ -47,7 +47,7 @@ final class SigninIntoAccountController extends AbstractController
         methods: Request::METHOD_POST,
     )]
     #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
-    public function __invoke(#[MapMessage] SigninIntoAccountCommand $message): Response
+    public function __invoke(#[MapMessage] SigninIntoAccountRequest $message): Response
     {
         /** @var SigninIntoAccountResponse $handledResult */
         $handledResult = $this->handle($message);

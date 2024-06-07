@@ -6,7 +6,7 @@ namespace App\Application\MessageHandler\SigninIntoAccount;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class SigninIntoAccountCommand
+final class SigninIntoAccountRequest
 {
     public function __construct(
         #[Assert\Email]

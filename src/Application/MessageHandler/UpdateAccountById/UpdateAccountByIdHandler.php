@@ -19,7 +19,7 @@ final class UpdateAccountByIdHandler
     ) {
     }
 
-    public function __invoke(UpdateAccountByIdCommand $message): UpdateAccountByIdResponse
+    public function __invoke(UpdateAccountByIdRequest $message): UpdateAccountByIdResponse
     {
         $account = $this->accountRepository->findOneByUuid($message->uuid);
 
