@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e57f0f9aa37712551b28f3e82ec7d91",
+    "content-hash": "2d848c26848597e5a7fa5366faee01e5",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -8742,16 +8742,16 @@
         },
         {
             "name": "codeception/module-symfony",
-            "version": "3.3.2",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-symfony.git",
-                "reference": "3bbf45cffb6c0bed16b088e48ba902c66a342a32"
+                "reference": "27e94c1e00b9c12a3f38d480eb7ab619e9440bb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/3bbf45cffb6c0bed16b088e48ba902c66a342a32",
-                "reference": "3bbf45cffb6c0bed16b088e48ba902c66a342a32",
+                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/27e94c1e00b9c12a3f38d480eb7ab619e9440bb8",
+                "reference": "27e94c1e00b9c12a3f38d480eb7ab619e9440bb8",
                 "shasum": ""
             },
             "require": {
@@ -8769,6 +8769,7 @@
                 "symfony/config": "^5.4 | ^6.4 | ^7.0",
                 "symfony/dependency-injection": "^5.4 | ^6.4 | ^7.0",
                 "symfony/dom-crawler": "^5.4 | ^6.4 | ^7.0",
+                "symfony/dotenv": "^5.4 | ^6.4 | ^7.0",
                 "symfony/error-handler": "^5.4 | ^6.4 | ^7.0",
                 "symfony/filesystem": "^5.4 | ^6.4 | ^7.0",
                 "symfony/form": "^5.4 | ^6.4 | ^7.0",
@@ -8786,6 +8787,7 @@
                 "symfony/security-csrf": "^5.4 | ^6.4 | ^7.0",
                 "symfony/security-http": "^5.4 | ^6.4 | ^7.0",
                 "symfony/twig-bundle": "^5.4 | ^6.4 | ^7.0",
+                "symfony/validator": "^5.4 | ^6.4 | ^7.0",
                 "symfony/var-exporter": "^5.4 | ^6.4 | ^7.0",
                 "vlucas/phpdotenv": "^4.2 | ^5.4"
             },
@@ -8820,9 +8822,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-symfony/issues",
-                "source": "https://github.com/Codeception/module-symfony/tree/3.3.2"
+                "source": "https://github.com/Codeception/module-symfony/tree/3.4.0"
             },
-            "time": "2024-03-18T13:33:41+00:00"
+            "time": "2024-06-09T13:24:48+00:00"
         },
         {
             "name": "codeception/stub",
@@ -9694,16 +9696,16 @@
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "f39003e7be746e16afecc8699ec5c550df560165"
+                "reference": "dd27a3e83777ba0d9e9cedfaf4ebf95ff67b271f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/f39003e7be746e16afecc8699ec5c550df560165",
-                "reference": "f39003e7be746e16afecc8699ec5c550df560165",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/dd27a3e83777ba0d9e9cedfaf4ebf95ff67b271f",
+                "reference": "dd27a3e83777ba0d9e9cedfaf4ebf95ff67b271f",
                 "shasum": ""
             },
             "require": {
@@ -9760,9 +9762,9 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.4.2"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.4.3"
             },
-            "time": "2024-06-07T10:20:56+00:00"
+            "time": "2024-06-08T05:48:50+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -10421,16 +10423,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.3",
+            "version": "v0.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "b6b6cce7d3ee8fbf31843edce5e8f5a72eff4a73"
+                "reference": "2fd717afa05341b4f8152547f142cd2f130f6818"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/b6b6cce7d3ee8fbf31843edce5e8f5a72eff4a73",
-                "reference": "b6b6cce7d3ee8fbf31843edce5e8f5a72eff4a73",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/2fd717afa05341b4f8152547f142cd2f130f6818",
+                "reference": "2fd717afa05341b4f8152547f142cd2f130f6818",
                 "shasum": ""
             },
             "require": {
@@ -10494,9 +10496,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.3"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.4"
             },
-            "time": "2024-04-02T15:57:53+00:00"
+            "time": "2024-06-10T01:18:23+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
