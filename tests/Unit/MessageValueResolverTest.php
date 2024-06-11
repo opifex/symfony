@@ -10,6 +10,7 @@ use App\Domain\Exception\MessageNormalizationException;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
@@ -19,6 +20,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class MessageValueResolverTest extends Unit
 {
+    private DenormalizerInterface&MockObject $denormalizer;
+    private NormalizerInterface&MockObject $normalizer;
+    private ValidatorInterface&MockObject $validator;
+
     /**
      * @throws Exception
      */

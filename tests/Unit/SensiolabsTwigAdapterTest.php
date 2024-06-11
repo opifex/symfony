@@ -9,11 +9,14 @@ use App\Infrastructure\Adapter\SensiolabsTwigAdapter;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use Twig\Environment;
 use Twig\Error\Error;
 
 final class SensiolabsTwigAdapterTest extends Unit
 {
+    private Environment&MockObject $environment;
+
     /**
      * @throws Exception
      */

@@ -10,6 +10,7 @@ use App\Infrastructure\Messenger\RequestIdStamp;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
@@ -17,6 +18,10 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
 
 final class RequestIdMiddlewareTest extends Unit
 {
+    private RequestIdStorageInterface&MockObject $requestIdStorage;
+    private MiddlewareInterface&MockObject $middleware;
+    private StackInterface&MockObject $stack;
+
     /**
      * @throws Exception
      */

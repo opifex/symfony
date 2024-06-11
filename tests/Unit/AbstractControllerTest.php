@@ -8,6 +8,7 @@ use App\Presentation\Controller\AbstractController;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\LogicException;
@@ -17,6 +18,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class AbstractControllerTest extends Unit
 {
+    private MessageBusInterface&MockObject $messageBus;
+    private NormalizerInterface&MockObject $normalizer;
+
     /**
      * @throws Exception
      */

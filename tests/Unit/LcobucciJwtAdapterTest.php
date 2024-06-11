@@ -10,11 +10,14 @@ use Codeception\Test\Unit;
 use Exception;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class LcobucciJwtAdapterTest extends Unit
 {
+    private UserInterface&MockObject $user;
+
     /**
      * @throws MockObjectException
      */

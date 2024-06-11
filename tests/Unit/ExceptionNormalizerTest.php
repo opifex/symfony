@@ -8,11 +8,15 @@ use App\Infrastructure\Serializer\ExceptionNormalizer;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ExceptionNormalizerTest extends Unit
 {
+    private KernelInterface&MockObject $kernel;
+    private TranslatorInterface&MockObject $translator;
+
     /**
      * @throws Exception
      */

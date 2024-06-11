@@ -15,9 +15,13 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class AccountRepositoryTest extends Unit
 {
+    private EntityManagerInterface&MockObject $entityManager;
+    private Query&MockObject $query;
+
     /**
      * @throws Exception
      */
@@ -25,24 +29,25 @@ final class AccountRepositoryTest extends Unit
     protected function setUp(): void
     {
         $this->entityManager = $this->createMock(originalClassName: EntityManagerInterface::class);
-        $this->queryBuilder = $this->createMock(originalClassName: QueryBuilder::class);
         $this->query = $this->createMock(originalClassName: Query::class);
-        $this->expr = $this->createMock(originalClassName: Expr::class);
+
+        $queryBuilder = $this->createMock(originalClassName: QueryBuilder::class);
+        $expr = $this->createMock(originalClassName: Expr::class);
 
         $this->entityManager
             ->expects($this->once())
             ->method(constraint: 'createQueryBuilder')
-            ->willReturn($this->queryBuilder);
+            ->willReturn($queryBuilder);
 
-        $this->queryBuilder
+        $queryBuilder
             ->expects($this->once())
             ->method(constraint: 'getQuery')
             ->willReturn($this->query);
 
-        $this->queryBuilder
+        $queryBuilder
             ->expects($this->once())
             ->method(constraint: 'expr')
-            ->willReturn($this->expr);
+            ->willReturn($expr);
     }
 
     public function testUpdateEmailByUuid(): void

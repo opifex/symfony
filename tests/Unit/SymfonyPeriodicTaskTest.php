@@ -8,10 +8,13 @@ use App\Presentation\Scheduler\SymfonyPeriodicTask;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 final class SymfonyPeriodicTaskTest extends Unit
 {
+    private LoggerInterface&MockObject $logger;
+
     /**
      * @throws Exception
      */

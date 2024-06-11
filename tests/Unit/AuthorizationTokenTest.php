@@ -8,11 +8,14 @@ use App\Domain\Entity\AuthorizationToken;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class AuthorizationTokenTest extends Unit
 {
+    private UserInterface&MockObject $user;
+
     /**
      * @throws Exception
      */

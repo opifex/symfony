@@ -15,13 +15,13 @@ use Symfony\Component\Validator\Validation;
 
 final class SymfonyRunCommandTest extends Unit
 {
+    private Application $application;
+
     #[Override]
     protected function setUp(): void
     {
-        $this->clock = new MockClock();
-        $this->validator = Validation::createValidator();
         $this->application = new Application();
-        $this->application->add(new SymfonyRunCommand($this->clock, $this->validator));
+        $this->application->add(new SymfonyRunCommand(new MockClock(), Validation::createValidator()));
     }
 
     public function testExecuteWithSuccessResult(): void
