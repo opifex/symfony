@@ -43,7 +43,7 @@ final class KernelExceptionEventListenerTest extends Unit
      * @throws ExceptionInterface
      * @throws ReflectionException
      */
-    public function testInvokePeriodicTask(): void
+    public function testInvokeWithLogicException(): void
     {
         $event = new ExceptionEvent(
             kernel: $this->kernel,
