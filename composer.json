@@ -149,7 +149,7 @@
         "codeception/module-asserts": "^3.0",
         "codeception/module-cli": "^2.0",
         "codeception/module-doctrine": "^3.1",
-        "codeception/module-rest": "^3.3",
+        "codeception/module-rest": "^3.4",
         "codeception/module-symfony": "^3.4",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
         "fakerphp/faker": "^1.23",
