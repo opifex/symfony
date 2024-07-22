@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b40c111d2e2141c58c1ff0c85eff1bc7",
+    "content-hash": "ecfe5dbedaa97711e641f75a38b6f900",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -1693,16 +1693,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.28.0",
+            "version": "v4.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "684391a5fab4bdfac752560d3483d0f7109448a5"
+                "reference": "c9523906023e61351f03dbab8d077173f5ec4883"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/684391a5fab4bdfac752560d3483d0f7109448a5",
-                "reference": "684391a5fab4bdfac752560d3483d0f7109448a5",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/c9523906023e61351f03dbab8d077173f5ec4883",
+                "reference": "c9523906023e61351f03dbab8d077173f5ec4883",
                 "shasum": ""
             },
             "require": {
@@ -1803,9 +1803,15 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.28.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.29.0"
             },
-            "time": "2024-06-19T14:37:45+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/DjordyKoert",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-07-22T08:40:00+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
