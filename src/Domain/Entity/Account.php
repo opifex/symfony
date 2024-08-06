@@ -71,5 +71,6 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[Override]
     public function eraseCredentials(): void
     {
+        // Nothing to do
     }
 }

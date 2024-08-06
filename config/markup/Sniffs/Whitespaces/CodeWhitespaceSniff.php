@@ -23,7 +23,7 @@ class CodeWhitespaceSniff implements Sniff
         $isSpaceInEnd = in_array(needle: $next['code'] ?? null, haystack: $close);
 
         if ($current['content'] !== PHP_EOL && ($isSpaceLong || $isSpaceInBegin || $isSpaceInEnd)) {
-            if ($previous['content'] !== PHP_EOL && $next['content'] !== PHP_EOL) {
+            if ($previous['content'] !== PHP_EOL && $previous['code'] !== T_COMMENT && $next['content'] !== PHP_EOL) {
                 $phpcsFile->addFixableError(
                     error: 'Extra whitespaces must be removed',
                     stackPtr: $stackPtr,

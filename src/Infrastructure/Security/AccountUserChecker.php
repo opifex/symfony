@@ -30,5 +30,6 @@ final class AccountUserChecker implements UserCheckerInterface
     #[Override]
     public function checkPreAuth(UserInterface $user): void
     {
+        // Nothing to do
     }
 }
