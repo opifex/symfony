@@ -24,11 +24,9 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResponse
     {
-        $hashedPassword = $this->accountPasswordHasher->hash($message->password);
-
-        $accountBuilder = new AccountEntityBuilder();
+        $accountBuilder = new AccountEntityBuilder($this->accountPasswordHasher);
         $accountBuilder->setEmailAddress($message->email);
-        $accountBuilder->setHashedPassword($hashedPassword);
+        $accountBuilder->setPlainPassword($message->password);
         $accountBuilder->setDefaultLocale($message->locale);
         $accountBuilder->setAccessRoles([AccountRole::ROLE_USER]);
         $account = $accountBuilder->getAccount();

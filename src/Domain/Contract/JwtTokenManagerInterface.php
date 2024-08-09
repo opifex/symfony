@@ -6,7 +6,6 @@ namespace App\Domain\Contract;
 
 use App\Domain\Exception\JwtTokenManagerException;
 use SensitiveParameter;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 interface JwtTokenManagerInterface
 {
@@ -15,5 +14,5 @@ interface JwtTokenManagerInterface
      */
     public function extractUserIdentifier(#[SensitiveParameter] string $accessToken): string;
 
-    public function generateToken(UserInterface $user): string;
+    public function generateToken(string $userIdentifier): string;
 }

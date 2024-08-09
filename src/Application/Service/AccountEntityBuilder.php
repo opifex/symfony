@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
+use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Entity\Account;
 use Symfony\Component\Uid\Uuid;
 
@@ -11,7 +12,7 @@ final class AccountEntityBuilder
 {
     private string $emailAddress = '';
 
-    private string $hashedPassword = '';
+    private string $plainPassword = '';
 
     private string $defaultLocale = '';
 
@@ -20,6 +21,10 @@ final class AccountEntityBuilder
      */
     private array $accessRoles = [];
 
+    public function __construct(private AccountPasswordHasherInterface $accountPasswordHasher)
+    {
+    }
+
     public function setEmailAddress(string $emailAddress): self
     {
         $this->emailAddress = $emailAddress;
@@ -27,9 +32,9 @@ final class AccountEntityBuilder
         return $this;
     }
 
-    public function setHashedPassword(string $hashedPassword): self
+    public function setPlainPassword(string $plainPassword): self
     {
-        $this->hashedPassword = $hashedPassword;
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
@@ -56,7 +61,7 @@ final class AccountEntityBuilder
         return new Account(
             uuid: Uuid::v7()->toRfc4122(),
             email: $this->emailAddress,
-            password: $this->hashedPassword,
+            password: $this->accountPasswordHasher->hash($this->plainPassword),
             locale: $this->defaultLocale,
             roles: $this->accessRoles,
         );

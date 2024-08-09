@@ -36,7 +36,7 @@ final class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
     #[Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        $secret = $this->jwtTokenManager->generateToken($passport->getUser());
+        $secret = $this->jwtTokenManager->generateToken($passport->getUser()->getUserIdentifier());
 
         return new AuthorizationToken($passport->getUser(), $firewallName, $secret);
     }

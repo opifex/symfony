@@ -23,7 +23,6 @@ use Override;
 use SensitiveParameter;
 use Symfony\Component\Clock\Clock;
 use Symfony\Component\Clock\ClockInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 final class LcobucciJwtAdapter implements JwtTokenManagerInterface
@@ -90,7 +89,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     }
 
     #[Override]
-    public function generateToken(UserInterface $user): string
+    public function generateToken(string $userIdentifier): string
     {
         $tokenIssuedAt = $this->clock->now();
         $tokenExpiresAt = $tokenIssuedAt->add($this->expiration);
@@ -100,7 +99,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         $builder->expiresAt($tokenExpiresAt);
         $builder->identifiedBy(Uuid::v4()->toRfc4122());
         $builder->issuedAt($tokenIssuedAt);
-        $builder->relatedTo($user->getUserIdentifier());
+        $builder->relatedTo($userIdentifier);
 
         $token = $builder->getToken(
             signer: $this->configuration->signer(),
