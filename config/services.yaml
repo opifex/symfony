@@ -7,7 +7,8 @@ services:
     resource: '../src/'
     exclude:
       - '../src/Kernel.php'
-      - '../src/Domain/{Entity,Event,Exception}/'
+      - '../src/Application/{Event}/'
+      - '../src/Domain/{Entity,Exception}/'
       - '../src/Infrastructure/Persistence/Doctrine/{Migration}/'
 
   App\Domain\Contract\JwtTokenManagerInterface:
