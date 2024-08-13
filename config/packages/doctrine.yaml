@@ -4,6 +4,7 @@ doctrine:
     connections:
       default:
         url: '%env(resolve:DATABASE_URL)%'
+        use_savepoints: true
   orm:
     auto_generate_proxy_classes: true
     default_entity_manager: default
