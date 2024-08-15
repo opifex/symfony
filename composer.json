@@ -49,9 +49,9 @@
         "symfony/validator": "7.1.*",
         "symfony/workflow": "7.1.*",
         "symfony/yaml": "7.1.*",
-        "twig/cssinliner-extra": "^3.10",
-        "twig/extra-bundle": "^3.10",
-        "twig/inky-extra": "^3.10"
+        "twig/cssinliner-extra": "^3.11",
+        "twig/extra-bundle": "^3.11",
+        "twig/inky-extra": "^3.11"
     },
     "config": {
         "allow-plugins": {
