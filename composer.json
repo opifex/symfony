@@ -18,7 +18,7 @@
         "ext-xsl": "*",
         "ext-zend-opcache": "*",
         "ext-zip": "*",
-        "doctrine/doctrine-bundle": "^2.12",
+        "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.19",
         "lcobucci/jwt": "^4.3",
@@ -49,9 +49,9 @@
         "symfony/validator": "7.1.*",
         "symfony/workflow": "7.1.*",
         "symfony/yaml": "7.1.*",
-        "twig/cssinliner-extra": "^3.11",
-        "twig/extra-bundle": "^3.11",
-        "twig/inky-extra": "^3.11"
+        "twig/cssinliner-extra": "^3.12",
+        "twig/extra-bundle": "^3.12",
+        "twig/inky-extra": "^3.12"
     },
     "config": {
         "allow-plugins": {
@@ -153,7 +153,7 @@
         "codeception/module-symfony": "^3.4",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
         "fakerphp/faker": "^1.23",
-        "phpstan/phpstan": "^1.11",
+        "phpstan/phpstan": "^1.12",
         "phpstan/phpstan-deprecation-rules": "^1.2",
         "phpstan/phpstan-doctrine": "^1.5",
         "phpstan/phpstan-phpunit": "^1.4",
