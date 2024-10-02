@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf76b1de8c0ed7584dc927522303f8a7",
+    "content-hash": "8b2547e5a0bdcbf6ef988467ac794d79",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -1694,16 +1694,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.31.0",
+            "version": "v4.32.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "322c47b9fa3c5913ec9bbeba537a32407151be73"
+                "reference": "6ea702702ffb3382e9fd9776c868ff7386dbc772"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/322c47b9fa3c5913ec9bbeba537a32407151be73",
-                "reference": "322c47b9fa3c5913ec9bbeba537a32407151be73",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/6ea702702ffb3382e9fd9776c868ff7386dbc772",
+                "reference": "6ea702702ffb3382e9fd9776c868ff7386dbc772",
                 "shasum": ""
             },
             "require": {
@@ -1804,7 +1804,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.31.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.32.0"
             },
             "funding": [
                 {
@@ -1812,7 +1812,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-24T13:56:25+00:00"
+            "time": "2024-09-30T13:06:21+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -9584,16 +9584,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.2.0",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "23c79fbbfb725fb92af9bcf41065c8e9a0d49ddb"
+                "reference": "3abf7425cd284141dc5d8d14a9ee444de3345d1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/23c79fbbfb725fb92af9bcf41065c8e9a0d49ddb",
-                "reference": "23c79fbbfb725fb92af9bcf41065c8e9a0d49ddb",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/3abf7425cd284141dc5d8d14a9ee444de3345d1a",
+                "reference": "3abf7425cd284141dc5d8d14a9ee444de3345d1a",
                 "shasum": ""
             },
             "require": {
@@ -9636,9 +9636,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.2.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.3.0"
             },
-            "time": "2024-09-15T16:40:33+00:00"
+            "time": "2024-09-29T13:56:26+00:00"
         },
         {
             "name": "phar-io/manifest",
