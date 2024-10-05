@@ -106,6 +106,7 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "cache:clear": "symfony-cmd"
         },
+        "debug-audit": "composer audit",
         "debug-composer": "composer validate --strict && composer diagnose",
         "debug-container": "bin/console lint:container",
         "debug-recipes": "composer symfony:recipes",
@@ -124,6 +125,7 @@
         "auto-migrate": "Set up database migrations and messenger transports",
         "auto-quality": "Run quality checks for Symfony application",
         "auto-scripts": "Install public assets and clear the cache",
+        "debug-audit": "Audit security vulnerability advisories",
         "debug-composer": "Validate and diagnose Composer installation",
         "debug-container": "List registered services for application",
         "debug-recipes": "List available recipes for application",
