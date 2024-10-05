@@ -116,7 +116,7 @@
         "migration-create": "bin/console doctrine:migration:generate",
         "migration-down": "bin/console doctrine:migrations:migrate prev",
         "migration-up": "bin/console doctrine:migrations:migrate",
-        "run-unit": "codecept run unit --coverage-html",
+        "run-unit": "codecept run Unit --coverage-html",
         "post-install-cmd": "@auto-scripts",
         "post-update-cmd": "@auto-scripts"
     },
