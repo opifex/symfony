@@ -6,9 +6,12 @@ namespace Tests\Unit;
 
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Security\AccountUserProvider;
 use Codeception\Test\Unit;
+use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,6 +41,9 @@ final class AccountUserProviderTest extends Unit
             email: 'email@example.com',
             password: '',
             locale: 'en_US',
+            status: AccountStatus::CREATED,
+            roles: [AccountRole::ROLE_USER],
+            createdAt: new DateTimeImmutable(),
         );
 
         $this->accountRepository
@@ -73,6 +79,9 @@ final class AccountUserProviderTest extends Unit
             email: 'email@example.com',
             password: '',
             locale: 'en_US',
+            status: AccountStatus::CREATED,
+            roles: [AccountRole::ROLE_USER],
+            createdAt: new DateTimeImmutable(),
         );
 
         $this->accountRepository
@@ -94,6 +103,9 @@ final class AccountUserProviderTest extends Unit
             email: 'email@example.com',
             password: '',
             locale: 'en_US',
+            status: AccountStatus::CREATED,
+            roles: [AccountRole::ROLE_USER],
+            createdAt: new DateTimeImmutable(),
         );
 
         $this->expectException(UnsupportedUserException::class);

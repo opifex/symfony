@@ -6,6 +6,8 @@ namespace App\Application\Service;
 
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountStatus;
+use DateTimeImmutable;
 use Symfony\Component\Uid\Uuid;
 
 final class AccountEntityBuilder
@@ -63,7 +65,9 @@ final class AccountEntityBuilder
             email: $this->emailAddress,
             password: $this->accountPasswordHasher->hash($this->plainPassword),
             locale: $this->defaultLocale,
+            status: AccountStatus::CREATED,
             roles: $this->accessRoles,
+            createdAt: new DateTimeImmutable(),
         );
     }
 }

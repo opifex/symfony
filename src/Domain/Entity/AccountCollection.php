@@ -18,12 +18,12 @@ class AccountCollection implements Countable, IteratorAggregate
     private readonly int $count;
 
     /**
-     * @param Countable&IteratorAggregate<int, Account> $accounts
+     * @param Account[] $accounts
      */
-    public function __construct(Countable&IteratorAggregate $accounts)
+    public function __construct(array $accounts, int $count = null)
     {
-        $this->accounts = iterator_to_array($accounts);
-        $this->count = count($accounts);
+        $this->accounts = $accounts;
+        $this->count = $count ?? count($this->accounts);
     }
 
     #[Override]

@@ -2,32 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Doctrine\Repository;
+namespace App\Infrastructure\Persistence\Doctrine\Repository\Account;
 
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountSearchCriteria;
+use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use LogicException;
 use Override;
 use SensitiveParameter;
-use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
-#[Autoconfigure(lazy: true)]
-class AccountRepository extends AbstractRepository implements AccountRepositoryInterface
+final class AccountRepository implements AccountRepositoryInterface
 {
+    public function __construct(protected EntityManagerInterface $entityManager)
+    {
+    }
+
     #[Override]
     public function findByCriteria(AccountSearchCriteria $criteria): AccountCollection
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
+        $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
 
         if (!is_null($criteria->email)) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
@@ -40,21 +45,27 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
         }
 
         if (!is_null($criteria->sorting)) {
-            $sortingFieldsMapping = [
+            $orderBy = match ($criteria->sorting->order) {
+                SortingOrder::Asc => $builder->expr()->asc(...),
+                SortingOrder::Desc => $builder->expr()->desc(...),
+            };
+
+            $expression = match ($criteria->sorting->field) {
                 AccountSearchCriteria::FIELD_CREATED_AT => 'account.createdAt',
                 AccountSearchCriteria::FIELD_EMAIL => 'account.email',
                 AccountSearchCriteria::FIELD_STATUS => 'account.status',
-            ];
-            $builder->orderBy($this->buildOrderBy($criteria->sorting, $sortingFieldsMapping));
+                default => throw new LogicException(
+                    message: sprintf('Sorting field "%s" is not supported.', $criteria->sorting->field),
+                ),
+            };
+
+            $builder->addOrderBy($orderBy($expression));
         }
 
         $builder->setFirstResult($criteria->pagination?->offset);
         $builder->setMaxResults($criteria->pagination?->limit);
 
-        $accountCollection = new AccountCollection(new Paginator($builder));
-        $this->entityManager->clear();
-
-        return $accountCollection;
+        return AccountMapper::mapMany(new Paginator($builder));
     }
 
     /**
@@ -64,16 +75,15 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function findOneByEmail(string $email): Account
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
+        $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
         $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
 
         try {
-            /** @var Account $account */
+            /** @var AccountEntity $account */
             $account = $builder->getQuery()->getSingleResult();
-            $this->entityManager->clear();
 
-            return $account;
+            return AccountMapper::mapOne($account);
         } catch (NoResultException $e) {
             throw new AccountNotFoundException(
                 message: 'Account with provided identifier not found.',
@@ -89,16 +99,15 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function findOneByUuid(string $uuid): Account
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->select(select: 'account')->from(from: Account::class, alias: 'account');
+        $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 
         try {
-            /** @var Account $account */
+            /** @var AccountEntity $account */
             $account = $builder->getQuery()->getSingleResult();
-            $this->entityManager->clear();
 
-            return $account;
+            return AccountMapper::mapOne($account);
         } catch (NoResultException $e) {
             throw new AccountNotFoundException(
                 message: 'Account with provided identifier not found.',
@@ -111,7 +120,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function updateEmailByUuid(string $uuid, string $email): void
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->update(update: Account::class, alias: 'account');
+        $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.email', value: ':email');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
@@ -128,7 +137,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function updatePasswordByUuid(string $uuid, #[SensitiveParameter] string $password): void
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->update(update: Account::class, alias: 'account');
+        $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.password', value: ':password');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
@@ -145,7 +154,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function updateStatusByUuid(string $uuid, string $status): void
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->update(update: Account::class, alias: 'account');
+        $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.status', value: ':status');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
@@ -162,7 +171,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function updateRolesByUuid(string $uuid, array $roles): void
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->update(update: Account::class, alias: 'account');
+        $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.roles', value: ':roles');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
@@ -179,7 +188,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function updateLocaleByUuid(string $uuid, string $locale): void
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->update(update: Account::class, alias: 'account');
+        $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.locale', value: ':locale');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
@@ -199,7 +208,28 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function addOneAccount(Account $account): void
     {
         try {
-            $this->addOneEntity($account);
+            $entity = new AccountEntity(
+                uuid: $account->getUuid(),
+                createdAt: $account->getCreatedAt(),
+                email: $account->getEmail(),
+                password: $account->getPassword(),
+                locale: $account->getLocale(),
+                roles: $account->getRoles(),
+                status: $account->getStatus(),
+            );
+
+            $classMetadata = $this->entityManager->getClassMetadata($entity::class);
+            $convertToDatabaseValue = $this->entityManager->getConnection()->convertToDatabaseValue(...);
+            $tableFields = [];
+
+            foreach ($classMetadata->getFieldNames() as $fieldName) {
+                $tableFields[$classMetadata->getColumnName($fieldName)] = $convertToDatabaseValue(
+                    value: $classMetadata->getFieldValue($entity, $fieldName),
+                    type: $classMetadata->getTypeOfField($fieldName) ?? '',
+                );
+            }
+
+            $this->entityManager->getConnection()->insert($classMetadata->getTableName(), $tableFields);
         } catch (UniqueConstraintViolationException $e) {
             throw new AccountAlreadyExistsException(
                 message: 'Email address is already associated with another account.',
@@ -212,7 +242,7 @@ class AccountRepository extends AbstractRepository implements AccountRepositoryI
     public function deleteOneByUuid(string $uuid): void
     {
         $builder = $this->entityManager->createQueryBuilder();
-        $builder->delete()->from(from: Account::class, alias: 'account');
+        $builder->delete()->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 

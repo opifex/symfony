@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Infrastructure\Security\AccountUserChecker;
 use Codeception\Test\Unit;
+use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -36,6 +38,9 @@ final class AccountUserCheckerTest extends Unit
             email: 'email@example.com',
             password: '',
             locale: 'en_US',
+            status: AccountStatus::CREATED,
+            roles: [AccountRole::ROLE_USER],
+            createdAt: new DateTimeImmutable(),
         );
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
@@ -60,6 +65,8 @@ final class AccountUserCheckerTest extends Unit
             password: '',
             locale: 'en_US',
             status: AccountStatus::ACTIVATED,
+            roles: [AccountRole::ROLE_USER],
+            createdAt: new DateTimeImmutable(),
         );
         $accountUserChecker->checkPostAuth($account);
 

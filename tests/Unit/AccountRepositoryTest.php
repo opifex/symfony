@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
+use App\Domain\Entity\SearchSorting;
+use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountNotFoundException;
-use App\Infrastructure\Persistence\Doctrine\Repository\AccountRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\Account\AccountRepository;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
+use LogicException;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,6 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class AccountRepositoryTest extends Unit
 {
     private EntityManagerInterface&MockObject $entityManager;
+
     private Query&MockObject $query;
 
     /**
@@ -40,14 +45,35 @@ final class AccountRepositoryTest extends Unit
             ->willReturn($queryBuilder);
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects($this->any())
+            ->method(constraint: 'select')
+            ->willReturn($queryBuilder);
+
+        $queryBuilder
+            ->expects($this->any())
+            ->method(constraint: 'from')
+            ->willReturn($queryBuilder);
+
+        $queryBuilder
+            ->expects($this->any())
             ->method(constraint: 'getQuery')
             ->willReturn($this->query);
 
         $queryBuilder
-            ->expects($this->once())
+            ->expects($this->any())
             ->method(constraint: 'expr')
             ->willReturn($expr);
+    }
+
+    public function testFindByCriteriaWithInvalidSorting(): void
+    {
+        $accountRepository = new AccountRepository($this->entityManager);
+
+        $this->expectException(LogicException::class);
+
+        $sorting = new SearchSorting(field: 'invalid', order: SortingOrder::Asc);
+        $criteria = new AccountSearchCriteria(sorting: $sorting);
+        $accountRepository->findByCriteria($criteria);
     }
 
     public function testUpdateEmailByUuid(): void

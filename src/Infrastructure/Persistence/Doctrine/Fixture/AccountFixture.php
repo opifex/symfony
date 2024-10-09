@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Doctrine\Fixture;
 
-use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
+use App\Infrastructure\Persistence\Doctrine\Repository\Account\AccountEntity;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -23,28 +24,36 @@ final class AccountFixture extends Fixture implements FixtureInterface
         $passwordHasher = new NativePasswordHasher();
         $password = $passwordHasher->hash(plainPassword: 'password4#account');
 
-        $adminAccount = new Account(
+        $adminAccount = new AccountEntity(
             uuid: $faker->unique()->uuid(),
+            createdAt: new DateTimeImmutable(),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $password,
-            status: AccountStatus::ACTIVATED,
+            locale: 'en_US',
             roles: [AccountRole::ROLE_ADMIN],
+            status: AccountStatus::ACTIVATED,
         );
         $manager->persist($adminAccount);
 
-        $userAccount = new Account(
+        $userAccount = new AccountEntity(
             uuid: $faker->unique()->uuid(),
+            createdAt: new DateTimeImmutable(),
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $password,
+            locale: 'en_US',
+            roles: [AccountRole::ROLE_USER],
             status: AccountStatus::ACTIVATED,
         );
         $manager->persist($userAccount);
 
         for ($index = 1; $index <= 10; $index++) {
-            $account = new Account(
+            $account = new AccountEntity(
                 uuid: $faker->unique()->uuid(),
+                createdAt: new DateTimeImmutable(),
                 email: $faker->unique()->email(),
                 password: $password,
+                locale: 'en_US',
+                roles: [AccountRole::ROLE_USER],
                 status: $faker->bothify($faker->randomElement(array: AccountStatus::STATUSES)),
             );
             $manager->persist($account);
