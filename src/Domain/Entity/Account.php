@@ -65,7 +65,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[Override]
     public function getUserIdentifier(): string
     {
-        return $this->uuid;
+        return $this->email;
     }
 
     #[Override]

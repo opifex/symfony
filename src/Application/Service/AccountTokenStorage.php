@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\AccountAuthorizationFetcherInterface;
+use App\Domain\Contract\AccountTokenStorageInterface;
 use App\Domain\Entity\Account;
-use App\Domain\Entity\AuthorizationToken;
 use App\Domain\Exception\AccountUnauthorizedException;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class AccountAuthorizationFetcher implements AccountAuthorizationFetcherInterface
+class AccountTokenStorage implements AccountTokenStorageInterface
 {
     public function __construct(private TokenStorageInterface $tokenStorage)
     {
     }
 
     #[Override]
-    public function fetchAccount(): Account
+    public function getAccount(): Account
     {
         $user = $this->tokenStorage->getToken()?->getUser();
 
@@ -29,19 +28,5 @@ final class AccountAuthorizationFetcher implements AccountAuthorizationFetcherIn
         }
 
         return $user;
-    }
-
-    #[Override]
-    public function fetchToken(): AuthorizationToken
-    {
-        $token = $this->tokenStorage->getToken();
-
-        if (!$token instanceof AuthorizationToken) {
-            throw new AccountUnauthorizedException(
-                message: 'An authentication exception occurred.',
-            );
-        }
-
-        return $token;
     }
 }

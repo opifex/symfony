@@ -71,30 +71,6 @@ final class AccountUserProviderTest extends Unit
         $accountUserProvider->loadUserByIdentifier(identifier: 'invalid@example.com');
     }
 
-    public function testLoadUserByIdentifierWithUuid(): void
-    {
-        $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = new Account(
-            uuid: Uuid::v7()->toRfc4122(),
-            email: 'email@example.com',
-            password: '',
-            locale: 'en_US',
-            status: AccountStatus::CREATED,
-            roles: [AccountRole::ROLE_USER],
-            createdAt: new DateTimeImmutable(),
-        );
-
-        $this->accountRepository
-            ->expects($this->once())
-            ->method(constraint: 'findOneByUuid')
-            ->with($account->getUuid())
-            ->willReturn($account);
-
-        $loadedUser = $accountUserProvider->loadUserByIdentifier($account->getUuid());
-
-        $this->assertSame($account, $loadedUser);
-    }
-
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);

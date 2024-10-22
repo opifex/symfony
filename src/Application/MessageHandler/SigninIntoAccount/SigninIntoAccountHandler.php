@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SigninIntoAccount;
 
-use App\Domain\Contract\AccountAuthorizationFetcherInterface;
+use App\Domain\Contract\JwtTokenManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final class SigninIntoAccountHandler
 {
-    public function __construct(private AccountAuthorizationFetcherInterface $accountAuthorizationFetcher)
+    public function __construct(private JwtTokenManagerInterface $jwtTokenManager)
     {
     }
 
     public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResponse
     {
-        $token = $this->accountAuthorizationFetcher->fetchToken();
+        $accessToken = $this->jwtTokenManager->generateToken($message->email);
 
-        return new SigninIntoAccountResponse($token);
+        return new SigninIntoAccountResponse($accessToken);
     }
 }

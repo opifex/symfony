@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Service\AccountAuthorizationFetcher;
+use App\Application\Service\AccountTokenStorage;
 use App\Domain\Exception\AccountUnauthorizedException;
 use Codeception\Test\Unit;
 use Override;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class AccountAuthorizationFetcherTest extends Unit
+final class AccountTokenStorageTest extends Unit
 {
     private TokenStorageInterface&MockObject $tokenStorage;
 
@@ -27,7 +27,7 @@ final class AccountAuthorizationFetcherTest extends Unit
 
     public function testFetchAccountThrowsExceptionWithUnauthorizedUser(): void
     {
-        $accountAuthorizationFetcher = new AccountAuthorizationFetcher($this->tokenStorage);
+        $accountAuthorizationFetcher = new AccountTokenStorage($this->tokenStorage);
 
         $this->tokenStorage
             ->expects($this->once())
@@ -36,20 +36,6 @@ final class AccountAuthorizationFetcherTest extends Unit
 
         $this->expectException(exception: AccountUnauthorizedException::class);
 
-        $accountAuthorizationFetcher->fetchAccount();
-    }
-
-    public function testFetchTokenThrowsExceptionWithUnauthorizedUser(): void
-    {
-        $accountAuthorizationFetcher = new AccountAuthorizationFetcher($this->tokenStorage);
-
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method(constraint: 'getToken')
-            ->willReturn(value: null);
-
-        $this->expectException(exception: AccountUnauthorizedException::class);
-
-        $accountAuthorizationFetcher->fetchToken();
+        $accountAuthorizationFetcher->getAccount();
     }
 }
