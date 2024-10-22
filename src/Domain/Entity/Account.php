@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Contract\ActivatedUserInterface;
 use DateTimeImmutable;
 use Override;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Account implements UserInterface, PasswordAuthenticatedUserInterface
+class Account implements ActivatedUserInterface, PasswordAuthenticatedUserInterface, UserInterface
 {
     /**
      * @param string[] $roles
@@ -60,6 +61,12 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    #[Override]
+    public function isActivated(): bool
+    {
+        return $this->status === AccountStatus::ACTIVATED;
     }
 
     #[Override]

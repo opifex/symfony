@@ -38,7 +38,7 @@ final class AccountUserCheckerTest extends Unit
             email: 'email@example.com',
             password: '',
             locale: 'en_US',
-            status: AccountStatus::CREATED,
+            status: AccountStatus::BLOCKED,
             roles: [AccountRole::ROLE_USER],
             createdAt: new DateTimeImmutable(),
         );

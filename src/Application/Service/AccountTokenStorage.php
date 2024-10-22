@@ -10,7 +10,7 @@ use App\Domain\Exception\AccountUnauthorizedException;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class AccountTokenStorage implements AccountTokenStorageInterface
+final class AccountTokenStorage implements AccountTokenStorageInterface
 {
     public function __construct(private TokenStorageInterface $tokenStorage)
     {
