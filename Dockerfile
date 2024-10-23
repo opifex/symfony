@@ -18,8 +18,8 @@ RUN set -e \
     && apk add --virtual .build-deps $PHPIZE_DEPS \
     && docker-php-ext-install gd intl opcache pcntl pdo_pgsql xsl zip \
     && pecl install amqp-2.1.2 && docker-php-ext-enable amqp \
-    && pecl install apcu-5.1.23 && docker-php-ext-enable apcu \
-    && pecl install redis-6.0.2 && docker-php-ext-enable redis \
+    && pecl install apcu-5.1.24 && docker-php-ext-enable apcu \
+    && pecl install redis-6.1.0 && docker-php-ext-enable redis \
     && pecl install xdebug-3.3.2 && docker-php-ext-enable xsl \
     && pecl clear-cache && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
