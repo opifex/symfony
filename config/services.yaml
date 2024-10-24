@@ -7,9 +7,6 @@ services:
     resource: '../src/'
     exclude:
       - '../src/Kernel.php'
-      - '../src/Application/{Event}/'
-      - '../src/Domain/{Entity,Exception}/'
-      - '../src/Infrastructure/Persistence/Doctrine/{Migration}/'
 
   App\Domain\Contract\JwtTokenManagerInterface:
     class: App\Infrastructure\Adapter\LcobucciJwtAdapter

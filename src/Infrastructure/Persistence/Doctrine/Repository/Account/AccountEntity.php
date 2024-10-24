@@ -7,7 +7,9 @@ namespace App\Infrastructure\Persistence\Doctrine\Repository\Account;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as Mapping;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
+#[Exclude]
 #[Mapping\Entity]
 #[Mapping\Table(name: 'account')]
 final class AccountEntity

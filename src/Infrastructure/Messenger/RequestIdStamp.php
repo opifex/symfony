@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Messenger;
 
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Messenger\Stamp\StampInterface;
 
+#[Exclude]
 final class RequestIdStamp implements StampInterface
 {
     public function __construct(private string $requestId)

@@ -7,9 +7,11 @@ namespace App\Infrastructure\Adapter;
 use App\Domain\Contract\TemplateRendererInterface;
 use App\Domain\Exception\TemplateRendererException;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Twig\Environment;
 use Twig\Error\Error;
 
+#[Exclude]
 final class SensiolabsTwigAdapter implements TemplateRendererInterface
 {
     public function __construct(private Environment $environment)

@@ -8,7 +8,9 @@ use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
 use Countable;
 use IteratorAggregate;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
+#[Exclude]
 final class AccountMapper
 {
     public static function mapOne(AccountEntity $account): Account

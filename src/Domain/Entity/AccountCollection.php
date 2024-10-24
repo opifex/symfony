@@ -8,8 +8,10 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Traversable;
 
+#[Exclude]
 class AccountCollection implements Countable, IteratorAggregate
 {
     /** @var Account[] */

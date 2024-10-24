@@ -7,9 +7,11 @@ namespace App\Domain\Entity;
 use App\Domain\Contract\ActivatedUserInterface;
 use DateTimeImmutable;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#[Exclude]
 class Account implements ActivatedUserInterface, PasswordAuthenticatedUserInterface, UserInterface
 {
     /**

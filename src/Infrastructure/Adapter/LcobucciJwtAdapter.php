@@ -23,8 +23,10 @@ use Override;
 use SensitiveParameter;
 use Symfony\Component\Clock\Clock;
 use Symfony\Component\Clock\ClockInterface;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Uid\Uuid;
 
+#[Exclude]
 final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 {
     private readonly ClockInterface $clock;
