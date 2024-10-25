@@ -11,14 +11,12 @@ doctrine:
     enable_lazy_ghost_objects: true
     entity_managers:
       default:
-        auto_mapping: false
         connection: default
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        validate_xml_mapping: true
         mappings:
-          default:
-            dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Doctrine'
-            prefix: App\Infrastructure\Persistence\Doctrine
+          App\Infrastructure\Persistence\Doctrine\Repository\Account:
+            dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Doctrine/Repository/Account'
+            prefix: App\Infrastructure\Persistence\Doctrine\Repository\Account
             type: attribute
 
 when@test:
