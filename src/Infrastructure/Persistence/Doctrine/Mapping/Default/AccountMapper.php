@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Doctrine\Repository\Account;
+namespace App\Infrastructure\Persistence\Doctrine\Mapping\Default;
 
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;

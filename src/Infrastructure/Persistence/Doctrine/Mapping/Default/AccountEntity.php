@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Doctrine\Repository\Account;
+namespace App\Infrastructure\Persistence\Doctrine\Mapping\Default;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;

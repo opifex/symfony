@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Doctrine\Repository\Account;
+namespace App\Infrastructure\Persistence\Doctrine\Repository;
 
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
@@ -11,6 +11,8 @@ use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
+use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountEntity;
+use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountMapper;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Types\Types;

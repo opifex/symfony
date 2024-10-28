@@ -14,9 +14,9 @@ doctrine:
         connection: default
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         mappings:
-          App\Infrastructure\Persistence\Doctrine\Repository\Account:
-            dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Doctrine/Repository/Account'
-            prefix: App\Infrastructure\Persistence\Doctrine\Repository\Account
+          Default:
+            dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Doctrine/Mapping/Default'
+            prefix: App\Infrastructure\Persistence\Doctrine\Mapping\Default
             type: attribute
 
 when@test:

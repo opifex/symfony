@@ -10,7 +10,7 @@ use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SearchSorting;
 use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountNotFoundException;
-use App\Infrastructure\Persistence\Doctrine\Repository\Account\AccountRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\AccountRepository;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;

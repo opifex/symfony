@@ -6,7 +6,7 @@ namespace App\Infrastructure\Persistence\Doctrine\Fixture;
 
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
-use App\Infrastructure\Persistence\Doctrine\Repository\Account\AccountEntity;
+use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountEntity;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
