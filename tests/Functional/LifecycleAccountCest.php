@@ -9,6 +9,7 @@ use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Infrastructure\Persistence\Doctrine\Fixture\AccountFixture;
 use Codeception\Util\HttpCode;
+use Exception;
 use Tests\Support\FunctionalTester;
 
 final class LifecycleAccountCest
@@ -32,6 +33,9 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
     }
 
+    /**
+     * @throws Exception
+     */
     public function invalidActionsWithUserAccount(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
@@ -77,6 +81,9 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
     }
 
+    /**
+     * @throws Exception
+     */
     public function actionsWithNewAccount(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
@@ -149,6 +156,9 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
     }
 
+    /**
+     * @throws Exception
+     */
     public function applyActionToAccount(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
@@ -182,6 +192,9 @@ final class LifecycleAccountCest
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
     }
 
+    /**
+     * @throws Exception
+     */
     public function updateAccountWithExistedEmail(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountFixture::class);
