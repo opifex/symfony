@@ -20,6 +20,7 @@ coverage:
     - src/*
   exclude:
     - src/Domain/*
+    - src/Infrastructure/Persistence/Doctrine/Fixture/*
     - src/Infrastructure/Persistence/Doctrine/Migration/*
     - src/Kernel.php
 extensions:

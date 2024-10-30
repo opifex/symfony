@@ -6,7 +6,7 @@ namespace Tests\Functional;
 
 use Tests\Support\FunctionalTester;
 
-final class LifecycleConsoleCest
+final class AppSymfonyRunCest
 {
     public function runAppSymfonyRunCommand(FunctionalTester $i): void
     {

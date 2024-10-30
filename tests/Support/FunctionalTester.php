@@ -6,6 +6,7 @@ namespace Tests\Support;
 
 use Codeception\Actor;
 use Codeception\Util\HttpCode;
+use Exception;
 
 /**
  * Inherited Methods
@@ -20,14 +21,14 @@ use Codeception\Util\HttpCode;
  * @method void comment($description)
  * @method void pause($vars = [])
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class FunctionalTester extends Actor
 {
     use _generated\FunctionalTesterActions;
 
-    public function getDefaultPassword(): string
+    public function getSchemaPath(string $schema): string
     {
-        return 'password4#account';
+        return codecept_data_dir() . 'Schema/' . $schema;
     }
 
     public function haveHttpHeaderApplicationJson(): void
@@ -35,16 +36,13 @@ class FunctionalTester extends Actor
         $this->haveHttpHeader(name: 'Content-Type', value: 'application/json');
     }
 
-    public function haveHttpHeaderAuthorizationAdmin(): void
+    /**
+     * @throws Exception
+     */
+    public function haveHttpHeaderAuthorizationAdmin(string $email, string $password): void
     {
         $this->haveHttpHeaderApplicationJson();
-        $this->sendPost(
-            url: '/api/auth/signin',
-            params: json_encode([
-                'email' => 'admin@example.com',
-                'password' => $this->getDefaultPassword(),
-            ]),
-        );
+        $this->sendPost(url: '/api/auth/signin', params: json_encode(['email' => $email, 'password' => $password]));
         $this->seeResponseCodeIs(code: HttpCode::OK);
         $this->seeResponseIsJson();
 

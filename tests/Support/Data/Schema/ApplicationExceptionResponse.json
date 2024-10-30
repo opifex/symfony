@@ -1,0 +1,69 @@
+{
+    "type": "object",
+    "properties": {
+        "code": {
+            "type": "string",
+            "format": "uuid"
+        },
+        "error": {
+            "type": "string"
+        },
+        "violations": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "reason": {
+                        "type": "string"
+                    },
+                    "object": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                },
+                "required": [
+                    "name",
+                    "reason",
+                    "object",
+                    "value"
+                ]
+            }
+        },
+        "trace": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "line": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "file",
+                    "type",
+                    "line"
+                ],
+                "additionalProperties": false
+            }
+        }
+    },
+    "required": [
+        "code",
+        "error"
+    ],
+    "additionalProperties": false
+}
