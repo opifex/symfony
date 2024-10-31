@@ -34,7 +34,8 @@
                     "reason",
                     "object",
                     "value"
-                ]
+                ],
+                "additionalProperties": false
             }
         },
         "trace": {
