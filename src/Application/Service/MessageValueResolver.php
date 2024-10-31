@@ -6,7 +6,6 @@ namespace App\Application\Service;
 
 use App\Application\Attribute\MapMessage;
 use App\Domain\Exception\MessageExtraParamsException;
-use App\Domain\Exception\MessageNormalizationException;
 use App\Domain\Exception\MessageParamTypeException;
 use Override;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,10 +40,6 @@ final class MessageValueResolver implements ValueResolverInterface
             $params = (array) $this->normalizer->normalize($request);
             $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
             $type = $argument->getType() ?? '';
-
-            if ($params === [] && $request->getContent() !== '') {
-                throw new MessageNormalizationException(message: 'Could not decode request body.');
-            }
 
             try {
                 $message = $this->denormalizer->denormalize($params, $type, context: $context);

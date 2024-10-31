@@ -6,7 +6,7 @@ namespace Tests\Functional;
 
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
-use Tests\Support\Data\Fixture\AccountRegisteredFixture;
+use Tests\Support\Data\Fixture\AccountUserFixture;
 use Tests\Support\FunctionalTester;
 
 final class SigninIntoAccountCest
@@ -26,7 +26,7 @@ final class SigninIntoAccountCest
 
     public function signinUsingRegisteredCredentials(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountRegisteredFixture::class);
+        $i->loadFixtures(fixtures: AccountUserFixture::class);
         $i->haveHttpHeaderApplicationJson();
         $i->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'registered@example.com',
@@ -45,6 +45,15 @@ final class SigninIntoAccountCest
             'password' => 'password4#account',
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
+        $i->seeResponseIsJson();
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+    }
+
+    public function signinUsingInvalidJson(FunctionalTester $i): void
+    {
+        $i->haveHttpHeaderApplicationJson();
+        $i->sendPost(url: '/api/auth/signin', params: '[...]');
+        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
         $i->seeResponseIsJson();
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
     }

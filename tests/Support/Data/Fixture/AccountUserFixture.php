@@ -31,7 +31,7 @@ final class AccountUserFixture extends Fixture implements FixtureInterface
             password: $password,
             locale: 'en_US',
             roles: [AccountRole::ROLE_USER],
-            status: AccountStatus::ACTIVATED,
+            status: AccountStatus::REGISTERED,
         );
         $manager->persist($account);
         $manager->flush();

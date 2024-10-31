@@ -4,12 +4,26 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Symfony\Component\Console\Command\Command;
 use Tests\Support\FunctionalTester;
 
 final class AppSymfonyRunCest
 {
-    public function runAppSymfonyRunCommand(FunctionalTester $i): void
+    public function runCommand(FunctionalTester $i): void
     {
-        $i->runSymfonyConsoleCommand(command: 'app:symfony:run');
+        $i->runSymfonyConsoleCommand(
+            command: 'app:symfony:run',
+            parameters: ['--count' => 1, '--delay' => 0],
+            expectedExitCode: Command::SUCCESS,
+        );
+    }
+
+    public function runCommandUsingInvalidParameters(FunctionalTester $i): void
+    {
+        $i->runSymfonyConsoleCommand(
+            command: 'app:symfony:run',
+            parameters: ['--count' => -1],
+            expectedExitCode: Command::FAILURE,
+        );
     }
 }
