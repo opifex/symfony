@@ -30,7 +30,7 @@ final class AccountRegisteredFixture extends Fixture implements FixtureInterface
             email: $faker->unique()->bothify(string: 'registered@example.com'),
             password: $password,
             locale: 'en_US',
-            roles: [AccountRole::ROLE_ADMIN],
+            roles: [AccountRole::ROLE_USER],
             status: AccountStatus::REGISTERED,
         );
         $manager->persist($account);
