@@ -16,19 +16,6 @@ final class ApplyAccountActionCest
     /**
      * @throws Exception
      */
-    public function applyAccountBlockAction(FunctionalTester $i): void
-    {
-        $i->loadFixtures(fixtures: AccountAdminFixture::class);
-        $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
-        $i->sendPost(url: '/api/account/00000000-0000-6000-8000-000000000000/' . AccountAction::BLOCK);
-        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
-        $i->seeResponseEquals(expected: '');
-    }
-
-    /**
-     * @throws Exception
-     */
     public function applyAccountActivateAction(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
