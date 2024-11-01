@@ -1,4 +1,4 @@
-FROM composer:2.8.1 AS composer
+FROM composer:2.8.2 AS composer
 # set working directory
 WORKDIR /tmp
 # copy composer files
@@ -35,6 +35,8 @@ COPY --from=composer /tmp/keys.tags.pub /root/.composer/keys.tags.pub
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --from=composer /tmp/vendor ./vendor
 COPY . .
+# add working directory to git safe list
+RUN git config --global --add safe.directory $PWD
 # create directories and change system rights
 RUN mkdir -p $PWD/public/bundles $PWD/var && chown -R www-data:www-data $PWD
 # clear environment variables and dump autoload
