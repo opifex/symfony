@@ -15,7 +15,7 @@ final class CreateNewAccountCest
     /**
      * @throws Exception
      */
-    public function createNewAccount(FunctionalTester $i): void
+    public function createNewUserAccount(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->haveHttpHeaderApplicationJson();

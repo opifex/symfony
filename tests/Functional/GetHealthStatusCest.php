@@ -10,7 +10,7 @@ use Tests\Support\FunctionalTester;
 
 final class GetHealthStatusCest
 {
-    public function getHealthStatus(FunctionalTester $i): void
+    public function getSuccessHealthStatus(FunctionalTester $i): void
     {
         $i->haveHttpHeaderApplicationJson();
         $i->sendGet(url: '/api/health');

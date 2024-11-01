@@ -9,7 +9,7 @@ use Tests\Support\FunctionalTester;
 
 final class AppSymfonyRunCest
 {
-    public function runCommand(FunctionalTester $i): void
+    public function runCommandUsingValidParameters(FunctionalTester $i): void
     {
         $i->runSymfonyConsoleCommand(
             command: 'app:symfony:run',

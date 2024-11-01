@@ -16,7 +16,7 @@ final class ApplyAccountActionCest
     /**
      * @throws Exception
      */
-    public function applyAccountActivateAction(FunctionalTester $i): void
+    public function applyValidAccountAction(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->loadFixtures(fixtures: AccountUserFixture::class);
@@ -30,7 +30,7 @@ final class ApplyAccountActionCest
     /**
      * @throws Exception
      */
-    public function applyAccountRegisterAction(FunctionalTester $i): void
+    public function applyInvalidAccountAction(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->loadFixtures(fixtures: AccountUserFixture::class);

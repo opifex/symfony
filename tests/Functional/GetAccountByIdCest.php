@@ -14,7 +14,7 @@ final class GetAccountByIdCest
     /**
      * @throws Exception
      */
-    public function getAccountUsingUuid(FunctionalTester $i): void
+    public function getAccountUsingValidUuid(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->haveHttpHeaderApplicationJson();

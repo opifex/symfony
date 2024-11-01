@@ -7,6 +7,7 @@ namespace Tests\Functional;
 use Codeception\Util\HttpCode;
 use Exception;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
+use Tests\Support\Data\Fixture\AccountUserFixture;
 use Tests\Support\FunctionalTester;
 
 final class DeleteAccountByIdCest
@@ -14,12 +15,13 @@ final class DeleteAccountByIdCest
     /**
      * @throws Exception
      */
-    public function deleteAccount(FunctionalTester $i): void
+    public function deleteAccountUsingValidUuid(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
+        $i->loadFixtures(fixtures: AccountUserFixture::class);
         $i->haveHttpHeaderApplicationJson();
         $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
-        $i->sendDelete(url: '/api/account/00000000-0000-6000-8000-000000000000');
+        $i->sendDelete(url: '/api/account/00000000-0000-6000-8001-000000000000');
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
         $i->seeResponseEquals(expected: '');
     }

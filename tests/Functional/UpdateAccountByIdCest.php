@@ -16,7 +16,7 @@ final class UpdateAccountByIdCest
     /**
      * @throws Exception
      */
-    public function updateAccount(FunctionalTester $i): void
+    public function updateAccountInfo(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->haveHttpHeaderApplicationJson();
