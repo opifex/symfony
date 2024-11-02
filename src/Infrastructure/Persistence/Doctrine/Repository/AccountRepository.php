@@ -26,14 +26,14 @@ use SensitiveParameter;
 
 final class AccountRepository implements AccountRepositoryInterface
 {
-    public function __construct(protected EntityManagerInterface $entityManager)
+    public function __construct(protected EntityManagerInterface $defaultEntityManager)
     {
     }
 
     #[Override]
     public function findByCriteria(AccountSearchCriteria $criteria): AccountCollection
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
 
         if (!is_null($criteria->email)) {
@@ -76,7 +76,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function findOneByEmail(string $email): Account
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
         $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
@@ -100,7 +100,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function findOneByUuid(string $uuid): Account
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
@@ -121,7 +121,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function updateEmailByUuid(string $uuid, string $email): void
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.email', value: ':email');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
@@ -138,7 +138,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function updatePasswordByUuid(string $uuid, #[SensitiveParameter] string $password): void
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.password', value: ':password');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
@@ -155,7 +155,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function updateStatusByUuid(string $uuid, string $status): void
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.status', value: ':status');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
@@ -172,7 +172,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function updateRolesByUuid(string $uuid, array $roles): void
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.roles', value: ':roles');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
@@ -189,7 +189,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function updateLocaleByUuid(string $uuid, string $locale): void
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.locale', value: ':locale');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
@@ -220,8 +220,8 @@ final class AccountRepository implements AccountRepositoryInterface
                 status: $account->getStatus(),
             );
 
-            $classMetadata = $this->entityManager->getClassMetadata($entity::class);
-            $convertToDatabaseValue = $this->entityManager->getConnection()->convertToDatabaseValue(...);
+            $classMetadata = $this->defaultEntityManager->getClassMetadata($entity::class);
+            $convertToDatabaseValue = $this->defaultEntityManager->getConnection()->convertToDatabaseValue(...);
             $tableFields = [];
 
             foreach ($classMetadata->getFieldNames() as $fieldName) {
@@ -231,7 +231,7 @@ final class AccountRepository implements AccountRepositoryInterface
                 );
             }
 
-            $this->entityManager->getConnection()->insert($classMetadata->getTableName(), $tableFields);
+            $this->defaultEntityManager->getConnection()->insert($classMetadata->getTableName(), $tableFields);
         } catch (UniqueConstraintViolationException $e) {
             throw new AccountAlreadyExistsException(
                 message: 'Email address is already associated with another account.',
@@ -243,7 +243,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function deleteOneByUuid(string $uuid): void
     {
-        $builder = $this->entityManager->createQueryBuilder();
+        $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
