@@ -13,8 +13,6 @@ use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountEntity;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountMapper;
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -204,39 +202,20 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     /**
-     * @throws Exception
+     * @throws NonUniqueResultException
      */
     #[Override]
     public function addOneAccount(Account $account): void
     {
         try {
-            $entity = new AccountEntity(
-                uuid: $account->getUuid(),
-                createdAt: $account->getCreatedAt(),
-                email: $account->getEmail(),
-                password: $account->getPassword(),
-                locale: $account->getLocale(),
-                roles: $account->getRoles(),
-                status: $account->getStatus(),
-            );
-
-            $classMetadata = $this->defaultEntityManager->getClassMetadata($entity::class);
-            $convertToDatabaseValue = $this->defaultEntityManager->getConnection()->convertToDatabaseValue(...);
-            $tableFields = [];
-
-            foreach ($classMetadata->getFieldNames() as $fieldName) {
-                $tableFields[$classMetadata->getColumnName($fieldName)] = $convertToDatabaseValue(
-                    value: $classMetadata->getFieldValue($entity, $fieldName),
-                    type: $classMetadata->getTypeOfField($fieldName) ?? '',
-                );
-            }
-
-            $this->defaultEntityManager->getConnection()->insert($classMetadata->getTableName(), $tableFields);
-        } catch (UniqueConstraintViolationException $e) {
+            $this->findOneByEmail($account->getEmail());
             throw new AccountAlreadyExistsException(
                 message: 'Email address is already associated with another account.',
-                previous: $e,
             );
+        } catch (AccountNotFoundException) {
+            $entity = AccountMapper::mapEntity($account);
+            $this->defaultEntityManager->persist($entity);
+            $this->defaultEntityManager->flush();
         }
     }
 

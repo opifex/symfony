@@ -13,6 +13,19 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class AccountMapper
 {
+    public static function mapEntity(Account $account): AccountEntity
+    {
+        return new AccountEntity(
+            uuid: $account->getUuid(),
+            createdAt: $account->getCreatedAt(),
+            email: $account->getEmail(),
+            password: $account->getPassword(),
+            locale: $account->getLocale(),
+            roles: $account->getRoles(),
+            status: $account->getStatus(),
+        );
+    }
+
     public static function mapOne(AccountEntity $account): Account
     {
         return new Account(
