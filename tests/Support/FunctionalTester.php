@@ -41,7 +41,6 @@ class FunctionalTester extends Actor
      */
     public function haveHttpHeaderAuthorizationAdmin(string $email, string $password): void
     {
-        $this->haveHttpHeaderApplicationJson();
         $this->sendPost(url: '/api/auth/signin', params: json_encode(['email' => $email, 'password' => $password]));
         $this->seeResponseCodeIs(code: HttpCode::OK);
         $this->seeResponseIsJson();
