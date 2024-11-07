@@ -5,8 +5,6 @@ services:
 
   App\:
     resource: '../src/'
-    exclude:
-      - '../src/Kernel.php'
 
   App\Domain\Contract\JwtTokenManagerInterface:
     class: App\Infrastructure\Adapter\LcobucciJwtAdapter
