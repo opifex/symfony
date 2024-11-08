@@ -100,6 +100,7 @@
             "bin/console doctrine:database:drop -e test --if-exists --force",
             "bin/console doctrine:database:create -e test",
             "bin/console doctrine:migration:migrate -e test -n",
+            "codecept clean",
             "codecept run Unit,Functional --coverage-html --coverage-xml --fail-fast"
         ],
         "auto-scripts": {
