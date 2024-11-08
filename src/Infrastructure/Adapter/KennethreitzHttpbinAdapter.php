@@ -7,11 +7,9 @@ namespace App\Infrastructure\Adapter;
 use App\Domain\Contract\HttpbinResponderInterface;
 use App\Domain\Exception\HttpbinResponderException;
 use Override;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-#[Exclude]
 final class KennethreitzHttpbinAdapter implements HttpbinResponderInterface
 {
     public function __construct(private HttpClientInterface $httpbinClient)

@@ -6,15 +6,11 @@ namespace Tests\Functional;
 
 use App\Domain\Entity\AccountStatus;
 use Codeception\Util\HttpCode;
-use Exception;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\FunctionalTester;
 
 final class GetAccountsByCriteriaCest
 {
-    /**
-     * @throws Exception
-     */
     public function getAccountsByCriteria(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -30,6 +26,6 @@ final class GetAccountsByCriteriaCest
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(['email' => 'admin@example.com']);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'GetAccountsByCriteriaResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetAccountsByCriteriaResponse.json'));
     }
 }

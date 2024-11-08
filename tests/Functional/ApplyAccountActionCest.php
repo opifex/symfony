@@ -6,16 +6,12 @@ namespace Tests\Functional;
 
 use App\Domain\Entity\AccountAction;
 use Codeception\Util\HttpCode;
-use Exception;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\Data\Fixture\AccountUserFixture;
 use Tests\Support\FunctionalTester;
 
 final class ApplyAccountActionCest
 {
-    /**
-     * @throws Exception
-     */
     public function applyValidAccountAction(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -27,9 +23,6 @@ final class ApplyAccountActionCest
         $i->seeResponseEquals(expected: '');
     }
 
-    /**
-     * @throws Exception
-     */
     public function applyInvalidAccountAction(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -38,6 +31,6 @@ final class ApplyAccountActionCest
         $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
         $i->sendPost(url: '/api/account/00000000-0000-6000-8001-000000000000/' . AccountAction::REGISTER);
         $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
     }
 }

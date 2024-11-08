@@ -6,16 +6,12 @@ namespace Tests\Functional;
 
 use App\Domain\Entity\AccountRole;
 use Codeception\Util\HttpCode;
-use Exception;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\Data\Fixture\AccountUserFixture;
 use Tests\Support\FunctionalTester;
 
 final class UpdateAccountByIdCest
 {
-    /**
-     * @throws Exception
-     */
     public function updateAccountInfo(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -34,9 +30,6 @@ final class UpdateAccountByIdCest
         $i->seeResponseEquals(expected: '');
     }
 
-    /**
-     * @throws Exception
-     */
     public function updateAccountUsingExistedEmail(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -53,12 +46,9 @@ final class UpdateAccountByIdCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
     }
 
-    /**
-     * @throws Exception
-     */
     public function updateEmailUsingInvalidUuid(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -69,6 +59,6 @@ final class UpdateAccountByIdCest
             params: json_encode(['email' => 'user@example.com']),
         );
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
     }
 }

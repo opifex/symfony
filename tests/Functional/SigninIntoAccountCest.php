@@ -21,7 +21,7 @@ final class SigninIntoAccountCest
         ]));
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'SigninIntoAccountResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'SigninIntoAccountResponse.json'));
     }
 
     public function signinUsingRegisteredCredentials(FunctionalTester $i): void
@@ -34,7 +34,7 @@ final class SigninIntoAccountCest
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
         $i->seeResponseIsJson();
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
     }
 
     public function signinUsingInvalidCredentials(FunctionalTester $i): void
@@ -46,7 +46,7 @@ final class SigninIntoAccountCest
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
         $i->seeResponseIsJson();
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
     }
 
     public function signinUsingInvalidJson(FunctionalTester $i): void
@@ -55,7 +55,7 @@ final class SigninIntoAccountCest
         $i->sendPost(url: '/api/auth/signin', params: '[...]');
         $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
         $i->seeResponseIsJson();
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
     }
 
     public function signinUsingExtraAttributes(FunctionalTester $i): void
@@ -66,6 +66,6 @@ final class SigninIntoAccountCest
             'extra' => 'value',
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
     }
 }

@@ -7,6 +7,7 @@ namespace Tests\Support;
 use Codeception\Actor;
 use Codeception\Util\HttpCode;
 use Exception;
+use RuntimeException;
 
 /**
  * Inherited Methods
@@ -26,9 +27,9 @@ class FunctionalTester extends Actor
 {
     use _generated\FunctionalTesterActions;
 
-    public function getSchemaPath(string $schema): string
+    public function getSchemaPath(string $filename): string
     {
-        return codecept_data_dir() . 'Schema/' . $schema;
+        return codecept_data_dir() . 'Schema/' . $filename;
     }
 
     public function haveHttpHeaderApplicationJson(): void
@@ -36,16 +37,17 @@ class FunctionalTester extends Actor
         $this->haveHttpHeader(name: 'Content-Type', value: 'application/json');
     }
 
-    /**
-     * @throws Exception
-     */
     public function haveHttpHeaderAuthorizationAdmin(string $email, string $password): void
     {
         $this->sendPost(url: '/api/auth/signin', params: json_encode(['email' => $email, 'password' => $password]));
         $this->seeResponseCodeIs(code: HttpCode::OK);
         $this->seeResponseIsJson();
 
-        $accessToken = current($this->grabDataFromResponseByJsonPath(jsonPath: '$access_token'));
+        try {
+            $accessToken = current($this->grabDataFromResponseByJsonPath(jsonPath: '$access_token'));
+        } catch (Exception $e) {
+            throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+        }
 
         $this->haveHttpHeader(name: 'Authorization', value: 'Bearer ' . $accessToken);
     }

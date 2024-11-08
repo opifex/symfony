@@ -6,15 +6,11 @@ namespace Tests\Functional;
 
 use App\Domain\Entity\AccountRole;
 use Codeception\Util\HttpCode;
-use Exception;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\FunctionalTester;
 
 final class CreateNewAccountCest
 {
-    /**
-     * @throws Exception
-     */
     public function createNewUserAccount(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -29,12 +25,9 @@ final class CreateNewAccountCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CREATED);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'CreateNewAccountResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'CreateNewAccountResponse.json'));
     }
 
-    /**
-     * @throws Exception
-     */
     public function createAccountWithExistedEmail(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -49,6 +42,6 @@ final class CreateNewAccountCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(schema: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
     }
 }
