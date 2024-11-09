@@ -155,7 +155,7 @@
         "codeception/module-rest": "^3.4",
         "codeception/module-symfony": "^3.4",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
-        "fakerphp/faker": "^1.23",
+        "fakerphp/faker": "^1.24",
         "phpstan/phpstan": "^1.12",
         "phpstan/phpstan-deprecation-rules": "^1.2",
         "phpstan/phpstan-doctrine": "^1.5",
