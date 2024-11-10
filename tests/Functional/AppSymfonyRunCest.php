@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Codeception\Util\HttpCode;
 use Symfony\Component\Console\Command\Command;
 use Tests\Support\FunctionalTester;
 
@@ -11,6 +12,14 @@ final class AppSymfonyRunCest
 {
     public function runCommandUsingValidParameters(FunctionalTester $i): void
     {
+        $i->haveCleanMockServer();
+        $i->haveMockResponse(
+            method: 'GET',
+            url: getenv(name: 'HTTPBIN_URL') . 'json',
+            statusCode: HttpCode::OK,
+            headers: ['Content-Type' => 'application/json'],
+            body: $i->getResponseContent(filename: 'KennethreitzHttpbinGetJsonResponse.json'),
+        );
         $i->runSymfonyConsoleCommand(
             command: 'app:symfony:run',
             parameters: ['--count' => 1, '--delay' => 0],

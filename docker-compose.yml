@@ -19,8 +19,10 @@ services:
       APP_PORT: "${APP_PORT}"
       APP_URL: "${APP_URL}"
       DATABASE_URL: "${DATABASE_URL}"
+      HTTPBIN_URL: "${HTTPBIN_URL}"
       MAILER_DSN: "${MAILER_DSN}"
       MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
+      MOCK_SERVER_URL: "${MOCK_SERVER_URL}"
       REDIS_DSN: "${REDIS_DSN}"
     volumes:
       - ./:/opt/project:consistent
@@ -125,13 +127,23 @@ services:
     networks:
       internal:
 
+  mockserver:
+    image: mockserver/mockserver
+    hostname: mockserver
+    container_name: "${APP_NAME}-mockserver"
+    restart: unless-stopped
+    ports:
+      - "1080:1080"
+    networks:
+      internal:
+
   mailcatcher:
     image: opifex/mailcatcher:latest
     hostname: mailcatcher
     container_name: "${APP_NAME}-mailcatcher"
     restart: unless-stopped
     ports:
-      - "1080:1080"
+      - "1088:1080"
     networks:
       internal:
 

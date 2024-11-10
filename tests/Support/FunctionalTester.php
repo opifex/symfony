@@ -8,6 +8,8 @@ use Codeception\Actor;
 use Codeception\Util\HttpCode;
 use Exception;
 use RuntimeException;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
  * Inherited Methods
@@ -32,6 +34,11 @@ class FunctionalTester extends Actor
         return codecept_data_dir() . 'Schema/' . $filename;
     }
 
+    public function getResponseContent(string $filename): string
+    {
+        return file_get_contents(filename: codecept_data_dir() . 'Response/' . $filename);
+    }
+
     public function haveHttpHeaderApplicationJson(): void
     {
         $this->haveHttpHeader(name: 'Content-Type', value: 'application/json');
@@ -50,5 +57,33 @@ class FunctionalTester extends Actor
         }
 
         $this->haveHttpHeader(name: 'Authorization', value: 'Bearer ' . $accessToken);
+    }
+
+    public function haveCleanMockServer(): void
+    {
+        try {
+            $client = HttpClient::create(['base_uri' => getenv(name: 'MOCK_SERVER_URL')]);
+            $client->request('PUT', '/reset');
+        } catch (TransportExceptionInterface $e) {
+            throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function haveMockResponse(string $method, string $url, int $statusCode, array $headers, string $body): void
+    {
+        $mockServerUrl = getenv(name: 'MOCK_SERVER_URL');
+        $requestPath = str_replace($mockServerUrl, replace: '', subject: $url);
+
+        try {
+            $client = HttpClient::create(['base_uri' => $mockServerUrl]);
+            $client->request('PUT', '/expectation', [
+                'json' => [
+                    'httpRequest' => ['method' => $method, 'path' => $requestPath],
+                    'httpResponse' => ['statusCode' => $statusCode, 'headers' => $headers, 'body' => $body],
+                ],
+            ]);
+        } catch (TransportExceptionInterface $e) {
+            throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

@@ -12,7 +12,7 @@ framework:
   http_client:
     scoped_clients:
       httpbin.client:
-        base_uri: https://httpbin.org
+        base_uri: '%env(HTTPBIN_URL)%'
         headers:
           Accept: application/json
 

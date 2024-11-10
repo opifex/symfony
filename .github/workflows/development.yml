@@ -23,6 +23,10 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+      mockserver:
+        image: mockserver/mockserver:latest
+        ports:
+          - 1080:1080
 
     env:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=15&charset=utf8

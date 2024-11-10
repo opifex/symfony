@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Domain\Contract\HttpbinResponderInterface;
 use App\Presentation\Command\SymfonyRunCommand;
 use Codeception\Test\Unit;
 use Override;
+use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -16,16 +19,32 @@ use Symfony\Component\Validator\Validation;
 final class SymfonyRunCommandTest extends Unit
 {
     private Application $application;
+    private HttpbinResponderInterface&MockObject $httpbinResponder;
 
+    /**
+     * @throws Exception
+     */
     #[Override]
     protected function setUp(): void
     {
         $this->application = new Application();
-        $this->application->add(new SymfonyRunCommand(new MockClock(), Validation::createValidator()));
+        $this->httpbinResponder = $this->createMock(originalClassName: HttpbinResponderInterface::class);
+        $this->application->add(
+            new SymfonyRunCommand(
+                clock: new MockClock(),
+                httpbinResponder: $this->httpbinResponder,
+                validator: Validation::createValidator(),
+            ),
+        );
     }
 
     public function testExecuteWithSuccessResult(): void
     {
+        $this->httpbinResponder
+            ->expects($this->once())
+            ->method(constraint: 'getJson')
+            ->willReturn(['slideshow' => ['title' => 'Sample Slide Show']]);
+
         $commandTester = new CommandTester($this->application->get('app:symfony:run'));
         $commandTester->execute(['--count' => 1, '--delay' => 0]);
 
