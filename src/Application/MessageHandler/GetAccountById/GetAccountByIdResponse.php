@@ -6,7 +6,9 @@ namespace App\Application\MessageHandler\GetAccountById;
 
 use App\Domain\Entity\Account;
 use DateTimeInterface;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
+#[Exclude]
 final class GetAccountByIdResponse
 {
     public readonly string $uuid;

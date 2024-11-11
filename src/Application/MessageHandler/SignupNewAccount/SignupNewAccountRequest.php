@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SignupNewAccount;
 
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[Exclude]
 final class SignupNewAccountRequest
 {
     public function __construct(

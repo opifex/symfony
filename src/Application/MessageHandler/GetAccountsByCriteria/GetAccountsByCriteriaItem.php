@@ -6,7 +6,9 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
 use App\Domain\Entity\Account;
 use DateTimeInterface;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
+#[Exclude]
 final class GetAccountsByCriteriaItem
 {
     public readonly string $uuid;

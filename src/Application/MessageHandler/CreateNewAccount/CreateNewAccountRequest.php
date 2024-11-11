@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\CreateNewAccount;
 
 use App\Domain\Entity\AccountRole;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[Exclude]
 final class CreateNewAccountRequest
 {
     /**

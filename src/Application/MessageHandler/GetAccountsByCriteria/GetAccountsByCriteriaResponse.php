@@ -8,8 +8,10 @@ use App\Domain\Entity\AccountCollection;
 use Countable;
 use IteratorAggregate;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Traversable;
 
+#[Exclude]
 final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregate
 {
     public function __construct(private AccountCollection $accounts)

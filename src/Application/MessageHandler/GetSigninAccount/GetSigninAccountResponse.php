@@ -6,7 +6,9 @@ namespace App\Application\MessageHandler\GetSigninAccount;
 
 use App\Domain\Entity\Account;
 use DateTimeInterface;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
+#[Exclude]
 final class GetSigninAccountResponse
 {
     public readonly string $uuid;
