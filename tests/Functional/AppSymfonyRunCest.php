@@ -32,7 +32,7 @@ final class AppSymfonyRunCest
     {
         $i->runSymfonyConsoleCommand(
             command: 'app:symfony:run',
-            parameters: ['--count' => -1],
+            parameters: ['--count' => -1, '--delay' => -1],
             expectedExitCode: Command::FAILURE,
         );
     }
