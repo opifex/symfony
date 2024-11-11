@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Codeception\Util\HttpCode;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Tests\Support\FunctionalTester;
 
 final class AppSymfonyRunCest
@@ -14,11 +15,11 @@ final class AppSymfonyRunCest
     {
         $i->haveCleanMockServer();
         $i->haveMockResponse(
-            method: 'GET',
-            url: getenv(name: 'HTTPBIN_URL') . 'json',
-            statusCode: HttpCode::OK,
-            headers: ['Content-Type' => 'application/json'],
-            body: $i->getResponseContent(filename: 'KennethreitzHttpbinGetJsonResponse.json'),
+            request: Request::create(uri: getenv(name: 'HTTPBIN_URL') . 'json'),
+            response: new JsonResponse(
+                data: $i->getResponseContent(filename: 'HttpbinResponderGetJsonResponse.json'),
+                json: true,
+            ),
         );
         $i->runSymfonyConsoleCommand(
             command: 'app:symfony:run',

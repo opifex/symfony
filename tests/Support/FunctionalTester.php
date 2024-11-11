@@ -9,6 +9,8 @@ use Codeception\Util\HttpCode;
 use Exception;
 use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
@@ -69,17 +71,21 @@ class FunctionalTester extends Actor
         }
     }
 
-    public function haveMockResponse(string $method, string $url, int $statusCode, array $headers, string $body): void
+    public function haveMockResponse(Request $request, Response $response): void
     {
         $mockServerUrl = getenv(name: 'MOCK_SERVER_URL');
-        $requestPath = str_replace($mockServerUrl, replace: '', subject: $url);
+        $requestPath = str_replace($mockServerUrl, replace: '', subject: $request->getUri());
 
         try {
             $client = HttpClient::create(['base_uri' => $mockServerUrl]);
             $client->request('PUT', '/expectation', [
                 'json' => [
-                    'httpRequest' => ['method' => $method, 'path' => $requestPath],
-                    'httpResponse' => ['statusCode' => $statusCode, 'headers' => $headers, 'body' => $body],
+                    'httpRequest' => ['method' => $request->getMethod(), 'path' => $requestPath],
+                    'httpResponse' => [
+                        'statusCode' => $response->getStatusCode(),
+                        'headers' => array_map(fn($value) => $value[0], $response->headers->allPreserveCase()),
+                        'body' => $response->getContent(),
+                    ],
                 ],
             ]);
         } catch (TransportExceptionInterface $e) {
