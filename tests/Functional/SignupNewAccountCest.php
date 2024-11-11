@@ -29,7 +29,7 @@ final class SignupNewAccountCest
             'password' => 'password4#account',
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
     public function signupUsingInvalidTypes(FunctionalTester $i): void
@@ -40,7 +40,7 @@ final class SignupNewAccountCest
             'password' => ['password4#account'],
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
     public function signupUsingExistedCredentials(FunctionalTester $i): void
@@ -52,6 +52,6 @@ final class SignupNewAccountCest
             'password' => 'password4#account',
         ]));
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

@@ -29,6 +29,6 @@ final class DeleteAccountByIdCest
         $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
         $i->sendDelete(url: '/api/account/00000000-0000-6000-8001-000000000000');
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

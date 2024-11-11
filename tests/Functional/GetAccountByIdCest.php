@@ -19,6 +19,6 @@ final class GetAccountByIdCest
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(['email' => 'admin@example.com']);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetAccountByIdResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetAccountByIdSchema.json'));
     }
 }

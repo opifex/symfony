@@ -25,7 +25,7 @@ final class CreateNewAccountCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CREATED);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'CreateNewAccountResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'CreateNewAccountSchema.json'));
     }
 
     public function createAccountWithExistedEmail(FunctionalTester $i): void
@@ -42,6 +42,6 @@ final class CreateNewAccountCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

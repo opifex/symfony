@@ -17,7 +17,7 @@ final class GetHealthStatusCest
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(['status' => HealthStatus::Ok->value]);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetHealthStatusResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetHealthStatusSchema.json'));
     }
 
     public function getHealthStatusUsingInvalidMethod(FunctionalTester $i): void
@@ -25,7 +25,7 @@ final class GetHealthStatusCest
         $i->haveHttpHeaderApplicationJson();
         $i->sendPost(url: '/api/health');
         $i->seeResponseCodeIs(code: HttpCode::METHOD_NOT_ALLOWED);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
     public function getHealthStatusUsingInvalidRoute(FunctionalTester $i): void
@@ -33,6 +33,6 @@ final class GetHealthStatusCest
         $i->haveHttpHeaderApplicationJson();
         $i->sendGet(url: '/api/invalid');
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

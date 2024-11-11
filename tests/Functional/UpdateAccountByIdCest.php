@@ -46,7 +46,7 @@ final class UpdateAccountByIdCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
     public function updateEmailUsingInvalidUuid(FunctionalTester $i): void
@@ -59,6 +59,6 @@ final class UpdateAccountByIdCest
             params: json_encode(['email' => 'user@example.com']),
         );
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

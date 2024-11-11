@@ -19,7 +19,7 @@ final class GetSigninAccountCest
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(['email' => 'admin@example.com']);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetSigninAccountResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetSigninAccountSchema.json'));
     }
 
     public function getSigninAccountWithoutAuthorizationHeader(FunctionalTester $i): void
@@ -27,7 +27,7 @@ final class GetSigninAccountCest
         $i->haveHttpHeaderApplicationJson();
         $i->sendGet(url: '/api/auth/me');
         $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
     public function getSigninAccountUsingInvalidHeader(FunctionalTester $i): void
@@ -35,7 +35,7 @@ final class GetSigninAccountCest
         $i->haveHttpHeader(name: 'Authorization', value: 'invalid');
         $i->sendGet(url: '/api/auth/me');
         $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
     public function getSigninAccountUsingInvalidBearer(FunctionalTester $i): void
@@ -43,6 +43,6 @@ final class GetSigninAccountCest
         $i->haveHttpHeader(name: 'Authorization', value: 'Bearer invalid');
         $i->sendGet(url: '/api/auth/me');
         $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

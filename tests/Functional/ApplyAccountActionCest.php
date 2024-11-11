@@ -31,6 +31,6 @@ final class ApplyAccountActionCest
         $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
         $i->sendPost(url: '/api/account/00000000-0000-6000-8001-000000000000/' . AccountAction::REGISTER);
         $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionResponse.json'));
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }
