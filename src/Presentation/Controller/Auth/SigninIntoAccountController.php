@@ -9,7 +9,7 @@ use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountRequest;
 use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute\Model;
+use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ final class SigninIntoAccountController extends AbstractController
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: SigninIntoAccountRequest::class),
+                ref: new AD\Model(type: SigninIntoAccountRequest::class),
             ),
         ),
         tags: ['Authorization'],

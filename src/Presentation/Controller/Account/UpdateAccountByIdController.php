@@ -10,7 +10,7 @@ use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute\Model;
+use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ final class UpdateAccountByIdController extends AbstractController
         security: [['bearer' => []]],
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
-                ref: new Model(
+                ref: new AD\Model(
                     type: UpdateAccountByIdRequest::class,
                     groups: [UpdateAccountByIdRequest::GROUP_EDITABLE],
                 ),

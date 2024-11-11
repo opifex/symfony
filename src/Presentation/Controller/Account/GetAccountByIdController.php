@@ -10,7 +10,7 @@ use App\Application\MessageHandler\GetAccountById\GetAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute\Model;
+use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +38,7 @@ final class GetAccountByIdController extends AbstractController
             new OA\Response(
                 response: Response::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
-                content: new OA\JsonContent(ref: new Model(type: GetAccountByIdResponse::class)),
+                content: new OA\JsonContent(ref: new AD\Model(type: GetAccountByIdResponse::class)),
             ),
             new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
         ],

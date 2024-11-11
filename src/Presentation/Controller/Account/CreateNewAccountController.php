@@ -10,7 +10,7 @@ use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute\Model;
+use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +32,7 @@ final class CreateNewAccountController extends AbstractController
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new Model(type: CreateNewAccountRequest::class),
+                ref: new AD\Model(type: CreateNewAccountRequest::class),
             ),
         ),
         tags: ['Account'],

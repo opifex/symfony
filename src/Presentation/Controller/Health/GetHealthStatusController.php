@@ -9,7 +9,7 @@ use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusRequest;
 use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute\Model;
+use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +34,7 @@ final class GetHealthStatusController extends AbstractController
             new OA\Response(
                 response: Response::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
-                content: new OA\JsonContent(ref: new Model(type: GetHealthStatusResponse::class)),
+                content: new OA\JsonContent(ref: new AD\Model(type: GetHealthStatusResponse::class)),
             ),
         ],
     )]

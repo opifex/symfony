@@ -14,7 +14,7 @@ use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\HttpSpecification;
 use App\Domain\Entity\SortingOrder;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute\Model;
+use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -84,7 +84,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                 ],
                 content: new OA\JsonContent(
                     type: 'array',
-                    items: new OA\Items(ref: new Model(type: GetAccountsByCriteriaItem::class)),
+                    items: new OA\Items(ref: new AD\Model(type: GetAccountsByCriteriaItem::class)),
                 ),
             ),
             new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
