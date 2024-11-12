@@ -103,9 +103,7 @@ final class GetAccountsByCriteriaController extends AbstractController
 
         return new JsonResponse(
             data: $this->normalizer->normalize($handledResult),
-            headers: [
-                HttpSpecification::HEADER_X_TOTAL_COUNT => count($handledResult),
-            ],
+            headers: [HttpSpecification::HEADER_X_TOTAL_COUNT => count($handledResult)],
         );
     }
 }
