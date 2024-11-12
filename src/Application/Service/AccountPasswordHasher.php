@@ -5,20 +5,26 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Domain\Contract\AccountPasswordHasherInterface;
-use App\Domain\Entity\Account;
 use Override;
 use SensitiveParameter;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 final class AccountPasswordHasher implements AccountPasswordHasherInterface
 {
-    public function __construct(private PasswordHasherFactoryInterface $passwordHasherFactory)
+    private PasswordHasherInterface $passwordHasher;
+
+    public function __construct(PasswordHasherFactoryInterface $passwordHasherFactory)
     {
+        $this->passwordHasher = $passwordHasherFactory->getPasswordHasher(
+            user: PasswordAuthenticatedUserInterface::class,
+        );
     }
 
     #[Override]
     public function hash(#[SensitiveParameter] string $plainPassword): string
     {
-        return $this->passwordHasherFactory->getPasswordHasher(user: Account::class)->hash($plainPassword);
+        return $this->passwordHasher->hash($plainPassword);
     }
 }
