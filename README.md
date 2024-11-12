@@ -19,7 +19,7 @@ APP_PORT=8030
 APP_URL=http://localhost:8030
 
 DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=15&charset=utf8
-HTTPBIN_URL=http://mockserver:1080/httpbin/
+HTTPBIN_URL=http://mockserver:1080/httpbin.org/
 MAILER_DSN=smtp://mailcatcher:1025
 MESSENGER_TRANSPORT_DSN=amqp://rabbitmq:5672/%2f/messages
 MOCK_SERVER_URL=http://mockserver:1080

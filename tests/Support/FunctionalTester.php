@@ -65,7 +65,7 @@ class FunctionalTester extends Actor
     {
         try {
             $client = HttpClient::create(['base_uri' => getenv(name: 'MOCK_SERVER_URL')]);
-            $client->request('PUT', '/reset');
+            $client->request('PUT', 'reset');
         } catch (TransportExceptionInterface $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
@@ -74,13 +74,13 @@ class FunctionalTester extends Actor
     public function haveMockResponse(Request $request, Response $response): void
     {
         $mockServerUrl = getenv(name: 'MOCK_SERVER_URL');
-        $requestPath = str_replace($mockServerUrl, replace: '', subject: $request->getUri());
+        $requestPath = ltrim(str_replace($mockServerUrl, replace: '', subject: $request->getUri()), characters: '/');
 
         try {
             $client = HttpClient::create(['base_uri' => $mockServerUrl]);
-            $client->request('PUT', '/expectation', [
+            $client->request('PUT', 'expectation', [
                 'json' => [
-                    'httpRequest' => ['method' => $request->getMethod(), 'path' => $requestPath],
+                    'httpRequest' => ['method' => $request->getMethod(), 'path' => '/' . $requestPath],
                     'httpResponse' => [
                         'statusCode' => $response->getStatusCode(),
                         'headers' => array_map(fn($value) => $value[0], $response->headers->allPreserveCase()),
