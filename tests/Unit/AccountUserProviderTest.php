@@ -9,6 +9,7 @@ use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountNotFoundException;
+use App\Infrastructure\Security\AccountUser;
 use App\Infrastructure\Security\AccountUserProvider;
 use Codeception\Test\Unit;
 use DateTimeImmutable;
@@ -39,11 +40,17 @@ final class AccountUserProviderTest extends Unit
         $account = new Account(
             uuid: Uuid::v7()->toRfc4122(),
             email: 'email@example.com',
-            password: '',
+            password: 'password4#account',
             locale: 'en_US',
             status: AccountStatus::CREATED,
             roles: [AccountRole::ROLE_USER],
             createdAt: new DateTimeImmutable(),
+        );
+        $accountUser = new AccountUser(
+            identifier: $account->getUuid(),
+            password: $account->getPassword(),
+            roles: $account->getRoles(),
+            activated: true,
         );
 
         $this->accountRepository
@@ -54,7 +61,8 @@ final class AccountUserProviderTest extends Unit
 
         $loadedUser = $accountUserProvider->loadUserByIdentifier($account->getEmail());
 
-        $this->assertSame($account, $loadedUser);
+        $this->assertEquals($accountUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
+        $this->assertEquals($accountUser->getRoles(), $loadedUser->getRoles());
     }
 
     public function testLoadUserByIdentifierWithInvalidIdentifier(): void
@@ -74,25 +82,22 @@ final class AccountUserProviderTest extends Unit
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $account = new Account(
-            uuid: Uuid::v7()->toRfc4122(),
-            email: 'email@example.com',
-            password: '',
-            locale: 'en_US',
-            status: AccountStatus::CREATED,
+        $accountUser = new AccountUser(
+            identifier: Uuid::v7()->toRfc4122(),
+            password: 'password4#account',
             roles: [AccountRole::ROLE_USER],
-            createdAt: new DateTimeImmutable(),
+            activated: true,
         );
 
         $this->expectException(UnsupportedUserException::class);
 
-        $accountUserProvider->refreshUser($account);
+        $accountUserProvider->refreshUser($accountUser);
     }
 
     public function testCheckSupportsClassWithMatchingClass(): void
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $supports = $accountUserProvider->supportsClass(class: Account::class);
+        $supports = $accountUserProvider->supportsClass(class: AccountUser::class);
 
         $this->assertTrue($supports);
     }

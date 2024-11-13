@@ -23,7 +23,12 @@ final class AccountUserProvider implements UserProviderInterface
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         try {
-            return $this->accountRepository->findOneByEmail($identifier);
+            return (fn(Account $account) => new AccountUser(
+                identifier: $account->getUuid(),
+                password: $account->getPassword(),
+                roles: $account->getRoles(),
+                activated: $account->isActivated(),
+            ))($this->accountRepository->findOneByEmail($identifier));
         } catch (AccountNotFoundException $e) {
             throw new UserNotFoundException(previous: $e);
         }
@@ -38,6 +43,6 @@ final class AccountUserProvider implements UserProviderInterface
     #[Override]
     public function supportsClass(string $class): bool
     {
-        return is_a($class, class: Account::class, allow_string: true);
+        return is_a($class, class: AccountUser::class, allow_string: true);
     }
 }

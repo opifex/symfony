@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\AccountStatus;
+use App\Infrastructure\Security\AccountUser;
 use App\Infrastructure\Security\AccountUserChecker;
 use Codeception\Test\Unit;
-use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -33,19 +31,16 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithBlockedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = new Account(
-            uuid: Uuid::v7()->toRfc4122(),
-            email: 'email@example.com',
-            password: '',
-            locale: 'en_US',
-            status: AccountStatus::BLOCKED,
+        $accountUser = new AccountUser(
+            identifier: Uuid::v7()->toRfc4122(),
+            password: 'password4#account',
             roles: [AccountRole::ROLE_USER],
-            createdAt: new DateTimeImmutable(),
+            activated: false,
         );
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
 
-        $accountUserChecker->checkPostAuth($account);
+        $accountUserChecker->checkPostAuth($accountUser);
     }
 
     public function testCheckPostAuthWithNonAccountUser(): void
@@ -59,16 +54,13 @@ final class AccountUserCheckerTest extends Unit
     public function testCheckPostAuthWithVerifiedAccount(): void
     {
         $accountUserChecker = new AccountUserChecker();
-        $account = new Account(
-            uuid: Uuid::v7()->toRfc4122(),
-            email: 'email@example.com',
-            password: '',
-            locale: 'en_US',
-            status: AccountStatus::ACTIVATED,
+        $accountUser = new AccountUser(
+            identifier: Uuid::v7()->toRfc4122(),
+            password: 'password4#account',
             roles: [AccountRole::ROLE_USER],
-            createdAt: new DateTimeImmutable(),
+            activated: true,
         );
-        $accountUserChecker->checkPostAuth($account);
+        $accountUserChecker->checkPostAuth($accountUser);
 
         $this->expectNotToPerformAssertions();
     }

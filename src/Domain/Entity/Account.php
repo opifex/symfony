@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-use App\Domain\Contract\ActivatedUserInterface;
 use DateTimeImmutable;
-use Override;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Exclude]
-class Account implements ActivatedUserInterface, PasswordAuthenticatedUserInterface, UserInterface
+class Account
 {
     /**
      * @param string[] $roles
@@ -38,7 +34,6 @@ class Account implements ActivatedUserInterface, PasswordAuthenticatedUserInterf
         return $this->email;
     }
 
-    #[Override]
     public function getPassword(): string
     {
         return $this->password;
@@ -54,7 +49,9 @@ class Account implements ActivatedUserInterface, PasswordAuthenticatedUserInterf
         return $this->status;
     }
 
-    #[Override]
+    /**
+     * @return string[]
+     */
     public function getRoles(): array
     {
         return $this->roles;
@@ -65,21 +62,8 @@ class Account implements ActivatedUserInterface, PasswordAuthenticatedUserInterf
         return $this->createdAt;
     }
 
-    #[Override]
     public function isActivated(): bool
     {
         return $this->status === AccountStatus::ACTIVATED;
-    }
-
-    #[Override]
-    public function getUserIdentifier(): string
-    {
-        return $this->email;
-    }
-
-    #[Override]
-    public function eraseCredentials(): void
-    {
-        // Nothing to do
     }
 }

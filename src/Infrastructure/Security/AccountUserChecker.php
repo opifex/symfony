@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security;
 
-use App\Domain\Contract\ActivatedUserInterface;
 use Override;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
@@ -15,11 +14,7 @@ final class AccountUserChecker implements UserCheckerInterface
     #[Override]
     public function checkPostAuth(UserInterface $user): void
     {
-        if (!$user instanceof ActivatedUserInterface) {
-            return;
-        }
-
-        if (!$user->isActivated()) {
+        if ($user instanceof AccountUser && !$user->isActivated()) {
             throw new CustomUserMessageAccountStatusException(
                 message: 'The presented account is not activated.',
             );

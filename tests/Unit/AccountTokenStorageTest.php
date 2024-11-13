@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\Service\AccountTokenStorage;
+use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Exception\AccountUnauthorizedException;
 use Codeception\Test\Unit;
 use Override;
@@ -14,6 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 final class AccountTokenStorageTest extends Unit
 {
+    private AccountRepositoryInterface&MockObject $accountRepository;
     private TokenStorageInterface&MockObject $tokenStorage;
 
     /**
@@ -22,13 +24,13 @@ final class AccountTokenStorageTest extends Unit
     #[Override]
     protected function setUp(): void
     {
+        $this->accountRepository = $this->createMock(originalClassName: AccountRepositoryInterface::class);
         $this->tokenStorage = $this->createMock(originalClassName: TokenStorageInterface::class);
     }
 
     public function testFetchAccountThrowsExceptionWithUnauthorizedUser(): void
     {
-        $accountAuthorizationFetcher = new AccountTokenStorage($this->tokenStorage);
-
+        $accountTokenStorage = new AccountTokenStorage($this->accountRepository, $this->tokenStorage);
         $this->tokenStorage
             ->expects($this->once())
             ->method(constraint: 'getToken')
@@ -36,6 +38,6 @@ final class AccountTokenStorageTest extends Unit
 
         $this->expectException(exception: AccountUnauthorizedException::class);
 
-        $accountAuthorizationFetcher->getAccount();
+        $accountTokenStorage->getAccount();
     }
 }

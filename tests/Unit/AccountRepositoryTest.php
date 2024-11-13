@@ -106,7 +106,7 @@ final class AccountRepositoryTest extends Unit
 
         $accountRepository->updatePasswordByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
-            password: 'password',
+            password: 'password4#account',
         );
     }
 
