@@ -17,7 +17,7 @@ enum SortingOrder: string
      */
     public static function values(): array
     {
-        return array_map(fn(self $order) => $order->value, self::cases());
+        return array_map(static fn(self $order) => $order->value, self::cases());
     }
 
     public static function fromValue(string $value): self

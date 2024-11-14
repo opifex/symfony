@@ -23,7 +23,7 @@ final class AccountUserProvider implements UserProviderInterface
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         try {
-            return (fn(Account $account) => new AccountUser(
+            return (static fn(Account $account) => new AccountUser(
                 identifier: $account->getUuid(),
                 password: $account->getPassword(),
                 roles: $account->getRoles(),

@@ -85,7 +85,7 @@ final class RequestNormalizer implements NormalizerInterface
      */
     private function filterParams(array $params): array
     {
-        return array_filter($params, fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
+        return array_filter($params, static fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
     }
 
     private function transformTypes(mixed $params): mixed

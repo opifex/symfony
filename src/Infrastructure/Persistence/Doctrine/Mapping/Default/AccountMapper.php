@@ -46,7 +46,7 @@ final class AccountMapper
     {
         return new AccountCollection(
             accounts: array_map(
-                callback: fn(AccountEntity $account) => self::mapOne($account),
+                callback: static fn(AccountEntity $account) => self::mapOne($account),
                 array: iterator_to_array($accounts),
             ),
             count: $accounts->count(),

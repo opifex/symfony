@@ -63,7 +63,7 @@ final class ExceptionNormalizer implements NormalizerInterface
         }
 
         if ($this->kernel->isDebug()) {
-            $trace = fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
+            $trace = static fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
             $filterPrevious = $object->getPrevious() ? $trace($object->getPrevious()) : [];
             $exception['trace'] = array_filter([$trace($object), $filterPrevious]);
         }
