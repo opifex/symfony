@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Exclude]
 final class AccountActivatedNotification extends Notification implements EmailNotificationInterface
 {
-    private const string SUBJECT = 'Account confirmation';
+    private string $subject = 'Account confirmation';
 
     public function __construct(
         private Account $account,
@@ -32,7 +32,7 @@ final class AccountActivatedNotification extends Notification implements EmailNo
         $email = new TemplatedEmail();
         $email->to($recipient->getEmail());
         $email->locale($this->account->getLocale());
-        $email->subject($this->translator->trans(self::SUBJECT, locale: $this->account->getLocale()));
+        $email->subject($this->translator->trans($this->subject, locale: $this->account->getLocale()));
         $email->htmlTemplate(template: '@emails/account.activated.html.twig');
         $email->context([
             'locale' => $this->account->getLocale(),
