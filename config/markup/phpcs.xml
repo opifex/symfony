@@ -12,6 +12,8 @@
   <file>../../public</file>
   <file>../../src</file>
   <file>../../tests/Functional</file>
+  <file>../../tests/Support/Data</file>
+  <file>../../tests/Support/Helper</file>
   <file>../../tests/Unit</file>
 
   <rule ref="PSR12"/>

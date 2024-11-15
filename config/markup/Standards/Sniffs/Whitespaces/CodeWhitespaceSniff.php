@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sniffs\Whitespaces;
+namespace Standards\Sniffs\Whitespaces;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;

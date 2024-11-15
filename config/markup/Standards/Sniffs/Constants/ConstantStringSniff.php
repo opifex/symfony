@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sniffs\Constants;
+namespace Standards\Sniffs\Constants;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;

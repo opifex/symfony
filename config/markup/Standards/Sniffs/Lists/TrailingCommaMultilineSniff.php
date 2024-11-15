@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sniffs\Lists;
+namespace Standards\Sniffs\Lists;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
