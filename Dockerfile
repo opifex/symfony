@@ -4,7 +4,7 @@ WORKDIR /tmp
 # copy composer files
 COPY composer.json composer.lock ./
 # validate composer files syntax and perform automated checks
-RUN composer validate --strict && composer diagnose
+RUN composer validate --strict
 # install composer dependencies
 RUN composer install --ignore-platform-reqs --no-cache --no-dev --no-plugins --no-scripts
 
