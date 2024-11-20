@@ -31,7 +31,7 @@ final class AccountAdminFixture extends Fixture implements FixtureInterface
             password: $password,
             locale: 'en_US',
             roles: [AccountRole::ROLE_ADMIN],
-            status: AccountStatus::ACTIVATED,
+            status: AccountStatus::Activated,
         );
         $manager->persist($account);
         $manager->flush();

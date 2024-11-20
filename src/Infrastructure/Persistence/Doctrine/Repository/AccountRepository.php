@@ -8,6 +8,7 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountSearchCriteria;
+use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
@@ -151,14 +152,14 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function updateStatusByUuid(string $uuid, string $status): void
+    public function updateStatusByUuid(string $uuid, AccountStatus $status): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.status', value: ':status');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'status', value: $status, type: Types::STRING);
+        $builder->setParameter(key: 'status', value: $status->value, type: Types::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw new AccountNotFoundException(

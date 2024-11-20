@@ -32,7 +32,7 @@ final class SignupNewAccountHandler
         $account = $accountBuilder->getAccount();
 
         $this->accountRepository->addOneAccount($account);
-        $this->accountStateMachine->apply($account->getUuid(), action: AccountAction::REGISTER);
+        $this->accountStateMachine->apply($account->getUuid(), action: AccountAction::Register);
 
         return new SignupNewAccountResponse();
     }

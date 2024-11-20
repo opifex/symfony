@@ -16,7 +16,7 @@ final class ApplyAccountActionRequest
         #[Assert\Uuid]
         public readonly string $uuid = '',
 
-        #[Assert\Choice(choices: AccountAction::ACTIONS)]
+        #[Assert\Choice(callback: [AccountAction::class, 'values'])]
         #[Assert\NotBlank]
         public readonly string $action = '',
     ) {

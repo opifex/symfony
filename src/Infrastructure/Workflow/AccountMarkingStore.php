@@ -19,7 +19,7 @@ final class AccountMarkingStore implements MarkingStoreInterface
             throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
         }
 
-        return new Marking([$subject->getStatus() => 1]);
+        return new Marking([$subject->getStatus()->value => 1]);
     }
 
     /**

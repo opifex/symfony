@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Doctrine\Mapping\Default;
 
+use App\Domain\Entity\AccountStatus;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as Mapping;
@@ -37,8 +38,8 @@ final class AccountEntity
         #[Mapping\Column(type: Types::JSON)]
         public readonly array $roles,
 
-        #[Mapping\Column(type: Types::STRING, options: ['length' => 24])]
-        public readonly string $status,
+        #[Mapping\Column(type: Types::STRING, enumType: AccountStatus::class, options: ['length' => 24])]
+        public readonly AccountStatus $status,
     ) {
     }
 }

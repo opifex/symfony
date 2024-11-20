@@ -8,22 +8,22 @@ framework:
         service: App\Infrastructure\Workflow\AccountMarkingStore
       supports:
         - App\Domain\Entity\Account
-      initial_marking: !php/const App\Domain\Entity\AccountStatus::CREATED
+      initial_marking: !php/enum App\Domain\Entity\AccountStatus::Created->value
       places:
-        - !php/const App\Domain\Entity\AccountStatus::ACTIVATED
-        - !php/const App\Domain\Entity\AccountStatus::BLOCKED
-        - !php/const App\Domain\Entity\AccountStatus::CREATED
-        - !php/const App\Domain\Entity\AccountStatus::REGISTERED
+        - !php/enum App\Domain\Entity\AccountStatus::Activated->value
+        - !php/enum App\Domain\Entity\AccountStatus::Blocked->value
+        - !php/enum App\Domain\Entity\AccountStatus::Created->value
+        - !php/enum App\Domain\Entity\AccountStatus::Registered->value
       transitions:
-        !php/const App\Domain\Entity\AccountAction::ACTIVATE:
-          from: !php/const App\Domain\Entity\AccountStatus::REGISTERED
-          to: !php/const App\Domain\Entity\AccountStatus::ACTIVATED
-        !php/const App\Domain\Entity\AccountAction::BLOCK:
-          from: !php/const App\Domain\Entity\AccountStatus::ACTIVATED
-          to: !php/const App\Domain\Entity\AccountStatus::BLOCKED
-        !php/const App\Domain\Entity\AccountAction::REGISTER:
-          from: !php/const App\Domain\Entity\AccountStatus::CREATED
-          to: !php/const App\Domain\Entity\AccountStatus::REGISTERED
-        !php/const App\Domain\Entity\AccountAction::UNBLOCK:
-          from: !php/const App\Domain\Entity\AccountStatus::BLOCKED
-          to: !php/const App\Domain\Entity\AccountStatus::ACTIVATED
+        !php/enum App\Domain\Entity\AccountAction::Activate->value:
+          from: !php/enum App\Domain\Entity\AccountStatus::Registered->value
+          to: !php/enum App\Domain\Entity\AccountStatus::Activated->value
+        !php/enum App\Domain\Entity\AccountAction::Block->value:
+          from: !php/enum App\Domain\Entity\AccountStatus::Activated->value
+          to: !php/enum App\Domain\Entity\AccountStatus::Blocked->value
+        !php/enum App\Domain\Entity\AccountAction::Register->value:
+          from: !php/enum App\Domain\Entity\AccountStatus::Created->value
+          to: !php/enum App\Domain\Entity\AccountStatus::Registered->value
+        !php/enum App\Domain\Entity\AccountAction::Unblock->value:
+          from: !php/enum App\Domain\Entity\AccountStatus::Blocked->value
+          to: !php/enum App\Domain\Entity\AccountStatus::Activated->value

@@ -65,7 +65,7 @@ final class AccountEntityBuilder
             email: $this->emailAddress,
             password: $this->accountPasswordHasher->hash($this->plainPassword),
             locale: $this->defaultLocale,
-            status: AccountStatus::CREATED,
+            status: AccountStatus::Created,
             roles: $this->accessRoles,
             createdAt: new DateTimeImmutable(),
         );

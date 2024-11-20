@@ -31,7 +31,7 @@ final class CreateNewAccountHandler
         $account = $accountBuilder->getAccount();
 
         $this->accountRepository->addOneAccount($account);
-        $this->accountStateMachine->apply($account->getUuid(), action: AccountAction::REGISTER);
+        $this->accountStateMachine->apply($account->getUuid(), action: AccountAction::Register);
 
         $account = $this->accountRepository->findOneByUuid(uuid: $account->getUuid());
 

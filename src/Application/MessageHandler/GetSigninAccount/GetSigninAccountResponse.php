@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\GetSigninAccount;
 
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountStatus;
 use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
@@ -17,7 +18,7 @@ final class GetSigninAccountResponse
 
     public readonly string $locale;
 
-    public readonly string $status;
+    public readonly AccountStatus $status;
 
     /** @var string[] */
     public readonly array $roles;

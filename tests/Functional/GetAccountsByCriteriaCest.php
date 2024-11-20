@@ -20,7 +20,7 @@ final class GetAccountsByCriteriaCest
             url: '/api/account',
             params: [
                 'email' => 'admin@example.com',
-                'status' => AccountStatus::ACTIVATED,
+                'status' => AccountStatus::Activated->value,
             ],
         );
         $i->seeResponseCodeIs(code: HttpCode::OK);

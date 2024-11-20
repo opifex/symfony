@@ -17,7 +17,7 @@ final class GetAccountsByCriteriaRequest
         #[Assert\Length(max: 320)]
         public readonly ?string $email = null,
 
-        #[Assert\Choice(choices: AccountStatus::STATUSES)]
+        #[Assert\Choice(callback: [AccountStatus::class, 'values'])]
         public readonly ?string $status = null,
 
         #[Assert\Choice(choices: AccountSearchCriteria::SORTING_FIELDS)]

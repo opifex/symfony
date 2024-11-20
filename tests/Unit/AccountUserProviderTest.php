@@ -42,7 +42,7 @@ final class AccountUserProviderTest extends Unit
             email: 'email@example.com',
             password: 'password4#account',
             locale: 'en_US',
-            status: AccountStatus::CREATED,
+            status: AccountStatus::Created,
             roles: [AccountRole::ROLE_USER],
             createdAt: new DateTimeImmutable(),
         );

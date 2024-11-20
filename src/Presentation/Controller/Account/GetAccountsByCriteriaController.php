@@ -44,7 +44,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                 name: 'status',
                 description: 'Account status name',
                 in: 'query',
-                schema: new OA\Schema(type: 'string', enum: AccountStatus::STATUSES),
+                schema: new OA\Schema(type: 'string', enum: AccountStatus::class),
             ),
             new OA\Parameter(
                 name: 'sort',

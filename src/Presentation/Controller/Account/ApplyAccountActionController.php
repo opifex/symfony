@@ -36,7 +36,7 @@ final class ApplyAccountActionController extends AbstractController
                 name: 'action',
                 description: 'Action name',
                 in: 'path',
-                schema: new OA\Schema(type: 'string', enum: AccountAction::ACTIONS),
+                schema: new OA\Schema(type: 'string', enum: AccountAction::class),
             ),
         ],
         responses: [

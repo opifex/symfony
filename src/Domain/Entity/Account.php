@@ -18,7 +18,7 @@ class Account
         private readonly string $email,
         private readonly string $password,
         private readonly string $locale,
-        private readonly string $status,
+        private readonly AccountStatus $status,
         private readonly array $roles,
         private readonly DateTimeImmutable $createdAt,
     ) {
@@ -44,7 +44,7 @@ class Account
         return $this->locale;
     }
 
-    public function getStatus(): string
+    public function getStatus(): AccountStatus
     {
         return $this->status;
     }
@@ -64,6 +64,6 @@ class Account
 
     public function isActivated(): bool
     {
-        return $this->status === AccountStatus::ACTIVATED;
+        return $this->status === AccountStatus::Activated;
     }
 }

@@ -7,17 +7,23 @@ namespace App\Domain\Entity;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-class AccountStatus
+enum AccountStatus: string
 {
-    public const string ACTIVATED = 'activated';
-    public const string BLOCKED = 'blocked';
-    public const string CREATED = 'created';
-    public const string REGISTERED = 'registered';
-    /** @var string[] */
-    public const array STATUSES = [
-        self::ACTIVATED,
-        self::BLOCKED,
-        self::CREATED,
-        self::REGISTERED,
-    ];
+    case Activated = 'activated';
+    case Blocked = 'blocked';
+    case Created = 'created';
+    case Registered = 'registered';
+
+    /**
+     * @return string[]
+     */
+    public static function values(): array
+    {
+        return array_map(static fn(self $item) => $item->value, self::cases());
+    }
+
+    public static function fromValue(string $value): self
+    {
+        return self::from($value);
+    }
 }

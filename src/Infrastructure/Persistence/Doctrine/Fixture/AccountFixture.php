@@ -31,7 +31,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             password: $password,
             locale: 'en_US',
             roles: [AccountRole::ROLE_ADMIN],
-            status: AccountStatus::ACTIVATED,
+            status: AccountStatus::Activated,
         );
         $manager->persist($adminAccount);
 
@@ -42,11 +42,13 @@ final class AccountFixture extends Fixture implements FixtureInterface
             password: $password,
             locale: 'en_US',
             roles: [AccountRole::ROLE_USER],
-            status: AccountStatus::ACTIVATED,
+            status: AccountStatus::Activated,
         );
         $manager->persist($userAccount);
 
         for ($index = 1; $index <= 10; $index++) {
+            /** @var AccountStatus $status */
+            $status = $faker->randomElement(AccountStatus::cases());
             $account = new AccountEntity(
                 uuid: $faker->unique()->uuid(),
                 createdAt: new DateTimeImmutable(),
@@ -54,7 +56,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 password: $password,
                 locale: 'en_US',
                 roles: [AccountRole::ROLE_USER],
-                status: $faker->bothify($faker->randomElement(array: AccountStatus::STATUSES)),
+                status: $status,
             );
             $manager->persist($account);
         }
