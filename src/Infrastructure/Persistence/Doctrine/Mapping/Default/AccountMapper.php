@@ -6,6 +6,7 @@ namespace App\Infrastructure\Persistence\Doctrine\Mapping\Default;
 
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
+use App\Domain\Entity\AccountStatus;
 use Countable;
 use IteratorAggregate;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
@@ -22,7 +23,7 @@ final class AccountMapper
             password: $account->getPassword(),
             locale: $account->getLocale(),
             roles: $account->getRoles(),
-            status: $account->getStatus(),
+            status: $account->getStatus()->value,
         );
     }
 
@@ -33,7 +34,7 @@ final class AccountMapper
             email: $account->email,
             password: $account->password,
             locale: $account->locale,
-            status: $account->status,
+            status: AccountStatus::fromValue($account->status),
             roles: $account->roles,
             createdAt: $account->createdAt,
         );

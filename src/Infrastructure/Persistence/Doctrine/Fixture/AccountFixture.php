@@ -31,7 +31,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             password: $password,
             locale: 'en_US',
             roles: [AccountRole::ROLE_ADMIN],
-            status: AccountStatus::Activated,
+            status: AccountStatus::Activated->value,
         );
         $manager->persist($adminAccount);
 
@@ -42,7 +42,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             password: $password,
             locale: 'en_US',
             roles: [AccountRole::ROLE_USER],
-            status: AccountStatus::Activated,
+            status: AccountStatus::Activated->value,
         );
         $manager->persist($userAccount);
 
@@ -56,7 +56,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 password: $password,
                 locale: 'en_US',
                 roles: [AccountRole::ROLE_USER],
-                status: $status,
+                status: $status->value,
             );
             $manager->persist($account);
         }
