@@ -19,7 +19,7 @@ final class RequestNormalizer implements NormalizerInterface
      * @return array<string, mixed>
      */
     #[Override]
-    public function normalize(mixed $object, string $format = null, array $context = []): array
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array
     {
         if (!$object instanceof Request) {
             throw new InvalidArgumentException(message: 'Object expected to be a valid request type.');
@@ -39,7 +39,7 @@ final class RequestNormalizer implements NormalizerInterface
      * @return bool
      */
     #[Override]
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof Request;
     }

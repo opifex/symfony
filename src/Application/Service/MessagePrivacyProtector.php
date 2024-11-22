@@ -22,6 +22,7 @@ final class MessagePrivacyProtector implements PrivacyProtectorInterface
             if (array_key_exists($key, $this->templates) && is_string($value)) {
                 $data[$key] = preg_replace($this->templates[$key], replacement: '*', subject: $value);
             } elseif (is_array($value)) {
+                /** @var array&array<string, mixed> $value */
                 $data[$key] = $this->protect($value);
             }
         }

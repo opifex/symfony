@@ -17,12 +17,14 @@ class AccountCollection implements Countable, IteratorAggregate
     /** @var Account[] */
     private readonly array $accounts;
 
+    /** @var int<0, max> */
     private readonly int $count;
 
     /**
      * @param Account[] $accounts
+     * @param int<0, max>|null $count
      */
-    public function __construct(array $accounts, int $count = null)
+    public function __construct(array $accounts, ?int $count = null)
     {
         $this->accounts = $accounts;
         $this->count = $count ?? count($this->accounts);

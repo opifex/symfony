@@ -34,7 +34,7 @@ jobs:
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
       MOCK_SERVER_URL: http://localhost:1080
-      PHP_VERSION: 8.3
+      PHP_VERSION: 8.4
 
     steps:
       - name: Setup virtual environment

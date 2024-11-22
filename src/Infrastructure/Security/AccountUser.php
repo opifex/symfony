@@ -29,7 +29,7 @@ final class AccountUser implements PasswordAuthenticatedUserInterface, UserInter
     }
 
     #[Override]
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }

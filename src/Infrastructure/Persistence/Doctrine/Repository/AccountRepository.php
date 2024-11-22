@@ -14,11 +14,13 @@ use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountEntity;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountMapper;
+use Countable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use IteratorAggregate;
 use LogicException;
 use Override;
 use SensitiveParameter;
@@ -66,7 +68,10 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setFirstResult($criteria->getPagination()?->getOffset());
         $builder->setMaxResults($criteria->getPagination()?->getLimit());
 
-        return AccountMapper::mapMany(new Paginator($builder));
+        /** @var Countable&IteratorAggregate<int, AccountEntity> $accounts */
+        $accounts = new Paginator($builder);
+
+        return AccountMapper::mapMany($accounts);
     }
 
     /**

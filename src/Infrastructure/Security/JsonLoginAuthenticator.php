@@ -46,7 +46,7 @@ final class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
     }
 
     #[Override]
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
         return $request->getContentTypeFormat() === 'json';
     }

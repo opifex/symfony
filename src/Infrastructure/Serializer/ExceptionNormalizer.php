@@ -32,7 +32,7 @@ final class ExceptionNormalizer implements NormalizerInterface
      * @return array<string, mixed>
      */
     #[Override]
-    public function normalize(mixed $object, string $format = null, array $context = []): array
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array
     {
         if (!$object instanceof Throwable) {
             $object = new InvalidArgumentException(message: 'Object expected to be a valid exception type.');
@@ -78,7 +78,7 @@ final class ExceptionNormalizer implements NormalizerInterface
      * @return bool
      */
     #[Override]
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof Throwable;
     }
@@ -106,7 +106,7 @@ final class ExceptionNormalizer implements NormalizerInterface
 
     private function formatViolationName(ConstraintViolationInterface $violation): string
     {
-        return (new UnicodeString($violation->getPropertyPath()))->snake()->toString();
+        return new UnicodeString($violation->getPropertyPath())->snake()->toString();
     }
 
     private function formatViolationMessage(ConstraintViolationInterface $violation): string

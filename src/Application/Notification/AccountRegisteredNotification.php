@@ -27,7 +27,7 @@ final class AccountRegisteredNotification extends Notification implements EmailN
     }
 
     #[Override]
-    public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): EmailMessage
     {
         $email = new TemplatedEmail();
         $email->to($recipient->getEmail());
