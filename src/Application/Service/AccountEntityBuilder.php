@@ -16,7 +16,7 @@ final class AccountEntityBuilder
 
     private string $plainPassword = '';
 
-    private string $defaultLocale = '';
+    private string $localeCode = '';
 
     /**
      * @var string[]
@@ -41,9 +41,9 @@ final class AccountEntityBuilder
         return $this;
     }
 
-    public function setDefaultLocale(string $defaultLocale): self
+    public function setLocaleCode(string $localeCode): self
     {
-        $this->defaultLocale = $defaultLocale;
+        $this->localeCode = $localeCode;
 
         return $this;
     }
@@ -64,7 +64,7 @@ final class AccountEntityBuilder
             uuid: Uuid::v7()->toRfc4122(),
             email: $this->emailAddress,
             password: $this->accountPasswordHasher->hash($this->plainPassword),
-            locale: $this->defaultLocale,
+            locale: $this->localeCode,
             status: AccountStatus::Created,
             roles: $this->accessRoles,
             createdAt: new DateTimeImmutable(),

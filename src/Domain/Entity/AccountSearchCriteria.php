@@ -20,10 +20,30 @@ class AccountSearchCriteria
     ];
 
     public function __construct(
-        public readonly ?string $email = null,
-        public readonly ?string $status = null,
-        public readonly ?SearchSorting $sorting = null,
-        public readonly ?SearchPagination $pagination = null,
+        private readonly ?string $email = null,
+        private readonly ?string $status = null,
+        private readonly ?SearchSorting $sorting = null,
+        private readonly ?SearchPagination $pagination = null,
     ) {
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function getSorting(): ?SearchSorting
+    {
+        return $this->sorting;
+    }
+
+    public function getPagination(): ?SearchPagination
+    {
+        return $this->pagination;
     }
 }

@@ -61,9 +61,4 @@ class Account
     {
         return $this->createdAt;
     }
-
-    public function isActivated(): bool
-    {
-        return $this->status === AccountStatus::Activated;
-    }
 }

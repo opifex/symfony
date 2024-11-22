@@ -35,36 +35,36 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
 
-        if (!is_null($criteria->email)) {
+        if (!is_null($criteria->getEmail())) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
-            $builder->setParameter(key: 'email', value: '%' . $criteria->email . '%', type: Types::STRING);
+            $builder->setParameter(key: 'email', value: '%' . $criteria->getEmail() . '%', type: Types::STRING);
         }
 
-        if (!is_null($criteria->status)) {
+        if (!is_null($criteria->getStatus())) {
             $builder->andWhere($builder->expr()->eq(x: 'account.status', y: ':status'));
-            $builder->setParameter(key: 'status', value: $criteria->status, type: Types::STRING);
+            $builder->setParameter(key: 'status', value: $criteria->getStatus(), type: Types::STRING);
         }
 
-        if (!is_null($criteria->sorting)) {
-            $orderBy = match ($criteria->sorting->order) {
+        if (!is_null($criteria->getSorting())) {
+            $orderBy = match ($criteria->getSorting()->getOrder()) {
                 SortingOrder::Asc => $builder->expr()->asc(...),
                 SortingOrder::Desc => $builder->expr()->desc(...),
             };
 
-            $expression = match ($criteria->sorting->field) {
+            $expression = match ($criteria->getSorting()->getField()) {
                 AccountSearchCriteria::FIELD_CREATED_AT => 'account.createdAt',
                 AccountSearchCriteria::FIELD_EMAIL => 'account.email',
                 AccountSearchCriteria::FIELD_STATUS => 'account.status',
                 default => throw new LogicException(
-                    message: sprintf('Sorting field "%s" is not supported.', $criteria->sorting->field),
+                    message: sprintf('Sorting field "%s" is not supported.', $criteria->getSorting()->getField()),
                 ),
             };
 
             $builder->addOrderBy($orderBy($expression));
         }
 
-        $builder->setFirstResult($criteria->pagination?->offset);
-        $builder->setMaxResults($criteria->pagination?->limit);
+        $builder->setFirstResult($criteria->getPagination()?->getOffset());
+        $builder->setMaxResults($criteria->getPagination()?->getLimit());
 
         return AccountMapper::mapMany(new Paginator($builder));
     }

@@ -26,7 +26,7 @@ final class CreateNewAccountHandler
         $accountBuilder = new AccountEntityBuilder($this->accountPasswordHasher);
         $accountBuilder->setEmailAddress($message->email);
         $accountBuilder->setPlainPassword($message->password);
-        $accountBuilder->setDefaultLocale($message->locale);
+        $accountBuilder->setLocaleCode($message->locale);
         $accountBuilder->setAccessRoles($message->roles);
         $account = $accountBuilder->getAccount();
 

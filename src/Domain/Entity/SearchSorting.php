@@ -10,8 +10,18 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class SearchSorting
 {
     public function __construct(
-        public readonly string $field,
-        public readonly SortingOrder $order,
+        private readonly string $field,
+        private readonly SortingOrder $order,
     ) {
+    }
+
+    public function getField(): string
+    {
+        return $this->field;
+    }
+
+    public function getOrder(): SortingOrder
+    {
+        return $this->order;
     }
 }

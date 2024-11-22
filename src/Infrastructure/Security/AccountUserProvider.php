@@ -6,6 +6,7 @@ namespace App\Infrastructure\Security;
 
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountNotFoundException;
 use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -27,7 +28,7 @@ final class AccountUserProvider implements UserProviderInterface
                 identifier: $account->getUuid(),
                 password: $account->getPassword(),
                 roles: $account->getRoles(),
-                activated: $account->isActivated(),
+                activated: $account->getStatus() === AccountStatus::Activated,
             ))($this->accountRepository->findOneByEmail($identifier));
         } catch (AccountNotFoundException $e) {
             throw new UserNotFoundException(previous: $e);

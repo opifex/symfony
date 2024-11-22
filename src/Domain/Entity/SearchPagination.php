@@ -10,8 +10,18 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class SearchPagination
 {
     public function __construct(
-        public readonly ?int $limit = null,
-        public readonly ?int $offset = null,
+        private readonly ?int $limit = null,
+        private readonly ?int $offset = null,
     ) {
+    }
+
+    public function getLimit(): ?int
+    {
+        return $this->limit;
+    }
+
+    public function getOffset(): ?int
+    {
+        return $this->offset;
     }
 }
