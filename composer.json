@@ -20,8 +20,8 @@
         "ext-zip": "*",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",
-        "doctrine/orm": "^2.20",
-        "lcobucci/jwt": "^4.3",
+        "doctrine/orm": "^3.3",
+        "lcobucci/jwt": "^5.4",
         "nelmio/api-doc-bundle": "^4.33",
         "symfony/amqp-messenger": "7.1.*",
         "symfony/asset": "7.1.*",
@@ -49,9 +49,9 @@
         "symfony/validator": "7.1.*",
         "symfony/workflow": "7.1.*",
         "symfony/yaml": "7.1.*",
-        "twig/cssinliner-extra": "^3.13",
-        "twig/extra-bundle": "^3.13",
-        "twig/inky-extra": "^3.13"
+        "twig/cssinliner-extra": "^3.15",
+        "twig/extra-bundle": "^3.15",
+        "twig/inky-extra": "^3.15"
     },
     "config": {
         "allow-plugins": {

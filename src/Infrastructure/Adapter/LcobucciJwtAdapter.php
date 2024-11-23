@@ -8,7 +8,6 @@ use App\Domain\Contract\JwtTokenManagerInterface;
 use App\Domain\Exception\JwtTokenManagerException;
 use DateInterval;
 use Exception;
-use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
@@ -67,6 +66,10 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         };
     }
 
+    /**
+     * @param non-empty-string $accessToken
+     * @return string
+     */
     #[Override]
     public function extractUserIdentifier(#[SensitiveParameter] string $accessToken): string
     {
@@ -78,7 +81,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
             throw new JwtTokenManagerException(message: 'Authorization token have invalid structure.');
         }
 
-        $strictValidAt = new StrictValidAt(new FrozenClock($this->clock->now()));
+        $strictValidAt = new StrictValidAt($this->clock);
         $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
 
         if (!$this->configuration->validator()->validate($token, $strictValidAt, $signedWith)) {
@@ -88,18 +91,23 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         return $this->extractSubjectFromToken($token);
     }
 
+    /**
+     * @param non-empty-string $userIdentifier
+     * @return string
+     */
     #[Override]
     public function generateToken(string $userIdentifier): string
     {
         $tokenIssuedAt = $this->clock->now();
         $tokenExpiresAt = $tokenIssuedAt->add($this->expiration);
+        $tokenIdentifier = $this->generateTokenIdentifier();
 
         $builder = $this->configuration->builder();
-        $builder->canOnlyBeUsedAfter($tokenIssuedAt);
-        $builder->expiresAt($tokenExpiresAt);
-        $builder->identifiedBy(Uuid::v4()->toRfc4122());
-        $builder->issuedAt($tokenIssuedAt);
-        $builder->relatedTo($userIdentifier);
+        $builder = $builder->canOnlyBeUsedAfter($tokenIssuedAt);
+        $builder = $builder->expiresAt($tokenExpiresAt);
+        $builder = $builder->identifiedBy($tokenIdentifier);
+        $builder = $builder->issuedAt($tokenIssuedAt);
+        $builder = $builder->relatedTo($userIdentifier);
 
         $token = $builder->getToken(
             signer: $this->configuration->signer(),
@@ -107,6 +115,15 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         );
 
         return $token->toString();
+    }
+
+    /**
+     * @return non-empty-string $userIdentifier
+     */
+    private function generateTokenIdentifier(): string
+    {
+        /** @var non-empty-string */
+        return Uuid::v4()->toRfc4122();
     }
 
     /**

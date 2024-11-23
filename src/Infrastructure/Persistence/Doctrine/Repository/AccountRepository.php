@@ -35,7 +35,7 @@ final class AccountRepository implements AccountRepositoryInterface
     public function findByCriteria(AccountSearchCriteria $criteria): AccountCollection
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
+        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
 
         if (!is_null($criteria->getEmail())) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
@@ -81,7 +81,7 @@ final class AccountRepository implements AccountRepositoryInterface
     public function findOneByEmail(string $email): Account
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
+        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
         $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
 
@@ -105,7 +105,7 @@ final class AccountRepository implements AccountRepositoryInterface
     public function findOneByUuid(string $uuid): Account
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(select: 'account')->from(from: AccountEntity::class, alias: 'account');
+        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 
