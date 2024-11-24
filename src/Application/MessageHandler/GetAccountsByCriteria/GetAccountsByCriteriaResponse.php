@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
+use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
 use Countable;
 use IteratorAggregate;
@@ -30,6 +31,7 @@ final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregat
     #[Override]
     public function getIterator(): Traversable
     {
+        /** @var Account $account */
         foreach ($this->accounts as $account) {
             yield new GetAccountsByCriteriaItem($account);
         }

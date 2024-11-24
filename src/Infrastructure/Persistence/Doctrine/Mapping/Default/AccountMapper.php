@@ -46,7 +46,7 @@ final class AccountMapper
     public static function mapMany(Countable&IteratorAggregate $accounts): AccountCollection
     {
         return new AccountCollection(
-            accounts: array_map(
+            items: array_map(
                 callback: static fn(AccountEntity $account) => self::mapOne($account),
                 array: iterator_to_array($accounts),
             ),

@@ -9,7 +9,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 class AnnotationTagSniff implements Sniff
 {
-    public array $availableTags = ['deprecated', 'param', 'return', 'throws', 'var'];
+    public array $availableTags = ['param', 'return', 'throws', 'var'];
 
     public function process(File $phpcsFile, mixed $stackPtr): int
     {
