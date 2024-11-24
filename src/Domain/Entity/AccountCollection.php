@@ -9,4 +9,8 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 class AccountCollection extends AbstractCollection
 {
+    public function __construct(Account ...$account)
+    {
+        parent::__construct(...$account);
+    }
 }

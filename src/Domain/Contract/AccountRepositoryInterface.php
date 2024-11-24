@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Contract;
 
 use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountSearchCriteria;
+use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
@@ -14,7 +14,7 @@ use SensitiveParameter;
 
 interface AccountRepositoryInterface
 {
-    public function findByCriteria(AccountSearchCriteria $criteria): AccountCollection;
+    public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
 
     /**
      * @throws AccountNotFoundException

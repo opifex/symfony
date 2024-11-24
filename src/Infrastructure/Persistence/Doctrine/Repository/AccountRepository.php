@@ -6,24 +6,24 @@ namespace App\Infrastructure\Persistence\Doctrine\Repository;
 
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountSearchCriteria;
+use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountEntity;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountMapper;
-use Countable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use IteratorAggregate;
+use Exception;
 use LogicException;
 use Override;
 use SensitiveParameter;
+use Traversable;
 
 final class AccountRepository implements AccountRepositoryInterface
 {
@@ -31,8 +31,11 @@ final class AccountRepository implements AccountRepositoryInterface
     {
     }
 
+    /**
+     * @throws Exception
+     */
     #[Override]
-    public function findByCriteria(AccountSearchCriteria $criteria): AccountCollection
+    public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
@@ -68,10 +71,12 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setFirstResult($criteria->getPagination()?->getOffset());
         $builder->setMaxResults($criteria->getPagination()?->getLimit());
 
-        /** @var Countable&IteratorAggregate<int, AccountEntity> $accounts */
-        $accounts = new Paginator($builder);
+        $paginator = new Paginator($builder);
+        /** @var Traversable<int, AccountEntity> $accountPaginator */
+        $accountPaginator = $paginator->getIterator();
+        $accounts = AccountMapper::mapMany(...$accountPaginator);
 
-        return AccountMapper::mapMany($accounts);
+        return new AccountSearchResult($accounts, $paginator->count());
     }
 
     /**

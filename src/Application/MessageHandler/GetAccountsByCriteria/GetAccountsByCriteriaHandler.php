@@ -20,7 +20,7 @@ final class GetAccountsByCriteriaHandler
 
     public function __invoke(GetAccountsByCriteriaRequest $message): GetAccountsByCriteriaResponse
     {
-        $accounts = $this->accountRepository->findByCriteria(
+        $accountSearchResult = $this->accountRepository->findByCriteria(
             new AccountSearchCriteria(
                 email: $message->email,
                 status: $message->status,
@@ -29,6 +29,6 @@ final class GetAccountsByCriteriaHandler
             ),
         );
 
-        return new GetAccountsByCriteriaResponse($accounts);
+        return new GetAccountsByCriteriaResponse($accountSearchResult);
     }
 }

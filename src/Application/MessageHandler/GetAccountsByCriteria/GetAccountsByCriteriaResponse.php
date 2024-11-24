@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
 use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountCollection;
+use App\Domain\Entity\AccountSearchResult;
 use Countable;
 use IteratorAggregate;
 use Override;
@@ -15,14 +15,14 @@ use Traversable;
 #[Exclude]
 final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregate
 {
-    public function __construct(private AccountCollection $accounts)
+    public function __construct(private AccountSearchResult $accountSearchResult)
     {
     }
 
     #[Override]
     public function count(): int
     {
-        return $this->accounts->count();
+        return $this->accountSearchResult->getTotalResultCount();
     }
 
     /**
@@ -32,7 +32,7 @@ final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregat
     public function getIterator(): Traversable
     {
         /** @var Account $account */
-        foreach ($this->accounts as $account) {
+        foreach ($this->accountSearchResult->getAccounts() as $account) {
             yield new GetAccountsByCriteriaItem($account);
         }
     }

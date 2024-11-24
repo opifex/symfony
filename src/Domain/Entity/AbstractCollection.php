@@ -8,30 +8,27 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Traversable;
 
+#[Exclude]
 abstract class AbstractCollection implements Countable, IteratorAggregate
 {
-    /** @var array<int, mixed> */
+    /** @var array<int|string, mixed> $items */
     protected array $items = [];
 
-    /** @var int<0, max> */
-    protected int $count = 0;
-
     /**
-     * @param array<int, mixed> $items
-     * @param int<0, max>|null $count
+     * @param mixed ...$items
      */
-    public function __construct(array $items = [], ?int $count = null)
+    public function __construct(mixed ...$items)
     {
         $this->items = $items;
-        $this->count = $count ?? count($this->items);
     }
 
     #[Override]
     public function count(): int
     {
-        return $this->count;
+        return count($this->items);
     }
 
     #[Override]

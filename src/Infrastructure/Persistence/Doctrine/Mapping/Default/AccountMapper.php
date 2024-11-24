@@ -7,8 +7,6 @@ namespace App\Infrastructure\Persistence\Doctrine\Mapping\Default;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountCollection;
 use App\Domain\Entity\AccountStatus;
-use Countable;
-use IteratorAggregate;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
@@ -40,17 +38,10 @@ final class AccountMapper
         );
     }
 
-    /**
-     * @param Countable&IteratorAggregate<int, AccountEntity> $accounts
-     */
-    public static function mapMany(Countable&IteratorAggregate $accounts): AccountCollection
+    public static function mapMany(AccountEntity ...$account): AccountCollection
     {
-        return new AccountCollection(
-            items: array_map(
-                callback: static fn(AccountEntity $account) => self::mapOne($account),
-                array: iterator_to_array($accounts),
-            ),
-            count: $accounts->count(),
-        );
+        $callback = static fn(AccountEntity $account) => self::mapOne($account);
+
+        return new AccountCollection(...array_map($callback, $account));
     }
 }
