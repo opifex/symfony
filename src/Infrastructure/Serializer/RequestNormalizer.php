@@ -15,7 +15,7 @@ final class RequestNormalizer implements NormalizerInterface
     /**
      * @param mixed $object
      * @param string|null $format
-     * @param array&array<string, mixed> $context
+     * @param array<string, mixed> $context
      * @return array<string, mixed>
      */
     #[Override]
@@ -35,7 +35,7 @@ final class RequestNormalizer implements NormalizerInterface
     /**
      * @param mixed $data
      * @param string|null $format
-     * @param array&array<string, mixed> $context
+     * @param array<string, mixed> $context
      * @return bool
      */
     #[Override]
@@ -80,7 +80,7 @@ final class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array&array<string, mixed> $params
+     * @param array<string, mixed> $params
      * @return array<string, mixed>
      */
     private function filterParams(array $params): array

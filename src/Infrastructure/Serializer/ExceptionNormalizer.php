@@ -28,7 +28,7 @@ final class ExceptionNormalizer implements NormalizerInterface
     /**
      * @param mixed $object
      * @param string|null $format
-     * @param array&array<string, mixed> $context
+     * @param array<string, mixed> $context
      * @return array<string, mixed>
      */
     #[Override]
@@ -74,7 +74,7 @@ final class ExceptionNormalizer implements NormalizerInterface
     /**
      * @param mixed $data
      * @param string|null $format
-     * @param array&array<string, mixed> $context
+     * @param array<string, mixed> $context
      * @return bool
      */
     #[Override]
