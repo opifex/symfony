@@ -14,26 +14,26 @@ use Traversable;
 #[Exclude]
 abstract class AbstractCollection implements Countable, IteratorAggregate
 {
-    /** @var array<int|string, mixed> $items */
-    protected array $items = [];
+    /** @var array<int|string, mixed> $elements */
+    protected array $elements = [];
 
     /**
-     * @param mixed ...$items
+     * @param mixed ...$elements
      */
-    public function __construct(mixed ...$items)
+    public function __construct(mixed ...$elements)
     {
-        $this->items = $items;
+        $this->elements = $elements;
     }
 
     #[Override]
     public function count(): int
     {
-        return count($this->items);
+        return count($this->elements);
     }
 
     #[Override]
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->items);
+        return new ArrayIterator($this->elements);
     }
 }
