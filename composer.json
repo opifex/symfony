@@ -49,9 +49,10 @@
         "symfony/validator": "7.1.*",
         "symfony/workflow": "7.1.*",
         "symfony/yaml": "7.1.*",
-        "twig/cssinliner-extra": "^3.15",
-        "twig/extra-bundle": "^3.15",
-        "twig/inky-extra": "^3.15"
+        "twig/twig": "^3.16",
+        "twig/cssinliner-extra": "^3.16",
+        "twig/extra-bundle": "^3.16",
+        "twig/inky-extra": "^3.16"
     },
     "config": {
         "allow-plugins": {
@@ -152,7 +153,7 @@
         "codeception/module-doctrine": "^3.1",
         "codeception/module-rest": "^3.4",
         "codeception/module-symfony": "^3.5",
-        "doctrine/doctrine-fixtures-bundle": "^3.6",
+        "doctrine/doctrine-fixtures-bundle": "^3.7",
         "fakerphp/faker": "^1.24",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-deprecation-rules": "^2.0",
