@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Contract;
 
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Entity\AccountStatus;
@@ -42,10 +43,9 @@ interface AccountRepositoryInterface
     public function updateStatusByUuid(string $uuid, AccountStatus $status): void;
 
     /**
-     * @param string[] $roles
      * @throws AccountNotFoundException
      */
-    public function updateRolesByUuid(string $uuid, array $roles): void;
+    public function updateRolesByUuid(string $uuid, AccountRole ...$role): void;
 
     /**
      * @throws AccountNotFoundException
@@ -55,7 +55,7 @@ interface AccountRepositoryInterface
     /**
      * @throws AccountAlreadyExistsException
      */
-    public function addOneAccount(Account $account): void;
+    public function addOneAccount(string $email, #[SensitiveParameter] string $password): string;
 
     /**
      * @throws AccountNotFoundException

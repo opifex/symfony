@@ -48,7 +48,7 @@ final class GetAccountByIdController extends AbstractController
         name: 'app_get_account_by_id',
         methods: Request::METHOD_GET,
     )]
-    #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
+    #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
     public function __invoke(#[MapMessage] GetAccountByIdRequest $message): Response
     {
         /** @var GetAccountByIdResponse $handledResult */

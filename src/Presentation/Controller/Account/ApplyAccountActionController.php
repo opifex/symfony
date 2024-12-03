@@ -52,7 +52,7 @@ final class ApplyAccountActionController extends AbstractController
         name: 'app_apply_account_action',
         methods: Request::METHOD_POST,
     )]
-    #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
+    #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
     public function __invoke(#[MapMessage] ApplyAccountActionRequest $message): Response
     {
         /** @var ApplyAccountActionResponse $handledResult */

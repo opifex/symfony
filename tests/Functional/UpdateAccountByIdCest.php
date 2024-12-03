@@ -23,7 +23,7 @@ final class UpdateAccountByIdCest
                 'email' => 'updated@example.com',
                 'password' => 'password4#account',
                 'locale' => 'en_US',
-                'roles' => [AccountRole::ROLE_ADMIN],
+                'roles' => [AccountRole::Admin->value],
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
@@ -42,7 +42,7 @@ final class UpdateAccountByIdCest
                 'email' => 'user@example.com',
                 'password' => 'password4#account',
                 'locale' => 'en_US',
-                'roles' => [AccountRole::ROLE_ADMIN],
+                'roles' => [AccountRole::Admin->value],
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);

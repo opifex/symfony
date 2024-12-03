@@ -10,17 +10,14 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 class Account
 {
-    /**
-     * @param string[] $roles
-     */
     public function __construct(
         private readonly string $uuid,
         private readonly string $email,
         private readonly string $password,
         private readonly string $locale,
-        private readonly AccountStatus $status,
-        private readonly array $roles,
-        private readonly DateTimeImmutable $createdAt,
+        private readonly AccountStatus $status = AccountStatus::Created,
+        private readonly AccountRoleCollection $roles = new AccountRoleCollection(),
+        private readonly DateTimeImmutable $createdAt = new DateTimeImmutable(),
     ) {
     }
 
@@ -49,10 +46,7 @@ class Account
         return $this->status;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getRoles(): array
+    public function getRoles(): AccountRoleCollection
     {
         return $this->roles;
     }

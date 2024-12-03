@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountRoleCollection;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SearchSorting;
@@ -140,7 +141,7 @@ final class AccountRepositoryTest extends Unit
 
         $accountRepository->updateRolesByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
-            roles: [AccountRole::ROLE_USER],
+            role: AccountRole::User,
         );
     }
 

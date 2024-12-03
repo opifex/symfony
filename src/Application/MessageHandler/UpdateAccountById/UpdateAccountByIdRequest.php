@@ -37,7 +37,7 @@ final class UpdateAccountByIdRequest
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?string $locale = null,
 
-        #[Assert\Choice(choices: AccountRole::ROLES, multiple: true)]
+        #[Assert\Choice(callback: [AccountRole::class, 'values'], multiple: true)]
         #[Groups(self::GROUP_EDITABLE)]
         public readonly ?array $roles = null,
     ) {

@@ -7,13 +7,21 @@ namespace App\Domain\Entity;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-class AccountRole
+enum AccountRole: string
 {
-    public const string ROLE_ADMIN = 'ROLE_ADMIN';
-    public const string ROLE_USER = 'ROLE_USER';
-    /** @var string[] */
-    public const array ROLES = [
-        self::ROLE_ADMIN,
-        self::ROLE_USER,
-    ];
+    case Admin = 'ROLE_ADMIN';
+    case User = 'ROLE_USER';
+
+    /**
+     * @return string[]
+     */
+    public static function values(): array
+    {
+        return array_map(static fn(self $item) => $item->value, self::cases());
+    }
+
+    public static function fromValue(string $value): self
+    {
+        return self::from($value);
+    }
 }

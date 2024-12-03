@@ -52,7 +52,7 @@ final class UpdateAccountByIdController extends AbstractController
         name: 'app_update_account_by_id',
         methods: Request::METHOD_PATCH,
     )]
-    #[IsGranted(AccountRole::ROLE_ADMIN, message: 'Not privileged to request the resource.')]
+    #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
     public function __invoke(#[MapMessage] UpdateAccountByIdRequest $message): Response
     {
         /** @var UpdateAccountByIdResponse $handledResult */

@@ -21,7 +21,7 @@ final class CreateNewAccountCest
             params: json_encode([
                 'email' => 'created@example.com',
                 'password' => 'password4#account',
-                'roles' => [AccountRole::ROLE_USER],
+                'roles' => [AccountRole::User->value],
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CREATED);
@@ -38,7 +38,7 @@ final class CreateNewAccountCest
             params: json_encode([
                 'email' => 'admin@example.com',
                 'password' => 'password4#account',
-                'roles' => [AccountRole::ROLE_USER],
+                'roles' => [AccountRole::User->value],
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SignupNewAccount;
 
-use App\Application\Service\AccountEntityBuilder;
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Contract\AccountStateMachineInterface;
@@ -24,15 +23,12 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResponse
     {
-        $accountBuilder = new AccountEntityBuilder($this->accountPasswordHasher);
-        $accountBuilder->setEmailAddress($message->email);
-        $accountBuilder->setPlainPassword($message->password);
-        $accountBuilder->setLocaleCode($message->locale);
-        $accountBuilder->setAccessRoles([AccountRole::ROLE_USER]);
-        $account = $accountBuilder->getAccount();
+        $hashedPassword = $this->accountPasswordHasher->hash($message->password);
 
-        $this->accountRepository->addOneAccount($account);
-        $this->accountStateMachine->apply($account->getUuid(), action: AccountAction::Register);
+        $accountUuid = $this->accountRepository->addOneAccount($message->email, $hashedPassword);
+        $this->accountRepository->updateLocaleByUuid($accountUuid, $message->locale);
+        $this->accountRepository->updateRolesByUuid($accountUuid, role: AccountRole::User);
+        $this->accountStateMachine->apply($accountUuid, action: AccountAction::Register);
 
         return new SignupNewAccountResponse();
     }

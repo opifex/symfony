@@ -6,6 +6,7 @@ namespace App\Infrastructure\Persistence\Doctrine\Repository;
 
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Entity\AccountStatus;
@@ -179,14 +180,14 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function updateRolesByUuid(string $uuid, array $roles): void
+    public function updateRolesByUuid(string $uuid, AccountRole ...$role): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.roles', value: ':roles');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'roles', value: $roles, type: Types::JSON);
+        $builder->setParameter(key: 'roles', value: $role, type: Types::JSON);
 
         if (!$builder->getQuery()->execute()) {
             throw new AccountNotFoundException(
@@ -212,22 +213,26 @@ final class AccountRepository implements AccountRepositoryInterface
         }
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     #[Override]
-    public function addOneAccount(Account $account): void
+    public function addOneAccount(string $email, #[SensitiveParameter] string $password): string
     {
+        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
+
         try {
-            $this->findOneByEmail($account->getEmail());
+            $builder->getQuery()->getSingleResult();
             throw new AccountAlreadyExistsException(
                 message: 'Email address is already associated with another account.',
             );
-        } catch (AccountNotFoundException) {
-            $entity = AccountMapper::mapEntity($account);
+        } catch (NoResultException) {
+            $entity = AccountMapper::mapEntity($email, $password);
             $this->defaultEntityManager->persist($entity);
             $this->defaultEntityManager->flush();
         }
+
+        return $entity->uuid;
     }
 
     #[Override]

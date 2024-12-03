@@ -7,6 +7,7 @@ namespace Tests\Unit;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountRoleCollection;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Security\AccountUser;
@@ -43,13 +44,13 @@ final class AccountUserProviderTest extends Unit
             password: 'password4#account',
             locale: 'en_US',
             status: AccountStatus::Created,
-            roles: [AccountRole::ROLE_USER],
+            roles: new AccountRoleCollection(role: AccountRole::User),
             createdAt: new DateTimeImmutable(),
         );
         $accountUser = new AccountUser(
             identifier: $account->getUuid(),
             password: $account->getPassword(),
-            roles: $account->getRoles(),
+            roles: $account->getRoles()->toArray(),
             activated: true,
         );
 
@@ -85,7 +86,7 @@ final class AccountUserProviderTest extends Unit
         $accountUser = new AccountUser(
             identifier: Uuid::v7()->toRfc4122(),
             password: 'password4#account',
-            roles: [AccountRole::ROLE_USER],
+            roles: [AccountRole::User->value],
             activated: true,
         );
 

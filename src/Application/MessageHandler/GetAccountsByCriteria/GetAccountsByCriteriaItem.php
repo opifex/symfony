@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
 use App\Domain\Entity\Account;
+use App\Domain\Entity\AccountRoleCollection;
 use App\Domain\Entity\AccountStatus;
 use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
@@ -20,8 +21,7 @@ final class GetAccountsByCriteriaItem
 
     public readonly AccountStatus $status;
 
-    /** @var string[] */
-    public readonly array $roles;
+    public readonly AccountRoleCollection $roles;
 
     public readonly DateTimeInterface $createdAt;
 

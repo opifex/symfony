@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Common\AbstractCollection;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]

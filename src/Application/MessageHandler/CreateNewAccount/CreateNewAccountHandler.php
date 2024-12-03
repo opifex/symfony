@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\CreateNewAccount;
 
-use App\Application\Service\AccountEntityBuilder;
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Contract\AccountStateMachineInterface;
 use App\Domain\Entity\AccountAction;
+use App\Domain\Entity\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -23,17 +23,16 @@ final class CreateNewAccountHandler
 
     public function __invoke(CreateNewAccountRequest $message): CreateNewAccountResponse
     {
-        $accountBuilder = new AccountEntityBuilder($this->accountPasswordHasher);
-        $accountBuilder->setEmailAddress($message->email);
-        $accountBuilder->setPlainPassword($message->password);
-        $accountBuilder->setLocaleCode($message->locale);
-        $accountBuilder->setAccessRoles($message->roles);
-        $account = $accountBuilder->getAccount();
+        $transformRoleClosure = static fn(string $role) => AccountRole::fromValue($role);
+        $accessRoles = array_map($transformRoleClosure, $message->roles);
+        $hashedPassword = $this->accountPasswordHasher->hash($message->password);
 
-        $this->accountRepository->addOneAccount($account);
-        $this->accountStateMachine->apply($account->getUuid(), action: AccountAction::Register);
+        $accountUuid = $this->accountRepository->addOneAccount($message->email, $hashedPassword);
+        $this->accountRepository->updateLocaleByUuid($accountUuid, $message->locale);
+        $this->accountRepository->updateRolesByUuid($accountUuid, ...$accessRoles);
+        $this->accountStateMachine->apply($accountUuid, action: AccountAction::Register);
 
-        $account = $this->accountRepository->findOneByUuid(uuid: $account->getUuid());
+        $account = $this->accountRepository->findOneByUuid($accountUuid);
 
         return new CreateNewAccountResponse($account);
     }

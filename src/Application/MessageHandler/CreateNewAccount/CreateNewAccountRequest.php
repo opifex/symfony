@@ -29,7 +29,7 @@ final class CreateNewAccountRequest
         #[Assert\Regex(pattern: '/^[a-z]{2}_[A-Z]{2}$/', message: 'This value is not a valid locale.')]
         public readonly string $locale = 'en_US',
 
-        #[Assert\Choice(choices: AccountRole::ROLES, multiple: true)]
+        #[Assert\Choice(callback: [AccountRole::class, 'values'], multiple: true)]
         #[Assert\NotBlank]
         public readonly array $roles = [],
     ) {
