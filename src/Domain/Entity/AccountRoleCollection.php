@@ -23,6 +23,6 @@ class AccountRoleCollection extends AbstractCollection
         /** @var AccountRole[] $roles */
         $roles = $this->elements;
 
-        return array_map(fn(AccountRole $role) => (string) $role->value, $roles);
+        return array_map(fn(AccountRole $role) => $role->value, $roles);
     }
 }
