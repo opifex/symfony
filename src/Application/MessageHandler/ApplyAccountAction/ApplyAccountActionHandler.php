@@ -17,7 +17,8 @@ final class ApplyAccountActionHandler
 
     public function __invoke(ApplyAccountActionRequest $message): ApplyAccountActionResponse
     {
-        $this->accountStateMachine->apply($message->uuid, AccountAction::fromValue($message->action));
+        $action = AccountAction::fromValue($message->action);
+        $this->accountStateMachine->apply($message->uuid, $action);
 
         return new ApplyAccountActionResponse();
     }

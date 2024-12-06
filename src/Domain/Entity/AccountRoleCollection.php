@@ -10,6 +10,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 class AccountRoleCollection extends AbstractCollection
 {
+    /** @var array<int|string, AccountRole> */
+    protected array $elements = [];
+
     public function __construct(AccountRole ...$role)
     {
         parent::__construct(...$role);
@@ -20,9 +23,6 @@ class AccountRoleCollection extends AbstractCollection
      */
     public function toArray(): array
     {
-        /** @var AccountRole[] $roles */
-        $roles = $this->elements;
-
-        return array_map(fn(AccountRole $role) => $role->value, $roles);
+        return array_map(fn(AccountRole $role) => $role->value, $this->elements);
     }
 }
