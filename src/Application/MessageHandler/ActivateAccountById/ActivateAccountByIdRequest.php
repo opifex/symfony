@@ -2,23 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Application\MessageHandler\ApplyAccountAction;
+namespace App\Application\MessageHandler\ActivateAccountById;
 
-use App\Domain\Entity\AccountAction;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[Exclude]
-final class ApplyAccountActionRequest
+final class ActivateAccountByIdRequest
 {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
         public readonly string $uuid = '',
-
-        #[Assert\Choice(callback: [AccountAction::class, 'values'])]
-        #[Assert\NotBlank]
-        public readonly string $action = '',
     ) {
     }
 }

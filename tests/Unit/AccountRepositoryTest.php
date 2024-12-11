@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\AccountRoleCollection;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SearchSorting;

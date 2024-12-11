@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\ApplyAccountAction\ApplyAccountActionRequest;
-use App\Application\MessageHandler\ApplyAccountAction\ApplyAccountActionResponse;
-use App\Domain\Entity\AccountAction;
+use App\Application\MessageHandler\ActivateAccountById\ActivateAccountByIdRequest;
+use App\Application\MessageHandler\ActivateAccountById\ActivateAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
@@ -21,24 +20,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
-final class ApplyAccountActionController extends AbstractController
+final class ActivateAccountByIdController extends AbstractController
 {
     /**
      * @throws ExceptionInterface
      */
     #[OA\Post(
-        summary: 'Apply account action',
+        summary: 'Activate account by identifier',
         security: [['bearer' => []]],
         tags: ['Account'],
-        parameters: [
-            new OA\Parameter(name: 'uuid', description: 'Account identifier', in: 'path'),
-            new OA\Parameter(
-                name: 'action',
-                description: 'Action name',
-                in: 'path',
-                schema: new OA\Schema(type: 'string', enum: AccountAction::class),
-            ),
-        ],
+        parameters: [new OA\Parameter(name: 'uuid', description: 'Account identifier', in: 'path')],
         responses: [
             new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
             new OA\Response(response: Response::HTTP_FORBIDDEN, description: HttpSpecification::STATUS_FORBIDDEN),
@@ -48,14 +39,14 @@ final class ApplyAccountActionController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/account/{uuid}/{action}',
-        name: 'app_apply_account_action',
+        path: '/account/{uuid}/activate',
+        name: 'app_activate_account_by_id',
         methods: Request::METHOD_POST,
     )]
     #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] ApplyAccountActionRequest $message): Response
+    public function __invoke(#[MapMessage] ActivateAccountByIdRequest $message): Response
     {
-        /** @var ApplyAccountActionResponse $handledResult */
+        /** @var ActivateAccountByIdResponse $handledResult */
         $handledResult = $this->handle($message);
 
         return new JsonResponse(

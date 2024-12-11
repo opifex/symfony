@@ -13,19 +13,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class RequestNormalizer implements NormalizerInterface
 {
     /**
-     * @param mixed $object
+     * @param mixed $data
      * @param string|null $format
      * @param array<string, mixed> $context
      * @return array<string, mixed>
      */
     #[Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
-        if (!$object instanceof Request) {
+        if (!$data instanceof Request) {
             throw new InvalidArgumentException(message: 'Object expected to be a valid request type.');
         }
 
-        $params = $this->extractParams($object);
+        $params = $this->extractParams($data);
         $params = $this->filterParams($params);
         $params = $this->transformTypes($params);
 

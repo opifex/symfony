@@ -20,14 +20,11 @@ final class GetAccountsByCriteriaHandler
 
     public function __invoke(GetAccountsByCriteriaRequest $message): GetAccountsByCriteriaResponse
     {
-        $accountSearchResult = $this->accountRepository->findByCriteria(
-            new AccountSearchCriteria(
-                email: $message->email,
-                status: $message->status,
-                sorting: new SearchSorting($message->sort, SortingOrder::fromValue($message->order)),
-                pagination: new SearchPagination($message->limit, $message->offset),
-            ),
-        );
+        $sorting = new SearchSorting($message->sort, SortingOrder::fromValue($message->order));
+        $pagination = new SearchPagination($message->limit, $message->offset);
+        $searchCriteria = new AccountSearchCriteria($message->email, $message->status, $sorting, $pagination);
+
+        $accountSearchResult = $this->accountRepository->findByCriteria($searchCriteria);
 
         return new GetAccountsByCriteriaResponse($accountSearchResult);
     }

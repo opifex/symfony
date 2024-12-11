@@ -26,28 +26,28 @@ final class ExceptionNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param mixed $object
+     * @param mixed $data
      * @param string|null $format
      * @param array<string, mixed> $context
      * @return array<string, mixed>
      */
     #[Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
-        if (!$object instanceof Throwable) {
-            $object = new InvalidArgumentException(message: 'Object expected to be a valid exception type.');
+        if (!$data instanceof Throwable) {
+            $data = new InvalidArgumentException(message: 'Object expected to be a valid exception type.');
         }
 
         $exception = [
-            'code' => $this->generateExceptionCode($object),
-            'error' => $this->localizeExceptionMessage($object),
+            'code' => $this->generateExceptionCode($data),
+            'error' => $this->localizeExceptionMessage($data),
         ];
 
-        if (method_exists($object, method: 'getViolations')) {
+        if (method_exists($data, method: 'getViolations')) {
             $exception['violations'] = [];
 
             /** @var ConstraintViolationInterface $violation */
-            foreach ($object->getViolations() as $violation) {
+            foreach ($data->getViolations() as $violation) {
                 $violationItem = [
                     'name' => $this->formatViolationName($violation),
                     'reason' => $this->formatViolationMessage($violation),
@@ -64,8 +64,8 @@ final class ExceptionNormalizer implements NormalizerInterface
 
         if ($this->kernel->isDebug()) {
             $trace = static fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
-            $filterPrevious = $object->getPrevious() ? $trace($object->getPrevious()) : [];
-            $exception['trace'] = array_filter([$trace($object), $filterPrevious]);
+            $filterPrevious = $data->getPrevious() ? $trace($data->getPrevious()) : [];
+            $exception['trace'] = array_filter([$trace($data), $filterPrevious]);
         }
 
         return $exception;
@@ -92,16 +92,16 @@ final class ExceptionNormalizer implements NormalizerInterface
         return [Throwable::class => true];
     }
 
-    private function generateExceptionCode(Throwable $object): string
+    private function generateExceptionCode(Throwable $throwable): string
     {
-        return Uuid::v5(Uuid::fromString(uuid: Uuid::NAMESPACE_OID), $object::class)->toRfc4122();
+        return Uuid::v5(Uuid::fromString(uuid: Uuid::NAMESPACE_OID), $throwable::class)->toRfc4122();
     }
 
-    private function localizeExceptionMessage(Throwable $object): string
+    private function localizeExceptionMessage(Throwable $throwable): string
     {
         $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
 
-        return $this->translator->trans($object->getMessage(), domain: $domain);
+        return $this->translator->trans($throwable->getMessage(), domain: $domain);
     }
 
     private function formatViolationName(ConstraintViolationInterface $violation): string

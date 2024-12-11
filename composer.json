@@ -50,9 +50,9 @@
         "symfony/workflow": "7.2.*",
         "symfony/yaml": "7.2.*",
         "twig/twig": "^3.16",
-        "twig/cssinliner-extra": "^3.16",
-        "twig/extra-bundle": "^3.16",
-        "twig/inky-extra": "^3.16"
+        "twig/cssinliner-extra": "^3.17",
+        "twig/extra-bundle": "^3.17",
+        "twig/inky-extra": "^3.17"
     },
     "config": {
         "allow-plugins": {
