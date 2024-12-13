@@ -11,7 +11,6 @@ use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SortingOrder;
-use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountEntity;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountMapper;
@@ -216,21 +215,9 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function addOneAccount(string $email, #[SensitiveParameter] string $password): string
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
-
-        try {
-            $builder->getQuery()->getSingleResult();
-            throw new AccountAlreadyExistsException(
-                message: 'Email address is already associated with another account.',
-            );
-        } catch (NoResultException) {
-            $entity = AccountMapper::mapEntity($email, $password);
-            $this->defaultEntityManager->persist($entity);
-            $this->defaultEntityManager->flush();
-        }
+        $entity = AccountMapper::mapEntity($email, $password);
+        $this->defaultEntityManager->persist($entity);
+        $this->defaultEntityManager->flush();
 
         return $entity->uuid;
     }
