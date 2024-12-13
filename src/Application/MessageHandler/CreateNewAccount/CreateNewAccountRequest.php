@@ -24,7 +24,6 @@ final class CreateNewAccountRequest
         #[Assert\PasswordStrength]
         public readonly string $password = '',
 
-        #[Assert\Length(min: 5, max: 5)]
         #[Assert\Locale]
         #[Assert\Regex(pattern: '/^[a-z]{2}_[A-Z]{2}$/', message: 'This value is not a valid locale.')]
         public readonly string $locale = 'en_US',

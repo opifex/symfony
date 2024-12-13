@@ -8,9 +8,9 @@ use App\Application\Attribute\MapMessage;
 use App\Application\MessageHandler\GetAccountById\GetAccountByIdRequest;
 use App\Application\MessageHandler\GetAccountById\GetAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
+use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +38,45 @@ final class GetAccountByIdController extends AbstractController
             new OA\Response(
                 response: Response::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
-                content: new OA\JsonContent(ref: new AD\Model(type: GetAccountByIdResponse::class)),
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'uuid',
+                            type: 'uuid',
+                            example: '00000000-0000-6000-8000-000000000000',
+                        ),
+                        new OA\Property(
+                            property: 'email',
+                            type: 'email',
+                            example: 'admin@example.com',
+                        ),
+                        new OA\Property(
+                            property: 'locale',
+                            type: 'string',
+                            example: 'en_US',
+                        ),
+                        new OA\Property(
+                            property: 'status',
+                            type: 'string',
+                            enum: AccountStatus::class,
+                            example: AccountStatus::Activated,
+                        ),
+                        new OA\Property(
+                            property: 'roles',
+                            type: 'array',
+                            items: new OA\Items(
+                                type: 'string',
+                                enum: AccountRole::class,
+                            ),
+                        ),
+                        new OA\Property(
+                            property: 'created_at',
+                            type: 'string',
+                            example: '2025-01-01T12:00:00+00:00',
+                        ),
+                    ],
+                    type: 'object',
+                ),
             ),
             new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
         ],

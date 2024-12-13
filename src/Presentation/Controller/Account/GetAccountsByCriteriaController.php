@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Attribute\MapMessage;
-use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaItem;
 use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaRequest;
 use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaResponse;
 use App\Domain\Entity\AccountRole;
@@ -14,7 +13,6 @@ use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\HttpSpecification;
 use App\Domain\Entity\SortingOrder;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,34 +37,40 @@ final class GetAccountsByCriteriaController extends AbstractController
                 name: 'email',
                 description: 'Account email template',
                 in: 'query',
+                example: 'admin@example.com',
             ),
             new OA\Parameter(
                 name: 'status',
                 description: 'Account status name',
                 in: 'query',
                 schema: new OA\Schema(type: 'string', enum: AccountStatus::class),
+                example: AccountStatus::Activated,
             ),
             new OA\Parameter(
                 name: 'sort',
                 description: 'Sorting field name',
                 in: 'query',
                 schema: new OA\Schema(type: 'string', enum: AccountSearchCriteria::SORTING_FIELDS),
+                example: AccountSearchCriteria::FIELD_CREATED_AT,
             ),
             new OA\Parameter(
                 name: 'order',
                 description: 'Sorting order direction',
                 in: 'query',
                 schema: new OA\Schema(type: 'string', enum: SortingOrder::class),
+                example: SortingOrder::Asc,
             ),
             new OA\Parameter(
                 name: 'limit',
                 description: 'Result items limit',
                 in: 'query',
+                example: 10,
             ),
             new OA\Parameter(
                 name: 'offset',
                 description: 'Result items offset',
                 in: 'query',
+                example: 0,
             ),
         ],
         responses: [
@@ -84,7 +88,45 @@ final class GetAccountsByCriteriaController extends AbstractController
                 ],
                 content: new OA\JsonContent(
                     type: 'array',
-                    items: new OA\Items(ref: new AD\Model(type: GetAccountsByCriteriaItem::class)),
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(
+                                property: 'uuid',
+                                type: 'uuid',
+                                example: '00000000-0000-6000-8000-000000000000',
+                            ),
+                            new OA\Property(
+                                property: 'email',
+                                type: 'email',
+                                example: 'admin@example.com',
+                            ),
+                            new OA\Property(
+                                property: 'locale',
+                                type: 'string',
+                                example: 'en_US',
+                            ),
+                            new OA\Property(
+                                property: 'status',
+                                type: 'string',
+                                enum: AccountStatus::class,
+                                example: AccountStatus::Activated,
+                            ),
+                            new OA\Property(
+                                property: 'roles',
+                                type: 'array',
+                                items: new OA\Items(
+                                    type: 'string',
+                                    enum: AccountRole::class,
+                                ),
+                            ),
+                            new OA\Property(
+                                property: 'created_at',
+                                type: 'string',
+                                example: '2025-01-01T12:00:00+00:00',
+                            ),
+                        ],
+                        type: 'object',
+                    ),
                 ),
             ),
             new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),

@@ -9,7 +9,6 @@ use App\Application\MessageHandler\SignupNewAccount\SignupNewAccountRequest;
 use App\Application\MessageHandler\SignupNewAccount\SignupNewAccountResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
-use Nelmio\ApiDocBundle\Attribute as AD;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +30,29 @@ final class SignupNewAccountController extends AbstractController
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                ref: new AD\Model(type: SignupNewAccountRequest::class),
+                required: ['email', 'password'],
+                properties: [
+                    new OA\Property(
+                        property: 'email',
+                        type: 'email',
+                        example: 'user@example.com',
+                    ),
+                    new OA\Property(
+                        property: 'password',
+                        type: 'password',
+                        maxLength: 32,
+                        minLength: 8,
+                        example: 'password4#account',
+                    ),
+                    new OA\Property(
+                        property: 'locale',
+                        type: 'string',
+                        default: 'en_US',
+                        pattern: '[a-z]{2}_[A-Z]{2}',
+                        example: 'en_US',
+                    ),
+                ],
+                type: 'object',
             ),
         ),
         tags: ['Authorization'],
