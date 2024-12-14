@@ -65,7 +65,14 @@ final class UpdateAccountByIdController extends AbstractController
             ),
         ),
         tags: ['Account'],
-        parameters: [new OA\Parameter(name: 'uuid', description: 'Account identifier', in: 'path')],
+        parameters: [
+            new OA\Parameter(
+                name: 'uuid',
+                description: 'Account unique identifier',
+                in: 'path',
+                example: '00000000-0000-6000-8000-000000000000',
+            ),
+        ],
         responses: [
             new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
             new OA\Response(response: Response::HTTP_FORBIDDEN, description: HttpSpecification::STATUS_FORBIDDEN),

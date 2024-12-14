@@ -35,7 +35,7 @@ final class GetAccountsByCriteriaController extends AbstractController
         parameters: [
             new OA\Parameter(
                 name: 'email',
-                description: 'Account email template',
+                description: 'Account email address',
                 in: 'query',
                 example: 'admin@example.com',
             ),

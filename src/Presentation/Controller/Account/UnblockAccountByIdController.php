@@ -32,7 +32,7 @@ final class UnblockAccountByIdController extends AbstractController
         parameters: [
             new OA\Parameter(
                 name: 'uuid',
-                description: 'Account identifier',
+                description: 'Account unique identifier',
                 in: 'path',
                 example: '00000000-0000-6000-8000-000000000000',
             ),
