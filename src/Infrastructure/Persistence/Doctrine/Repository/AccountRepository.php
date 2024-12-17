@@ -13,6 +13,7 @@ use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountEntity;
+use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountFactory;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountMapper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
@@ -215,7 +216,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function addOneAccount(string $email, #[SensitiveParameter] string $password): string
     {
-        $entity = AccountMapper::mapEntity($email, $password);
+        $entity = AccountFactory::create($email, $password);
         $this->defaultEntityManager->persist($entity);
         $this->defaultEntityManager->flush();
 

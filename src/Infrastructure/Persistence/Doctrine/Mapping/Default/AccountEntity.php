@@ -19,25 +19,25 @@ final class AccountEntity
      */
     public function __construct(
         #[Mapping\Id]
-        #[Mapping\Column(type: Types::GUID)]
+        #[Mapping\Column(name: 'uuid', type: Types::GUID)]
         public readonly string $uuid,
 
-        #[Mapping\Column(type: Types::DATETIME_IMMUTABLE, updatable: false)]
+        #[Mapping\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]
         public readonly DateTimeImmutable $createdAt,
 
-        #[Mapping\Column(type: Types::STRING, unique: true, options: ['length' => 320])]
+        #[Mapping\Column(name: 'email', type: Types::STRING, unique: true, options: ['length' => 320])]
         public readonly string $email,
 
-        #[Mapping\Column(type: Types::STRING, options: ['length' => 60])]
+        #[Mapping\Column(name: 'password', type: Types::STRING, options: ['length' => 60])]
         public readonly string $password,
 
-        #[Mapping\Column(type: Types::STRING, options: ['length' => 5])]
+        #[Mapping\Column(name: 'locale', type: Types::STRING, options: ['length' => 5])]
         public readonly string $locale,
 
-        #[Mapping\Column(type: Types::JSON)]
+        #[Mapping\Column(name: 'roles', type: Types::JSON)]
         public readonly array $roles,
 
-        #[Mapping\Column(type: Types::STRING, options: ['length' => 24])]
+        #[Mapping\Column(name: 'status', type: Types::STRING, options: ['length' => 24])]
         public readonly string $status,
     ) {
     }
