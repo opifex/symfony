@@ -16,6 +16,7 @@ Create `.env.local` and set it as docker environment variables file.
 APP_ENV=dev
 APP_NAME=symfony
 APP_PORT=8030
+APP_SECRET=166f851291ebd0ebf805b0188f1d5e7a
 APP_URL=http://localhost:8030
 
 DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=15&charset=utf8
