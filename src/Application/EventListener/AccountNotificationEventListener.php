@@ -24,16 +24,16 @@ final class AccountNotificationEventListener
     #[AsEventListener(event: AccountActivatedEvent::class)]
     public function onAccountActivated(AccountActivatedEvent $event): void
     {
-        $recipient = new Recipient($event->account->getEmail());
-        $notification = new AccountActivatedNotification($event->account, $this->translator);
+        $recipient = new Recipient($event->getAccount()->getEmail());
+        $notification = new AccountActivatedNotification($event->getAccount(), $this->translator);
         $this->notifier->send($notification, $recipient);
     }
 
     #[AsEventListener(event: AccountRegisteredEvent::class)]
     public function onAccountRegistered(AccountRegisteredEvent $event): void
     {
-        $recipient = new Recipient($event->account->getEmail());
-        $notification = new AccountRegisteredNotification($event->account, $this->translator);
+        $recipient = new Recipient($event->getAccount()->getEmail());
+        $notification = new AccountRegisteredNotification($event->getAccount(), $this->translator);
         $this->notifier->send($notification, $recipient);
     }
 }
