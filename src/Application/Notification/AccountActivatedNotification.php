@@ -20,8 +20,8 @@ final class AccountActivatedNotification extends Notification implements EmailNo
     private string $subject = 'Account confirmation';
 
     public function __construct(
-        private Account $account,
-        private TranslatorInterface $translator,
+        private readonly Account $account,
+        private readonly TranslatorInterface $translator,
     ) {
         parent::__construct();
     }

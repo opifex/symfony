@@ -20,8 +20,8 @@ final class ExceptionNormalizer implements NormalizerInterface
     private const string TRANSLATOR_DOMAIN = 'exceptions';
 
     public function __construct(
-        private KernelInterface $kernel,
-        private TranslatorInterface $translator,
+        private readonly KernelInterface $kernel,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 

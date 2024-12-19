@@ -12,8 +12,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 abstract class AbstractController
 {
     public function __construct(
-        protected MessageBusInterface $messageBus,
-        protected NormalizerInterface $normalizer,
+        protected readonly MessageBusInterface $messageBus,
+        protected readonly NormalizerInterface $normalizer,
     ) {
     }
 

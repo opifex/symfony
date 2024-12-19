@@ -22,9 +22,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class KernelExceptionEventListener
 {
     public function __construct(
-        private LoggerInterface $logger,
-        private NormalizerInterface $normalizer,
-        private PrivacyProtectorInterface $privacyProtector,
+        private readonly LoggerInterface $logger,
+        private readonly NormalizerInterface $normalizer,
+        private readonly PrivacyProtectorInterface $privacyProtector,
     ) {
     }
 

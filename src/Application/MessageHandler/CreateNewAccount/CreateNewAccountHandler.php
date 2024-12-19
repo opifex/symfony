@@ -17,9 +17,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class CreateNewAccountHandler
 {
     public function __construct(
-        private AccountPasswordHasherInterface $accountPasswordHasher,
-        private AccountRepositoryInterface $accountRepository,
-        private AccountStateMachineInterface $accountStateMachine,
+        private readonly AccountPasswordHasherInterface $accountPasswordHasher,
+        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AccountStateMachineInterface $accountStateMachine,
     ) {
     }
 

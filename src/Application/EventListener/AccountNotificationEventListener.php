@@ -16,8 +16,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class AccountNotificationEventListener
 {
     public function __construct(
-        private NotifierInterface $notifier,
-        private TranslatorInterface $translator,
+        private readonly NotifierInterface $notifier,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 

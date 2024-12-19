@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class ActivateAccountByIdHandler
 {
-    public function __construct(private AccountStateMachineInterface $accountStateMachine)
+    public function __construct(private readonly AccountStateMachineInterface $accountStateMachine)
     {
     }
 

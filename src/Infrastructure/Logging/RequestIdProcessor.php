@@ -11,7 +11,7 @@ use Monolog\LogRecord;
 #[AsMonologProcessor]
 final class RequestIdProcessor
 {
-    public function __construct(private RequestIdStorageInterface $requestIdStorage)
+    public function __construct(private readonly RequestIdStorageInterface $requestIdStorage)
     {
     }
 

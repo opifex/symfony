@@ -20,8 +20,8 @@ final class AccountRegisteredNotification extends Notification implements EmailN
     private string $subject = 'Thank you for registration';
 
     public function __construct(
-        private Account $account,
-        private TranslatorInterface $translator,
+        private readonly Account $account,
+        private readonly TranslatorInterface $translator,
     ) {
         parent::__construct();
     }

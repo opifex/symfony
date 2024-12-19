@@ -20,9 +20,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class SymfonyRunCommand extends Command
 {
     public function __construct(
-        private ClockInterface $clock,
-        private HttpbinResponderInterface $httpbinResponder,
-        private ValidatorInterface $validator,
+        private readonly ClockInterface $clock,
+        private readonly HttpbinResponderInterface $httpbinResponder,
+        private readonly ValidatorInterface $validator,
     ) {
         parent::__construct();
     }

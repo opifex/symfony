@@ -17,8 +17,8 @@ use Symfony\Component\Workflow\Event\CompletedEvent;
 final class AccountWorkflowEventListener
 {
     public function __construct(
-        private AccountRepositoryInterface $accountRepository,
-        private EventDispatcherInterface $eventDispatcher,
+        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 

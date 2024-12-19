@@ -28,7 +28,7 @@ use Traversable;
 
 final class AccountRepository implements AccountRepositoryInterface
 {
-    public function __construct(protected EntityManagerInterface $defaultEntityManager)
+    public function __construct(private readonly EntityManagerInterface $defaultEntityManager)
     {
     }
 

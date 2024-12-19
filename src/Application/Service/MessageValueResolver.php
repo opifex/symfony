@@ -21,8 +21,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class MessageValueResolver implements ValueResolverInterface
 {
     public function __construct(
-        private DenormalizerInterface $denormalizer,
-        private NormalizerInterface $normalizer,
+        private readonly DenormalizerInterface $denormalizer,
+        private readonly NormalizerInterface $normalizer,
     ) {
     }
 

@@ -15,8 +15,8 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 final class RequestIdEventListener
 {
     public function __construct(
-        private RequestIdGeneratorInterface $requestIdGenerator,
-        private RequestIdStorageInterface $requestIdStorage,
+        private readonly RequestIdGeneratorInterface $requestIdGenerator,
+        private readonly RequestIdStorageInterface $requestIdStorage,
     ) {
     }
 

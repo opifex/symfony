@@ -14,8 +14,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class AccountTokenStorage implements AccountTokenStorageInterface
 {
     public function __construct(
-        private AccountRepositoryInterface $accountRepository,
-        private TokenStorageInterface $tokenStorage,
+        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly TokenStorageInterface $tokenStorage,
     ) {
     }
 

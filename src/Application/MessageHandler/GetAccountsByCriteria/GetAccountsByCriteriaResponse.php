@@ -15,7 +15,7 @@ use Traversable;
 #[Exclude]
 final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregate
 {
-    public function __construct(private AccountSearchResult $accountSearchResult)
+    public function __construct(private readonly AccountSearchResult $accountSearchResult)
     {
     }
 

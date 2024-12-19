@@ -14,8 +14,8 @@ use Symfony\Component\Workflow\WorkflowInterface;
 final class AccountStateMachine implements AccountStateMachineInterface
 {
     public function __construct(
-        private AccountRepositoryInterface $accountRepository,
-        private WorkflowInterface $accountStateMachine,
+        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly WorkflowInterface $accountStateMachine,
     ) {
     }
 

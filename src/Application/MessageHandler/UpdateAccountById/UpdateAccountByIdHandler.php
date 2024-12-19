@@ -15,8 +15,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class UpdateAccountByIdHandler
 {
     public function __construct(
-        private AccountPasswordHasherInterface $accountPasswordHasher,
-        private AccountRepositoryInterface $accountRepository,
+        private readonly AccountPasswordHasherInterface $accountPasswordHasher,
+        private readonly AccountRepositoryInterface $accountRepository,
     ) {
     }
 
