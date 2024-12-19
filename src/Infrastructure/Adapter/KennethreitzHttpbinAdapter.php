@@ -12,7 +12,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class KennethreitzHttpbinAdapter implements HttpbinResponderInterface
 {
-    public function __construct(private HttpClientInterface $httpbinClient)
+    public function __construct(private readonly HttpClientInterface $httpbinClient)
     {
     }
 

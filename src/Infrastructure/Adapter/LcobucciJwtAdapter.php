@@ -26,8 +26,6 @@ use Symfony\Component\Uid\Uuid;
 
 final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 {
-    private readonly ClockInterface $clock;
-
     private readonly Configuration $configuration;
 
     private readonly DateInterval $expiration;
@@ -36,29 +34,27 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
      * @throws Exception
      */
     public function __construct(
-        int $lifetime = 0,
-        ClockInterface $clock = new Clock(),
+        private readonly int $lifetime = 0,
+        private readonly ClockInterface $clock = new Clock(),
         #[SensitiveParameter]
-        ?string $passphrase = null,
+        private readonly ?string $passphrase = null,
         #[SensitiveParameter]
-        ?string $signingKey = null,
+        private readonly ?string $signingKey = null,
         #[SensitiveParameter]
-        ?string $verificationKey = null,
+        private readonly ?string $verificationKey = null,
     ) {
-        $this->expiration = new DateInterval(sprintf('PT%sS', $lifetime));
-        $this->clock = $clock;
-
+        $this->expiration = new DateInterval(sprintf('PT%sS', $this->lifetime));
         $this->configuration = match (true) {
-            !empty($passphrase) && empty($signingKey) && empty($verificationKey) =>
+            !empty($this->passphrase) && empty($this->signingKey) && empty($this->verificationKey) =>
             Configuration::forSymmetricSigner(
                 signer: new HmacSha256(),
-                key: InMemory::plainText($passphrase),
+                key: InMemory::plainText($this->passphrase),
             ),
-            !empty($passphrase) && !empty($signingKey) && !empty($verificationKey) =>
+            !empty($this->passphrase) && !empty($this->signingKey) && !empty($this->verificationKey) =>
             Configuration::forAsymmetricSigner(
                 signer: new RsaSha256(),
-                signingKey: InMemory::plainText($signingKey, $passphrase),
-                verificationKey: InMemory::plainText($verificationKey, $passphrase),
+                signingKey: InMemory::plainText($this->signingKey, $this->passphrase),
+                verificationKey: InMemory::plainText($this->verificationKey, $this->passphrase),
             ),
             default => throw new JwtTokenManagerException(
                 message: 'Authorization token signer is not configured.',

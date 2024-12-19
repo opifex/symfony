@@ -12,7 +12,7 @@ use Twig\Error\Error;
 
 final class SensiolabsTwigAdapter implements TemplateRendererInterface
 {
-    public function __construct(private Environment $environment)
+    public function __construct(private readonly Environment $environment)
     {
     }
 
