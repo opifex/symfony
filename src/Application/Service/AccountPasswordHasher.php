@@ -13,18 +13,20 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 final class AccountPasswordHasher implements AccountPasswordHasherInterface
 {
-    private readonly PasswordHasherInterface $passwordHasher;
-
-    public function __construct(PasswordHasherFactoryInterface $passwordHasherFactory)
+    public function __construct(private readonly PasswordHasherFactoryInterface $passwordHasherFactory)
     {
-        $this->passwordHasher = $passwordHasherFactory->getPasswordHasher(
-            user: PasswordAuthenticatedUserInterface::class,
-        );
     }
 
     #[Override]
     public function hash(#[SensitiveParameter] string $plainPassword): string
     {
-        return $this->passwordHasher->hash($plainPassword);
+        return $this->getPasswordHasher()->hash($plainPassword);
+    }
+
+    private function getPasswordHasher(): PasswordHasherInterface
+    {
+        return $this->passwordHasherFactory->getPasswordHasher(
+            user: PasswordAuthenticatedUserInterface::class,
+        );
     }
 }
