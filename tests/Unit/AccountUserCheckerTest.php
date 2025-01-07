@@ -32,7 +32,7 @@ final class AccountUserCheckerTest extends Unit
     {
         $accountUserChecker = new AccountUserChecker();
         $accountUser = new AccountUser(
-            identifier: Uuid::v7()->toRfc4122(),
+            identifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::User->value],
             activated: false,
@@ -55,7 +55,7 @@ final class AccountUserCheckerTest extends Unit
     {
         $accountUserChecker = new AccountUserChecker();
         $accountUser = new AccountUser(
-            identifier: Uuid::v7()->toRfc4122(),
+            identifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::User->value],
             activated: true,

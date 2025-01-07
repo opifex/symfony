@@ -39,7 +39,7 @@ final class AccountUserProviderTest extends Unit
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
         $account = new Account(
-            uuid: Uuid::v7()->toRfc4122(),
+            uuid: Uuid::v7()->hash(),
             email: 'email@example.com',
             password: 'password4#account',
             locale: 'en_US',
@@ -84,7 +84,7 @@ final class AccountUserProviderTest extends Unit
     {
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
         $accountUser = new AccountUser(
-            identifier: Uuid::v7()->toRfc4122(),
+            identifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::User->value],
             activated: true,

@@ -13,6 +13,6 @@ final class UuidV4RequestIdGenerator implements RequestIdGeneratorInterface
     #[Override]
     public function generate(): string
     {
-        return Uuid::v4()->toRfc4122();
+        return Uuid::v4()->hash();
     }
 }
