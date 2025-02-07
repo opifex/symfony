@@ -97,10 +97,7 @@ final class AccountRepository implements AccountRepositoryInterface
 
             return AccountMapper::mapOne($account);
         } catch (NoResultException $e) {
-            throw new AccountNotFoundException(
-                message: 'Account with provided identifier not found.',
-                previous: $e,
-            );
+            throw AccountNotFoundException::create($e);
         }
     }
 
@@ -121,10 +118,7 @@ final class AccountRepository implements AccountRepositoryInterface
 
             return AccountMapper::mapOne($account);
         } catch (NoResultException $e) {
-            throw new AccountNotFoundException(
-                message: 'Account with provided identifier not found.',
-                previous: $e,
-            );
+            throw AccountNotFoundException::create($e);
         }
     }
 
@@ -139,9 +133,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
 
         if (!$builder->getQuery()->execute()) {
-            throw new AccountNotFoundException(
-                message: 'Account with provided identifier not found.',
-            );
+            throw AccountNotFoundException::create();
         }
     }
 
@@ -156,9 +148,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setParameter(key: 'password', value: $password, type: Types::STRING);
 
         if (!$builder->getQuery()->execute()) {
-            throw new AccountNotFoundException(
-                message: 'Account with provided identifier not found.',
-            );
+            throw AccountNotFoundException::create();
         }
     }
 
@@ -173,9 +163,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setParameter(key: 'status', value: $status->value, type: Types::STRING);
 
         if (!$builder->getQuery()->execute()) {
-            throw new AccountNotFoundException(
-                message: 'Account with provided identifier not found.',
-            );
+            throw AccountNotFoundException::create();
         }
     }
 
@@ -190,9 +178,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setParameter(key: 'roles', value: $role, type: Types::JSON);
 
         if (!$builder->getQuery()->execute()) {
-            throw new AccountNotFoundException(
-                message: 'Account with provided identifier not found.',
-            );
+            throw AccountNotFoundException::create();
         }
     }
 
@@ -207,9 +193,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setParameter(key: 'locale', value: $locale, type: Types::STRING);
 
         if (!$builder->getQuery()->execute()) {
-            throw new AccountNotFoundException(
-                message: 'Account with provided identifier not found.',
-            );
+            throw AccountNotFoundException::create();
         }
     }
 
@@ -232,9 +216,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
 
         if (!$builder->getQuery()->execute()) {
-            throw new AccountNotFoundException(
-                message: 'Account with provided identifier not found.',
-            );
+            throw AccountNotFoundException::create();
         }
     }
 }

@@ -25,9 +25,7 @@ final class AccountStateMachine implements AccountStateMachineInterface
         $account = $this->accountRepository->findOneByUuid($uuid);
 
         if (!$this->accountStateMachine->can($account, $action->value)) {
-            throw new AccountActionInvalidException(
-                message: 'Provided action cannot be applied to account.',
-            );
+            throw AccountActionInvalidException::create();
         }
 
         $this->accountStateMachine->apply($account, $action->value);

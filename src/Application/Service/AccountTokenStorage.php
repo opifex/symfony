@@ -25,9 +25,7 @@ final class AccountTokenStorage implements AccountTokenStorageInterface
         $userIdentifier = $this->tokenStorage->getToken()?->getUserIdentifier();
 
         if (!$userIdentifier) {
-            throw new AccountUnauthorizedException(
-                message: 'An authentication exception occurred.',
-            );
+            throw AccountUnauthorizedException::create();
         }
 
         return $this->accountRepository->findOneByUuid($userIdentifier);

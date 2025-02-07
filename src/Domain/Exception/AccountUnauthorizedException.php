@@ -13,4 +13,8 @@ use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 #[WithHttpStatus(statusCode: Response::HTTP_FORBIDDEN)]
 class AccountUnauthorizedException extends RuntimeException
 {
+    public static function create(): self
+    {
+        return new self(message: 'An authentication exception occurred.');
+    }
 }

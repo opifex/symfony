@@ -22,7 +22,7 @@ final class KennethreitzHttpbinAdapter implements HttpbinResponderInterface
         try {
             return $this->httpbinClient->request('GET', 'json')->toArray();
         } catch (ExceptionInterface $e) {
-            throw new HttpbinResponderException($e->getMessage(), $e->getCode(), $e);
+            throw HttpbinResponderException::fromException($e);
         }
     }
 }

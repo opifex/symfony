@@ -19,6 +19,11 @@ class ValidationFailedException extends RuntimeException
         parent::__construct(message: 'Parameters validation failed.');
     }
 
+    public static function fromViolations(ConstraintViolationListInterface $violations): self
+    {
+        return new self($violations);
+    }
+
     public function getViolations(): ConstraintViolationListInterface
     {
         return $this->violations;

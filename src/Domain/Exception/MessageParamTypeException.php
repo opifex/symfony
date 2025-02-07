@@ -17,23 +17,23 @@ class MessageParamTypeException extends ValidationFailedException
     /**
      * @param string[]|null $expected
      */
-    public function __construct(?array $expected, ?string $path, ?string $root)
+    public static function create(?array $expected, ?string $path, ?string $root = null): self
     {
-        $constraint = new ConstraintViolationList();
-
-        if ($expected !== null && $path !== null) {
-            $constraint->add(
-                new ConstraintViolation(
-                    message: 'This value should be of type {type}.',
-                    messageTemplate: null,
-                    parameters: ['type' => implode(separator: ', ', array: $expected)],
-                    root: $root,
-                    propertyPath: $path,
-                    invalidValue: null,
-                ),
-            );
+        if (empty($expected) || $path === null) {
+            return new self(new ConstraintViolationList());
         }
 
-        parent::__construct($constraint);
+        $constraint = new ConstraintViolationList([
+            new ConstraintViolation(
+                message: 'This value should be of type {type}.',
+                messageTemplate: null,
+                parameters: ['type' => implode(separator: ', ', array: $expected)],
+                root: $root,
+                propertyPath: $path,
+                invalidValue: null,
+            ),
+        ]);
+
+        return new self($constraint);
     }
 }

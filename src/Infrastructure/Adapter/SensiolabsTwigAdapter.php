@@ -22,7 +22,7 @@ final class SensiolabsTwigAdapter implements TemplateRendererInterface
         try {
             return $this->environment->render($name, $context);
         } catch (Error $e) {
-            throw new TemplateRendererException($e->getMessage(), $e->getCode(), $e);
+            throw TemplateRendererException::fromException($e);
         }
     }
 }

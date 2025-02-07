@@ -17,13 +17,11 @@ class MessageExtraParamsException extends ValidationFailedException
     /**
      * @param string[] $extraAttributes
      */
-    public function __construct(array $extraAttributes, ?string $root)
+    public static function create(array $extraAttributes, ?string $root = null): self
     {
-        $constraint = new ConstraintViolationList();
-
-        foreach ($extraAttributes as $attribute) {
-            $constraint->add(
-                new ConstraintViolation(
+        $violations = new ConstraintViolationList(
+            violations: array_map(
+                callback: fn(string $attribute) => new ConstraintViolation(
                     message: 'This field was not expected.',
                     messageTemplate: null,
                     parameters: [],
@@ -31,9 +29,10 @@ class MessageExtraParamsException extends ValidationFailedException
                     propertyPath: $attribute,
                     invalidValue: null,
                 ),
-            );
-        }
+                array: $extraAttributes,
+            ),
+        );
 
-        parent::__construct($constraint);
+        return new self($violations);
     }
 }

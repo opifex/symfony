@@ -56,9 +56,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
                 signingKey: InMemory::plainText($this->signingKey, $this->passphrase),
                 verificationKey: InMemory::plainText($this->verificationKey, $this->passphrase),
             ),
-            default => throw new JwtTokenManagerException(
-                message: 'Authorization token signer is not configured.',
-            ),
+            default => throw JwtTokenManagerException::tokenSignerIsNotConfigured(),
         };
     }
 
@@ -72,16 +70,16 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         try {
             $token = $this->configuration->parser()->parse($accessToken);
         } catch (CannotDecodeContent) {
-            throw new JwtTokenManagerException(message: 'Error while decoding authorization token.');
+            throw JwtTokenManagerException::errorWhileDecodingToken();
         } catch (InvalidTokenStructure) {
-            throw new JwtTokenManagerException(message: 'Authorization token have invalid structure.');
+            throw JwtTokenManagerException::tokenHaveInvalidStructure();
         }
 
         $strictValidAt = new StrictValidAt($this->clock);
         $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
 
         if (!$this->configuration->validator()->validate($token, $strictValidAt, $signedWith)) {
-            throw new JwtTokenManagerException(message: 'Authorization token is invalid or expired.');
+            throw JwtTokenManagerException::tokenIsInvalidOrExpired();
         }
 
         return $this->extractSubjectFromToken($token);
@@ -132,7 +130,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         }
 
         if (!isset($subject) || !is_string($subject)) {
-            throw new JwtTokenManagerException(message: 'Authorization token is invalid or expired.');
+            throw JwtTokenManagerException::tokenIsInvalidOrExpired();
         }
 
         return $subject;

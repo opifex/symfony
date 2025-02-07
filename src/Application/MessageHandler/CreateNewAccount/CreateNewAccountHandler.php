@@ -27,9 +27,7 @@ final class CreateNewAccountHandler
     {
         try {
             $this->accountRepository->findOneByEmail($message->email);
-            throw new AccountAlreadyExistsException(
-                message: 'Email address is already associated with another account.',
-            );
+            throw AccountAlreadyExistsException::create();
         } catch (AccountNotFoundException) {
             $transformRoleClosure = static fn(string $role) => AccountRole::fromValue($role);
             $accessRoles = array_map($transformRoleClosure, $message->roles);

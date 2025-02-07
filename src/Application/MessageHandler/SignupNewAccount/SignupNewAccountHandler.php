@@ -27,9 +27,7 @@ final class SignupNewAccountHandler
     {
         try {
             $this->accountRepository->findOneByEmail($message->email);
-            throw new AccountAlreadyExistsException(
-                message: 'Email address is already associated with another account.',
-            );
+            throw AccountAlreadyExistsException::create();
         } catch (AccountNotFoundException) {
             $hashedPassword = $this->accountPasswordHasher->hash($message->password);
 

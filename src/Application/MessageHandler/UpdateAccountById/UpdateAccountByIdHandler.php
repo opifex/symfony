@@ -28,9 +28,7 @@ final class UpdateAccountByIdHandler
             if ($message->email !== $account->getEmail()) {
                 try {
                     $this->accountRepository->findOneByEmail($message->email);
-                    throw new AccountAlreadyExistsException(
-                        message: 'Email address is already associated with another account.',
-                    );
+                    throw AccountAlreadyExistsException::create();
                 } catch (AccountNotFoundException) {
                     $this->accountRepository->updateEmailByUuid($message->uuid, $message->email);
                 }
