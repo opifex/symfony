@@ -19,6 +19,6 @@ final class BlockAccountByIdHandler
     {
         $this->accountStateMachine->apply($message->uuid, action: AccountAction::Block);
 
-        return new BlockAccountByIdResponse();
+        return BlockAccountByIdResponse::create();
     }
 }

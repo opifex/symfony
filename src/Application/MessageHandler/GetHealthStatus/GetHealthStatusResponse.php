@@ -11,10 +11,12 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class GetHealthStatusResponse
 {
-    public readonly HealthStatus $status;
-
-    public function __construct(Health $health)
+    public function __construct(public readonly HealthStatus $status)
     {
-        $this->status = $health->getStatus();
+    }
+
+    public static function create(Health $health): self
+    {
+        return new self($health->getStatus());
     }
 }

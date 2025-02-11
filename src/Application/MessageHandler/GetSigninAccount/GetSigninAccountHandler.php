@@ -18,6 +18,6 @@ final class GetSigninAccountHandler
     {
         $account = $this->accountTokenStorage->getAccount();
 
-        return new GetSigninAccountResponse($account);
+        return GetSigninAccountResponse::create($account);
     }
 }

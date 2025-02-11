@@ -26,6 +26,6 @@ final class GetAccountsByCriteriaHandler
 
         $accountSearchResult = $this->accountRepository->findByCriteria($searchCriteria);
 
-        return new GetAccountsByCriteriaResponse($accountSearchResult);
+        return GetAccountsByCriteriaResponse::create($accountSearchResult);
     }
 }

@@ -18,6 +18,6 @@ final class GetAccountByIdHandler
     {
         $account = $this->accountRepository->findOneByUuid($message->uuid);
 
-        return new GetAccountByIdResponse($account);
+        return GetAccountByIdResponse::create($account);
     }
 }

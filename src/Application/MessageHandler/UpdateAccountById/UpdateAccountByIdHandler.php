@@ -50,6 +50,6 @@ final class UpdateAccountByIdHandler
             $this->accountRepository->updateRolesByUuid($message->uuid, ...$accountRoles);
         }
 
-        return new UpdateAccountByIdResponse();
+        return UpdateAccountByIdResponse::create();
     }
 }

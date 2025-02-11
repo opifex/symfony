@@ -18,6 +18,6 @@ final class SigninIntoAccountHandler
     {
         $accessToken = $this->jwtTokenManager->generateToken($message->email);
 
-        return new SigninIntoAccountResponse($accessToken);
+        return SigninIntoAccountResponse::create($accessToken);
     }
 }

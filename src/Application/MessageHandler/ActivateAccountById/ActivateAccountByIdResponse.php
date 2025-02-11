@@ -9,4 +9,8 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class ActivateAccountByIdResponse
 {
+    public static function create(): self
+    {
+        return new self();
+    }
 }

@@ -40,7 +40,7 @@ final class CreateNewAccountHandler
 
             $account = $this->accountRepository->findOneByUuid($accountUuid);
 
-            return new CreateNewAccountResponse($account);
+            return CreateNewAccountResponse::create($account);
         }
     }
 }

@@ -18,6 +18,6 @@ final class DeleteAccountByIdHandler
     {
         $this->accountRepository->deleteOneByUuid($message->uuid);
 
-        return new DeleteAccountByIdResponse();
+        return DeleteAccountByIdResponse::create();
     }
 }

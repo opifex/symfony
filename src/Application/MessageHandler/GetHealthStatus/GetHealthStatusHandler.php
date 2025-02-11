@@ -14,6 +14,6 @@ final class GetHealthStatusHandler
     {
         $health = HealthEntityBuilder::getAliveHealth();
 
-        return new GetHealthStatusResponse($health);
+        return GetHealthStatusResponse::create($health);
     }
 }

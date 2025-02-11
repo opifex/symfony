@@ -19,6 +19,11 @@ final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregat
     {
     }
 
+    public static function create(AccountSearchResult $accountSearchResult): self
+    {
+        return new self($accountSearchResult);
+    }
+
     #[Override]
     public function count(): int
     {
@@ -33,7 +38,7 @@ final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregat
     {
         /** @var Account $account */
         foreach ($this->accountSearchResult->getAccounts() as $account) {
-            yield new GetAccountsByCriteriaItem($account);
+            yield GetAccountsByCriteriaItem::create($account);
         }
     }
 }

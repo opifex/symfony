@@ -13,25 +13,25 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class GetAccountByIdResponse
 {
-    public readonly string $uuid;
+    public function __construct(
+        public readonly string $uuid,
+        public readonly string $email,
+        public readonly string $locale,
+        public readonly AccountStatus $status,
+        public readonly AccountRoleCollection $roles,
+        public readonly DateTimeInterface $createdAt,
+    ) {
+    }
 
-    public readonly string $email;
-
-    public readonly string $locale;
-
-    public readonly AccountStatus $status;
-
-    public readonly AccountRoleCollection $roles;
-
-    public readonly DateTimeInterface $createdAt;
-
-    public function __construct(Account $account)
+    public static function create(Account $account): self
     {
-        $this->uuid = $account->getUuid();
-        $this->email = $account->getEmail();
-        $this->locale = $account->getLocale();
-        $this->status = $account->getStatus();
-        $this->roles = $account->getRoles();
-        $this->createdAt = $account->getCreatedAt();
+        return new self(
+            uuid: $account->getUuid(),
+            email: $account->getEmail(),
+            locale: $account->getLocale(),
+            status: $account->getStatus(),
+            roles: $account->getRoles(),
+            createdAt: $account->getCreatedAt(),
+        );
     }
 }

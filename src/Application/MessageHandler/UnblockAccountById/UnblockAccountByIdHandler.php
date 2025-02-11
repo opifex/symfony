@@ -19,6 +19,6 @@ final class UnblockAccountByIdHandler
     {
         $this->accountStateMachine->apply($message->uuid, action: AccountAction::Unblock);
 
-        return new UnblockAccountByIdResponse();
+        return UnblockAccountByIdResponse::create();
     }
 }

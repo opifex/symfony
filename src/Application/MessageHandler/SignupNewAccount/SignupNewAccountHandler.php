@@ -36,7 +36,7 @@ final class SignupNewAccountHandler
             $this->accountRepository->updateRolesByUuid($accountUuid, role: AccountRole::User);
             $this->accountStateMachine->apply($accountUuid, action: AccountAction::Register);
 
-            return new SignupNewAccountResponse();
+            return SignupNewAccountResponse::create();
         }
     }
 }

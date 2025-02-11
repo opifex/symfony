@@ -19,6 +19,6 @@ final class ActivateAccountByIdHandler
     {
         $this->accountStateMachine->apply($message->uuid, action: AccountAction::Activate);
 
-        return new ActivateAccountByIdResponse();
+        return ActivateAccountByIdResponse::create();
     }
 }
