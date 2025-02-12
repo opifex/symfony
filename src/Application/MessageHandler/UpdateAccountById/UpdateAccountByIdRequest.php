@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\UpdateAccountById;
 
-use App\Domain\Entity\AccountRole;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[Exclude]
 final class UpdateAccountByIdRequest
 {
-    /**
-     * @param string[]|null $roles
-     */
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
@@ -29,9 +25,6 @@ final class UpdateAccountByIdRequest
         #[Assert\Locale]
         #[Assert\Regex(pattern: '/^[a-z]{2}_[A-Z]{2}$/', message: 'This value is not a valid locale.')]
         public readonly ?string $locale = null,
-
-        #[Assert\Choice(callback: [AccountRole::class, 'values'], multiple: true)]
-        public readonly ?array $roles = null,
     ) {
     }
 }

@@ -6,7 +6,6 @@ namespace App\Application\MessageHandler\UpdateAccountById;
 
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Entity\AccountRole;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -42,12 +41,6 @@ final class UpdateAccountByIdHandler
 
         if ($message->locale !== null) {
             $this->accountRepository->updateLocaleByUuid($message->uuid, $message->locale);
-        }
-
-        if ($message->roles !== null) {
-            $transformRoleClosure = static fn(string $role) => AccountRole::fromValue($role);
-            $accountRoles = array_map($transformRoleClosure, $message->roles);
-            $this->accountRepository->updateRolesByUuid($message->uuid, ...$accountRoles);
         }
 
         return UpdateAccountByIdResponse::create();

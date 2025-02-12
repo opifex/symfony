@@ -27,7 +27,7 @@ final class AccountWorkflowEventListener
     {
         /** @var Account $subject */
         $subject = $event->getSubject();
-        $status = AccountStatus::fromValue((string) key($event->getMarking()->getPlaces()));
+        $status = AccountStatus::fromValue((string) array_key_first($event->getMarking()->getPlaces()));
         $this->accountRepository->updateStatusByUuid($subject->getUuid(), $status);
     }
 

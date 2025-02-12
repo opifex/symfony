@@ -127,23 +127,6 @@ final class AccountRepositoryTest extends Unit
         );
     }
 
-    public function testUpdateRolesByUuid(): void
-    {
-        $accountRepository = new AccountRepository($this->entityManager);
-
-        $this->query
-            ->expects($this->once())
-            ->method(constraint: 'execute')
-            ->willReturn(value: false);
-
-        $this->expectException(AccountNotFoundException::class);
-
-        $accountRepository->updateRolesByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
-            role: AccountRole::User,
-        );
-    }
-
     public function testUpdateLocaleByUuid(): void
     {
         $accountRepository = new AccountRepository($this->entityManager);

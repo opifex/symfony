@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Contract;
 
 use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Entity\AccountStatus;
@@ -41,11 +40,6 @@ interface AccountRepositoryInterface
      * @throws AccountNotFoundException
      */
     public function updateStatusByUuid(string $uuid, AccountStatus $status): void;
-
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function updateRolesByUuid(string $uuid, AccountRole ...$role): void;
 
     /**
      * @throws AccountNotFoundException

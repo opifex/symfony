@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Doctrine\Mapping\Default;
 
+use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use DateTimeImmutable;
 use SensitiveParameter;
@@ -21,7 +22,7 @@ final class AccountFactory
             email: $email,
             password: $password,
             locale: 'en_US',
-            roles: [],
+            roles: [AccountRole::User->value],
             status: AccountStatus::Created->value,
         );
     }
