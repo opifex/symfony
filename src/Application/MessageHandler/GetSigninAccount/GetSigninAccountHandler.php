@@ -10,8 +10,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class GetSigninAccountHandler
 {
-    public function __construct(private readonly AccountTokenStorageInterface $accountTokenStorage)
-    {
+    public function __construct(
+        private readonly AccountTokenStorageInterface $accountTokenStorage,
+    ) {
     }
 
     public function __invoke(GetSigninAccountRequest $message): GetSigninAccountResponse

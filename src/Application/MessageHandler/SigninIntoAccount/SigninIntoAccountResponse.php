@@ -9,8 +9,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class SigninIntoAccountResponse
 {
-    public function __construct(public readonly string $accessToken)
-    {
+    public function __construct(
+        public readonly string $accessToken,
+    ) {
     }
 
     public static function create(string $accessToken): self

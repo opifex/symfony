@@ -13,8 +13,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class ValidationMiddleware implements MiddlewareInterface
 {
-    public function __construct(private readonly ValidatorInterface $validator)
-    {
+    public function __construct(
+        private readonly ValidatorInterface $validator,
+    ) {
     }
 
     #[Override]

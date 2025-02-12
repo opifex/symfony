@@ -13,8 +13,9 @@ class AccountRoleCollection extends AbstractCollection
     /** @var array<int|string, AccountRole> */
     protected array $elements = [];
 
-    public function __construct(AccountRole ...$role)
-    {
+    public function __construct(
+        AccountRole ...$role,
+    ) {
         parent::__construct(...$role);
     }
 

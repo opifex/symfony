@@ -12,8 +12,9 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
 
 final class RequestIdMiddleware implements MiddlewareInterface
 {
-    public function __construct(private readonly RequestIdStorageInterface $requestIdStorage)
-    {
+    public function __construct(
+        private readonly RequestIdStorageInterface $requestIdStorage,
+    ) {
     }
 
     #[Override]

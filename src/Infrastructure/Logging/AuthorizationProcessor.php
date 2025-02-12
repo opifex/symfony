@@ -12,8 +12,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 #[AsMonologProcessor]
 final class AuthorizationProcessor
 {
-    public function __construct(private readonly TokenStorageInterface $tokenStorage)
-    {
+    public function __construct(
+        private readonly TokenStorageInterface $tokenStorage,
+    ) {
     }
 
     public function __invoke(LogRecord $record): LogRecord

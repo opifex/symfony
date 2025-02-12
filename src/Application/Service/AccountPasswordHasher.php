@@ -13,8 +13,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 final class AccountPasswordHasher implements AccountPasswordHasherInterface
 {
-    public function __construct(private readonly PasswordHasherFactoryInterface $passwordHasherFactory)
-    {
+    public function __construct(
+        private readonly PasswordHasherFactoryInterface $passwordHasherFactory,
+    ) {
     }
 
     #[Override]

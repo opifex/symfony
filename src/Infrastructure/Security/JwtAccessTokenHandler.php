@@ -12,8 +12,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 
 final class JwtAccessTokenHandler implements AccessTokenHandlerInterface
 {
-    public function __construct(private readonly JwtTokenManagerInterface $jwtTokenManager)
-    {
+    public function __construct(
+        private readonly JwtTokenManagerInterface $jwtTokenManager,
+    ) {
     }
 
     #[Override]

@@ -14,8 +14,9 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 #[WithHttpStatus(statusCode: Response::HTTP_UNPROCESSABLE_ENTITY)]
 class ValidationFailedException extends RuntimeException
 {
-    public function __construct(private readonly ConstraintViolationListInterface $violations)
-    {
+    public function __construct(
+        private readonly ConstraintViolationListInterface $violations,
+    ) {
         parent::__construct(message: 'Parameters validation failed.');
     }
 

@@ -20,8 +20,9 @@ abstract class AbstractCollection implements Countable, IteratorAggregate
     /**
      * @param mixed ...$elements
      */
-    public function __construct(mixed ...$elements)
-    {
+    public function __construct(
+        mixed ...$elements,
+    ) {
         $this->elements = $elements;
     }
 

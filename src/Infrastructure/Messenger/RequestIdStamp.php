@@ -10,8 +10,9 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
 #[Exclude]
 final class RequestIdStamp implements StampInterface
 {
-    public function __construct(private readonly string $requestId)
-    {
+    public function __construct(
+        private readonly string $requestId,
+    ) {
     }
 
     public function getRequestId(): string

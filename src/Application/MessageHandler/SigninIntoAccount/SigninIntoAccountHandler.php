@@ -10,8 +10,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class SigninIntoAccountHandler
 {
-    public function __construct(private readonly JwtTokenManagerInterface $jwtTokenManager)
-    {
+    public function __construct(
+        private readonly JwtTokenManagerInterface $jwtTokenManager,
+    ) {
     }
 
     public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResponse

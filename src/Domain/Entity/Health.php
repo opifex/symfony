@@ -9,8 +9,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 class Health
 {
-    public function __construct(private readonly HealthStatus $status)
-    {
+    public function __construct(
+        private readonly HealthStatus $status,
+    ) {
     }
 
     public function getStatus(): HealthStatus

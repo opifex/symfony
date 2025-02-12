@@ -10,8 +10,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class GetAccountByIdHandler
 {
-    public function __construct(private readonly AccountRepositoryInterface $accountRepository)
-    {
+    public function __construct(
+        private readonly AccountRepositoryInterface $accountRepository,
+    ) {
     }
 
     public function __invoke(GetAccountByIdRequest $message): GetAccountByIdResponse

@@ -11,8 +11,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class GetHealthStatusResponse
 {
-    public function __construct(public readonly HealthStatus $status)
-    {
+    public function __construct(
+        public readonly HealthStatus $status,
+    ) {
     }
 
     public static function create(Health $health): self

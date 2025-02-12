@@ -10,8 +10,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class CreateNewAccountResponse
 {
-    public function __construct(public readonly string $uuid)
-    {
+    public function __construct(
+        public readonly string $uuid,
+    ) {
     }
 
     public static function create(Account $account): self

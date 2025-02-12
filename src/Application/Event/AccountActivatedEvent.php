@@ -11,8 +11,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 #[Exclude]
 final class AccountActivatedEvent extends Event
 {
-    public function __construct(private readonly Account $account)
-    {
+    public function __construct(
+        private readonly Account $account,
+    ) {
     }
 
     public function getAccount(): Account

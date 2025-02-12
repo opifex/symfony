@@ -11,8 +11,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class UnblockAccountByIdHandler
 {
-    public function __construct(private readonly AccountStateMachineInterface $accountStateMachine)
-    {
+    public function __construct(
+        private readonly AccountStateMachineInterface $accountStateMachine,
+    ) {
     }
 
     public function __invoke(UnblockAccountByIdRequest $message): UnblockAccountByIdResponse

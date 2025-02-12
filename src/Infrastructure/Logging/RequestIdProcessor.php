@@ -11,8 +11,9 @@ use Monolog\LogRecord;
 #[AsMonologProcessor]
 final class RequestIdProcessor
 {
-    public function __construct(private readonly RequestIdStorageInterface $requestIdStorage)
-    {
+    public function __construct(
+        private readonly RequestIdStorageInterface $requestIdStorage,
+    ) {
     }
 
     public function __invoke(LogRecord $record): LogRecord

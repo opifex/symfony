@@ -14,8 +14,9 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 final class AccountUserProvider implements UserProviderInterface
 {
-    public function __construct(private readonly AccountRepositoryInterface $accountRepository)
-    {
+    public function __construct(
+        private readonly AccountRepositoryInterface $accountRepository,
+    ) {
     }
 
     #[Override]

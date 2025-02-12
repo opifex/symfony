@@ -10,8 +10,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class DeleteAccountByIdHandler
 {
-    public function __construct(private readonly AccountRepositoryInterface $accountRepository)
-    {
+    public function __construct(
+        private readonly AccountRepositoryInterface $accountRepository,
+    ) {
     }
 
     public function __invoke(DeleteAccountByIdRequest $message): DeleteAccountByIdResponse

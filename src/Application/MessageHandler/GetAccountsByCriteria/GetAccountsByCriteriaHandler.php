@@ -14,8 +14,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class GetAccountsByCriteriaHandler
 {
-    public function __construct(private readonly AccountRepositoryInterface $accountRepository)
-    {
+    public function __construct(
+        private readonly AccountRepositoryInterface $accountRepository,
+    ) {
     }
 
     public function __invoke(GetAccountsByCriteriaRequest $message): GetAccountsByCriteriaResponse
