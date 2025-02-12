@@ -204,6 +204,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $entity = AccountFactory::create($email, $password);
         $this->defaultEntityManager->persist($entity);
         $this->defaultEntityManager->flush();
+        $this->defaultEntityManager->clear();
 
         return $entity->uuid;
     }
