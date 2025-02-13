@@ -4,17 +4,32 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Domain\Contract\AccountRepositoryInterface;
 use App\Infrastructure\Workflow\AccountMarkingStore;
 use Codeception\Test\Unit;
+use Override;
+use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 use Symfony\Component\Workflow\Marking;
 
 final class AccountMarkingStoreTest extends Unit
 {
+    private AccountRepositoryInterface&MockObject $accountRepository;
+
+    /**
+     * @throws Exception
+     */
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->accountRepository = $this->createMock(originalClassName: AccountRepositoryInterface::class);
+    }
+
     public function testGetMarkingThrowsExceptionWithInvalidObject(): void
     {
-        $accountMarkingStore = new AccountMarkingStore();
+        $accountMarkingStore = new AccountMarkingStore($this->accountRepository);
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -23,7 +38,7 @@ final class AccountMarkingStoreTest extends Unit
 
     public function testSetMarkingThrowsExceptionWithInvalidObject(): void
     {
-        $accountMarkingStore = new AccountMarkingStore();
+        $accountMarkingStore = new AccountMarkingStore($this->accountRepository);
 
         $this->expectException(InvalidArgumentException::class);
 

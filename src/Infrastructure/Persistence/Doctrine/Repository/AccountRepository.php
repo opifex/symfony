@@ -77,6 +77,8 @@ final class AccountRepository implements AccountRepositoryInterface
         $accountPaginator = $paginator->getIterator();
         $accounts = AccountMapper::mapMany(...$accountPaginator);
 
+        $this->defaultEntityManager->clear();
+
         return new AccountSearchResult($accounts, $paginator->count());
     }
 
@@ -94,11 +96,13 @@ final class AccountRepository implements AccountRepositoryInterface
         try {
             /** @var AccountEntity $account */
             $account = $builder->getQuery()->getSingleResult();
-
-            return AccountMapper::mapOne($account);
         } catch (NoResultException $e) {
             throw AccountNotFoundException::create($e);
         }
+
+        $this->defaultEntityManager->clear();
+
+        return AccountMapper::mapOne($account);
     }
 
     /**
@@ -115,11 +119,13 @@ final class AccountRepository implements AccountRepositoryInterface
         try {
             /** @var AccountEntity $account */
             $account = $builder->getQuery()->getSingleResult();
-
-            return AccountMapper::mapOne($account);
         } catch (NoResultException $e) {
             throw AccountNotFoundException::create($e);
         }
+
+        $this->defaultEntityManager->clear();
+
+        return AccountMapper::mapOne($account);
     }
 
     #[Override]
@@ -135,6 +141,8 @@ final class AccountRepository implements AccountRepositoryInterface
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
         }
+
+        $this->defaultEntityManager->clear();
     }
 
     #[Override]
@@ -150,6 +158,8 @@ final class AccountRepository implements AccountRepositoryInterface
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
         }
+
+        $this->defaultEntityManager->clear();
     }
 
     #[Override]
@@ -165,6 +175,8 @@ final class AccountRepository implements AccountRepositoryInterface
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
         }
+
+        $this->defaultEntityManager->clear();
     }
 
     #[Override]
@@ -180,6 +192,8 @@ final class AccountRepository implements AccountRepositoryInterface
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
         }
+
+        $this->defaultEntityManager->clear();
     }
 
     #[Override]
@@ -204,5 +218,7 @@ final class AccountRepository implements AccountRepositoryInterface
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
         }
+
+        $this->defaultEntityManager->clear();
     }
 }

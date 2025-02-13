@@ -9,7 +9,6 @@ use App\Application\Event\AccountRegisteredEvent;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountAction;
-use App\Domain\Entity\AccountStatus;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Workflow\Attribute\AsCompletedListener;
 use Symfony\Component\Workflow\Event\CompletedEvent;
@@ -20,15 +19,6 @@ final class AccountWorkflowEventListener
         private readonly AccountRepositoryInterface $accountRepository,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {
-    }
-
-    #[AsCompletedListener(workflow: 'account')]
-    public function onWorkflowAccountCompleted(CompletedEvent $event): void
-    {
-        /** @var Account $subject */
-        $subject = $event->getSubject();
-        $status = AccountStatus::fromValue((string) array_key_first($event->getMarking()->getPlaces()));
-        $this->accountRepository->updateStatusByUuid($subject->getUuid(), $status);
     }
 
     #[AsCompletedListener(workflow: 'account', transition: AccountAction::Register->value)]
