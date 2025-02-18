@@ -7,7 +7,7 @@ namespace Tests\Unit;
 use App\Presentation\Controller\AbstractController;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Messenger\Envelope;
@@ -22,7 +22,7 @@ final class AbstractControllerTest extends Unit
     private NormalizerInterface&MockObject $normalizer;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void
@@ -32,7 +32,7 @@ final class AbstractControllerTest extends Unit
     }
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     public function testHandleThrowsExceptionOnMultipleHandlers(): void
     {

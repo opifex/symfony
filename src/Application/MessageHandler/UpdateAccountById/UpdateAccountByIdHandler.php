@@ -7,7 +7,6 @@ namespace App\Application\MessageHandler\UpdateAccountById;
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Exception\AccountAlreadyExistsException;
-use App\Domain\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -25,12 +24,11 @@ final class UpdateAccountByIdHandler
 
         if ($message->email !== null) {
             if ($message->email !== $account->getEmail()) {
-                try {
-                    $this->accountRepository->findOneByEmail($message->email);
+                if ($this->accountRepository->isExistsByEmail($message->email)) {
                     throw AccountAlreadyExistsException::create();
-                } catch (AccountNotFoundException) {
-                    $this->accountRepository->updateEmailByUuid($message->uuid, $message->email);
                 }
+
+                $this->accountRepository->updateEmailByUuid($message->uuid, $message->email);
             }
         }
 

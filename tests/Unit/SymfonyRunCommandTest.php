@@ -8,7 +8,7 @@ use App\Domain\Contract\HttpbinResponderInterface;
 use App\Presentation\Command\SymfonyRunCommand;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Application;
@@ -22,7 +22,7 @@ final class SymfonyRunCommandTest extends Unit
     private HttpbinResponderInterface&MockObject $httpbinResponder;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void

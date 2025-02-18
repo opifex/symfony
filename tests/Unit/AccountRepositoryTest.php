@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SearchSorting;
@@ -13,12 +12,14 @@ use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Persistence\Doctrine\Repository\AccountRepository;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use LogicException;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 
 final class AccountRepositoryTest extends Unit
@@ -28,7 +29,7 @@ final class AccountRepositoryTest extends Unit
     private Query&MockObject $query;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void
@@ -65,6 +66,9 @@ final class AccountRepositoryTest extends Unit
             ->willReturn($expr);
     }
 
+    /**
+     * @throws Exception
+     */
     public function testFindByCriteriaWithInvalidSorting(): void
     {
         $accountRepository = new AccountRepository($this->entityManager);
@@ -74,6 +78,22 @@ final class AccountRepositoryTest extends Unit
         $sorting = new SearchSorting(field: 'invalid', order: SortingOrder::Asc);
         $criteria = new AccountSearchCriteria(sorting: $sorting);
         $accountRepository->findByCriteria($criteria);
+    }
+
+    public function testFindStatusByUuid(): void
+    {
+        $accountRepository = new AccountRepository($this->entityManager);
+
+        $this->query
+            ->expects($this->once())
+            ->method(constraint: 'getSingleScalarResult')
+            ->willThrowException(new NoResultException());
+
+        $this->expectException(AccountNotFoundException::class);
+
+        $accountRepository->findStatusByUuid(
+            uuid: '00000000-0000-6000-8000-000000000000',
+        );
     }
 
     public function testUpdateEmailByUuid(): void

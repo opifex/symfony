@@ -16,7 +16,6 @@ use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountFactory;
 use App\Infrastructure\Persistence\Doctrine\Mapping\Default\AccountMapper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
@@ -82,9 +81,6 @@ final class AccountRepository implements AccountRepositoryInterface
         return new AccountSearchResult($accounts, $paginator->count());
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     #[Override]
     public function findOneByEmail(string $email): Account
     {
@@ -105,9 +101,6 @@ final class AccountRepository implements AccountRepositoryInterface
         return AccountMapper::mapOne($account);
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     #[Override]
     public function findOneByUuid(string $uuid): Account
     {
@@ -129,6 +122,25 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
+    public function findStatusByUuid(string $uuid): AccountStatus
+    {
+        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder->select(['account.status'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
+        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
+
+        try {
+            $status = (string) $builder->getQuery()->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            throw AccountNotFoundException::create($e);
+        }
+
+        $this->defaultEntityManager->clear();
+
+        return AccountStatus::from($status);
+    }
+
+    #[Override]
     public function updateEmailByUuid(string $uuid, string $email): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
@@ -146,14 +158,14 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function updatePasswordByUuid(string $uuid, #[SensitiveParameter] string $password): void
+    public function updateLocaleByUuid(string $uuid, string $locale): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.password', value: ':password');
+        $builder->set(key: 'account.locale', value: ':locale');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'password', value: $password, type: Types::STRING);
+        $builder->setParameter(key: 'locale', value: $locale, type: Types::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
@@ -180,14 +192,14 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function updateLocaleByUuid(string $uuid, string $locale): void
+    public function updatePasswordByUuid(string $uuid, #[SensitiveParameter] string $password): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.locale', value: ':locale');
+        $builder->set(key: 'account.password', value: ':password');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'locale', value: $locale, type: Types::STRING);
+        $builder->setParameter(key: 'password', value: $password, type: Types::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
@@ -220,5 +232,20 @@ final class AccountRepository implements AccountRepositoryInterface
         }
 
         $this->defaultEntityManager->clear();
+    }
+
+    #[Override]
+    public function isExistsByEmail(string $email): bool
+    {
+        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
+
+        $exists = (bool) $builder->getQuery()->getOneOrNullResult();
+
+        $this->defaultEntityManager->clear();
+
+        return $exists;
     }
 }

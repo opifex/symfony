@@ -9,7 +9,7 @@ use App\Domain\Contract\RequestIdGeneratorInterface;
 use App\Domain\Contract\RequestIdStorageInterface;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,7 +29,7 @@ final class RequestIdEventListenerTest extends Unit
     private OutputInterface&MockObject $output;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void

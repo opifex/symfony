@@ -7,7 +7,7 @@ namespace Tests\Unit;
 use App\Presentation\Scheduler\SymfonyPeriodicTask;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -16,7 +16,7 @@ final class SymfonyPeriodicTaskTest extends Unit
     private LoggerInterface&MockObject $logger;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void
@@ -26,6 +26,6 @@ final class SymfonyPeriodicTaskTest extends Unit
 
     public function testInvokePeriodicTask(): void
     {
-        (new SymfonyPeriodicTask($this->logger))();
+        new SymfonyPeriodicTask($this->logger)();
     }
 }

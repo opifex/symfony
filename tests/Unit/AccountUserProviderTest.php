@@ -15,7 +15,7 @@ use App\Infrastructure\Security\AccountUserProvider;
 use Codeception\Test\Unit;
 use DateTimeImmutable;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -27,7 +27,7 @@ final class AccountUserProviderTest extends Unit
     private AccountRepositoryInterface&MockObject $accountRepository;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void

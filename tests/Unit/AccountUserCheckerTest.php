@@ -9,7 +9,7 @@ use App\Infrastructure\Security\AccountUser;
 use App\Infrastructure\Security\AccountUserChecker;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -20,7 +20,7 @@ final class AccountUserCheckerTest extends Unit
     private UserInterface&MockObject $user;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void

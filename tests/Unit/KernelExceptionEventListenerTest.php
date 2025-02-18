@@ -9,7 +9,7 @@ use App\Domain\Contract\PrivacyProtectorInterface;
 use Codeception\Test\Unit;
 use LogicException;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
@@ -28,7 +28,7 @@ final class KernelExceptionEventListenerTest extends Unit
     private PrivacyProtectorInterface&MockObject $privacyProtector;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void
@@ -52,6 +52,6 @@ final class KernelExceptionEventListenerTest extends Unit
             e: new LogicException(),
         );
 
-        (new KernelExceptionEventListener($this->logger, $this->normalizer, $this->privacyProtector))($event);
+        new KernelExceptionEventListener($this->logger, $this->normalizer, $this->privacyProtector)($event);
     }
 }

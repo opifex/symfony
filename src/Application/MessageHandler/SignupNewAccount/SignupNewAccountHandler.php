@@ -9,7 +9,6 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Contract\AccountStateMachineInterface;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Exception\AccountAlreadyExistsException;
-use App\Domain\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -24,17 +23,16 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResponse
     {
-        try {
-            $this->accountRepository->findOneByEmail($message->email);
+        if ($this->accountRepository->isExistsByEmail($message->email)) {
             throw AccountAlreadyExistsException::create();
-        } catch (AccountNotFoundException) {
-            $hashedPassword = $this->accountPasswordHasher->hash($message->password);
-
-            $accountUuid = $this->accountRepository->addOneAccount($message->email, $hashedPassword);
-            $this->accountRepository->updateLocaleByUuid($accountUuid, $message->locale);
-            $this->accountStateMachine->apply($accountUuid, action: AccountAction::Register);
-
-            return SignupNewAccountResponse::create();
         }
+
+        $hashedPassword = $this->accountPasswordHasher->hash($message->password);
+
+        $accountUuid = $this->accountRepository->addOneAccount($message->email, $hashedPassword);
+        $this->accountRepository->updateLocaleByUuid($accountUuid, $message->locale);
+        $this->accountStateMachine->apply($accountUuid, action: AccountAction::Register);
+
+        return SignupNewAccountResponse::create();
     }
 }

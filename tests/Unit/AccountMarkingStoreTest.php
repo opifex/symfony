@@ -8,7 +8,7 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Infrastructure\Workflow\AccountMarkingStore;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
@@ -19,7 +19,7 @@ final class AccountMarkingStoreTest extends Unit
     private AccountRepositoryInterface&MockObject $accountRepository;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void

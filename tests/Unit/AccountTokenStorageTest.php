@@ -9,7 +9,7 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Exception\AccountUnauthorizedException;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -19,7 +19,7 @@ final class AccountTokenStorageTest extends Unit
     private TokenStorageInterface&MockObject $tokenStorage;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void

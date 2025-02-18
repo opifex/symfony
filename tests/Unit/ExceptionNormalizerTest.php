@@ -7,7 +7,7 @@ namespace Tests\Unit;
 use App\Infrastructure\Serializer\ExceptionNormalizer;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -18,7 +18,7 @@ final class ExceptionNormalizerTest extends Unit
     private TranslatorInterface&MockObject $translator;
 
     /**
-     * @throws Exception
+     * @throws MockObjectException
      */
     #[Override]
     protected function setUp(): void

@@ -29,12 +29,17 @@ interface AccountRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
+    public function findStatusByUuid(string $uuid): AccountStatus;
+
+    /**
+     * @throws AccountNotFoundException
+     */
     public function updateEmailByUuid(string $uuid, string $email): void;
 
     /**
      * @throws AccountNotFoundException
      */
-    public function updatePasswordByUuid(string $uuid, #[SensitiveParameter] string $password): void;
+    public function updateLocaleByUuid(string $uuid, string $locale): void;
 
     /**
      * @throws AccountNotFoundException
@@ -44,7 +49,7 @@ interface AccountRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
-    public function updateLocaleByUuid(string $uuid, string $locale): void;
+    public function updatePasswordByUuid(string $uuid, #[SensitiveParameter] string $password): void;
 
     /**
      * @throws AccountAlreadyExistsException
@@ -55,4 +60,6 @@ interface AccountRepositoryInterface
      * @throws AccountNotFoundException
      */
     public function deleteOneByUuid(string $uuid): void;
+
+    public function isExistsByEmail(string $email): bool;
 }
