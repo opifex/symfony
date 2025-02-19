@@ -128,7 +128,7 @@ services:
       internal:
 
   mockserver:
-    image: mockserver/mockserver
+    image: mockserver/mockserver:latest
     hostname: mockserver
     container_name: "${APP_NAME}-mockserver"
     restart: unless-stopped
