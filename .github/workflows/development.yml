@@ -11,7 +11,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:16.4
+        image: postgres:17.3
         env:
           POSTGRES_DB: root
           POSTGRES_PASSWORD: root
@@ -55,7 +55,7 @@ jobs:
         run: /usr/bin/composer auto-quality
 
       - name: Upload project code coverage reports
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: opifex/symfony
