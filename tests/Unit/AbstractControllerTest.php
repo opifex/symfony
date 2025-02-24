@@ -27,8 +27,8 @@ final class AbstractControllerTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->messageBus = $this->createMock(originalClassName: MessageBusInterface::class);
-        $this->normalizer = $this->createMock(originalClassName: NormalizerInterface::class);
+        $this->messageBus = $this->createMock(type: MessageBusInterface::class);
+        $this->normalizer = $this->createMock(type: NormalizerInterface::class);
     }
 
     /**

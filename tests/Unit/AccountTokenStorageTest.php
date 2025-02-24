@@ -24,8 +24,8 @@ final class AccountTokenStorageTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->accountRepository = $this->createMock(originalClassName: AccountRepositoryInterface::class);
-        $this->tokenStorage = $this->createMock(originalClassName: TokenStorageInterface::class);
+        $this->accountRepository = $this->createMock(type: AccountRepositoryInterface::class);
+        $this->tokenStorage = $this->createMock(type: TokenStorageInterface::class);
     }
 
     public function testFetchAccountThrowsExceptionWithUnauthorizedUser(): void

@@ -23,7 +23,7 @@ final class SensiolabsTwigAdapterTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->environment = $this->createMock(originalClassName: Environment::class);
+        $this->environment = $this->createMock(type: Environment::class);
     }
 
     /**

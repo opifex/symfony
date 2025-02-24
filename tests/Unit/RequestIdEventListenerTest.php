@@ -34,11 +34,11 @@ final class RequestIdEventListenerTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->requestIdGenerator = $this->createMock(originalClassName: RequestIdGeneratorInterface::class);
-        $this->requestIdStorage = $this->createMock(originalClassName: RequestIdStorageInterface::class);
-        $this->httpKernel = $this->createMock(originalClassName: HttpKernelInterface::class);
-        $this->input = $this->createMock(originalClassName: InputInterface::class);
-        $this->output = $this->createMock(originalClassName: OutputInterface::class);
+        $this->requestIdGenerator = $this->createMock(type: RequestIdGeneratorInterface::class);
+        $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
+        $this->httpKernel = $this->createMock(type: HttpKernelInterface::class);
+        $this->input = $this->createMock(type: InputInterface::class);
+        $this->output = $this->createMock(type: OutputInterface::class);
     }
 
     public function testOnConsoleCommand(): void

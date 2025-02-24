@@ -33,10 +33,10 @@ final class KernelExceptionEventListenerTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->kernel = $this->createMock(originalClassName: KernelInterface::class);
-        $this->logger = $this->createMock(originalClassName: LoggerInterface::class);
-        $this->normalizer = $this->createMock(originalClassName: NormalizerInterface::class);
-        $this->privacyProtector = $this->createMock(originalClassName: PrivacyProtectorInterface::class);
+        $this->kernel = $this->createMock(type: KernelInterface::class);
+        $this->logger = $this->createMock(type: LoggerInterface::class);
+        $this->normalizer = $this->createMock(type: NormalizerInterface::class);
+        $this->privacyProtector = $this->createMock(type: PrivacyProtectorInterface::class);
     }
 
     /**

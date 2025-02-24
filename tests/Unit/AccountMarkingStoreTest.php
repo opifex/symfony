@@ -24,7 +24,7 @@ final class AccountMarkingStoreTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->accountRepository = $this->createMock(originalClassName: AccountRepositoryInterface::class);
+        $this->accountRepository = $this->createMock(type: AccountRepositoryInterface::class);
     }
 
     public function testGetMarkingThrowsExceptionWithInvalidObject(): void

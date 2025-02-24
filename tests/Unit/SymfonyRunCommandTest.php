@@ -28,7 +28,7 @@ final class SymfonyRunCommandTest extends Unit
     protected function setUp(): void
     {
         $this->application = new Application();
-        $this->httpbinResponder = $this->createMock(originalClassName: HttpbinResponderInterface::class);
+        $this->httpbinResponder = $this->createMock(type: HttpbinResponderInterface::class);
         $this->application->add(
             new SymfonyRunCommand(
                 clock: new MockClock(),

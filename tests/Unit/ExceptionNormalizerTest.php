@@ -23,8 +23,8 @@ final class ExceptionNormalizerTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->kernel = $this->createMock(originalClassName: KernelInterface::class);
-        $this->translator = $this->createMock(originalClassName: TranslatorInterface::class);
+        $this->kernel = $this->createMock(type: KernelInterface::class);
+        $this->translator = $this->createMock(type: TranslatorInterface::class);
     }
 
     public function testNormalizeThrowsInvalidArgumentException(): void

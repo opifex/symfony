@@ -34,11 +34,11 @@ final class AccountRepositoryTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->entityManager = $this->createMock(originalClassName: EntityManagerInterface::class);
-        $this->query = $this->createMock(originalClassName: Query::class);
+        $this->entityManager = $this->createMock(type: EntityManagerInterface::class);
+        $this->query = $this->createMock(type: Query::class);
 
-        $queryBuilder = $this->createMock(originalClassName: QueryBuilder::class);
-        $expr = $this->createMock(originalClassName: Expr::class);
+        $queryBuilder = $this->createMock(type: QueryBuilder::class);
+        $expr = $this->createMock(type: Expr::class);
 
         $this->entityManager
             ->expects($this->once())

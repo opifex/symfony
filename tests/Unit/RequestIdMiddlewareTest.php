@@ -28,9 +28,9 @@ final class RequestIdMiddlewareTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->requestIdStorage = $this->createMock(originalClassName: RequestIdStorageInterface::class);
-        $this->middleware = $this->createMock(originalClassName: MiddlewareInterface::class);
-        $this->stack = $this->createMock(originalClassName: StackInterface::class);
+        $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
+        $this->middleware = $this->createMock(type: MiddlewareInterface::class);
+        $this->stack = $this->createMock(type: StackInterface::class);
     }
 
     public function testHandleEnvelopeWithRequestIdStamp(): void

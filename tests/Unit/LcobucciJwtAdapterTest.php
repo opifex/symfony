@@ -24,7 +24,7 @@ final class LcobucciJwtAdapterTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->user = $this->createMock(originalClassName: UserInterface::class);
+        $this->user = $this->createMock(type: UserInterface::class);
     }
 
     /**

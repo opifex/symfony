@@ -21,7 +21,7 @@ final class SymfonyPeriodicTaskTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->logger = $this->createMock(originalClassName: LoggerInterface::class);
+        $this->logger = $this->createMock(type: LoggerInterface::class);
     }
 
     public function testInvokePeriodicTask(): void
