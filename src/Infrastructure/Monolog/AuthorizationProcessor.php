@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Logging;
+namespace App\Infrastructure\Monolog;
 
 use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;

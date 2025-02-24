@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Doctrine\Mapping\Default;
+namespace App\Infrastructure\Doctrine\Mapping\Default;
 
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
