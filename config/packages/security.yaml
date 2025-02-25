@@ -32,3 +32,8 @@ security:
     !php/enum App\Domain\Entity\AccountRole::Admin->value: [
       !php/enum App\Domain\Entity\AccountRole::User->value,
     ]
+
+when@test:
+  security:
+    password_hashers:
+      Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: plaintext
