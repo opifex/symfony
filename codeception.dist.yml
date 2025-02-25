@@ -7,7 +7,6 @@ paths:
   data: tests/Support/Data
   support: tests/Support
 settings:
-  shuffle: true
   colors: true
   report_useless_tests: false
 coverage:
