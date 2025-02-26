@@ -45,6 +45,9 @@ jobs:
       - name: Checkout project sources
         uses: actions/checkout@v4
 
+      - name: Build image from dockerfile
+        run: docker build . --tag application
+
       - name: Install composer dependencies
         run: /usr/bin/composer install --no-scripts
 
