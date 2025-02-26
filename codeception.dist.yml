@@ -26,6 +26,7 @@ coverage:
 extensions:
   enabled:
     - Codeception\Extension\RunFailed
+    - Tests\Support\Extension\DisableCollector
 params:
   - .env
   - .env.test
