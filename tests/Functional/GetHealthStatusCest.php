@@ -13,7 +13,7 @@ final class GetHealthStatusCest
     public function getSuccessHealthStatus(FunctionalTester $i): void
     {
         $i->haveHttpHeaderApplicationJson();
-        $i->sendGet(url: '/api/health');
+        $i->sendGet(url: '/api/status');
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(['status' => HealthStatus::Ok->value]);
@@ -23,7 +23,7 @@ final class GetHealthStatusCest
     public function getHealthStatusUsingInvalidMethod(FunctionalTester $i): void
     {
         $i->haveHttpHeaderApplicationJson();
-        $i->sendPost(url: '/api/health');
+        $i->sendPost(url: '/api/status');
         $i->seeResponseCodeIs(code: HttpCode::METHOD_NOT_ALLOWED);
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
