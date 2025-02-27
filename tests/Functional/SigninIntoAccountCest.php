@@ -20,6 +20,7 @@ final class SigninIntoAccountCest
             'password' => 'password4#account',
         ]));
         $i->seeResponseCodeIs(code: HttpCode::OK);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
         $i->seeResponseIsJson();
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'SigninIntoAccountSchema.json'));
     }
@@ -33,6 +34,7 @@ final class SigninIntoAccountCest
             'password' => 'password4#account',
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
         $i->seeResponseIsJson();
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
@@ -45,6 +47,7 @@ final class SigninIntoAccountCest
             'password' => 'password4#account',
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
         $i->seeResponseIsJson();
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
@@ -54,6 +57,7 @@ final class SigninIntoAccountCest
         $i->haveHttpHeaderApplicationJson();
         $i->sendPost(url: '/api/auth/signin', params: '[...]');
         $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
         $i->seeResponseIsJson();
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
@@ -66,6 +70,7 @@ final class SigninIntoAccountCest
             'extra' => 'value',
         ]));
         $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

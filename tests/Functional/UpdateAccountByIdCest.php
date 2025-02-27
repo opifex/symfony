@@ -26,6 +26,7 @@ final class UpdateAccountByIdCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
         $i->seeResponseEquals(expected: '');
     }
 
@@ -44,6 +45,7 @@ final class UpdateAccountByIdCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
@@ -57,6 +59,7 @@ final class UpdateAccountByIdCest
             params: json_encode(['email' => 'user@example.com']),
         );
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }
