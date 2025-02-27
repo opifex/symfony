@@ -1,4 +1,4 @@
-name: development
+name: deployment
 
 on:
   push:
@@ -46,3 +46,4 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ github.run_id }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          load: false
