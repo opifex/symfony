@@ -11,7 +11,7 @@ final class DisableCollector extends Extension
      * @var array<string, string>
      */
     protected static array $events = [
-        Events::TEST_BEFORE => 'disableCollector'
+        Events::SUITE_BEFORE => 'disableCollector'
     ];
 
     public function disableCollector(): void
