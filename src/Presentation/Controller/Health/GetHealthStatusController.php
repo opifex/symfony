@@ -49,7 +49,7 @@ final class GetHealthStatusController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/status',
+        path: '/health',
         name: 'app_get_health_status',
         methods: Request::METHOD_GET,
     )]
