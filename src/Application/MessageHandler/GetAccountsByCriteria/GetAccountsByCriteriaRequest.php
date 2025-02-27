@@ -8,9 +8,11 @@ use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\SortingOrder;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
+use Symfony\Component\Messenger\Attribute\AsMessage;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[Exclude]
+#[AsMessage]
 final class GetAccountsByCriteriaRequest
 {
     public function __construct(
