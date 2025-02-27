@@ -8,12 +8,6 @@ security:
     development:
       pattern: ^/(_(profiler|wdt))
       security: false
-    healthcheck:
-      pattern: ^/api/health
-      security: false
-    registration:
-      pattern: ^/api/auth/signup
-      security: false
     authentication:
       stateless: true
       pattern: ^/api/auth/signin
