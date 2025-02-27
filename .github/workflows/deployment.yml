@@ -10,6 +10,7 @@ jobs:
     timeout-minutes: 10
 
     env:
+      APP_ENV: test
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
       HTTPBIN_URL: http://localhost:1080/httpbin/
       MAILER_DSN: null://null
@@ -30,4 +31,6 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ github.run_id }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          outputs: false
+
+      - name: Run automated project quality assurance
+        run: docker run --rm --env-file <(env | grep -E 'DATABASE_URL|HTTPBIN_URL|MAILER_DSN|MESSENGER_TRANSPORT_DSN|MOCK_SERVER_URL|APP_ENV') ghcr.io/${{ github.repository }}:${{ github.run_id }} quality
