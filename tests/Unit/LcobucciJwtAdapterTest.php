@@ -45,8 +45,8 @@ final class LcobucciJwtAdapterTest extends Unit
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 86400,
-            clock: new MockClock(),
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+            clock: new MockClock(),
         );
 
         $this->user
@@ -109,10 +109,10 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 86400,
-            clock: new MockClock(),
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             signingKey: $signingKey,
             verificationKey: $verificationKey,
+            clock: new MockClock(),
         );
 
         $this->user
@@ -134,8 +134,8 @@ final class LcobucciJwtAdapterTest extends Unit
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 0,
-            clock: new MockClock(),
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+            clock: new MockClock(),
         );
 
         $this->user
@@ -157,8 +157,8 @@ final class LcobucciJwtAdapterTest extends Unit
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 1,
-            clock: new MockClock(),
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+            clock: new MockClock(),
         );
 
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
@@ -176,8 +176,8 @@ final class LcobucciJwtAdapterTest extends Unit
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 1,
-            clock: new MockClock(),
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+            clock: new MockClock(),
         );
 
         $this->expectException(JwtTokenManagerException::class);
@@ -192,8 +192,8 @@ final class LcobucciJwtAdapterTest extends Unit
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 86400,
-            clock: new MockClock(),
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+            clock: new MockClock(),
         );
 
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';

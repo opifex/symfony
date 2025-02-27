@@ -5,11 +5,3 @@ services:
 
   App\:
     resource: '../src/'
-
-  App\Domain\Contract\JwtTokenManagerInterface:
-    class: App\Infrastructure\Adapter\LcobucciJwtAdapter
-    arguments:
-      $lifetime: '%env(int:JWT_LIFETIME)%'
-      $passphrase: '%env(JWT_PASSPHRASE)%'
-      $signingKey: '%env(default::JWT_SIGNING_KEY)%'
-      $verificationKey: '%env(default::JWT_VERIFICATION_KEY)%'

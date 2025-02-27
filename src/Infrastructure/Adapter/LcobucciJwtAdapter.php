@@ -22,6 +22,7 @@ use Override;
 use SensitiveParameter;
 use Symfony\Component\Clock\Clock;
 use Symfony\Component\Clock\ClockInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Uid\Uuid;
 
 final class LcobucciJwtAdapter implements JwtTokenManagerInterface
@@ -34,14 +35,22 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
      * @throws Exception
      */
     public function __construct(
+        #[Autowire('%env(int:JWT_LIFETIME)%')]
         private readonly int $lifetime = 0,
-        private readonly ClockInterface $clock = new Clock(),
+
+        #[Autowire('%env(JWT_PASSPHRASE)%')]
         #[SensitiveParameter]
         private readonly ?string $passphrase = null,
+
+        #[Autowire('%env(default::JWT_SIGNING_KEY)%')]
         #[SensitiveParameter]
         private readonly ?string $signingKey = null,
+
+        #[Autowire('%env(default::JWT_VERIFICATION_KEY)%')]
         #[SensitiveParameter]
         private readonly ?string $verificationKey = null,
+
+        private readonly ClockInterface $clock = new Clock(),
     ) {
         $this->expiration = new DateInterval(sprintf('PT%sS', $this->lifetime));
         $this->configuration = match (true) {
