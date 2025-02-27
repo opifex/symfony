@@ -37,6 +37,11 @@ jobs:
       MOCK_SERVER_URL: http://localhost:1080
 
     steps:
+      - name: Setup virtual environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+
       - name: Checkout project sources
         uses: actions/checkout@v4
 
