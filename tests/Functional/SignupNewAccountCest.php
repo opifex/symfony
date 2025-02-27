@@ -10,6 +10,17 @@ use Tests\Support\FunctionalTester;
 
 final class SignupNewAccountCest
 {
+    public function signupUsingNewCredentials(FunctionalTester $i): void
+    {
+        $i->haveHttpHeaderApplicationJson();
+        $i->sendPost(url: '/api/auth/signup', params: json_encode([
+            'email' => 'admin@example.com',
+            'password' => 'password4#account',
+        ]));
+        $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
+        $i->seeResponseEquals(expected: '');
+    }
+
     public function signupUsingInvalidCredentials(FunctionalTester $i): void
     {
         $i->haveHttpHeaderApplicationJson();
