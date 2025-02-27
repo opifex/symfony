@@ -7,7 +7,6 @@ namespace App\Application\MessageHandler\CreateNewAccount;
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Contract\AccountStateMachineInterface;
-use App\Domain\Entity\AccountAction;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -31,10 +30,8 @@ final class CreateNewAccountHandler
 
         $accountUuid = $this->accountRepository->addOneAccount($message->email, $hashedPassword);
         $this->accountRepository->updateLocaleByUuid($accountUuid, $message->locale);
-        $this->accountStateMachine->apply($accountUuid, action: AccountAction::Register);
+        $this->accountStateMachine->register($accountUuid);
 
-        $account = $this->accountRepository->findOneByUuid($accountUuid);
-
-        return CreateNewAccountResponse::create($account);
+        return CreateNewAccountResponse::create($accountUuid);
     }
 }
