@@ -9,25 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    services:
-      postgres:
-        image: postgres:17.3
-        env:
-          POSTGRES_DB: root
-          POSTGRES_PASSWORD: root
-          POSTGRES_USER: root
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 2s
-          --health-timeout 2s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      mockserver:
-        image: mockserver/mockserver:latest
-        ports:
-          - 1080:1080
-
     env:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
       HTTPBIN_URL: http://localhost:1080/httpbin/
@@ -38,6 +19,9 @@ jobs:
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v4
+
+      - name: Setup Buildx builder
+        uses: docker/setup-buildx-action@v3
 
       - name: Build image and push to Docker Hub
         uses: docker/build-push-action@v6
