@@ -30,11 +30,11 @@ jobs:
 
     env:
       APP_ENV: test
-      DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
-      HTTPBIN_URL: http://localhost:1080/httpbin/
+      DATABASE_URL: postgresql://root:root@host.docker.internal:5432/root?serverVersion=17&charset=utf8
+      HTTPBIN_URL: http://host.docker.internal:1080/httpbin/
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
-      MOCK_SERVER_URL: http://localhost:1080
+      MOCK_SERVER_URL: http://host.docker.internal:1080
 
     steps:
       - name: Setup virtual environment
