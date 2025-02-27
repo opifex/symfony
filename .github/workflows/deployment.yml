@@ -31,6 +31,7 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ github.run_id }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          load: true
 
       - name: Run automated project quality assurance
         run: docker run --rm --env-file <(env | grep -E 'DATABASE_URL|HTTPBIN_URL|MAILER_DSN|MESSENGER_TRANSPORT_DSN|MOCK_SERVER_URL|APP_ENV') ghcr.io/${{ github.repository }}:${{ github.run_id }} quality
