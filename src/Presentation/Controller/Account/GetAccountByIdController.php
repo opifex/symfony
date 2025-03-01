@@ -18,14 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class GetAccountByIdController extends AbstractController
 {
-    /**
-     * @throws ExceptionInterface
-     */
     #[OA\Get(
         summary: 'Get account by identifier',
         security: [['bearer' => []]],
@@ -97,10 +93,10 @@ final class GetAccountByIdController extends AbstractController
     public function __invoke(#[MapMessage] GetAccountByIdRequest $message): Response
     {
         /** @var GetAccountByIdResponse $handledResult */
-        $handledResult = $this->handle($message);
+        $handledResult = $this->handleMessage($message);
 
         return new JsonResponse(
-            data: $this->normalizer->normalize($handledResult),
+            data: $this->normalizeResult($handledResult),
         );
     }
 }

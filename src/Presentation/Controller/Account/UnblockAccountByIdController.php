@@ -17,14 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class UnblockAccountByIdController extends AbstractController
 {
-    /**
-     * @throws ExceptionInterface
-     */
     #[OA\Post(
         summary: 'Unblock account by identifier',
         security: [['bearer' => []]],
@@ -54,10 +50,10 @@ final class UnblockAccountByIdController extends AbstractController
     public function __invoke(#[MapMessage] UnblockAccountByIdRequest $message): Response
     {
         /** @var UnblockAccountByIdResponse $handledResult */
-        $handledResult = $this->handle($message);
+        $handledResult = $this->handleMessage($message);
 
         return new JsonResponse(
-            data: $this->normalizer->normalize($handledResult),
+            data: $this->normalizeResult($handledResult),
             status: Response::HTTP_NO_CONTENT,
         );
     }

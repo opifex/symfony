@@ -18,14 +18,10 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class GetHealthStatusController extends AbstractController
 {
-    /**
-     * @throws ExceptionInterface
-     */
     #[OA\Get(
         summary: 'Get health status',
         tags: ['Health'],
@@ -57,10 +53,10 @@ final class GetHealthStatusController extends AbstractController
     public function __invoke(#[MapMessage] GetHealthStatusRequest $message): Response
     {
         /** @var GetHealthStatusResponse $handledResult */
-        $handledResult = $this->handle($message);
+        $handledResult = $this->handleMessage($message);
 
         return new JsonResponse(
-            data: $this->normalizer->normalize($handledResult),
+            data: $this->normalizeResult($handledResult),
         );
     }
 }

@@ -17,14 +17,10 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class SigninIntoAccountController extends AbstractController
 {
-    /**
-     * @throws ExceptionInterface
-     */
     #[OA\Post(
         summary: 'Signin into account',
         requestBody: new OA\RequestBody(
@@ -75,10 +71,10 @@ final class SigninIntoAccountController extends AbstractController
     public function __invoke(#[MapMessage] SigninIntoAccountRequest $message): Response
     {
         /** @var SigninIntoAccountResponse $handledResult */
-        $handledResult = $this->handle($message);
+        $handledResult = $this->handleMessage($message);
 
         return new JsonResponse(
-            data: $this->normalizer->normalize($handledResult),
+            data: $this->normalizeResult($handledResult),
         );
     }
 }

@@ -17,14 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class UpdateAccountByIdController extends AbstractController
 {
-    /**
-     * @throws ExceptionInterface
-     */
     #[OA\Patch(
         summary: 'Update account by identifier',
         security: [['bearer' => []]],
@@ -90,10 +86,10 @@ final class UpdateAccountByIdController extends AbstractController
     public function __invoke(#[MapMessage] UpdateAccountByIdRequest $message): Response
     {
         /** @var UpdateAccountByIdResponse $handledResult */
-        $handledResult = $this->handle($message);
+        $handledResult = $this->handleMessage($message);
 
         return new JsonResponse(
-            data: $this->normalizer->normalize($handledResult),
+            data: $this->normalizeResult($handledResult),
             status: Response::HTTP_NO_CONTENT,
         );
     }

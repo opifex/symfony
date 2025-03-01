@@ -20,14 +20,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class GetAccountsByCriteriaController extends AbstractController
 {
-    /**
-     * @throws ExceptionInterface
-     */
     #[OA\Get(
         summary: 'Get accounts by criteria',
         security: [['bearer' => []]],
@@ -141,10 +137,10 @@ final class GetAccountsByCriteriaController extends AbstractController
     public function __invoke(#[MapMessage] GetAccountsByCriteriaRequest $message): Response
     {
         /** @var GetAccountsByCriteriaResponse $handledResult */
-        $handledResult = $this->handle($message);
+        $handledResult = $this->handleMessage($message);
 
         return new JsonResponse(
-            data: $this->normalizer->normalize($handledResult),
+            data: $this->normalizeResult($handledResult),
             headers: [HttpSpecification::HEADER_X_TOTAL_COUNT => count($handledResult)],
         );
     }

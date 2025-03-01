@@ -34,12 +34,12 @@ final class AbstractControllerTest extends Unit
     /**
      * @throws MockObjectException
      */
-    public function testHandleThrowsExceptionOnMultipleHandlers(): void
+    public function testHandleMessageThrowsExceptionOnMultipleHandlers(): void
     {
         $controller = new class ($this->messageBus, $this->normalizer) extends AbstractController {
             public function testHandle(object $message): mixed
             {
-                return $this->handle($message);
+                return $this->handleMessage($message);
             }
         };
 

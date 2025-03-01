@@ -17,14 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 #[AsController]
 final class CreateNewAccountController extends AbstractController
 {
-    /**
-     * @throws ExceptionInterface
-     */
     #[OA\Post(
         summary: 'Create new account',
         security: [['bearer' => []]],
@@ -96,10 +92,10 @@ final class CreateNewAccountController extends AbstractController
     public function __invoke(#[MapMessage] CreateNewAccountRequest $message): Response
     {
         /** @var CreateNewAccountResponse $handledResult */
-        $handledResult = $this->handle($message);
+        $handledResult = $this->handleMessage($message);
 
         return new JsonResponse(
-            data: $this->normalizer->normalize($handledResult),
+            data: $this->normalizeResult($handledResult),
             status: Response::HTTP_CREATED,
         );
     }

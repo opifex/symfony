@@ -12,12 +12,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 abstract class AbstractController
 {
     public function __construct(
-        protected readonly MessageBusInterface $messageBus,
-        protected readonly NormalizerInterface $normalizer,
+        private readonly MessageBusInterface $messageBus,
+        private readonly NormalizerInterface $normalizer,
     ) {
     }
 
-    protected function handle(object $message): mixed
+    protected function handleMessage(object $message): mixed
     {
         $envelope = $this->messageBus->dispatch($message);
         $handledStamps = $envelope->all(stampFqcn: HandledStamp::class);
@@ -32,5 +32,10 @@ abstract class AbstractController
         }
 
         return $handledStamps[0]->getResult();
+    }
+
+    protected function normalizeResult(mixed $data): mixed
+    {
+        return $this->normalizer->normalize($data);
     }
 }
