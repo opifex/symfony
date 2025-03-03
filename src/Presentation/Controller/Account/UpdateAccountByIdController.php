@@ -46,16 +46,6 @@ final class UpdateAccountByIdController extends AbstractController
                         pattern: '[a-z]{2}_[A-Z]{2}',
                         example: 'en_US',
                     ),
-                    new OA\Property(
-                        property: 'roles',
-                        type: 'array',
-                        items: new OA\Items(
-                            type: 'string',
-                            enum: AccountRole::class,
-                        ),
-                        default: [],
-                        example: [AccountRole::User],
-                    ),
                 ],
                 type: 'object',
             ),
