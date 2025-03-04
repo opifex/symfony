@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Codeception\Exception\ModuleException;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\FunctionalTester;
 
 final class CreateNewAccountCest
 {
+    /**
+     * @throws ModuleException
+     */
     public function createNewUserAccount(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -27,6 +31,9 @@ final class CreateNewAccountCest
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'CreateNewAccountSchema.json'));
     }
 
+    /**
+     * @throws ModuleException
+     */
     public function createAccountWithExistedEmail(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);

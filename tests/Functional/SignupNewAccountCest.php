@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Codeception\Exception\ModuleException;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\FunctionalTester;
@@ -46,6 +47,9 @@ final class SignupNewAccountCest
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
+    /**
+     * @throws ModuleException
+     */
     public function signupUsingExistedCredentials(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);

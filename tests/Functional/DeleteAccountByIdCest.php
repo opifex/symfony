@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Codeception\Exception\ModuleException;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\Data\Fixture\AccountUserFixture;
@@ -11,6 +12,9 @@ use Tests\Support\FunctionalTester;
 
 final class DeleteAccountByIdCest
 {
+    /**
+     * @throws ModuleException
+     */
     public function deleteAccountUsingValidUuid(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -23,6 +27,9 @@ final class DeleteAccountByIdCest
         $i->seeResponseEquals(expected: '');
     }
 
+    /**
+     * @throws ModuleException
+     */
     public function deleteAccountUsingInvalidUuid(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
