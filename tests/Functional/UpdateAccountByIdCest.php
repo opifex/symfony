@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use App\Domain\Entity\AccountRole;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\Data\Fixture\AccountUserFixture;
