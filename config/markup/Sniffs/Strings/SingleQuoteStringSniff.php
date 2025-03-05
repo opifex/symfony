@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Sniffs\Strings;
 
+use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 class SingleQuoteStringSniff implements Sniff
 {
+    #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
         $tokens = $phpcsFile->getTokens();

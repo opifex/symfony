@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sniffs\Annotations;
 
+use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -11,6 +12,7 @@ class AnnotationTagSniff implements Sniff
 {
     public array $allowedTags = ['@param', '@return', '@throws', '@var'];
 
+    #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
         $tokens = $phpcsFile->getTokens();

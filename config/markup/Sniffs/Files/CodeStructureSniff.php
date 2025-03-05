@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sniffs\Files;
 
+use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -18,6 +19,7 @@ class CodeStructureSniff implements Sniff
         'App\\Presentation' => ['App\\Application', 'App\\Domain'],
     ];
 
+    #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
         $stackPtr = $phpcsFile->findNext([T_NAMESPACE], start: $stackPtr + 1);
