@@ -18,7 +18,7 @@ class AnnotationTagSniff implements Sniff
 
         if (!in_array($tagName, $this->allowedTags)) {
             $phpcsFile->addError(
-                error: 'Annotation tag %s is not allowed. Allowed tags are: %s.',
+                error: 'Annotation tag %s is not allowed. Allowed tags are: %s',
                 stackPtr: $stackPtr,
                 code: 'AnnotationTag',
                 data: [$tagName, implode(separator: ', ', array: $this->allowedTags)],
