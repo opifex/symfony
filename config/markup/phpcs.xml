@@ -36,10 +36,6 @@
   <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
   <rule ref="Squiz.PHP.NonExecutableCode"/>
 
-  <rule ref="Generic.CodeAnalysis.AssignmentInCondition">
-    <exclude-pattern>../config/*</exclude-pattern>
-  </rule>
-
   <rule ref="Generic.Metrics.CyclomaticComplexity">
     <exclude-pattern>../config/*</exclude-pattern>
     <exclude-pattern>../tests/*</exclude-pattern>
@@ -72,19 +68,11 @@
     </properties>
   </rule>
 
-  <rule ref="Generic.NamingConventions.UpperCaseConstantName">
-    <severity>0</severity>
-  </rule>
-
   <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.EmptyLine">
     <severity>0</severity>
   </rule>
 
   <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">
-    <severity>0</severity>
-  </rule>
-
-  <rule ref="Squiz.NamingConventions.ValidVariableName.PublicHasUnderscore">
     <severity>0</severity>
   </rule>
 </ruleset>

@@ -78,7 +78,7 @@
     "autoload-dev": {
         "psr-4": {
             "Reports\\": "config/markup/Reports",
-            "Standards\\": "config/markup/Standards",
+            "Sniffs\\": "config/markup/Sniffs",
             "Tests\\": "tests"
         }
     },
