@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sniffs\Files;
+namespace Sniffs\Classes;
 
 use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-class CodeStructureSniff implements Sniff
+class ClassStructureSniff implements Sniff
 {
     public string $appNamespace = 'App';
 
@@ -48,7 +48,7 @@ class CodeStructureSniff implements Sniff
                         $phpcsFile->addError(
                             error: 'Usage must starts with %s',
                             stackPtr: $stackPtr + 1,
-                            code: 'CodeStructure',
+                            code: 'ClassStructure',
                             data: [implode(separator: ' or ', array: $availableImports)],
                         );
                     }
@@ -57,6 +57,7 @@ class CodeStructureSniff implements Sniff
         }
     }
 
+    #[Override]
     public function register(): array
     {
         return [T_OPEN_TAG];

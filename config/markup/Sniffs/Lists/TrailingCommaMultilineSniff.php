@@ -44,6 +44,7 @@ class TrailingCommaMultilineSniff implements Sniff
         }
     }
 
+    #[Override]
     public function register(): array
     {
         return [T_CLOSE_SHORT_ARRAY, T_MATCH, T_CLOSE_PARENTHESIS];

@@ -25,6 +25,7 @@ class StatementElseSniff implements Sniff
         }
     }
 
+    #[Override]
     public function register(): array
     {
         return [T_ELSE];

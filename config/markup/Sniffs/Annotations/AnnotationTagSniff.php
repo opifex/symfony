@@ -28,6 +28,7 @@ class AnnotationTagSniff implements Sniff
         }
     }
 
+    #[Override]
     public function register(): array
     {
         return [T_DOC_COMMENT_TAG];

@@ -27,6 +27,7 @@ class OperatorIncDecSniff implements Sniff
         }
     }
 
+    #[Override]
     public function register(): array
     {
         return [T_DEC, T_INC];

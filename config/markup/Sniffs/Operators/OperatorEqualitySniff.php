@@ -28,6 +28,7 @@ class OperatorEqualitySniff implements Sniff
         }
     }
 
+    #[Override]
     public function register(): array
     {
         return [T_IS_EQUAL, T_IS_NOT_EQUAL];
