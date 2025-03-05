@@ -2,10 +2,11 @@
 <ruleset name="Markup">
   <description>Markup Coding Standard</description>
 
+  <arg name="colors"/>
   <arg name="encoding" value="utf-8"/>
   <arg name="extensions" value="php"/>
+  <arg name="parallel" value="10"/>
   <arg name="tab-width" value="4"/>
-  <arg name="colors"/>
 
   <file>../../bin</file>
   <file>../../config</file>
