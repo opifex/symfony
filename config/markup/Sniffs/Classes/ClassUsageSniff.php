@@ -16,8 +16,8 @@ class ClassUsageSniff implements Sniff
         $tokens = $phpcsFile->getTokens();
 
         if (isset($tokens[$stackPtr - 1]) && $tokens[$stackPtr - 1]['code'] !== T_STRING) {
-            $startPos = $phpcsFile->findNext([T_STRING, T_NS_SEPARATOR], start: $stackPtr + 1, exclude: true);
-            $namespace = $phpcsFile->getTokensAsString($stackPtr, length: $startPos - $stackPtr);
+            $endPtr = $phpcsFile->findNext([T_STRING, T_NS_SEPARATOR], start: $stackPtr + 1, exclude: true);
+            $namespace = $phpcsFile->getTokensAsString($stackPtr, length: $endPtr - $stackPtr);
             $phpcsFile->addError(
                 error: 'Missing import for "%s" via use statement',
                 stackPtr: $stackPtr,

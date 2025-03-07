@@ -14,7 +14,6 @@ class OperatorIncDecSniff implements Sniff
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
         $tokens = $phpcsFile->getTokens();
-
         $isPostfix = $tokens[($stackPtr - 1)]['code'] === T_VARIABLE;
         $isPrefix = $tokens[($stackPtr + 1)]['code'] === T_VARIABLE;
 
