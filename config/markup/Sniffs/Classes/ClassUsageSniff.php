@@ -13,16 +13,17 @@ class ClassUsageSniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $tokens = $phpcsFile->getTokens();
+        $previousToken = $phpcsFile->getTokens()[$stackPtr - 1];
 
-        if (isset($tokens[$stackPtr - 1]) && $tokens[$stackPtr - 1]['code'] !== T_STRING) {
-            $endPtr = $phpcsFile->findNext([T_STRING, T_NS_SEPARATOR], start: $stackPtr + 1, exclude: true);
-            $namespace = $phpcsFile->getTokensAsString($stackPtr, length: $endPtr - $stackPtr);
+        if ($previousToken['code'] !== T_STRING) {
+            $usageEndPtr = $phpcsFile->findNext([T_STRING, T_NS_SEPARATOR], start: $stackPtr + 1, exclude: true);
+            $usageName = $phpcsFile->getTokensAsString($stackPtr, length: $usageEndPtr - $stackPtr);
+
             $phpcsFile->addError(
                 error: 'Missing import for "%s" via use statement',
                 stackPtr: $stackPtr,
                 code: 'ClassUsage',
-                data: [$namespace],
+                data: [$usageName],
             );
         }
     }

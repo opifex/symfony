@@ -14,8 +14,8 @@ class StatementUseSniff implements Sniff
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
         $allDependencies = $this->getAllDependencies($phpcsFile, $stackPtr);
-        $endPtr = $allDependencies[array_key_last($allDependencies)]['end'] ?? $stackPtr;
-        $usedTokens = array_flip($this->getUsedTokens($phpcsFile, $endPtr));
+        $dependenciesEndPtr = $allDependencies[array_key_last($allDependencies)]['end'] ?? $stackPtr;
+        $usedTokens = array_flip($this->getUsedTokens($phpcsFile, $dependenciesEndPtr));
 
         foreach ($allDependencies as $key => $dependency) {
             if (isset($usedTokens[$dependency['alias']])) {

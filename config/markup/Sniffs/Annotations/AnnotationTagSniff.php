@@ -15,8 +15,7 @@ class AnnotationTagSniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $tokens = $phpcsFile->getTokens();
-        $tagName = $tokens[$stackPtr]['content'];
+        $tagName = $phpcsFile->getTokens()[$stackPtr]['content'];
 
         if (!in_array($tagName, $this->allowedTags)) {
             $phpcsFile->addError(

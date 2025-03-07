@@ -13,10 +13,10 @@ class StatementElseSniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $tokens = $phpcsFile->getTokens();
-        $nextToken = $phpcsFile->findNext([T_WHITESPACE], start: $stackPtr + 1, exclude: true);
+        $nextTokenPtr = $phpcsFile->findNext([T_WHITESPACE], start: $stackPtr + 1, exclude: true);
+        $nextToken = $phpcsFile->getTokens()[$nextTokenPtr];
 
-        if ($nextToken !== false && $tokens[$nextToken]['code'] !== T_IF) {
+        if ($nextTokenPtr !== false && $nextToken['code'] !== T_IF) {
             $phpcsFile->addError(
                 error: 'Usage of ELSE statement are basically not necessary',
                 stackPtr: $stackPtr,

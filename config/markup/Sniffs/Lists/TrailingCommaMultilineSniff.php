@@ -14,20 +14,21 @@ class TrailingCommaMultilineSniff implements Sniff
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
         $tokens = $phpcsFile->getTokens();
+        $currentToken = $tokens[$stackPtr];
 
-        if ($tokens[$stackPtr]['code'] === T_CLOSE_SHORT_ARRAY) {
-            $opener = $tokens[$stackPtr]['bracket_opener'];
-            $closer = $tokens[$stackPtr]['bracket_closer'];
-        } elseif ($tokens[$stackPtr]['code'] === T_MATCH) {
-            $opener = $tokens[$stackPtr]['scope_opener'];
-            $closer = $tokens[$stackPtr]['scope_closer'];
-        } elseif ($tokens[$stackPtr]['code'] === T_CLOSE_PARENTHESIS) {
-            $opener = $tokens[$stackPtr]['parenthesis_opener'];
-            $closer = $tokens[$stackPtr]['parenthesis_closer'];
+        if ($currentToken['code'] === T_CLOSE_SHORT_ARRAY) {
+            $scopeOpener = $currentToken['bracket_opener'];
+            $scopeCloser = $currentToken['bracket_closer'];
+        } elseif ($currentToken['code'] === T_MATCH) {
+            $scopeOpener = $currentToken['scope_opener'];
+            $scopeCloser = $currentToken['scope_closer'];
+        } elseif ($currentToken['code'] === T_CLOSE_PARENTHESIS) {
+            $scopeOpener = $currentToken['parenthesis_opener'];
+            $scopeCloser = $currentToken['parenthesis_closer'];
         }
 
-        if (isset($opener) && isset($closer)) {
-            for ($index = $closer; $index >= $opener; $index--) {
+        if (isset($scopeOpener) && isset($scopeCloser)) {
+            for ($index = $scopeCloser; $index >= $scopeOpener; $index--) {
                 if ($tokens[$index]['code'] === T_WHITESPACE && $tokens[$index]['content'] === PHP_EOL) {
                     if ($tokens[$index - 1]['code'] !== T_COMMA) {
                         $phpcsFile->addFixableError(

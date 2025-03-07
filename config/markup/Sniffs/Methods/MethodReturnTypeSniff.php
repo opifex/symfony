@@ -13,13 +13,13 @@ class MethodReturnTypeSniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $tokens = $phpcsFile->getTokens();
+        $currentToken = $phpcsFile->getTokens()[$stackPtr];
         $methodName = $phpcsFile->getDeclarationName($stackPtr) ?? 'closure';
         $methodIsMagic = str_starts_with($methodName, '__');
         $methodProperties = $phpcsFile->getMethodProperties($stackPtr);
         $methodReturnType = strval($methodProperties['return_type']);
-        $methodScopeOpener = $tokens[$stackPtr]['scope_opener'] ?? 0;
-        $methodScopeCloser = $tokens[$stackPtr]['scope_closer'] ?? 0;
+        $methodScopeOpener = $currentToken['scope_opener'] ?? 0;
+        $methodScopeCloser = $currentToken['scope_closer'] ?? 0;
         $methodHasReturn = boolval($phpcsFile->findNext([T_RETURN], $methodScopeOpener, $methodScopeCloser));
 
         if ($methodReturnType === '' && (!$methodIsMagic || $methodHasReturn)) {

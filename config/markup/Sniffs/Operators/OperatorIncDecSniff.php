@@ -13,11 +13,13 @@ class OperatorIncDecSniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $tokens = $phpcsFile->getTokens();
-        $isPostfix = $tokens[($stackPtr - 1)]['code'] === T_VARIABLE;
-        $isPrefix = $tokens[($stackPtr + 1)]['code'] === T_VARIABLE;
+        $previousToken = $phpcsFile->getTokens()[($stackPtr - 1)];
+        $nextToken = $phpcsFile->getTokens()[($stackPtr + 1)];
 
-        if (!$isPostfix && ($tokens[($stackPtr + 1)]['code'] === T_WHITESPACE || $isPrefix)) {
+        $operatorIsPostfix = $previousToken['code'] === T_VARIABLE;
+        $operatorIsPrefix = $nextToken['code'] === T_VARIABLE;
+
+        if (!$operatorIsPostfix && ($nextToken['code'] === T_WHITESPACE || $operatorIsPrefix)) {
             $phpcsFile->addError(
                 error: 'Increment and decrement operators must have postfix format.',
                 stackPtr: $stackPtr,

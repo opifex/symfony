@@ -13,17 +13,16 @@ class OperatorEqualitySniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $tokens = $phpcsFile->getTokens();
-
+        $currentToken = $phpcsFile->getTokens()[$stackPtr];
         $phpcsFile->addFixableError(
             error: 'Using not strict equality comparison is forbidden',
             stackPtr: $stackPtr,
             code: 'OperatorEquality',
         );
 
-        if ($tokens[$stackPtr]['code'] === T_IS_EQUAL) {
+        if ($currentToken['code'] === T_IS_EQUAL) {
             $phpcsFile->fixer->replaceToken($stackPtr, content: '===');
-        } elseif ($tokens[$stackPtr]['code'] === T_IS_NOT_EQUAL) {
+        } elseif ($currentToken['code'] === T_IS_NOT_EQUAL) {
             $phpcsFile->fixer->replaceToken($stackPtr, content: '!==');
         }
     }

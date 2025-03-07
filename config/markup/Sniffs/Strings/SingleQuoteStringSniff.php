@@ -13,18 +13,17 @@ class SingleQuoteStringSniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $tokens = $phpcsFile->getTokens();
-        $content = $tokens[$stackPtr]['content'];
+        $constantContent = $phpcsFile->getTokens()[$stackPtr]['content'];
 
-        if (str_starts_with($content, '"') && str_ends_with($content, '"')) {
-            if (!preg_match(pattern: '/[$\\\]/', subject: $content)) {
+        if (str_starts_with($constantContent, '"') && str_ends_with($constantContent, '"')) {
+            if (!preg_match(pattern: '/[$\\\]/', subject: $constantContent)) {
                 $phpcsFile->addFixableError(
                     error: 'String must be enclosed in single quotes',
                     stackPtr: $stackPtr,
                     code: 'ConstantString',
                 );
-                $replaced = strtr(trim($content, characters: '"'), ['\'' => '\\\'', '\"' => '"']);
-                $phpcsFile->fixer->replaceToken($stackPtr, content: '\'' . $replaced . '\'');
+                $replacedContent = strtr(trim($constantContent, characters: '"'), ['\'' => '\\\'', '\"' => '"']);
+                $phpcsFile->fixer->replaceToken($stackPtr, content: '\'' . $replacedContent . '\'');
             }
         }
     }
