@@ -1513,16 +1513,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.38.0",
+            "version": "v4.38.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "5972e02e0f75e5c1eee0d1d978e0fc02bd490934"
+                "reference": "fe4247aa059e8c703f57bd10827a8f2de951a5af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/5972e02e0f75e5c1eee0d1d978e0fc02bd490934",
-                "reference": "5972e02e0f75e5c1eee0d1d978e0fc02bd490934",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/fe4247aa059e8c703f57bd10827a8f2de951a5af",
+                "reference": "fe4247aa059e8c703f57bd10827a8f2de951a5af",
                 "shasum": ""
             },
             "require": {
@@ -1596,7 +1596,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x-dev"
+                    "dev-4.x": "4.x-dev"
                 }
             },
             "autoload": {
@@ -1623,7 +1623,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.38.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.38.1"
             },
             "funding": [
                 {
@@ -1631,7 +1631,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-07T15:03:01+00:00"
+            "time": "2025-03-07T18:57:31+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -9467,16 +9467,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.7",
+            "version": "2.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "12567f91a74036d56ba0af6d56c8e73ac0e8d850"
+                "reference": "f9adff3b87c03b12cc7e46a30a524648e497758f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/12567f91a74036d56ba0af6d56c8e73ac0e8d850",
-                "reference": "12567f91a74036d56ba0af6d56c8e73ac0e8d850",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f9adff3b87c03b12cc7e46a30a524648e497758f",
+                "reference": "f9adff3b87c03b12cc7e46a30a524648e497758f",
                 "shasum": ""
             },
             "require": {
@@ -9521,7 +9521,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-05T13:43:55+00:00"
+            "time": "2025-03-09T09:30:48+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",

@@ -16,7 +16,7 @@ class StatementElseSniff implements Sniff
         $nextTokenPtr = $phpcsFile->findNext([T_WHITESPACE], start: $stackPtr + 1, exclude: true);
         $nextToken = $phpcsFile->getTokens()[$nextTokenPtr];
 
-        if ($nextTokenPtr !== false && $nextToken['code'] !== T_IF) {
+        if ($nextToken['code'] !== T_IF) {
             $phpcsFile->addError(
                 error: 'Usage of ELSE statement are basically not necessary',
                 stackPtr: $stackPtr,
