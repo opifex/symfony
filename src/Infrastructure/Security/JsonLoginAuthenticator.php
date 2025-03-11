@@ -21,10 +21,11 @@ final class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
     public function authenticate(Request $request): Passport
     {
         $credentials = $request->getPayload();
-        $email = $credentials->getString(key: 'email');
-        $password = $credentials->getString(key: 'password');
 
-        return new Passport(new UserBadge($email), new PasswordCredentials($password));
+        return new Passport(
+            new UserBadge($credentials->getString(key: 'email')),
+            new PasswordCredentials($credentials->getString(key: 'password')),
+        );
     }
 
     #[Override]
