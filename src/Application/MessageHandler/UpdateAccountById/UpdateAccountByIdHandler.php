@@ -24,7 +24,7 @@ final class UpdateAccountByIdHandler
 
         if ($message->email !== null) {
             if ($message->email !== $account->getEmail()) {
-                if ($this->accountRepository->isExistsByEmail($message->email)) {
+                if ($this->accountRepository->checkExistsByEmail($message->email)) {
                     throw AccountAlreadyExistsException::create();
                 }
 

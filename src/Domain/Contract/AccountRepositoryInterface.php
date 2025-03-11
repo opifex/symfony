@@ -61,5 +61,5 @@ interface AccountRepositoryInterface
      */
     public function deleteOneByUuid(string $uuid): void;
 
-    public function isExistsByEmail(string $email): bool;
+    public function checkExistsByEmail(string $email): bool;
 }

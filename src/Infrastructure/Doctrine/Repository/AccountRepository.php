@@ -235,7 +235,7 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function isExistsByEmail(string $email): bool
+    public function checkExistsByEmail(string $email): bool
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');

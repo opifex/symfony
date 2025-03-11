@@ -22,7 +22,7 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResponse
     {
-        if ($this->accountRepository->isExistsByEmail($message->email)) {
+        if ($this->accountRepository->checkExistsByEmail($message->email)) {
             throw AccountAlreadyExistsException::create();
         }
 
