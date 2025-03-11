@@ -8239,16 +8239,16 @@
         },
         {
             "name": "codeception/lib-asserts",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/lib-asserts.git",
-                "reference": "b8c7dff552249e560879c682ba44a4b963af91bc"
+                "reference": "06750a60af3ebc66faab4313981accec1be4eefc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/lib-asserts/zipball/b8c7dff552249e560879c682ba44a4b963af91bc",
-                "reference": "b8c7dff552249e560879c682ba44a4b963af91bc",
+                "url": "https://api.github.com/repos/Codeception/lib-asserts/zipball/06750a60af3ebc66faab4313981accec1be4eefc",
+                "reference": "06750a60af3ebc66faab4313981accec1be4eefc",
                 "shasum": ""
             },
             "require": {
@@ -8287,9 +8287,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/lib-asserts/issues",
-                "source": "https://github.com/Codeception/lib-asserts/tree/2.1.0"
+                "source": "https://github.com/Codeception/lib-asserts/tree/2.2.0"
             },
-            "time": "2023-02-10T18:36:23+00:00"
+            "time": "2025-03-10T20:41:33+00:00"
         },
         {
             "name": "codeception/lib-innerbrowser",
@@ -8679,16 +8679,16 @@
         },
         {
             "name": "codeception/module-symfony",
-            "version": "3.5.0",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-symfony.git",
-                "reference": "cad3c7a46da68f591dd363bc114ec9fde4f1dd63"
+                "reference": "12fdf094fea572f8fd6e975c4f4b440d95684d44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/cad3c7a46da68f591dd363bc114ec9fde4f1dd63",
-                "reference": "cad3c7a46da68f591dd363bc114ec9fde4f1dd63",
+                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/12fdf094fea572f8fd6e975c4f4b440d95684d44",
+                "reference": "12fdf094fea572f8fd6e975c4f4b440d95684d44",
                 "shasum": ""
             },
             "require": {
@@ -8701,33 +8701,34 @@
                 "codeception/module-asserts": "^3.0",
                 "codeception/module-doctrine": "^3.1",
                 "doctrine/orm": "^2.10",
-                "symfony/browser-kit": "^5.4 | ^6.4 | ^7.0",
-                "symfony/cache": "^5.4 | ^6.4 | ^7.0",
-                "symfony/config": "^5.4 | ^6.4 | ^7.0",
-                "symfony/dependency-injection": "^5.4 | ^6.4 | ^7.0",
-                "symfony/dom-crawler": "^5.4 | ^6.4 | ^7.0",
-                "symfony/dotenv": "^5.4 | ^6.4 | ^7.0",
-                "symfony/error-handler": "^5.4 | ^6.4 | ^7.0",
-                "symfony/filesystem": "^5.4 | ^6.4 | ^7.0",
-                "symfony/form": "^5.4 | ^6.4 | ^7.0",
-                "symfony/framework-bundle": "^5.4 | ^6.4 | ^7.0",
-                "symfony/http-client": "^5.4 | ^6.4 | ^7.0",
-                "symfony/http-foundation": "^5.4 | ^6.4 | ^7.0",
-                "symfony/http-kernel": "^5.4 | ^6.4 | ^7.0",
-                "symfony/mailer": "^5.4 | ^6.4 | ^7.0",
-                "symfony/mime": "^5.4 | ^6.4 | ^7.0",
-                "symfony/notifier": "^5.4 | ^6.4 | ^7.0",
-                "symfony/options-resolver": "^5.4 | ^6.4 | ^7.0",
-                "symfony/property-access": "^5.4 | ^6.4 | ^7.0",
-                "symfony/property-info": "^5.4 | ^6.4 | ^7.0",
-                "symfony/routing": "^5.4 | ^6.4 | ^7.0",
-                "symfony/security-bundle": "^5.4 | ^6.4 | ^7.0",
-                "symfony/security-core": "^5.4 | ^6.4 | ^7.0",
-                "symfony/security-csrf": "^5.4 | ^6.4 | ^7.0",
-                "symfony/security-http": "^5.4 | ^6.4 | ^7.0",
-                "symfony/twig-bundle": "^5.4 | ^6.4 | ^7.0",
-                "symfony/validator": "^5.4 | ^6.4 | ^7.0",
-                "symfony/var-exporter": "^5.4 | ^6.4 | ^7.0",
+                "symfony/browser-kit": "^5.4 | ^6.4 | ^7.2",
+                "symfony/cache": "^5.4 | ^6.4 | ^7.2",
+                "symfony/config": "^5.4 | ^6.4 | ^7.2",
+                "symfony/dependency-injection": "^5.4 | ^6.4 | ^7.2",
+                "symfony/dom-crawler": "^5.4 | ^6.4 | ^7.2",
+                "symfony/dotenv": "^5.4 | ^6.4 | ^7.2",
+                "symfony/error-handler": "^5.4 | ^6.4 | ^7.2",
+                "symfony/filesystem": "^5.4 | ^6.4 | ^7.2",
+                "symfony/form": "^5.4 | ^6.4 | ^7.2",
+                "symfony/framework-bundle": "^5.4 | ^6.4 | ^7.2",
+                "symfony/http-client": "^5.4 | ^6.4 | ^7.2",
+                "symfony/http-foundation": "^5.4 | ^6.4 | ^7.2",
+                "symfony/http-kernel": "^5.4 | ^6.4 | ^7.2",
+                "symfony/mailer": "^5.4 | ^6.4 | ^7.2",
+                "symfony/mime": "^5.4 | ^6.4 | ^7.2",
+                "symfony/notifier": "^5.4 | ^6.4 | ^7.2",
+                "symfony/options-resolver": "^5.4 | ^6.4 | ^7.2",
+                "symfony/property-access": "^5.4 | ^6.4 | ^7.2",
+                "symfony/property-info": "^5.4 | ^6.4 | ^7.2",
+                "symfony/routing": "^5.4 | ^6.4 | ^7.2",
+                "symfony/security-bundle": "^5.4 | ^6.4 | ^7.2",
+                "symfony/security-core": "^5.4 | ^6.4 | ^7.2",
+                "symfony/security-csrf": "^5.4 | ^6.4 | ^7.2",
+                "symfony/security-http": "^5.4 | ^6.4 | ^7.2",
+                "symfony/translation": "^5.4 | ^6.4 | ^7.2",
+                "symfony/twig-bundle": "^5.4 | ^6.4 | ^7.2",
+                "symfony/validator": "^5.4 | ^6.4 | ^7.2",
+                "symfony/var-exporter": "^5.4 | ^6.4 | ^7.2",
                 "vlucas/phpdotenv": "^4.2 | ^5.4"
             },
             "suggest": {
@@ -8762,9 +8763,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-symfony/issues",
-                "source": "https://github.com/Codeception/module-symfony/tree/3.5.0"
+                "source": "https://github.com/Codeception/module-symfony/tree/3.5.1"
             },
-            "time": "2024-11-14T04:45:04+00:00"
+            "time": "2025-02-20T16:35:08+00:00"
         },
         {
             "name": "codeception/stub",
