@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Codeception\Exception\ModuleException;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\Data\Fixture\AccountUserFixture;
@@ -12,9 +11,6 @@ use Tests\Support\FunctionalTester;
 
 final class ApplyAccountActionCest
 {
-    /**
-     * @throws ModuleException
-     */
     public function applyValidAccountAction(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -38,9 +34,6 @@ final class ApplyAccountActionCest
         $i->seeResponseEquals(expected: '');
     }
 
-    /**
-     * @throws ModuleException
-     */
     public function applyInvalidAccountAction(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);

@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Codeception\Exception\ModuleException;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\FunctionalTester;
 
 final class GetSigninAccountCest
 {
-    /**
-     * @throws ModuleException
-     */
     public function getSigninAccountUsingValidBearer(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);

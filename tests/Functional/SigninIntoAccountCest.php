@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Codeception\Exception\ModuleException;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
 use Tests\Support\Data\Fixture\AccountUserFixture;
@@ -12,9 +11,6 @@ use Tests\Support\FunctionalTester;
 
 final class SigninIntoAccountCest
 {
-    /**
-     * @throws ModuleException
-     */
     public function signinUsingAdminCredentials(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
@@ -29,9 +25,6 @@ final class SigninIntoAccountCest
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'SigninIntoAccountSchema.json'));
     }
 
-    /**
-     * @throws ModuleException
-     */
     public function signinUsingRegisteredCredentials(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountUserFixture::class);
