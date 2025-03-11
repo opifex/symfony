@@ -15,8 +15,8 @@ final class RequestNormalizer implements NormalizerInterface
     /**
      * @param mixed $data
      * @param string|null $format
-     * @param array<string, mixed> $context
-     * @return array<string, mixed>
+     * @param array<int|string, mixed> $context
+     * @return array<int|string, mixed>
      */
     #[Override]
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
@@ -25,11 +25,7 @@ final class RequestNormalizer implements NormalizerInterface
             throw new InvalidArgumentException(message: 'Object expected to be a valid request type.');
         }
 
-        $params = $this->extractParams($data);
-        $params = $this->filterParams($params);
-        $params = $this->transformTypes($params);
-
-        return is_array($params) ? $params : [];
+        return (array) $this->transformTypes($this->filterParams($this->extractParams($data)));
     }
 
     /**
@@ -71,12 +67,10 @@ final class RequestNormalizer implements NormalizerInterface
     private function parseContent(Request $request): array
     {
         try {
-            $params = $request->toArray();
+            return $request->toArray();
         } catch (JsonException) {
-            $params = [];
+            return [];
         }
-
-        return $params;
     }
 
     /**
@@ -88,19 +82,19 @@ final class RequestNormalizer implements NormalizerInterface
         return array_filter($params, static fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
     }
 
-    private function transformTypes(mixed $params): mixed
+    private function transformTypes(mixed $data): mixed
     {
         return match (true) {
-            is_scalar($params) => match (true) {
-                $params === (string) (int) $params => (int) $params,
-                $params === (string) (float) $params => (float) $params,
-                $params === 'true' || is_bool($params) => (bool) $params,
-                $params === 'false' => false,
-                $params === 'null' => null,
-                default => $params,
+            is_scalar($data) => match (true) {
+                $data === (string) (int) $data => (int) $data,
+                $data === (string) (float) $data => (float) $data,
+                $data === 'true' || is_bool($data) => (bool) $data,
+                $data === 'false' => false,
+                $data === 'null' => null,
+                default => $data,
             },
-            is_array($params) => array_map(fn($item) => $this->transformTypes($item), $params),
-            default => $params,
+            is_array($data) => array_map(fn($item) => $this->transformTypes($item), $data),
+            default => $data,
         };
     }
 }
