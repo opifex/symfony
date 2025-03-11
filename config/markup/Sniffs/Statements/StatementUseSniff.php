@@ -56,9 +56,9 @@ class StatementUseSniff implements Sniff
         $allDependencies = [];
 
         while ($stackPtr = $phpcsFile->findNext([T_USE], start: $stackPtr + 1, end: $lastPtr)) {
-            $startPos = $phpcsFile->findNext([T_WHITESPACE], start: $stackPtr + 1, exclude: true);
-            $endPtr = $phpcsFile->findNext([T_SEMICOLON], start: $startPos + 1);
-            $dependencyName = $phpcsFile->getTokensAsString($startPos, length: $endPtr - $startPos);
+            $startPtr = $phpcsFile->findNext([T_WHITESPACE], start: $stackPtr + 1, exclude: true);
+            $endPtr = $phpcsFile->findNext([T_SEMICOLON], start: $startPtr + 1);
+            $dependencyName = $phpcsFile->getTokensAsString($startPtr, length: $endPtr - $startPtr);
             $dependencyAlias = $this->getDependencyAlias($dependencyName);
 
             $allDependencies[] = [

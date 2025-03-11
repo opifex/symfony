@@ -13,23 +13,23 @@ class LineWhitespaceSniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $count = 0;
-        $lines = [];
+        $emptyLineCount = 0;
+        $lineNumbersList = [];
 
         foreach ($phpcsFile->getTokens() as $key => $token) {
             if ($token['code'] !== T_WHITESPACE) {
-                $lines[$token['line']] = false;
-                $count = $token['code'] === T_OPEN_CURLY_BRACKET ? 1 : 0;
+                $lineNumbersList[$token['line']] = false;
+                $emptyLineCount = $token['code'] === T_OPEN_CURLY_BRACKET ? 1 : 0;
 
                 continue;
             }
 
-            if (!isset($lines[$token['line']])) {
-                $lines[$token['line']] = true;
-                $count++;
+            if (!isset($lineNumbersList[$token['line']])) {
+                $lineNumbersList[$token['line']] = true;
+                $emptyLineCount++;
             }
 
-            if ($count > 2) {
+            if ($emptyLineCount > 2) {
                 $phpcsFile->addFixableError(
                     error: 'Extra empty line must be removed',
                     stackPtr: $key - 1,

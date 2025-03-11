@@ -15,12 +15,12 @@ class MethodReturnTypeSniff implements Sniff
     {
         $currentToken = $phpcsFile->getTokens()[$stackPtr];
         $methodName = $phpcsFile->getDeclarationName($stackPtr) ?? 'closure';
-        $methodIsMagic = str_starts_with($methodName, '__');
         $methodProperties = $phpcsFile->getMethodProperties($stackPtr);
         $methodReturnType = strval($methodProperties['return_type']);
         $methodScopeOpener = $currentToken['scope_opener'] ?? 0;
         $methodScopeCloser = $currentToken['scope_closer'] ?? 0;
         $methodHasReturn = boolval($phpcsFile->findNext([T_RETURN], $methodScopeOpener, $methodScopeCloser));
+        $methodIsMagic = str_starts_with($methodName, '__');
 
         if ($methodReturnType === '' && (!$methodIsMagic || $methodHasReturn)) {
             $phpcsFile->addError(
