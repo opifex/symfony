@@ -54,6 +54,7 @@ final class RequestNormalizer implements NormalizerInterface
      */
     private function extractParams(Request $request): array
     {
+        /** @var array<string, mixed> */
         return array_merge_recursive(
             $request->query->all(),
             $request->attributes->all(key: '_route_params'),
@@ -67,6 +68,7 @@ final class RequestNormalizer implements NormalizerInterface
     private function parseContent(Request $request): array
     {
         try {
+            /** @var array<string, mixed> */
             return $request->toArray();
         } catch (JsonException) {
             return [];

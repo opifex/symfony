@@ -10,7 +10,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 class AnnotationTagSniff implements Sniff
 {
-    public array $allowedTags = ['@param', '@return', '@throws', '@var'];
+    public array $allowedTags = ['@implements', '@param', '@return', '@throws', '@var'];
 
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void

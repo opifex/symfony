@@ -49,6 +49,7 @@ final class AccountUser implements PasswordAuthenticatedUserInterface, UserInter
     #[Override]
     public function getUserIdentifier(): string
     {
+        /** @var non-empty-string */
         return $this->identifier;
     }
 }

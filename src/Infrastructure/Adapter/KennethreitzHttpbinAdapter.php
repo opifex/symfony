@@ -25,6 +25,7 @@ final class KennethreitzHttpbinAdapter implements HttpbinResponderInterface
     public function getJson(): array
     {
         try {
+            /** @var array<string, mixed> */
             return $this->httpClient->withOptions([
                 'base_uri' => $this->apiUrl,
                 'headers' => [

@@ -12,6 +12,9 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+/**
+ * @implements UserProviderInterface<AccountUser>
+ */
 final class AccountUserProvider implements UserProviderInterface
 {
     public function __construct(

@@ -13,8 +13,8 @@ use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256 as RsaSha256;
-use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
+use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
@@ -71,12 +71,12 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 
     /**
      * @param non-empty-string $accessToken
-     * @return string
      */
     #[Override]
     public function extractUserIdentifier(#[SensitiveParameter] string $accessToken): string
     {
         try {
+            /** @var Plain $token */
             $token = $this->configuration->parser()->parse($accessToken);
         } catch (CannotDecodeContent) {
             throw JwtTokenManagerException::errorWhileDecodingToken();
@@ -96,7 +96,6 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 
     /**
      * @param non-empty-string $userIdentifier
-     * @return string
      */
     #[Override]
     public function generateToken(string $userIdentifier): string
@@ -121,7 +120,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     }
 
     /**
-     * @return non-empty-string $userIdentifier
+     * @return non-empty-string
      */
     private function generateTokenIdentifier(): string
     {
@@ -132,13 +131,11 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     /**
      * @throws JwtTokenManagerException
      */
-    private function extractSubjectFromToken(Token $token): string
+    private function extractSubjectFromToken(Plain $token): string
     {
-        if (method_exists($token, method: 'claims')) {
-            $subject = $token->claims()->get(name: RegisteredClaims::SUBJECT);
-        }
+        $subject = $token->claims()->get(name: RegisteredClaims::SUBJECT);
 
-        if (!isset($subject) || !is_string($subject)) {
+        if (!is_string($subject)) {
             throw JwtTokenManagerException::tokenIsInvalidOrExpired();
         }
 

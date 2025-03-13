@@ -40,6 +40,7 @@ final class KernelExceptionEventListener
             $throwable = $throwable->getPrevious() ?? $throwable;
         }
 
+        /** @var array<string, mixed> $request */
         $request = (array) $this->normalizer->normalize($event->getRequest());
         $exception = (array) $this->normalizer->normalize($throwable);
 

@@ -42,6 +42,7 @@ final class MessageValueResolver implements ValueResolverInterface
             $type = $argument->getType() ?? '';
 
             try {
+                /** @var object $message */
                 $message = $this->denormalizer->denormalize($params, $type, context: $context);
             } catch (ExtraAttributesException $e) {
                 throw MessageExtraParamsException::create($e->getExtraAttributes(), $type);

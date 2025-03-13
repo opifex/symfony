@@ -11,6 +11,9 @@ use Override;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Traversable;
 
+/**
+ * @implements IteratorAggregate<int|string, mixed>
+ */
 #[Exclude]
 abstract class AbstractCollection implements Countable, IteratorAggregate
 {

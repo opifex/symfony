@@ -12,6 +12,7 @@ use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
@@ -45,9 +46,10 @@ final class ExceptionNormalizer implements NormalizerInterface
 
         if (method_exists($data, method: 'getViolations')) {
             $exception['violations'] = [];
+            /** @var ConstraintViolationListInterface $violations */
+            $violations = $data->getViolations();
 
-            /** @var ConstraintViolationInterface $violation */
-            foreach ($data->getViolations() as $violation) {
+            foreach ($violations as $violation) {
                 $violationItem = [
                     'name' => $this->formatViolationName($violation),
                     'reason' => $this->formatViolationMessage($violation),
@@ -63,7 +65,11 @@ final class ExceptionNormalizer implements NormalizerInterface
         }
 
         if ($this->kernel->isDebug()) {
-            $trace = static fn($e): array => ['file' => $e->getFile(), 'type' => $e::class, 'line' => $e->getLine()];
+            $trace = static fn(Throwable $e): array => [
+                'file' => $e->getFile(),
+                'type' => $e::class,
+                'line' => $e->getLine(),
+            ];
             $filterPrevious = $data->getPrevious() ? $trace($data->getPrevious()) : [];
             $exception['trace'] = array_filter([$trace($data), $filterPrevious]);
         }
