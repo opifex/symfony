@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Validation;
 final class SymfonyRunCommandTest extends Unit
 {
     private Application $application;
+
     private HttpbinResponderInterface&MockObject $httpbinResponder;
 
     /**

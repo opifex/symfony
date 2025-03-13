@@ -23,8 +23,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class KernelExceptionEventListenerTest extends Unit
 {
     private KernelInterface&MockObject $kernel;
+
     private LoggerInterface&MockObject $logger;
+
     private NormalizerInterface&MockObject $normalizer;
+
     private PrivacyProtectorInterface&MockObject $privacyProtector;
 
     /**

@@ -9,12 +9,6 @@ framework:
     name_converter: serializer.name_converter.camel_case_to_snake_case
   php_errors:
     log: true
-  http_client:
-    scoped_clients:
-      httpbin.client:
-        base_uri: '%env(HTTPBIN_URL)%'
-        headers:
-          Accept: application/json
 
 when@test:
   framework:

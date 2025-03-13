@@ -20,7 +20,7 @@ APP_SECRET=166f851291ebd0ebf805b0188f1d5e7a
 APP_URL=http://localhost:8030
 
 DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=17&charset=utf8
-HTTPBIN_URL=http://mockserver:1080/httpbin.org/
+HTTPBIN_URL=https://httpbin.org/
 MAILER_DSN=smtp://mailcatcher:1025
 MESSENGER_TRANSPORT_DSN=amqp://rabbitmq:5672/%2f/messages
 MOCK_SERVER_URL=http://mockserver:1080

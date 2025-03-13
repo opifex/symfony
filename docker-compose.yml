@@ -51,8 +51,10 @@ services:
       APP_PORT: "${APP_PORT}"
       APP_URL: "${APP_URL}"
       DATABASE_URL: "${DATABASE_URL}"
+      HTTPBIN_URL: "${HTTPBIN_URL}"
       MAILER_DSN: "${MAILER_DSN}"
       MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
+      MOCK_SERVER_URL: "${MOCK_SERVER_URL}"
       REDIS_DSN: "${REDIS_DSN}"
     volumes:
       - ./:/opt/project:consistent
@@ -77,9 +79,6 @@ services:
       APP_PORT: "${APP_PORT}"
       APP_URL: "${APP_URL}"
       DATABASE_URL: "${DATABASE_URL}"
-      MAILER_DSN: "${MAILER_DSN}"
-      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
-      REDIS_DSN: "${REDIS_DSN}"
     volumes:
       - ./:/opt/project:consistent
       - bundles:/opt/project/public/bundles

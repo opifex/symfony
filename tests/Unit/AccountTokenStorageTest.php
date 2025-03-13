@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class AccountTokenStorageTest extends Unit
 {
     private AccountRepositoryInterface&MockObject $accountRepository;
+
     private TokenStorageInterface&MockObject $tokenStorage;
 
     /**

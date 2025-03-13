@@ -18,8 +18,10 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
 
 final class RequestIdMiddlewareTest extends Unit
 {
-    private RequestIdStorageInterface&MockObject $requestIdStorage;
     private MiddlewareInterface&MockObject $middleware;
+
+    private RequestIdStorageInterface&MockObject $requestIdStorage;
+
     private StackInterface&MockObject $stack;
 
     /**
@@ -28,8 +30,8 @@ final class RequestIdMiddlewareTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
         $this->middleware = $this->createMock(type: MiddlewareInterface::class);
+        $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
         $this->stack = $this->createMock(type: StackInterface::class);
     }
 

@@ -19,9 +19,10 @@ final class KennethreitzHttpbinAdapterTest extends Unit
     #[DataProvider(methodName: 'httpbinResponseProvider')]
     public function testGetJsonReturnResponse(array $response): void
     {
+        $apiUrl = 'https://api.example.com';
         $mockResponse = new MockResponse(json_encode($response));
         $mockHttpClient = new MockHttpClient($mockResponse);
-        $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($mockHttpClient);
+        $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($apiUrl, $mockHttpClient);
 
         $json = $kennethreitzHttpbinAdapter->getJson();
 
@@ -33,8 +34,9 @@ final class KennethreitzHttpbinAdapterTest extends Unit
         $mockResponse = new MockResponse();
         $mockResponse->cancel();
 
+        $apiUrl = 'https://api.example.com';
         $mockHttpClient = new MockHttpClient($mockResponse);
-        $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($mockHttpClient);
+        $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($apiUrl, $mockHttpClient);
 
         $this->expectException(HttpbinResponderException::class);
 

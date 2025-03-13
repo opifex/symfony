@@ -22,11 +22,15 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 final class RequestIdEventListenerTest extends Unit
 {
-    private RequestIdGeneratorInterface&MockObject $requestIdGenerator;
-    private RequestIdStorageInterface&MockObject $requestIdStorage;
     private HttpKernelInterface&MockObject $httpKernel;
+
     private InputInterface&MockObject $input;
+
     private OutputInterface&MockObject $output;
+
+    private RequestIdGeneratorInterface&MockObject $requestIdGenerator;
+
+    private RequestIdStorageInterface&MockObject $requestIdStorage;
 
     /**
      * @throws MockObjectException
@@ -34,11 +38,11 @@ final class RequestIdEventListenerTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->requestIdGenerator = $this->createMock(type: RequestIdGeneratorInterface::class);
-        $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
         $this->httpKernel = $this->createMock(type: HttpKernelInterface::class);
         $this->input = $this->createMock(type: InputInterface::class);
         $this->output = $this->createMock(type: OutputInterface::class);
+        $this->requestIdGenerator = $this->createMock(type: RequestIdGeneratorInterface::class);
+        $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
     }
 
     public function testOnConsoleCommand(): void

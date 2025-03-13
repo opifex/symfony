@@ -19,6 +19,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class AbstractControllerTest extends Unit
 {
     private MessageBusInterface&MockObject $messageBus;
+
     private NormalizerInterface&MockObject $normalizer;
 
     /**

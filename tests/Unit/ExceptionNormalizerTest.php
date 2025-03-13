@@ -15,6 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class ExceptionNormalizerTest extends Unit
 {
     private KernelInterface&MockObject $kernel;
+
     private TranslatorInterface&MockObject $translator;
 
     /**
