@@ -6,7 +6,7 @@ namespace App\Infrastructure\Doctrine\Mapping\Default;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as Mapping;
+use Doctrine\ORM\Mapping;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
