@@ -45,33 +45,13 @@ final class ExceptionNormalizer implements NormalizerInterface
         ];
 
         if (method_exists($data, method: 'getViolations')) {
-            $exception['violations'] = [];
             /** @var ConstraintViolationListInterface $violations */
             $violations = $data->getViolations();
-
-            foreach ($violations as $violation) {
-                $violationItem = [
-                    'name' => $this->formatViolationName($violation),
-                    'reason' => $this->formatViolationMessage($violation),
-                ];
-
-                if ($this->kernel->isDebug()) {
-                    $violationItem['object'] = $this->extractViolationObject($violation);
-                    $violationItem['value'] = $violation->getInvalidValue();
-                }
-
-                $exception['violations'][] = $violationItem;
-            }
+            $exception['violations'] = $this->formatViolations($violations);
         }
 
         if ($this->kernel->isDebug()) {
-            $trace = static fn(Throwable $e): array => [
-                'file' => $e->getFile(),
-                'type' => $e::class,
-                'line' => $e->getLine(),
-            ];
-            $filterPrevious = $data->getPrevious() ? $trace($data->getPrevious()) : [];
-            $exception['trace'] = array_filter([$trace($data), $filterPrevious]);
+            $exception['trace'] = $this->formatExceptionTrace($data);
         }
 
         return $exception;
@@ -110,6 +90,15 @@ final class ExceptionNormalizer implements NormalizerInterface
         return $this->translator->trans($throwable->getMessage(), domain: $domain);
     }
 
+    private function extractViolationObject(ConstraintViolationInterface $violation): ?string
+    {
+        return match (true) {
+            is_object($violation->getRoot()) => $violation->getRoot()::class,
+            is_string($violation->getRoot()) => $violation->getRoot(),
+            default => null,
+        };
+    }
+
     private function formatViolationName(ConstraintViolationInterface $violation): string
     {
         return new UnicodeString($violation->getPropertyPath())->snake()->toString();
@@ -122,12 +111,31 @@ final class ExceptionNormalizer implements NormalizerInterface
         return $this->translator->trans((string) $violation->getMessage(), $violation->getParameters(), $domain);
     }
 
-    private function extractViolationObject(ConstraintViolationInterface $violation): ?string
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function formatExceptionTrace(Throwable $exception): array
     {
-        return match (true) {
-            is_object($violation->getRoot()) => $violation->getRoot()::class,
-            is_string($violation->getRoot()) => $violation->getRoot(),
-            default => null,
-        };
+        $trace = static fn(Throwable $throwable): array => [
+            'file' => $throwable->getFile(),
+            'type' => $throwable::class,
+            'line' => $throwable->getLine(),
+        ];
+        $previous = $exception->getPrevious() ? $trace($exception->getPrevious()) : [];
+
+        return array_filter([$trace($exception), $previous]);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function formatViolations(ConstraintViolationListInterface $violations): array
+    {
+        return array_map(fn(ConstraintViolationInterface $violation) => array_filter([
+            'name' => $this->formatViolationName($violation),
+            'reason' => $this->formatViolationMessage($violation),
+            'object' => $this->kernel->isDebug() ? $this->extractViolationObject($violation) : null,
+            'value' => $this->kernel->isDebug() ? $violation->getInvalidValue() : null,
+        ]), iterator_to_array($violations));
     }
 }

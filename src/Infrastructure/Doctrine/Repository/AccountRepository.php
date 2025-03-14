@@ -61,7 +61,7 @@ final class AccountRepository implements AccountRepositoryInterface
                 AccountSearchCriteria::FIELD_EMAIL => 'account.email',
                 AccountSearchCriteria::FIELD_STATUS => 'account.status',
                 default => throw new LogicException(
-                    message: sprintf('Sorting field "%s" is not supported.', $criteria->getSorting()->getField()),
+                    sprintf('Sorting field "%s" is not supported.', $criteria->getSorting()->getField()),
                 ),
             };
 

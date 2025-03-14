@@ -24,7 +24,7 @@ abstract class AbstractController
 
         if (count($handledStamps) !== 1) {
             throw new LogicException(
-                message: sprintf(
+                sprintf(
                     'Message of type "%s" was handled multiple times, but only one handler is expected.',
                     get_debug_type($envelope->getMessage()),
                 ),

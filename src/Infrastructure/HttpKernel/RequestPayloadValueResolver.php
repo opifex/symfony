@@ -34,13 +34,13 @@ final class RequestPayloadValueResolver implements ValueResolverInterface
     #[Override]
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $params = (array) $this->normalizer->normalize($request);
+        $payload = (array) $this->normalizer->normalize($request);
         $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
         $type = $argument->getType() ?? '';
 
         try {
             /** @var object[] */
-            return [$this->denormalizer->denormalize($params, $type, context: $context)];
+            return [$this->denormalizer->denormalize($payload, $type, context: $context)];
         } catch (ExtraAttributesException $e) {
             throw MessageExtraParamsException::create($e->getExtraAttributes(), $type);
         } catch (NotNormalizableValueException $e) {

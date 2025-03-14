@@ -32,8 +32,7 @@
                 "required": [
                     "name",
                     "reason",
-                    "object",
-                    "value"
+                    "object"
                 ],
                 "additionalProperties": false
             }
