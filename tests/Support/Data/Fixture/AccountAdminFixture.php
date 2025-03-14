@@ -20,7 +20,6 @@ final class AccountAdminFixture extends Fixture implements FixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Faker::create();
-
         $account = new AccountEntity(
             uuid: '00000000-0000-6000-8000-000000000000',
             createdAt: new DateTimeImmutable(),
