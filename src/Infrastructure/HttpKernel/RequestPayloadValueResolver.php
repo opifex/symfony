@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Infrastructure\HttpKernel;
 
-use App\Application\Attribute\MapMessage;
 use App\Domain\Exception\MessageExtraParamsException;
 use App\Domain\Exception\MessageParamTypeException;
 use Override;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\AsTargetedValueResolver;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
@@ -18,7 +18,8 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class MessageValueResolver implements ValueResolverInterface
+#[AsTargetedValueResolver('payload')]
+final class RequestPayloadValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private readonly DenormalizerInterface $denormalizer,
@@ -33,24 +34,17 @@ final class MessageValueResolver implements ValueResolverInterface
     #[Override]
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $attribute = $argument->getAttributesOfType(name: MapMessage::class)[0] ?? null;
-        $message = null;
+        $params = (array) $this->normalizer->normalize($request);
+        $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
+        $type = $argument->getType() ?? '';
 
-        if ($attribute instanceof MapMessage) {
-            $params = (array) $this->normalizer->normalize($request);
-            $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
-            $type = $argument->getType() ?? '';
-
-            try {
-                /** @var object $message */
-                $message = $this->denormalizer->denormalize($params, $type, context: $context);
-            } catch (ExtraAttributesException $e) {
-                throw MessageExtraParamsException::create($e->getExtraAttributes(), $type);
-            } catch (NotNormalizableValueException $e) {
-                throw MessageParamTypeException::create($e->getExpectedTypes(), $e->getPath(), $type);
-            }
+        try {
+            /** @var object[] */
+            return [$this->denormalizer->denormalize($params, $type, context: $context)];
+        } catch (ExtraAttributesException $e) {
+            throw MessageExtraParamsException::create($e->getExtraAttributes(), $type);
+        } catch (NotNormalizableValueException $e) {
+            throw MessageParamTypeException::create($e->getExpectedTypes(), $e->getPath(), $type);
         }
-
-        return $message !== null ? [$message] : [];
     }
 }

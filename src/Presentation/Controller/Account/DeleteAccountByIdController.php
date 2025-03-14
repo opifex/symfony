@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\Attribute\MapMessage;
 use App\Application\MessageHandler\DeleteAccountById\DeleteAccountByIdRequest;
 use App\Application\MessageHandler\DeleteAccountById\DeleteAccountByIdResponse;
 use App\Domain\Entity\AccountRole;
@@ -15,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -47,7 +47,7 @@ final class DeleteAccountByIdController extends AbstractController
         methods: Request::METHOD_DELETE,
     )]
     #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[MapMessage] DeleteAccountByIdRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] DeleteAccountByIdRequest $message): Response
     {
         /** @var DeleteAccountByIdResponse $handledResult */
         $handledResult = $this->handleMessage($message);

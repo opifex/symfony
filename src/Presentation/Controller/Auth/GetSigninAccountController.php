@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Application\Attribute\MapMessage;
 use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
 use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountResponse;
 use App\Domain\Entity\AccountRole;
@@ -16,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -81,7 +81,7 @@ final class GetSigninAccountController extends AbstractController
         methods: Request::METHOD_GET,
     )]
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)]
-    public function __invoke(#[MapMessage] GetSigninAccountRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] GetSigninAccountRequest $message): Response
     {
         /** @var GetSigninAccountResponse $handledResult */
         $handledResult = $this->handleMessage($message);
