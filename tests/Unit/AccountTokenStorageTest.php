@@ -32,6 +32,7 @@ final class AccountTokenStorageTest extends Unit
     public function testFetchAccountThrowsExceptionWithUnauthorizedUser(): void
     {
         $accountTokenStorage = new AccountTokenStorage($this->accountRepository, $this->tokenStorage);
+
         $this->tokenStorage
             ->expects($this->once())
             ->method(constraint: 'getToken')
