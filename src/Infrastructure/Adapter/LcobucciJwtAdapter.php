@@ -76,20 +76,14 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     public function extractUserIdentifier(#[SensitiveParameter] string $accessToken): string
     {
         try {
-            /** @var Plain $token */
-            $token = $this->configuration->parser()->parse($accessToken);
+            $token = $this->parseTokenFromString($accessToken);
         } catch (CannotDecodeContent) {
             throw JwtTokenManagerException::errorWhileDecodingToken();
         } catch (InvalidTokenStructure) {
             throw JwtTokenManagerException::tokenHaveInvalidStructure();
         }
 
-        $strictValidAt = new StrictValidAt($this->clock);
-        $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
-
-        if (!$this->configuration->validator()->validate($token, $strictValidAt, $signedWith)) {
-            throw JwtTokenManagerException::tokenIsInvalidOrExpired();
-        }
+        $this->validateTokenInformation($token);
 
         return $this->extractSubjectFromToken($token);
     }
@@ -126,6 +120,25 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     {
         /** @var non-empty-string */
         return Uuid::v4()->hash();
+    }
+
+    /**
+     * @param non-empty-string $accessToken
+     */
+    private function parseTokenFromString(string $accessToken): Plain
+    {
+        /** @var Plain */
+        return $this->configuration->parser()->parse($accessToken);
+    }
+
+    private function validateTokenInformation(Plain $token): void
+    {
+        $strictValidAt = new StrictValidAt($this->clock);
+        $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
+
+        if (!$this->configuration->validator()->validate($token, $strictValidAt, $signedWith)) {
+            throw JwtTokenManagerException::tokenIsInvalidOrExpired();
+        }
     }
 
     /**
