@@ -23,6 +23,10 @@ final class RequestIdEventListener
     #[AsEventListener(event: ConsoleCommandEvent::class, priority: 100)]
     public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
+        if (!$event->getCommand()) {
+            return;
+        }
+
         $requestId = $this->requestIdGenerator->generate();
         $this->requestIdStorage->setRequestId($requestId);
     }

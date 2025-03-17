@@ -11,6 +11,7 @@ use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -53,6 +54,22 @@ final class RequestIdEventListenerTest extends Unit
         );
 
         $consoleCommandEvent = new ConsoleCommandEvent(
+            command: new Command(),
+            input: $this->input,
+            output: $this->output,
+        );
+
+        $requestIdEventListener->onConsoleCommand($consoleCommandEvent);
+    }
+
+    public function testOnConsoleCommandWithEmptyCommand(): void
+    {
+        $requestIdEventListener = new RequestIdEventListener(
+            requestIdGenerator: $this->requestIdGenerator,
+            requestIdStorage: $this->requestIdStorage,
+        );
+
+        $consoleCommandEvent = new ConsoleCommandEvent(
             command: null,
             input: $this->input,
             output: $this->output,
@@ -61,7 +78,7 @@ final class RequestIdEventListenerTest extends Unit
         $requestIdEventListener->onConsoleCommand($consoleCommandEvent);
     }
 
-    public function testOnRequestEventNotForMainRequest(): void
+    public function testOnRequestEventWithNotMainRequest(): void
     {
         $requestIdEventListener = new RequestIdEventListener(
             requestIdGenerator: $this->requestIdGenerator,
@@ -77,7 +94,7 @@ final class RequestIdEventListenerTest extends Unit
         $requestIdEventListener->onRequest($requestEvent);
     }
 
-    public function testOnResponseEventNotForMainRequest(): void
+    public function testOnResponseEventWithNotMainRequest(): void
     {
         $requestIdEventListener = new RequestIdEventListener(
             requestIdGenerator: $this->requestIdGenerator,
