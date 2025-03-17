@@ -13,8 +13,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class RequestNormalizer implements NormalizerInterface
 {
     /**
-     * @param mixed $data
-     * @param string|null $format
      * @param array<int|string, mixed> $context
      * @return array<int|string, mixed>
      */
@@ -29,10 +27,7 @@ final class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param mixed $data
-     * @param string|null $format
      * @param array<string, mixed> $context
-     * @return bool
      */
     #[Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool

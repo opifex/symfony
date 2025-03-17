@@ -32,8 +32,6 @@ final class AccountMarkingStore implements MarkingStoreInterface
     }
 
     /**
-     * @param object $subject
-     * @param Marking $marking
      * @param array<string, mixed> $context
      */
     #[Override]

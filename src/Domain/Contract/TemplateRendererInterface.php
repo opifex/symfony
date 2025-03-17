@@ -9,7 +9,6 @@ use App\Domain\Exception\TemplateRendererException;
 interface TemplateRendererInterface
 {
     /**
-     * @param string $name
      * @param array<string, mixed> $context
      * @throws TemplateRendererException
      */
