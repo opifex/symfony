@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Application\EventListener;
 
-use App\Application\Event\AccountActivatedEvent;
 use App\Application\Event\AccountRegisteredEvent;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
@@ -28,14 +27,5 @@ final class AccountWorkflowEventListener
         $subject = $event->getSubject();
         $account = $this->accountRepository->findOneByUuid($subject->getUuid());
         $this->eventDispatcher->dispatch(new AccountRegisteredEvent($account));
-    }
-
-    #[AsCompletedListener(workflow: 'account', transition: AccountAction::Activate->value)]
-    public function onWorkflowAccountCompletedActivate(CompletedEvent $event): void
-    {
-        /** @var Account $subject */
-        $subject = $event->getSubject();
-        $account = $this->accountRepository->findOneByUuid($subject->getUuid());
-        $this->eventDispatcher->dispatch(new AccountActivatedEvent($account));
     }
 }

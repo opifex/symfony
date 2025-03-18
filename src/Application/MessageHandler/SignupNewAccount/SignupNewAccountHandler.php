@@ -31,6 +31,7 @@ final class SignupNewAccountHandler
         $accountUuid = $this->accountRepository->addOneAccount($message->email, $hashedPassword);
         $this->accountRepository->updateLocaleByUuid($accountUuid, $message->locale);
         $this->accountStateMachine->register($accountUuid);
+        $this->accountStateMachine->activate($accountUuid);
 
         return SignupNewAccountResponse::create();
     }

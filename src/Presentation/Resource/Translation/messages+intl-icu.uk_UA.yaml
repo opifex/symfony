@@ -1,4 +1,2 @@
-'Account with email {email} is awaiting activation.': 'Обліковий запис з електронною поштою {email} очікує активації.'
-'Thank you for registration': 'Реєстрація облікового запису'
-'Welcome, your account is now active.': 'Ласкаво просимо, ваш обліковий запис тепер активовано.'
-'Your account has been activated': 'Ваш обліковий запис активовано'
+'Account with email {email} was successfully created.': 'Обліковий запис з електронною поштою {email} успішно створено.'
+'Thank you for registration': 'Ваш обліковий запис зареєстровано'
