@@ -17,7 +17,7 @@ final class AccountMapper
     public static function mapOne(AccountEntity $account): Account
     {
         $accountStatus = AccountStatus::fromValue($account->status);
-        $transformRoleClosure = static fn(string $role) => AccountRole::fromValue($role);
+        $transformRoleClosure = static fn(string $role): AccountRole => AccountRole::fromValue($role);
         $accountRoles = new AccountRoleCollection(...array_map($transformRoleClosure, $account->roles));
 
         return new Account(
@@ -33,7 +33,7 @@ final class AccountMapper
 
     public static function mapMany(AccountEntity ...$account): AccountCollection
     {
-        $transformAccountFunction = static fn(AccountEntity $account) => self::mapOne($account);
+        $transformAccountFunction = static fn(AccountEntity $account): Account => self::mapOne($account);
 
         return new AccountCollection(...array_map($transformAccountFunction, $account));
     }

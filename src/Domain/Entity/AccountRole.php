@@ -17,7 +17,7 @@ enum AccountRole: string
      */
     public static function values(): array
     {
-        return array_map(static fn(self $item) => $item->value, self::cases());
+        return array_map(static fn(self $item): string => $item->value, self::cases());
     }
 
     public static function fromValue(string $value): self

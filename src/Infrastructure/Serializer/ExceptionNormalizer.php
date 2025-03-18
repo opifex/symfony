@@ -111,7 +111,7 @@ final class ExceptionNormalizer implements NormalizerInterface
      */
     private function formatExceptionTrace(Throwable $exception): array
     {
-        $trace = static fn(Throwable $throwable) => [
+        $trace = static fn(Throwable $throwable): array => [
             'file' => $throwable->getFile(),
             'type' => $throwable::class,
             'line' => $throwable->getLine(),
@@ -126,7 +126,7 @@ final class ExceptionNormalizer implements NormalizerInterface
      */
     private function formatViolations(ConstraintViolationListInterface $violations): array
     {
-        return array_map(fn(ConstraintViolationInterface $violation) => array_filter([
+        return array_map(fn(ConstraintViolationInterface $violation): array => array_filter([
             'name' => $this->formatViolationName($violation),
             'reason' => $this->formatViolationMessage($violation),
             'object' => $this->kernel->isDebug() ? $this->extractViolationObject($violation) : null,

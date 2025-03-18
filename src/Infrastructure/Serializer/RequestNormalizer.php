@@ -76,7 +76,11 @@ final class RequestNormalizer implements NormalizerInterface
      */
     private function filterParams(array $params): array
     {
-        return array_filter($params, static fn(string $key) => !str_starts_with($key, '_'), mode: ARRAY_FILTER_USE_KEY);
+        return array_filter(
+            array: $params,
+            callback: static fn(string $key): bool => !str_starts_with($key, '_'),
+            mode: ARRAY_FILTER_USE_KEY,
+        );
     }
 
     private function transformTypes(mixed $data): mixed
@@ -90,7 +94,7 @@ final class RequestNormalizer implements NormalizerInterface
                 $data === 'null' => null,
                 default => $data,
             },
-            is_array($data) => array_map(fn($item) => $this->transformTypes($item), $data),
+            is_array($data) => array_map(fn($item): mixed => $this->transformTypes($item), $data),
             default => $data,
         };
     }

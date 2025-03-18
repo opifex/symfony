@@ -21,7 +21,7 @@ class MessageExtraParamsException extends ValidationFailedException
     {
         $violations = new ConstraintViolationList(
             violations: array_map(
-                callback: static fn(string $attribute) => new ConstraintViolation(
+                callback: static fn(string $attribute): ConstraintViolation => new ConstraintViolation(
                     message: 'This field was not expected.',
                     messageTemplate: null,
                     parameters: [],
