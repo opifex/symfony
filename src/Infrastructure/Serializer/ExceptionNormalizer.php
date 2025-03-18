@@ -111,7 +111,7 @@ final class ExceptionNormalizer implements NormalizerInterface
      */
     private function formatExceptionTrace(Throwable $exception): array
     {
-        $trace = static fn(Throwable $throwable): array => [
+        $trace = static fn(Throwable $throwable) => [
             'file' => $throwable->getFile(),
             'type' => $throwable::class,
             'line' => $throwable->getLine(),

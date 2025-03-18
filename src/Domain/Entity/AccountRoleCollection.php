@@ -24,6 +24,6 @@ class AccountRoleCollection extends AbstractCollection
      */
     public function toArray(): array
     {
-        return array_map(fn(AccountRole $role) => $role->value, $this->elements);
+        return array_map(static fn(AccountRole $role) => $role->value, $this->elements);
     }
 }
