@@ -26,9 +26,6 @@ final class SensiolabsTwigAdapterTest extends Unit
         $this->environment = $this->createMock(type: Environment::class);
     }
 
-    /**
-     * @throws TemplateRendererException
-     */
     public function testRenderExistedTemplate(): void
     {
         $sensiolabsTwigAdapter = new SensiolabsTwigAdapter($this->environment);

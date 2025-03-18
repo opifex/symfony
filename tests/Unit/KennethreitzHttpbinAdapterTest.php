@@ -13,9 +13,6 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 final class KennethreitzHttpbinAdapterTest extends Unit
 {
-    /**
-     * @throws HttpbinResponderException
-     */
     #[DataProvider(methodName: 'httpbinResponseProvider')]
     public function testGetJsonReturnResponse(array $response): void
     {
