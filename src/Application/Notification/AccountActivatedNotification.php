@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Exclude]
 final class AccountActivatedNotification extends Notification implements EmailNotificationInterface
 {
-    private string $subject = 'Account confirmation';
+    private string $subject = 'Your account has been activated';
 
     public function __construct(
         private readonly Account $account,
