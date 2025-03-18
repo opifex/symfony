@@ -23,9 +23,11 @@ final class AccountUser implements PasswordAuthenticatedUserInterface, UserInter
     ) {
     }
 
-    public function isActivated(): bool
+    #[Override]
+    public function getUserIdentifier(): string
     {
-        return $this->activated;
+        /** @var non-empty-string */
+        return $this->identifier;
     }
 
     #[Override]
@@ -46,10 +48,8 @@ final class AccountUser implements PasswordAuthenticatedUserInterface, UserInter
         // Nothing to do
     }
 
-    #[Override]
-    public function getUserIdentifier(): string
+    public function isActivated(): bool
     {
-        /** @var non-empty-string */
-        return $this->identifier;
+        return $this->activated;
     }
 }
