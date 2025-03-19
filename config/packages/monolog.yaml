@@ -1,7 +1,3 @@
-monolog:
-  channels:
-    - deprecation
-
 when@dev:
   monolog:
     handlers:
@@ -9,7 +5,7 @@ when@dev:
         type: stream
         level: debug
         path: php://stdout
-        channels: [ '!deprecation', '!doctrine', '!event', '!php' ]
+        channels: [ '!deprecation', '!doctrine', '!event', '!http_client', '!php' ]
         formatter: monolog.formatter.json
 
 when@test:

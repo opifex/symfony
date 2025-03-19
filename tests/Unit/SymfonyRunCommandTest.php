@@ -14,7 +14,6 @@ use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Validator\Validation;
 
 final class SymfonyRunCommandTest extends Unit
 {
@@ -34,7 +33,6 @@ final class SymfonyRunCommandTest extends Unit
             new SymfonyRunCommand(
                 clock: new MockClock(),
                 httpbinResponder: $this->httpbinResponder,
-                validator: Validation::createValidator(),
             ),
         );
     }
@@ -47,33 +45,9 @@ final class SymfonyRunCommandTest extends Unit
             ->willReturn(['slideshow' => ['title' => 'Sample Slide Show']]);
 
         $commandTester = new CommandTester($this->application->get('app:symfony:run'));
-        $commandTester->execute(['--count' => 1, '--delay' => 0]);
+        $commandTester->execute(['--delay' => 0]);
 
         $this->assertSame(expected: Command::SUCCESS, actual: $commandTester->getStatusCode());
         $this->assertStringContainsString(needle: '[OK] Success', haystack: $commandTester->getDisplay());
-    }
-
-    public function testExecuteThrowsExceptionOnCountOptionInvalid(): void
-    {
-        $commandTester = new CommandTester($this->application->get('app:symfony:run'));
-        $commandTester->execute(['--count' => -1, '--delay' => 0]);
-
-        $this->assertSame(expected: Command::FAILURE, actual: $commandTester->getStatusCode());
-        $this->assertStringContainsString(
-            needle: '[ERROR] [count] This value should be positive.',
-            haystack: $commandTester->getDisplay(),
-        );
-    }
-
-    public function testExecuteThrowsExceptionOnDelayOptionInvalid(): void
-    {
-        $commandTester = new CommandTester($this->application->get('app:symfony:run'));
-        $commandTester->execute(['--count' => 1, '--delay' => -1]);
-
-        $this->assertSame(expected: Command::FAILURE, actual: $commandTester->getStatusCode());
-        $this->assertStringContainsString(
-            needle: '[ERROR] [delay] This value should be either positive or zero.',
-            haystack: $commandTester->getDisplay(),
-        );
     }
 }

@@ -23,17 +23,8 @@ final class AppSymfonyRunCest
         );
         $i->runSymfonyConsoleCommand(
             command: 'app:symfony:run',
-            parameters: ['--count' => 1, '--delay' => 0],
+            parameters: ['--delay' => 0],
             expectedExitCode: Command::SUCCESS,
-        );
-    }
-
-    public function runCommandUsingInvalidParameters(FunctionalTester $i): void
-    {
-        $i->runSymfonyConsoleCommand(
-            command: 'app:symfony:run',
-            parameters: ['--count' => -1, '--delay' => -1],
-            expectedExitCode: Command::FAILURE,
         );
     }
 }
