@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Presentation\Scheduler;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Scheduler\Attribute\AsPeriodicTask;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
-#[AsPeriodicTask(frequency: '60 minutes')]
+#[AsCronTask('@hourly')]
 final class SymfonyPeriodicTask
 {
     public function __construct(
