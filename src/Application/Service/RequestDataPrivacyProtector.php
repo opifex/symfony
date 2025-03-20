@@ -7,7 +7,7 @@ namespace App\Application\Service;
 use App\Domain\Contract\PrivacyProtectorInterface;
 use Override;
 
-final class MessagePrivacyProtector implements PrivacyProtectorInterface
+final class RequestDataPrivacyProtector implements PrivacyProtectorInterface
 {
     /** @var string[] */
     private array $templates = [
