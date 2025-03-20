@@ -11,6 +11,7 @@ use App\Domain\Entity\AccountAction;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Workflow\Attribute\AsCompletedListener;
 use Symfony\Component\Workflow\Event\CompletedEvent;
+use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 
 final class AccountWorkflowEventListener
 {
@@ -23,9 +24,11 @@ final class AccountWorkflowEventListener
     #[AsCompletedListener(workflow: 'account', transition: AccountAction::Register->value)]
     public function onWorkflowAccountCompletedRegister(CompletedEvent $event): void
     {
-        /** @var Account $subject */
-        $subject = $event->getSubject();
-        $account = $this->accountRepository->findOneByUuid($subject->getUuid());
+        if (!$event->getSubject() instanceof Account) {
+            throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
+        }
+
+        $account = $this->accountRepository->findOneByUuid($event->getSubject()->getUuid());
         $this->eventDispatcher->dispatch(new AccountRegisteredEvent($account));
     }
 }
