@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Presentation\Scheduler\SymfonyPeriodicTask;
+use App\Presentation\Scheduler\SymfonyCronTask;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
-final class SymfonyPeriodicTaskTest extends Unit
+final class SymfonyCronTaskTest extends Unit
 {
     private LoggerInterface&MockObject $logger;
 
@@ -24,8 +24,8 @@ final class SymfonyPeriodicTaskTest extends Unit
         $this->logger = $this->createMock(type: LoggerInterface::class);
     }
 
-    public function testInvokePeriodicTask(): void
+    public function testInvokeCronTask(): void
     {
-        new SymfonyPeriodicTask($this->logger)();
+        new SymfonyCronTask($this->logger)();
     }
 }

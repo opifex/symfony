@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
 #[AsCronTask('@hourly')]
-final class SymfonyPeriodicTask
+final class SymfonyCronTask
 {
     public function __construct(
         private readonly LoggerInterface $logger,
@@ -17,6 +17,6 @@ final class SymfonyPeriodicTask
 
     public function __invoke(): void
     {
-        $this->logger->info('Symfony periodic task processed.');
+        $this->logger->info('Symfony cron task processed.');
     }
 }
