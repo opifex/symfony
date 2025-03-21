@@ -34,11 +34,26 @@ final class BlockAccountByIdController extends AbstractController
             ),
         ],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
-            new OA\Response(response: Response::HTTP_FORBIDDEN, description: HttpSpecification::STATUS_FORBIDDEN),
-            new OA\Response(response: Response::HTTP_NOT_FOUND, description: HttpSpecification::STATUS_NOT_FOUND),
-            new OA\Response(response: Response::HTTP_NO_CONTENT, description: HttpSpecification::STATUS_NO_CONTENT),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
+            new OA\Response(
+                response: Response::HTTP_BAD_REQUEST,
+                description: HttpSpecification::STATUS_BAD_REQUEST,
+            ),
+            new OA\Response(
+                response: Response::HTTP_FORBIDDEN,
+                description: HttpSpecification::STATUS_FORBIDDEN,
+            ),
+            new OA\Response(
+                response: Response::HTTP_NOT_FOUND,
+                description: HttpSpecification::STATUS_NOT_FOUND,
+            ),
+            new OA\Response(
+                response: Response::HTTP_NO_CONTENT,
+                description: HttpSpecification::STATUS_NO_CONTENT,
+            ),
+            new OA\Response(
+                response: Response::HTTP_UNAUTHORIZED,
+                description: HttpSpecification::STATUS_UNAUTHORIZED,
+            ),
         ],
     )]
     #[Route(

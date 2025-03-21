@@ -53,9 +53,18 @@ final class SignupNewAccountController extends AbstractController
         ),
         tags: ['Authorization'],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
-            new OA\Response(response: Response::HTTP_CONFLICT, description: HttpSpecification::STATUS_CONFLICT),
-            new OA\Response(response: Response::HTTP_NO_CONTENT, description: HttpSpecification::STATUS_NO_CONTENT),
+            new OA\Response(
+                response: Response::HTTP_BAD_REQUEST,
+                description: HttpSpecification::STATUS_BAD_REQUEST,
+            ),
+            new OA\Response(
+                response: Response::HTTP_CONFLICT,
+                description: HttpSpecification::STATUS_CONFLICT,
+            ),
+            new OA\Response(
+                response: Response::HTTP_NO_CONTENT,
+                description: HttpSpecification::STATUS_NO_CONTENT,
+            ),
         ],
     )]
     #[Route(

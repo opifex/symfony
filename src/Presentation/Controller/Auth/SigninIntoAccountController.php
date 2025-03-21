@@ -44,7 +44,10 @@ final class SigninIntoAccountController extends AbstractController
         ),
         tags: ['Authorization'],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
+            new OA\Response(
+                response: Response::HTTP_BAD_REQUEST,
+                description: HttpSpecification::STATUS_BAD_REQUEST,
+            ),
             new OA\Response(
                 response: Response::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
@@ -59,7 +62,10 @@ final class SigninIntoAccountController extends AbstractController
                     type: 'object',
                 ),
             ),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
+            new OA\Response(
+                response: Response::HTTP_UNAUTHORIZED,
+                description: HttpSpecification::STATUS_UNAUTHORIZED,
+            ),
         ],
     )]
     #[Route(

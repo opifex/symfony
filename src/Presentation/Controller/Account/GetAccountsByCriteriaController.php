@@ -70,8 +70,14 @@ final class GetAccountsByCriteriaController extends AbstractController
             ),
         ],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
-            new OA\Response(response: Response::HTTP_FORBIDDEN, description: HttpSpecification::STATUS_FORBIDDEN),
+            new OA\Response(
+                response: Response::HTTP_BAD_REQUEST,
+                description: HttpSpecification::STATUS_BAD_REQUEST,
+            ),
+            new OA\Response(
+                response: Response::HTTP_FORBIDDEN,
+                description: HttpSpecification::STATUS_FORBIDDEN,
+            ),
             new OA\Response(
                 response: Response::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
@@ -125,7 +131,10 @@ final class GetAccountsByCriteriaController extends AbstractController
                     ),
                 ),
             ),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
+            new OA\Response(
+                response: Response::HTTP_UNAUTHORIZED,
+                description: HttpSpecification::STATUS_UNAUTHORIZED,
+            ),
         ],
     )]
     #[Route(

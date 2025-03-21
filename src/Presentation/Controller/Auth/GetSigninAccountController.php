@@ -28,7 +28,10 @@ final class GetSigninAccountController extends AbstractController
         security: [['bearer' => []]],
         tags: ['Authorization'],
         responses: [
-            new OA\Response(response: Response::HTTP_BAD_REQUEST, description: HttpSpecification::STATUS_BAD_REQUEST),
+            new OA\Response(
+                response: Response::HTTP_BAD_REQUEST,
+                description: HttpSpecification::STATUS_BAD_REQUEST,
+            ),
             new OA\Response(
                 response: Response::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
@@ -72,7 +75,10 @@ final class GetSigninAccountController extends AbstractController
                     type: 'object',
                 ),
             ),
-            new OA\Response(response: Response::HTTP_UNAUTHORIZED, description: HttpSpecification::STATUS_UNAUTHORIZED),
+            new OA\Response(
+                response: Response::HTTP_UNAUTHORIZED,
+                description: HttpSpecification::STATUS_UNAUTHORIZED,
+            ),
         ],
     )]
     #[Route(
