@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaRequest;
-use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
@@ -13,7 +12,6 @@ use App\Domain\Entity\HttpSpecification;
 use App\Domain\Entity\SortingOrder;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -81,54 +79,64 @@ final class GetAccountsByCriteriaController extends AbstractController
             new OA\Response(
                 response: Response::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
-                headers: [
-                    new OA\Header(
-                        header: HttpSpecification::HEADER_X_TOTAL_COUNT,
-                        description: 'Total count of items without limit',
-                        schema: new OA\Schema(type: 'int', example: '10'),
-                    ),
-                ],
                 content: new OA\JsonContent(
-                    type: 'array',
-                    items: new OA\Items(
-                        properties: [
-                            new OA\Property(
-                                property: 'uuid',
-                                type: 'uuid',
-                                example: '00000000-0000-6000-8000-000000000000',
-                            ),
-                            new OA\Property(
-                                property: 'email',
-                                type: 'email',
-                                example: 'admin@example.com',
-                            ),
-                            new OA\Property(
-                                property: 'locale',
-                                type: 'string',
-                                example: 'en_US',
-                            ),
-                            new OA\Property(
-                                property: 'status',
-                                type: 'string',
-                                enum: AccountStatus::class,
-                                example: AccountStatus::Activated,
-                            ),
-                            new OA\Property(
-                                property: 'roles',
-                                type: 'array',
-                                items: new OA\Items(
-                                    type: 'string',
-                                    enum: AccountRole::class,
+                    properties: [
+                        new OA\Property(
+                            property: 'meta',
+                            properties: [
+                                new OA\Property(
+                                    property: 'total_count',
+                                    type: 'integer',
+                                    example: 10,
                                 ),
+                            ],
+                            type: 'object',
+                        ),
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property(
+                                        property: 'uuid',
+                                        type: 'uuid',
+                                        example: '00000000-0000-6000-8000-000000000000',
+                                    ),
+                                    new OA\Property(
+                                        property: 'email',
+                                        type: 'email',
+                                        example: 'admin@example.com',
+                                    ),
+                                    new OA\Property(
+                                        property: 'locale',
+                                        type: 'string',
+                                        example: 'en_US',
+                                    ),
+                                    new OA\Property(
+                                        property: 'status',
+                                        type: 'string',
+                                        enum: AccountStatus::class,
+                                        example: AccountStatus::Activated,
+                                    ),
+                                    new OA\Property(
+                                        property: 'roles',
+                                        type: 'array',
+                                        items: new OA\Items(
+                                            type: 'string',
+                                            enum: AccountRole::class,
+                                        ),
+                                    ),
+                                    new OA\Property(
+                                        property: 'created_at',
+                                        type: 'string',
+                                        example: '2025-01-01T12:00:00+00:00',
+                                    ),
+                                ],
+                                type: 'object',
                             ),
-                            new OA\Property(
-                                property: 'created_at',
-                                type: 'string',
-                                example: '2025-01-01T12:00:00+00:00',
-                            ),
-                        ],
-                        type: 'object',
-                    ),
+                        ),
+                    ],
+                    type: 'object',
                 ),
             ),
             new OA\Response(
@@ -145,12 +153,6 @@ final class GetAccountsByCriteriaController extends AbstractController
     #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
     public function __invoke(#[ValueResolver('payload')] GetAccountsByCriteriaRequest $message): Response
     {
-        /** @var GetAccountsByCriteriaResponse $handledResult */
-        $handledResult = $this->handleMessage($message);
-
-        return new JsonResponse(
-            data: $this->normalizeResult($handledResult),
-            headers: [HttpSpecification::HEADER_X_TOTAL_COUNT => count($handledResult)],
-        );
+        return $this->handleResult($message);
     }
 }

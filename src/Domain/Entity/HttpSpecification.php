@@ -11,7 +11,6 @@ class HttpSpecification
 {
     /** Custom HTTP headers */
     public const string HEADER_X_REQUEST_ID = 'X-Request-Id';
-    public const string HEADER_X_TOTAL_COUNT = 'X-Total-Count';
     /** Standard HTTP status reasons */
     public const string STATUS_BAD_REQUEST = 'Bad Request';
     public const string STATUS_CONFLICT = 'Conflict';

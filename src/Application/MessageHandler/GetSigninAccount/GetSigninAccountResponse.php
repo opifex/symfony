@@ -5,33 +5,26 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\GetSigninAccount;
 
 use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountRoleCollection;
-use App\Domain\Entity\AccountStatus;
 use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 #[Exclude]
-final class GetSigninAccountResponse
+final class GetSigninAccountResponse extends JsonResponse
 {
-    public function __construct(
-        public readonly string $uuid,
-        public readonly string $email,
-        public readonly string $locale,
-        public readonly AccountStatus $status,
-        public readonly AccountRoleCollection $roles,
-        public readonly DateTimeInterface $createdAt,
-    ) {
-    }
-
     public static function create(Account $account): self
     {
         return new self(
-            uuid: $account->getUuid(),
-            email: $account->getEmail(),
-            locale: $account->getLocale(),
-            status: $account->getStatus(),
-            roles: $account->getRoles(),
-            createdAt: $account->getCreatedAt(),
+            data: [
+                'uuid' => $account->getUuid(),
+                'email' => $account->getEmail(),
+                'locale' => $account->getLocale(),
+                'status' => $account->getStatus()->value,
+                'roles' => $account->getRoles()->toArray(),
+                'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
+            ],
+            status: Response::HTTP_OK,
         );
     }
 }

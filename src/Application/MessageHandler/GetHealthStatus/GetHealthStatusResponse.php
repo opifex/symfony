@@ -5,19 +5,20 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\GetHealthStatus;
 
 use App\Domain\Entity\Health;
-use App\Domain\Entity\HealthStatus;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 #[Exclude]
-final class GetHealthStatusResponse
+final class GetHealthStatusResponse extends JsonResponse
 {
-    public function __construct(
-        public readonly HealthStatus $status,
-    ) {
-    }
-
     public static function create(Health $health): self
     {
-        return new self($health->getStatus());
+        return new self(
+            data: [
+                'status' => $health->getStatus()->value,
+            ],
+            status: Response::HTTP_OK,
+        );
     }
 }

@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountRequest;
-use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountResponse;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -94,12 +92,6 @@ final class CreateNewAccountController extends AbstractController
     #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
     public function __invoke(#[ValueResolver('payload')] CreateNewAccountRequest $message): Response
     {
-        /** @var CreateNewAccountResponse $handledResult */
-        $handledResult = $this->handleMessage($message);
-
-        return new JsonResponse(
-            data: $this->normalizeResult($handledResult),
-            status: Response::HTTP_CREATED,
-        );
+        return $this->handleResult($message);
     }
 }

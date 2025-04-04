@@ -1,50 +1,73 @@
 {
-    "type": "array",
-    "items": {
-        "type": "object",
-        "properties": {
-            "uuid": {
-                "type": "string",
-                "format": "uuid"
+    "type": "object",
+    "properties": {
+        "meta": {
+            "type": "object",
+            "properties": {
+                "total_count": {
+                    "type": "integer",
+                    "minimum": 0
+                }
             },
-            "email": {
-                "type": "string",
-                "format": "email"
-            },
-            "locale": {
-                "type": "string",
-                "pattern": "^[a-z]{2}_[A-Z]{2}$"
-            },
-            "status": {
-                "type": "string",
-                "enum": [
-                    "activated",
-                    "blocked",
-                    "created",
-                    "registered"
-                ]
-            },
-            "roles": {
-                "type": "array",
-                "items": {
-                    "type": "string",
-                    "pattern": "^ROLE_[A-Z_]+$"
-                },
-                "minItems": 1
-            },
-            "created_at": {
-                "type": "string",
-                "format": "date-time"
-            }
+            "required": [
+                "total_count"
+            ],
+            "additionalProperties": false
         },
-        "required": [
-            "uuid",
-            "email",
-            "locale",
-            "status",
-            "roles",
-            "created_at"
-        ],
-        "additionalProperties": false
-    }
+        "data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "locale": {
+                        "type": "string",
+                        "pattern": "^[a-z]{2}_[A-Z]{2}$"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "activated",
+                            "blocked",
+                            "created",
+                            "registered"
+                        ]
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "pattern": "^ROLE_[A-Z_]+$"
+                        },
+                        "minItems": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "uuid",
+                    "email",
+                    "locale",
+                    "status",
+                    "roles",
+                    "created_at"
+                ],
+                "additionalProperties": false
+            }
+        }
+    },
+    "required": [
+        "meta",
+        "data"
+    ],
+    "additionalProperties": false
 }

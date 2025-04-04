@@ -6,43 +6,37 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountSearchResult;
-use Countable;
-use IteratorAggregate;
-use Override;
+use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
-use Traversable;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @implements IteratorAggregate<int, GetAccountsByCriteriaItem>
- */
 #[Exclude]
-final class GetAccountsByCriteriaResponse implements Countable, IteratorAggregate
+final class GetAccountsByCriteriaResponse extends JsonResponse
 {
-    public function __construct(
-        private readonly AccountSearchResult $accountSearchResult,
-    ) {
-    }
-
     public static function create(AccountSearchResult $accountSearchResult): self
     {
-        return new self($accountSearchResult);
-    }
+        /** @var Account[] $accounts */
+        $accounts = iterator_to_array($accountSearchResult->getAccounts());
 
-    #[Override]
-    public function count(): int
-    {
-        return $this->accountSearchResult->getTotalResultCount();
-    }
-
-    /**
-     * @return Traversable<int, GetAccountsByCriteriaItem>
-     */
-    #[Override]
-    public function getIterator(): Traversable
-    {
-        /** @var Account $account */
-        foreach ($this->accountSearchResult->getAccounts() as $account) {
-            yield GetAccountsByCriteriaItem::create($account);
-        }
+        return new self(
+            data: [
+                'meta' => [
+                    'total_count' => $accountSearchResult->getTotalResultCount(),
+                ],
+                'data' => array_map(
+                    callback: fn(Account $account) => [
+                        'uuid' => $account->getUuid(),
+                        'email' => $account->getEmail(),
+                        'locale' => $account->getLocale(),
+                        'status' => $account->getStatus()->value,
+                        'roles' => $account->getRoles()->toArray(),
+                        'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
+                    ],
+                    array: $accounts,
+                ),
+            ],
+            status: Response::HTTP_OK,
+        );
     }
 }

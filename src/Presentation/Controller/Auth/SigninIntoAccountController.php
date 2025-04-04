@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountRequest;
-use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountResponse;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -76,11 +74,6 @@ final class SigninIntoAccountController extends AbstractController
     #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
     public function __invoke(#[ValueResolver('payload')] SigninIntoAccountRequest $message): Response
     {
-        /** @var SigninIntoAccountResponse $handledResult */
-        $handledResult = $this->handleMessage($message);
-
-        return new JsonResponse(
-            data: $this->normalizeResult($handledResult),
-        );
+        return $this->handleResult($message);
     }
 }
