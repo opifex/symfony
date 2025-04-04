@@ -4,13 +4,23 @@
         "meta": {
             "type": "object",
             "properties": {
-                "total_count": {
+                "current_page": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "items_per_page": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "total_items": {
                     "type": "integer",
                     "minimum": 0
                 }
             },
             "required": [
-                "total_count"
+                "current_page",
+                "items_per_page",
+                "total_items"
             ],
             "additionalProperties": false
         },

@@ -85,9 +85,19 @@ final class GetAccountsByCriteriaController extends AbstractController
                             property: 'meta',
                             properties: [
                                 new OA\Property(
-                                    property: 'total_count',
+                                    property: 'current_page',
+                                    type: 'integer',
+                                    example: 1,
+                                ),
+                                new OA\Property(
+                                    property: 'items_per_page',
                                     type: 'integer',
                                     example: 10,
+                                ),
+                                new OA\Property(
+                                    property: 'total_items',
+                                    type: 'integer',
+                                    example: 100,
                                 ),
                             ],
                             type: 'object',

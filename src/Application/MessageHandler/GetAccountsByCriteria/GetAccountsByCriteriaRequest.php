@@ -30,11 +30,11 @@ final class GetAccountsByCriteriaRequest
 
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\Positive]
-        public readonly int $limit = 10,
+        public readonly int $page = 1,
 
         #[Assert\DivisibleBy(value: 1)]
-        #[Assert\PositiveOrZero]
-        public readonly int $offset = 0,
+        #[Assert\Positive]
+        public readonly int $limit = 10,
     ) {
     }
 }

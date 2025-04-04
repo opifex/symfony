@@ -6,6 +6,7 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountSearchResult;
+use App\Domain\Entity\SearchPagination;
 use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[Exclude]
 final class GetAccountsByCriteriaResponse extends JsonResponse
 {
-    public static function create(AccountSearchResult $accountSearchResult): self
+    public static function create(AccountSearchResult $accountSearchResult, SearchPagination $searchPagination): self
     {
         /** @var Account[] $accounts */
         $accounts = iterator_to_array($accountSearchResult->getAccounts());
@@ -22,7 +23,9 @@ final class GetAccountsByCriteriaResponse extends JsonResponse
         return new self(
             data: [
                 'meta' => [
-                    'total_count' => $accountSearchResult->getTotalResultCount(),
+                    'current_page' => $searchPagination->getPage(),
+                    'items_per_page' => $searchPagination->getLimit(),
+                    'total_items' => $accountSearchResult->getTotalResultCount(),
                 ],
                 'data' => array_map(
                     callback: fn(Account $account) => [

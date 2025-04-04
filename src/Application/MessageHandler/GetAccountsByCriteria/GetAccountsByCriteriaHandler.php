@@ -22,11 +22,11 @@ final class GetAccountsByCriteriaHandler
     public function __invoke(GetAccountsByCriteriaRequest $message): GetAccountsByCriteriaResponse
     {
         $sorting = new SearchSorting($message->sort, SortingOrder::fromValue($message->order));
-        $pagination = new SearchPagination($message->limit, $message->offset);
-        $searchCriteria = new AccountSearchCriteria($message->email, $message->status, $sorting, $pagination);
+        $searchPagination = new SearchPagination($message->page, $message->limit);
+        $searchCriteria = new AccountSearchCriteria($message->email, $message->status, $sorting, $searchPagination);
 
         $accountSearchResult = $this->accountRepository->findByCriteria($searchCriteria);
 
-        return GetAccountsByCriteriaResponse::create($accountSearchResult);
+        return GetAccountsByCriteriaResponse::create($accountSearchResult, $searchPagination);
     }
 }
