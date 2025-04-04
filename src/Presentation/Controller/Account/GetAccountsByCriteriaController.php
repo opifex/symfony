@@ -6,10 +6,8 @@ namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaRequest;
 use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Entity\HttpSpecification;
-use App\Domain\Entity\SortingOrder;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,20 +37,6 @@ final class GetAccountsByCriteriaController extends AbstractController
                 in: 'query',
                 schema: new OA\Schema(type: 'string', enum: AccountStatus::class),
                 example: AccountStatus::Activated,
-            ),
-            new OA\Parameter(
-                name: 'sort',
-                description: 'Sorting field name',
-                in: 'query',
-                schema: new OA\Schema(type: 'string', enum: AccountSearchCriteria::SORTING_FIELDS),
-                example: AccountSearchCriteria::FIELD_CREATED_AT,
-            ),
-            new OA\Parameter(
-                name: 'order',
-                description: 'Sorting order direction',
-                in: 'query',
-                schema: new OA\Schema(type: 'string', enum: SortingOrder::class),
-                example: SortingOrder::Asc,
             ),
             new OA\Parameter(
                 name: 'limit',

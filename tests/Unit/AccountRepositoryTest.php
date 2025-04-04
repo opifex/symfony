@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountStatus;
-use App\Domain\Entity\SearchSorting;
-use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Doctrine\Repository\AccountRepository;
 use Codeception\Test\Unit;
@@ -16,8 +13,6 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
-use Exception;
-use LogicException;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -64,20 +59,6 @@ final class AccountRepositoryTest extends Unit
             ->expects($this->any())
             ->method(constraint: 'expr')
             ->willReturn($expr);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testFindByCriteriaWithInvalidSorting(): void
-    {
-        $accountRepository = new AccountRepository($this->entityManager);
-
-        $this->expectException(LogicException::class);
-
-        $sorting = new SearchSorting(field: 'invalid', order: SortingOrder::Asc);
-        $criteria = new AccountSearchCriteria(sorting: $sorting);
-        $accountRepository->findByCriteria($criteria);
     }
 
     public function testFindStatusByUuid(): void

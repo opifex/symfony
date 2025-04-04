@@ -9,7 +9,6 @@ use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Entity\AccountStatus;
-use App\Domain\Entity\SortingOrder;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountFactory;
@@ -19,7 +18,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
-use LogicException;
 use Override;
 use SensitiveParameter;
 use Traversable;
@@ -50,23 +48,7 @@ final class AccountRepository implements AccountRepositoryInterface
             $builder->setParameter(key: 'status', value: $criteria->getStatus(), type: Types::STRING);
         }
 
-        if (!is_null($criteria->getSorting())) {
-            $orderBy = match ($criteria->getSorting()->getOrder()) {
-                SortingOrder::Asc => $builder->expr()->asc(...),
-                SortingOrder::Desc => $builder->expr()->desc(...),
-            };
-
-            $expression = match ($criteria->getSorting()->getField()) {
-                AccountSearchCriteria::FIELD_CREATED_AT => 'account.createdAt',
-                AccountSearchCriteria::FIELD_EMAIL => 'account.email',
-                AccountSearchCriteria::FIELD_STATUS => 'account.status',
-                default => throw new LogicException(
-                    sprintf('Sorting field "%s" is not supported.', $criteria->getSorting()->getField()),
-                ),
-            };
-
-            $builder->addOrderBy($orderBy($expression));
-        }
+        $builder->addOrderBy($builder->expr()->desc(expr: 'account.createdAt'));
 
         $builder->setFirstResult($criteria->getPagination()?->getOffset());
         $builder->setMaxResults($criteria->getPagination()?->getLimit());
