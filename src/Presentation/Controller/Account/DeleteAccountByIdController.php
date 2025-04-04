@@ -62,6 +62,6 @@ final class DeleteAccountByIdController extends AbstractController
     #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
     public function __invoke(#[ValueResolver('payload')] DeleteAccountByIdRequest $message): Response
     {
-        return $this->handleResult($message);
+        return $this->getHandledResult($message);
     }
 }

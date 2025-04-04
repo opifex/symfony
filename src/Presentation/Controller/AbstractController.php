@@ -16,7 +16,7 @@ abstract class AbstractController
     ) {
     }
 
-    protected function handleResult(object $message): Response
+    protected function getHandledResult(object $message): Response
     {
         $envelope = $this->messageBus->dispatch($message);
         $handledStamps = $envelope->all(stampFqcn: HandledStamp::class);

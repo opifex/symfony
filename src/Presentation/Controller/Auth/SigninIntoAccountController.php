@@ -74,6 +74,6 @@ final class SigninIntoAccountController extends AbstractController
     #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
     public function __invoke(#[ValueResolver('payload')] SigninIntoAccountRequest $message): Response
     {
-        return $this->handleResult($message);
+        return $this->getHandledResult($message);
     }
 }

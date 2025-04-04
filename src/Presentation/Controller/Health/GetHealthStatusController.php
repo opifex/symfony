@@ -53,6 +53,6 @@ final class GetHealthStatusController extends AbstractController
     #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
     public function __invoke(#[ValueResolver('payload')] GetHealthStatusRequest $message): Response
     {
-        return $this->handleResult($message);
+        return $this->getHandledResult($message);
     }
 }

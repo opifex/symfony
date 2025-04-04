@@ -34,7 +34,7 @@ final class AbstractControllerTest extends Unit
         $controller = new class ($this->messageBus) extends AbstractController {
             public function __invoke(object $message): Response
             {
-                return $this->handleResult($message);
+                return $this->getHandledResult($message);
             }
         };
 
@@ -51,7 +51,7 @@ final class AbstractControllerTest extends Unit
 
         $this->expectException(LogicException::class);
 
-        $controller->__invoke($message);
+        ($controller)($message);
     }
 
     public function testInvokeThrowsExceptionOnInvalidResult(): void
@@ -59,7 +59,7 @@ final class AbstractControllerTest extends Unit
         $controller = new class ($this->messageBus) extends AbstractController {
             public function __invoke(object $message): Response
             {
-                return $this->handleResult($message);
+                return $this->getHandledResult($message);
             }
         };
 
@@ -75,6 +75,6 @@ final class AbstractControllerTest extends Unit
 
         $this->expectException(LogicException::class);
 
-        $controller->__invoke($message);
+        ($controller)($message);
     }
 }

@@ -87,6 +87,6 @@ final class GetSigninAccountController extends AbstractController
     #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)]
     public function __invoke(#[ValueResolver('payload')] GetSigninAccountRequest $message): Response
     {
-        return $this->handleResult($message);
+        return $this->getHandledResult($message);
     }
 }
