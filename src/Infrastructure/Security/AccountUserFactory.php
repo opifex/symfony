@@ -16,7 +16,7 @@ final class AccountUserFactory
         return new AccountUser(
             identifier: $account->getUuid(),
             password: $account->getPassword(),
-            roles: $account->getRoles()->toArray(),
+            roles: $account->getRoles(),
             activated: $account->getStatus() === AccountStatus::Activated,
         );
     }

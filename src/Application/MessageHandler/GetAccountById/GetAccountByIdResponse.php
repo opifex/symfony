@@ -21,7 +21,7 @@ final class GetAccountByIdResponse extends JsonResponse
                 'email' => $account->getEmail(),
                 'locale' => $account->getLocale(),
                 'status' => $account->getStatus()->value,
-                'roles' => $account->getRoles()->toArray(),
+                'roles' => $account->getRoles(),
                 'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
             ],
             status: Response::HTTP_OK,

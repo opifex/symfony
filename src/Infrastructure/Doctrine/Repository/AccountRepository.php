@@ -54,13 +54,12 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->setMaxResults($criteria->getPagination()?->getLimit());
 
         $paginator = new Paginator($builder);
-        /** @var Traversable<int, AccountEntity> $accountPaginator */
-        $accountPaginator = $paginator->getIterator();
-        $accounts = AccountMapper::mapMany(...$accountPaginator);
+        /** @var Traversable<int, AccountEntity> $iterator */
+        $iterator = $paginator->getIterator();
 
         $this->defaultEntityManager->clear();
 
-        return new AccountSearchResult($accounts, $paginator->count());
+        return new AccountSearchResult(AccountMapper::mapMany(...$iterator), $paginator->count());
     }
 
     #[Override]

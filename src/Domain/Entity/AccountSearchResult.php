@@ -10,16 +10,19 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class AccountSearchResult
 {
     /**
-     * @param AccountCollection $accounts
+     * @param Account[] $accounts
      * @param int<0, max> $totalResultCount
      */
     public function __construct(
-        private readonly AccountCollection $accounts,
+        private readonly array $accounts,
         private readonly int $totalResultCount,
     ) {
     }
 
-    public function getAccounts(): AccountCollection
+    /**
+     * @return Account[]
+     */
+    public function getAccounts(): array
     {
         return $this->accounts;
     }

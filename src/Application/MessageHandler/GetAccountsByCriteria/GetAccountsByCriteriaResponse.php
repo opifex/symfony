@@ -17,9 +17,6 @@ final class GetAccountsByCriteriaResponse extends JsonResponse
 {
     public static function create(AccountSearchResult $accountSearchResult, SearchPagination $searchPagination): self
     {
-        /** @var Account[] $accounts */
-        $accounts = iterator_to_array($accountSearchResult->getAccounts());
-
         return new self(
             data: [
                 'meta' => [
@@ -33,10 +30,10 @@ final class GetAccountsByCriteriaResponse extends JsonResponse
                         'email' => $account->getEmail(),
                         'locale' => $account->getLocale(),
                         'status' => $account->getStatus()->value,
-                        'roles' => $account->getRoles()->toArray(),
+                        'roles' => $account->getRoles(),
                         'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
                     ],
-                    array: $accounts,
+                    array: $accountSearchResult->getAccounts(),
                 ),
             ],
             status: Response::HTTP_OK,
