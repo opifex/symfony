@@ -13,7 +13,7 @@ final class GetHealthStatusHandler
 {
     public function __invoke(GetHealthStatusRequest $message): GetHealthStatusResponse
     {
-        $health = new Health(status: HealthStatus::Ok);
+        $health = new Health(status: HealthStatus::OK);
 
         return GetHealthStatusResponse::create($health);
     }

@@ -10,11 +10,11 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class Health
 {
     public function __construct(
-        private readonly HealthStatus $status,
+        private readonly string $status,
     ) {
     }
 
-    public function getStatus(): HealthStatus
+    public function getStatus(): string
     {
         return $this->status;
     }
