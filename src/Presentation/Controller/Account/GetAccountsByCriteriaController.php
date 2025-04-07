@@ -35,8 +35,11 @@ final class GetAccountsByCriteriaController extends AbstractController
                 name: 'status',
                 description: 'Account status name',
                 in: 'query',
-                schema: new OA\Schema(type: 'string', enum: AccountStatus::class),
-                example: AccountStatus::Activated,
+                schema: new OA\Schema(
+                    type: 'string',
+                    enum: AccountStatus::CASES,
+                ),
+                example: AccountStatus::ACTIVATED,
             ),
             new OA\Parameter(
                 name: 'limit',
@@ -109,15 +112,15 @@ final class GetAccountsByCriteriaController extends AbstractController
                                     new OA\Property(
                                         property: 'status',
                                         type: 'string',
-                                        enum: AccountStatus::class,
-                                        example: AccountStatus::Activated,
+                                        enum: AccountStatus::CASES,
+                                        example: AccountStatus::ACTIVATED,
                                     ),
                                     new OA\Property(
                                         property: 'roles',
                                         type: 'array',
                                         items: new OA\Items(
                                             type: 'string',
-                                            enum: AccountRole::class,
+                                            enum: AccountRole::CASES,
                                         ),
                                     ),
                                     new OA\Property(
@@ -144,7 +147,7 @@ final class GetAccountsByCriteriaController extends AbstractController
         name: 'app_get_accounts_by_criteria',
         methods: Request::METHOD_GET,
     )]
-    #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
+    #[IsGranted(AccountRole::ADMIN, message: 'Not privileged to request the resource.')]
     public function __invoke(#[ValueResolver('payload')] GetAccountsByCriteriaRequest $message): Response
     {
         return $this->getHandledResult($message);

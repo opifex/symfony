@@ -68,15 +68,15 @@ final class GetAccountByIdController extends AbstractController
                         new OA\Property(
                             property: 'status',
                             type: 'string',
-                            enum: AccountStatus::class,
-                            example: AccountStatus::Activated,
+                            enum: AccountStatus::CASES,
+                            example: AccountStatus::ACTIVATED,
                         ),
                         new OA\Property(
                             property: 'roles',
                             type: 'array',
                             items: new OA\Items(
                                 type: 'string',
-                                enum: AccountRole::class,
+                                enum: AccountRole::CASES,
                             ),
                         ),
                         new OA\Property(
@@ -99,7 +99,7 @@ final class GetAccountByIdController extends AbstractController
         name: 'app_get_account_by_id',
         methods: Request::METHOD_GET,
     )]
-    #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
+    #[IsGranted(AccountRole::ADMIN, message: 'Not privileged to request the resource.')]
     public function __invoke(#[ValueResolver('payload')] GetAccountByIdRequest $message): Response
     {
         return $this->getHandledResult($message);

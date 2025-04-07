@@ -6,7 +6,6 @@ namespace App\Infrastructure\Workflow;
 
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountStatus;
 use Override;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 use Symfony\Component\Workflow\Marking;
@@ -28,7 +27,7 @@ final class AccountMarkingStore implements MarkingStoreInterface
 
         $status = $this->accountRepository->findStatusByUuid($subject->getUuid());
 
-        return new Marking([$status->value => 1]);
+        return new Marking([$status => 1]);
     }
 
     /**
@@ -41,7 +40,7 @@ final class AccountMarkingStore implements MarkingStoreInterface
             throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
         }
 
-        $status = AccountStatus::fromValue((string) array_key_first($marking->getPlaces()));
+        $status = (string) array_key_first($marking->getPlaces());
         $this->accountRepository->updateStatusByUuid($subject->getUuid(), $status);
     }
 }

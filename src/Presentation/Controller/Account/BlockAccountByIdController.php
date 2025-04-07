@@ -59,7 +59,7 @@ final class BlockAccountByIdController extends AbstractController
         name: 'app_block_account_by_id',
         methods: Request::METHOD_POST,
     )]
-    #[IsGranted(AccountRole::Admin->value, message: 'Not privileged to request the resource.')]
+    #[IsGranted(AccountRole::ADMIN, message: 'Not privileged to request the resource.')]
     public function __invoke(#[ValueResolver('payload')] BlockAccountByIdRequest $message): Response
     {
         return $this->getHandledResult($message);

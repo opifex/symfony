@@ -22,35 +22,35 @@ final class AccountStateMachine implements AccountStateMachineInterface
     #[Override]
     public function activate(string $uuid): void
     {
-        $this->apply($uuid, action: AccountAction::Activate);
+        $this->apply($uuid, action: AccountAction::ACTIVATE);
     }
 
     #[Override]
     public function block(string $uuid): void
     {
-        $this->apply($uuid, action: AccountAction::Block);
+        $this->apply($uuid, action: AccountAction::BLOCK);
     }
 
     #[Override]
     public function register(string $uuid): void
     {
-        $this->apply($uuid, action: AccountAction::Register);
+        $this->apply($uuid, action: AccountAction::REGISTER);
     }
 
     #[Override]
     public function unblock(string $uuid): void
     {
-        $this->apply($uuid, action: AccountAction::Unblock);
+        $this->apply($uuid, action: AccountAction::UNBLOCK);
     }
 
-    private function apply(string $uuid, AccountAction $action): void
+    private function apply(string $uuid, string $action): void
     {
         $account = $this->accountRepository->findOneByUuid($uuid);
 
-        if (!$this->accountStateMachine->can($account, $action->value)) {
+        if (!$this->accountStateMachine->can($account, $action)) {
             throw AccountActionInvalidException::create();
         }
 
-        $this->accountStateMachine->apply($account, $action->value);
+        $this->accountStateMachine->apply($account, $action);
     }
 }

@@ -15,12 +15,12 @@ class SearchPagination
     ) {
     }
 
-    public function getPage(): ?int
+    public function getPage(): int
     {
         return $this->page;
     }
 
-    public function getLimit(): ?int
+    public function getLimit(): int
     {
         return $this->limit;
     }

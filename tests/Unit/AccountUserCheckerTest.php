@@ -34,7 +34,7 @@ final class AccountUserCheckerTest extends Unit
         $accountUser = new AccountUser(
             identifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [AccountRole::User->value],
+            roles: [AccountRole::USER],
             activated: false,
         );
 
@@ -57,7 +57,7 @@ final class AccountUserCheckerTest extends Unit
         $accountUser = new AccountUser(
             identifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [AccountRole::User->value],
+            roles: [AccountRole::USER],
             activated: true,
         );
         $accountUserChecker->checkPostAuth($accountUser);

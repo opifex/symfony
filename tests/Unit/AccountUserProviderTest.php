@@ -39,12 +39,12 @@ final class AccountUserProviderTest extends Unit
         $accountUserProvider = new AccountUserProvider($this->accountRepository);
         $account = new Account(
             uuid: Uuid::v7()->hash(),
+            createdAt: new DateTimeImmutable(),
             email: 'email@example.com',
             password: 'password4#account',
             locale: 'en_US',
-            roles: [AccountRole::User],
-            status: AccountStatus::Created,
-            createdAt: new DateTimeImmutable(),
+            roles: [AccountRole::USER],
+            status: AccountStatus::CREATED,
         );
         $accountUser = new AccountUser(
             identifier: $account->getUuid(),
@@ -85,7 +85,7 @@ final class AccountUserProviderTest extends Unit
         $accountUser = new AccountUser(
             identifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [AccountRole::User->value],
+            roles: [AccountRole::USER],
             activated: true,
         );
 

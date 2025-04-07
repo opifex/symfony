@@ -20,7 +20,7 @@ final class GetSigninAccountResponse extends JsonResponse
                 'uuid' => $account->getUuid(),
                 'email' => $account->getEmail(),
                 'locale' => $account->getLocale(),
-                'status' => $account->getStatus()->value,
+                'status' => $account->getStatus(),
                 'roles' => $account->getRoles(),
                 'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
             ],

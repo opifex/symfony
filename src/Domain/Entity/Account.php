@@ -15,12 +15,12 @@ class Account
      */
     public function __construct(
         private readonly string $uuid,
+        private readonly DateTimeImmutable $createdAt,
         private readonly string $email,
         private readonly string $password,
         private readonly string $locale,
         private readonly array $roles,
-        private readonly AccountStatus $status = AccountStatus::Created,
-        private readonly DateTimeImmutable $createdAt = new DateTimeImmutable(),
+        private readonly string $status,
     ) {
     }
 
@@ -52,7 +52,7 @@ class Account
         return $this->roles;
     }
 
-    public function getStatus(): AccountStatus
+    public function getStatus(): string
     {
         return $this->status;
     }

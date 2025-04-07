@@ -7,7 +7,6 @@ namespace App\Domain\Contract;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountSearchResult;
-use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use SensitiveParameter;
@@ -29,7 +28,7 @@ interface AccountRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
-    public function findStatusByUuid(string $uuid): AccountStatus;
+    public function findStatusByUuid(string $uuid): string;
 
     /**
      * @throws AccountNotFoundException
@@ -44,7 +43,7 @@ interface AccountRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
-    public function updateStatusByUuid(string $uuid, AccountStatus $status): void;
+    public function updateStatusByUuid(string $uuid, string $status): void;
 
     /**
      * @throws AccountNotFoundException

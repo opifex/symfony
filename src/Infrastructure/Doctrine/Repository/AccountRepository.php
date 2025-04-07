@@ -8,7 +8,6 @@ use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountSearchResult;
-use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountFactory;
@@ -103,7 +102,7 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function findStatusByUuid(string $uuid): AccountStatus
+    public function findStatusByUuid(string $uuid): string
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account.status'])->from(from: AccountEntity::class, alias: 'account');
@@ -118,7 +117,7 @@ final class AccountRepository implements AccountRepositoryInterface
 
         $this->defaultEntityManager->clear();
 
-        return AccountStatus::from($status);
+        return $status;
     }
 
     #[Override]
@@ -156,14 +155,14 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function updateStatusByUuid(string $uuid, AccountStatus $status): void
+    public function updateStatusByUuid(string $uuid, string $status): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.status', value: ':status');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
         $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'status', value: $status->value, type: Types::STRING);
+        $builder->setParameter(key: 'status', value: $status, type: Types::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();

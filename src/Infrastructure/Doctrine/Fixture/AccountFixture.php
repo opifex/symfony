@@ -30,8 +30,8 @@ final class AccountFixture extends Fixture implements FixtureInterface
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $password,
             locale: 'en_US',
-            roles: [AccountRole::Admin->value],
-            status: AccountStatus::Activated->value,
+            roles: [AccountRole::ADMIN],
+            status: AccountStatus::ACTIVATED,
         );
         $manager->persist($adminAccount);
 
@@ -41,22 +41,22 @@ final class AccountFixture extends Fixture implements FixtureInterface
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $password,
             locale: 'en_US',
-            roles: [AccountRole::User->value],
-            status: AccountStatus::Activated->value,
+            roles: [AccountRole::USER],
+            status: AccountStatus::ACTIVATED,
         );
         $manager->persist($userAccount);
 
         for ($index = 1; $index <= 10; $index++) {
-            /** @var AccountStatus $status */
-            $status = $faker->randomElement(AccountStatus::cases());
+            /** @var string $status */
+            $status = $faker->randomElement(array: AccountStatus::CASES);
             $account = new AccountEntity(
                 uuid: $faker->unique()->uuid(),
                 createdAt: new DateTimeImmutable(),
                 email: $faker->unique()->email(),
                 password: $password,
                 locale: 'en_US',
-                roles: [AccountRole::User->value],
-                status: $status->value,
+                roles: [AccountRole::USER],
+                status: $status,
             );
             $manager->persist($account);
         }

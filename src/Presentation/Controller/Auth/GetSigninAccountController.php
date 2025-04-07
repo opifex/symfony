@@ -53,15 +53,15 @@ final class GetSigninAccountController extends AbstractController
                         new OA\Property(
                             property: 'status',
                             type: 'string',
-                            enum: AccountStatus::class,
-                            example: AccountStatus::Activated,
+                            enum: AccountStatus::CASES,
+                            example: AccountStatus::ACTIVATED,
                         ),
                         new OA\Property(
                             property: 'roles',
                             type: 'array',
                             items: new OA\Items(
                                 type: 'string',
-                                enum: AccountRole::class,
+                                enum: AccountRole::CASES,
                             ),
                         ),
                         new OA\Property(

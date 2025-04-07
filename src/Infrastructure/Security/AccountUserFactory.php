@@ -17,7 +17,7 @@ final class AccountUserFactory
             identifier: $account->getUuid(),
             password: $account->getPassword(),
             roles: $account->getRoles(),
-            activated: $account->getStatus() === AccountStatus::Activated,
+            activated: $account->getStatus() === AccountStatus::ACTIVATED,
         );
     }
 }

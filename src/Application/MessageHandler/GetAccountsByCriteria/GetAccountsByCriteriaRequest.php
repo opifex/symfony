@@ -17,7 +17,7 @@ final class GetAccountsByCriteriaRequest
         #[Assert\Length(max: 320)]
         public readonly ?string $email = null,
 
-        #[Assert\Choice(callback: [AccountStatus::class, 'values'])]
+        #[Assert\Choice(choices: AccountStatus::CASES)]
         public readonly ?string $status = null,
 
         #[Assert\DivisibleBy(value: 1)]

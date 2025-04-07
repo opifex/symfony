@@ -22,8 +22,8 @@ final class AccountFactory
             email: $email,
             password: $password,
             locale: 'en_US',
-            roles: [AccountRole::User->value],
-            status: AccountStatus::Created->value,
+            roles: [AccountRole::USER],
+            status: AccountStatus::CREATED,
         );
     }
 }

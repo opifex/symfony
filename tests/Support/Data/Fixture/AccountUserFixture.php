@@ -26,8 +26,8 @@ final class AccountUserFixture extends Fixture implements FixtureInterface
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: 'password4#account',
             locale: 'en_US',
-            roles: [AccountRole::User->value],
-            status: AccountStatus::Activated->value,
+            roles: [AccountRole::USER],
+            status: AccountStatus::ACTIVATED,
         );
         $manager->persist($account);
         $manager->flush();
