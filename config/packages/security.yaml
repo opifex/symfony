@@ -2,8 +2,8 @@ security:
   password_hashers:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: auto
   providers:
-    account:
-      id: App\Infrastructure\Security\AccountUserProvider
+    database:
+      id: App\Infrastructure\Security\DatabaseUserProvider
   firewalls:
     development:
       pattern: ^/(_(profiler|wdt))
@@ -11,15 +11,15 @@ security:
     authentication:
       stateless: true
       pattern: ^/api/auth/signin
-      provider: account
-      user_checker: App\Infrastructure\Security\AccountUserChecker
+      provider: database
+      user_checker: App\Infrastructure\Security\PasswordAuthenticatedUserChecker
       custom_authenticators:
         - App\Infrastructure\Security\JsonLoginAuthenticator
     authorization:
       stateless: true
       pattern: ^/api
-      provider: account
-      user_checker: App\Infrastructure\Security\AccountUserChecker
+      provider: database
+      user_checker: App\Infrastructure\Security\PasswordAuthenticatedUserChecker
       access_token:
         token_handler: App\Infrastructure\Security\JwtAccessTokenHandler
   role_hierarchy:

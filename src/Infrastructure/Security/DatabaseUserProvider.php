@@ -13,9 +13,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
- * @implements UserProviderInterface<AccountUser>
+ * @implements UserProviderInterface<PasswordAuthenticatedUser>
  */
-final class AccountUserProvider implements UserProviderInterface
+final class DatabaseUserProvider implements UserProviderInterface
 {
     public function __construct(
         private readonly AccountRepositoryInterface $accountRepository,
@@ -31,7 +31,7 @@ final class AccountUserProvider implements UserProviderInterface
             throw new UserNotFoundException(previous: $e);
         }
 
-        return AccountUserFactory::createFromAccount($account);
+        return PasswordAuthenticatedUserFactory::createFromAccount($account);
     }
 
     #[Override]
@@ -43,6 +43,6 @@ final class AccountUserProvider implements UserProviderInterface
     #[Override]
     public function supportsClass(string $class): bool
     {
-        return is_a($class, class: AccountUser::class, allow_string: true);
+        return is_a($class, class: PasswordAuthenticatedUser::class, allow_string: true);
     }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Entity\AccountRole;
-use App\Infrastructure\Security\AccountUser;
-use App\Infrastructure\Security\AccountUserChecker;
+use App\Infrastructure\Security\PasswordAuthenticatedUser;
+use App\Infrastructure\Security\PasswordAuthenticatedUserChecker;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusExce
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
-final class AccountUserCheckerTest extends Unit
+final class PasswordAuthenticatedUserCheckerTest extends Unit
 {
     private UserInterface&MockObject $user;
 
@@ -30,12 +30,12 @@ final class AccountUserCheckerTest extends Unit
 
     public function testCheckPostAuthWithBlockedAccount(): void
     {
-        $accountUserChecker = new AccountUserChecker();
-        $accountUser = new AccountUser(
+        $accountUserChecker = new PasswordAuthenticatedUserChecker();
+        $accountUser = new PasswordAuthenticatedUser(
             identifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::USER],
-            activated: false,
+            enabled: false,
         );
 
         $this->expectException(CustomUserMessageAccountStatusException::class);
@@ -45,7 +45,7 @@ final class AccountUserCheckerTest extends Unit
 
     public function testCheckPostAuthWithNonAccountUser(): void
     {
-        $accountUserChecker = new AccountUserChecker();
+        $accountUserChecker = new PasswordAuthenticatedUserChecker();
         $accountUserChecker->checkPostAuth($this->user);
 
         $this->expectNotToPerformAssertions();
@@ -53,12 +53,12 @@ final class AccountUserCheckerTest extends Unit
 
     public function testCheckPostAuthWithVerifiedAccount(): void
     {
-        $accountUserChecker = new AccountUserChecker();
-        $accountUser = new AccountUser(
+        $accountUserChecker = new PasswordAuthenticatedUserChecker();
+        $accountUser = new PasswordAuthenticatedUser(
             identifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::USER],
-            activated: true,
+            enabled: true,
         );
         $accountUserChecker->checkPostAuth($accountUser);
 

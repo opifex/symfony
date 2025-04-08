@@ -9,8 +9,8 @@ use App\Domain\Entity\Account;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\AccountStatus;
 use App\Domain\Exception\AccountNotFoundException;
-use App\Infrastructure\Security\AccountUser;
-use App\Infrastructure\Security\AccountUserProvider;
+use App\Infrastructure\Security\DatabaseUserProvider;
+use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Codeception\Test\Unit;
 use DateTimeImmutable;
 use Override;
@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Uid\Uuid;
 
-final class AccountUserProviderTest extends Unit
+final class DatabaseUserProviderTest extends Unit
 {
     private AccountRepositoryInterface&MockObject $accountRepository;
 
@@ -36,7 +36,7 @@ final class AccountUserProviderTest extends Unit
 
     public function testLoadUserByIdentifierWithEmail(): void
     {
-        $accountUserProvider = new AccountUserProvider($this->accountRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
         $account = new Account(
             uuid: Uuid::v7()->hash(),
             createdAt: new DateTimeImmutable(),
@@ -46,11 +46,11 @@ final class AccountUserProviderTest extends Unit
             roles: [AccountRole::USER],
             status: AccountStatus::CREATED,
         );
-        $accountUser = new AccountUser(
+        $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             identifier: $account->getUuid(),
             password: $account->getPassword(),
             roles: $account->getRoles(),
-            activated: true,
+            enabled: true,
         );
 
         $this->accountRepository
@@ -59,15 +59,15 @@ final class AccountUserProviderTest extends Unit
             ->with($account->getEmail())
             ->willReturn($account);
 
-        $loadedUser = $accountUserProvider->loadUserByIdentifier($account->getEmail());
+        $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->getEmail());
 
-        $this->assertEquals($accountUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
-        $this->assertEquals($accountUser->getRoles(), $loadedUser->getRoles());
+        $this->assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
+        $this->assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());
     }
 
     public function testLoadUserByIdentifierWithInvalidIdentifier(): void
     {
-        $accountUserProvider = new AccountUserProvider($this->accountRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
 
         $this->accountRepository
             ->expects($this->once())
@@ -76,36 +76,36 @@ final class AccountUserProviderTest extends Unit
 
         $this->expectException(UserNotFoundException::class);
 
-        $accountUserProvider->loadUserByIdentifier(identifier: 'invalid@example.com');
+        $databaseUserProvider->loadUserByIdentifier(identifier: 'invalid@example.com');
     }
 
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
-        $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $accountUser = new AccountUser(
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
+        $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             identifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::USER],
-            activated: true,
+            enabled: true,
         );
 
         $this->expectException(UnsupportedUserException::class);
 
-        $accountUserProvider->refreshUser($accountUser);
+        $databaseUserProvider->refreshUser($passwordAuthenticatedUser);
     }
 
     public function testCheckSupportsClassWithMatchingClass(): void
     {
-        $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $supports = $accountUserProvider->supportsClass(class: AccountUser::class);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
+        $supports = $databaseUserProvider->supportsClass(class: PasswordAuthenticatedUser::class);
 
         $this->assertTrue($supports);
     }
 
     public function testCheckSupportsClassWithNonMatchingClass(): void
     {
-        $accountUserProvider = new AccountUserProvider($this->accountRepository);
-        $supports = $accountUserProvider->supportsClass(class: stdClass::class);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
+        $supports = $databaseUserProvider->supportsClass(class: stdClass::class);
 
         $this->assertFalse($supports);
     }

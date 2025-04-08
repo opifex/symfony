@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Exclude]
-final class AccountUser implements PasswordAuthenticatedUserInterface, UserInterface
+final class PasswordAuthenticatedUser implements PasswordAuthenticatedUserInterface, UserInterface
 {
     /**
      * @param string[] $roles
@@ -18,8 +18,8 @@ final class AccountUser implements PasswordAuthenticatedUserInterface, UserInter
     public function __construct(
         private readonly string $identifier,
         private readonly string $password,
-        private readonly array $roles,
-        private readonly bool $activated,
+        private readonly array $roles = [],
+        private readonly bool $enabled = true,
     ) {
     }
 
@@ -48,8 +48,8 @@ final class AccountUser implements PasswordAuthenticatedUserInterface, UserInter
         // Nothing to do
     }
 
-    public function isActivated(): bool
+    public function isEnabled(): bool
     {
-        return $this->activated;
+        return $this->enabled;
     }
 }
