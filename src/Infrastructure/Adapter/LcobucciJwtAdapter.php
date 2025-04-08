@@ -95,20 +95,15 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     public function generateToken(string $userIdentifier): string
     {
         $tokenIssuedAt = $this->clock->now();
-        $tokenExpiresAt = $tokenIssuedAt->add($this->expiration);
-        $tokenIdentifier = $this->generateTokenIdentifier();
 
         $builder = $this->configuration->builder();
         $builder = $builder->canOnlyBeUsedAfter($tokenIssuedAt);
-        $builder = $builder->expiresAt($tokenExpiresAt);
-        $builder = $builder->identifiedBy($tokenIdentifier);
+        $builder = $builder->expiresAt($tokenIssuedAt->add($this->expiration));
+        $builder = $builder->identifiedBy($this->generateTokenIdentifier());
         $builder = $builder->issuedAt($tokenIssuedAt);
         $builder = $builder->relatedTo($userIdentifier);
 
-        $token = $builder->getToken(
-            signer: $this->configuration->signer(),
-            key: $this->configuration->signingKey(),
-        );
+        $token = $builder->getToken($this->configuration->signer(), $this->configuration->signingKey());
 
         return $token->toString();
     }
