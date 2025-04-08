@@ -14,7 +14,7 @@ use Symfony\Component\Uid\Uuid;
 #[Exclude]
 final class AccountFactory
 {
-    public static function create(string $email, #[SensitiveParameter] string $password): AccountEntity
+    public static function createEntity(string $email, #[SensitiveParameter] string $password): AccountEntity
     {
         return new AccountEntity(
             uuid: Uuid::v7()->toRfc4122(),

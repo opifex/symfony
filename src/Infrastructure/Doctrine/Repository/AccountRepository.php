@@ -191,7 +191,7 @@ final class AccountRepository implements AccountRepositoryInterface
     #[Override]
     public function addOneAccount(string $email, #[SensitiveParameter] string $password): string
     {
-        $entity = AccountFactory::create($email, $password);
+        $entity = AccountFactory::createEntity($email, $password);
         $this->defaultEntityManager->persist($entity);
         $this->defaultEntityManager->flush();
         $this->defaultEntityManager->clear();
