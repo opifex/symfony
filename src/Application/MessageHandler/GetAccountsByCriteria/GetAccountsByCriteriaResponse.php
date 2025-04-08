@@ -25,7 +25,7 @@ final class GetAccountsByCriteriaResponse extends JsonResponse
                     'total_items' => $accountSearchResult->getTotalResultCount(),
                 ],
                 'data' => array_map(
-                    callback: fn(Account $account) => [
+                    callback: static fn(Account $account): array => [
                         'uuid' => $account->getUuid(),
                         'email' => $account->getEmail(),
                         'locale' => $account->getLocale(),
