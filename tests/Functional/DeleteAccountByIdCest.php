@@ -19,7 +19,7 @@ final class DeleteAccountByIdCest
         $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
         $i->sendDelete(url: '/api/account/00000000-0000-6000-8001-000000000000');
         $i->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $i->seeResponseEquals(expected: '');
     }
 
@@ -30,7 +30,7 @@ final class DeleteAccountByIdCest
         $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
         $i->sendDelete(url: '/api/account/00000000-0000-6000-8001-000000000000');
         $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

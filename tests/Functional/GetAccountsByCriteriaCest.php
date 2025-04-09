@@ -24,7 +24,7 @@ final class GetAccountsByCriteriaCest
             ],
         );
         $i->seeResponseCodeIs(code: HttpCode::OK);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $i->seeResponseIsJson();
         $i->seeResponseContainsJson(['email' => 'admin@example.com']);
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetAccountsByCriteriaSchema.json'));

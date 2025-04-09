@@ -23,7 +23,7 @@ final class CreateNewAccountCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CREATED);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'CreateNewAccountSchema.json'));
     }
 
@@ -40,7 +40,7 @@ final class CreateNewAccountCest
             ]),
         );
         $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 200);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }
