@@ -16,7 +16,7 @@ final class PasswordAuthenticatedUser implements PasswordAuthenticatedUserInterf
      * @param string[] $roles
      */
     public function __construct(
-        private readonly string $identifier,
+        private readonly string $userIdentifier,
         private readonly string $password,
         private readonly array $roles = [],
         private readonly bool $enabled = true,
@@ -27,7 +27,7 @@ final class PasswordAuthenticatedUser implements PasswordAuthenticatedUserInterf
     public function getUserIdentifier(): string
     {
         /** @var non-empty-string */
-        return $this->identifier;
+        return $this->userIdentifier;
     }
 
     #[Override]

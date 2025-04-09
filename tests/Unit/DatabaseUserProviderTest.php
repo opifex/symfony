@@ -47,7 +47,7 @@ final class DatabaseUserProviderTest extends Unit
             status: AccountStatus::CREATED,
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
-            identifier: $account->getUuid(),
+            userIdentifier: $account->getUuid(),
             password: $account->getPassword(),
             roles: $account->getRoles(),
             enabled: true,
@@ -83,7 +83,7 @@ final class DatabaseUserProviderTest extends Unit
     {
         $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
-            identifier: Uuid::v7()->hash(),
+            userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::USER],
             enabled: true,

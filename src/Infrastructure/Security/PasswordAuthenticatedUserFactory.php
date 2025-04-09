@@ -14,7 +14,7 @@ final class PasswordAuthenticatedUserFactory
     public static function createFromAccount(Account $account): PasswordAuthenticatedUser
     {
         return new PasswordAuthenticatedUser(
-            identifier: $account->getUuid(),
+            userIdentifier: $account->getUuid(),
             password: $account->getPassword(),
             roles: $account->getRoles(),
             enabled: $account->getStatus() === AccountStatus::ACTIVATED,

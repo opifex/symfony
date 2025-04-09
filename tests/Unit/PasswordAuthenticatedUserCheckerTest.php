@@ -32,7 +32,7 @@ final class PasswordAuthenticatedUserCheckerTest extends Unit
     {
         $accountUserChecker = new PasswordAuthenticatedUserChecker();
         $accountUser = new PasswordAuthenticatedUser(
-            identifier: Uuid::v7()->hash(),
+            userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::USER],
             enabled: false,
@@ -55,7 +55,7 @@ final class PasswordAuthenticatedUserCheckerTest extends Unit
     {
         $accountUserChecker = new PasswordAuthenticatedUserChecker();
         $accountUser = new PasswordAuthenticatedUser(
-            identifier: Uuid::v7()->hash(),
+            userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
             roles: [AccountRole::USER],
             enabled: true,
