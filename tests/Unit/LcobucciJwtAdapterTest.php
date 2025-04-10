@@ -54,8 +54,8 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->generateToken($this->user->getUserIdentifier());
-        $userIdentifier = $lcobucciJwtAdapter->extractUserIdentifier($token);
+        $accessToken = $lcobucciJwtAdapter->createAccessToken($this->user->getUserIdentifier());
+        $userIdentifier = $lcobucciJwtAdapter->decodeAccessToken($accessToken)->getUserIdentifier();
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $userIdentifier);
     }
@@ -120,8 +120,8 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->generateToken($this->user->getUserIdentifier());
-        $userIdentifier = $lcobucciJwtAdapter->extractUserIdentifier($token);
+        $accessToken = $lcobucciJwtAdapter->createAccessToken($this->user->getUserIdentifier());
+        $userIdentifier = $lcobucciJwtAdapter->decodeAccessToken($accessToken)->getUserIdentifier();
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $userIdentifier);
     }
@@ -143,11 +143,11 @@ final class LcobucciJwtAdapterTest extends Unit
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
 
-        $token = $lcobucciJwtAdapter->generateToken($this->user->getUserIdentifier());
+        $accessToken = $lcobucciJwtAdapter->createAccessToken($this->user->getUserIdentifier());
 
         $this->expectException(JwtTokenManagerException::class);
 
-        $lcobucciJwtAdapter->extractUserIdentifier($token);
+        $lcobucciJwtAdapter->decodeAccessToken($accessToken);
     }
 
     /**
@@ -161,12 +161,12 @@ final class LcobucciJwtAdapterTest extends Unit
             clock: new MockClock(),
         );
 
-        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
-        $token .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
+        $accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
+        $accessToken .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
         $this->expectException(JwtTokenManagerException::class);
 
-        $lcobucciJwtAdapter->extractUserIdentifier($token);
+        $lcobucciJwtAdapter->decodeAccessToken($accessToken);
     }
 
     /**
@@ -182,28 +182,6 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $this->expectException(JwtTokenManagerException::class);
 
-        $lcobucciJwtAdapter->extractUserIdentifier(accessToken: 'invalid');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testGetIdentifierThrowsExceptionWithTokenWithoutSubject(): void
-    {
-        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
-            lifetime: 86400,
-            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
-            clock: new MockClock(),
-        );
-
-        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
-        $token .= 'Tg1MTQ3NjEuMjA1NzU4LCJleHAiOjMzMTk0NTE0NzYxLjIwNT';
-        $token .= 'c1NywianRpIjoiZmYxZDFlNGItMzM0Zi00NzcyLWExOWYtN2E';
-        $token .= '3ZmFlNDViNTkzIiwiaWF0IjoxNjU4NTE0NzYxLjIwNTc1OH0.';
-        $token .= 'eIwfBFdKBNocw9sYFTikflp7c4xM3RI02XUKH3w7re0';
-
-        $this->expectException(JwtTokenManagerException::class);
-
-        $lcobucciJwtAdapter->extractUserIdentifier($token);
+        $lcobucciJwtAdapter->decodeAccessToken(accessToken: 'invalid');
     }
 }

@@ -20,6 +20,8 @@ final class JwtAccessTokenHandler implements AccessTokenHandlerInterface
     #[Override]
     public function getUserBadgeFrom(#[SensitiveParameter] string $accessToken): UserBadge
     {
-        return new UserBadge($this->jwtTokenManager->extractUserIdentifier($accessToken));
+        $authorizationToken = $this->jwtTokenManager->decodeAccessToken($accessToken);
+
+        return new UserBadge($authorizationToken->getUserIdentifier());
     }
 }

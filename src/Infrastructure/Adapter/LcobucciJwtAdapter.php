@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter;
 
 use App\Domain\Contract\JwtTokenManagerInterface;
+use App\Domain\Entity\AuthorizationToken;
 use App\Domain\Exception\JwtTokenManagerException;
 use DateInterval;
 use Exception;
@@ -73,7 +74,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
      * @param non-empty-string $accessToken
      */
     #[Override]
-    public function extractUserIdentifier(#[SensitiveParameter] string $accessToken): string
+    public function decodeAccessToken(#[SensitiveParameter] string $accessToken): AuthorizationToken
     {
         try {
             $token = $this->parseTokenFromString($accessToken);
@@ -85,14 +86,19 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 
         $this->validateTokenInformation($token);
 
-        return $this->extractSubjectFromToken($token);
+        /** @var string $tokenIdentifier */
+        $tokenIdentifier = $token->claims()->get(name: RegisteredClaims::ID) ?? '';
+        /** @var string $userIdentifier */
+        $userIdentifier = $token->claims()->get(name: RegisteredClaims::SUBJECT) ?? '';
+
+        return new AuthorizationToken($tokenIdentifier, $userIdentifier);
     }
 
     /**
      * @param non-empty-string $userIdentifier
      */
     #[Override]
-    public function generateToken(string $userIdentifier): string
+    public function createAccessToken(string $userIdentifier): string
     {
         $tokenIssuedAt = $this->clock->now();
 
@@ -134,19 +140,5 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         if (!$this->configuration->validator()->validate($token, $strictValidAt, $signedWith)) {
             throw JwtTokenManagerException::tokenIsInvalidOrExpired();
         }
-    }
-
-    /**
-     * @throws JwtTokenManagerException
-     */
-    private function extractSubjectFromToken(Plain $token): string
-    {
-        $subject = $token->claims()->get(name: RegisteredClaims::SUBJECT);
-
-        if (!is_string($subject)) {
-            throw JwtTokenManagerException::tokenIsInvalidOrExpired();
-        }
-
-        return $subject;
     }
 }

@@ -20,7 +20,7 @@ final class SigninIntoAccountHandler
     public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResponse
     {
         $account = $this->accountTokenStorage->getAccount();
-        $accessToken = $this->jwtTokenManager->generateToken($account->getEmail());
+        $accessToken = $this->jwtTokenManager->createAccessToken($account->getEmail());
 
         return SigninIntoAccountResponse::create($accessToken);
     }
