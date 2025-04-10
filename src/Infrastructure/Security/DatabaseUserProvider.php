@@ -31,7 +31,12 @@ final class DatabaseUserProvider implements UserProviderInterface
             throw new UserNotFoundException(previous: $e);
         }
 
-        return PasswordAuthenticatedUserFactory::createFromAccount($account);
+        return new PasswordAuthenticatedUser(
+            userIdentifier: $account->getUuid(),
+            password: $account->getPassword(),
+            roles: $account->getRoles(),
+            enabled: $account->isActive(),
+        );
     }
 
     #[Override]
