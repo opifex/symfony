@@ -41,7 +41,7 @@ final class LcobucciJwtAdapterTest extends Unit
      * @throws JwtTokenManagerException
      * @throws Exception
      */
-    public function testGetIdentifierFromToken(): void
+    public function testCreateAccessTokenWithPassphrase(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 86400,
@@ -64,7 +64,7 @@ final class LcobucciJwtAdapterTest extends Unit
      * @throws JwtTokenManagerException
      * @throws Exception
      */
-    public function testGetIdentifierFromTokenWithVerificationKey(): void
+    public function testCreateAccessTokenWithSigningKey(): void
     {
         $signingKey = '-----BEGIN RSA PRIVATE KEY-----' . PHP_EOL;
         $signingKey .= 'Proc-Type: 4,ENCRYPTED' . PHP_EOL;
@@ -130,7 +130,48 @@ final class LcobucciJwtAdapterTest extends Unit
      * @throws JwtTokenManagerException
      * @throws Exception
      */
-    public function testGetIdentifierThrowsExceptionWithExpiredToken(): void
+    public function testCreateAccessTokenThrowsExceptionWithInvalidSigningKey(): void
+    {
+        $signingKey = '-----BEGIN RSA PRIVATE KEY-----' . PHP_EOL;
+        $signingKey .= 'Proc-Type: 4,ENCRYPTED' . PHP_EOL;
+        $signingKey .= 'DEK-Info: AES-256-CBC,C173140B9BD40DD3D5E2601496AAA9CB' . PHP_EOL;
+        $signingKey .= PHP_EOL;
+        $signingKey .= 'kb4W9J//SbhdLi7eifYcescdNWk5ok+uxsll846xiVzua5Tj4zzEeEKOZgEKksct' . PHP_EOL;
+        $signingKey .= '-----END RSA PRIVATE KEY-----' . PHP_EOL;
+
+        $verificationKey = '-----BEGIN PUBLIC KEY-----' . PHP_EOL;
+        $verificationKey .= 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzGiG07+OA5skFf3qgQYT' . PHP_EOL;
+        $verificationKey .= 'kqGGxy60Gkj3/X9oHTnG5J8g25At5x2DI0wlL7lE069UmR/HH2vwz64mzhn5YONJ' . PHP_EOL;
+        $verificationKey .= 'J2dMMJq2ELNzIPt3Z75EdLRpTQZqdF/7kT570u1zyQ2jk9sF0wWwQemLELjSPDrR' . PHP_EOL;
+        $verificationKey .= 'PG+FC+LbBuWL4kCTXNc0XMFtb1kcI+JW6+fPbTrU52MAbYAcXn6IqRUI5I79QMeV' . PHP_EOL;
+        $verificationKey .= 'GACIF9v+mwBA4ngh2qiMseriwKicYDOFxhCQJr3nuq3h4e5O1Ha8A2wAjzqUg8zJ' . PHP_EOL;
+        $verificationKey .= 'heZH4mo0oTQnihmQZYAFVGP0UrVYJYZy6sRSenINkxNjmqGHb58De0me5zKiyu6P' . PHP_EOL;
+        $verificationKey .= 'pwIDAQAB' . PHP_EOL;
+        $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
+
+        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            lifetime: 86400,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+            signingKey: $signingKey,
+            verificationKey: $verificationKey,
+            clock: new MockClock(),
+        );
+
+        $this->user
+            ->expects($this->once())
+            ->method(constraint: 'getUserIdentifier')
+            ->willReturn(value: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22');
+
+        $this->expectException(JwtTokenManagerException::class);
+
+        $lcobucciJwtAdapter->createAccessToken($this->user->getUserIdentifier());
+    }
+
+    /**
+     * @throws JwtTokenManagerException
+     * @throws Exception
+     */
+    public function testDecodeAccessTokenThrowsExceptionWithExpiredToken(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 0,
@@ -153,7 +194,7 @@ final class LcobucciJwtAdapterTest extends Unit
     /**
      * @throws Exception
      */
-    public function testGetIdentifierThrowsExceptionWithInvalidTokenContent(): void
+    public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenContent(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 1,
@@ -172,7 +213,7 @@ final class LcobucciJwtAdapterTest extends Unit
     /**
      * @throws Exception
      */
-    public function testGetIdentifierThrowsExceptionWithInvalidTokenStructure(): void
+    public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenStructure(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             lifetime: 1,

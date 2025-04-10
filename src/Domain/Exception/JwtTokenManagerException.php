@@ -8,28 +8,29 @@ use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
+use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_FORBIDDEN)]
 class JwtTokenManagerException extends RuntimeException
 {
-    public static function tokenSignerIsNotConfigured(): self
+    public static function tokenSignerIsNotConfigured(?Throwable $previous = null): self
     {
-        return new self(message: 'Authorization token signer is not configured.');
+        return new self(message: 'Authorization token signer is not configured.', previous: $previous);
     }
 
-    public static function errorWhileDecodingToken(): self
+    public static function errorWhileDecodingToken(?Throwable $previous = null): self
     {
-        return new self(message: 'Error while decoding authorization token.');
+        return new self(message: 'Error while decoding authorization token.', previous: $previous);
     }
 
-    public static function tokenHaveInvalidStructure(): self
+    public static function tokenHaveInvalidStructure(?Throwable $previous = null): self
     {
-        return new self(message: 'Authorization token have invalid structure.');
+        return new self(message: 'Authorization token have invalid structure.', previous: $previous);
     }
 
-    public static function tokenIsInvalidOrExpired(): self
+    public static function tokenIsInvalidOrExpired(?Throwable $previous = null): self
     {
-        return new self(message: 'Authorization token is invalid or expired.');
+        return new self(message: 'Authorization token is invalid or expired.', previous: $previous);
     }
 }

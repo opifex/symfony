@@ -12,6 +12,7 @@ use Exception;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
+use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256 as RsaSha256;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
@@ -78,10 +79,10 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     {
         try {
             $token = $this->parseTokenFromString($accessToken);
-        } catch (CannotDecodeContent) {
-            throw JwtTokenManagerException::errorWhileDecodingToken();
-        } catch (InvalidTokenStructure) {
-            throw JwtTokenManagerException::tokenHaveInvalidStructure();
+        } catch (CannotDecodeContent $e) {
+            throw JwtTokenManagerException::errorWhileDecodingToken($e);
+        } catch (InvalidTokenStructure $e) {
+            throw JwtTokenManagerException::tokenHaveInvalidStructure($e);
         }
 
         $this->validateTokenInformation($token);
@@ -101,6 +102,8 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     public function createAccessToken(string $userIdentifier): string
     {
         $tokenIssuedAt = $this->clock->now();
+        $signer = $this->configuration->signer();
+        $signingKey = $this->configuration->signingKey();
 
         $builder = $this->configuration->builder();
         $builder = $builder->canOnlyBeUsedAfter($tokenIssuedAt);
@@ -109,9 +112,11 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         $builder = $builder->issuedAt($tokenIssuedAt);
         $builder = $builder->relatedTo($userIdentifier);
 
-        $token = $builder->getToken($this->configuration->signer(), $this->configuration->signingKey());
-
-        return $token->toString();
+        try {
+            return $builder->getToken($signer, $signingKey)->toString();
+        } catch (InvalidKeyProvided $e) {
+            throw JwtTokenManagerException::tokenSignerIsNotConfigured($e);
+        }
     }
 
     /**
