@@ -15,5 +15,8 @@ interface JwtTokenManagerInterface
      */
     public function decodeAccessToken(#[SensitiveParameter] string $accessToken): AuthorizationToken;
 
+    /**
+     * @throws JwtTokenManagerException
+     */
     public function createAccessToken(string $userIdentifier): string;
 }
