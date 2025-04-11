@@ -29,6 +29,8 @@ use Symfony\Component\Uid\Uuid;
 
 final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 {
+    private const string CLAIM_ROLES = 'roles';
+
     private readonly Configuration $configuration;
 
     private readonly DateInterval $expiration;
@@ -87,19 +89,19 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 
         $this->validateTokenInformation($token);
 
-        /** @var string $tokenIdentifier */
-        $tokenIdentifier = $token->claims()->get(name: RegisteredClaims::ID) ?? '';
         /** @var string $userIdentifier */
         $userIdentifier = $token->claims()->get(name: RegisteredClaims::SUBJECT) ?? '';
+        /** @var string[] $userRoles */
+        $userRoles = $token->claims()->get(name: self::CLAIM_ROLES) ?? '';
 
-        return new AuthorizationToken($tokenIdentifier, $userIdentifier);
+        return new AuthorizationToken($userIdentifier, $userRoles);
     }
 
     /**
      * @param non-empty-string $userIdentifier
      */
     #[Override]
-    public function createAccessToken(string $userIdentifier): string
+    public function createAccessToken(string $userIdentifier, array $userRoles = []): string
     {
         $tokenIssuedAt = $this->clock->now();
         $signer = $this->configuration->signer();
@@ -111,6 +113,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         $builder = $builder->identifiedBy($this->generateTokenIdentifier());
         $builder = $builder->issuedAt($tokenIssuedAt);
         $builder = $builder->relatedTo($userIdentifier);
+        $builder = $builder->withClaim(name: self::CLAIM_ROLES, value: $userRoles);
 
         try {
             return $builder->getToken($signer, $signingKey)->toString();

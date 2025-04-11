@@ -11,12 +11,13 @@ use SensitiveParameter;
 interface JwtTokenManagerInterface
 {
     /**
+     * @param string[] $userRoles
      * @throws JwtTokenManagerException
      */
-    public function decodeAccessToken(#[SensitiveParameter] string $accessToken): AuthorizationToken;
+    public function createAccessToken(string $userIdentifier, array $userRoles = []): string;
 
     /**
      * @throws JwtTokenManagerException
      */
-    public function createAccessToken(string $userIdentifier): string;
+    public function decodeAccessToken(#[SensitiveParameter] string $accessToken): AuthorizationToken;
 }
