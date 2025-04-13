@@ -18,6 +18,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha256 as RsaSha256;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaims;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 use Override;
@@ -36,15 +37,19 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     private readonly DateInterval $expiration;
 
     /**
+     * @param non-empty-string $issuer
      * @throws Exception
      */
     public function __construct(
-        #[Autowire('%env(int:JWT_LIFETIME)%')]
-        private readonly int $lifetime = 0,
+        #[Autowire('%env(string:JWT_ISSUER)%')]
+        private readonly string $issuer,
 
-        #[Autowire('%env(JWT_PASSPHRASE)%')]
+        #[Autowire('%env(int:JWT_LIFETIME)%')]
+        private readonly int $lifetime,
+
+        #[Autowire('%env(string:JWT_PASSPHRASE)%')]
         #[SensitiveParameter]
-        private readonly ?string $passphrase = null,
+        private readonly string $passphrase,
 
         #[Autowire('%env(default::JWT_SIGNING_KEY)%')]
         #[SensitiveParameter]
@@ -111,6 +116,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         $builder = $builder->canOnlyBeUsedAfter($tokenIssuedAt);
         $builder = $builder->expiresAt($tokenIssuedAt->add($this->expiration));
         $builder = $builder->identifiedBy($this->generateTokenIdentifier());
+        $builder = $builder->issuedBy($this->issuer);
         $builder = $builder->issuedAt($tokenIssuedAt);
         $builder = $builder->relatedTo($userIdentifier);
         $builder = $builder->withClaim(name: self::CLAIM_ROLES, value: $userRoles);
@@ -142,10 +148,13 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 
     private function validateTokenInformation(Plain $token): void
     {
-        $strictValidAt = new StrictValidAt($this->clock);
-        $signedWith = new SignedWith($this->configuration->signer(), $this->configuration->verificationKey());
+        $constraints = [
+            new IssuedBy($this->issuer),
+            new SignedWith($this->configuration->signer(), $this->configuration->verificationKey()),
+            new StrictValidAt($this->clock),
+        ];
 
-        if (!$this->configuration->validator()->validate($token, $strictValidAt, $signedWith)) {
+        if (!$this->configuration->validator()->validate($token, ...$constraints)) {
             throw JwtTokenManagerException::tokenIsInvalidOrExpired();
         }
     }

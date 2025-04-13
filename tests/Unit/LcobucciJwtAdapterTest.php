@@ -19,7 +19,7 @@ final class LcobucciJwtAdapterTest extends Unit
     {
         $this->expectException(JwtTokenManagerException::class);
 
-        new LcobucciJwtAdapter(lifetime: 86400, passphrase: '');
+        new LcobucciJwtAdapter(issuer: 'http://example.com', lifetime: 86400, passphrase: '');
     }
 
     /**
@@ -29,6 +29,7 @@ final class LcobucciJwtAdapterTest extends Unit
     public function testCreateAccessTokenWithPassphrase(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             clock: new MockClock(),
@@ -92,6 +93,7 @@ final class LcobucciJwtAdapterTest extends Unit
         $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             signingKey: $signingKey,
@@ -133,6 +135,7 @@ final class LcobucciJwtAdapterTest extends Unit
         $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            issuer: 'http://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             signingKey: $signingKey,
@@ -155,6 +158,7 @@ final class LcobucciJwtAdapterTest extends Unit
     public function testDecodeAccessTokenThrowsExceptionWithExpiredToken(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            issuer: 'http://example.com',
             lifetime: 0,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             clock: new MockClock(),
@@ -176,6 +180,7 @@ final class LcobucciJwtAdapterTest extends Unit
     public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenContent(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            issuer: 'http://example.com',
             lifetime: 1,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             clock: new MockClock(),
@@ -195,6 +200,7 @@ final class LcobucciJwtAdapterTest extends Unit
     public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenStructure(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            issuer: 'http://example.com',
             lifetime: 1,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             clock: new MockClock(),
