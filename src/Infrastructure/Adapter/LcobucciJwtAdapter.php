@@ -64,27 +64,22 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     #[Override]
     public function decodeAccessToken(#[SensitiveParameter] string $accessToken): AuthorizationToken
     {
-        $jwt = $this->getJwtConfiguration();
+        $jsonWebToken = $this->getJwtConfiguration();
 
         try {
             /** @var Plain $token */
-            $token = $jwt->parser()->parse($accessToken);
+            $token = $jsonWebToken->parser()->parse($accessToken);
         } catch (CannotDecodeContent $e) {
             throw JwtTokenManagerException::errorWhileDecodingToken($e);
         } catch (InvalidTokenStructure $e) {
             throw JwtTokenManagerException::tokenHaveInvalidStructure($e);
         }
 
-        if (!$jwt->validator()->validate($token, ...$jwt->validationConstraints())) {
+        if (!$jsonWebToken->validator()->validate($token, ...$jsonWebToken->validationConstraints())) {
             throw JwtTokenManagerException::tokenIsInvalidOrExpired();
         }
 
-        /** @var string $userIdentifier */
-        $userIdentifier = $token->claims()->get(name: RegisteredClaims::SUBJECT) ?? '';
-        /** @var string[] $userRoles */
-        $userRoles = $token->claims()->get(name: self::CLAIM_ROLES) ?? '';
-
-        return new AuthorizationToken($userIdentifier, $userRoles);
+        return $this->getAuthorizationToken($token);
     }
 
     /**
@@ -94,21 +89,20 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     #[Override]
     public function createAccessToken(string $userIdentifier, array $userRoles = []): string
     {
-        $jwt = $this->getJwtConfiguration();
+        $jsonWebToken = $this->getJwtConfiguration();
         $tokenIssuedAt = $this->clock->now();
-        $lifetimeInterval = new DateInterval(sprintf('PT%sS', $this->lifetime));
 
-        $builder = $jwt->builder();
+        $builder = $jsonWebToken->builder();
         $builder = $builder->canOnlyBeUsedAfter($tokenIssuedAt);
-        $builder = $builder->expiresAt($tokenIssuedAt->add($lifetimeInterval));
-        $builder = $builder->identifiedBy($this->generateTokenIdentifier());
+        $builder = $builder->expiresAt($tokenIssuedAt->add($this->getLifetimeInterval()));
+        $builder = $builder->identifiedBy($this->getTokenIdentifier());
         $builder = $builder->issuedBy($this->issuer);
         $builder = $builder->issuedAt($tokenIssuedAt);
         $builder = $builder->relatedTo($userIdentifier);
         $builder = $builder->withClaim(name: self::CLAIM_ROLES, value: $userRoles);
 
         try {
-            return $builder->getToken($jwt->signer(), $jwt->signingKey())->toString();
+            return $builder->getToken($jsonWebToken->signer(), $jsonWebToken->signingKey())->toString();
         } catch (InvalidKeyProvided $e) {
             throw JwtTokenManagerException::tokenSignerIsNotConfigured($e);
         }
@@ -117,19 +111,37 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     /**
      * @return non-empty-string
      */
-    private function generateTokenIdentifier(): string
+    private function getTokenIdentifier(): string
     {
         /** @var non-empty-string */
         return Uuid::v4()->hash();
     }
 
-    public function getJwtConfiguration(): Configuration
+    /**
+     * @throws DateMalformedIntervalStringException
+     */
+    private function getLifetimeInterval(): DateInterval
+    {
+        return new DateInterval(sprintf('PT%sS', $this->lifetime));
+    }
+
+    private function getAuthorizationToken(Plain $token): AuthorizationToken
+    {
+        /** @var string $userIdentifier */
+        $userIdentifier = $token->claims()->get(name: RegisteredClaims::SUBJECT) ?? '';
+        /** @var string[] $userRoles */
+        $userRoles = $token->claims()->get(name: self::CLAIM_ROLES) ?? '';
+
+        return new AuthorizationToken($userIdentifier, $userRoles);
+    }
+
+    private function getJwtConfiguration(): Configuration
     {
         if (empty($this->passphrase)) {
             throw JwtTokenManagerException::tokenSignerIsNotConfigured();
         }
 
-        $configuration = match (true) {
+        $config = match (true) {
             !empty($this->signingKey) && !empty($this->verificationKey) => Configuration::forAsymmetricSigner(
                 signer: new RsaSha256(),
                 signingKey: InMemory::plainText($this->signingKey, $this->passphrase),
@@ -141,9 +153,9 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
             ),
         };
 
-        return $configuration->withValidationConstraints(
+        return $config->withValidationConstraints(
             new IssuedBy($this->issuer),
-            new SignedWith($configuration->signer(), $configuration->verificationKey()),
+            new SignedWith($config->signer(), $config->verificationKey()),
             new StrictValidAt($this->clock),
         );
     }
