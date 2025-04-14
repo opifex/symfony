@@ -13,16 +13,6 @@ use Symfony\Component\Clock\MockClock;
 final class LcobucciJwtAdapterTest extends Unit
 {
     /**
-     * @throws Exception
-     */
-    public function testCreateThrowsExceptionWithEmptyPassphrase(): void
-    {
-        $this->expectException(JwtTokenManagerException::class);
-
-        new LcobucciJwtAdapter(issuer: 'http://example.com', lifetime: 86400, passphrase: '');
-    }
-
-    /**
      * @throws JwtTokenManagerException
      * @throws Exception
      */
@@ -109,6 +99,26 @@ final class LcobucciJwtAdapterTest extends Unit
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->getUserIdentifier());
         $this->assertSame(expected: ['ROLE_USER'], actual: $token->getUserRoles());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateAccessTokenThrowsExceptionWithEmptyPassphrase(): void
+    {
+        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+            issuer: 'https://example.com',
+            lifetime: 86400,
+            passphrase: '',
+            clock: new MockClock(),
+        );
+
+        $this->expectException(JwtTokenManagerException::class);
+
+        $lcobucciJwtAdapter->createAccessToken(
+            userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
+            userRoles: ['ROLE_USER'],
+        );
     }
 
     /**

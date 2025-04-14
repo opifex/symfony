@@ -8,7 +8,7 @@ use App\Domain\Contract\JwtTokenManagerInterface;
 use App\Domain\Entity\AuthorizationToken;
 use App\Domain\Exception\JwtTokenManagerException;
 use DateInterval;
-use Exception;
+use DateMalformedIntervalStringException;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Signer\Hmac\Sha256 as HmacSha256;
@@ -32,13 +32,8 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 {
     private const string CLAIM_ROLES = 'roles';
 
-    private readonly Configuration $configuration;
-
-    private readonly DateInterval $expiration;
-
     /**
      * @param non-empty-string $issuer
-     * @throws Exception
      */
     public function __construct(
         #[Autowire('%env(string:JWT_ISSUER)%')]
@@ -61,21 +56,6 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 
         private readonly ClockInterface $clock = new Clock(),
     ) {
-        $this->expiration = new DateInterval(sprintf('PT%sS', $this->lifetime));
-        $this->configuration = match (true) {
-            !empty($this->passphrase) && empty($this->signingKey) && empty($this->verificationKey) =>
-            Configuration::forSymmetricSigner(
-                signer: new HmacSha256(),
-                key: InMemory::plainText($this->passphrase),
-            ),
-            !empty($this->passphrase) && !empty($this->signingKey) && !empty($this->verificationKey) =>
-            Configuration::forAsymmetricSigner(
-                signer: new RsaSha256(),
-                signingKey: InMemory::plainText($this->signingKey, $this->passphrase),
-                verificationKey: InMemory::plainText($this->verificationKey, $this->passphrase),
-            ),
-            default => throw JwtTokenManagerException::tokenSignerIsNotConfigured(),
-        };
     }
 
     /**
@@ -84,15 +64,20 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     #[Override]
     public function decodeAccessToken(#[SensitiveParameter] string $accessToken): AuthorizationToken
     {
+        $jwt = $this->getJwtConfiguration();
+
         try {
-            $token = $this->parseTokenFromString($accessToken);
+            /** @var Plain $token */
+            $token = $jwt->parser()->parse($accessToken);
         } catch (CannotDecodeContent $e) {
             throw JwtTokenManagerException::errorWhileDecodingToken($e);
         } catch (InvalidTokenStructure $e) {
             throw JwtTokenManagerException::tokenHaveInvalidStructure($e);
         }
 
-        $this->validateTokenInformation($token);
+        if (!$jwt->validator()->validate($token, ...$jwt->validationConstraints())) {
+            throw JwtTokenManagerException::tokenIsInvalidOrExpired();
+        }
 
         /** @var string $userIdentifier */
         $userIdentifier = $token->claims()->get(name: RegisteredClaims::SUBJECT) ?? '';
@@ -104,17 +89,18 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
 
     /**
      * @param non-empty-string $userIdentifier
+     * @throws DateMalformedIntervalStringException
      */
     #[Override]
     public function createAccessToken(string $userIdentifier, array $userRoles = []): string
     {
+        $jwt = $this->getJwtConfiguration();
         $tokenIssuedAt = $this->clock->now();
-        $signer = $this->configuration->signer();
-        $signingKey = $this->configuration->signingKey();
+        $lifetimeInterval = new DateInterval(sprintf('PT%sS', $this->lifetime));
 
-        $builder = $this->configuration->builder();
+        $builder = $jwt->builder();
         $builder = $builder->canOnlyBeUsedAfter($tokenIssuedAt);
-        $builder = $builder->expiresAt($tokenIssuedAt->add($this->expiration));
+        $builder = $builder->expiresAt($tokenIssuedAt->add($lifetimeInterval));
         $builder = $builder->identifiedBy($this->generateTokenIdentifier());
         $builder = $builder->issuedBy($this->issuer);
         $builder = $builder->issuedAt($tokenIssuedAt);
@@ -122,7 +108,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         $builder = $builder->withClaim(name: self::CLAIM_ROLES, value: $userRoles);
 
         try {
-            return $builder->getToken($signer, $signingKey)->toString();
+            return $builder->getToken($jwt->signer(), $jwt->signingKey())->toString();
         } catch (InvalidKeyProvided $e) {
             throw JwtTokenManagerException::tokenSignerIsNotConfigured($e);
         }
@@ -137,25 +123,28 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         return Uuid::v4()->hash();
     }
 
-    /**
-     * @param non-empty-string $accessToken
-     */
-    private function parseTokenFromString(string $accessToken): Plain
+    public function getJwtConfiguration(): Configuration
     {
-        /** @var Plain */
-        return $this->configuration->parser()->parse($accessToken);
-    }
-
-    private function validateTokenInformation(Plain $token): void
-    {
-        $constraints = [
-            new IssuedBy($this->issuer),
-            new SignedWith($this->configuration->signer(), $this->configuration->verificationKey()),
-            new StrictValidAt($this->clock),
-        ];
-
-        if (!$this->configuration->validator()->validate($token, ...$constraints)) {
-            throw JwtTokenManagerException::tokenIsInvalidOrExpired();
+        if (empty($this->passphrase)) {
+            throw JwtTokenManagerException::tokenSignerIsNotConfigured();
         }
+
+        $configuration = match (true) {
+            !empty($this->signingKey) && !empty($this->verificationKey) => Configuration::forAsymmetricSigner(
+                signer: new RsaSha256(),
+                signingKey: InMemory::plainText($this->signingKey, $this->passphrase),
+                verificationKey: InMemory::plainText($this->verificationKey, $this->passphrase),
+            ),
+            default => Configuration::forSymmetricSigner(
+                signer: new HmacSha256(),
+                key: InMemory::plainText($this->passphrase),
+            ),
+        };
+
+        return $configuration->withValidationConstraints(
+            new IssuedBy($this->issuer),
+            new SignedWith($configuration->signer(), $configuration->verificationKey()),
+            new StrictValidAt($this->clock),
+        );
     }
 }
