@@ -93,12 +93,12 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         $tokenIssuedAt = $this->clock->now();
 
         $builder = $jsonWebToken->builder();
+        $builder = $builder->issuedBy($this->issuer);
+        $builder = $builder->identifiedBy($this->getTokenIdentifier());
+        $builder = $builder->relatedTo($userIdentifier);
+        $builder = $builder->issuedAt($tokenIssuedAt);
         $builder = $builder->canOnlyBeUsedAfter($tokenIssuedAt);
         $builder = $builder->expiresAt($tokenIssuedAt->add($this->getLifetimeInterval()));
-        $builder = $builder->identifiedBy($this->getTokenIdentifier());
-        $builder = $builder->issuedBy($this->issuer);
-        $builder = $builder->issuedAt($tokenIssuedAt);
-        $builder = $builder->relatedTo($userIdentifier);
         $builder = $builder->withClaim(name: self::CLAIM_ROLES, value: $userRoles);
 
         try {
