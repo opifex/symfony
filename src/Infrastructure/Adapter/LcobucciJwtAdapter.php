@@ -130,7 +130,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         /** @var string $userIdentifier */
         $userIdentifier = $token->claims()->get(name: RegisteredClaims::SUBJECT) ?? '';
         /** @var string[] $userRoles */
-        $userRoles = $token->claims()->get(name: self::CLAIM_ROLES) ?? '';
+        $userRoles = $token->claims()->get(name: self::CLAIM_ROLES) ?? [];
 
         return new AuthorizationToken($userIdentifier, $userRoles);
     }
