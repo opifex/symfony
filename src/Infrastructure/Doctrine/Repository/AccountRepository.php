@@ -12,7 +12,7 @@ use App\Domain\Exception\AccountNotFoundException;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountFactory;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountMapper;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -39,12 +39,12 @@ final class AccountRepository implements AccountRepositoryInterface
 
         if (!is_null($criteria->getEmail())) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
-            $builder->setParameter(key: 'email', value: '%' . $criteria->getEmail() . '%', type: Types::STRING);
+            $builder->setParameter(key: 'email', value: '%' . $criteria->getEmail() . '%', type: ParameterType::STRING);
         }
 
         if (!is_null($criteria->getStatus())) {
             $builder->andWhere($builder->expr()->eq(x: 'account.status', y: ':status'));
-            $builder->setParameter(key: 'status', value: $criteria->getStatus(), type: Types::STRING);
+            $builder->setParameter(key: 'status', value: $criteria->getStatus(), type: ParameterType::STRING);
         }
 
         $builder->addOrderBy($builder->expr()->desc(expr: 'account.createdAt'));
@@ -67,7 +67,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
+        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
 
         try {
             /** @var AccountEntity $account */
@@ -87,7 +87,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
 
         try {
             /** @var AccountEntity $account */
@@ -107,7 +107,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account.status'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
 
         try {
             $status = (string) $builder->getQuery()->getSingleScalarResult();
@@ -127,8 +127,8 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.email', value: ':email');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
@@ -144,8 +144,8 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.locale', value: ':locale');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'locale', value: $locale, type: Types::STRING);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->setParameter(key: 'locale', value: $locale, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
@@ -161,8 +161,8 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.status', value: ':status');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'status', value: $status, type: Types::STRING);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->setParameter(key: 'status', value: $status, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
@@ -178,8 +178,8 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.password', value: ':password');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
-        $builder->setParameter(key: 'password', value: $password, type: Types::STRING);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->setParameter(key: 'password', value: $password, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
@@ -205,7 +205,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: Types::GUID);
+        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
@@ -220,7 +220,7 @@ final class AccountRepository implements AccountRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email, type: Types::STRING);
+        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
 
         $exists = (bool) $builder->getQuery()->getOneOrNullResult();
 
