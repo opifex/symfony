@@ -46,11 +46,11 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         #[SensitiveParameter]
         private readonly string $passphrase,
 
-        #[Autowire('%env(default::JWT_SIGNING_KEY)%')]
+        #[Autowire('%env(default::string:JWT_SIGNING_KEY)%')]
         #[SensitiveParameter]
         private readonly ?string $signingKey = null,
 
-        #[Autowire('%env(default::JWT_VERIFICATION_KEY)%')]
+        #[Autowire('%env(default::string:JWT_VERIFICATION_KEY)%')]
         #[SensitiveParameter]
         private readonly ?string $verificationKey = null,
 

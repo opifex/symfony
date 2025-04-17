@@ -12,7 +12,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_UNPROCESSABLE_ENTITY)]
-class MessageExtraParamsException extends ValidationFailedException
+class RequestExtraParamsException extends ValidationFailedException
 {
     /**
      * @param string[] $extraAttributes

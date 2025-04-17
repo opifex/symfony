@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\HttpKernel;
 
-use App\Domain\Exception\MessageExtraParamsException;
-use App\Domain\Exception\MessageParamTypeException;
+use App\Domain\Exception\RequestExtraParamsException;
+use App\Domain\Exception\RequestParamTypeException;
 use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsTargetedValueResolver;
@@ -42,9 +42,9 @@ final class RequestPayloadValueResolver implements ValueResolverInterface
             /** @var object[] */
             return [$this->denormalizer->denormalize($payload, $type, context: $context)];
         } catch (ExtraAttributesException $e) {
-            throw MessageExtraParamsException::create($e->getExtraAttributes(), $type);
+            throw RequestExtraParamsException::create($e->getExtraAttributes(), $type);
         } catch (NotNormalizableValueException $e) {
-            throw MessageParamTypeException::create($e->getExpectedTypes(), $e->getPath(), $type);
+            throw RequestParamTypeException::create($e->getExpectedTypes(), $e->getPath(), $type);
         }
     }
 }
