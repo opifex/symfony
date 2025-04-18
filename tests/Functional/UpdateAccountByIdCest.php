@@ -15,7 +15,7 @@ final class UpdateAccountByIdCest
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
+        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $i->sendPatch(
             url: '/api/account/00000000-0000-6000-8000-000000000000',
             params: json_encode([
@@ -29,12 +29,30 @@ final class UpdateAccountByIdCest
         $i->seeResponseEquals(expected: '');
     }
 
+    public function updateAccountInfoWithoutPermission(FunctionalTester $i): void
+    {
+        $i->loadFixtures(fixtures: AccountUserFixture::class);
+        $i->haveHttpHeaderApplicationJson();
+        $i->haveHttpHeaderAuthorization(email: 'user@example.com', password: 'password4#account');
+        $i->sendPatch(
+            url: '/api/account/00000000-0000-6000-8000-000000000000',
+            params: json_encode([
+                'email' => 'updated@example.com',
+                'password' => 'password4#account',
+                'locale' => 'en_US',
+            ]),
+        );
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+    }
+
     public function updateAccountUsingExistedEmail(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->loadFixtures(fixtures: AccountUserFixture::class);
         $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
+        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $i->sendPatch(
             url: '/api/account/00000000-0000-6000-8000-000000000000',
             params: json_encode([
@@ -52,7 +70,7 @@ final class UpdateAccountByIdCest
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
+        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $i->sendPatch(
             url: '/api/account/00000000-0000-6000-8001-000000000000',
             params: json_encode(['email' => 'user@example.com']),

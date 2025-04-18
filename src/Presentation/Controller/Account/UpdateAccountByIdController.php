@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdRequest;
-use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class UpdateAccountByIdController extends AbstractController
@@ -85,9 +83,8 @@ final class UpdateAccountByIdController extends AbstractController
         name: 'app_update_account_by_id',
         methods: Request::METHOD_PATCH,
     )]
-    #[IsGranted(AccountRole::ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[ValueResolver('payload')] UpdateAccountByIdRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] UpdateAccountByIdRequest $request): Response
     {
-        return $this->getHandledResult($message);
+        return $this->getHandledResult($request);
     }
 }

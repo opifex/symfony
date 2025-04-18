@@ -14,7 +14,7 @@ final class GetSigninAccountCest
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
+        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $i->sendGet(url: '/api/auth/me');
         $i->seeResponseCodeIs(code: HttpCode::OK);
         $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\BlockAccountById\BlockAccountByIdRequest;
-use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class BlockAccountByIdController extends AbstractController
@@ -59,9 +57,8 @@ final class BlockAccountByIdController extends AbstractController
         name: 'app_block_account_by_id',
         methods: Request::METHOD_POST,
     )]
-    #[IsGranted(AccountRole::ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[ValueResolver('payload')] BlockAccountByIdRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] BlockAccountByIdRequest $request): Response
     {
-        return $this->getHandledResult($message);
+        return $this->getHandledResult($request);
     }
 }

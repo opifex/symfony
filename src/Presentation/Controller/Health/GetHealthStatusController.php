@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class GetHealthStatusController extends AbstractController
@@ -50,9 +48,8 @@ final class GetHealthStatusController extends AbstractController
         name: 'app_get_health_status',
         methods: Request::METHOD_GET,
     )]
-    #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
-    public function __invoke(#[ValueResolver('payload')] GetHealthStatusRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] GetHealthStatusRequest $request): Response
     {
-        return $this->getHandledResult($message);
+        return $this->getHandledResult($request);
     }
 }

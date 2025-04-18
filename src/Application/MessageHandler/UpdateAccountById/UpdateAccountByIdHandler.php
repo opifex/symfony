@@ -6,7 +6,10 @@ namespace App\Application\MessageHandler\UpdateAccountById;
 
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AuthorizationTokenManagerInterface;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Exception\AccountAlreadyExistsException;
+use App\Domain\Exception\AuthorizationForbiddenException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -15,11 +18,16 @@ final class UpdateAccountByIdHandler
     public function __construct(
         private readonly AccountPasswordHasherInterface $accountPasswordHasher,
         private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
     }
 
     public function __invoke(UpdateAccountByIdRequest $message): UpdateAccountByIdResponse
     {
+        if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
+            throw AuthorizationForbiddenException::create();
+        }
+
         $account = $this->accountRepository->findOneByUuid($message->uuid);
 
         if ($message->email !== null) {

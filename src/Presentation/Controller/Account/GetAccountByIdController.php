@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class GetAccountByIdController extends AbstractController
@@ -99,9 +98,8 @@ final class GetAccountByIdController extends AbstractController
         name: 'app_get_account_by_id',
         methods: Request::METHOD_GET,
     )]
-    #[IsGranted(AccountRole::ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[ValueResolver('payload')] GetAccountByIdRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] GetAccountByIdRequest $request): Response
     {
-        return $this->getHandledResult($message);
+        return $this->getHandledResult($request);
     }
 }

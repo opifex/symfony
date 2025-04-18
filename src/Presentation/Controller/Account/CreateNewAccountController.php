@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountRequest;
-use App\Domain\Entity\AccountRole;
 use App\Domain\Entity\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class CreateNewAccountController extends AbstractController
@@ -89,9 +87,8 @@ final class CreateNewAccountController extends AbstractController
         name: 'app_create_new_account',
         methods: Request::METHOD_POST,
     )]
-    #[IsGranted(AccountRole::ADMIN, message: 'Not privileged to request the resource.')]
-    public function __invoke(#[ValueResolver('payload')] CreateNewAccountRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] CreateNewAccountRequest $request): Response
     {
-        return $this->getHandledResult($message);
+        return $this->getHandledResult($request);
     }
 }

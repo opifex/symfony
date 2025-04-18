@@ -6,6 +6,7 @@ namespace Tests\Functional;
 
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminFixture;
+use Tests\Support\Data\Fixture\AccountUserFixture;
 use Tests\Support\FunctionalTester;
 
 final class CreateNewAccountCest
@@ -14,7 +15,7 @@ final class CreateNewAccountCest
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
+        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $i->sendPost(
             url: '/api/account',
             params: json_encode([
@@ -27,11 +28,28 @@ final class CreateNewAccountCest
         $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'CreateNewAccountSchema.json'));
     }
 
+    public function createNewUserAccountWithoutPermission(FunctionalTester $i): void
+    {
+        $i->loadFixtures(fixtures: AccountUserFixture::class);
+        $i->haveHttpHeaderApplicationJson();
+        $i->haveHttpHeaderAuthorization(email: 'user@example.com', password: 'password4#account');
+        $i->sendPost(
+            url: '/api/account',
+            params: json_encode([
+                'email' => 'created@example.com',
+                'password' => 'password4#account',
+            ]),
+        );
+        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+    }
+
     public function createAccountWithExistedEmail(FunctionalTester $i): void
     {
         $i->loadFixtures(fixtures: AccountAdminFixture::class);
         $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorizationAdmin(email: 'admin@example.com', password: 'password4#account');
+        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $i->sendPost(
             url: '/api/account',
             params: json_encode([

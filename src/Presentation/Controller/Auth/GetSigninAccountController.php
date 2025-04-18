@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class GetSigninAccountController extends AbstractController
@@ -84,9 +82,8 @@ final class GetSigninAccountController extends AbstractController
         name: 'app_get_signin_account',
         methods: Request::METHOD_GET,
     )]
-    #[IsGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY)]
-    public function __invoke(#[ValueResolver('payload')] GetSigninAccountRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] GetSigninAccountRequest $request): Response
     {
-        return $this->getHandledResult($message);
+        return $this->getHandledResult($request);
     }
 }

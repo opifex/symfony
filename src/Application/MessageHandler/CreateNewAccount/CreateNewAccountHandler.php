@@ -7,7 +7,10 @@ namespace App\Application\MessageHandler\CreateNewAccount;
 use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Contract\AccountStateMachineInterface;
+use App\Domain\Contract\AuthorizationTokenManagerInterface;
+use App\Domain\Entity\AccountRole;
 use App\Domain\Exception\AccountAlreadyExistsException;
+use App\Domain\Exception\AuthorizationForbiddenException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -17,11 +20,16 @@ final class CreateNewAccountHandler
         private readonly AccountPasswordHasherInterface $accountPasswordHasher,
         private readonly AccountRepositoryInterface $accountRepository,
         private readonly AccountStateMachineInterface $accountStateMachine,
+        private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
     }
 
     public function __invoke(CreateNewAccountRequest $message): CreateNewAccountResponse
     {
+        if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
+            throw AuthorizationForbiddenException::create();
+        }
+
         if ($this->accountRepository->checkExistsByEmail($message->email)) {
             throw AccountAlreadyExistsException::create();
         }

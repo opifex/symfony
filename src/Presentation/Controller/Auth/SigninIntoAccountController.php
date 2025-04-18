@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class SigninIntoAccountController extends AbstractController
@@ -71,9 +69,8 @@ final class SigninIntoAccountController extends AbstractController
         name: 'app_signin_into_account',
         methods: Request::METHOD_POST,
     )]
-    #[IsGranted(AuthenticatedVoter::PUBLIC_ACCESS)]
-    public function __invoke(#[ValueResolver('payload')] SigninIntoAccountRequest $message): Response
+    public function __invoke(#[ValueResolver('payload')] SigninIntoAccountRequest $request): Response
     {
-        return $this->getHandledResult($message);
+        return $this->getHandledResult($request);
     }
 }
