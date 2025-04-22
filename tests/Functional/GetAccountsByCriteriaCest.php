@@ -6,15 +6,15 @@ namespace Tests\Functional;
 
 use App\Domain\Entity\AccountStatus;
 use Codeception\Util\HttpCode;
-use Tests\Support\Data\Fixture\AccountAdminFixture;
-use Tests\Support\Data\Fixture\AccountUserFixture;
+use Tests\Support\Data\Fixture\AccountAdminActivatedFixture;
+use Tests\Support\Data\Fixture\AccountUserActivatedFixture;
 use Tests\Support\FunctionalTester;
 
 final class GetAccountsByCriteriaCest
 {
     public function getAccountsByCriteria(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountAdminFixture::class);
+        $i->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $i->haveHttpHeaderApplicationJson();
         $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $i->sendGet(
@@ -33,7 +33,7 @@ final class GetAccountsByCriteriaCest
 
     public function getAccountsByCriteriaWithoutPermission(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountUserFixture::class);
+        $i->loadFixtures(fixtures: AccountUserActivatedFixture::class);
         $i->haveHttpHeaderApplicationJson();
         $i->haveHttpHeaderAuthorization(email: 'user@example.com', password: 'password4#account');
         $i->sendGet(

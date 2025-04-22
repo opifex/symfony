@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Functional;
 
 use Codeception\Util\HttpCode;
-use Tests\Support\Data\Fixture\AccountAdminFixture;
-use Tests\Support\Data\Fixture\AccountUserFixture;
+use Tests\Support\Data\Fixture\AccountAdminActivatedFixture;
+use Tests\Support\Data\Fixture\AccountUserActivatedFixture;
 use Tests\Support\FunctionalTester;
 
 final class SigninIntoAccountCest
 {
     public function signinUsingAdminCredentials(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountAdminFixture::class);
+        $i->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $i->haveHttpHeaderApplicationJson();
         $i->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'admin@example.com',
@@ -27,7 +27,7 @@ final class SigninIntoAccountCest
 
     public function signinUsingRegisteredCredentials(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountUserFixture::class);
+        $i->loadFixtures(fixtures: AccountUserActivatedFixture::class);
         $i->haveHttpHeaderApplicationJson();
         $i->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'registered@example.com',

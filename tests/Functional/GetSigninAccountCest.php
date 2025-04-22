@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Tests\Functional;
 
 use Codeception\Util\HttpCode;
-use Tests\Support\Data\Fixture\AccountAdminFixture;
+use Tests\Support\Data\Fixture\AccountAdminActivatedFixture;
 use Tests\Support\FunctionalTester;
 
 final class GetSigninAccountCest
 {
     public function getSigninAccountUsingValidBearer(FunctionalTester $i): void
     {
-        $i->loadFixtures(fixtures: AccountAdminFixture::class);
+        $i->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $i->haveHttpHeaderApplicationJson();
         $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $i->sendGet(url: '/api/auth/me');
