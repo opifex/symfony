@@ -22,7 +22,7 @@ final class UpdateAccountByIdHandler
     ) {
     }
 
-    public function __invoke(UpdateAccountByIdRequest $message): UpdateAccountByIdResponse
+    public function __invoke(UpdateAccountByIdRequest $message): UpdateAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
@@ -49,6 +49,6 @@ final class UpdateAccountByIdHandler
             $this->accountRepository->updateLocaleByUuid($message->uuid, $message->locale);
         }
 
-        return UpdateAccountByIdResponse::create();
+        return UpdateAccountByIdResult::success();
     }
 }

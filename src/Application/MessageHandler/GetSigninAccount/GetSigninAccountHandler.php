@@ -17,11 +17,11 @@ final class GetSigninAccountHandler
     ) {
     }
 
-    public function __invoke(GetSigninAccountRequest $message): GetSigninAccountResponse
+    public function __invoke(GetSigninAccountRequest $message): GetSigninAccountResult
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
         $account = $this->accountRepository->findOneByUuid($userIdentifier);
 
-        return GetSigninAccountResponse::create($account);
+        return GetSigninAccountResult::success($account);
     }
 }

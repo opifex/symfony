@@ -19,7 +19,7 @@ final class DeleteAccountByIdHandler
     ) {
     }
 
-    public function __invoke(DeleteAccountByIdRequest $message): DeleteAccountByIdResponse
+    public function __invoke(DeleteAccountByIdRequest $message): DeleteAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
@@ -27,6 +27,6 @@ final class DeleteAccountByIdHandler
 
         $this->accountRepository->deleteOneByUuid($message->uuid);
 
-        return DeleteAccountByIdResponse::create();
+        return DeleteAccountByIdResult::success();
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\MessageHandler\GetAccountById;
+namespace App\Application\MessageHandler\GetSigninAccount;
 
 use App\Domain\Entity\Account;
 use DateTimeInterface;
@@ -11,9 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Exclude]
-final class GetAccountByIdResponse extends JsonResponse
+final class GetSigninAccountResult extends JsonResponse
 {
-    public static function create(Account $account): self
+    public static function success(Account $account): self
     {
         return new self(
             data: [

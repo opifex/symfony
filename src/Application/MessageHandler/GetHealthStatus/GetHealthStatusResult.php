@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Application\MessageHandler\SigninIntoAccount;
+namespace App\Application\MessageHandler\GetHealthStatus;
 
+use App\Domain\Entity\Health;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Exclude]
-final class SigninIntoAccountResponse extends JsonResponse
+final class GetHealthStatusResult extends JsonResponse
 {
-    public static function create(string $accessToken): self
+    public static function success(Health $health): self
     {
         return new self(
             data: [
-                'access_token' => $accessToken,
+                'status' => $health->getStatus(),
             ],
             status: Response::HTTP_OK,
         );

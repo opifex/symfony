@@ -19,7 +19,7 @@ final class GetAccountByIdHandler
     ) {
     }
 
-    public function __invoke(GetAccountByIdRequest $message): GetAccountByIdResponse
+    public function __invoke(GetAccountByIdRequest $message): GetAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
@@ -27,6 +27,6 @@ final class GetAccountByIdHandler
 
         $account = $this->accountRepository->findOneByUuid($message->uuid);
 
-        return GetAccountByIdResponse::create($account);
+        return GetAccountByIdResult::success($account);
     }
 }

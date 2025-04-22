@@ -24,7 +24,7 @@ final class CreateNewAccountHandler
     ) {
     }
 
-    public function __invoke(CreateNewAccountRequest $message): CreateNewAccountResponse
+    public function __invoke(CreateNewAccountRequest $message): CreateNewAccountResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
@@ -41,6 +41,6 @@ final class CreateNewAccountHandler
         $this->accountStateMachine->register($accountUuid);
         $this->accountStateMachine->activate($accountUuid);
 
-        return CreateNewAccountResponse::create($accountUuid);
+        return CreateNewAccountResult::success($accountUuid);
     }
 }

@@ -2,23 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Application\MessageHandler\GetHealthStatus;
+namespace App\Application\MessageHandler\CreateNewAccount;
 
-use App\Domain\Entity\Health;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Exclude]
-final class GetHealthStatusResponse extends JsonResponse
+final class CreateNewAccountResult extends JsonResponse
 {
-    public static function create(Health $health): self
+    public static function success(string $uuid): self
     {
         return new self(
             data: [
-                'status' => $health->getStatus(),
+                'uuid' => $uuid,
             ],
-            status: Response::HTTP_OK,
+            status: Response::HTTP_CREATED,
         );
     }
 }

@@ -19,7 +19,7 @@ final class SigninIntoAccountHandler
     ) {
     }
 
-    public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResponse
+    public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResult
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
         $account = $this->accountRepository->findOneByUuid($userIdentifier);
@@ -29,6 +29,6 @@ final class SigninIntoAccountHandler
             userRoles: $account->getRoles(),
         );
 
-        return SigninIntoAccountResponse::create($accessToken);
+        return SigninIntoAccountResult::success($accessToken);
     }
 }

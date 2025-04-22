@@ -19,7 +19,7 @@ final class UnblockAccountByIdHandler
     ) {
     }
 
-    public function __invoke(UnblockAccountByIdRequest $message): UnblockAccountByIdResponse
+    public function __invoke(UnblockAccountByIdRequest $message): UnblockAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
@@ -27,6 +27,6 @@ final class UnblockAccountByIdHandler
 
         $this->accountStateMachine->unblock($message->uuid);
 
-        return UnblockAccountByIdResponse::create();
+        return UnblockAccountByIdResult::success();
     }
 }

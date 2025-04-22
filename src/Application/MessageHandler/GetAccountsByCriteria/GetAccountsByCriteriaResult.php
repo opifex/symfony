@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Exclude]
-final class GetAccountsByCriteriaResponse extends JsonResponse
+final class GetAccountsByCriteriaResult extends JsonResponse
 {
-    public static function create(AccountSearchResult $accountSearchResult, SearchPagination $searchPagination): self
+    public static function success(AccountSearchResult $accountSearchResult, SearchPagination $searchPagination): self
     {
         return new self(
             data: [

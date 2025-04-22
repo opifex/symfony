@@ -20,7 +20,7 @@ final class SignupNewAccountHandler
     ) {
     }
 
-    public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResponse
+    public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResult
     {
         if ($this->accountRepository->checkExistsByEmail($message->email)) {
             throw AccountAlreadyExistsException::create();
@@ -33,6 +33,6 @@ final class SignupNewAccountHandler
         $this->accountStateMachine->register($accountUuid);
         $this->accountStateMachine->activate($accountUuid);
 
-        return SignupNewAccountResponse::create();
+        return SignupNewAccountResult::success();
     }
 }

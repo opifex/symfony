@@ -21,7 +21,7 @@ final class GetAccountsByCriteriaHandler
     ) {
     }
 
-    public function __invoke(GetAccountsByCriteriaRequest $message): GetAccountsByCriteriaResponse
+    public function __invoke(GetAccountsByCriteriaRequest $message): GetAccountsByCriteriaResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
@@ -32,6 +32,6 @@ final class GetAccountsByCriteriaHandler
 
         $accountSearchResult = $this->accountRepository->findByCriteria($searchCriteria);
 
-        return GetAccountsByCriteriaResponse::create($accountSearchResult, $searchPagination);
+        return GetAccountsByCriteriaResult::success($accountSearchResult, $searchPagination);
     }
 }

@@ -19,7 +19,7 @@ final class BlockAccountByIdHandler
     ) {
     }
 
-    public function __invoke(BlockAccountByIdRequest $message): BlockAccountByIdResponse
+    public function __invoke(BlockAccountByIdRequest $message): BlockAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
@@ -27,6 +27,6 @@ final class BlockAccountByIdHandler
 
         $this->accountStateMachine->block($message->uuid);
 
-        return BlockAccountByIdResponse::create();
+        return BlockAccountByIdResult::success();
     }
 }
