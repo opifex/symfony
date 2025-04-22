@@ -11,66 +11,66 @@ use Tests\Support\FunctionalTester;
 
 final class SigninIntoAccountCest
 {
-    public function signinUsingAdminCredentials(FunctionalTester $i): void
+    public function signinUsingAdminCredentials(FunctionalTester $I): void
     {
-        $i->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
-        $i->haveHttpHeaderApplicationJson();
-        $i->sendPost(url: '/api/auth/signin', params: json_encode([
+        $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'admin@example.com',
             'password' => 'password4#account',
         ]));
-        $i->seeResponseCodeIs(code: HttpCode::OK);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsJson();
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'SigninIntoAccountSchema.json'));
+        $I->seeResponseCodeIs(code: HttpCode::OK);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsJson();
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'SigninIntoAccountSchema.json'));
     }
 
-    public function signinUsingRegisteredCredentials(FunctionalTester $i): void
+    public function signinUsingRegisteredCredentials(FunctionalTester $I): void
     {
-        $i->loadFixtures(fixtures: AccountUserActivatedFixture::class);
-        $i->haveHttpHeaderApplicationJson();
-        $i->sendPost(url: '/api/auth/signin', params: json_encode([
+        $I->loadFixtures(fixtures: AccountUserActivatedFixture::class);
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'registered@example.com',
             'password' => 'password4#account',
         ]));
-        $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsJson();
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsJson();
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function signinUsingInvalidCredentials(FunctionalTester $i): void
+    public function signinUsingInvalidCredentials(FunctionalTester $I): void
     {
-        $i->haveHttpHeaderApplicationJson();
-        $i->sendPost(url: '/api/auth/signin', params: json_encode([
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'invalid@example.com',
             'password' => 'password4#account',
         ]));
-        $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsJson();
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsJson();
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function signinUsingInvalidJson(FunctionalTester $i): void
+    public function signinUsingInvalidJson(FunctionalTester $I): void
     {
-        $i->haveHttpHeaderApplicationJson();
-        $i->sendPost(url: '/api/auth/signin', params: '[...]');
-        $i->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsJson();
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendPost(url: '/api/auth/signin', params: '[...]');
+        $I->seeResponseCodeIs(code: HttpCode::BAD_REQUEST);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsJson();
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function signinUsingExtraAttributes(FunctionalTester $i): void
+    public function signinUsingExtraAttributes(FunctionalTester $I): void
     {
-        $i->sendPost(url: '/api/auth/signin', params: json_encode([
+        $I->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'extra' => 'value',
         ]));
-        $i->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

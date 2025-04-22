@@ -73,6 +73,10 @@
     <severity>0</severity>
   </rule>
 
+  <rule ref="Squiz.NamingConventions.ValidVariableName.NotCamelCaps">
+    <exclude-pattern>../tests/*</exclude-pattern>
+  </rule>
+
   <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">
     <severity>0</severity>
   </rule>

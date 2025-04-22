@@ -10,43 +10,43 @@ use Tests\Support\FunctionalTester;
 
 final class GetSigninAccountCest
 {
-    public function getSigninAccountUsingValidBearer(FunctionalTester $i): void
+    public function getSigninAccountUsingValidBearer(FunctionalTester $I): void
     {
-        $i->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
-        $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $i->sendGet(url: '/api/auth/me');
-        $i->seeResponseCodeIs(code: HttpCode::OK);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsJson();
-        $i->seeResponseContainsJson(['email' => 'admin@example.com']);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetSigninAccountSchema.json'));
+        $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
+        $I->haveHttpHeaderApplicationJson();
+        $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
+        $I->sendGet(url: '/api/auth/me');
+        $I->seeResponseCodeIs(code: HttpCode::OK);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(['email' => 'admin@example.com']);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'GetSigninAccountSchema.json'));
     }
 
-    public function getSigninAccountWithoutAuthorizationHeader(FunctionalTester $i): void
+    public function getSigninAccountWithoutAuthorizationHeader(FunctionalTester $I): void
     {
-        $i->haveHttpHeaderApplicationJson();
-        $i->sendGet(url: '/api/auth/me');
-        $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendGet(url: '/api/auth/me');
+        $I->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function getSigninAccountUsingInvalidHeader(FunctionalTester $i): void
+    public function getSigninAccountUsingInvalidHeader(FunctionalTester $I): void
     {
-        $i->haveHttpHeader(name: 'Authorization', value: 'invalid');
-        $i->sendGet(url: '/api/auth/me');
-        $i->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->haveHttpHeader(name: 'Authorization', value: 'invalid');
+        $I->sendGet(url: '/api/auth/me');
+        $I->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function getSigninAccountUsingInvalidBearer(FunctionalTester $i): void
+    public function getSigninAccountUsingInvalidBearer(FunctionalTester $I): void
     {
-        $i->haveHttpHeader(name: 'Authorization', value: 'Bearer invalid');
-        $i->sendGet(url: '/api/auth/me');
-        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->haveHttpHeader(name: 'Authorization', value: 'Bearer invalid');
+        $I->sendGet(url: '/api/auth/me');
+        $I->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

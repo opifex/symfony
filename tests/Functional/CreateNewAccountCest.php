@@ -11,54 +11,54 @@ use Tests\Support\FunctionalTester;
 
 final class CreateNewAccountCest
 {
-    public function createNewUserAccount(FunctionalTester $i): void
+    public function createNewUserAccount(FunctionalTester $I): void
     {
-        $i->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
-        $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $i->sendPost(
+        $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
+        $I->haveHttpHeaderApplicationJson();
+        $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
+        $I->sendPost(
             url: '/api/account',
             params: json_encode([
                 'email' => 'created@example.com',
                 'password' => 'password4#account',
             ]),
         );
-        $i->seeResponseCodeIs(code: HttpCode::CREATED);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'CreateNewAccountSchema.json'));
+        $I->seeResponseCodeIs(code: HttpCode::CREATED);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'CreateNewAccountSchema.json'));
     }
 
-    public function createNewUserAccountWithoutPermission(FunctionalTester $i): void
+    public function createNewUserAccountWithoutPermission(FunctionalTester $I): void
     {
-        $i->loadFixtures(fixtures: AccountUserActivatedFixture::class);
-        $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorization(email: 'user@example.com', password: 'password4#account');
-        $i->sendPost(
+        $I->loadFixtures(fixtures: AccountUserActivatedFixture::class);
+        $I->haveHttpHeaderApplicationJson();
+        $I->haveHttpHeaderAuthorization(email: 'user@example.com', password: 'password4#account');
+        $I->sendPost(
             url: '/api/account',
             params: json_encode([
                 'email' => 'created@example.com',
                 'password' => 'password4#account',
             ]),
         );
-        $i->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function createAccountWithExistedEmail(FunctionalTester $i): void
+    public function createAccountWithExistedEmail(FunctionalTester $I): void
     {
-        $i->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
-        $i->haveHttpHeaderApplicationJson();
-        $i->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $i->sendPost(
+        $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
+        $I->haveHttpHeaderApplicationJson();
+        $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
+        $I->sendPost(
             url: '/api/account',
             params: json_encode([
                 'email' => 'admin@example.com',
                 'password' => 'password4#account',
             ]),
         );
-        $i->seeResponseCodeIs(code: HttpCode::CONFLICT);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->seeResponseCodeIs(code: HttpCode::CONFLICT);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

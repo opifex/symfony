@@ -10,32 +10,32 @@ use Tests\Support\FunctionalTester;
 
 final class GetHealthStatusCest
 {
-    public function getSuccessHealthStatus(FunctionalTester $i): void
+    public function getSuccessHealthStatus(FunctionalTester $I): void
     {
-        $i->haveHttpHeaderApplicationJson();
-        $i->sendGet(url: '/api/health');
-        $i->seeResponseCodeIs(code: HttpCode::OK);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsJson();
-        $i->seeResponseContainsJson(['status' => HealthStatus::OK]);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'GetHealthStatusSchema.json'));
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendGet(url: '/api/health');
+        $I->seeResponseCodeIs(code: HttpCode::OK);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(['status' => HealthStatus::OK]);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'GetHealthStatusSchema.json'));
     }
 
-    public function getHealthStatusUsingInvalidMethod(FunctionalTester $i): void
+    public function getHealthStatusUsingInvalidMethod(FunctionalTester $I): void
     {
-        $i->haveHttpHeaderApplicationJson();
-        $i->sendPost(url: '/api/health');
-        $i->seeResponseCodeIs(code: HttpCode::METHOD_NOT_ALLOWED);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendPost(url: '/api/health');
+        $I->seeResponseCodeIs(code: HttpCode::METHOD_NOT_ALLOWED);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function getHealthStatusUsingInvalidRoute(FunctionalTester $i): void
+    public function getHealthStatusUsingInvalidRoute(FunctionalTester $I): void
     {
-        $i->haveHttpHeaderApplicationJson();
-        $i->sendGet(url: '/api/invalid');
-        $i->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
-        $i->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $i->seeResponseIsValidOnJsonSchema($i->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendGet(url: '/api/invalid');
+        $I->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 }

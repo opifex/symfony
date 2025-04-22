@@ -11,17 +11,17 @@ use Tests\Support\FunctionalTester;
 
 final class AppSymfonyRunCest
 {
-    public function runCommandUsingValidParameters(FunctionalTester $i): void
+    public function runCommandUsingValidParameters(FunctionalTester $I): void
     {
-        $i->haveCleanMockServer();
-        $i->haveMockResponse(
+        $I->haveCleanMockServer();
+        $I->haveMockResponse(
             request: Request::create(uri: getenv(name: 'HTTPBIN_URL') . 'json'),
             response: new JsonResponse(
-                data: $i->getResponseContent(filename: 'HttpbinResponderGetJsonResponse.json'),
+                data: $I->getResponseContent(filename: 'HttpbinResponderGetJsonResponse.json'),
                 json: true,
             ),
         );
-        $i->runSymfonyConsoleCommand(
+        $I->runSymfonyConsoleCommand(
             command: 'app:symfony:run',
             parameters: ['--delay' => 0],
             expectedExitCode: Command::SUCCESS,
