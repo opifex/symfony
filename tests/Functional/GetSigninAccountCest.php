@@ -10,7 +10,7 @@ use Tests\Support\FunctionalTester;
 
 final class GetSigninAccountCest
 {
-    public function getSigninAccountUsingValidBearer(FunctionalTester $I): void
+    public function ensureUserCanGetSigninAccountWithValidBearer(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();
@@ -23,7 +23,7 @@ final class GetSigninAccountCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'GetSigninAccountSchema.json'));
     }
 
-    public function getSigninAccountWithoutAuthorizationHeader(FunctionalTester $I): void
+    public function tryToGetSigninAccountWithoutAuthorizationHeader(FunctionalTester $I): void
     {
         $I->haveHttpHeaderApplicationJson();
         $I->sendGet(url: '/api/auth/me');
@@ -32,7 +32,7 @@ final class GetSigninAccountCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function getSigninAccountUsingInvalidHeader(FunctionalTester $I): void
+    public function tryToGetSigninAccountWithInvalidAuthorizationHeader(FunctionalTester $I): void
     {
         $I->haveHttpHeader(name: 'Authorization', value: 'invalid');
         $I->sendGet(url: '/api/auth/me');
@@ -41,7 +41,7 @@ final class GetSigninAccountCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function getSigninAccountUsingInvalidBearer(FunctionalTester $I): void
+    public function tryToGetSigninAccountWithInvalidBearerToken(FunctionalTester $I): void
     {
         $I->haveHttpHeader(name: 'Authorization', value: 'Bearer invalid');
         $I->sendGet(url: '/api/auth/me');

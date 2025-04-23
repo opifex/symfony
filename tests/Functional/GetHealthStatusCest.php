@@ -10,7 +10,7 @@ use Tests\Support\FunctionalTester;
 
 final class GetHealthStatusCest
 {
-    public function getSuccessHealthStatus(FunctionalTester $I): void
+    public function ensureHealthStatusIsOk(FunctionalTester $I): void
     {
         $I->haveHttpHeaderApplicationJson();
         $I->sendGet(url: '/api/health');
@@ -21,7 +21,7 @@ final class GetHealthStatusCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'GetHealthStatusSchema.json'));
     }
 
-    public function getHealthStatusUsingInvalidMethod(FunctionalTester $I): void
+    public function tryToGetHealthWithInvalidMethod(FunctionalTester $I): void
     {
         $I->haveHttpHeaderApplicationJson();
         $I->sendPost(url: '/api/health');
@@ -30,7 +30,7 @@ final class GetHealthStatusCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function getHealthStatusUsingInvalidRoute(FunctionalTester $I): void
+    public function tryToGetHealthWithInvalidRoute(FunctionalTester $I): void
     {
         $I->haveHttpHeaderApplicationJson();
         $I->sendGet(url: '/api/invalid');

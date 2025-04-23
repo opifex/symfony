@@ -11,7 +11,7 @@ use Tests\Support\FunctionalTester;
 
 final class UpdateAccountByIdCest
 {
-    public function updateAccountInfo(FunctionalTester $I): void
+    public function ensureAdminCanUpdateAccount(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();
@@ -29,7 +29,7 @@ final class UpdateAccountByIdCest
         $I->seeResponseEquals(expected: '');
     }
 
-    public function updateAccountInfoWithoutPermission(FunctionalTester $I): void
+    public function tryToUpdateAccountWithoutPermission(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountUserActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();
@@ -47,7 +47,7 @@ final class UpdateAccountByIdCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function updateAccountUsingExistedEmail(FunctionalTester $I): void
+    public function tryToUpdateAccountWithExistedEmail(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $I->loadFixtures(fixtures: AccountUserActivatedFixture::class);
@@ -66,7 +66,7 @@ final class UpdateAccountByIdCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function updateEmailUsingInvalidUuid(FunctionalTester $I): void
+    public function tryToUpdateAccountWithInvalidUuid(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();

@@ -6,12 +6,12 @@ namespace Tests\Functional;
 
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountAdminActivatedFixture;
-use Tests\Support\Data\Fixture\AccountUserActivatedFixture;
+use Tests\Support\Data\Fixture\AccountUserRegisteredFixture;
 use Tests\Support\FunctionalTester;
 
 final class SigninIntoAccountCest
 {
-    public function signinUsingAdminCredentials(FunctionalTester $I): void
+    public function ensureAdminCanSignin(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();
@@ -25,9 +25,9 @@ final class SigninIntoAccountCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'SigninIntoAccountSchema.json'));
     }
 
-    public function signinUsingRegisteredCredentials(FunctionalTester $I): void
+    public function tryToSigninWithNonactivatedUser(FunctionalTester $I): void
     {
-        $I->loadFixtures(fixtures: AccountUserActivatedFixture::class);
+        $I->loadFixtures(fixtures: AccountUserRegisteredFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'registered@example.com',
@@ -39,7 +39,7 @@ final class SigninIntoAccountCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function signinUsingInvalidCredentials(FunctionalTester $I): void
+    public function tryToSigninWithInvalidCredentials(FunctionalTester $I): void
     {
         $I->haveHttpHeaderApplicationJson();
         $I->sendPost(url: '/api/auth/signin', params: json_encode([
@@ -52,7 +52,7 @@ final class SigninIntoAccountCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function signinUsingInvalidJson(FunctionalTester $I): void
+    public function tryToSigninWithInvalidJson(FunctionalTester $I): void
     {
         $I->haveHttpHeaderApplicationJson();
         $I->sendPost(url: '/api/auth/signin', params: '[...]');
@@ -62,7 +62,7 @@ final class SigninIntoAccountCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function signinUsingExtraAttributes(FunctionalTester $I): void
+    public function tryToSigninWithExtraAttributes(FunctionalTester $I): void
     {
         $I->sendPost(url: '/api/auth/signin', params: json_encode([
             'email' => 'admin@example.com',

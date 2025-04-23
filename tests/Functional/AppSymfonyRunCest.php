@@ -11,7 +11,7 @@ use Tests\Support\FunctionalTester;
 
 final class AppSymfonyRunCest
 {
-    public function runCommandUsingValidParameters(FunctionalTester $I): void
+    public function ensureConsoleCommandExecutesSuccessfully(FunctionalTester $I): void
     {
         $I->haveCleanMockServer();
         $I->haveMockResponse(

@@ -11,7 +11,7 @@ use Tests\Support\FunctionalTester;
 
 final class GetAccountByIdCest
 {
-    public function getAccountUsingValidUuid(FunctionalTester $I): void
+    public function ensureAdminCanGetExistingAccount(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();
@@ -24,7 +24,7 @@ final class GetAccountByIdCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'GetAccountByIdSchema.json'));
     }
 
-    public function getAccountWithoutPermission(FunctionalTester $I): void
+    public function tryToGetAccountWithoutPermission(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountUserActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();

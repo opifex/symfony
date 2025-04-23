@@ -10,7 +10,7 @@ use Tests\Support\FunctionalTester;
 
 final class SignupNewAccountCest
 {
-    public function signupUsingNewCredentials(FunctionalTester $I): void
+    public function ensureUserCanSignup(FunctionalTester $I): void
     {
         $I->haveHttpHeaderApplicationJson();
         $I->sendPost(url: '/api/auth/signup', params: json_encode([
@@ -22,7 +22,7 @@ final class SignupNewAccountCest
         $I->seeResponseEquals(expected: '');
     }
 
-    public function signupUsingInvalidCredentials(FunctionalTester $I): void
+    public function tryToSignupWithInvalidCredentials(FunctionalTester $I): void
     {
         $I->haveHttpHeaderApplicationJson();
         $I->sendPost(url: '/api/auth/signup', params: json_encode([
@@ -34,19 +34,7 @@ final class SignupNewAccountCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function signupUsingInvalidTypes(FunctionalTester $I): void
-    {
-        $I->haveHttpHeaderApplicationJson();
-        $I->sendPost(url: '/api/auth/signup', params: json_encode([
-            'email' => 'example.com',
-            'password' => ['password4#account'],
-        ]));
-        $I->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
-        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
-        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
-    }
-
-    public function signupUsingExistedCredentials(FunctionalTester $I): void
+    public function tryToSignupWithNonexistentCredentials(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();
@@ -55,6 +43,18 @@ final class SignupNewAccountCest
             'password' => 'password4#account',
         ]));
         $I->seeResponseCodeIs(code: HttpCode::CONFLICT);
+        $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
+        $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
+    }
+
+    public function tryToSignupWithInvalidTypes(FunctionalTester $I): void
+    {
+        $I->haveHttpHeaderApplicationJson();
+        $I->sendPost(url: '/api/auth/signup', params: json_encode([
+            'email' => 'example.com',
+            'password' => ['password4#account'],
+        ]));
+        $I->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }

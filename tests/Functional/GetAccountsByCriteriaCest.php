@@ -12,7 +12,7 @@ use Tests\Support\FunctionalTester;
 
 final class GetAccountsByCriteriaCest
 {
-    public function getAccountsByCriteria(FunctionalTester $I): void
+    public function ensureAdminCanGetAccountsByCriteria(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();
@@ -31,7 +31,7 @@ final class GetAccountsByCriteriaCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'GetAccountsByCriteriaSchema.json'));
     }
 
-    public function getAccountsByCriteriaWithoutPermission(FunctionalTester $I): void
+    public function tryToGetAccountsByCriteriaWithoutPermission(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountUserActivatedFixture::class);
         $I->haveHttpHeaderApplicationJson();
