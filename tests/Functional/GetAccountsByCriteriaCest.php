@@ -6,15 +6,15 @@ namespace Tests\Functional;
 
 use App\Domain\Entity\AccountStatus;
 use Codeception\Util\HttpCode;
-use Tests\Support\Data\Fixture\AccountAdminActivatedFixture;
-use Tests\Support\Data\Fixture\AccountUserActivatedFixture;
+use Tests\Support\Data\Fixture\AccountActivatedAdminFixture;
+use Tests\Support\Data\Fixture\AccountActivatedJamesFixture;
 use Tests\Support\FunctionalTester;
 
 final class GetAccountsByCriteriaCest
 {
     public function ensureAdminCanGetAccountsByCriteria(FunctionalTester $I): void
     {
-        $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
+        $I->loadFixtures(fixtures: AccountActivatedAdminFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
         $I->sendGet(
@@ -33,9 +33,9 @@ final class GetAccountsByCriteriaCest
 
     public function tryToGetAccountsByCriteriaWithoutPermission(FunctionalTester $I): void
     {
-        $I->loadFixtures(fixtures: AccountUserActivatedFixture::class);
+        $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
-        $I->haveHttpHeaderAuthorization(email: 'user@example.com', password: 'password4#account');
+        $I->haveHttpHeaderAuthorization(email: 'james@example.com', password: 'password4#account');
         $I->sendGet(
             url: '/api/account',
             params: [

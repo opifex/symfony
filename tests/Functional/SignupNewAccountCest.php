@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Functional;
 
 use Codeception\Util\HttpCode;
-use Tests\Support\Data\Fixture\AccountAdminActivatedFixture;
+use Tests\Support\Data\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\FunctionalTester;
 
 final class SignupNewAccountCest
@@ -36,7 +36,7 @@ final class SignupNewAccountCest
 
     public function tryToSignupWithNonexistentCredentials(FunctionalTester $I): void
     {
-        $I->loadFixtures(fixtures: AccountAdminActivatedFixture::class);
+        $I->loadFixtures(fixtures: AccountActivatedAdminFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->sendPost(url: '/api/auth/signup', params: json_encode([
             'email' => 'admin@example.com',

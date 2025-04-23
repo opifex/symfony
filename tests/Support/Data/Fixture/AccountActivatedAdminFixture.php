@@ -14,7 +14,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
 use Override;
 
-final class AccountAdminActivatedFixture extends Fixture implements FixtureInterface
+final class AccountActivatedAdminFixture extends Fixture implements FixtureInterface
 {
     #[Override]
     public function load(ObjectManager $manager): void

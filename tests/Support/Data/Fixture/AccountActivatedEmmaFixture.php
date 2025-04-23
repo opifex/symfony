@@ -14,16 +14,16 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
 use Override;
 
-final class AccountUserActivatedFixture extends Fixture implements FixtureInterface
+final class AccountActivatedEmmaFixture extends Fixture implements FixtureInterface
 {
     #[Override]
     public function load(ObjectManager $manager): void
     {
         $faker = Faker::create();
         $account = new AccountEntity(
-            uuid: '00000000-0000-6000-8001-000000000000',
+            uuid: '019661f5-803d-78ac-a5a3-9afda18ddc67',
             createdAt: new DateTimeImmutable(),
-            email: $faker->unique()->bothify(string: 'user@example.com'),
+            email: $faker->unique()->bothify(string: 'emma@example.com'),
             password: 'password4#account',
             locale: 'en_US',
             roles: [AccountRole::USER],
