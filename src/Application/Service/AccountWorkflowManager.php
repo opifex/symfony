@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Contract\AccountStateMachineInterface;
+use App\Domain\Contract\AccountWorkflowManagerInterface;
 use App\Domain\Entity\AccountAction;
 use App\Domain\Exception\AccountActionInvalidException;
 use Override;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-final class AccountStateMachine implements AccountStateMachineInterface
+final class AccountWorkflowManager implements AccountWorkflowManagerInterface
 {
     public function __construct(
         private readonly AccountRepositoryInterface $accountRepository,

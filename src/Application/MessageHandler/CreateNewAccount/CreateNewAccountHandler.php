@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\CreateNewAccount;
 
 use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Contract\AccountStateMachineInterface;
+use App\Domain\Contract\AccountWorkflowManagerInterface;
 use App\Domain\Contract\AuthenticationPasswordHasherInterface;
 use App\Domain\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Entity\AccountRole;
@@ -18,7 +18,7 @@ final class CreateNewAccountHandler
 {
     public function __construct(
         private readonly AccountRepositoryInterface $accountRepository,
-        private readonly AccountStateMachineInterface $accountStateMachine,
+        private readonly AccountWorkflowManagerInterface $accountWorkflowManager,
         private readonly AuthenticationPasswordHasherInterface $authenticationPasswordHasher,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
@@ -37,8 +37,8 @@ final class CreateNewAccountHandler
         $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
         $accountUuid = $this->accountRepository->addOneAccount($message->email, $passwordHash, $message->locale);
 
-        $this->accountStateMachine->register($accountUuid);
-        $this->accountStateMachine->activate($accountUuid);
+        $this->accountWorkflowManager->register($accountUuid);
+        $this->accountWorkflowManager->activate($accountUuid);
 
         return CreateNewAccountResult::success($accountUuid);
     }

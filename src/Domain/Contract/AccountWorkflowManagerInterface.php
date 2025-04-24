@@ -7,7 +7,7 @@ namespace App\Domain\Contract;
 use App\Domain\Exception\AccountActionInvalidException;
 use App\Domain\Exception\AccountNotFoundException;
 
-interface AccountStateMachineInterface
+interface AccountWorkflowManagerInterface
 {
     /**
      * @throws AccountActionInvalidException
