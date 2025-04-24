@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SignupNewAccount;
 
-use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
 use App\Domain\Contract\AccountStateMachineInterface;
+use App\Domain\Contract\AuthenticationPasswordHasherInterface;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -14,9 +14,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class SignupNewAccountHandler
 {
     public function __construct(
-        private readonly AccountPasswordHasherInterface $accountPasswordHasher,
         private readonly AccountRepositoryInterface $accountRepository,
         private readonly AccountStateMachineInterface $accountStateMachine,
+        private readonly AuthenticationPasswordHasherInterface $authenticationPasswordHasher,
     ) {
     }
 
@@ -26,7 +26,7 @@ final class SignupNewAccountHandler
             throw AccountAlreadyExistsException::create();
         }
 
-        $passwordHash = $this->accountPasswordHasher->hash($message->password);
+        $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
         $accountUuid = $this->accountRepository->addOneAccount($message->email, $passwordHash, $message->locale);
 
         $this->accountStateMachine->register($accountUuid);

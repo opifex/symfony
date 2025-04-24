@@ -6,7 +6,7 @@ namespace App\Domain\Contract;
 
 use SensitiveParameter;
 
-interface AccountPasswordHasherInterface
+interface AuthenticationPasswordHasherInterface
 {
     public function hash(#[SensitiveParameter] string $plainPassword): string;
 }

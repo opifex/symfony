@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\UpdateAccountById;
 
-use App\Domain\Contract\AccountPasswordHasherInterface;
 use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AuthenticationPasswordHasherInterface;
 use App\Domain\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Entity\AccountRole;
 use App\Domain\Exception\AccountAlreadyExistsException;
@@ -16,8 +16,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class UpdateAccountByIdHandler
 {
     public function __construct(
-        private readonly AccountPasswordHasherInterface $accountPasswordHasher,
         private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AuthenticationPasswordHasherInterface $authenticationPasswordHasher,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
     }
@@ -41,7 +41,7 @@ final class UpdateAccountByIdHandler
         }
 
         if ($message->password !== null) {
-            $passwordHash = $this->accountPasswordHasher->hash($message->password);
+            $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
             $this->accountRepository->updatePasswordByUuid($message->uuid, $passwordHash);
         }
 
