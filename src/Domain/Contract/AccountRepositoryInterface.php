@@ -9,7 +9,6 @@ use App\Domain\Entity\AccountSearchCriteria;
 use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
-use SensitiveParameter;
 
 interface AccountRepositoryInterface
 {
@@ -48,12 +47,12 @@ interface AccountRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
-    public function updatePasswordByUuid(string $uuid, #[SensitiveParameter] string $password): void;
+    public function updatePasswordByUuid(string $uuid, string $password): void;
 
     /**
      * @throws AccountAlreadyExistsException
      */
-    public function addOneAccount(string $email, #[SensitiveParameter] string $password): string;
+    public function addOneAccount(string $email, string $password, string $locale): string;
 
     /**
      * @throws AccountNotFoundException

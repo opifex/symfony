@@ -18,7 +18,6 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use Override;
-use SensitiveParameter;
 use Traversable;
 
 final class AccountRepository implements AccountRepositoryInterface
@@ -172,7 +171,7 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function updatePasswordByUuid(string $uuid, #[SensitiveParameter] string $password): void
+    public function updatePasswordByUuid(string $uuid, string $password): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
@@ -189,9 +188,9 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function addOneAccount(string $email, #[SensitiveParameter] string $password): string
+    public function addOneAccount(string $email, string $password, string $locale): string
     {
-        $entity = AccountFactory::createEntity($email, $password);
+        $entity = AccountFactory::createEntity($email, $password, $locale);
         $this->defaultEntityManager->persist($entity);
         $this->defaultEntityManager->flush();
         $this->defaultEntityManager->clear();

@@ -34,10 +34,9 @@ final class CreateNewAccountHandler
             throw AccountAlreadyExistsException::create();
         }
 
-        $hashedPassword = $this->accountPasswordHasher->hash($message->password);
+        $passwordHash = $this->accountPasswordHasher->hash($message->password);
+        $accountUuid = $this->accountRepository->addOneAccount($message->email, $passwordHash, $message->locale);
 
-        $accountUuid = $this->accountRepository->addOneAccount($message->email, $hashedPassword);
-        $this->accountRepository->updateLocaleByUuid($accountUuid, $message->locale);
         $this->accountStateMachine->register($accountUuid);
         $this->accountStateMachine->activate($accountUuid);
 
