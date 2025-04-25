@@ -149,9 +149,9 @@
     },
     "require-dev": {
         "codeception/codeception": "^5.2",
-        "codeception/module-asserts": "^3.0",
+        "codeception/module-asserts": "^3.1",
         "codeception/module-cli": "^2.0",
-        "codeception/module-doctrine": "^3.1",
+        "codeception/module-doctrine": "^3.2",
         "codeception/module-rest": "^3.4",
         "codeception/module-symfony": "^3.5",
         "doctrine/doctrine-fixtures-bundle": "^4.1",
