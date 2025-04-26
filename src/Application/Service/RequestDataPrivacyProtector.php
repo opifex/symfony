@@ -9,7 +9,7 @@ use Override;
 
 final class RequestDataPrivacyProtector implements PrivacyProtectorInterface
 {
-    /** @var string[] */
+    /** @var array<string, string> */
     private array $templates = [
         'email' => '/(?<=.).(?=.*.{1}@)/u',
         'password' => '/./u',

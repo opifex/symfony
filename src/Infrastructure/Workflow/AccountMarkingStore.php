@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Workflow;
 
-use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Entity\Account;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Model\Account;
 use Override;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 use Symfony\Component\Workflow\Marking;
@@ -14,7 +14,7 @@ use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
 final class AccountMarkingStore implements MarkingStoreInterface
 {
     public function __construct(
-        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
     ) {
     }
 
@@ -22,7 +22,7 @@ final class AccountMarkingStore implements MarkingStoreInterface
     public function getMarking(object $subject): Marking
     {
         $accountUuid = $this->getSubjectIdentifier($subject);
-        $markingStatus = $this->accountRepository->findStatusByUuid($accountUuid);
+        $markingStatus = $this->accountEntityRepository->findStatusByUuid($accountUuid);
 
         return new Marking([$markingStatus => 1]);
     }
@@ -35,7 +35,7 @@ final class AccountMarkingStore implements MarkingStoreInterface
     {
         $accountUuid = $this->getSubjectIdentifier($subject);
         $markingStatus = (string) array_key_first($marking->getPlaces());
-        $this->accountRepository->updateStatusByUuid($accountUuid, $markingStatus);
+        $this->accountEntityRepository->updateStatusByUuid($accountUuid, $markingStatus);
     }
 
     private function getSubjectIdentifier(object $subject): string

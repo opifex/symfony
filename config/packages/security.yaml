@@ -21,8 +21,8 @@ security:
       access_token:
         token_handler: App\Infrastructure\Security\JwtAccessTokenHandler
   role_hierarchy:
-    !php/const App\Domain\Entity\AccountRole::ADMIN: [
-      !php/const App\Domain\Entity\AccountRole::USER,
+    !php/const App\Domain\Model\AccountRole::ADMIN: [
+      !php/const App\Domain\Model\AccountRole::USER,
     ]
 
 when@test:

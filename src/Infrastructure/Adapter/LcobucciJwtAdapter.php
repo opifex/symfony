@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter;
 
 use App\Domain\Contract\JwtTokenManagerInterface;
-use App\Domain\Entity\AuthorizationToken;
 use App\Domain\Exception\JwtTokenManagerException;
+use App\Domain\Model\AuthorizationToken;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use Lcobucci\JWT\Configuration;
@@ -92,14 +92,14 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         $jsonWebToken = $this->getJwtConfiguration();
         $tokenIssuedAt = $this->clock->now();
 
-        $builder = $jsonWebToken->builder();
-        $builder = $builder->issuedBy($this->issuer);
-        $builder = $builder->identifiedBy($this->getTokenIdentifier());
-        $builder = $builder->relatedTo($userIdentifier);
-        $builder = $builder->issuedAt($tokenIssuedAt);
-        $builder = $builder->canOnlyBeUsedAfter($tokenIssuedAt);
-        $builder = $builder->expiresAt($tokenIssuedAt->add($this->getLifetimeInterval()));
-        $builder = $builder->withClaim(name: self::CLAIM_ROLES, value: $userRoles);
+        $builder = $jsonWebToken->builder()
+            ->canOnlyBeUsedAfter($tokenIssuedAt)
+            ->expiresAt($tokenIssuedAt->add($this->getLifetimeInterval()))
+            ->identifiedBy($this->getTokenIdentifier())
+            ->issuedAt($tokenIssuedAt)
+            ->issuedBy($this->issuer)
+            ->relatedTo($userIdentifier)
+            ->withClaim(name: self::CLAIM_ROLES, value: $userRoles);
 
         try {
             return $builder->getToken($jsonWebToken->signer(), $jsonWebToken->signingKey())->toString();

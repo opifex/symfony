@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Health;
 
 use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusRequest;
-use App\Domain\Entity\HealthStatus;
-use App\Domain\Entity\HttpSpecification;
+use App\Domain\Model\HealthStatus;
+use App\Domain\Model\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

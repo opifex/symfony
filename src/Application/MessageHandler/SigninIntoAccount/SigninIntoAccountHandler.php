@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SigninIntoAccount;
 
-use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Contract\JwtTokenManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -13,7 +13,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class SigninIntoAccountHandler
 {
     public function __construct(
-        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
         private readonly JwtTokenManagerInterface $jwtTokenManager,
     ) {
@@ -22,7 +22,7 @@ final class SigninIntoAccountHandler
     public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResult
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
-        $account = $this->accountRepository->findOneByUuid($userIdentifier);
+        $account = $this->accountEntityRepository->findOneByUuid($userIdentifier);
 
         $accessToken = $this->jwtTokenManager->createAccessToken(
             userIdentifier: $account->getUuid(),

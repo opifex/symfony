@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\AccountStatus;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Model\Account;
+use App\Domain\Model\AccountRole;
+use App\Domain\Model\AccountStatus;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Codeception\Test\Unit;
@@ -23,7 +23,7 @@ use Symfony\Component\Uid\Uuid;
 
 final class DatabaseUserProviderTest extends Unit
 {
-    private AccountRepositoryInterface&MockObject $accountRepository;
+    private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
 
     /**
      * @throws MockObjectException
@@ -31,12 +31,12 @@ final class DatabaseUserProviderTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->accountRepository = $this->createMock(type: AccountRepositoryInterface::class);
+        $this->accountEntityRepository = $this->createMock(type: AccountEntityRepositoryInterface::class);
     }
 
     public function testLoadUserByIdentifierWithEmail(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $account = new Account(
             uuid: Uuid::v7()->hash(),
             createdAt: new DateTimeImmutable(),
@@ -53,7 +53,7 @@ final class DatabaseUserProviderTest extends Unit
             enabled: true,
         );
 
-        $this->accountRepository
+        $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
             ->with($account->getEmail())
@@ -67,9 +67,9 @@ final class DatabaseUserProviderTest extends Unit
 
     public function testLoadUserByIdentifierWithInvalidIdentifier(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
 
-        $this->accountRepository
+        $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
             ->willThrowException(new AccountNotFoundException());
@@ -81,7 +81,7 @@ final class DatabaseUserProviderTest extends Unit
 
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
@@ -96,7 +96,7 @@ final class DatabaseUserProviderTest extends Unit
 
     public function testCheckSupportsClassWithMatchingClass(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $supports = $databaseUserProvider->supportsClass(class: PasswordAuthenticatedUser::class);
 
         $this->assertTrue($supports);
@@ -104,7 +104,7 @@ final class DatabaseUserProviderTest extends Unit
 
     public function testCheckSupportsClassWithNonMatchingClass(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $supports = $databaseUserProvider->supportsClass(class: stdClass::class);
 
         $this->assertFalse($supports);

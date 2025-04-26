@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use App\Domain\Entity\AccountStatus;
+use App\Domain\Model\AccountStatus;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Data\Fixture\AccountActivatedJamesFixture;

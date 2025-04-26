@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Support\Data\Fixture;
 
-use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\AccountStatus;
+use App\Domain\Model\AccountRole;
+use App\Domain\Model\AccountStatus;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;

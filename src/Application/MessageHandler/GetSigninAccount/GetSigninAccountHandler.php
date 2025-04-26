@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetSigninAccount;
 
-use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Contract\AuthorizationTokenManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -12,7 +12,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class GetSigninAccountHandler
 {
     public function __construct(
-        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
     }
@@ -20,7 +20,7 @@ final class GetSigninAccountHandler
     public function __invoke(GetSigninAccountRequest $message): GetSigninAccountResult
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
-        $account = $this->accountRepository->findOneByUuid($userIdentifier);
+        $account = $this->accountEntityRepository->findOneByUuid($userIdentifier);
 
         return GetSigninAccountResult::success($account);
     }

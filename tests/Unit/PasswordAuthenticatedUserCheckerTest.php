@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Entity\AccountRole;
+use App\Domain\Model\AccountRole;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\PasswordAuthenticatedUserChecker;
 use Codeception\Test\Unit;

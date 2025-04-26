@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use App\Domain\Entity\HealthStatus;
+use App\Domain\Model\HealthStatus;
 use Codeception\Util\HttpCode;
 use Tests\Support\FunctionalTester;
 

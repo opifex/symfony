@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetHealthStatus;
 
-use App\Domain\Entity\Health;
-use App\Domain\Entity\HealthStatus;
+use App\Domain\Model\Health;
+use App\Domain\Model\HealthStatus;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

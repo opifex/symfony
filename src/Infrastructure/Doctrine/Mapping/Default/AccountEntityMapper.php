@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Mapping\Default;
 
-use App\Domain\Entity\Account;
+use App\Domain\Model\Account;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-final class AccountMapper
+final class AccountEntityMapper
 {
     public static function mapOne(AccountEntity $account): Account
     {

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
-use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Contract\AuthorizationTokenManagerInterface;
-use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\AccountSearchCriteria;
-use App\Domain\Entity\SearchPagination;
 use App\Domain\Exception\AuthorizationForbiddenException;
+use App\Domain\Model\AccountRole;
+use App\Domain\Model\AccountSearchCriteria;
+use App\Domain\Model\SearchPagination;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final class GetAccountsByCriteriaHandler
 {
     public function __construct(
-        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
     }
@@ -30,7 +30,7 @@ final class GetAccountsByCriteriaHandler
         $searchPagination = new SearchPagination($message->page, $message->limit);
         $searchCriteria = new AccountSearchCriteria($message->email, $message->status, $searchPagination);
 
-        $accountSearchResult = $this->accountRepository->findByCriteria($searchCriteria);
+        $accountSearchResult = $this->accountEntityRepository->findByCriteria($searchCriteria);
 
         return GetAccountsByCriteriaResult::success($accountSearchResult, $searchPagination);
     }

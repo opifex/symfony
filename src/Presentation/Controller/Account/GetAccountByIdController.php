@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\GetAccountById\GetAccountByIdRequest;
-use App\Domain\Entity\AccountRole;
-use App\Domain\Entity\AccountStatus;
-use App\Domain\Entity\HttpSpecification;
+use App\Domain\Model\AccountRole;
+use App\Domain\Model\AccountStatus;
+use App\Domain\Model\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

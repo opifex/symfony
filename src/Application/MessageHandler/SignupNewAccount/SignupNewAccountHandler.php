@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SignupNewAccount;
 
-use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Contract\AccountWorkflowManagerInterface;
 use App\Domain\Contract\AuthenticationPasswordHasherInterface;
 use App\Domain\Exception\AccountAlreadyExistsException;
@@ -14,7 +14,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class SignupNewAccountHandler
 {
     public function __construct(
-        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AccountWorkflowManagerInterface $accountWorkflowManager,
         private readonly AuthenticationPasswordHasherInterface $authenticationPasswordHasher,
     ) {
@@ -22,12 +22,17 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResult
     {
-        if ($this->accountRepository->checkExistsByEmail($message->email)) {
+        if ($this->accountEntityRepository->checkExistsByEmail($message->email)) {
             throw AccountAlreadyExistsException::create();
         }
 
-        $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
-        $accountUuid = $this->accountRepository->addOneAccount($message->email, $passwordHash, $message->locale);
+        $accountEntity = $this->accountEntityRepository->createAccountEntityBuilder()
+            ->withEmail($message->email)
+            ->withPassword($this->authenticationPasswordHasher->hash($message->password))
+            ->withLocale($message->locale)
+            ->build();
+
+        $accountUuid = $this->accountEntityRepository->addOneAccount($accountEntity);
 
         $this->accountWorkflowManager->register($accountUuid);
         $this->accountWorkflowManager->activate($accountUuid);

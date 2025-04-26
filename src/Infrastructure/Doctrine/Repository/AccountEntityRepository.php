@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Repository;
 
-use App\Domain\Contract\AccountRepositoryInterface;
-use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountSearchCriteria;
-use App\Domain\Entity\AccountSearchResult;
+use App\Domain\Contract\AccountEntityBuilderInterface;
+use App\Domain\Contract\AccountEntityInterface;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Model\Account;
+use App\Domain\Model\AccountSearchCriteria;
+use App\Domain\Model\AccountSearchResult;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
-use App\Infrastructure\Doctrine\Mapping\Default\AccountFactory;
-use App\Infrastructure\Doctrine\Mapping\Default\AccountMapper;
+use App\Infrastructure\Doctrine\Mapping\Default\AccountEntityBuilder;
+use App\Infrastructure\Doctrine\Mapping\Default\AccountEntityMapper;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
@@ -20,11 +22,16 @@ use Exception;
 use Override;
 use Traversable;
 
-final class AccountRepository implements AccountRepositoryInterface
+final class AccountEntityRepository implements AccountEntityRepositoryInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $defaultEntityManager,
     ) {
+    }
+
+    public function createAccountEntityBuilder(): AccountEntityBuilderInterface
+    {
+        return new AccountEntityBuilder();
     }
 
     /**
@@ -57,7 +64,7 @@ final class AccountRepository implements AccountRepositoryInterface
 
         $this->defaultEntityManager->clear();
 
-        return new AccountSearchResult(AccountMapper::mapMany(...$iterator), $paginator->count());
+        return new AccountSearchResult(AccountEntityMapper::mapMany(...$iterator), $paginator->count());
     }
 
     #[Override]
@@ -77,7 +84,7 @@ final class AccountRepository implements AccountRepositoryInterface
 
         $this->defaultEntityManager->clear();
 
-        return AccountMapper::mapOne($account);
+        return AccountEntityMapper::mapOne($account);
     }
 
     #[Override]
@@ -97,7 +104,7 @@ final class AccountRepository implements AccountRepositoryInterface
 
         $this->defaultEntityManager->clear();
 
-        return AccountMapper::mapOne($account);
+        return AccountEntityMapper::mapOne($account);
     }
 
     #[Override]
@@ -188,14 +195,14 @@ final class AccountRepository implements AccountRepositoryInterface
     }
 
     #[Override]
-    public function addOneAccount(string $email, string $password, string $locale): string
+    public function addOneAccount(AccountEntityInterface $accountEntity): string
     {
-        $entity = AccountFactory::createEntity($email, $password, $locale);
-        $this->defaultEntityManager->persist($entity);
+        /** @var AccountEntity $accountEntity */
+        $this->defaultEntityManager->persist($accountEntity);
         $this->defaultEntityManager->flush();
         $this->defaultEntityManager->clear();
 
-        return $entity->uuid;
+        return $accountEntity->uuid;
     }
 
     #[Override]

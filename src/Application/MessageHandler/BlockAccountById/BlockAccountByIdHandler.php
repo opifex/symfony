@@ -6,8 +6,8 @@ namespace App\Application\MessageHandler\BlockAccountById;
 
 use App\Domain\Contract\AccountWorkflowManagerInterface;
 use App\Domain\Contract\AuthorizationTokenManagerInterface;
-use App\Domain\Entity\AccountRole;
 use App\Domain\Exception\AuthorizationForbiddenException;
+use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

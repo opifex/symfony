@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\Service\AuthorizationTokenManager;
-use App\Domain\Entity\AccountRole;
+use App\Domain\Model\AccountRole;
 use App\Domain\Exception\AuthorizationRequiredException;
 use Codeception\Test\Unit;
 use Override;

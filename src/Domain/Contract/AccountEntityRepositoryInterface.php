@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Contract;
 
-use App\Domain\Entity\Account;
-use App\Domain\Entity\AccountSearchCriteria;
-use App\Domain\Entity\AccountSearchResult;
 use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Model\Account;
+use App\Domain\Model\AccountSearchCriteria;
+use App\Domain\Model\AccountSearchResult;
 
-interface AccountRepositoryInterface
+interface AccountEntityRepositoryInterface
 {
+    public function createAccountEntityBuilder(): AccountEntityBuilderInterface;
+
     public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
 
     /**
@@ -52,7 +54,7 @@ interface AccountRepositoryInterface
     /**
      * @throws AccountAlreadyExistsException
      */
-    public function addOneAccount(string $email, string $password, string $locale): string;
+    public function addOneAccount(AccountEntityInterface $accountEntity): string;
 
     /**
      * @throws AccountNotFoundException

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Entity\AccountStatus;
+use App\Domain\Model\AccountStatus;
 use App\Domain\Exception\AccountNotFoundException;
-use App\Infrastructure\Doctrine\Repository\AccountRepository;
+use App\Infrastructure\Doctrine\Repository\AccountEntityRepository;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
@@ -17,7 +17,7 @@ use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
 
-final class AccountRepositoryTest extends Unit
+final class AccountEntityRepositoryTest extends Unit
 {
     private EntityManagerInterface&MockObject $entityManager;
 
@@ -63,7 +63,7 @@ final class AccountRepositoryTest extends Unit
 
     public function testFindStatusByUuid(): void
     {
-        $accountRepository = new AccountRepository($this->entityManager);
+        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
         $this->query
             ->expects($this->once())
@@ -72,14 +72,14 @@ final class AccountRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountRepository->findStatusByUuid(
+        $accountEntityRepository->findStatusByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
         );
     }
 
     public function testUpdateEmailByUuid(): void
     {
-        $accountRepository = new AccountRepository($this->entityManager);
+        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
         $this->query
             ->expects($this->once())
@@ -88,7 +88,7 @@ final class AccountRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountRepository->updateEmailByUuid(
+        $accountEntityRepository->updateEmailByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
             email: 'email@example.com',
         );
@@ -96,7 +96,7 @@ final class AccountRepositoryTest extends Unit
 
     public function testUpdatePasswordByUuid(): void
     {
-        $accountRepository = new AccountRepository($this->entityManager);
+        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
         $this->query
             ->expects($this->once())
@@ -105,7 +105,7 @@ final class AccountRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountRepository->updatePasswordByUuid(
+        $accountEntityRepository->updatePasswordByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
             password: 'password4#account',
         );
@@ -113,7 +113,7 @@ final class AccountRepositoryTest extends Unit
 
     public function testUpdateStatusByUuid(): void
     {
-        $accountRepository = new AccountRepository($this->entityManager);
+        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
         $this->query
             ->expects($this->once())
@@ -122,7 +122,7 @@ final class AccountRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountRepository->updateStatusByUuid(
+        $accountEntityRepository->updateStatusByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
             status: AccountStatus::ACTIVATED,
         );
@@ -130,7 +130,7 @@ final class AccountRepositoryTest extends Unit
 
     public function testUpdateLocaleByUuid(): void
     {
-        $accountRepository = new AccountRepository($this->entityManager);
+        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
         $this->query
             ->expects($this->once())
@@ -139,7 +139,7 @@ final class AccountRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountRepository->updateLocaleByUuid(
+        $accountEntityRepository->updateLocaleByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
             locale: 'en_US',
         );

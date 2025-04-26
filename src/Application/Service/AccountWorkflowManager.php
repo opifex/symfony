@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Contract\AccountWorkflowManagerInterface;
-use App\Domain\Entity\AccountAction;
 use App\Domain\Exception\AccountActionInvalidException;
+use App\Domain\Model\AccountAction;
 use Override;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 final class AccountWorkflowManager implements AccountWorkflowManagerInterface
 {
     public function __construct(
-        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly WorkflowInterface $accountStateMachine,
     ) {
     }
@@ -45,7 +45,7 @@ final class AccountWorkflowManager implements AccountWorkflowManagerInterface
 
     private function apply(string $uuid, string $action): void
     {
-        $account = $this->accountRepository->findOneByUuid($uuid);
+        $account = $this->accountEntityRepository->findOneByUuid($uuid);
 
         if (!$this->accountStateMachine->can($account, $action)) {
             throw AccountActionInvalidException::create();

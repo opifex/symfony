@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetSigninAccount;
 
-use App\Domain\Entity\Account;
+use App\Domain\Model\Account;
 use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;

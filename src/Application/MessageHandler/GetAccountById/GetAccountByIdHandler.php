@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetAccountById;
 
-use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Contract\AuthorizationTokenManagerInterface;
-use App\Domain\Entity\AccountRole;
 use App\Domain\Exception\AuthorizationForbiddenException;
+use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final class GetAccountByIdHandler
 {
     public function __construct(
-        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
     }
@@ -25,7 +25,7 @@ final class GetAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $account = $this->accountRepository->findOneByUuid($message->uuid);
+        $account = $this->accountEntityRepository->findOneByUuid($message->uuid);
 
         return GetAccountByIdResult::success($account);
     }

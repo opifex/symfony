@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Contract;
 
-use App\Domain\Entity\AuthorizationToken;
 use App\Domain\Exception\JwtTokenManagerException;
+use App\Domain\Model\AuthorizationToken;
 use SensitiveParameter;
 
 interface JwtTokenManagerInterface

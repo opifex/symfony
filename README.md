@@ -81,13 +81,13 @@ provides **JSON-based** contracts with **JSON Web Token** (JWT) authorization.
 └────────────────┘   └────────────────┘   └────────────────┘
 ```
 
-**Domain**: entities, exceptions and interfaces that do not have a specific implementation.
+**Domain**: business models, exceptions, and interfaces that define behavior but lack specific implementations.
 
-**Application**: services, events, listeners and other parts of the application that perform core and business logic.
+**Application**: services, events, listeners, and other components that handle core and business logic.
 
-**Infrastructure**: adapters, repositories and framework modules that provide low-level access to resources and 3rd-party libraries.
+**Infrastructure**: adapters, repositories, and framework modules that facilitate low-level access to resources and third-party libraries.
 
-**Presentation**: controllers, console commands, translations and views for interacting with the client.
+**Presentation**: controllers, console commands, translations, and views for client interaction.
 
 ## Documentation
 

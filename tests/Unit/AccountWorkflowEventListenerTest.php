@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\EventListener\AccountWorkflowEventListener;
-use App\Domain\Contract\AccountRepositoryInterface;
+use App\Domain\Contract\AccountEntityRepositoryInterface;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
@@ -18,7 +18,7 @@ use Symfony\Component\Workflow\Marking;
 
 final class AccountWorkflowEventListenerTest extends Unit
 {
-    private AccountRepositoryInterface&MockObject $accountRepository;
+    private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
 
     private EventDispatcherInterface&MockObject $eventDispatcher;
 
@@ -28,14 +28,14 @@ final class AccountWorkflowEventListenerTest extends Unit
     #[Override]
     protected function setUp(): void
     {
-        $this->accountRepository = $this->createMock(type: AccountRepositoryInterface::class);
+        $this->accountEntityRepository = $this->createMock(type: AccountEntityRepositoryInterface::class);
         $this->eventDispatcher = $this->createMock(type: EventDispatcherInterface::class);
     }
 
     public function testOnWorkflowAccountCompletedRegister(): void
     {
         $accountWorkflowEventListener = new AccountWorkflowEventListener(
-            accountRepository: $this->accountRepository,
+            accountEntityRepository: $this->accountEntityRepository,
             eventDispatcher: $this->eventDispatcher,
         );
 
