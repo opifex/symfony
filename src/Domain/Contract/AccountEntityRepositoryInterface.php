@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Contract;
 
-use App\Domain\Exception\AccountAlreadyExistsException;
 use App\Domain\Exception\AccountNotFoundException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountSearchCriteria;
@@ -15,6 +14,13 @@ interface AccountEntityRepositoryInterface
     public function createAccountEntityBuilder(): AccountEntityBuilderInterface;
 
     public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
+
+    public function addOneAccount(AccountEntityInterface $accountEntity): string;
+
+    /**
+     * @throws AccountNotFoundException
+     */
+    public function deleteOneByUuid(string $uuid): void;
 
     /**
      * @throws AccountNotFoundException
@@ -50,16 +56,6 @@ interface AccountEntityRepositoryInterface
      * @throws AccountNotFoundException
      */
     public function updatePasswordByUuid(string $uuid, string $password): void;
-
-    /**
-     * @throws AccountAlreadyExistsException
-     */
-    public function addOneAccount(AccountEntityInterface $accountEntity): string;
-
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function deleteOneByUuid(string $uuid): void;
 
     public function checkExistsByEmail(string $email): bool;
 }
