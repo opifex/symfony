@@ -11,7 +11,7 @@ use App\Domain\Model\AccountSearchResult;
 
 interface AccountEntityRepositoryInterface
 {
-    public function createAccountEntityBuilder(): AccountEntityBuilderInterface;
+    public function createEntityBuilder(): AccountEntityBuilderInterface;
 
     public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
 

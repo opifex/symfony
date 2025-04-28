@@ -34,7 +34,7 @@ final class CreateNewAccountHandler
             throw AccountAlreadyExistsException::create();
         }
 
-        $accountEntity = $this->accountEntityRepository->createAccountEntityBuilder()
+        $accountEntity = $this->accountEntityRepository->createEntityBuilder()
             ->withEmail($message->email)
             ->withPassword($this->authenticationPasswordHasher->hash($message->password))
             ->withLocale($message->locale)

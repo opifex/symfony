@@ -29,7 +29,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     ) {
     }
 
-    public function createAccountEntityBuilder(): AccountEntityBuilderInterface
+    public function createEntityBuilder(): AccountEntityBuilderInterface
     {
         return new AccountEntityBuilder();
     }
