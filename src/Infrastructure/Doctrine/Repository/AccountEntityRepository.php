@@ -34,6 +34,17 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         return new AccountEntityBuilder();
     }
 
+    #[Override]
+    public function addOneAccount(AccountEntityInterface $accountEntity): string
+    {
+        /** @var AccountEntity $accountEntity */
+        $this->defaultEntityManager->persist($accountEntity);
+        $this->defaultEntityManager->flush();
+        $this->defaultEntityManager->clear();
+
+        return $accountEntity->uuid;
+    }
+
     /**
      * @throws Exception
      */
@@ -192,17 +203,6 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         }
 
         $this->defaultEntityManager->clear();
-    }
-
-    #[Override]
-    public function addOneAccount(AccountEntityInterface $accountEntity): string
-    {
-        /** @var AccountEntity $accountEntity */
-        $this->defaultEntityManager->persist($accountEntity);
-        $this->defaultEntityManager->flush();
-        $this->defaultEntityManager->clear();
-
-        return $accountEntity->uuid;
     }
 
     #[Override]

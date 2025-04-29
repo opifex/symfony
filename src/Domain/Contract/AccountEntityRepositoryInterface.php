@@ -13,14 +13,9 @@ interface AccountEntityRepositoryInterface
 {
     public function createEntityBuilder(): AccountEntityBuilderInterface;
 
-    public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
-
     public function addOneAccount(AccountEntityInterface $accountEntity): string;
 
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function deleteOneByUuid(string $uuid): void;
+    public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
 
     /**
      * @throws AccountNotFoundException
@@ -56,6 +51,11 @@ interface AccountEntityRepositoryInterface
      * @throws AccountNotFoundException
      */
     public function updatePasswordByUuid(string $uuid, string $password): void;
+
+    /**
+     * @throws AccountNotFoundException
+     */
+    public function deleteOneByUuid(string $uuid): void;
 
     public function checkExistsByEmail(string $email): bool;
 }
