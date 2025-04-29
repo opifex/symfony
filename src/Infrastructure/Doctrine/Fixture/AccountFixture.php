@@ -21,39 +21,42 @@ final class AccountFixture extends Fixture implements FixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Faker::create();
+        $currentTime = new DateTimeImmutable();
         $passwordHasher = new NativePasswordHasher();
-        $password = $passwordHasher->hash(plainPassword: 'password4#account');
+        $passwordHash = $passwordHasher->hash(plainPassword: 'password4#account');
 
-        $adminAccount = new AccountEntity(
+        $accountAdmin = new AccountEntity(
             uuid: $faker->unique()->uuid(),
-            createdAt: new DateTimeImmutable(),
+            createdAt: $currentTime,
             email: $faker->unique()->bothify(string: 'admin@example.com'),
-            password: $password,
+            password: $passwordHash,
             locale: 'en_US',
             roles: [AccountRole::ADMIN],
             status: AccountStatus::ACTIVATED,
         );
-        $manager->persist($adminAccount);
+        $manager->persist($accountAdmin);
+        $this->addReference(name: 'account.admin', object: $accountAdmin);
 
-        $userAccount = new AccountEntity(
+        $accountUser = new AccountEntity(
             uuid: $faker->unique()->uuid(),
-            createdAt: new DateTimeImmutable(),
+            createdAt: $currentTime,
             email: $faker->unique()->bothify(string: 'user@example.com'),
-            password: $password,
+            password: $passwordHash,
             locale: 'en_US',
             roles: [AccountRole::USER],
             status: AccountStatus::ACTIVATED,
         );
-        $manager->persist($userAccount);
+        $manager->persist($accountUser);
+        $this->addReference(name: 'account.user', object: $accountUser);
 
         for ($index = 1; $index <= 10; $index++) {
             /** @var string $status */
             $status = $faker->randomElement(array: AccountStatus::CASES);
             $account = new AccountEntity(
                 uuid: $faker->unique()->uuid(),
-                createdAt: new DateTimeImmutable(),
+                createdAt: $currentTime,
                 email: $faker->unique()->email(),
-                password: $password,
+                password: $passwordHash,
                 locale: 'en_US',
                 roles: [AccountRole::USER],
                 status: $status,
