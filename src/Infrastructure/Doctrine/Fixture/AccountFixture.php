@@ -21,13 +21,12 @@ final class AccountFixture extends Fixture implements FixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Faker::create();
-        $currentTime = new DateTimeImmutable();
         $passwordHasher = new NativePasswordHasher();
         $passwordHash = $passwordHasher->hash(plainPassword: 'password4#account');
 
         $accountAdmin = new AccountEntity(
             uuid: $faker->unique()->uuid(),
-            createdAt: $currentTime,
+            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $passwordHash,
             locale: 'en_US',
@@ -39,7 +38,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
 
         $accountUser = new AccountEntity(
             uuid: $faker->unique()->uuid(),
-            createdAt: $currentTime,
+            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $passwordHash,
             locale: 'en_US',
@@ -54,7 +53,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             $status = $faker->randomElement(array: AccountStatus::CASES);
             $account = new AccountEntity(
                 uuid: $faker->unique()->uuid(),
-                createdAt: $currentTime,
+                createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
                 email: $faker->unique()->email(),
                 password: $passwordHash,
                 locale: 'en_US',
