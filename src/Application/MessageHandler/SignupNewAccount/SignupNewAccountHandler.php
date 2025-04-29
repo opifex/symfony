@@ -26,9 +26,10 @@ final class SignupNewAccountHandler
             throw AccountAlreadyExistsException::create();
         }
 
+        $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
         $accountEntity = $this->accountEntityRepository->createEntityBuilder()
             ->withEmail($message->email)
-            ->withPassword($this->authenticationPasswordHasher->hash($message->password))
+            ->withPassword($passwordHash)
             ->withLocale($message->locale)
             ->build();
 
