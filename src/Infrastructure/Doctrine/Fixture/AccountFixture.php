@@ -34,7 +34,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             status: AccountStatus::ACTIVATED,
         );
         $manager->persist($accountAdmin);
-        $this->addReference(name: 'account.admin', object: $accountAdmin);
+        $this->addReference(name: 'account:admin', object: $accountAdmin);
 
         $accountUser = new AccountEntity(
             uuid: $faker->unique()->uuid(),
@@ -46,7 +46,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             status: AccountStatus::ACTIVATED,
         );
         $manager->persist($accountUser);
-        $this->addReference(name: 'account.user', object: $accountUser);
+        $this->addReference(name: 'account:user', object: $accountUser);
 
         for ($index = 1; $index <= 10; $index++) {
             /** @var string $status */
