@@ -49,18 +49,18 @@ final class AccountFixture extends Fixture implements FixtureInterface
         $this->addReference(name: 'account:user', object: $accountUser);
 
         for ($index = 1; $index <= 10; $index++) {
-            /** @var string $status */
-            $status = $faker->randomElement(array: AccountStatus::CASES);
-            $account = new AccountEntity(
+            /** @var string $accountStatus */
+            $accountStatus = $faker->randomElement(array: AccountStatus::CASES);
+            $accountRandom = new AccountEntity(
                 uuid: $faker->unique()->uuid(),
                 createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
                 email: $faker->unique()->email(),
                 password: $passwordHash,
                 locale: 'en_US',
                 roles: [AccountRole::USER],
-                status: $status,
+                status: $accountStatus,
             );
-            $manager->persist($account);
+            $manager->persist($accountRandom);
         }
 
         $manager->flush();
