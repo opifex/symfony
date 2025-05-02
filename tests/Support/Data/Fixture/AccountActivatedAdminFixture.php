@@ -21,8 +21,8 @@ final class AccountActivatedAdminFixture extends Fixture implements FixtureInter
     {
         $faker = Faker::create();
         $account = new AccountEntity(
-            uuid: '00000000-0000-6000-8000-000000000000',
-            createdAt: new DateTimeImmutable(),
+            uuid: $faker->unique()->uuid(),
+            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: 'password4#account',
             locale: 'en_US',
@@ -30,6 +30,7 @@ final class AccountActivatedAdminFixture extends Fixture implements FixtureInter
             status: AccountStatus::ACTIVATED,
         );
         $manager->persist($account);
+        $this->addReference(name: 'account:activated:admin', object: $account);
         $manager->flush();
     }
 }

@@ -30,7 +30,7 @@ final class SigninIntoAccountCest
         $I->loadFixtures(fixtures: AccountRegisteredOliviaFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->sendPost(url: '/api/auth/signin', params: json_encode([
-            'email' => 'registered@example.com',
+            'email' => 'olivia@example.com',
             'password' => 'password4#account',
         ]));
         $I->seeResponseCodeIs(code: HttpCode::UNAUTHORIZED);

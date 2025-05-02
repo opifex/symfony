@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountActivatedAdminFixture;
+use Tests\Support\Data\Fixture\AccountActivatedEmmaFixture;
 use Tests\Support\Data\Fixture\AccountActivatedJamesFixture;
 use Tests\Support\FunctionalTester;
 
@@ -17,7 +19,12 @@ final class DeleteAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $I->sendDelete(url: '/api/account/019661ed-775d-7b12-9c57-446490b0165e');
+        $accountJamesUuid = $I->grabFromRepository(
+            entity: AccountEntity::class,
+            field: 'uuid',
+            params: ['email' => 'james@example.com'],
+        );
+        $I->sendDelete(url: '/api/account/' . $accountJamesUuid);
         $I->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseEquals(expected: '');
@@ -28,7 +35,7 @@ final class DeleteAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedAdminFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $I->sendDelete(url: '/api/account/019661ed-775d-7b12-9c57-446490b0165e');
+        $I->sendDelete(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $I->seeResponseCodeIs(code: HttpCode::NOT_FOUND);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
@@ -36,10 +43,16 @@ final class DeleteAccountByIdCest
 
     public function tryToDeleteAccountWithoutPermission(FunctionalTester $I): void
     {
+        $I->loadFixtures(fixtures: AccountActivatedEmmaFixture::class);
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
-        $I->haveHttpHeaderAuthorization(email: 'james@example.com', password: 'password4#account');
-        $I->sendDelete(url: '/api/account/019661ed-775d-7b12-9c57-446490b0165e');
+        $I->haveHttpHeaderAuthorization(email: 'emma@example.com', password: 'password4#account');
+        $accountJamesUuid = $I->grabFromRepository(
+            entity: AccountEntity::class,
+            field: 'uuid',
+            params: ['email' => 'james@example.com'],
+        );
+        $I->sendDelete(url: '/api/account/' . $accountJamesUuid);
         $I->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));

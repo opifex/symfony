@@ -21,8 +21,8 @@ final class AccountActivatedEmmaFixture extends Fixture implements FixtureInterf
     {
         $faker = Faker::create();
         $account = new AccountEntity(
-            uuid: '019661f5-803d-78ac-a5a3-9afda18ddc67',
-            createdAt: new DateTimeImmutable(),
+            uuid: $faker->unique()->uuid(),
+            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'emma@example.com'),
             password: 'password4#account',
             locale: 'en_US',
@@ -30,6 +30,7 @@ final class AccountActivatedEmmaFixture extends Fixture implements FixtureInterf
             status: AccountStatus::ACTIVATED,
         );
         $manager->persist($account);
+        $this->addReference(name: 'account:activated:emma', object: $account);
         $manager->flush();
     }
 }

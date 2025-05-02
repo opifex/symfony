@@ -21,8 +21,8 @@ final class AccountRegisteredOliviaFixture extends Fixture implements FixtureInt
     {
         $faker = Faker::create();
         $account = new AccountEntity(
-            uuid: '019661ef-50c0-7a0f-a01b-481b95627cb5',
-            createdAt: new DateTimeImmutable(),
+            uuid: $faker->unique()->uuid(),
+            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'olivia@example.com'),
             password: 'password4#account',
             locale: 'en_US',
@@ -30,6 +30,7 @@ final class AccountRegisteredOliviaFixture extends Fixture implements FixtureInt
             status: AccountStatus::REGISTERED,
         );
         $manager->persist($account);
+        $this->addReference(name: 'account:registered:olivia', object: $account);
         $manager->flush();
     }
 }

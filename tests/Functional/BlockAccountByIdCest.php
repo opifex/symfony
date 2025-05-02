@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Data\Fixture\AccountActivatedEmmaFixture;
@@ -19,8 +20,12 @@ final class BlockAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-
-        $I->sendPost(url: '/api/account/019661ed-775d-7b12-9c57-446490b0165e/block');
+        $accountJamesUuid = $I->grabFromRepository(
+            entity: AccountEntity::class,
+            field: 'uuid',
+            params: ['email' => 'james@example.com'],
+        );
+        $I->sendPost(url: '/api/account/' . $accountJamesUuid . '/block');
         $I->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseEquals(expected: '');
@@ -32,8 +37,12 @@ final class BlockAccountByIdCest
         $I->loadFixtures(fixtures: AccountBlockedHenryFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-
-        $I->sendPost(url: '/api/account/019661ee-9ecf-79eb-9ba1-f211f1975995/block');
+        $accountHenryUuid = $I->grabFromRepository(
+            entity: AccountEntity::class,
+            field: 'uuid',
+            params: ['email' => 'henry@example.com'],
+        );
+        $I->sendPost(url: '/api/account/' . $accountHenryUuid . '/block');
         $I->seeResponseCodeIs(code: HttpCode::UNPROCESSABLE_ENTITY);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
@@ -45,8 +54,12 @@ final class BlockAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'james@example.com', password: 'password4#account');
-
-        $I->sendPost(url: '/api/account/019661ee-9ecf-79eb-9ba1-f211f1975995/block');
+        $accountEmmaUuid = $I->grabFromRepository(
+            entity: AccountEntity::class,
+            field: 'uuid',
+            params: ['email' => 'emma@example.com'],
+        );
+        $I->sendPost(url: '/api/account/' . $accountEmmaUuid . '/block');
         $I->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));

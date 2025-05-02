@@ -21,8 +21,8 @@ final class AccountBlockedHenryFixture extends Fixture implements FixtureInterfa
     {
         $faker = Faker::create();
         $account = new AccountEntity(
-            uuid: '019661ee-9ecf-79eb-9ba1-f211f1975995',
-            createdAt: new DateTimeImmutable(),
+            uuid: $faker->unique()->uuid(),
+            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'henry@example.com'),
             password: 'password4#account',
             locale: 'en_US',
@@ -30,6 +30,7 @@ final class AccountBlockedHenryFixture extends Fixture implements FixtureInterfa
             status: AccountStatus::BLOCKED,
         );
         $manager->persist($account);
+        $this->addReference(name: 'account:blocked:henry', object: $account);
         $manager->flush();
     }
 }

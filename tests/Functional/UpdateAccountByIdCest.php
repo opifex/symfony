@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Data\Fixture\AccountActivatedJamesFixture;
@@ -16,8 +17,13 @@ final class UpdateAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedAdminFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
+        $accountAdminUuid = $I->grabFromRepository(
+            entity: AccountEntity::class,
+            field: 'uuid',
+            params: ['email' => 'admin@example.com'],
+        );
         $I->sendPatch(
-            url: '/api/account/00000000-0000-6000-8000-000000000000',
+            url: '/api/account/' . $accountAdminUuid,
             params: json_encode([
                 'email' => 'updated@example.com',
                 'password' => 'password4#account',
@@ -31,11 +37,17 @@ final class UpdateAccountByIdCest
 
     public function tryToUpdateAccountWithoutPermission(FunctionalTester $I): void
     {
+        $I->loadFixtures(fixtures: AccountActivatedAdminFixture::class);
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'james@example.com', password: 'password4#account');
+        $accountAdminUuid = $I->grabFromRepository(
+            entity: AccountEntity::class,
+            field: 'uuid',
+            params: ['email' => 'admin@example.com'],
+        );
         $I->sendPatch(
-            url: '/api/account/00000000-0000-6000-8000-000000000000',
+            url: '/api/account/' . $accountAdminUuid,
             params: json_encode([
                 'email' => 'updated@example.com',
                 'password' => 'password4#account',
@@ -53,8 +65,13 @@ final class UpdateAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
+        $accountAdminUuid = $I->grabFromRepository(
+            entity: AccountEntity::class,
+            field: 'uuid',
+            params: ['email' => 'admin@example.com'],
+        );
         $I->sendPatch(
-            url: '/api/account/00000000-0000-6000-8000-000000000000',
+            url: '/api/account/' . $accountAdminUuid,
             params: json_encode([
                 'email' => 'james@example.com',
                 'password' => 'password4#account',

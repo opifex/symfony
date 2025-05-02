@@ -50,10 +50,10 @@
         "symfony/validator": "7.2.*",
         "symfony/workflow": "7.2.*",
         "symfony/yaml": "7.2.*",
-        "twig/cssinliner-extra": "^3.20",
-        "twig/extra-bundle": "^3.20",
-        "twig/inky-extra": "^3.20",
-        "twig/twig": "^3.20"
+        "twig/cssinliner-extra": "^3.21",
+        "twig/extra-bundle": "^3.21",
+        "twig/inky-extra": "^3.21",
+        "twig/twig": "^3.21"
     },
     "config": {
         "allow-plugins": {
