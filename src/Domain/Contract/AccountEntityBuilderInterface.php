@@ -6,11 +6,5 @@ namespace App\Domain\Contract;
 
 interface AccountEntityBuilderInterface
 {
-    public function withEmail(string $email): self;
-
-    public function withPassword(string $hashedPassword): self;
-
-    public function withLocale(string $locale): self;
-
-    public function build(): AccountEntityInterface;
+    public function build(string $email, string $hashedPassword, string $locale): AccountEntityInterface;
 }

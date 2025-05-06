@@ -8,6 +8,7 @@ use App\Domain\Contract\AccountEntityInterface;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
@@ -15,14 +16,13 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[ORM\Table(name: 'account')]
 final class AccountEntity implements AccountEntityInterface
 {
-    /**
-     * @param string[] $roles
-     */
-    public function __construct(
-        #[ORM\Id]
-        #[ORM\Column(name: 'uuid', type: Types::GUID)]
-        public readonly string $uuid,
+    #[ORM\Id]
+    #[ORM\Column(name: 'uuid', type: Types::GUID)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    public ?string $uuid = null;
 
+    public function __construct(
         #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]
         public readonly DateTimeImmutable $createdAt,
 
@@ -35,6 +35,7 @@ final class AccountEntity implements AccountEntityInterface
         #[ORM\Column(name: 'locale', type: Types::STRING, options: ['length' => 5])]
         public readonly string $locale,
 
+        /** @var string[] $roles */
         #[ORM\Column(name: 'roles', type: Types::JSON)]
         public readonly array $roles,
 

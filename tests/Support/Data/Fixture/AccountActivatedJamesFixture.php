@@ -21,7 +21,6 @@ final class AccountActivatedJamesFixture extends Fixture implements FixtureInter
     {
         $faker = Faker::create();
         $account = new AccountEntity(
-            uuid: $faker->unique()->uuid(),
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'james@example.com'),
             password: 'password4#account',

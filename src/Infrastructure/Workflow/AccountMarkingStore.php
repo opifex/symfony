@@ -22,7 +22,7 @@ final class AccountMarkingStore implements MarkingStoreInterface
     public function getMarking(object $subject): Marking
     {
         $accountUuid = $this->getSubjectIdentifier($subject);
-        $markingStatus = $this->accountEntityRepository->findStatusByUuid($accountUuid);
+        $markingStatus = $this->accountEntityRepository->getStatusByUuid($accountUuid);
 
         return new Marking([$markingStatus => 1]);
     }

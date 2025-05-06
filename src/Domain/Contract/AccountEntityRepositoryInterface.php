@@ -11,16 +11,7 @@ use App\Domain\Model\AccountSearchResult;
 
 interface AccountEntityRepositoryInterface
 {
-    public function createEntityBuilder(): AccountEntityBuilderInterface;
-
-    public function addOneAccount(AccountEntityInterface $accountEntity): string;
-
     public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
-
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function findOneByEmail(string $email): Account;
 
     /**
      * @throws AccountNotFoundException
@@ -30,7 +21,12 @@ interface AccountEntityRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
-    public function findStatusByUuid(string $uuid): string;
+    public function findOneByEmail(string $email): Account;
+
+    /**
+     * @throws AccountNotFoundException
+     */
+    public function getStatusByUuid(string $uuid): string;
 
     /**
      * @throws AccountNotFoundException
@@ -55,7 +51,9 @@ interface AccountEntityRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
-    public function deleteOneByUuid(string $uuid): void;
+    public function deleteByUuid(string $uuid): void;
 
-    public function checkExistsByEmail(string $email): bool;
+    public function checkEmailExists(string $email): bool;
+
+    public function save(AccountEntityInterface $entity): string;
 }

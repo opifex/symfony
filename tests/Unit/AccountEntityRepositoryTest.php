@@ -72,7 +72,7 @@ final class AccountEntityRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountEntityRepository->findStatusByUuid(
+        $accountEntityRepository->getStatusByUuid(
             uuid: '00000000-0000-6000-8000-000000000000',
         );
     }

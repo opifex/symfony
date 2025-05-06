@@ -32,7 +32,7 @@ final class UpdateAccountByIdHandler
 
         if ($message->email !== null) {
             if ($message->email !== $account->getEmail()) {
-                if ($this->accountEntityRepository->checkExistsByEmail($message->email)) {
+                if ($this->accountEntityRepository->checkEmailExists($message->email)) {
                     throw AccountAlreadyExistsException::create();
                 }
 

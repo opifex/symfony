@@ -25,7 +25,6 @@ final class AccountFixture extends Fixture implements FixtureInterface
         $passwordHash = $passwordHasher->hash(plainPassword: 'password4#account');
 
         $accountAdmin = new AccountEntity(
-            uuid: $faker->unique()->uuid(),
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $passwordHash,
@@ -37,7 +36,6 @@ final class AccountFixture extends Fixture implements FixtureInterface
         $this->addReference(name: 'account:admin', object: $accountAdmin);
 
         $accountUser = new AccountEntity(
-            uuid: $faker->unique()->uuid(),
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $passwordHash,
@@ -52,7 +50,6 @@ final class AccountFixture extends Fixture implements FixtureInterface
             /** @var string $accountStatus */
             $accountStatus = $faker->randomElement(array: AccountStatus::CASES);
             $accountRandom = new AccountEntity(
-                uuid: $faker->unique()->uuid(),
                 createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
                 email: $faker->unique()->email(),
                 password: $passwordHash,

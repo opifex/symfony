@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Repository;
 
-use App\Domain\Contract\AccountEntityBuilderInterface;
 use App\Domain\Contract\AccountEntityInterface;
 use App\Domain\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Exception\AccountNotFoundException;
@@ -12,13 +11,13 @@ use App\Domain\Model\Account;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\AccountSearchResult;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
-use App\Infrastructure\Doctrine\Mapping\Default\AccountEntityBuilder;
 use App\Infrastructure\Doctrine\Mapping\Default\AccountEntityMapper;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
+use LogicException;
 use Override;
 use Traversable;
 
@@ -27,22 +26,6 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     public function __construct(
         private readonly EntityManagerInterface $defaultEntityManager,
     ) {
-    }
-
-    public function createEntityBuilder(): AccountEntityBuilderInterface
-    {
-        return new AccountEntityBuilder();
-    }
-
-    #[Override]
-    public function addOneAccount(AccountEntityInterface $accountEntity): string
-    {
-        /** @var AccountEntity $accountEntity */
-        $this->defaultEntityManager->persist($accountEntity);
-        $this->defaultEntityManager->flush();
-        $this->defaultEntityManager->clear();
-
-        return $accountEntity->uuid;
     }
 
     /**
@@ -75,27 +58,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
 
         $this->defaultEntityManager->clear();
 
-        return new AccountSearchResult(AccountEntityMapper::mapMany(...$iterator), $paginator->count());
-    }
-
-    #[Override]
-    public function findOneByEmail(string $email): Account
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
-
-        try {
-            /** @var AccountEntity $account */
-            $account = $builder->getQuery()->getSingleResult();
-        } catch (NoResultException $e) {
-            throw AccountNotFoundException::create($e);
-        }
-
-        $this->defaultEntityManager->clear();
-
-        return AccountEntityMapper::mapOne($account);
+        return new AccountSearchResult(AccountEntityMapper::mapAll(...$iterator), $paginator->count());
     }
 
     #[Override]
@@ -115,11 +78,31 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
 
         $this->defaultEntityManager->clear();
 
-        return AccountEntityMapper::mapOne($account);
+        return AccountEntityMapper::map($account);
     }
 
     #[Override]
-    public function findStatusByUuid(string $uuid): string
+    public function findOneByEmail(string $email): Account
+    {
+        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
+
+        try {
+            /** @var AccountEntity $account */
+            $account = $builder->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+            throw AccountNotFoundException::create($e);
+        }
+
+        $this->defaultEntityManager->clear();
+
+        return AccountEntityMapper::map($account);
+    }
+
+    #[Override]
+    public function getStatusByUuid(string $uuid): string
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account.status'])->from(from: AccountEntity::class, alias: 'account');
@@ -206,7 +189,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function deleteOneByUuid(string $uuid): void
+    public function deleteByUuid(string $uuid): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
@@ -221,7 +204,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function checkExistsByEmail(string $email): bool
+    public function checkEmailExists(string $email): bool
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
@@ -233,5 +216,16 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $this->defaultEntityManager->clear();
 
         return $exists;
+    }
+
+    #[Override]
+    public function save(AccountEntityInterface $entity): string
+    {
+        /** @var AccountEntity $entity */
+        $this->defaultEntityManager->persist($entity);
+        $this->defaultEntityManager->flush();
+        $this->defaultEntityManager->clear();
+
+        return $entity->uuid ?? throw new LogicException(message: 'Failed to generate UUID during persistence.');
     }
 }
