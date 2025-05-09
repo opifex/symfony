@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Doctrine\Mapping\Default;
+namespace App\Infrastructure\Doctrine\Repository\Account;
 
 use App\Domain\Model\Account;
+use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use LogicException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 

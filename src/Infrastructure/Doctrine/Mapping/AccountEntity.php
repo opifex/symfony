@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Doctrine\Mapping\Default;
+namespace App\Infrastructure\Doctrine\Mapping;
 
 use App\Domain\Contract\AccountEntityInterface;
 use DateTimeImmutable;

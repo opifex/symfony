@@ -14,8 +14,8 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         mappings:
           default:
-            dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Mapping/Default'
-            prefix: App\Infrastructure\Doctrine\Mapping\Default
+            dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Mapping'
+            prefix: App\Infrastructure\Doctrine\Mapping
             type: attribute
 
 when@test:

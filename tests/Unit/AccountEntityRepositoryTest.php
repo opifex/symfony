@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use App\Domain\Exception\AccountNotFoundException;
 use App\Domain\Model\AccountStatus;
-use App\Infrastructure\Doctrine\Repository\AccountEntityRepository;
+use App\Infrastructure\Doctrine\Repository\Account\AccountEntityRepository;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;

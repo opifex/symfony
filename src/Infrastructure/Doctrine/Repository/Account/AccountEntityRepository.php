@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Doctrine\Repository;
+namespace App\Infrastructure\Doctrine\Repository\Account;
 
 use App\Domain\Contract\AccountEntityInterface;
 use App\Domain\Contract\AccountEntityRepositoryInterface;
@@ -10,8 +10,7 @@ use App\Domain\Exception\AccountNotFoundException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\AccountSearchResult;
-use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
-use App\Infrastructure\Doctrine\Mapping\Default\AccountEntityMapper;
+use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;

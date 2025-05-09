@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use App\Infrastructure\Doctrine\Mapping\Default\AccountEntity;
+use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Data\Fixture\AccountActivatedJamesFixture;
