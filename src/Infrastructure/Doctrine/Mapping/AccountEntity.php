@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
 #[ORM\Entity]
-#[ORM\Table(name: 'account')]
+#[ORM\Table(name: 'account', uniqueConstraints: [new ORM\UniqueConstraint(columns: ['email'])])]
 final class AccountEntity implements AccountEntityInterface
 {
     #[ORM\Id]
