@@ -79,7 +79,7 @@
     "autoload-dev": {
         "psr-4": {
             "Reports\\": "config/markup/Reports",
-            "Sniffs\\": "config/markup/Sniffs",
+            "Standards\\": "config/markup/Standards",
             "Tests\\": "tests"
         }
     },
@@ -90,18 +90,19 @@
             "phpstan --configuration=config/markup/phpstan.neon --memory-limit=4G --no-progress"
         ],
         "auto-migrate": [
-            "bin/console doctrine:database:create --if-not-exists",
-            "bin/console doctrine:migrations:migrate"
+            "bin/console doctrine:database:create --if-not-exists --no-interaction",
+            "bin/console doctrine:migrations:migrate --no-interaction",
+            "bin/console messenger:setup-transports --no-interaction"
         ],
         "auto-quality": [
-            "bin/console cache:clear -e test",
-            "bin/console lint:yaml src config -e test",
-            "bin/console lint:twig src -e test",
-            "bin/console lint:container -e test",
-            "bin/console doctrine:mapping:info -e test",
-            "bin/console doctrine:database:drop -e test --if-exists --force",
-            "bin/console doctrine:database:create -e test",
-            "bin/console doctrine:migration:migrate -e test -n",
+            "bin/console cache:clear -e test --no-interaction",
+            "bin/console lint:yaml src config -e test --no-interaction",
+            "bin/console lint:twig src -e test --no-interaction",
+            "bin/console lint:container -e test --no-interaction",
+            "bin/console doctrine:mapping:info -e test --no-interaction",
+            "bin/console doctrine:database:drop -e test --if-exists --force --no-interaction",
+            "bin/console doctrine:database:create -e test --no-interaction",
+            "bin/console doctrine:migration:migrate -e test -n --no-interaction",
             "codecept clean",
             "codecept run Unit,Functional --coverage-html --coverage-xml --fail-fast"
         ],
@@ -110,14 +111,14 @@
             "cache:clear": "symfony-cmd"
         },
         "debug-composer": "composer validate --strict && composer audit && composer diagnose",
-        "debug-container": "bin/console lint:container",
+        "debug-container": "bin/console lint:container --no-interaction",
         "debug-recipes": "composer symfony:recipes",
-        "debug-router": "bin/console debug:router | grep -v '^  _'",
+        "debug-router": "bin/console debug:router --no-interaction | grep -v '^  _'",
         "fix-style": "phpcbf --standard=config/markup/phpcs.xml",
-        "load-fixtures": "bin/console doctrine:fixtures:load -n",
-        "migration-create": "bin/console doctrine:migration:generate",
-        "migration-down": "bin/console doctrine:migrations:migrate prev",
-        "migration-up": "bin/console doctrine:migrations:migrate",
+        "load-fixtures": "bin/console doctrine:fixtures:load -n --no-interaction",
+        "migration-create": "bin/console doctrine:migration:diff --no-interaction",
+        "migration-down": "bin/console doctrine:migrations:migrate prev --no-interaction",
+        "migration-up": "bin/console doctrine:migrations:migrate --no-interaction",
         "run-unit": "codecept run Unit --coverage-html",
         "post-install-cmd": "@auto-scripts",
         "post-update-cmd": "@auto-scripts"
@@ -133,7 +134,7 @@
         "debug-router": "List registered routes for application",
         "fix-style": "Automatically fix PHP code style violations",
         "load-fixtures": "Load data fixtures into database",
-        "migration-create": "Create new blank database migration file",
+        "migration-create": "Generate database migration based on schema changes",
         "migration-down": "Rollback database schema to previous migration",
         "migration-up": "Update database schema to latest migration",
         "run-unit": "Run codeception unit test suite with code coverage report"

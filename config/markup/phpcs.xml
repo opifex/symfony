@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Markup">
-  <description>Markup Coding Standard</description>
+<ruleset>
+  <description>Specific coding standards</description>
 
   <arg name="colors"/>
   <arg name="encoding" value="utf-8"/>
@@ -18,6 +18,7 @@
   <file>../../tests/Unit</file>
 
   <rule ref="PSR12"/>
+  <rule ref="./Standards"/>
 
   <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
   <rule ref="Generic.CodeAnalysis.EmptyPHPStatement"/>
@@ -36,6 +37,10 @@
   <rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops"/>
   <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
   <rule ref="Squiz.PHP.NonExecutableCode"/>
+
+  <rule ref="Generic.Files.LineLength.TooLong">
+    <exclude-pattern>../src/Infrastructure/Doctrine/Migration/*</exclude-pattern>
+  </rule>
 
   <rule ref="Generic.Metrics.CyclomaticComplexity">
     <exclude-pattern>../config/*</exclude-pattern>

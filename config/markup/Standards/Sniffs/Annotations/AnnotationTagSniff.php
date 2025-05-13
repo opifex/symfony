@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sniffs\Annotations;
+namespace Standards\Sniffs\Annotations;
 
 use Override;
 use PHP_CodeSniffer\Files\File;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sniffs\Operators;
+namespace Standards\Sniffs\Operators;
 
 use Override;
 use PHP_CodeSniffer\Files\File;

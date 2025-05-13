@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sniffs\Strings;
+namespace Standards\Sniffs\Strings;
 
 use Override;
 use PHP_CodeSniffer\Files\File;
