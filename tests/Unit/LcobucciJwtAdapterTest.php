@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Exception\JwtTokenManagerException;
-use App\Infrastructure\Adapter\LcobucciJwtAdapter;
+use App\Infrastructure\Adapter\Lcobucci\LcobucciJwtAdapter;
 use Codeception\Test\Unit;
 use Exception;
 use Symfony\Component\Clock\MockClock;

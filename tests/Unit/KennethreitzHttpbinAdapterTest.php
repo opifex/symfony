@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Exception\HttpbinResponderException;
-use App\Infrastructure\Adapter\KennethreitzHttpbinAdapter;
+use App\Infrastructure\Adapter\Kennethreitz\KennethreitzHttpbinAdapter;
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use Symfony\Component\HttpClient\MockHttpClient;

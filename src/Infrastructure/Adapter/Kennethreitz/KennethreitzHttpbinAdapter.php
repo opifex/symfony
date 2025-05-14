@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Adapter;
+namespace App\Infrastructure\Adapter\Kennethreitz;
 
 use App\Domain\Contract\HttpbinResponderInterface;
 use App\Domain\Exception\HttpbinResponderException;

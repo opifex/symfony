@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Adapter;
+namespace App\Infrastructure\Adapter\Lcobucci;
 
 use App\Domain\Contract\JwtTokenManagerInterface;
 use App\Domain\Exception\JwtTokenManagerException;

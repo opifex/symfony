@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Adapter;
+namespace App\Infrastructure\Adapter\Sensiolabs;
 
 use App\Domain\Contract\TemplateRendererInterface;
 use App\Domain\Exception\TemplateRendererException;
