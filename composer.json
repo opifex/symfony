@@ -89,20 +89,28 @@
             "phpcs --standard=config/markup/phpcs.xml",
             "phpstan --configuration=config/markup/phpstan.neon --memory-limit=4G --no-progress"
         ],
+        "auto-deploy": [
+            "bin/console lint:yaml src config --env=prod --no-interaction",
+            "bin/console lint:twig src --env=prod --no-interaction",
+            "bin/console lint:container --env=prod --no-interaction",
+            "bin/console doctrine:migration:migrate --env=prod --no-interaction",
+            "bin/console messenger:setup-transports --env=prod --no-interaction",
+            "bin/console cache:clear --env=prod --no-interaction"
+        ],
         "auto-migrate": [
             "bin/console doctrine:database:create --if-not-exists --no-interaction",
             "bin/console doctrine:migrations:migrate --no-interaction",
             "bin/console messenger:setup-transports --no-interaction"
         ],
         "auto-quality": [
-            "bin/console cache:clear -e test --no-interaction",
-            "bin/console lint:yaml src config -e test --no-interaction",
-            "bin/console lint:twig src -e test --no-interaction",
-            "bin/console lint:container -e test --no-interaction",
-            "bin/console doctrine:mapping:info -e test --no-interaction",
-            "bin/console doctrine:database:drop -e test --if-exists --force --no-interaction",
-            "bin/console doctrine:database:create -e test --no-interaction",
-            "bin/console doctrine:migration:migrate -e test -n --no-interaction",
+            "bin/console cache:clear --env=test --no-interaction",
+            "bin/console lint:yaml src config --env=test --no-interaction",
+            "bin/console lint:twig src --env=test --no-interaction",
+            "bin/console lint:container --env=test --no-interaction",
+            "bin/console doctrine:mapping:info --env=test --no-interaction",
+            "bin/console doctrine:database:drop --env=test --if-exists --force --no-interaction",
+            "bin/console doctrine:database:create --env=test --no-interaction",
+            "bin/console doctrine:migration:migrate --env=test --no-interaction",
             "codecept clean",
             "codecept run Unit,Functional --coverage-html --coverage-xml --fail-fast"
         ],
@@ -125,6 +133,7 @@
     },
     "scripts-descriptions": {
         "auto-analyze": "Analyze code quality with Composer, PHPCS and PHPStan",
+        "auto-deploy": "Perform application production deployment",
         "auto-migrate": "Set up database migrations and messenger transports",
         "auto-quality": "Run quality checks for Symfony application",
         "auto-scripts": "Install public assets and clear the cache",

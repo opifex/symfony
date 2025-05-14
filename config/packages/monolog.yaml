@@ -29,5 +29,5 @@ when@prod:
         type: stream
         level: info
         path: php://stdout
-        channels: [ '!deprecation', '!event', '!php', '!security' ]
+        channels: [ '!deprecation', '!doctrine', '!event', '!php', '!security' ]
         formatter: monolog.formatter.json
