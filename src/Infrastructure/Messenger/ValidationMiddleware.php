@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Messenger;
 
-use App\Domain\Exception\ValidationFailedException;
+use App\Domain\Exception\Validation\ValidationFailedException;
 use Override;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;

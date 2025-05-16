@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Repository\Account;
 
-use App\Domain\Contract\AccountEntityBuilderInterface;
-use App\Domain\Contract\AccountEntityInterface;
+use App\Domain\Contract\Account\AccountEntityBuilderInterface;
+use App\Domain\Contract\Account\AccountEntityInterface;
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;

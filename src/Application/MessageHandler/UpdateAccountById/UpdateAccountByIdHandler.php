@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\UpdateAccountById;
 
-use App\Domain\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Contract\AuthenticationPasswordHasherInterface;
-use App\Domain\Contract\AuthorizationTokenManagerInterface;
-use App\Domain\Exception\AccountAlreadyExistsException;
-use App\Domain\Exception\AuthorizationForbiddenException;
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
+use App\Domain\Contract\Authentication\AuthenticationPasswordHasherInterface;
+use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
+use App\Domain\Exception\Account\AccountAlreadyExistsException;
+use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
 use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

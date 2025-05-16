@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Kennethreitz;
 
-use App\Domain\Contract\HttpbinResponderInterface;
-use App\Domain\Exception\HttpbinResponderException;
+use App\Domain\Contract\Integration\HttpbinResponderInterface;
+use App\Domain\Exception\Integration\HttpbinResponderException;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;

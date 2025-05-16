@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Contract;
+namespace App\Domain\Contract\Account;
 
-use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\AccountSearchResult;

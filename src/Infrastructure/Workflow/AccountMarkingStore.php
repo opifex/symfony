@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Workflow;
 
-use App\Domain\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Model\Account;
 use Override;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;

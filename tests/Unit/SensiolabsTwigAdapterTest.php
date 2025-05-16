@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\TemplateRendererException;
+use App\Domain\Exception\Integration\TemplateRendererException;
 use App\Infrastructure\Adapter\Sensiolabs\SensiolabsTwigAdapter;
 use Codeception\Test\Unit;
 use Override;

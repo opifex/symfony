@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Sensiolabs;
 
-use App\Domain\Contract\TemplateRendererInterface;
-use App\Domain\Exception\TemplateRendererException;
+use App\Domain\Contract\Integration\TemplateRendererInterface;
+use App\Domain\Exception\Integration\TemplateRendererException;
 use Override;
 use Twig\Environment;
 use Twig\Error\Error;

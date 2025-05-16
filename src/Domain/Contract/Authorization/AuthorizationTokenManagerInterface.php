@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Contract;
+namespace App\Domain\Contract\Authorization;
 
-use App\Domain\Exception\AuthorizationRequiredException;
+use App\Domain\Exception\Authorization\AuthorizationRequiredException;
 
 interface AuthorizationTokenManagerInterface
 {

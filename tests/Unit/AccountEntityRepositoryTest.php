@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\AccountStatus;
 use App\Infrastructure\Doctrine\Repository\Account\AccountEntityRepository;
 use Codeception\Test\Unit;

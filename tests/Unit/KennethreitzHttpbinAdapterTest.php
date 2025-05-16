@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\HttpbinResponderException;
+use App\Domain\Exception\Integration\HttpbinResponderException;
 use App\Infrastructure\Adapter\Kennethreitz\KennethreitzHttpbinAdapter;
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;

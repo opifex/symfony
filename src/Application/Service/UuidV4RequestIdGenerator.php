@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\RequestIdGeneratorInterface;
+use App\Domain\Contract\Identification\RequestIdGeneratorInterface;
 use Override;
 use Symfony\Component\Uid\Uuid;
 

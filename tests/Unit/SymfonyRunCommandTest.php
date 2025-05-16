@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Contract\HttpbinResponderInterface;
+use App\Domain\Contract\Integration\HttpbinResponderInterface;
 use App\Presentation\Command\SymfonyRunCommand;
 use Codeception\Test\Unit;
 use Override;

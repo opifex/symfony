@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Contract\RequestIdStorageInterface;
+use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use App\Infrastructure\Messenger\RequestIdMiddleware;
 use App\Infrastructure\Messenger\RequestIdStamp;
 use Codeception\Test\Unit;

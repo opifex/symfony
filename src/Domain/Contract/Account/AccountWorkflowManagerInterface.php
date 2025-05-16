@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Contract;
+namespace App\Domain\Contract\Account;
 
-use App\Domain\Exception\AccountActionInvalidException;
-use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Exception\Account\AccountActionInvalidException;
+use App\Domain\Exception\Account\AccountNotFoundException;
 
 interface AccountWorkflowManagerInterface
 {

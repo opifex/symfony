@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\EventListener\KernelExceptionEventListener;
-use App\Domain\Contract\PrivacyProtectorInterface;
+use App\Domain\Contract\Protection\PrivacyProtectorInterface;
 use Codeception\Test\Unit;
 use LogicException;
 use Override;

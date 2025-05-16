@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Contract;
+namespace App\Domain\Contract\Integration;
 
-use App\Domain\Exception\JwtTokenManagerException;
+use App\Domain\Exception\Integration\JwtTokenManagerException;
 use App\Domain\Model\AuthorizationToken;
 use SensitiveParameter;
 

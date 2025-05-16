@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
+use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;

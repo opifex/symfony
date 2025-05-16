@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Repository\Account;
 
-use App\Domain\Contract\AccountEntityInterface;
-use App\Domain\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Exception\AccountNotFoundException;
+use App\Domain\Contract\Account\AccountEntityInterface;
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
+use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\AccountSearchResult;

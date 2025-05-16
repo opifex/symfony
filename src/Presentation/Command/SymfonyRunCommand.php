@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Command;
 
-use App\Domain\Contract\HttpbinResponderInterface;
+use App\Domain\Contract\Integration\HttpbinResponderInterface;
 use Override;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;

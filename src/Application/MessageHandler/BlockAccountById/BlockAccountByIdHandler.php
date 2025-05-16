@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\BlockAccountById;
 
-use App\Domain\Contract\AccountWorkflowManagerInterface;
-use App\Domain\Contract\AuthorizationTokenManagerInterface;
-use App\Domain\Exception\AuthorizationForbiddenException;
+use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
+use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
+use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
 use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

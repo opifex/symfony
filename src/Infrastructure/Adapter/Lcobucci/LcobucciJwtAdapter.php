@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Lcobucci;
 
-use App\Domain\Contract\JwtTokenManagerInterface;
-use App\Domain\Exception\JwtTokenManagerException;
+use App\Domain\Contract\Integration\JwtTokenManagerInterface;
+use App\Domain\Exception\Integration\JwtTokenManagerException;
 use App\Domain\Model\AuthorizationToken;
 use DateInterval;
 use DateMalformedIntervalStringException;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\JwtTokenManagerException;
+use App\Domain\Exception\Integration\JwtTokenManagerException;
 use App\Infrastructure\Adapter\Lcobucci\LcobucciJwtAdapter;
 use Codeception\Test\Unit;
 use Exception;

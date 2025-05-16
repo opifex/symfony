@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\HttpKernel;
 
-use App\Domain\Exception\RequestExtraParamsException;
-use App\Domain\Exception\RequestParamTypeException;
+use App\Domain\Exception\Validation\RequestExtraParamsException;
+use App\Domain\Exception\Validation\RequestParamTypeException;
 use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsTargetedValueResolver;

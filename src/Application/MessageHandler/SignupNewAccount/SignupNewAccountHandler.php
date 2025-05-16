@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SignupNewAccount;
 
-use App\Domain\Contract\AccountEntityBuilderInterface;
-use App\Domain\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Contract\AccountWorkflowManagerInterface;
-use App\Domain\Contract\AuthenticationPasswordHasherInterface;
-use App\Domain\Exception\AccountAlreadyExistsException;
+use App\Domain\Contract\Account\AccountEntityBuilderInterface;
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
+use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
+use App\Domain\Contract\Authentication\AuthenticationPasswordHasherInterface;
+use App\Domain\Exception\Account\AccountAlreadyExistsException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

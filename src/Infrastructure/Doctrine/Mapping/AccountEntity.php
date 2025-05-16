@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Mapping;
 
-use App\Domain\Contract\AccountEntityInterface;
+use App\Domain\Contract\Account\AccountEntityInterface;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

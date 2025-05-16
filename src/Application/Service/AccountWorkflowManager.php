@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Contract\AccountWorkflowManagerInterface;
-use App\Domain\Exception\AccountActionInvalidException;
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
+use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
+use App\Domain\Exception\Account\AccountActionInvalidException;
 use App\Domain\Model\AccountAction;
 use Override;
 use Symfony\Component\Workflow\WorkflowInterface;

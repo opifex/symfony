@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\RequestIdStorageInterface;
+use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use Override;
 use Symfony\Contracts\Service\ResetInterface;
 

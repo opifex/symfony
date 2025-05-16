@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\AuthorizationTokenManagerInterface;
-use App\Domain\Exception\AuthorizationRequiredException;
+use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
+use App\Domain\Exception\Authorization\AuthorizationRequiredException;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

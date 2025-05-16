@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\HttpClient;
 
-use App\Domain\Contract\RequestIdStorageInterface;
+use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use App\Domain\Model\HttpSpecification;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;

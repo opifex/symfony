@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\EventListener\RequestIdEventListener;
-use App\Domain\Contract\RequestIdGeneratorInterface;
-use App\Domain\Contract\RequestIdStorageInterface;
+use App\Domain\Contract\Identification\RequestIdGeneratorInterface;
+use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;

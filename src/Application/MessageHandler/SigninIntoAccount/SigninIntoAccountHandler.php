@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SigninIntoAccount;
 
-use App\Domain\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Contract\AuthorizationTokenManagerInterface;
-use App\Domain\Contract\JwtTokenManagerInterface;
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
+use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
+use App\Domain\Contract\Integration\JwtTokenManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

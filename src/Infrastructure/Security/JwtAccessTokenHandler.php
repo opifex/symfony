@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security;
 
-use App\Domain\Contract\JwtTokenManagerInterface;
+use App\Domain\Contract\Integration\JwtTokenManagerInterface;
 use Override;
 use SensitiveParameter;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\PrivacyProtectorInterface;
+use App\Domain\Contract\Protection\PrivacyProtectorInterface;
 use Override;
 
 final class RequestDataPrivacyProtector implements PrivacyProtectorInterface

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\EventListener\AccountWorkflowEventListener;
-use App\Domain\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
