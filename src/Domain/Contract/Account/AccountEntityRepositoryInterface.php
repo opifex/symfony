@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Contract\Account;
 
-use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\AccountSearchResult;
@@ -13,47 +12,11 @@ interface AccountEntityRepositoryInterface
 {
     public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
 
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function findOneByUuid(string $uuid): Account;
+    public function findOneByUuid(string $uuid): ?Account;
 
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function findOneByEmail(string $email): Account;
+    public function findOneByEmail(string $email): ?Account;
 
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function getStatusByUuid(string $uuid): string;
+    public function delete(Account $account): void;
 
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function updateEmailByUuid(string $uuid, string $email): void;
-
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function updateLocaleByUuid(string $uuid, string $locale): void;
-
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function updateStatusByUuid(string $uuid, string $status): void;
-
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function updatePasswordByUuid(string $uuid, string $password): void;
-
-    /**
-     * @throws AccountNotFoundException
-     */
-    public function deleteByUuid(string $uuid): void;
-
-    public function checkEmailExists(string $email): bool;
-
-    public function save(AccountEntityInterface $entity): string;
+    public function save(Account $account): string;
 }

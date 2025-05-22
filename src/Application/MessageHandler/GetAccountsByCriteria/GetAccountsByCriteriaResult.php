@@ -20,20 +20,20 @@ final class GetAccountsByCriteriaResult extends JsonResponse
         return new self(
             data: [
                 'meta' => [
-                    'current_page' => $searchPagination->getPage(),
-                    'items_per_page' => $searchPagination->getLimit(),
-                    'total_items' => $accountSearchResult->getTotalResultCount(),
+                    'current_page' => $searchPagination->page,
+                    'items_per_page' => $searchPagination->limit,
+                    'total_items' => $accountSearchResult->totalResultCount,
                 ],
                 'data' => array_map(
                     callback: static fn(Account $account): array => [
-                        'uuid' => $account->getUuid(),
-                        'email' => $account->getEmail(),
-                        'locale' => $account->getLocale(),
-                        'status' => $account->getStatus(),
-                        'roles' => $account->getRoles(),
-                        'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
+                        'uuid' => $account->id,
+                        'email' => $account->email,
+                        'locale' => $account->locale,
+                        'status' => $account->status,
+                        'roles' => $account->roles,
+                        'created_at' => $account->createdAt->format(format: DateTimeInterface::ATOM),
                     ],
-                    array: $accountSearchResult->getAccounts(),
+                    array: $accountSearchResult->accounts,
                 ),
             ],
             status: Response::HTTP_OK,

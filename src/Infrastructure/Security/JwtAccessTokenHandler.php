@@ -22,10 +22,10 @@ final class JwtAccessTokenHandler implements AccessTokenHandlerInterface
     {
         $authorizationToken = $this->jwtTokenManager->decodeAccessToken($accessToken);
         $userLoader = static fn(): TokenAuthenticatedUser => new TokenAuthenticatedUser(
-            userIdentifier: $authorizationToken->getUserIdentifier(),
-            roles: $authorizationToken->getUserRoles(),
+            userIdentifier: $authorizationToken->userIdentifier,
+            roles: $authorizationToken->userRoles,
         );
 
-        return new UserBadge($authorizationToken->getUserIdentifier(), $userLoader);
+        return new UserBadge($authorizationToken->userIdentifier, $userLoader);
     }
 }

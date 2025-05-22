@@ -21,10 +21,11 @@ final class AccountMarkingStore implements MarkingStoreInterface
     #[Override]
     public function getMarking(object $subject): Marking
     {
-        $accountUuid = $this->getSubjectIdentifier($subject);
-        $markingStatus = $this->accountEntityRepository->getStatusByUuid($accountUuid);
+        if (!$subject instanceof Account) {
+            throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
+        }
 
-        return new Marking([$markingStatus => 1]);
+        return new Marking([$subject->status => 1]);
     }
 
     /**
@@ -33,17 +34,12 @@ final class AccountMarkingStore implements MarkingStoreInterface
     #[Override]
     public function setMarking(object $subject, Marking $marking, array $context = []): void
     {
-        $accountUuid = $this->getSubjectIdentifier($subject);
-        $markingStatus = (string) array_key_first($marking->getPlaces());
-        $this->accountEntityRepository->updateStatusByUuid($accountUuid, $markingStatus);
-    }
-
-    private function getSubjectIdentifier(object $subject): string
-    {
         if (!$subject instanceof Account) {
             throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
         }
 
-        return $subject->getUuid();
+        $subject->status = (string) array_key_first($marking->getPlaces());
+
+        $this->accountEntityRepository->save($subject);
     }
 }

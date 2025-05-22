@@ -5,31 +5,27 @@ declare(strict_types=1);
 namespace App\Domain\Contract\Account;
 
 use App\Domain\Exception\Account\AccountActionInvalidException;
-use App\Domain\Exception\Account\AccountNotFoundException;
+use App\Domain\Model\Account;
 
 interface AccountWorkflowManagerInterface
 {
     /**
      * @throws AccountActionInvalidException
-     * @throws AccountNotFoundException
      */
-    public function activate(string $uuid): void;
+    public function activate(Account $account): void;
 
     /**
      * @throws AccountActionInvalidException
-     * @throws AccountNotFoundException
      */
-    public function block(string $uuid): void;
+    public function block(Account $account): void;
 
     /**
      * @throws AccountActionInvalidException
-     * @throws AccountNotFoundException
      */
-    public function register(string $uuid): void;
+    public function register(Account $account): void;
 
     /**
      * @throws AccountActionInvalidException
-     * @throws AccountNotFoundException
      */
-    public function unblock(string $uuid): void;
+    public function unblock(Account $account): void;
 }

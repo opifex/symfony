@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
 use App\Domain\Exception\Account\AccountActionInvalidException;
+use App\Domain\Model\Account;
 use App\Domain\Model\AccountAction;
 use Override;
 use Symfony\Component\Workflow\WorkflowInterface;
@@ -14,39 +14,36 @@ use Symfony\Component\Workflow\WorkflowInterface;
 final class AccountWorkflowManager implements AccountWorkflowManagerInterface
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly WorkflowInterface $accountStateMachine,
     ) {
     }
 
     #[Override]
-    public function activate(string $uuid): void
+    public function activate(Account $account): void
     {
-        $this->apply($uuid, action: AccountAction::ACTIVATE);
+        $this->apply($account, action: AccountAction::ACTIVATE);
     }
 
     #[Override]
-    public function block(string $uuid): void
+    public function block(Account $account): void
     {
-        $this->apply($uuid, action: AccountAction::BLOCK);
+        $this->apply($account, action: AccountAction::BLOCK);
     }
 
     #[Override]
-    public function register(string $uuid): void
+    public function register(Account $account): void
     {
-        $this->apply($uuid, action: AccountAction::REGISTER);
+        $this->apply($account, action: AccountAction::REGISTER);
     }
 
     #[Override]
-    public function unblock(string $uuid): void
+    public function unblock(Account $account): void
     {
-        $this->apply($uuid, action: AccountAction::UNBLOCK);
+        $this->apply($account, action: AccountAction::UNBLOCK);
     }
 
-    private function apply(string $uuid, string $action): void
+    private function apply(Account $account, string $action): void
     {
-        $account = $this->accountEntityRepository->findOneByUuid($uuid);
-
         if (!$this->accountStateMachine->can($account, $action)) {
             throw AccountActionInvalidException::create();
         }

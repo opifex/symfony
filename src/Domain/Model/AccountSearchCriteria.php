@@ -10,24 +10,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class AccountSearchCriteria
 {
     public function __construct(
-        private readonly ?string $email = null,
-        private readonly ?string $status = null,
-        private readonly ?SearchPagination $pagination = null,
+        public readonly ?string $email = null,
+        public readonly ?string $status = null,
+        public readonly ?SearchPagination $pagination = null,
     ) {
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function getPagination(): ?SearchPagination
-    {
-        return $this->pagination;
     }
 }

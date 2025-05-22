@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountRole;
-use App\Domain\Model\AccountStatus;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Codeception\Test\Unit;
-use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -37,29 +34,25 @@ final class DatabaseUserProviderTest extends Unit
     public function testLoadUserByIdentifierWithEmail(): void
     {
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
-        $account = new Account(
-            uuid: Uuid::v7()->hash(),
-            createdAt: new DateTimeImmutable(),
+        $account = Account::create(
             email: 'email@example.com',
-            password: 'password4#account',
-            locale: 'en_US',
-            roles: [AccountRole::USER],
-            status: AccountStatus::CREATED,
+            hashedPassword: 'password4#account',
+            locale:'en_US',
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
-            userIdentifier: $account->getUuid(),
-            password: $account->getPassword(),
-            roles: $account->getRoles(),
+            userIdentifier: $account->id,
+            password: $account->password,
+            roles: $account->roles,
             enabled: true,
         );
 
         $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
-            ->with($account->getEmail())
+            ->with($account->email)
             ->willReturn($account);
 
-        $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->getEmail());
+        $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->email);
 
         $this->assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
         $this->assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());
@@ -72,7 +65,7 @@ final class DatabaseUserProviderTest extends Unit
         $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
-            ->willThrowException(new AccountNotFoundException());
+            ->willReturn(value: null);
 
         $this->expectException(UserNotFoundException::class);
 

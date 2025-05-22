@@ -13,21 +13,8 @@ class AuthorizationToken
      * @param string[] $userRoles
      */
     public function __construct(
-        private readonly string $userIdentifier,
-        private readonly array $userRoles = [],
+        public readonly string $userIdentifier,
+        public readonly array $userRoles = [],
     ) {
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return $this->userIdentifier;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getUserRoles(): array
-    {
-        return $this->userRoles;
     }
 }

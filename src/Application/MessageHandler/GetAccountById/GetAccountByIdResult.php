@@ -17,12 +17,12 @@ final class GetAccountByIdResult extends JsonResponse
     {
         return new self(
             data: [
-                'uuid' => $account->getUuid(),
-                'email' => $account->getEmail(),
-                'locale' => $account->getLocale(),
-                'status' => $account->getStatus(),
-                'roles' => $account->getRoles(),
-                'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
+                'uuid' => $account->id,
+                'email' => $account->email,
+                'locale' => $account->locale,
+                'status' => $account->status,
+                'roles' => $account->roles,
+                'created_at' => $account->createdAt->format(format: DateTimeInterface::ATOM),
             ],
             status: Response::HTTP_OK,
         );

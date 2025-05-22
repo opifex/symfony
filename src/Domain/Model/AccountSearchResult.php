@@ -14,24 +14,8 @@ class AccountSearchResult
      * @param int<0, max> $totalResultCount
      */
     public function __construct(
-        private readonly array $accounts,
-        private readonly int $totalResultCount,
+        public readonly array $accounts,
+        public readonly int $totalResultCount,
     ) {
-    }
-
-    /**
-     * @return Account[]
-     */
-    public function getAccounts(): array
-    {
-        return $this->accounts;
-    }
-
-    /**
-     * @return int<0, max>
-     */
-    public function getTotalResultCount(): int
-    {
-        return $this->totalResultCount;
     }
 }

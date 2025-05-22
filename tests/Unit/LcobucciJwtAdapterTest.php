@@ -31,8 +31,8 @@ final class LcobucciJwtAdapterTest extends Unit
         );
         $token = $lcobucciJwtAdapter->decodeAccessToken($tokenString);
 
-        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->getUserIdentifier());
-        $this->assertSame(expected: ['ROLE_USER'], actual: $token->getUserRoles());
+        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->userIdentifier);
+        $this->assertSame(expected: ['ROLE_USER'], actual: $token->userRoles);
     }
 
     /**
@@ -97,8 +97,8 @@ final class LcobucciJwtAdapterTest extends Unit
         );
         $token = $lcobucciJwtAdapter->decodeAccessToken($tokenString);
 
-        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->getUserIdentifier());
-        $this->assertSame(expected: ['ROLE_USER'], actual: $token->getUserRoles());
+        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->userIdentifier);
+        $this->assertSame(expected: ['ROLE_USER'], actual: $token->userRoles);
     }
 
     /**

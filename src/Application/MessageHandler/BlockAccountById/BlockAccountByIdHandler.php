@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\BlockAccountById;
 
+use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
+use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
+use App\Domain\Model\Account;
 use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -14,6 +17,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class BlockAccountByIdHandler
 {
     public function __construct(
+        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AccountWorkflowManagerInterface $accountWorkflowManager,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
@@ -25,7 +29,13 @@ final class BlockAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $this->accountWorkflowManager->block($message->uuid);
+        $account = $this->accountEntityRepository->findOneByUuid($message->uuid);
+
+        if (!$account instanceof Account) {
+            throw AccountNotFoundException::create();
+        }
+
+        $this->accountWorkflowManager->block($account);
 
         return BlockAccountByIdResult::success();
     }

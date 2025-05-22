@@ -6,7 +6,6 @@ namespace App\Infrastructure\Doctrine\Repository\Account;
 
 use App\Domain\Model\Account;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
-use LogicException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
@@ -15,7 +14,7 @@ final class AccountEntityMapper
     public static function map(AccountEntity $entity): Account
     {
         return new Account(
-            uuid: $entity->uuid ?? throw new LogicException(message: 'UUID is required.'),
+            id: strval($entity->id),
             createdAt: $entity->createdAt,
             email: $entity->email,
             password: $entity->password,

@@ -6,7 +6,9 @@ namespace App\Application\MessageHandler\DeleteAccountById;
 
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
+use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
+use App\Domain\Model\Account;
 use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -25,7 +27,13 @@ final class DeleteAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $this->accountEntityRepository->deleteByUuid($message->uuid);
+        $account = $this->accountEntityRepository->findOneByUuid($message->uuid);
+
+        if (!$account instanceof Account) {
+            throw AccountNotFoundException::create();
+        }
+
+        $this->accountEntityRepository->delete($account);
 
         return DeleteAccountByIdResult::success();
     }

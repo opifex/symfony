@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\Account\AccountNotFoundException;
-use App\Domain\Model\AccountStatus;
-use App\Infrastructure\Doctrine\Repository\Account\AccountEntityRepository;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
@@ -59,89 +55,5 @@ final class AccountEntityRepositoryTest extends Unit
             ->expects($this->any())
             ->method(constraint: 'expr')
             ->willReturn($expr);
-    }
-
-    public function testFindStatusByUuid(): void
-    {
-        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
-
-        $this->query
-            ->expects($this->once())
-            ->method(constraint: 'getSingleScalarResult')
-            ->willThrowException(new NoResultException());
-
-        $this->expectException(AccountNotFoundException::class);
-
-        $accountEntityRepository->getStatusByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
-        );
-    }
-
-    public function testUpdateEmailByUuid(): void
-    {
-        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
-
-        $this->query
-            ->expects($this->once())
-            ->method(constraint: 'execute')
-            ->willReturn(value: false);
-
-        $this->expectException(AccountNotFoundException::class);
-
-        $accountEntityRepository->updateEmailByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
-            email: 'email@example.com',
-        );
-    }
-
-    public function testUpdatePasswordByUuid(): void
-    {
-        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
-
-        $this->query
-            ->expects($this->once())
-            ->method(constraint: 'execute')
-            ->willReturn(value: false);
-
-        $this->expectException(AccountNotFoundException::class);
-
-        $accountEntityRepository->updatePasswordByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
-            password: 'password4#account',
-        );
-    }
-
-    public function testUpdateStatusByUuid(): void
-    {
-        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
-
-        $this->query
-            ->expects($this->once())
-            ->method(constraint: 'execute')
-            ->willReturn(value: false);
-
-        $this->expectException(AccountNotFoundException::class);
-
-        $accountEntityRepository->updateStatusByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
-            status: AccountStatus::ACTIVATED,
-        );
-    }
-
-    public function testUpdateLocaleByUuid(): void
-    {
-        $accountEntityRepository = new AccountEntityRepository($this->entityManager);
-
-        $this->query
-            ->expects($this->once())
-            ->method(constraint: 'execute')
-            ->willReturn(value: false);
-
-        $this->expectException(AccountNotFoundException::class);
-
-        $accountEntityRepository->updateLocaleByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
-            locale: 'en_US',
-        );
     }
 }

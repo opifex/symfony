@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Repository\Account;
 
-use App\Domain\Contract\Account\AccountEntityInterface;
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\AccountSearchResult;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use LogicException;
@@ -33,23 +29,23 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     #[Override]
     public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
+        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $builder = $accountRepository->createQueryBuilder(alias: 'account')->select();
 
-        if (!is_null($criteria->getEmail())) {
+        if (!is_null($criteria->email)) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
-            $builder->setParameter(key: 'email', value: '%' . $criteria->getEmail() . '%', type: ParameterType::STRING);
+            $builder->setParameter(key: 'email', value: '%' . $criteria->email . '%');
         }
 
-        if (!is_null($criteria->getStatus())) {
+        if (!is_null($criteria->status)) {
             $builder->andWhere($builder->expr()->eq(x: 'account.status', y: ':status'));
-            $builder->setParameter(key: 'status', value: $criteria->getStatus(), type: ParameterType::STRING);
+            $builder->setParameter(key: 'status', value: $criteria->status);
         }
 
         $builder->addOrderBy($builder->expr()->desc(expr: 'account.createdAt'));
 
-        $builder->setFirstResult($criteria->getPagination()?->getOffset());
-        $builder->setMaxResults($criteria->getPagination()?->getLimit());
+        $builder->setFirstResult($criteria->pagination?->offset());
+        $builder->setMaxResults($criteria->pagination?->limit);
 
         $paginator = new Paginator($builder);
         /** @var Traversable<int, AccountEntity> $iterator */
@@ -61,170 +57,58 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function findOneByUuid(string $uuid): Account
+    public function findOneByUuid(string $uuid): ?Account
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
+        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $accountEntity = $accountRepository->findOneBy(criteria: ['uuid' => $uuid]);
+
+        $this->defaultEntityManager->clear();
+
+        return $accountEntity ? AccountEntityMapper::map($accountEntity) : null;
+    }
+
+    #[Override]
+    public function findOneByEmail(string $email): ?Account
+    {
+        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $accountEntity = $accountRepository->findOneBy(criteria: ['email' => $email]);
+
+        $this->defaultEntityManager->clear();
+
+        return $accountEntity ? AccountEntityMapper::map($accountEntity) : null;
+    }
+
+    #[Override]
+    public function delete(Account $account): void
+    {
+        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $builder = $accountRepository->createQueryBuilder(alias: 'account')->delete();
         $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->setParameter(key: 'uuid', value: $account->id);
 
-        try {
-            /** @var AccountEntity $account */
-            $account = $builder->getQuery()->getSingleResult();
-        } catch (NoResultException $e) {
-            throw AccountNotFoundException::create($e);
-        }
-
-        $this->defaultEntityManager->clear();
-
-        return AccountEntityMapper::map($account);
-    }
-
-    #[Override]
-    public function findOneByEmail(string $email): Account
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
-
-        try {
-            /** @var AccountEntity $account */
-            $account = $builder->getQuery()->getSingleResult();
-        } catch (NoResultException $e) {
-            throw AccountNotFoundException::create($e);
-        }
-
-        $this->defaultEntityManager->clear();
-
-        return AccountEntityMapper::map($account);
-    }
-
-    #[Override]
-    public function getStatusByUuid(string $uuid): string
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account.status'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
-
-        try {
-            $status = (string) $builder->getQuery()->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            throw AccountNotFoundException::create($e);
-        }
-
-        $this->defaultEntityManager->clear();
-
-        return $status;
-    }
-
-    #[Override]
-    public function updateEmailByUuid(string $uuid, string $email): void
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.email', value: ':email');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
-        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
-
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
+        $builder->getQuery()->execute();
 
         $this->defaultEntityManager->clear();
     }
 
     #[Override]
-    public function updateLocaleByUuid(string $uuid, string $locale): void
+    public function save(Account $account): string
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.locale', value: ':locale');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
-        $builder->setParameter(key: 'locale', value: $locale, type: ParameterType::STRING);
+        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $accountEntity = $accountRepository->findOneBy(criteria: ['uuid' => $account->id]);
 
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
+        $accountEntity ??= new AccountEntity();
+        $accountEntity->email = $account->email;
+        $accountEntity->locale = $account->locale;
+        $accountEntity->password = $account->password;
+        $accountEntity->roles = $account->roles;
+        $accountEntity->status = $account->status;
 
-        $this->defaultEntityManager->clear();
-    }
+        $this->defaultEntityManager->persist($accountEntity);
 
-    #[Override]
-    public function updateStatusByUuid(string $uuid, string $status): void
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.status', value: ':status');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
-        $builder->setParameter(key: 'status', value: $status, type: ParameterType::STRING);
-
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
-
-        $this->defaultEntityManager->clear();
-    }
-
-    #[Override]
-    public function updatePasswordByUuid(string $uuid, string $password): void
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.password', value: ':password');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
-        $builder->setParameter(key: 'password', value: $password, type: ParameterType::STRING);
-
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
-
-        $this->defaultEntityManager->clear();
-    }
-
-    #[Override]
-    public function deleteByUuid(string $uuid): void
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->delete()->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
-
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
-
-        $this->defaultEntityManager->clear();
-    }
-
-    #[Override]
-    public function checkEmailExists(string $email): bool
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
-
-        $exists = (bool) $builder->getQuery()->getOneOrNullResult();
-
-        $this->defaultEntityManager->clear();
-
-        return $exists;
-    }
-
-    #[Override]
-    public function save(AccountEntityInterface $entity): string
-    {
-        /** @var AccountEntity $entity */
-        $this->defaultEntityManager->persist($entity);
         $this->defaultEntityManager->flush();
         $this->defaultEntityManager->clear();
 
-        return $entity->uuid ?? throw new LogicException(message: 'Failed to generate UUID during persistence.');
+        return $accountEntity->uuid ?? throw new LogicException(message: 'Missing UUID after persisting.');
     }
 }

@@ -12,12 +12,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class AccountRegisteredEvent extends Event
 {
     public function __construct(
-        private readonly Account $account,
+        public readonly Account $account,
     ) {
-    }
-
-    public function getAccount(): Account
-    {
-        return $this->account;
     }
 }
