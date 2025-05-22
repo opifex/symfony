@@ -17,13 +17,13 @@ final class UpdateAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedAdminFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $accountAdminUuid = $I->grabFromRepository(
+        $accountAdminId = $I->grabFromRepository(
             entity: AccountEntity::class,
-            field: 'uuid',
+            field: 'id',
             params: ['email' => 'admin@example.com'],
         );
         $I->sendPatch(
-            url: '/api/account/' . $accountAdminUuid,
+            url: '/api/account/' . $accountAdminId,
             params: json_encode([
                 'email' => 'updated@example.com',
                 'password' => 'password4#account',
@@ -41,13 +41,13 @@ final class UpdateAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'james@example.com', password: 'password4#account');
-        $accountAdminUuid = $I->grabFromRepository(
+        $accountAdminId = $I->grabFromRepository(
             entity: AccountEntity::class,
-            field: 'uuid',
+            field: 'id',
             params: ['email' => 'admin@example.com'],
         );
         $I->sendPatch(
-            url: '/api/account/' . $accountAdminUuid,
+            url: '/api/account/' . $accountAdminId,
             params: json_encode([
                 'email' => 'updated@example.com',
                 'password' => 'password4#account',
@@ -65,13 +65,13 @@ final class UpdateAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $accountAdminUuid = $I->grabFromRepository(
+        $accountAdminId = $I->grabFromRepository(
             entity: AccountEntity::class,
-            field: 'uuid',
+            field: 'id',
             params: ['email' => 'admin@example.com'],
         );
         $I->sendPatch(
-            url: '/api/account/' . $accountAdminUuid,
+            url: '/api/account/' . $accountAdminId,
             params: json_encode([
                 'email' => 'james@example.com',
                 'password' => 'password4#account',
@@ -83,7 +83,7 @@ final class UpdateAccountByIdCest
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));
     }
 
-    public function tryToUpdateAccountWithInvalidUuid(FunctionalTester $I): void
+    public function tryToUpdateAccountWithInvalidId(FunctionalTester $I): void
     {
         $I->loadFixtures(fixtures: AccountActivatedAdminFixture::class);
         $I->haveHttpHeaderApplicationJson();

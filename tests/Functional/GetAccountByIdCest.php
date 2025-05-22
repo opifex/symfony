@@ -17,12 +17,12 @@ final class GetAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedAdminFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $accountAdminUuid = $I->grabFromRepository(
+        $accountAdminId = $I->grabFromRepository(
             entity: AccountEntity::class,
-            field: 'uuid',
+            field: 'id',
             params: ['email' => 'admin@example.com'],
         );
-        $I->sendGet(url: '/api/account/' . $accountAdminUuid);
+        $I->sendGet(url: '/api/account/' . $accountAdminId);
         $I->seeResponseCodeIs(code: HttpCode::OK);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsJson();
@@ -36,12 +36,12 @@ final class GetAccountByIdCest
         $I->loadFixtures(fixtures: AccountActivatedJamesFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'james@example.com', password: 'password4#account');
-        $accountAdminUuid = $I->grabFromRepository(
+        $accountAdminId = $I->grabFromRepository(
             entity: AccountEntity::class,
-            field: 'uuid',
+            field: 'id',
             params: ['email' => 'admin@example.com'],
         );
-        $I->sendGet(url: '/api/account/' . $accountAdminUuid);
+        $I->sendGet(url: '/api/account/' . $accountAdminId);
         $I->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));

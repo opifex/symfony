@@ -15,7 +15,7 @@ final class AccountEntityMapper
     public static function map(AccountEntity $entity): Account
     {
         return new Account(
-            uuid: $entity->uuid ?? throw new LogicException(message: 'UUID is required.'),
+            id: $entity->id ?? throw new LogicException(message: 'UUID is required.'),
             createdAt: $entity->createdAt,
             email: $entity->email,
             password: $entity->password,

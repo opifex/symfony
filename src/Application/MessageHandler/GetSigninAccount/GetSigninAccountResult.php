@@ -17,7 +17,7 @@ final class GetSigninAccountResult extends JsonResponse
     {
         return new self(
             data: [
-                'uuid' => $account->getUuid(),
+                'id' => $account->getId(),
                 'email' => $account->getEmail(),
                 'locale' => $account->getLocale(),
                 'status' => $account->getStatus(),

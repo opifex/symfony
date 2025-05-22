@@ -38,7 +38,7 @@ final class DatabaseUserProviderTest extends Unit
     {
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $account = new Account(
-            uuid: Uuid::v7()->hash(),
+            id: Uuid::v7()->hash(),
             createdAt: new DateTimeImmutable(),
             email: 'email@example.com',
             password: 'password4#account',
@@ -47,7 +47,7 @@ final class DatabaseUserProviderTest extends Unit
             status: AccountStatus::CREATED,
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
-            userIdentifier: $account->getUuid(),
+            userIdentifier: $account->getId(),
             password: $account->getPassword(),
             roles: $account->getRoles(),
             enabled: true,

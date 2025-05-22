@@ -28,7 +28,7 @@ final class AccountWorkflowEventListener
             throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
         }
 
-        $account = $this->accountEntityRepository->findOneByUuid($event->getSubject()->getUuid());
+        $account = $this->accountEntityRepository->findOneById($event->getSubject()->getId());
         $this->eventDispatcher->dispatch(new AccountRegisteredEvent($account));
     }
 }

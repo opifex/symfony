@@ -61,7 +61,7 @@ final class AccountEntityRepositoryTest extends Unit
             ->willReturn($expr);
     }
 
-    public function testFindStatusByUuid(): void
+    public function testFindStatusById(): void
     {
         $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
@@ -72,12 +72,12 @@ final class AccountEntityRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountEntityRepository->getStatusByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
+        $accountEntityRepository->getStatusById(
+            id: '00000000-0000-6000-8000-000000000000',
         );
     }
 
-    public function testUpdateEmailByUuid(): void
+    public function testUpdateEmailById(): void
     {
         $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
@@ -88,13 +88,13 @@ final class AccountEntityRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountEntityRepository->updateEmailByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
+        $accountEntityRepository->updateEmailById(
+            id: '00000000-0000-6000-8000-000000000000',
             email: 'email@example.com',
         );
     }
 
-    public function testUpdatePasswordByUuid(): void
+    public function testUpdatePasswordById(): void
     {
         $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
@@ -105,13 +105,13 @@ final class AccountEntityRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountEntityRepository->updatePasswordByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
+        $accountEntityRepository->updatePasswordById(
+            id: '00000000-0000-6000-8000-000000000000',
             password: 'password4#account',
         );
     }
 
-    public function testUpdateStatusByUuid(): void
+    public function testUpdateStatusById(): void
     {
         $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
@@ -122,13 +122,13 @@ final class AccountEntityRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountEntityRepository->updateStatusByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
+        $accountEntityRepository->updateStatusById(
+            id: '00000000-0000-6000-8000-000000000000',
             status: AccountStatus::ACTIVATED,
         );
     }
 
-    public function testUpdateLocaleByUuid(): void
+    public function testUpdateLocaleById(): void
     {
         $accountEntityRepository = new AccountEntityRepository($this->entityManager);
 
@@ -139,8 +139,8 @@ final class AccountEntityRepositoryTest extends Unit
 
         $this->expectException(AccountNotFoundException::class);
 
-        $accountEntityRepository->updateLocaleByUuid(
-            uuid: '00000000-0000-6000-8000-000000000000',
+        $accountEntityRepository->updateLocaleById(
+            id: '00000000-0000-6000-8000-000000000000',
             locale: 'en_US',
         );
     }

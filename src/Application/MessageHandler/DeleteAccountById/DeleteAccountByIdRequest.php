@@ -15,7 +15,7 @@ final class DeleteAccountByIdRequest
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        public readonly string $uuid = '',
+        public readonly string $id = '',
     ) {
     }
 }

@@ -25,7 +25,7 @@ final class GetAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $account = $this->accountEntityRepository->findOneByUuid($message->uuid);
+        $account = $this->accountEntityRepository->findOneById($message->id);
 
         return GetAccountByIdResult::success($account);
     }

@@ -25,7 +25,7 @@ final class UnblockAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $this->accountWorkflowManager->unblock($message->uuid);
+        $this->accountWorkflowManager->unblock($message->id);
 
         return UnblockAccountByIdResult::success();
     }

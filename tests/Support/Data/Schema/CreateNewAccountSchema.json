@@ -1,13 +1,13 @@
 {
     "type": "object",
     "properties": {
-        "uuid": {
+        "id": {
             "type": "string",
             "format": "uuid"
         }
     },
     "required": [
-        "uuid"
+        "id"
     ],
     "additionalProperties": false
 }

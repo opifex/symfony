@@ -23,7 +23,7 @@ final class BlockAccountByIdController extends AbstractController
         tags: ['Account'],
         parameters: [
             new OA\Parameter(
-                name: 'uuid',
+                name: 'id',
                 description: 'Account unique identifier',
                 in: 'path',
                 example: '00000000-0000-6000-8000-000000000000',
@@ -53,7 +53,7 @@ final class BlockAccountByIdController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/account/{uuid}/block',
+        path: '/account/{id}/block',
         name: 'app_block_account_by_id',
         methods: Request::METHOD_POST,
     )]

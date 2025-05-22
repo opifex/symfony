@@ -14,7 +14,7 @@ class Account
      * @param string[] $roles
      */
     public function __construct(
-        private readonly string $uuid,
+        private readonly string $id,
         private readonly DateTimeImmutable $createdAt,
         private readonly string $email,
         private readonly string $password,
@@ -24,9 +24,9 @@ class Account
     ) {
     }
 
-    public function getUuid(): string
+    public function getId(): string
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function getEmail(): string

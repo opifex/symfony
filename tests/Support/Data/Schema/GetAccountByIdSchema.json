@@ -1,7 +1,7 @@
 {
     "type": "object",
     "properties": {
-        "uuid": {
+        "id": {
             "type": "string",
             "format": "uuid"
         },
@@ -36,7 +36,7 @@
         }
     },
     "required": [
-        "uuid",
+        "id",
         "email",
         "locale",
         "status",

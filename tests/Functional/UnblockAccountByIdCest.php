@@ -19,12 +19,12 @@ final class UnblockAccountByIdCest
         $I->loadFixtures(fixtures: AccountBlockedHenryFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'admin@example.com', password: 'password4#account');
-        $accountHenryUuid = $I->grabFromRepository(
+        $accountHenryId = $I->grabFromRepository(
             entity: AccountEntity::class,
-            field: 'uuid',
+            field: 'id',
             params: ['email' => 'henry@example.com'],
         );
-        $I->sendPost(url: '/api/account/' . $accountHenryUuid . '/unblock');
+        $I->sendPost(url: '/api/account/' . $accountHenryId . '/unblock');
         $I->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseEquals(expected: '');
@@ -36,12 +36,12 @@ final class UnblockAccountByIdCest
         $I->loadFixtures(fixtures: AccountBlockedHenryFixture::class);
         $I->haveHttpHeaderApplicationJson();
         $I->haveHttpHeaderAuthorization(email: 'james@example.com', password: 'password4#account');
-        $accountHenryUuid = $I->grabFromRepository(
+        $accountHenryId = $I->grabFromRepository(
             entity: AccountEntity::class,
-            field: 'uuid',
+            field: 'id',
             params: ['email' => 'henry@example.com'],
         );
-        $I->sendPost(url: '/api/account/' . $accountHenryUuid . '/unblock');
+        $I->sendPost(url: '/api/account/' . $accountHenryId . '/unblock');
         $I->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'ApplicationExceptionSchema.json'));

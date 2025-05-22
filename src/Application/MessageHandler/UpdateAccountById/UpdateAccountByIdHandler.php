@@ -28,7 +28,7 @@ final class UpdateAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $account = $this->accountEntityRepository->findOneByUuid($message->uuid);
+        $account = $this->accountEntityRepository->findOneById($message->id);
 
         if ($message->email !== null) {
             if ($message->email !== $account->getEmail()) {
@@ -36,17 +36,17 @@ final class UpdateAccountByIdHandler
                     throw AccountAlreadyExistsException::create();
                 }
 
-                $this->accountEntityRepository->updateEmailByUuid($message->uuid, $message->email);
+                $this->accountEntityRepository->updateEmailById($message->id, $message->email);
             }
         }
 
         if ($message->password !== null) {
             $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
-            $this->accountEntityRepository->updatePasswordByUuid($message->uuid, $passwordHash);
+            $this->accountEntityRepository->updatePasswordById($message->id, $passwordHash);
         }
 
         if ($message->locale !== null) {
-            $this->accountEntityRepository->updateLocaleByUuid($message->uuid, $message->locale);
+            $this->accountEntityRepository->updateLocaleById($message->id, $message->locale);
         }
 
         return UpdateAccountByIdResult::success();

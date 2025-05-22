@@ -16,7 +16,7 @@ interface AccountEntityRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
-    public function findOneByUuid(string $uuid): Account;
+    public function findOneById(string $id): Account;
 
     /**
      * @throws AccountNotFoundException
@@ -26,32 +26,32 @@ interface AccountEntityRepositoryInterface
     /**
      * @throws AccountNotFoundException
      */
-    public function getStatusByUuid(string $uuid): string;
+    public function getStatusById(string $id): string;
 
     /**
      * @throws AccountNotFoundException
      */
-    public function updateEmailByUuid(string $uuid, string $email): void;
+    public function updateEmailById(string $id, string $email): void;
 
     /**
      * @throws AccountNotFoundException
      */
-    public function updateLocaleByUuid(string $uuid, string $locale): void;
+    public function updateLocaleById(string $id, string $locale): void;
 
     /**
      * @throws AccountNotFoundException
      */
-    public function updateStatusByUuid(string $uuid, string $status): void;
+    public function updateStatusById(string $id, string $status): void;
 
     /**
      * @throws AccountNotFoundException
      */
-    public function updatePasswordByUuid(string $uuid, string $password): void;
+    public function updatePasswordById(string $id, string $password): void;
 
     /**
      * @throws AccountNotFoundException
      */
-    public function deleteByUuid(string $uuid): void;
+    public function deleteById(string $id): void;
 
     public function checkEmailExists(string $email): bool;
 

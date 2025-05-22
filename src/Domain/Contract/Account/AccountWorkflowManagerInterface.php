@@ -13,23 +13,23 @@ interface AccountWorkflowManagerInterface
      * @throws AccountActionInvalidException
      * @throws AccountNotFoundException
      */
-    public function activate(string $uuid): void;
+    public function activate(string $id): void;
 
     /**
      * @throws AccountActionInvalidException
      * @throws AccountNotFoundException
      */
-    public function block(string $uuid): void;
+    public function block(string $id): void;
 
     /**
      * @throws AccountActionInvalidException
      * @throws AccountNotFoundException
      */
-    public function register(string $uuid): void;
+    public function register(string $id): void;
 
     /**
      * @throws AccountActionInvalidException
      * @throws AccountNotFoundException
      */
-    public function unblock(string $uuid): void;
+    public function unblock(string $id): void;
 }

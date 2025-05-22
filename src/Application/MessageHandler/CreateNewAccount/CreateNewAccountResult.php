@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 #[Exclude]
 final class CreateNewAccountResult extends JsonResponse
 {
-    public static function success(string $uuid): self
+    public static function success(string $id): self
     {
         return new self(
             data: [
-                'uuid' => $uuid,
+                'id' => $id,
             ],
             status: Response::HTTP_CREATED,
         );

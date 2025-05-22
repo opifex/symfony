@@ -61,12 +61,12 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function findOneByUuid(string $uuid): Account
+    public function findOneById(string $id): Account
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
 
         try {
             /** @var AccountEntity $account */
@@ -101,12 +101,12 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function getStatusByUuid(string $uuid): string
+    public function getStatusById(string $id): string
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account.status'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
 
         try {
             $status = (string) $builder->getQuery()->getSingleScalarResult();
@@ -120,13 +120,13 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function updateEmailByUuid(string $uuid, string $email): void
+    public function updateEmailById(string $id, string $email): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.email', value: ':email');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
         $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
@@ -137,13 +137,13 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function updateLocaleByUuid(string $uuid, string $locale): void
+    public function updateLocaleById(string $id, string $locale): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.locale', value: ':locale');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
         $builder->setParameter(key: 'locale', value: $locale, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
@@ -154,13 +154,13 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function updateStatusByUuid(string $uuid, string $status): void
+    public function updateStatusById(string $id, string $status): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.status', value: ':status');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
         $builder->setParameter(key: 'status', value: $status, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
@@ -171,13 +171,13 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function updatePasswordByUuid(string $uuid, string $password): void
+    public function updatePasswordById(string $id, string $password): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.password', value: ':password');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
         $builder->setParameter(key: 'password', value: $password, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
@@ -188,12 +188,12 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function deleteByUuid(string $uuid): void
+    public function deleteById(string $id): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.uuid', y: ':uuid'));
-        $builder->setParameter(key: 'uuid', value: $uuid, type: ParameterType::STRING);
+        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
 
         if (!$builder->getQuery()->execute()) {
             throw AccountNotFoundException::create();
@@ -225,6 +225,6 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $this->defaultEntityManager->flush();
         $this->defaultEntityManager->clear();
 
-        return $entity->uuid ?? throw new LogicException(message: 'Failed to generate UUID during persistence.');
+        return $entity->id ?? throw new LogicException(message: 'Failed to generate identifier during persistence.');
     }
 }

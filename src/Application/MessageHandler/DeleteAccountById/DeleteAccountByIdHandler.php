@@ -25,7 +25,7 @@ final class DeleteAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $this->accountEntityRepository->deleteByUuid($message->uuid);
+        $this->accountEntityRepository->deleteById($message->id);
 
         return DeleteAccountByIdResult::success();
     }

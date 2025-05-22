@@ -23,7 +23,7 @@ final class UnblockAccountByIdController extends AbstractController
         tags: ['Account'],
         parameters: [
             new OA\Parameter(
-                name: 'uuid',
+                name: 'id',
                 description: 'Account unique identifier',
                 in: 'path',
                 example: '00000000-0000-6000-8000-000000000000',
@@ -53,7 +53,7 @@ final class UnblockAccountByIdController extends AbstractController
         ],
     )]
     #[Route(
-        path: '/account/{uuid}/unblock',
+        path: '/account/{id}/unblock',
         name: 'app_unblock_account_by_id',
         methods: Request::METHOD_POST,
     )]

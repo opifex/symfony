@@ -30,10 +30,10 @@ final class SignupNewAccountHandler
 
         $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
         $accountEntity = $this->accountEntityBuilder->build($message->email, $passwordHash, $message->locale);
-        $accountUuid = $this->accountEntityRepository->save($accountEntity);
+        $accountId = $this->accountEntityRepository->save($accountEntity);
 
-        $this->accountWorkflowManager->register($accountUuid);
-        $this->accountWorkflowManager->activate($accountUuid);
+        $this->accountWorkflowManager->register($accountId);
+        $this->accountWorkflowManager->activate($accountId);
 
         return SignupNewAccountResult::success();
     }

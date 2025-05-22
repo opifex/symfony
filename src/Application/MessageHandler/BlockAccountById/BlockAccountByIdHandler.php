@@ -25,7 +25,7 @@ final class BlockAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $this->accountWorkflowManager->block($message->uuid);
+        $this->accountWorkflowManager->block($message->id);
 
         return BlockAccountByIdResult::success();
     }

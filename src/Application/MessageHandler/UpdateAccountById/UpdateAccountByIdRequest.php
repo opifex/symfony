@@ -15,7 +15,7 @@ final class UpdateAccountByIdRequest
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        public readonly string $uuid = '',
+        public readonly string $id = '',
 
         #[Assert\Email]
         public readonly ?string $email = null,

@@ -17,10 +17,10 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class AccountEntity implements AccountEntityInterface
 {
     #[ORM\Id]
-    #[ORM\Column(name: 'uuid', type: Types::GUID)]
+    #[ORM\Column(name: 'id', type: Types::GUID)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    public ?string $uuid = null;
+    public ?string $id = null;
 
     public function __construct(
         #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]

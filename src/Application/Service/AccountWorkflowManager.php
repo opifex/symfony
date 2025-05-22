@@ -20,32 +20,32 @@ final class AccountWorkflowManager implements AccountWorkflowManagerInterface
     }
 
     #[Override]
-    public function activate(string $uuid): void
+    public function activate(string $id): void
     {
-        $this->apply($uuid, action: AccountAction::ACTIVATE);
+        $this->apply($id, action: AccountAction::ACTIVATE);
     }
 
     #[Override]
-    public function block(string $uuid): void
+    public function block(string $id): void
     {
-        $this->apply($uuid, action: AccountAction::BLOCK);
+        $this->apply($id, action: AccountAction::BLOCK);
     }
 
     #[Override]
-    public function register(string $uuid): void
+    public function register(string $id): void
     {
-        $this->apply($uuid, action: AccountAction::REGISTER);
+        $this->apply($id, action: AccountAction::REGISTER);
     }
 
     #[Override]
-    public function unblock(string $uuid): void
+    public function unblock(string $id): void
     {
-        $this->apply($uuid, action: AccountAction::UNBLOCK);
+        $this->apply($id, action: AccountAction::UNBLOCK);
     }
 
-    private function apply(string $uuid, string $action): void
+    private function apply(string $id, string $action): void
     {
-        $account = $this->accountEntityRepository->findOneByUuid($uuid);
+        $account = $this->accountEntityRepository->findOneById($id);
 
         if (!$this->accountStateMachine->can($account, $action)) {
             throw AccountActionInvalidException::create();

@@ -20,7 +20,7 @@ final class GetSigninAccountHandler
     public function __invoke(GetSigninAccountRequest $message): GetSigninAccountResult
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
-        $account = $this->accountEntityRepository->findOneByUuid($userIdentifier);
+        $account = $this->accountEntityRepository->findOneById($userIdentifier);
 
         return GetSigninAccountResult::success($account);
     }

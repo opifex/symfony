@@ -94,7 +94,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                             items: new OA\Items(
                                 properties: [
                                     new OA\Property(
-                                        property: 'uuid',
+                                        property: 'id',
                                         type: 'uuid',
                                         example: '00000000-0000-6000-8000-000000000000',
                                     ),

@@ -22,10 +22,10 @@ final class SigninIntoAccountHandler
     public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResult
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
-        $account = $this->accountEntityRepository->findOneByUuid($userIdentifier);
+        $account = $this->accountEntityRepository->findOneById($userIdentifier);
 
         $accessToken = $this->jwtTokenManager->createAccessToken(
-            userIdentifier: $account->getUuid(),
+            userIdentifier: $account->getId(),
             userRoles: $account->getRoles(),
         );
 
