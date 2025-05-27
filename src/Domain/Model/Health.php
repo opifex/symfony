@@ -14,6 +14,11 @@ class Health
     ) {
     }
 
+    public static function ok(): self
+    {
+        return new self(status: HealthStatus::OK);
+    }
+
     public function getStatus(): string
     {
         return $this->status;

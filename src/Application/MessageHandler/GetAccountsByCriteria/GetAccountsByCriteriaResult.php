@@ -26,7 +26,7 @@ final class GetAccountsByCriteriaResult extends JsonResponse
                 ],
                 'data' => array_map(
                     callback: static fn(Account $account): array => [
-                        'id' => $account->getId(),
+                        'id' => $account->getId()->toString(),
                         'email' => $account->getEmail(),
                         'locale' => $account->getLocale(),
                         'status' => $account->getStatus(),

@@ -7,6 +7,7 @@ namespace App\Application\EventListener;
 use App\Domain\Contract\Identification\RequestIdGeneratorInterface;
 use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use App\Domain\Model\HttpSpecification;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -23,7 +24,7 @@ final class RequestIdEventListener
     #[AsEventListener(event: ConsoleCommandEvent::class, priority: 100)]
     public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
-        if (!$event->getCommand()) {
+        if (!$event->getCommand() instanceof Command) {
             return;
         }
 

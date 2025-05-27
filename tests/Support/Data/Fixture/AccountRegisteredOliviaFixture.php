@@ -21,6 +21,7 @@ final class AccountRegisteredOliviaFixture extends Fixture implements FixtureInt
     {
         $faker = Faker::create();
         $account = new AccountEntity(
+            id: $faker->unique()->uuid(),
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'olivia@example.com'),
             password: 'password4#account',

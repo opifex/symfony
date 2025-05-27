@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Repository\Account;
 
-use App\Domain\Contract\Account\AccountEntityInterface;
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\Account;
+use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\AccountSearchResult;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
-use LogicException;
 use Override;
+use Symfony\Component\Uid\Uuid;
 use Traversable;
 
 final class AccountEntityRepository implements AccountEntityRepositoryInterface
@@ -61,170 +59,63 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function findOneById(string $id): Account
+    public function findOneById(AccountIdentifier $id): ?Account
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
-
-        try {
-            /** @var AccountEntity $account */
-            $account = $builder->getQuery()->getSingleResult();
-        } catch (NoResultException $e) {
-            throw AccountNotFoundException::create($e);
-        }
+        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $accountEntity = $accountRepository->findOneBy(criteria: [
+            'id' => Uuid::fromString($id->toString())->hash(),
+        ]);
 
         $this->defaultEntityManager->clear();
 
-        return AccountEntityMapper::map($account);
+        return $accountEntity ? AccountEntityMapper::map($accountEntity) : null;
     }
 
     #[Override]
-    public function findOneByEmail(string $email): Account
+    public function findOneByEmail(string $email): ?Account
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
-
-        try {
-            /** @var AccountEntity $account */
-            $account = $builder->getQuery()->getSingleResult();
-        } catch (NoResultException $e) {
-            throw AccountNotFoundException::create($e);
-        }
+        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $accountEntity = $accountRepository->findOneBy(criteria: ['email' => $email]);
 
         $this->defaultEntityManager->clear();
 
-        return AccountEntityMapper::map($account);
+        return $accountEntity ? AccountEntityMapper::map($accountEntity) : null;
     }
 
     #[Override]
-    public function getStatusById(string $id): string
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['account.status'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
-
-        try {
-            $status = (string) $builder->getQuery()->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            throw AccountNotFoundException::create($e);
-        }
-
-        $this->defaultEntityManager->clear();
-
-        return $status;
-    }
-
-    #[Override]
-    public function updateEmailById(string $id, string $email): void
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.email', value: ':email');
-        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
-        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
-
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
-
-        $this->defaultEntityManager->clear();
-    }
-
-    #[Override]
-    public function updateLocaleById(string $id, string $locale): void
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.locale', value: ':locale');
-        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
-        $builder->setParameter(key: 'locale', value: $locale, type: ParameterType::STRING);
-
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
-
-        $this->defaultEntityManager->clear();
-    }
-
-    #[Override]
-    public function updateStatusById(string $id, string $status): void
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.status', value: ':status');
-        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
-        $builder->setParameter(key: 'status', value: $status, type: ParameterType::STRING);
-
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
-
-        $this->defaultEntityManager->clear();
-    }
-
-    #[Override]
-    public function updatePasswordById(string $id, string $password): void
-    {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.password', value: ':password');
-        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
-        $builder->setParameter(key: 'password', value: $password, type: ParameterType::STRING);
-
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
-
-        $this->defaultEntityManager->clear();
-    }
-
-    #[Override]
-    public function deleteById(string $id): void
+    public function delete(Account $account): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $id, type: ParameterType::STRING);
+        $builder->setParameter(key: 'id', value: Uuid::fromString($account->getId()->toString())->hash());
 
-        if (!$builder->getQuery()->execute()) {
-            throw AccountNotFoundException::create();
-        }
+        $builder->getQuery()->execute();
 
         $this->defaultEntityManager->clear();
     }
 
     #[Override]
-    public function checkEmailExists(string $email): bool
+    public function save(Account $account): AccountIdentifier
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
-        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
-        $builder->setParameter(key: 'email', value: $email, type: ParameterType::STRING);
+        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $accountEntity = $accountRepository->findOneBy(criteria: [
+            'id' => Uuid::fromString($account->getId()->toString())->hash(),
+        ]);
 
-        $exists = (bool) $builder->getQuery()->getOneOrNullResult();
+        $accountEntity ??= new AccountEntity();
+        $accountEntity->id = $account->getId()->toString();
+        $accountEntity->email = $account->getEmail();
+        $accountEntity->locale = $account->getLocale();
+        $accountEntity->password = $account->getPassword();
+        $accountEntity->roles = $account->getRoles();
+        $accountEntity->status = $account->getStatus();
 
-        $this->defaultEntityManager->clear();
+        $this->defaultEntityManager->persist($accountEntity);
 
-        return $exists;
-    }
-
-    #[Override]
-    public function save(AccountEntityInterface $entity): string
-    {
-        /** @var AccountEntity $entity */
-        $this->defaultEntityManager->persist($entity);
         $this->defaultEntityManager->flush();
         $this->defaultEntityManager->clear();
 
-        return $entity->id ?? throw new LogicException(message: 'Failed to generate identifier during persistence.');
+        return new AccountIdentifier((string) $accountEntity->id);
     }
 }

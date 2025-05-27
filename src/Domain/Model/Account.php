@@ -14,17 +14,30 @@ class Account
      * @param string[] $roles
      */
     public function __construct(
-        private readonly string $id,
-        private readonly DateTimeImmutable $createdAt,
-        private readonly string $email,
-        private readonly string $password,
-        private readonly string $locale,
-        private readonly array $roles,
-        private readonly string $status,
+        private AccountIdentifier $id,
+        private DateTimeImmutable $createdAt,
+        private string $email,
+        private string $password,
+        private string $locale,
+        private array $roles,
+        private string $status,
     ) {
     }
 
-    public function getId(): string
+    public static function create(string $email, string $hashedPassword, string $locale): self
+    {
+        return new self(
+            id: AccountIdentifier::generate(),
+            createdAt: new DateTimeImmutable(),
+            email: $email,
+            password: $hashedPassword,
+            locale: $locale,
+            roles: [AccountRole::USER],
+            status: AccountStatus::CREATED,
+        );
+    }
+
+    public function getId(): AccountIdentifier
     {
         return $this->id;
     }
@@ -65,5 +78,25 @@ class Account
     public function isActive(): bool
     {
         return $this->status === AccountStatus::ACTIVATED;
+    }
+
+    public function changeEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function changePassword(string $hashedPassword): void
+    {
+        $this->password = $hashedPassword;
+    }
+
+    public function switchLocale(string $locale): void
+    {
+        $this->locale = $locale;
+    }
+
+    public function updateStatus(string $status): void
+    {
+        $this->status = $status;
     }
 }

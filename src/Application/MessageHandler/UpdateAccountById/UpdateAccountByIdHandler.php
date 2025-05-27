@@ -8,7 +8,10 @@ use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authentication\AuthenticationPasswordHasherInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountAlreadyExistsException;
+use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
+use App\Domain\Model\Account;
+use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -28,26 +31,33 @@ final class UpdateAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $account = $this->accountEntityRepository->findOneById($message->id);
+        $accountIdentifier = new AccountIdentifier($message->id);
+        $account = $this->accountEntityRepository->findOneByid($accountIdentifier);
+
+        if (!$account instanceof Account) {
+            throw AccountNotFoundException::create();
+        }
 
         if ($message->email !== null) {
             if ($message->email !== $account->getEmail()) {
-                if ($this->accountEntityRepository->checkEmailExists($message->email)) {
+                if ($this->accountEntityRepository->findOneByEmail($message->email)) {
                     throw AccountAlreadyExistsException::create();
                 }
 
-                $this->accountEntityRepository->updateEmailById($message->id, $message->email);
+                $account->changeEmail($message->email);
             }
         }
 
         if ($message->password !== null) {
             $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
-            $this->accountEntityRepository->updatePasswordById($message->id, $passwordHash);
+            $account->changePassword($passwordHash);
         }
 
         if ($message->locale !== null) {
-            $this->accountEntityRepository->updateLocaleById($message->id, $message->locale);
+            $account->switchLocale($message->locale);
         }
+
+        $this->accountEntityRepository->save($account);
 
         return UpdateAccountByIdResult::success();
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Security;
 
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
+use App\Domain\Model\Account;
 use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -25,14 +25,14 @@ final class DatabaseUserProvider implements UserProviderInterface
     #[Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        try {
-            $account = $this->accountEntityRepository->findOneByEmail($identifier);
-        } catch (AccountNotFoundException $e) {
-            throw new UserNotFoundException(previous: $e);
+        $account = $this->accountEntityRepository->findOneByEmail($identifier);
+
+        if (!$account instanceof Account) {
+            throw new UserNotFoundException();
         }
 
         return new PasswordAuthenticatedUser(
-            userIdentifier: $account->getId(),
+            userIdentifier: $account->getId()->toString(),
             password: $account->getPassword(),
             roles: $account->getRoles(),
             enabled: $account->isActive(),

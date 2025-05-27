@@ -23,7 +23,7 @@ final class AuthorizationTokenManager implements AuthorizationTokenManagerInterf
     {
         $userIdentifier = $this->tokenStorage->getToken()?->getUserIdentifier();
 
-        if (!$userIdentifier) {
+        if (!is_string($userIdentifier)) {
             throw AuthorizationRequiredException::create();
         }
 

@@ -7,6 +7,9 @@ namespace App\Application\MessageHandler\SigninIntoAccount;
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Contract\Integration\JwtTokenManagerInterface;
+use App\Domain\Exception\Account\AccountNotFoundException;
+use App\Domain\Model\Account;
+use App\Domain\Model\AccountIdentifier;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -22,10 +25,16 @@ final class SigninIntoAccountHandler
     public function __invoke(SigninIntoAccountRequest $message): SigninIntoAccountResult
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
-        $account = $this->accountEntityRepository->findOneById($userIdentifier);
+
+        $accountIdentifier = new AccountIdentifier($userIdentifier);
+        $account = $this->accountEntityRepository->findOneByid($accountIdentifier);
+
+        if (!$account instanceof Account) {
+            throw AccountNotFoundException::create();
+        }
 
         $accessToken = $this->jwtTokenManager->createAccessToken(
-            userIdentifier: $account->getId(),
+            userIdentifier: $account->getId()->toString(),
             userRoles: $account->getRoles(),
         );
 

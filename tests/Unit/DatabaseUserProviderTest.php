@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Model\Account;
+use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
 use App\Infrastructure\Security\DatabaseUserProvider;
@@ -38,7 +38,7 @@ final class DatabaseUserProviderTest extends Unit
     {
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $account = new Account(
-            id: Uuid::v7()->hash(),
+            id: AccountIdentifier::generate(),
             createdAt: new DateTimeImmutable(),
             email: 'email@example.com',
             password: 'password4#account',
@@ -47,7 +47,7 @@ final class DatabaseUserProviderTest extends Unit
             status: AccountStatus::CREATED,
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
-            userIdentifier: $account->getId(),
+            userIdentifier: $account->getId()->toString(),
             password: $account->getPassword(),
             roles: $account->getRoles(),
             enabled: true,
@@ -72,7 +72,7 @@ final class DatabaseUserProviderTest extends Unit
         $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
-            ->willThrowException(new AccountNotFoundException());
+            ->willReturn(value: null);
 
         $this->expectException(UserNotFoundException::class);
 

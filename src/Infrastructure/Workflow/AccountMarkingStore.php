@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Workflow;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Model\Account;
 use Override;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
@@ -13,18 +12,14 @@ use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
 
 final class AccountMarkingStore implements MarkingStoreInterface
 {
-    public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-    ) {
-    }
-
     #[Override]
     public function getMarking(object $subject): Marking
     {
-        $accountId = $this->getSubjectIdentifier($subject);
-        $markingStatus = $this->accountEntityRepository->getStatusById($accountId);
+        if (!$subject instanceof Account) {
+            throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
+        }
 
-        return new Marking([$markingStatus => 1]);
+        return new Marking([$subject->getStatus() => 1]);
     }
 
     /**
@@ -33,17 +28,10 @@ final class AccountMarkingStore implements MarkingStoreInterface
     #[Override]
     public function setMarking(object $subject, Marking $marking, array $context = []): void
     {
-        $accountId = $this->getSubjectIdentifier($subject);
-        $markingStatus = (string) array_key_first($marking->getPlaces());
-        $this->accountEntityRepository->updateStatusById($accountId, $markingStatus);
-    }
-
-    private function getSubjectIdentifier(object $subject): string
-    {
         if (!$subject instanceof Account) {
             throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
         }
 
-        return $subject->getId();
+        $subject->updateStatus((string) array_key_first($marking->getPlaces()));
     }
 }

@@ -7,6 +7,7 @@ namespace App\Application\MessageHandler\UnblockAccountById;
 use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
+use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -25,7 +26,8 @@ final class UnblockAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $this->accountWorkflowManager->unblock($message->id);
+        $accountIdentifier = new AccountIdentifier($message->id);
+        $this->accountWorkflowManager->unblock($accountIdentifier);
 
         return UnblockAccountByIdResult::success();
     }

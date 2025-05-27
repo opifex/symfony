@@ -17,7 +17,7 @@ final class GetAccountByIdResult extends JsonResponse
     {
         return new self(
             data: [
-                'id' => $account->getId(),
+                'id' => $account->getId()->toString(),
                 'email' => $account->getEmail(),
                 'locale' => $account->getLocale(),
                 'status' => $account->getStatus(),
