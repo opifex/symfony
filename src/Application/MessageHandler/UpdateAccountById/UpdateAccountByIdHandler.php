@@ -25,36 +25,36 @@ final class UpdateAccountByIdHandler
     ) {
     }
 
-    public function __invoke(UpdateAccountByIdRequest $message): UpdateAccountByIdResult
+    public function __invoke(UpdateAccountByIdRequest $request): UpdateAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
         }
 
-        $accountIdentifier = new AccountIdentifier($message->id);
+        $accountIdentifier = new AccountIdentifier($request->id);
         $account = $this->accountEntityRepository->findOneByid($accountIdentifier);
 
         if (!$account instanceof Account) {
             throw AccountNotFoundException::create();
         }
 
-        if ($message->email !== null) {
-            if ($message->email !== $account->getEmail()) {
-                if ($this->accountEntityRepository->findOneByEmail($message->email)) {
+        if ($request->email !== null) {
+            if ($request->email !== $account->getEmail()) {
+                if ($this->accountEntityRepository->findOneByEmail($request->email)) {
                     throw AccountAlreadyExistsException::create();
                 }
 
-                $account->changeEmail($message->email);
+                $account->changeEmail($request->email);
             }
         }
 
-        if ($message->password !== null) {
-            $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
+        if ($request->password !== null) {
+            $passwordHash = $this->authenticationPasswordHasher->hash($request->password);
             $account->changePassword($passwordHash);
         }
 
-        if ($message->locale !== null) {
-            $account->switchLocale($message->locale);
+        if ($request->locale !== null) {
+            $account->switchLocale($request->locale);
         }
 
         $this->accountEntityRepository->save($account);

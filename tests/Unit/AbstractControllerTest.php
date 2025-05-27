@@ -32,49 +32,49 @@ final class AbstractControllerTest extends Unit
     public function testInvokeThrowsExceptionOnMultipleHandlers(): void
     {
         $controller = new class ($this->messageBus) extends AbstractController {
-            public function __invoke(object $message): Response
+            public function __invoke(object $request): Response
             {
-                return $this->getHandledResult($message);
+                return $this->getHandledResult($request);
             }
         };
 
-        $message = new stdClass();
+        $request = new stdClass();
         $handledStamp1 = new HandledStamp(result: null, handlerName: 'handler1');
         $handledStamp2 = new HandledStamp(result: null, handlerName: 'handler2');
-        $envelope = new Envelope(message: $message, stamps: [$handledStamp1, $handledStamp2]);
+        $envelope = new Envelope(message: $request, stamps: [$handledStamp1, $handledStamp2]);
 
         $this->messageBus
             ->expects($this->once())
             ->method(constraint: 'dispatch')
-            ->with($message)
+            ->with($request)
             ->willReturn($envelope);
 
         $this->expectException(LogicException::class);
 
-        ($controller)($message);
+        ($controller)($request);
     }
 
     public function testInvokeThrowsExceptionOnInvalidResult(): void
     {
         $controller = new class ($this->messageBus) extends AbstractController {
-            public function __invoke(object $message): Response
+            public function __invoke(object $request): Response
             {
-                return $this->getHandledResult($message);
+                return $this->getHandledResult($request);
             }
         };
 
-        $message = new stdClass();
+        $request = new stdClass();
         $handledStamp = new HandledStamp(result: null, handlerName: 'handler');
-        $envelope = new Envelope(message: $message, stamps: [$handledStamp]);
+        $envelope = new Envelope(message: $request, stamps: [$handledStamp]);
 
         $this->messageBus
             ->expects($this->once())
             ->method(constraint: 'dispatch')
-            ->with($message)
+            ->with($request)
             ->willReturn($envelope);
 
         $this->expectException(LogicException::class);
 
-        ($controller)($message);
+        ($controller)($request);
     }
 }

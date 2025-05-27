@@ -20,7 +20,7 @@ final class GetSigninAccountHandler
     ) {
     }
 
-    public function __invoke(GetSigninAccountRequest $message): GetSigninAccountResult
+    public function __invoke(GetSigninAccountRequest $request): GetSigninAccountResult
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
 

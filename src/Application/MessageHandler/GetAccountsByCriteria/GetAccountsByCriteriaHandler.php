@@ -21,14 +21,14 @@ final class GetAccountsByCriteriaHandler
     ) {
     }
 
-    public function __invoke(GetAccountsByCriteriaRequest $message): GetAccountsByCriteriaResult
+    public function __invoke(GetAccountsByCriteriaRequest $request): GetAccountsByCriteriaResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
         }
 
-        $searchPagination = new SearchPagination($message->page, $message->limit);
-        $searchCriteria = new AccountSearchCriteria($message->email, $message->status, $searchPagination);
+        $searchPagination = new SearchPagination($request->page, $request->limit);
+        $searchCriteria = new AccountSearchCriteria($request->email, $request->status, $searchPagination);
 
         $accountSearchResult = $this->accountEntityRepository->findByCriteria($searchCriteria);
 

@@ -21,14 +21,14 @@ final class SignupNewAccountHandler
     ) {
     }
 
-    public function __invoke(SignupNewAccountRequest $message): SignupNewAccountResult
+    public function __invoke(SignupNewAccountRequest $request): SignupNewAccountResult
     {
-        if ($this->accountEntityRepository->findOneByEmail($message->email)) {
+        if ($this->accountEntityRepository->findOneByEmail($request->email)) {
             throw AccountAlreadyExistsException::create();
         }
 
-        $passwordHash = $this->authenticationPasswordHasher->hash($message->password);
-        $accountEntity = Account::create($message->email, $passwordHash, $message->locale);
+        $passwordHash = $this->authenticationPasswordHasher->hash($request->password);
+        $accountEntity = Account::create($request->email, $passwordHash, $request->locale);
         $accountIdentifier = $this->accountEntityRepository->save($accountEntity);
 
         $this->accountWorkflowManager->register($accountIdentifier);

@@ -22,13 +22,13 @@ final class DeleteAccountByIdHandler
     ) {
     }
 
-    public function __invoke(DeleteAccountByIdRequest $message): DeleteAccountByIdResult
+    public function __invoke(DeleteAccountByIdRequest $request): DeleteAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
         }
 
-        $accountIdentifier = new AccountIdentifier($message->id);
+        $accountIdentifier = new AccountIdentifier($request->id);
         $account = $this->accountEntityRepository->findOneByid($accountIdentifier);
 
         if (!$account instanceof Account) {

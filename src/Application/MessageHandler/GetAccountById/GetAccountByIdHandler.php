@@ -22,13 +22,13 @@ final class GetAccountByIdHandler
     ) {
     }
 
-    public function __invoke(GetAccountByIdRequest $message): GetAccountByIdResult
+    public function __invoke(GetAccountByIdRequest $request): GetAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
         }
 
-        $accountIdentifier = new AccountIdentifier($message->id);
+        $accountIdentifier = new AccountIdentifier($request->id);
         $account = $this->accountEntityRepository->findOneByid($accountIdentifier);
 
         if (!$account instanceof Account) {

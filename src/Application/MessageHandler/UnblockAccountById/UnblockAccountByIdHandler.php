@@ -20,13 +20,13 @@ final class UnblockAccountByIdHandler
     ) {
     }
 
-    public function __invoke(UnblockAccountByIdRequest $message): UnblockAccountByIdResult
+    public function __invoke(UnblockAccountByIdRequest $request): UnblockAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
         }
 
-        $accountIdentifier = new AccountIdentifier($message->id);
+        $accountIdentifier = new AccountIdentifier($request->id);
         $this->accountWorkflowManager->unblock($accountIdentifier);
 
         return UnblockAccountByIdResult::success();

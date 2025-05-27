@@ -20,13 +20,13 @@ final class BlockAccountByIdHandler
     ) {
     }
 
-    public function __invoke(BlockAccountByIdRequest $message): BlockAccountByIdResult
+    public function __invoke(BlockAccountByIdRequest $request): BlockAccountByIdResult
     {
         if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
             throw AuthorizationForbiddenException::create();
         }
 
-        $accountIdentifier = new AccountIdentifier($message->id);
+        $accountIdentifier = new AccountIdentifier($request->id);
         $this->accountWorkflowManager->block($accountIdentifier);
 
         return BlockAccountByIdResult::success();

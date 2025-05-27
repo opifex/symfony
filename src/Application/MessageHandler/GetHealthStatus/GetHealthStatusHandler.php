@@ -10,7 +10,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class GetHealthStatusHandler
 {
-    public function __invoke(GetHealthStatusRequest $message): GetHealthStatusResult
+    public function __invoke(GetHealthStatusRequest $request): GetHealthStatusResult
     {
         return GetHealthStatusResult::success(Health::ok());
     }
