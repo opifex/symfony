@@ -22,12 +22,12 @@ final class AccountWorkflowEventListener
     #[AsCompletedListener(workflow: 'account', transition: AccountAction::REGISTER)]
     public function onWorkflowAccountCompletedRegister(CompletedEvent $event): void
     {
-        $subject = $event->getSubject();
+        $account = $event->getSubject();
 
-        if (!$subject instanceof Account) {
+        if (!$account instanceof Account) {
             throw new InvalidArgumentException(message: 'Subject expected to be a valid account.');
         }
 
-        $this->eventDispatcher->dispatch(new AccountRegisteredEvent($subject));
+        $this->eventDispatcher->dispatch(new AccountRegisteredEvent($account));
     }
 }

@@ -44,7 +44,7 @@ final class SigninIntoAccountHandlerTest extends Unit
 
         $this->accountEntityRepository
             ->expects($this->once())
-            ->method(constraint: 'findOneByid')
+            ->method(constraint: 'findOneById')
             ->willReturn(value: null);
 
         $this->expectException(exception: AccountNotFoundException::class);

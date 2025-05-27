@@ -8,7 +8,6 @@ use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
-use App\Domain\Model\Account;
 use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -28,12 +27,9 @@ final class DeleteAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $accountIdentifier = new AccountIdentifier($request->id);
-        $account = $this->accountEntityRepository->findOneByid($accountIdentifier);
-
-        if (!$account instanceof Account) {
-            throw AccountNotFoundException::create();
-        }
+        $accountId = AccountIdentifier::fromString($request->id);
+        $account = $this->accountEntityRepository->findOneById($accountId)
+            ?? throw AccountNotFoundException::create();
 
         $this->accountEntityRepository->delete($account);
 

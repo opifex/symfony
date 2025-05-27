@@ -114,7 +114,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     private function getTokenIdentifier(): string
     {
         /** @var non-empty-string */
-        return Uuid::v4()->hash();
+        return Uuid::v4()->toString();
     }
 
     /**

@@ -15,7 +15,7 @@ final class AccountEntityMapper
     public static function map(AccountEntity $entity): Account
     {
         return new Account(
-            id: new AccountIdentifier((string) $entity->id),
+            id: AccountIdentifier::fromString((string) $entity->id),
             createdAt: $entity->createdAt,
             email: $entity->email,
             password: $entity->password,

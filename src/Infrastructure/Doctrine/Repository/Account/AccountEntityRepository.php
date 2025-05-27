@@ -63,7 +63,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     {
         $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
         $accountEntity = $accountRepository->findOneBy(criteria: [
-            'id' => Uuid::fromString($id->toString())->hash(),
+            'id' => Uuid::fromString($id->toString())->toString(),
         ]);
 
         $this->defaultEntityManager->clear();
@@ -88,7 +88,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: Uuid::fromString($account->getId()->toString())->hash());
+        $builder->setParameter(key: 'id', value: Uuid::fromString($account->getId()->toString())->toString());
 
         $builder->getQuery()->execute();
 
@@ -100,7 +100,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     {
         $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
         $accountEntity = $accountRepository->findOneBy(criteria: [
-            'id' => Uuid::fromString($account->getId()->toString())->hash(),
+            'id' => Uuid::fromString($account->getId()->toString())->toString(),
         ]);
 
         $accountEntity ??= new AccountEntity();
@@ -116,6 +116,6 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $this->defaultEntityManager->flush();
         $this->defaultEntityManager->clear();
 
-        return new AccountIdentifier((string) $accountEntity->id);
+        return AccountIdentifier::fromString((string) $accountEntity->id);
     }
 }

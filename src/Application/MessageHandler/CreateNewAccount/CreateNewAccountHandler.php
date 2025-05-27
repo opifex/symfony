@@ -35,13 +35,13 @@ final class CreateNewAccountHandler
             throw AccountAlreadyExistsException::create();
         }
 
-        $passwordHash = $this->authenticationPasswordHasher->hash($request->password);
-        $accountEntity = Account::create($request->email, $passwordHash, $request->locale);
-        $accountIdentifier = $this->accountEntityRepository->save($accountEntity);
+        $hashedPassword = $this->authenticationPasswordHasher->hash($request->password);
+        $account = Account::create($request->email, $hashedPassword, $request->locale);
 
-        $this->accountWorkflowManager->register($accountIdentifier);
-        $this->accountWorkflowManager->activate($accountIdentifier);
+        $this->accountWorkflowManager->register($account);
+        $this->accountWorkflowManager->activate($account);
+        $this->accountEntityRepository->save($account);
 
-        return CreateNewAccountResult::success($accountEntity);
+        return CreateNewAccountResult::success($account);
     }
 }

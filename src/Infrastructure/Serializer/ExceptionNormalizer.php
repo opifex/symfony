@@ -75,7 +75,7 @@ final class ExceptionNormalizer implements NormalizerInterface
 
     private function generateExceptionCode(Throwable $throwable): string
     {
-        return Uuid::v5(Uuid::fromString(uuid: Uuid::NAMESPACE_OID), $throwable::class)->toRfc4122();
+        return Uuid::v5(Uuid::fromString(uuid: Uuid::NAMESPACE_OID), $throwable::class)->toString();
     }
 
     private function localizeExceptionMessage(Throwable $throwable): string
