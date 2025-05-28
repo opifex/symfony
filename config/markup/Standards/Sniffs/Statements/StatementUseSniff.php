@@ -95,7 +95,7 @@ class StatementUseSniff implements Sniff
 
             if (!in_array($tokens[$previousToken]['type'], $tokensPreviousTypes)) {
                 $tokenContent = strtok($tokens[$stackPtr]['content'], token: '$');
-                $tokenName = trim(str_replace(search: ['(', ')', ' '], replace: '', subject: $tokenContent));
+                $tokenName = trim(str_replace(search: ['(', ')', '[', ']', ' '], replace: '', subject: $tokenContent));
                 $tokensUsed = array_merge($tokensUsed, preg_split(pattern: '/[|&,<>]/', subject: $tokenName));
             }
         }
