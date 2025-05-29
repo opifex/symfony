@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Contract\Identification\RequestIdStorageInterface;
-use App\Infrastructure\Messenger\RequestIdMiddleware;
-use App\Infrastructure\Messenger\RequestIdStamp;
+use App\Infrastructure\Messenger\Middleware\RequestIdMiddleware;
+use App\Infrastructure\Messenger\Stamp\RequestIdStamp;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;

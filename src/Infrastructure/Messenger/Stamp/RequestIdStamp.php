@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Messenger;
+namespace App\Infrastructure\Messenger\Stamp;
 
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Messenger\Stamp\StampInterface;

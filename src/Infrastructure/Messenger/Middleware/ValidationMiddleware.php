@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Messenger;
+namespace App\Infrastructure\Messenger\Middleware;
 
 use App\Domain\Exception\Validation\ValidationFailedException;
 use Override;

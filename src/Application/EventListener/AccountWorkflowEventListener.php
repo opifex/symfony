@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\EventListener;
 
-use App\Application\Event\AccountRegisteredEvent;
+use App\Domain\Event\AccountRegisteredEvent;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountAction;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

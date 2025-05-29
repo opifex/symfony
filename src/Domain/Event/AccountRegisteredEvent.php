@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Event;
+namespace App\Domain\Event;
 
 use App\Domain\Model\Account;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
