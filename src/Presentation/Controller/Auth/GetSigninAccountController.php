@@ -46,7 +46,7 @@ final class GetSigninAccountController extends AbstractController
                         new OA\Property(
                             property: 'locale',
                             type: 'string',
-                            example: 'en_US',
+                            example: 'en-US',
                         ),
                         new OA\Property(
                             property: 'status',

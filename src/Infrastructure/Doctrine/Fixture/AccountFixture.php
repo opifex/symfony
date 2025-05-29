@@ -29,7 +29,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $passwordHash,
-            locale: 'en_US',
+            locale: 'en-US',
             roles: [AccountRole::ADMIN],
             status: AccountStatus::ACTIVATED,
         );
@@ -41,7 +41,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $passwordHash,
-            locale: 'en_US',
+            locale: 'en-US',
             roles: [AccountRole::USER],
             status: AccountStatus::ACTIVATED,
         );
@@ -56,7 +56,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
                 email: $faker->unique()->email(),
                 password: $passwordHash,
-                locale: 'en_US',
+                locale: 'en-US',
                 roles: [AccountRole::USER],
                 status: $accountStatus,
             );

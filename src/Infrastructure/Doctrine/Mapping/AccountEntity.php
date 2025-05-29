@@ -30,7 +30,7 @@ class AccountEntity
         public string $password = '',
 
         #[ORM\Column(name: 'locale', type: Types::STRING, options: ['length' => 5])]
-        public string $locale = 'en_US',
+        public string $locale = 'en-US',
 
         /** @var string[] $roles */
         #[ORM\Column(name: 'roles', type: Types::JSON)]

@@ -25,7 +25,7 @@ final class UpdateAccountByIdRequest
         public readonly ?string $password = null,
 
         #[Assert\Locale]
-        #[Assert\Regex(pattern: '/^[a-z]{2}_[A-Z]{2}$/', message: 'This value is not a valid locale.')]
+        #[Assert\Regex(pattern: '/^[a-z]{2}-[A-Z]{2}$/', message: 'This value is not a valid locale.')]
         public readonly ?string $locale = null,
     ) {
     }

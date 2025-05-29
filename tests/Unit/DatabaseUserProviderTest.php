@@ -42,7 +42,7 @@ final class DatabaseUserProviderTest extends Unit
             createdAt: new DateTimeImmutable(),
             email: 'email@example.com',
             password: 'password4#account',
-            locale: 'en_US',
+            locale: 'en-US',
             roles: [AccountRole::USER],
             status: AccountStatus::CREATED,
         );

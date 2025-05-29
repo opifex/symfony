@@ -39,9 +39,9 @@ final class SignupNewAccountController extends AbstractController
                     new OA\Property(
                         property: 'locale',
                         type: 'string',
-                        default: 'en_US',
-                        pattern: '[a-z]{2}_[A-Z]{2}',
-                        example: 'en_US',
+                        default: 'en-US',
+                        pattern: '[a-z]{2}-[A-Z]{2}',
+                        example: 'en-US',
                     ),
                 ],
                 type: 'object',

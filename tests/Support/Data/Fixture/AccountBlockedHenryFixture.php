@@ -25,7 +25,7 @@ final class AccountBlockedHenryFixture extends Fixture implements FixtureInterfa
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'henry@example.com'),
             password: 'password4#account',
-            locale: 'en_US',
+            locale: 'en-US',
             roles: [AccountRole::USER],
             status: AccountStatus::BLOCKED,
         );

@@ -23,8 +23,8 @@ final class CreateNewAccountRequest
         public readonly string $password = '',
 
         #[Assert\Locale]
-        #[Assert\Regex(pattern: '/^[a-z]{2}_[A-Z]{2}$/', message: 'This value is not a valid locale.')]
-        public readonly string $locale = 'en_US',
+        #[Assert\Regex(pattern: '/^[a-z]{2}-[A-Z]{2}$/', message: 'This value is not a valid locale.')]
+        public readonly string $locale = 'en-US',
     ) {
     }
 }

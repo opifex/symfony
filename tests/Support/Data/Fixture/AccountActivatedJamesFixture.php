@@ -25,7 +25,7 @@ final class AccountActivatedJamesFixture extends Fixture implements FixtureInter
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'james@example.com'),
             password: 'password4#account',
-            locale: 'en_US',
+            locale: 'en-US',
             roles: [AccountRole::USER],
             status: AccountStatus::ACTIVATED,
         );
