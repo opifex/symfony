@@ -10,7 +10,6 @@ use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\AccountSearchResult;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
@@ -34,14 +33,14 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
 
-        if (!is_null($criteria->getEmail())) {
+        if ($criteria->getEmail() !== null) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
-            $builder->setParameter(key: 'email', value: '%' . $criteria->getEmail() . '%', type: ParameterType::STRING);
+            $builder->setParameter(key: 'email', value: '%' . $criteria->getEmail() . '%');
         }
 
-        if (!is_null($criteria->getStatus())) {
+        if ($criteria->getStatus() !== null) {
             $builder->andWhere($builder->expr()->eq(x: 'account.status', y: ':status'));
-            $builder->setParameter(key: 'status', value: $criteria->getStatus(), type: ParameterType::STRING);
+            $builder->setParameter(key: 'status', value: $criteria->getStatus());
         }
 
         $builder->addOrderBy($builder->expr()->desc(expr: 'account.createdAt'));
