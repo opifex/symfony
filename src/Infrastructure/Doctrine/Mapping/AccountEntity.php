@@ -21,7 +21,7 @@ class AccountEntity
         public ?string $id = null,
 
         #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]
-        public readonly DateTimeImmutable $createdAt = new DateTimeImmutable(),
+        public DateTimeImmutable $createdAt = new DateTimeImmutable(),
 
         #[ORM\Column(name: 'email', type: Types::STRING, unique: true, options: ['length' => 320])]
         public string $email = '',

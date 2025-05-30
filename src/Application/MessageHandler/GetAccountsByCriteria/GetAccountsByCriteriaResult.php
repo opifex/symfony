@@ -7,7 +7,6 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountSearchResult;
 use App\Domain\Model\SearchPagination;
-use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +30,7 @@ final class GetAccountsByCriteriaResult extends JsonResponse
                         'locale' => $account->getLocale(),
                         'status' => $account->getStatus(),
                         'roles' => $account->getRoles(),
-                        'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
+                        'created_at' => $account->getCreatedAt()->toAtomString(),
                     ],
                     array: $accountSearchResult->getAccounts(),
                 ),

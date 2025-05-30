@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Model;
 
-use DateTimeImmutable;
+use App\Domain\Model\Common\DateTimeUtc;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
@@ -15,7 +15,7 @@ class Account
      */
     public function __construct(
         private AccountIdentifier $id,
-        private DateTimeImmutable $createdAt,
+        private DateTimeUtc $createdAt,
         private string $email,
         private string $password,
         private string $locale,
@@ -28,7 +28,7 @@ class Account
     {
         return new self(
             id: AccountIdentifier::generate(),
-            createdAt: new DateTimeImmutable(),
+            createdAt: DatetimeUtc::now(),
             email: $email,
             password: $hashedPassword,
             locale: $locale,
@@ -70,7 +70,7 @@ class Account
         return $this->status;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): DateTimeUtc
     {
         return $this->createdAt;
     }

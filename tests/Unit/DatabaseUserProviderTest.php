@@ -9,10 +9,10 @@ use App\Domain\Model\Account;
 use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
+use App\Domain\Model\Common\DateTimeUtc;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Codeception\Test\Unit;
-use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -39,7 +39,7 @@ final class DatabaseUserProviderTest extends Unit
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $account = new Account(
             id: AccountIdentifier::generate(),
-            createdAt: new DateTimeImmutable(),
+            createdAt: DateTimeUtc::now(),
             email: 'email@example.com',
             password: 'password4#account',
             locale: 'en-US',

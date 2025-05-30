@@ -100,7 +100,13 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
         $accountEntity = $accountRepository->findOneBy(criteria: [
             'id' => Uuid::fromString($account->getId()->toString())->toString(),
-        ]) ?? new AccountEntity($account->getId()->toString());
+        ]);
+
+        if ($accountEntity === null) {
+            $accountEntity = new AccountEntity();
+            $accountEntity->id = Uuid::fromString($account->getId()->toString())->toString();
+            $accountEntity->createdAt = $account->getCreatedAt()->toImmutable();
+        }
 
         $accountEntity->email = $account->getEmail();
         $accountEntity->locale = $account->getLocale();

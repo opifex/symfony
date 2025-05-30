@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\GetAccountById;
 
 use App\Domain\Model\Account;
-use DateTimeInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +21,7 @@ final class GetAccountByIdResult extends JsonResponse
                 'locale' => $account->getLocale(),
                 'status' => $account->getStatus(),
                 'roles' => $account->getRoles(),
-                'created_at' => $account->getCreatedAt()->format(format: DateTimeInterface::ATOM),
+                'created_at' => $account->getCreatedAt()->toAtomString(),
             ],
             status: Response::HTTP_OK,
         );
