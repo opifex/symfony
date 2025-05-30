@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed921f38fe7cd4359fbf230f854ee9d2",
+    "content-hash": "7c6f112f25a75acfd9316eb124b3e518",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -11841,6 +11841,48 @@
                 }
             ],
             "time": "2025-05-02T05:30:54+00:00"
+        },
+        {
+            "name": "symplify/config-transformer",
+            "version": "12.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symplify/config-transformer.git",
+                "reference": "d9a0f2d6c6f80cb0672544ed5273d5e701a3e092"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symplify/config-transformer/zipball/d9a0f2d6c6f80cb0672544ed5273d5e701a3e092",
+                "reference": "d9a0f2d6c6f80cb0672544ed5273d5e701a3e092",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "bin": [
+                "bin/config-transformer"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed version of Symfony YAML/XML to PHP/YAML config converter",
+            "support": {
+                "issues": "https://github.com/symplify/config-transformer/issues",
+                "source": "https://github.com/symplify/config-transformer/tree/12.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/rectorphp",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tomasvotruba",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-01-22T23:08:18+00:00"
         },
         {
             "name": "theseer/tokenizer",

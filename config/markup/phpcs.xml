@@ -39,6 +39,8 @@
   <rule ref="Squiz.PHP.NonExecutableCode"/>
 
   <rule ref="Generic.Files.LineLength.TooLong">
+    <exclude-pattern>../config/packages/*</exclude-pattern>
+    <exclude-pattern>../config/routes/*</exclude-pattern>
     <exclude-pattern>../src/Infrastructure/Doctrine/Migration/*</exclude-pattern>
   </rule>
 
