@@ -16,7 +16,7 @@ final class GetHealthStatusResult extends JsonResponse
     {
         return new self(
             data: [
-                'status' => $health->getStatus(),
+                'status' => $health->getStatus()->toString(),
             ],
             status: Response::HTTP_OK,
         );

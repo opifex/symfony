@@ -7,11 +7,12 @@ namespace App\Domain\Model;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-class HealthStatus
+enum HealthStatus: string
 {
-    public const string OK = 'ok';
-    // List of all available health statuses
-    public const array CASES = [
-        self::OK,
-    ];
+    case Ok = 'ok';
+
+    public function toString(): string
+    {
+        return $this->value;
+    }
 }

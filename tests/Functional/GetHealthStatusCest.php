@@ -17,7 +17,7 @@ final class GetHealthStatusCest
         $I->seeResponseCodeIs(code: HttpCode::OK);
         $I->seeRequestTimeIsLessThan(expectedMilliseconds: 300);
         $I->seeResponseIsJson();
-        $I->seeResponseContainsJson(['status' => HealthStatus::OK]);
+        $I->seeResponseContainsJson(['status' => HealthStatus::Ok->toString()]);
         $I->seeResponseIsValidOnJsonSchema($I->getSchemaPath(filename: 'GetHealthStatusSchema.json'));
     }
 
