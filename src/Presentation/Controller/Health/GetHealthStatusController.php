@@ -34,8 +34,8 @@ final class GetHealthStatusController extends AbstractController
                         new OA\Property(
                             property: 'status',
                             type: 'string',
-                            enum: HealthStatus::CASES,
-                            example: HealthStatus::OK,
+                            enum: HealthStatus::class,
+                            example: HealthStatus::Ok,
                         ),
                     ],
                     type: 'object',
