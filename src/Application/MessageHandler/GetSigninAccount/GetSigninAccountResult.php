@@ -18,7 +18,7 @@ final class GetSigninAccountResult extends JsonResponse
             data: [
                 'id' => $account->getId()->toString(),
                 'email' => $account->getEmail(),
-                'locale' => $account->getLocale(),
+                'locale' => $account->getLocale()->toString(),
                 'status' => $account->getStatus(),
                 'roles' => $account->getRoles(),
                 'created_at' => $account->getCreatedAt()->toAtomString(),

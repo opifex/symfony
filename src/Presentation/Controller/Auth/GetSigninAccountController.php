@@ -8,6 +8,7 @@ use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
 use App\Domain\Model\HttpSpecification;
+use App\Domain\Model\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +47,7 @@ final class GetSigninAccountController extends AbstractController
                         new OA\Property(
                             property: 'locale',
                             type: 'string',
-                            example: 'en-US',
+                            example: LocaleCode::EnUs,
                         ),
                         new OA\Property(
                             property: 'status',

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Mapping;
 
-use App\Domain\Model\AccountStatus;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,14 +29,14 @@ class AccountEntity
         public string $password = '',
 
         #[ORM\Column(name: 'locale', type: Types::STRING, options: ['length' => 5])]
-        public string $locale = 'en-US',
+        public string $locale = '',
 
         /** @var string[] $roles */
         #[ORM\Column(name: 'roles', type: Types::JSON)]
         public array $roles = [],
 
         #[ORM\Column(name: 'status', type: Types::STRING, options: ['length' => 24])]
-        public string $status = AccountStatus::CREATED,
+        public string $status = '',
     ) {
     }
 }

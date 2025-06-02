@@ -109,7 +109,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         }
 
         $accountEntity->email = $account->getEmail();
-        $accountEntity->locale = $account->getLocale();
+        $accountEntity->locale = $account->getLocale()->toString();
         $accountEntity->password = $account->getPassword();
         $accountEntity->roles = $account->getRoles();
         $accountEntity->status = $account->getStatus();

@@ -6,6 +6,7 @@ namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdRequest;
 use App\Domain\Model\HttpSpecification;
+use App\Domain\Model\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,9 +39,9 @@ final class UpdateAccountByIdController extends AbstractController
                     new OA\Property(
                         property: 'locale',
                         type: 'string',
-                        default: 'en-US',
-                        pattern: '[a-z]{2}-[A-Z]{2}',
-                        example: 'en-US',
+                        default: LocaleCode::EnUs,
+                        enum: LocaleCode::class,
+                        example: LocaleCode::EnUs,
                     ),
                 ],
                 type: 'object',

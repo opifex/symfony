@@ -6,6 +6,7 @@ namespace App\Infrastructure\Doctrine\Fixture;
 
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
+use App\Domain\Model\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -29,7 +30,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $passwordHash,
-            locale: 'en-US',
+            locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::ADMIN],
             status: AccountStatus::ACTIVATED,
         );
@@ -41,7 +42,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $passwordHash,
-            locale: 'en-US',
+            locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::USER],
             status: AccountStatus::ACTIVATED,
         );
@@ -56,7 +57,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
                 email: $faker->unique()->email(),
                 password: $passwordHash,
-                locale: 'en-US',
+                locale: LocaleCode::EnUs->toString(),
                 roles: [AccountRole::USER],
                 status: $accountStatus,
             );

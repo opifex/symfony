@@ -31,11 +31,11 @@ final class AccountRegisteredNotification extends Notification implements EmailN
     {
         $email = new TemplatedEmail();
         $email->to($recipient->getEmail());
-        $email->locale($this->account->getLocale());
-        $email->subject($this->translator->trans($this->subject, locale: $this->account->getLocale()));
+        $email->locale($this->account->getLocale()->toString());
+        $email->subject($this->translator->trans($this->subject, locale: $this->account->getLocale()->toString()));
         $email->htmlTemplate(template: '@emails/account.registered.html.twig');
         $email->context([
-            'locale' => $this->account->getLocale(),
+            'locale' => $this->account->getLocale()->toString(),
             'account' => ['email' => $this->account->getEmail()],
         ]);
 

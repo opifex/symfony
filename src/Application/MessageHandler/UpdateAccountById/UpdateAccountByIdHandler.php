@@ -12,6 +12,7 @@ use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
 use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
+use App\Domain\Model\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -50,7 +51,7 @@ final class UpdateAccountByIdHandler
         }
 
         if ($request->locale !== null) {
-            $account->switchLocale($request->locale);
+            $account->switchLocale(LocaleCode::fromString($request->locale));
         }
 
         $this->accountEntityRepository->save($account);

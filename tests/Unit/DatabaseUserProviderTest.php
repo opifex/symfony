@@ -10,6 +10,7 @@ use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
 use App\Domain\Model\Common\DateTimeUtc;
+use App\Domain\Model\LocaleCode;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Codeception\Test\Unit;
@@ -42,7 +43,7 @@ final class DatabaseUserProviderTest extends Unit
             createdAt: DateTimeUtc::now(),
             email: 'email@example.com',
             password: 'password4#account',
-            locale: 'en-US',
+            locale: LocaleCode::EnUs,
             roles: [AccountRole::USER],
             status: AccountStatus::CREATED,
         );

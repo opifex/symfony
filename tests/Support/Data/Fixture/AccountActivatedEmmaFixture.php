@@ -6,6 +6,7 @@ namespace Tests\Support\Data\Fixture;
 
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
+use App\Domain\Model\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -25,7 +26,7 @@ final class AccountActivatedEmmaFixture extends Fixture implements FixtureInterf
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'emma@example.com'),
             password: 'password4#account',
-            locale: 'en-US',
+            locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::USER],
             status: AccountStatus::ACTIVATED,
         );

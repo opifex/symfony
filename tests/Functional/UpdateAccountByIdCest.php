@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use App\Domain\Model\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Codeception\Util\HttpCode;
 use Tests\Support\Data\Fixture\AccountActivatedAdminFixture;
@@ -27,7 +28,7 @@ final class UpdateAccountByIdCest
             params: json_encode([
                 'email' => 'updated@example.com',
                 'password' => 'password4#account',
-                'locale' => 'en-US',
+                'locale' => LocaleCode::EnUs->toString(),
             ]),
         );
         $I->seeResponseCodeIs(code: HttpCode::NO_CONTENT);
@@ -51,7 +52,7 @@ final class UpdateAccountByIdCest
             params: json_encode([
                 'email' => 'updated@example.com',
                 'password' => 'password4#account',
-                'locale' => 'en-US',
+                'locale' => LocaleCode::EnUs->toString(),
             ]),
         );
         $I->seeResponseCodeIs(code: HttpCode::FORBIDDEN);
@@ -75,7 +76,7 @@ final class UpdateAccountByIdCest
             params: json_encode([
                 'email' => 'james@example.com',
                 'password' => 'password4#account',
-                'locale' => 'en-US',
+                'locale' => LocaleCode::EnUs->toString(),
             ]),
         );
         $I->seeResponseCodeIs(code: HttpCode::CONFLICT);

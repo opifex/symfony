@@ -8,6 +8,7 @@ use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaRe
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
 use App\Domain\Model\HttpSpecification;
+use App\Domain\Model\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,7 +107,8 @@ final class GetAccountsByCriteriaController extends AbstractController
                                     new OA\Property(
                                         property: 'locale',
                                         type: 'string',
-                                        example: 'en-US',
+                                        enum: LocaleCode::class,
+                                        example: LocaleCode::EnUs,
                                     ),
                                     new OA\Property(
                                         property: 'status',

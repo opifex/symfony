@@ -18,7 +18,7 @@ class Account
         private DateTimeUtc $createdAt,
         private string $email,
         private string $password,
-        private string $locale,
+        private LocaleCode $locale,
         private array $roles,
         private string $status,
     ) {
@@ -28,10 +28,10 @@ class Account
     {
         return new self(
             id: AccountIdentifier::generate(),
-            createdAt: DatetimeUtc::now(),
+            createdAt: DateTimeUtc::now(),
             email: $email,
             password: $hashedPassword,
-            locale: $locale,
+            locale: LocaleCode::fromString($locale),
             roles: [AccountRole::USER],
             status: AccountStatus::CREATED,
         );
@@ -52,7 +52,7 @@ class Account
         return $this->password;
     }
 
-    public function getLocale(): string
+    public function getLocale(): LocaleCode
     {
         return $this->locale;
     }
@@ -90,7 +90,7 @@ class Account
         $this->password = $hashedPassword;
     }
 
-    public function switchLocale(string $locale): void
+    public function switchLocale(LocaleCode $locale): void
     {
         $this->locale = $locale;
     }

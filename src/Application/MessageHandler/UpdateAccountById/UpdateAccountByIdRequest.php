@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\UpdateAccountById;
 
+use App\Domain\Model\LocaleCode;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Messenger\Attribute\AsMessage;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,7 +26,7 @@ final class UpdateAccountByIdRequest
         public readonly ?string $password = null,
 
         #[Assert\Locale]
-        #[Assert\Regex(pattern: '/^[a-z]{2}-[A-Z]{2}$/', message: 'This value is not a valid locale.')]
+        #[Assert\Choice(callback: [LocaleCode::class, 'values'])]
         public readonly ?string $locale = null,
     ) {
     }
