@@ -7,6 +7,8 @@ namespace App\Infrastructure\Doctrine\Repository\Account;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\Common\DateTimeUtc;
+use App\Domain\Model\Common\EmailAddress;
+use App\Domain\Model\Common\HashedPassword;
 use App\Domain\Model\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
@@ -19,8 +21,8 @@ final class AccountEntityMapper
         return new Account(
             id: AccountIdentifier::fromString((string) $entity->id),
             createdAt: DateTimeUtc::fromImmutable($entity->createdAt),
-            email: $entity->email,
-            password: $entity->password,
+            email: EmailAddress::fromString($entity->email),
+            password: HashedPassword::fromString($entity->password),
             locale: LocaleCode::fromString($entity->locale),
             roles: $entity->roles,
             status: $entity->status,

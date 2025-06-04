@@ -10,8 +10,9 @@ use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountAlreadyExistsException;
 use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
-use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
+use App\Domain\Model\Common\EmailAddress;
+use App\Domain\Model\Common\HashedPassword;
 use App\Domain\Model\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -31,23 +32,22 @@ final class UpdateAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $accountId = AccountIdentifier::fromString($request->id);
-        $account = $this->accountEntityRepository->findOneById($accountId)
+        $account = $this->accountEntityRepository->findOneById($request->id)
             ?? throw AccountNotFoundException::create();
 
         if ($request->email !== null) {
-            if ($request->email !== $account->getEmail()) {
+            if (!$account->getEmail()->equals(EmailAddress::fromString($request->email))) {
                 if ($this->accountEntityRepository->findOneByEmail($request->email)) {
                     throw AccountAlreadyExistsException::create();
                 }
 
-                $account->changeEmail($request->email);
+                $account->changeEmail(EmailAddress::fromString($request->email));
             }
         }
 
         if ($request->password !== null) {
             $passwordHash = $this->authenticationPasswordHasher->hash($request->password);
-            $account->changePassword($passwordHash);
+            $account->changePassword(HashedPassword::fromString($passwordHash));
         }
 
         if ($request->locale !== null) {

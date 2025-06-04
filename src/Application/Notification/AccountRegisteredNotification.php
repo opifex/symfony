@@ -36,7 +36,7 @@ final class AccountRegisteredNotification extends Notification implements EmailN
         $email->htmlTemplate(template: '@emails/account.registered.html.twig');
         $email->context([
             'locale' => $this->account->getLocale()->toString(),
-            'account' => ['email' => $this->account->getEmail()],
+            'account' => ['email' => $this->account->getEmail()->toString()],
         ]);
 
         return new EmailMessage($email);

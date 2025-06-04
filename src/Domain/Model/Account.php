@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Model;
 
 use App\Domain\Model\Common\DateTimeUtc;
+use App\Domain\Model\Common\EmailAddress;
+use App\Domain\Model\Common\HashedPassword;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
@@ -16,8 +18,8 @@ class Account
     public function __construct(
         private AccountIdentifier $id,
         private DateTimeUtc $createdAt,
-        private string $email,
-        private string $password,
+        private EmailAddress $email,
+        private HashedPassword $password,
         private LocaleCode $locale,
         private array $roles,
         private string $status,
@@ -29,8 +31,8 @@ class Account
         return new self(
             id: AccountIdentifier::generate(),
             createdAt: DateTimeUtc::now(),
-            email: $email,
-            password: $hashedPassword,
+            email: EmailAddress::fromString($email),
+            password: HashedPassword::fromString($hashedPassword),
             locale: LocaleCode::fromString($locale),
             roles: [AccountRole::USER],
             status: AccountStatus::CREATED,
@@ -42,12 +44,12 @@ class Account
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getEmail(): EmailAddress
     {
         return $this->email;
     }
 
-    public function getPassword(): string
+    public function getPassword(): HashedPassword
     {
         return $this->password;
     }
@@ -80,12 +82,12 @@ class Account
         return $this->status === AccountStatus::ACTIVATED;
     }
 
-    public function changeEmail(string $email): void
+    public function changeEmail(EmailAddress $email): void
     {
         $this->email = $email;
     }
 
-    public function changePassword(string $hashedPassword): void
+    public function changePassword(HashedPassword $hashedPassword): void
     {
         $this->password = $hashedPassword;
     }

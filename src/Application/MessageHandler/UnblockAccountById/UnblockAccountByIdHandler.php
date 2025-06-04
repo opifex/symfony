@@ -9,7 +9,6 @@ use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
-use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -29,8 +28,7 @@ final class UnblockAccountByIdHandler
             throw AuthorizationForbiddenException::create();
         }
 
-        $accountId = AccountIdentifier::fromString($request->id);
-        $account = $this->accountEntityRepository->findOneById($accountId)
+        $account = $this->accountEntityRepository->findOneById($request->id)
             ?? throw AccountNotFoundException::create();
 
         $this->accountWorkflowManager->unblock($account);

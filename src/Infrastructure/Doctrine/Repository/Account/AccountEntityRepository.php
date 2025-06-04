@@ -58,11 +58,11 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function findOneById(AccountIdentifier $id): ?Account
+    public function findOneById(string $id): ?Account
     {
         $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
         $accountEntity = $accountRepository->findOneBy(criteria: [
-            'id' => Uuid::fromString($id->toString())->toString(),
+            'id' => Uuid::fromString($id)->toString(),
         ]);
 
         $this->defaultEntityManager->clear();
@@ -108,9 +108,9 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
             $accountEntity->createdAt = $account->getCreatedAt()->toImmutable();
         }
 
-        $accountEntity->email = $account->getEmail();
+        $accountEntity->email = $account->getEmail()->toString();
         $accountEntity->locale = $account->getLocale()->toString();
-        $accountEntity->password = $account->getPassword();
+        $accountEntity->password = $account->getPassword()->toString();
         $accountEntity->roles = $account->getRoles();
         $accountEntity->status = $account->getStatus();
 

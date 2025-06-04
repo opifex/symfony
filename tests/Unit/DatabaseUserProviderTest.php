@@ -10,6 +10,8 @@ use App\Domain\Model\AccountIdentifier;
 use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
 use App\Domain\Model\Common\DateTimeUtc;
+use App\Domain\Model\Common\EmailAddress;
+use App\Domain\Model\Common\HashedPassword;
 use App\Domain\Model\LocaleCode;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
@@ -41,15 +43,15 @@ final class DatabaseUserProviderTest extends Unit
         $account = new Account(
             id: AccountIdentifier::generate(),
             createdAt: DateTimeUtc::now(),
-            email: 'email@example.com',
-            password: 'password4#account',
+            email: EmailAddress::fromString(email: 'email@example.com'),
+            password: HashedPassword::fromString(passwordHash: 'password4#account'),
             locale: LocaleCode::EnUs,
             roles: [AccountRole::USER],
             status: AccountStatus::CREATED,
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: $account->getId()->toString(),
-            password: $account->getPassword(),
+            password: $account->getPassword()->toString(),
             roles: $account->getRoles(),
             enabled: true,
         );
@@ -57,10 +59,10 @@ final class DatabaseUserProviderTest extends Unit
         $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
-            ->with($account->getEmail())
+            ->with($account->getEmail()->toString())
             ->willReturn($account);
 
-        $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->getEmail());
+        $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->getEmail()->toString());
 
         $this->assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
         $this->assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());

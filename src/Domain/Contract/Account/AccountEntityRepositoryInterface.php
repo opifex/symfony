@@ -13,7 +13,7 @@ interface AccountEntityRepositoryInterface
 {
     public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
 
-    public function findOneById(AccountIdentifier $id): ?Account;
+    public function findOneById(string $id): ?Account;
 
     public function findOneByEmail(string $email): ?Account;
 
