@@ -37,9 +37,9 @@ final class GetAccountsByCriteriaController extends AbstractController
                 in: 'query',
                 schema: new OA\Schema(
                     type: 'string',
-                    enum: AccountStatus::CASES,
+                    enum: AccountStatus::class,
                 ),
-                example: AccountStatus::ACTIVATED,
+                example: AccountStatus::Activated,
             ),
             new OA\Parameter(
                 name: 'limit',
@@ -113,8 +113,8 @@ final class GetAccountsByCriteriaController extends AbstractController
                                     new OA\Property(
                                         property: 'status',
                                         type: 'string',
-                                        enum: AccountStatus::CASES,
-                                        example: AccountStatus::ACTIVATED,
+                                        enum: AccountStatus::class,
+                                        example: AccountStatus::Activated,
                                     ),
                                     new OA\Property(
                                         property: 'roles',

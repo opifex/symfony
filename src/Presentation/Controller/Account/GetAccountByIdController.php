@@ -69,8 +69,8 @@ final class GetAccountByIdController extends AbstractController
                         new OA\Property(
                             property: 'status',
                             type: 'string',
-                            enum: AccountStatus::CASES,
-                            example: AccountStatus::ACTIVATED,
+                            enum: AccountStatus::class,
+                            example: AccountStatus::Activated,
                         ),
                         new OA\Property(
                             property: 'roles',

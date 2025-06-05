@@ -28,7 +28,7 @@ final class AccountActivatedEmmaFixture extends Fixture implements FixtureInterf
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::USER],
-            status: AccountStatus::ACTIVATED,
+            status: AccountStatus::Activated->toString(),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:activated:emma', object: $account);

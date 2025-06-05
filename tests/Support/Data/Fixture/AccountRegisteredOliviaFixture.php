@@ -28,7 +28,7 @@ final class AccountRegisteredOliviaFixture extends Fixture implements FixtureInt
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::USER],
-            status: AccountStatus::REGISTERED,
+            status: AccountStatus::Registered->toString(),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:registered:olivia', object: $account);

@@ -6,6 +6,7 @@ namespace App\Infrastructure\Doctrine\Repository\Account;
 
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountIdentifier;
+use App\Domain\Model\AccountStatus;
 use App\Domain\Model\Common\DateTimeUtc;
 use App\Domain\Model\Common\EmailAddress;
 use App\Domain\Model\Common\HashedPassword;
@@ -25,7 +26,7 @@ final class AccountEntityMapper
             password: HashedPassword::fromString($entity->password),
             locale: LocaleCode::fromString($entity->locale),
             roles: $entity->roles,
-            status: $entity->status,
+            status: AccountStatus::fromString($entity->status),
         );
     }
 

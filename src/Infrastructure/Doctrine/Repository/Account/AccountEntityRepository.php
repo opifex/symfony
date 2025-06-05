@@ -112,7 +112,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $accountEntity->locale = $account->getLocale()->toString();
         $accountEntity->password = $account->getPassword()->toString();
         $accountEntity->roles = $account->getRoles();
-        $accountEntity->status = $account->getStatus();
+        $accountEntity->status = $account->getStatus()->toString();
 
         $this->defaultEntityManager->persist($accountEntity);
 

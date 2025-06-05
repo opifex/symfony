@@ -21,33 +21,33 @@ final class AccountWorkflowManager implements AccountWorkflowManagerInterface
     #[Override]
     public function activate(Account $account): void
     {
-        $this->apply($account, action: AccountAction::ACTIVATE);
+        $this->apply($account, action: AccountAction::Activate);
     }
 
     #[Override]
     public function block(Account $account): void
     {
-        $this->apply($account, action: AccountAction::BLOCK);
+        $this->apply($account, action: AccountAction::Block);
     }
 
     #[Override]
     public function register(Account $account): void
     {
-        $this->apply($account, action: AccountAction::REGISTER);
+        $this->apply($account, action: AccountAction::Register);
     }
 
     #[Override]
     public function unblock(Account $account): void
     {
-        $this->apply($account, action: AccountAction::UNBLOCK);
+        $this->apply($account, action: AccountAction::Unblock);
     }
 
-    private function apply(Account $account, string $action): void
+    private function apply(Account $account, AccountAction $action): void
     {
-        if (!$this->accountStateMachine->can($account, $action)) {
+        if (!$this->accountStateMachine->can($account, $action->toString())) {
             throw AccountActionInvalidException::create();
         }
 
-        $this->accountStateMachine->apply($account, $action);
+        $this->accountStateMachine->apply($account, $action->toString());
     }
 }

@@ -19,7 +19,7 @@ final class GetSigninAccountResult extends JsonResponse
                 'id' => $account->getId()->toString(),
                 'email' => $account->getEmail()->toString(),
                 'locale' => $account->getLocale()->toString(),
-                'status' => $account->getStatus(),
+                'status' => $account->getStatus()->toString(),
                 'roles' => $account->getRoles(),
                 'created_at' => $account->getCreatedAt()->toAtomString(),
             ],

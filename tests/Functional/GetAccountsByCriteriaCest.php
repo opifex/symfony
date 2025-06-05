@@ -21,7 +21,7 @@ final class GetAccountsByCriteriaCest
             url: '/api/account',
             params: [
                 'email' => 'admin@example.com',
-                'status' => AccountStatus::ACTIVATED,
+                'status' => AccountStatus::Activated->toString(),
             ],
         );
         $I->seeResponseCodeIs(code: HttpCode::OK);
@@ -40,7 +40,7 @@ final class GetAccountsByCriteriaCest
             url: '/api/account',
             params: [
                 'email' => 'admin@example.com',
-                'status' => AccountStatus::ACTIVATED,
+                'status' => AccountStatus::Activated->toString(),
             ],
         );
         $I->seeResponseCodeIs(code: HttpCode::FORBIDDEN);

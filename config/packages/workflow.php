@@ -22,29 +22,29 @@ return function (ContainerConfigurator $configurator): void {
                 'supports' => [
                     Account::class,
                 ],
-                'initial_marking' => AccountStatus::CREATED,
+                'initial_marking' => AccountStatus::Created->value,
                 'places' => [
-                    AccountStatus::ACTIVATED,
-                    AccountStatus::BLOCKED,
-                    AccountStatus::CREATED,
-                    AccountStatus::REGISTERED,
+                    AccountStatus::Activated->value,
+                    AccountStatus::Blocked->value,
+                    AccountStatus::Created->value,
+                    AccountStatus::Registered->value,
                 ],
                 'transitions' => [
-                    AccountAction::ACTIVATE => [
-                        'from' => AccountStatus::REGISTERED,
-                        'to' => AccountStatus::ACTIVATED,
+                    AccountAction::Activate->value => [
+                        'from' => AccountStatus::Registered->value,
+                        'to' => AccountStatus::Activated->value,
                     ],
-                    AccountAction::BLOCK => [
-                        'from' => AccountStatus::ACTIVATED,
-                        'to' => AccountStatus::BLOCKED,
+                    AccountAction::Block->value => [
+                        'from' => AccountStatus::Activated->value,
+                        'to' => AccountStatus::Blocked->value,
                     ],
-                    AccountAction::REGISTER => [
-                        'from' => AccountStatus::CREATED,
-                        'to' => AccountStatus::REGISTERED,
+                    AccountAction::Register->value => [
+                        'from' => AccountStatus::Created->value,
+                        'to' => AccountStatus::Registered->value,
                     ],
-                    AccountAction::UNBLOCK => [
-                        'from' => AccountStatus::BLOCKED,
-                        'to' => AccountStatus::ACTIVATED,
+                    AccountAction::Unblock->value => [
+                        'from' => AccountStatus::Blocked->value,
+                        'to' => AccountStatus::Activated->value,
                     ],
                 ],
             ],

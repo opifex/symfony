@@ -28,7 +28,7 @@ final class AccountActivatedJamesFixture extends Fixture implements FixtureInter
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::USER],
-            status: AccountStatus::ACTIVATED,
+            status: AccountStatus::Activated->toString(),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:activated:james', object: $account);

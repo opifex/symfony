@@ -7,10 +7,15 @@ namespace App\Domain\Model;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-class AccountAction
+enum AccountAction: string
 {
-    public const string ACTIVATE = 'activate';
-    public const string BLOCK = 'block';
-    public const string REGISTER = 'register';
-    public const string UNBLOCK = 'unblock';
+    case Activate = 'activate';
+    case Block = 'block';
+    case Register = 'register';
+    case Unblock = 'unblock';
+
+    public function toString(): string
+    {
+        return $this->value;
+    }
 }

@@ -28,7 +28,7 @@ final class AccountBlockedHenryFixture extends Fixture implements FixtureInterfa
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::USER],
-            status: AccountStatus::BLOCKED,
+            status: AccountStatus::Blocked->toString(),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:blocked:henry', object: $account);

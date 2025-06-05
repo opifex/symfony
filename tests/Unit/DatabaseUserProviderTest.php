@@ -47,7 +47,7 @@ final class DatabaseUserProviderTest extends Unit
             password: HashedPassword::fromString(passwordHash: 'password4#account'),
             locale: LocaleCode::EnUs,
             roles: [AccountRole::USER],
-            status: AccountStatus::CREATED,
+            status: AccountStatus::Created,
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: $account->getId()->toString(),

@@ -22,7 +22,7 @@ class Account
         private HashedPassword $password,
         private LocaleCode $locale,
         private array $roles,
-        private string $status,
+        private AccountStatus $status,
     ) {
     }
 
@@ -35,7 +35,7 @@ class Account
             password: HashedPassword::fromString($hashedPassword),
             locale: LocaleCode::fromString($locale),
             roles: [AccountRole::USER],
-            status: AccountStatus::CREATED,
+            status: AccountStatus::Created,
         );
     }
 
@@ -67,7 +67,7 @@ class Account
         return $this->roles;
     }
 
-    public function getStatus(): string
+    public function getStatus(): AccountStatus
     {
         return $this->status;
     }
@@ -79,7 +79,7 @@ class Account
 
     public function isActive(): bool
     {
-        return $this->status === AccountStatus::ACTIVATED;
+        return $this->status === AccountStatus::Activated;
     }
 
     public function changeEmail(EmailAddress $email): void
@@ -97,7 +97,7 @@ class Account
         $this->locale = $locale;
     }
 
-    public function updateStatus(string $status): void
+    public function updateStatus(AccountStatus $status): void
     {
         $this->status = $status;
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c6f112f25a75acfd9316eb124b3e518",
+    "content-hash": "27e2c3e9b3f721bed61bc2d411b567d8",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -8680,28 +8680,28 @@
         },
         {
             "name": "codeception/module-symfony",
-            "version": "3.5.1",
+            "version": "3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-symfony.git",
-                "reference": "12fdf094fea572f8fd6e975c4f4b440d95684d44"
+                "reference": "c2adb5cdcff816a4190c4bfd5be6acc1a5a9c4c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/12fdf094fea572f8fd6e975c4f4b440d95684d44",
-                "reference": "12fdf094fea572f8fd6e975c4f4b440d95684d44",
+                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/c2adb5cdcff816a4190c4bfd5be6acc1a5a9c4c1",
+                "reference": "c2adb5cdcff816a4190c4bfd5be6acc1a5a9c4c1",
                 "shasum": ""
             },
             "require": {
-                "codeception/codeception": "^5.0.8",
-                "codeception/lib-innerbrowser": "^3.1.1 | ^4.0",
+                "codeception/codeception": "^5.3",
+                "codeception/lib-innerbrowser": "^3.1 | ^4.0",
                 "ext-json": "*",
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "codeception/module-asserts": "^3.0",
                 "codeception/module-doctrine": "^3.1",
-                "doctrine/orm": "^2.10",
+                "doctrine/orm": "^2.20",
                 "symfony/browser-kit": "^5.4 | ^6.4 | ^7.2",
                 "symfony/cache": "^5.4 | ^6.4 | ^7.2",
                 "symfony/config": "^5.4 | ^6.4 | ^7.2",
@@ -8763,10 +8763,11 @@
                 "symfony"
             ],
             "support": {
+                "docs": "https://codeception.com/docs/modules/Symfony",
                 "issues": "https://github.com/Codeception/module-symfony/issues",
-                "source": "https://github.com/Codeception/module-symfony/tree/3.5.1"
+                "source": "https://github.com/Codeception/module-symfony/tree/3.6.0"
             },
-            "time": "2025-02-20T16:35:08+00:00"
+            "time": "2025-05-30T08:07:26+00:00"
         },
         {
             "name": "codeception/stub",
