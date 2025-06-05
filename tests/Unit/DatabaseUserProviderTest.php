@@ -7,12 +7,13 @@ namespace Tests\Unit;
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountIdentifier;
-use App\Domain\Model\AccountRole;
+use App\Domain\Model\AccountRoles;
 use App\Domain\Model\AccountStatus;
 use App\Domain\Model\Common\DateTimeUtc;
 use App\Domain\Model\Common\EmailAddress;
 use App\Domain\Model\Common\HashedPassword;
 use App\Domain\Model\LocaleCode;
+use App\Domain\Model\Role;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Codeception\Test\Unit;
@@ -46,13 +47,13 @@ final class DatabaseUserProviderTest extends Unit
             email: EmailAddress::fromString(email: 'email@example.com'),
             password: HashedPassword::fromString(passwordHash: 'password4#account'),
             locale: LocaleCode::EnUs,
-            roles: [AccountRole::USER],
+            roles: AccountRoles::fromStrings(Role::User->toString()),
             status: AccountStatus::Created,
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: $account->getId()->toString(),
             password: $account->getPassword()->toString(),
-            roles: $account->getRoles(),
+            roles: $account->getRoles()->toArray(),
             enabled: true,
         );
 
@@ -88,7 +89,7 @@ final class DatabaseUserProviderTest extends Unit
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [AccountRole::USER],
+            roles: [Role::User->toString()],
             enabled: true,
         );
 

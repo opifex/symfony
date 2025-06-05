@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Support\Data\Fixture;
 
-use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountStatus;
 use App\Domain\Model\LocaleCode;
+use App\Domain\Model\Role;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -27,7 +27,7 @@ final class AccountRegisteredOliviaFixture extends Fixture implements FixtureInt
             email: $faker->unique()->bothify(string: 'olivia@example.com'),
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),
-            roles: [AccountRole::USER],
+            roles: [Role::User->toString()],
             status: AccountStatus::Registered->toString(),
         );
         $manager->persist($account);

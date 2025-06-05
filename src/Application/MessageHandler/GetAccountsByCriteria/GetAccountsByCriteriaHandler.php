@@ -7,8 +7,8 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
-use App\Domain\Model\AccountRole;
 use App\Domain\Model\AccountSearchCriteria;
+use App\Domain\Model\Role;
 use App\Domain\Model\SearchPagination;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -23,7 +23,7 @@ final class GetAccountsByCriteriaHandler
 
     public function __invoke(GetAccountsByCriteriaRequest $request): GetAccountsByCriteriaResult
     {
-        if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
+        if (!$this->authorizationTokenManager->checkPermission(access: Role::Admin->toString())) {
             throw AuthorizationForbiddenException::create();
         }
 

@@ -12,16 +12,13 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 class Account
 {
-    /**
-     * @param string[] $roles
-     */
     public function __construct(
         private AccountIdentifier $id,
         private DateTimeUtc $createdAt,
         private EmailAddress $email,
         private HashedPassword $password,
         private LocaleCode $locale,
-        private array $roles,
+        private AccountRoles $roles,
         private AccountStatus $status,
     ) {
     }
@@ -34,7 +31,7 @@ class Account
             email: EmailAddress::fromString($email),
             password: HashedPassword::fromString($hashedPassword),
             locale: LocaleCode::fromString($locale),
-            roles: [AccountRole::USER],
+            roles: AccountRoles::fromStrings(Role::User->toString()),
             status: AccountStatus::Created,
         );
     }
@@ -59,10 +56,7 @@ class Account
         return $this->locale;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getRoles(): array
+    public function getRoles(): AccountRoles
     {
         return $this->roles;
     }

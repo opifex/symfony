@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Model\AccountRole;
+use App\Domain\Model\Role;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\PasswordAuthenticatedUserChecker;
 use Codeception\Test\Unit;
@@ -34,7 +34,7 @@ final class PasswordAuthenticatedUserCheckerTest extends Unit
         $accountUser = new PasswordAuthenticatedUser(
             userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [AccountRole::USER],
+            roles: [Role::User],
             enabled: false,
         );
 
@@ -57,7 +57,7 @@ final class PasswordAuthenticatedUserCheckerTest extends Unit
         $accountUser = new PasswordAuthenticatedUser(
             userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [AccountRole::USER],
+            roles: [Role::User],
             enabled: true,
         );
         $accountUserChecker->checkPostAuth($accountUser);

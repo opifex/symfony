@@ -11,7 +11,7 @@ use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountAlreadyExistsException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
 use App\Domain\Model\Account;
-use App\Domain\Model\AccountRole;
+use App\Domain\Model\Role;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -27,7 +27,7 @@ final class CreateNewAccountHandler
 
     public function __invoke(CreateNewAccountRequest $request): CreateNewAccountResult
     {
-        if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
+        if (!$this->authorizationTokenManager->checkPermission(access: Role::Admin->toString())) {
             throw AuthorizationForbiddenException::create();
         }
 

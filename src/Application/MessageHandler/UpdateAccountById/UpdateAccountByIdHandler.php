@@ -10,10 +10,10 @@ use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountAlreadyExistsException;
 use App\Domain\Exception\Account\AccountNotFoundException;
 use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
-use App\Domain\Model\AccountRole;
 use App\Domain\Model\Common\EmailAddress;
 use App\Domain\Model\Common\HashedPassword;
 use App\Domain\Model\LocaleCode;
+use App\Domain\Model\Role;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -28,7 +28,7 @@ final class UpdateAccountByIdHandler
 
     public function __invoke(UpdateAccountByIdRequest $request): UpdateAccountByIdResult
     {
-        if (!$this->authorizationTokenManager->checkPermission(access: AccountRole::ADMIN)) {
+        if (!$this->authorizationTokenManager->checkPermission(access: Role::Admin->toString())) {
             throw AuthorizationForbiddenException::create();
         }
 

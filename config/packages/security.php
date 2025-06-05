@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Domain\Model\AccountRole;
+use App\Domain\Model\Role;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\JsonLoginAuthenticator;
 use App\Infrastructure\Security\JwtAccessTokenHandler;
@@ -43,8 +43,8 @@ return function (ContainerConfigurator $configurator): void {
             ],
         ],
         'role_hierarchy' => [
-            AccountRole::ADMIN => [
-                AccountRole::USER,
+            Role::Admin->value => [
+                Role::User->value,
             ],
         ],
     ]);

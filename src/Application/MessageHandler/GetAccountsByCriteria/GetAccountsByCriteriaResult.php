@@ -29,7 +29,7 @@ final class GetAccountsByCriteriaResult extends JsonResponse
                         'email' => $account->getEmail()->toString(),
                         'locale' => $account->getLocale()->toString(),
                         'status' => $account->getStatus()->toString(),
-                        'roles' => $account->getRoles(),
+                        'roles' => $account->getRoles()->toArray(),
                         'created_at' => $account->getCreatedAt()->toAtomString(),
                     ],
                     array: $accountSearchResult->getAccounts(),

@@ -29,7 +29,7 @@ final class SigninIntoAccountHandler
 
         $accessToken = $this->jwtTokenManager->createAccessToken(
             userIdentifier: $account->getId()->toString(),
-            userRoles: $account->getRoles(),
+            userRoles: $account->getRoles()->toArray(),
         );
 
         return SigninIntoAccountResult::success($accessToken);
