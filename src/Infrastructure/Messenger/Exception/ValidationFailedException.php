@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Exception\Validation;
+namespace App\Infrastructure\Messenger\Exception;
 
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;

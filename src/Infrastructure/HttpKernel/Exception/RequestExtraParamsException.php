@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Exception\Validation;
+namespace App\Infrastructure\HttpKernel\Exception;
 
+use App\Infrastructure\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
