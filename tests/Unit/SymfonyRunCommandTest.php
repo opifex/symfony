@@ -9,7 +9,6 @@ use App\Presentation\Command\SymfonyRunCommand;
 use Codeception\Test\Unit;
 use Override;
 use PHPUnit\Framework\MockObject\Exception as MockObjectException;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -19,8 +18,6 @@ final class SymfonyRunCommandTest extends Unit
 {
     private Application $application;
 
-    private HttpbinResponderInterface&MockObject $httpbinResponder;
-
     /**
      * @throws MockObjectException
      */
@@ -29,21 +26,11 @@ final class SymfonyRunCommandTest extends Unit
     {
         $this->application = new Application();
         $this->httpbinResponder = $this->createMock(type: HttpbinResponderInterface::class);
-        $this->application->add(
-            new SymfonyRunCommand(
-                clock: new MockClock(),
-                httpbinResponder: $this->httpbinResponder,
-            ),
-        );
+        $this->application->add(new SymfonyRunCommand(new MockClock()));
     }
 
     public function testExecuteWithSuccessResult(): void
     {
-        $this->httpbinResponder
-            ->expects($this->once())
-            ->method(constraint: 'getJson')
-            ->willReturn(['slideshow' => ['title' => 'Sample Slide Show']]);
-
         $commandTester = new CommandTester($this->application->get('app:symfony:run'));
         $commandTester->execute(['--delay' => 0]);
 

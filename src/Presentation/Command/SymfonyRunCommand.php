@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Presentation\Command;
 
-use App\Domain\Contract\Integration\HttpbinResponderInterface;
 use Override;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -19,7 +18,6 @@ final class SymfonyRunCommand extends Command
 {
     public function __construct(
         private readonly ClockInterface $clock,
-        private readonly HttpbinResponderInterface $httpbinResponder,
     ) {
         parent::__construct();
     }
@@ -43,9 +41,7 @@ final class SymfonyRunCommand extends Command
 
         $delay = is_string($input->getOption(name: 'delay')) ? (int) $input->getOption(name: 'delay') : 0;
 
-        $iterableItems = [$this->httpbinResponder->getJson()];
-
-        foreach ($console->progressIterate($iterableItems) as $item) {
+        foreach ($console->progressIterate(array_fill(0, 10, null)) as $item) {
             $this->clock->sleep($delay);
         }
 
