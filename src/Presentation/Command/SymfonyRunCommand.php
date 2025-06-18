@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Presentation\Command;
 
-use Override;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -22,24 +21,14 @@ final class SymfonyRunCommand extends Command
         parent::__construct();
     }
 
-    #[Override]
-    protected function configure(): void
-    {
-        $this->addOption(
-            name: 'delay',
-            mode: InputOption::VALUE_OPTIONAL,
-            description: 'Delay in seconds between iterations.',
-            default: 1,
-        );
-    }
-
-    #[Override]
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(description: 'Delay in seconds between iterations.', name: 'delay')]
+        int $delay = 1,
+    ): int {
         $console = new SymfonyStyle($input, $output);
         $console->title($this->getDescription());
-
-        $delay = is_string($input->getOption(name: 'delay')) ? (int) $input->getOption(name: 'delay') : 0;
 
         foreach ($console->progressIterate(array_fill(0, 10, null)) as $item) {
             $this->clock->sleep($delay);
