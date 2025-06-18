@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Contract\Integration\HttpbinResponderInterface;
 use App\Presentation\Command\SymfonyRunCommand;
 use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -18,14 +16,10 @@ final class SymfonyRunCommandTest extends Unit
 {
     private Application $application;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {
         $this->application = new Application();
-        $this->httpbinResponder = $this->createMock(type: HttpbinResponderInterface::class);
         $this->application->add(new SymfonyRunCommand(new MockClock()));
     }
 
