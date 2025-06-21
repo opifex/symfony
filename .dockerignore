@@ -6,6 +6,6 @@
 .idea/
 Dockerfile
 LICENSE
-docker-compose.yml
+compose.yml
 var/
 vendor/
