@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\Integration\TemplateRendererException;
+use App\Domain\Exception\Integration\TwigTemplateRendererException;
 use App\Infrastructure\Adapter\Sensiolabs\SensiolabsTwigAdapter;
 use Codeception\Test\Unit;
 use Override;
@@ -50,7 +50,7 @@ final class SensiolabsTwigAdapterTest extends Unit
             ->method(constraint: 'render')
             ->willThrowException(new Error(message: ''));
 
-        $this->expectException(TemplateRendererException::class);
+        $this->expectException(TwigTemplateRendererException::class);
 
         $sensiolabsTwigAdapter->render(name: 'example.html.twig');
     }

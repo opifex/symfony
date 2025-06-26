@@ -12,10 +12,10 @@ use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_INTERNAL_SERVER_ERROR)]
-class HttpbinResponderException extends RuntimeException
+class TwigTemplateRendererException extends RuntimeException
 {
     public static function fromException(Throwable $previous): self
     {
-        return new self(message: 'Httpbin responder encountered an exception.', previous: $previous);
+        return new self(message: 'Template renderer encountered an exception.', previous: $previous);
     }
 }

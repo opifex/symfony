@@ -6,7 +6,7 @@ namespace App\Application\MessageHandler\SigninIntoAccount;
 
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Contract\Integration\JwtTokenManagerInterface;
+use App\Domain\Contract\Integration\JwtAccessTokenManagerInterface;
 use App\Domain\Exception\Account\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -16,7 +16,7 @@ final class SigninIntoAccountHandler
     public function __construct(
         private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
-        private readonly JwtTokenManagerInterface $jwtTokenManager,
+        private readonly JwtAccessTokenManagerInterface $jwtAccessTokenManager,
     ) {
     }
 
@@ -27,7 +27,7 @@ final class SigninIntoAccountHandler
         $account = $this->accountEntityRepository->findOneById($userIdentifier)
             ?? throw AccountNotFoundException::create();
 
-        $accessToken = $this->jwtTokenManager->createAccessToken(
+        $accessToken = $this->jwtAccessTokenManager->createAccessToken(
             userIdentifier: $account->getId()->toString(),
             userRoles: $account->getRoles()->toArray(),
         );

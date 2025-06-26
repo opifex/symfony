@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\Integration\JwtTokenManagerException;
+use App\Domain\Exception\Integration\JwtAccessTokenManagerException;
 use App\Domain\Model\Role;
 use App\Infrastructure\Adapter\Lcobucci\LcobucciJwtAdapter;
 use Codeception\Test\Unit;
@@ -14,7 +14,7 @@ use Symfony\Component\Clock\MockClock;
 final class LcobucciJwtAdapterTest extends Unit
 {
     /**
-     * @throws JwtTokenManagerException
+     * @throws JwtAccessTokenManagerException
      * @throws Exception
      */
     public function testCreateAccessTokenWithPassphrase(): void
@@ -37,7 +37,7 @@ final class LcobucciJwtAdapterTest extends Unit
     }
 
     /**
-     * @throws JwtTokenManagerException
+     * @throws JwtAccessTokenManagerException
      * @throws Exception
      */
     public function testCreateAccessTokenWithSigningKey(): void
@@ -114,7 +114,7 @@ final class LcobucciJwtAdapterTest extends Unit
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtTokenManagerException::class);
+        $this->expectException(JwtAccessTokenManagerException::class);
 
         $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
@@ -123,7 +123,7 @@ final class LcobucciJwtAdapterTest extends Unit
     }
 
     /**
-     * @throws JwtTokenManagerException
+     * @throws JwtAccessTokenManagerException
      * @throws Exception
      */
     public function testCreateAccessTokenThrowsExceptionWithInvalidSigningKey(): void
@@ -154,7 +154,7 @@ final class LcobucciJwtAdapterTest extends Unit
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtTokenManagerException::class);
+        $this->expectException(JwtAccessTokenManagerException::class);
 
         $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
@@ -163,7 +163,7 @@ final class LcobucciJwtAdapterTest extends Unit
     }
 
     /**
-     * @throws JwtTokenManagerException
+     * @throws JwtAccessTokenManagerException
      * @throws Exception
      */
     public function testDecodeAccessTokenThrowsExceptionWithExpiredToken(): void
@@ -180,7 +180,7 @@ final class LcobucciJwtAdapterTest extends Unit
             userRoles: [Role::User->toString()],
         );
 
-        $this->expectException(JwtTokenManagerException::class);
+        $this->expectException(JwtAccessTokenManagerException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken($tokenString);
     }
@@ -200,7 +200,7 @@ final class LcobucciJwtAdapterTest extends Unit
         $tokenString = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $tokenString .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
-        $this->expectException(JwtTokenManagerException::class);
+        $this->expectException(JwtAccessTokenManagerException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken($tokenString);
     }
@@ -217,7 +217,7 @@ final class LcobucciJwtAdapterTest extends Unit
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtTokenManagerException::class);
+        $this->expectException(JwtAccessTokenManagerException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken(accessToken: 'invalid');
     }

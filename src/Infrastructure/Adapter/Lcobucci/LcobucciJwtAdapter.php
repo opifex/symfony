@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Lcobucci;
 
-use App\Domain\Contract\Integration\JwtTokenManagerInterface;
-use App\Domain\Exception\Integration\JwtTokenManagerException;
+use App\Domain\Contract\Integration\JwtAccessTokenManagerInterface;
+use App\Domain\Exception\Integration\JwtAccessTokenManagerException;
 use App\Domain\Model\AuthorizationToken;
 use DateInterval;
 use DateMalformedIntervalStringException;
@@ -28,7 +28,7 @@ use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Uid\Uuid;
 
-final class LcobucciJwtAdapter implements JwtTokenManagerInterface
+final class LcobucciJwtAdapter implements JwtAccessTokenManagerInterface
 {
     private const string CLAIM_ROLES = 'roles';
 
@@ -70,13 +70,13 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
             /** @var Plain $token */
             $token = $jsonWebToken->parser()->parse($accessToken);
         } catch (CannotDecodeContent $e) {
-            throw JwtTokenManagerException::errorWhileDecodingToken($e);
+            throw JwtAccessTokenManagerException::errorWhileDecodingToken($e);
         } catch (InvalidTokenStructure $e) {
-            throw JwtTokenManagerException::tokenHaveInvalidStructure($e);
+            throw JwtAccessTokenManagerException::tokenHaveInvalidStructure($e);
         }
 
         if (!$jsonWebToken->validator()->validate($token, ...$jsonWebToken->validationConstraints())) {
-            throw JwtTokenManagerException::tokenIsInvalidOrExpired();
+            throw JwtAccessTokenManagerException::tokenIsInvalidOrExpired();
         }
 
         return $this->getAuthorizationToken($token);
@@ -104,7 +104,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
         try {
             return $builder->getToken($jsonWebToken->signer(), $jsonWebToken->signingKey())->toString();
         } catch (InvalidKeyProvided $e) {
-            throw JwtTokenManagerException::tokenSignerIsNotConfigured($e);
+            throw JwtAccessTokenManagerException::tokenSignerIsNotConfigured($e);
         }
     }
 
@@ -138,7 +138,7 @@ final class LcobucciJwtAdapter implements JwtTokenManagerInterface
     private function getJwtConfiguration(): Configuration
     {
         if (empty($this->passphrase)) {
-            throw JwtTokenManagerException::tokenSignerIsNotConfigured();
+            throw JwtAccessTokenManagerException::tokenSignerIsNotConfigured();
         }
 
         $config = match (true) {

@@ -8,7 +8,7 @@ use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountHandler;
 use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountRequest;
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Contract\Integration\JwtTokenManagerInterface;
+use App\Domain\Contract\Integration\JwtAccessTokenManagerInterface;
 use App\Domain\Exception\Account\AccountNotFoundException;
 use Codeception\Test\Unit;
 use Override;
@@ -21,7 +21,7 @@ final class SigninIntoAccountHandlerTest extends Unit
 
     private AuthorizationTokenManagerInterface&MockObject $authorizationTokenManager;
 
-    private JwtTokenManagerInterface&MockObject $jwtTokenManager;
+    private JwtAccessTokenManagerInterface&MockObject $jwtAccessTokenManager;
 
     /**
      * @throws MockObjectException
@@ -31,7 +31,7 @@ final class SigninIntoAccountHandlerTest extends Unit
     {
         $this->accountEntityRepository = $this->createMock(type: AccountEntityRepositoryInterface::class);
         $this->authorizationTokenManager = $this->createMock(type: AuthorizationTokenManagerInterface::class);
-        $this->jwtTokenManager = $this->createMock(type: JwtTokenManagerInterface::class);
+        $this->jwtAccessTokenManager = $this->createMock(type: JwtAccessTokenManagerInterface::class);
     }
 
     public function testInvokeThrowsExceptionWhenAccountNotFound(): void
@@ -39,7 +39,7 @@ final class SigninIntoAccountHandlerTest extends Unit
         $handler = new SigninIntoAccountHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authorizationTokenManager: $this->authorizationTokenManager,
-            jwtTokenManager: $this->jwtTokenManager,
+            jwtAccessTokenManager: $this->jwtAccessTokenManager,
         );
 
         $this->accountEntityRepository

@@ -12,7 +12,7 @@ use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_FORBIDDEN)]
-class JwtTokenManagerException extends RuntimeException
+class JwtAccessTokenManagerException extends RuntimeException
 {
     public static function tokenSignerIsNotConfigured(?Throwable $previous = null): self
     {

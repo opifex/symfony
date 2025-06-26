@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Kennethreitz;
 
-use App\Domain\Contract\Integration\HttpbinResponderInterface;
-use App\Domain\Exception\Integration\HttpbinResponderException;
+use App\Domain\Contract\Integration\HttpbinResponseProviderInterface;
+use App\Domain\Exception\Integration\HttpbinResponseProviderException;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class KennethreitzHttpbinAdapter implements HttpbinResponderInterface
+final class KennethreitzHttpbinAdapter implements HttpbinResponseProviderInterface
 {
     public function __construct(
         #[Autowire('%env(HTTPBIN_URL)%')]
@@ -33,7 +33,7 @@ final class KennethreitzHttpbinAdapter implements HttpbinResponderInterface
                 ],
             ])->request(method: 'GET', url: 'json')->toArray();
         } catch (ExceptionInterface $e) {
-            throw HttpbinResponderException::fromException($e);
+            throw HttpbinResponseProviderException::fromException($e);
         }
     }
 }
