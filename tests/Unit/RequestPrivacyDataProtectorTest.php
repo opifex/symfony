@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Service\RequestDataPrivacyProtector;
+use App\Application\Service\RequestPrivacyDataProtector;
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 
-final class RequestDataPrivacyProtectorTest extends Unit
+final class RequestPrivacyDataProtectorTest extends Unit
 {
     #[DataProvider(methodName: 'requestDataProvider')]
     public function testProtectRequestData(array $value, array $expected): void
     {
-        $requestDataPrivacyProtector = new RequestDataPrivacyProtector();
-        $protectedMessage = $requestDataPrivacyProtector->protect($value);
+        $requestPrivacyDataProtector = new RequestPrivacyDataProtector();
+        $protectedMessage = $requestPrivacyDataProtector->protect($value);
 
         $this->assertSame($expected, $protectedMessage);
     }

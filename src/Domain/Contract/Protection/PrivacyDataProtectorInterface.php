@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Contract\Protection;
 
-interface PrivacyProtectorInterface
+interface PrivacyDataProtectorInterface
 {
     /**
      * @param array<string, mixed> $data

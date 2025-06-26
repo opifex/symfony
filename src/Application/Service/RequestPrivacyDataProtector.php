@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\Protection\PrivacyProtectorInterface;
+use App\Domain\Contract\Protection\PrivacyDataProtectorInterface;
 use Override;
 
-final class RequestDataPrivacyProtector implements PrivacyProtectorInterface
+final class RequestPrivacyDataProtector implements PrivacyDataProtectorInterface
 {
     /** @var array<string, string> */
     private array $templates = [

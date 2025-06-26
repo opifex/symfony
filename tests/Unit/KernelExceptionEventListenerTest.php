@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\EventListener\KernelExceptionEventListener;
-use App\Domain\Contract\Protection\PrivacyProtectorInterface;
+use App\Domain\Contract\Protection\PrivacyDataProtectorInterface;
 use Codeception\Test\Unit;
 use LogicException;
 use Override;
@@ -28,7 +28,7 @@ final class KernelExceptionEventListenerTest extends Unit
 
     private NormalizerInterface&MockObject $normalizer;
 
-    private PrivacyProtectorInterface&MockObject $privacyProtector;
+    private PrivacyDataProtectorInterface&MockObject $privacyDataProtector;
 
     /**
      * @throws MockObjectException
@@ -39,7 +39,7 @@ final class KernelExceptionEventListenerTest extends Unit
         $this->kernel = $this->createMock(type: KernelInterface::class);
         $this->logger = $this->createMock(type: LoggerInterface::class);
         $this->normalizer = $this->createMock(type: NormalizerInterface::class);
-        $this->privacyProtector = $this->createMock(type: PrivacyProtectorInterface::class);
+        $this->privacyDataProtector = $this->createMock(type: PrivacyDataProtectorInterface::class);
     }
 
     /**
@@ -55,6 +55,6 @@ final class KernelExceptionEventListenerTest extends Unit
             e: new LogicException(),
         );
 
-        new KernelExceptionEventListener($this->logger, $this->normalizer, $this->privacyProtector)($event);
+        new KernelExceptionEventListener($this->logger, $this->normalizer, $this->privacyDataProtector)($event);
     }
 }

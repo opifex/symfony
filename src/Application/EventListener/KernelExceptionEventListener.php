@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\EventListener;
 
-use App\Domain\Contract\Protection\PrivacyProtectorInterface;
+use App\Domain\Contract\Protection\PrivacyDataProtectorInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -24,7 +24,7 @@ final class KernelExceptionEventListener
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly NormalizerInterface $normalizer,
-        private readonly PrivacyProtectorInterface $privacyProtector,
+        private readonly PrivacyDataProtectorInterface $privacyDataProtector,
     ) {
     }
 
@@ -46,7 +46,7 @@ final class KernelExceptionEventListener
 
         $this->logger->error('Application exception event.', array_filter([
             'route' => $event->getRequest()->attributes->get(key: '_route'),
-            'request' => $this->privacyProtector->protect($request),
+            'request' => $this->privacyDataProtector->protect($request),
             'exception' => $exception,
         ]));
 
