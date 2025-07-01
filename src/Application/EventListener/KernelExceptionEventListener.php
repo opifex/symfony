@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -55,7 +55,7 @@ final class KernelExceptionEventListener
 
         [$statusCode, $headers] = match (true) {
             $httpStatus instanceof WithHttpStatus => [$httpStatus->statusCode, $httpStatus->headers],
-            $throwable instanceof HttpException => [$throwable->getStatusCode(), $throwable->getHeaders()],
+            $throwable instanceof HttpExceptionInterface => [$throwable->getStatusCode(), $throwable->getHeaders()],
             default => [Response::HTTP_INTERNAL_SERVER_ERROR, []],
         };
 
