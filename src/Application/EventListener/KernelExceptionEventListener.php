@@ -6,12 +6,14 @@ namespace App\Application\EventListener;
 
 use App\Domain\Contract\Protection\PrivacyDataProtectorInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
+use Symfony\Component\HttpKernel\Attribute\WithLogLevel;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
@@ -43,15 +45,9 @@ final class KernelExceptionEventListener
         /** @var array<string, mixed> $request */
         $request = (array) $this->normalizer->normalize($event->getRequest());
         $exception = (array) $this->normalizer->normalize($throwable);
-
-        $this->logger->error('Application exception event.', array_filter([
-            'route' => $event->getRequest()->attributes->get(key: '_route'),
-            'request' => $this->privacyDataProtector->protect($request),
-            'exception' => $exception,
-        ]));
-
         $exceptionClass = new ReflectionClass($throwable);
         $httpStatus = ($exceptionClass->getAttributes(name: WithHttpStatus::class)[0] ?? null)?->newInstance();
+        $logLevel = ($exceptionClass->getAttributes(name: WithLogLevel::class)[0] ?? null)?->newInstance();
 
         [$statusCode, $headers] = match (true) {
             $httpStatus instanceof WithHttpStatus => [$httpStatus->statusCode, $httpStatus->headers],
@@ -59,8 +55,17 @@ final class KernelExceptionEventListener
             default => [Response::HTTP_INTERNAL_SERVER_ERROR, []],
         };
 
-        $content = $this->normalizer->normalize($exception);
+        $this->logger->log(
+            level: $logLevel?->level ?: LogLevel::ERROR,
+            message: $throwable->getMessage() ?: 'Application exception event.',
+            context: array_filter([
+                'route' => $event->getRequest()->attributes->get(key: '_route'),
+                'request' => $this->privacyDataProtector->protect($request),
+                'exception' => $exception,
+            ]),
+        );
 
-        $event->setResponse(new JsonResponse($content, $statusCode, $headers));
+        $event->allowCustomResponseCode();
+        $event->setResponse(new JsonResponse($exception, $statusCode, $headers));
     }
 }
