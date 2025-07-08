@@ -8,7 +8,7 @@ RUN composer validate --strict
 # install composer dependencies
 RUN composer install --ignore-platform-reqs --no-cache --no-dev --no-plugins --no-scripts
 
-FROM php:8.4.8-fpm-alpine AS php
+FROM php:8.4.10-fpm-alpine AS php
 # set working directory
 WORKDIR /opt/project
 # install system packages
@@ -42,6 +42,13 @@ RUN mkdir -p $PWD/public/bundles $PWD/var && chown -R www-data:www-data $PWD
 # clear environment variables and dump autoload
 RUN runuser -u www-data -- composer dump-autoload --classmap-authoritative
 RUN runuser -u www-data -- composer dump-env prod --empty
+
+RUN wget -q https://releases.hashicorp.com/vault/1.15.6/vault_1.15.6_linux_amd64.zip \
+    && unzip vault_1.15.6_linux_amd64.zip \
+    && mv vault /usr/local/bin/ \
+    && chmod +x /usr/local/bin/vault \
+    && rm vault_1.15.6_linux_amd64.zip
+
 # expose web server and php-fpm port
 EXPOSE 80 9000
 # set healthcheck
