@@ -61,6 +61,6 @@ final class AuthorizationTokenManagerTest extends Unit
 
         $this->expectException(exception: AuthorizationRequiredException::class);
 
-        $authorizationTokenManager->checkPermission(access: Role::User->toString());
+        $authorizationTokenManager->checkUserPermission(role: Role::User);
     }
 }

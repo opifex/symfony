@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
+use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
 use App\Domain\Exception\Authorization\AuthorizationRequiredException;
+use App\Domain\Model\Role;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -31,12 +33,14 @@ final class AuthorizationTokenManager implements AuthorizationTokenManagerInterf
     }
 
     #[Override]
-    public function checkPermission(string $access, mixed $subject = null): bool
+    public function checkUserPermission(Role $role, mixed $subject = null): void
     {
         if (!$this->tokenStorage->getToken()?->getUserIdentifier()) {
             throw AuthorizationRequiredException::create();
         }
 
-        return $this->authorizationChecker->isGranted($access, $subject);
+        if (!$this->authorizationChecker->isGranted($role->toString(), $subject)) {
+            throw AuthorizationForbiddenException::create();
+        }
     }
 }

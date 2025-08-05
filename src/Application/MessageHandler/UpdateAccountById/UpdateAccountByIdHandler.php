@@ -9,7 +9,6 @@ use App\Domain\Contract\Authentication\AuthenticationPasswordHasherInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountAlreadyExistsException;
 use App\Domain\Exception\Account\AccountNotFoundException;
-use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
 use App\Domain\Model\Common\EmailAddress;
 use App\Domain\Model\Common\HashedPassword;
 use App\Domain\Model\LocaleCode;
@@ -28,9 +27,7 @@ final class UpdateAccountByIdHandler
 
     public function __invoke(UpdateAccountByIdRequest $request): UpdateAccountByIdResult
     {
-        if (!$this->authorizationTokenManager->checkPermission(access: Role::Admin->toString())) {
-            throw AuthorizationForbiddenException::create();
-        }
+        $this->authorizationTokenManager->checkUserPermission(role: Role::Admin);
 
         $account = $this->accountEntityRepository->findOneById($request->id)
             ?? throw AccountNotFoundException::create();

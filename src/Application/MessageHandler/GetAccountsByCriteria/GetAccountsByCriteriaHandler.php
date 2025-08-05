@@ -6,7 +6,6 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Exception\Authorization\AuthorizationForbiddenException;
 use App\Domain\Model\AccountSearchCriteria;
 use App\Domain\Model\Role;
 use App\Domain\Model\SearchPagination;
@@ -23,9 +22,7 @@ final class GetAccountsByCriteriaHandler
 
     public function __invoke(GetAccountsByCriteriaRequest $request): GetAccountsByCriteriaResult
     {
-        if (!$this->authorizationTokenManager->checkPermission(access: Role::Admin->toString())) {
-            throw AuthorizationForbiddenException::create();
-        }
+        $this->authorizationTokenManager->checkUserPermission(role: Role::Admin);
 
         $searchPagination = new SearchPagination($request->page, $request->limit);
         $searchCriteria = new AccountSearchCriteria($request->email, $request->status, $searchPagination);
