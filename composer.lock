@@ -8831,16 +8831,16 @@
         },
         {
             "name": "codeception/module-symfony",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-symfony.git",
-                "reference": "b6d609c11d46195f3be93e086b72477e28ff3d7e"
+                "reference": "ee7cb9cf66f90d6ce922449f45b602f2ee14e8e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/b6d609c11d46195f3be93e086b72477e28ff3d7e",
-                "reference": "b6d609c11d46195f3be93e086b72477e28ff3d7e",
+                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/ee7cb9cf66f90d6ce922449f45b602f2ee14e8e6",
+                "reference": "ee7cb9cf66f90d6ce922449f45b602f2ee14e8e6",
                 "shasum": ""
             },
             "require": {
@@ -8916,9 +8916,9 @@
             "support": {
                 "docs": "https://codeception.com/docs/modules/Symfony",
                 "issues": "https://github.com/Codeception/module-symfony/issues",
-                "source": "https://github.com/Codeception/module-symfony/tree/3.7.0"
+                "source": "https://github.com/Codeception/module-symfony/tree/3.7.1"
             },
-            "time": "2025-08-07T03:38:49+00:00"
+            "time": "2025-08-07T11:33:16+00:00"
         },
         {
             "name": "codeception/stub",
