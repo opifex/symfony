@@ -50,7 +50,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
         $this->addReference(name: 'account:user', object: $accountUser);
 
         for ($index = 1; $index <= 10; $index++) {
-            /** @var AccountStatus $accountStatus */
+            /** @var string $accountStatus */
             $accountStatus = $faker->randomElement(array: AccountStatus::values());
             $accountRandom = new AccountEntity(
                 id: $faker->unique()->uuid(),
@@ -59,7 +59,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 password: $passwordHash,
                 locale: LocaleCode::EnUs->toString(),
                 roles: [Role::User->toString()],
-                status: $accountStatus->toString(),
+                status: $accountStatus,
             );
             $manager->persist($accountRandom);
         }
