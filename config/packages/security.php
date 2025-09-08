@@ -31,8 +31,7 @@ return static function (ContainerConfigurator $configurator, SecurityConfig $sec
     $security->firewall(name: 'authorization')
         ->stateless(value: true)
         ->pattern(value: '^/api')
-        ->accessToken()
-        ->tokenHandler(value: JwtAccessTokenHandler::class);
+        ->accessToken()->tokenHandler(value: JwtAccessTokenHandler::class);
 
     $security->roleHierarchy(Role::Admin->value, Role::User->value);
 
