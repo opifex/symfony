@@ -22,23 +22,19 @@ return function (FrameworkConfig $framework): void {
     $accountWorkflow->place()->name(AccountStatus::Created->value);
     $accountWorkflow->place()->name(AccountStatus::Registered->value);
 
-    $accountWorkflow->transition()
-        ->name(AccountAction::Activate->value)
+    $accountWorkflow->transition()->name(AccountAction::Activate->value)
         ->from(AccountStatus::Registered->value)
         ->to(AccountStatus::Activated->value);
 
-    $accountWorkflow->transition()
-        ->name(AccountAction::Block->value)
+    $accountWorkflow->transition()->name(AccountAction::Block->value)
         ->from(AccountStatus::Activated->value)
         ->to(AccountStatus::Blocked->value);
 
-    $accountWorkflow->transition()
-        ->name(AccountAction::Register->value)
+    $accountWorkflow->transition()->name(AccountAction::Register->value)
         ->from(AccountStatus::Created->value)
         ->to(AccountStatus::Registered->value);
 
-    $accountWorkflow->transition()
-        ->name(AccountAction::Unblock->value)
+    $accountWorkflow->transition()->name(AccountAction::Unblock->value)
         ->from(AccountStatus::Blocked->value)
         ->to(AccountStatus::Activated->value);
 };
