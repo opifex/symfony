@@ -7,7 +7,7 @@ use App\Infrastructure\Messenger\Middleware\ValidationMiddleware;
 use Symfony\Component\Mailer\Messenger\SendEmailMessage;
 use Symfony\Config\FrameworkConfig;
 
-return function (FrameworkConfig $framework): void {
+return static function (FrameworkConfig $framework): void {
     $framework->messenger()->defaultBus(value: 'default.bus');
     $framework->messenger()->failureTransport(value: 'failed');
 

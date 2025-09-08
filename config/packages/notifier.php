@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Config\FrameworkConfig;
 
-return function (FrameworkConfig $framework): void {
+return static function (FrameworkConfig $framework): void {
     $framework->notifier()->channelPolicy(name: 'urgent', value: ['email']);
     $framework->notifier()->channelPolicy(name: 'high', value: ['email']);
     $framework->notifier()->channelPolicy(name: 'medium', value: ['email']);

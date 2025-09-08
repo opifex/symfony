@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Config\DoctrineMigrationsConfig;
 
-return function (DoctrineMigrationsConfig $doctrineMigrations): void {
+return static function (DoctrineMigrationsConfig $doctrineMigrations): void {
     $doctrineMigrations->allOrNothing(value: true);
     $doctrineMigrations->transactional(value: true);
     $doctrineMigrations->enableProfiler(value: '%kernel.debug%');

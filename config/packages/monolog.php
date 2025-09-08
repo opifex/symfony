@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Config\MonologConfig;
 
-return function (ContainerConfigurator $configurator, MonologConfig $monolog): void {
+return static function (ContainerConfigurator $configurator, MonologConfig $monolog): void {
     if ($configurator->env() === 'dev') {
         $nestedHandler = $monolog->handler(name: 'nested')
             ->type(value: 'stream')

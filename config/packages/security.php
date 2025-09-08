@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Config\SecurityConfig;
 
-return function (ContainerConfigurator $configurator, SecurityConfig $security): void {
+return static function (ContainerConfigurator $configurator, SecurityConfig $security): void {
     $security->provider(name: 'database')->id(value: DatabaseUserProvider::class);
 
     $security->passwordHasher(class: PasswordAuthenticatedUserInterface::class)

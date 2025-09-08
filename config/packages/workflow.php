@@ -8,7 +8,7 @@ use App\Domain\Model\AccountStatus;
 use App\Infrastructure\Workflow\AccountMarkingStore;
 use Symfony\Config\FrameworkConfig;
 
-return function (FrameworkConfig $framework): void {
+return static function (FrameworkConfig $framework): void {
     $accountWorkflow = $framework->workflows()->workflows('account')
         ->type(value: 'state_machine')
         ->supports([Account::class])

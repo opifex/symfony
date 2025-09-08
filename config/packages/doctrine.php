@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Config\DoctrineConfig;
 
-return function (ContainerConfigurator $configurator, DoctrineConfig $doctrine): void {
+return static function (ContainerConfigurator $configurator, DoctrineConfig $doctrine): void {
     $doctrine->dbal()->defaultConnection(value: 'default');
 
     $defaultConnection = $doctrine->dbal()->connection(name: 'default');
