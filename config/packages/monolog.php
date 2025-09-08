@@ -3,52 +3,39 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\MonologConfig;
 
-return function (ContainerConfigurator $configurator): void {
+return function (ContainerConfigurator $configurator, MonologConfig $monolog): void {
     if ($configurator->env() === 'dev') {
-        $configurator->extension(namespace: 'monolog', config: [
-            'handlers' => [
-                'nested' => [
-                    'type' => 'stream',
-                    'level' => 'debug',
-                    'path' => 'php://stdout',
-                    'channels' => ['!deprecation', '!doctrine', '!event', '!http_client', '!php'],
-                    'formatter' => 'monolog.formatter.json',
-                ],
-            ],
-        ]);
+        $nestedHandler = $monolog->handler(name: 'nested')
+            ->type(value: 'stream')
+            ->level(value: 'debug')
+            ->path(value: 'php://stdout')
+            ->formatter(value: 'monolog.formatter.json');
+        $nestedHandler->channels()->elements(['!deprecation', '!doctrine', '!event', '!http_client', '!php']);
     }
 
     if ($configurator->env() === 'test') {
-        $configurator->extension(namespace: 'monolog', config: [
-            'handlers' => [
-                'main' => [
-                    'type' => 'fingers_crossed',
-                    'action_level' => 'error',
-                    'handler' => 'nested',
-                    'excluded_http_codes' => [404, 405],
-                    'channels' => ['!event'],
-                ],
-                'nested' => [
-                    'type' => 'stream',
-                    'path' => '%kernel.logs_dir%/%kernel.environment%.log',
-                    'level' => 'debug',
-                ],
-            ],
-        ]);
+        $monolog->handler('nested')
+            ->type(value: 'stream')
+            ->path(value: '%kernel.logs_dir%/%kernel.environment%.log')
+            ->level(value: 'debug');
+
+        $mainHandler = $monolog->handler(name: 'main')
+            ->type(value: 'fingers_crossed')
+            ->actionLevel(value: 'error')
+            ->handler('nested');
+        $mainHandler->excludedHttpCode()->code(value: 404);
+        $mainHandler->excludedHttpCode()->code(value: 405);
+        $mainHandler->channels()->elements(['!event']);
     }
 
     if ($configurator->env() === 'prod') {
-        $configurator->extension(namespace: 'monolog', config: [
-            'handlers' => [
-                'nested' => [
-                    'type' => 'stream',
-                    'level' => 'info',
-                    'path' => 'php://stdout',
-                    'channels' => ['!deprecation', '!doctrine', '!event', '!php', '!security'],
-                    'formatter' => 'monolog.formatter.json',
-                ],
-            ],
-        ]);
+        $nestedHandler = $monolog->handler(name: 'nested')
+            ->type(value: 'stream')
+            ->level(value: 'info')
+            ->path(value: 'php://stdout')
+            ->formatter(value: 'monolog.formatter.json');
+        $nestedHandler->channels()->elements(['!deprecation', '!doctrine', '!event', '!php', '!security']);
     }
 };

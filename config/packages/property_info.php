@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\FrameworkConfig;
 
-return function (ContainerConfigurator $configurator): void {
-    $configurator->extension(namespace: 'framework', config: [
-        'property_info' => [
-            'with_constructor_extractor' => true,
-        ],
-    ]);
+return function (FrameworkConfig $framework): void {
+    $framework->propertyInfo()->withConstructorExtractor(value: true);
 };

@@ -2,29 +2,12 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\FrameworkConfig;
 
-return function (ContainerConfigurator $configurator): void {
-    $configurator->extension(namespace: 'framework', config: [
-        'notifier' => [
-            // 'chatter_transports' => [
-            //     'slack' => '%env(SLACK_DSN)%',
-            //     'telegram' => '%env(TELEGRAM_DSN)%',
-            // ],
-            // 'texter_transports' => [
-            //     'twilio' => '%env(TWILIO_DSN)%',
-            //     'nexmo' => '%env(NEXMO_DSN)%',
-            // ],
-            'channel_policy' => [
-                // chat/slack, chat/telegram, sms/twilio, sms/nexmo
-                'urgent' => ['email'],
-                'high' => ['email'],
-                'medium' => ['email'],
-                'low' => ['email'],
-            ],
-            'admin_recipients' => [
-                ['email' => 'admin@example.com'],
-            ],
-        ],
-    ]);
+return function (FrameworkConfig $framework): void {
+    $framework->notifier()->channelPolicy(name: 'urgent', value: ['email']);
+    $framework->notifier()->channelPolicy(name: 'high', value: ['email']);
+    $framework->notifier()->channelPolicy(name: 'medium', value: ['email']);
+    $framework->notifier()->channelPolicy(name: 'low', value: ['email']);
+    $framework->notifier()->adminRecipient()->email(value: 'admin@example.com');
 };

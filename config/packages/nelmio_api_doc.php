@@ -2,34 +2,11 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\NelmioApiDocConfig;
 
-return function (ContainerConfigurator $configurator): void {
-    $configurator->extension(namespace: 'nelmio_api_doc', config: [
-        'documentation' => [
-            'info' => [
-                'title' => '%env(APP_NAME)%',
-                'version' => '%env(APP_VERSION)%',
-            ],
-            'servers' => [
-                [
-                    'url' => '%env(APP_URL)%',
-                    'description' => 'API Gateway',
-                ],
-            ],
-            'components' => [
-                'securitySchemes' => [
-                    'bearer' => [
-                        'type' => 'http',
-                        'scheme' => 'bearer',
-                    ],
-                ],
-            ],
-        ],
-        'areas' => [
-            'path_patterns' => [
-                '^/api',
-            ],
-        ],
-    ]);
+return function (NelmioApiDocConfig $nelmioApiDoc): void {
+    $nelmioApiDoc->areas(name: 'default')->pathPatterns(['^/api']);
+    $nelmioApiDoc->documentation('info', ['title' => '%env(APP_NAME)%', 'version' => '%env(APP_VERSION)%']);
+    $nelmioApiDoc->documentation('servers', [['url' => '%env(APP_URL)%', 'description' => 'API Gateway']]);
+    $nelmioApiDoc->documentation('components', ['securitySchemes' => ['bearer' => ['type' => 'http', 'scheme' => 'bearer']]]);
 };

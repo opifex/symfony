@@ -2,24 +2,18 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\FrameworkConfig;
+use Symfony\Config\WebProfilerConfig;
 
-return function (ContainerConfigurator $configurator): void {
+return #[When(env: 'dev')] #[When(env: 'test')] static function (ContainerConfigurator $configurator, FrameworkConfig $framework, WebProfilerConfig $webProfiler): void {
     if ($configurator->env() === 'dev') {
-        $configurator->extension(namespace: 'web_profiler', config: [
-            'toolbar' => true,
-        ]);
+        $framework->profiler()->collect(value: true);
+        $webProfiler->toolbar()->enabled(value: true);
     }
 
     if ($configurator->env() === 'test') {
-        $configurator->extension(namespace: 'web_profiler', config: [
-            'toolbar' => false,
-        ]);
-
-        $configurator->extension(namespace: 'framework', config: [
-            'profiler' => [
-                'collect' => false,
-            ],
-        ]);
+        $framework->profiler()->enabled(value: true);
     }
 };

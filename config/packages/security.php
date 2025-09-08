@@ -9,51 +9,35 @@ use App\Infrastructure\Security\JwtAccessTokenHandler;
 use App\Infrastructure\Security\PasswordAuthenticatedUserChecker;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Config\SecurityConfig;
 
-return function (ContainerConfigurator $configurator): void {
-    $configurator->extension(namespace: 'security', config: [
-        'password_hashers' => [
-            PasswordAuthenticatedUserInterface::class => 'auto',
-        ],
-        'providers' => [
-            'database' => [
-                'id' => DatabaseUserProvider::class,
-            ],
-        ],
-        'firewalls' => [
-            'development' => [
-                'pattern' => '^/(_(profiler|wdt))',
-                'security' => false,
-            ],
-            'authentication' => [
-                'stateless' => true,
-                'pattern' => '^/api/auth/signin',
-                'provider' => 'database',
-                'user_checker' => PasswordAuthenticatedUserChecker::class,
-                'custom_authenticators' => [
-                    JsonLoginAuthenticator::class,
-                ],
-            ],
-            'authorization' => [
-                'stateless' => true,
-                'pattern' => '^/api',
-                'access_token' => [
-                    'token_handler' => JwtAccessTokenHandler::class,
-                ],
-            ],
-        ],
-        'role_hierarchy' => [
-            Role::Admin->value => [
-                Role::User->value,
-            ],
-        ],
-    ]);
+return function (ContainerConfigurator $configurator, SecurityConfig $security): void {
+    $security->provider(name: 'database')->id(value: DatabaseUserProvider::class);
+
+    $security->passwordHasher(class: PasswordAuthenticatedUserInterface::class)
+        ->algorithm(value: 'auto');
+
+    $security->firewall(name: 'development')
+        ->pattern(value: '^/(_(profiler|wdt))')
+        ->security(value: false);
+
+    $security->firewall(name: 'authentication')
+        ->stateless(value: true)
+        ->pattern(value: '^/api/auth/signin')
+        ->provider(value: 'database')
+        ->userChecker(value: PasswordAuthenticatedUserChecker::class)
+        ->customAuthenticators([JsonLoginAuthenticator::class]);
+
+    $security->firewall(name: 'authorization')
+        ->stateless(value: true)
+        ->pattern(value: '^/api')
+        ->accessToken()
+        ->tokenHandler(value: JwtAccessTokenHandler::class);
+
+    $security->roleHierarchy(Role::Admin->value, Role::User->value);
 
     if ($configurator->env() === 'test') {
-        $configurator->extension(namespace: 'security', config: [
-            'password_hashers' => [
-                PasswordAuthenticatedUserInterface::class => 'plaintext',
-            ],
-        ]);
+        $security->passwordHasher(class: PasswordAuthenticatedUserInterface::class)
+            ->algorithm(value: 'plaintext');
     }
 };

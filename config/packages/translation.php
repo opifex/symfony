@@ -3,14 +3,10 @@
 declare(strict_types=1);
 
 use App\Domain\Model\LocaleCode;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\FrameworkConfig;
 
-return static function (ContainerConfigurator $configurator): void {
-    $configurator->extension(namespace: 'framework', config: [
-        'default_locale' => LocaleCode::EnUs->value,
-        'translator' => [
-            'default_path' => '%kernel.project_dir%/src/Presentation/Resource/Translation',
-            'fallbacks' => [LocaleCode::EnUs->value],
-        ],
-    ]);
+return static function (FrameworkConfig $framework): void {
+    $framework->defaultLocale(LocaleCode::EnUs->value);
+    $framework->translator()->defaultPath(value: '%kernel.project_dir%/src/Presentation/Resource/Translation');
+    $framework->translator()->fallbacks([LocaleCode::EnUs->value]);
 };

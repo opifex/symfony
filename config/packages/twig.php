@@ -3,19 +3,14 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\TwigConfig;
 
-return function (ContainerConfigurator $configurator): void {
-    $configurator->extension(namespace: 'twig', config: [
-        'default_path' => '%kernel.project_dir%/src/Presentation/Resource/Template',
-        'paths' => [
-            '%kernel.project_dir%/src/Presentation/Resource/Template/emails' => 'emails',
-            '%kernel.project_dir%/src/Presentation/Resource/Template/views' => 'views',
-        ],
-    ]);
+return function (ContainerConfigurator $configurator, TwigConfig $twig): void {
+    $twig->defaultPath(value: '%kernel.project_dir%/src/Presentation/Resource/Template');
+    $twig->path(paths: '%kernel.project_dir%/src/Presentation/Resource/Template/emails', value: 'emails');
+    $twig->path(paths: '%kernel.project_dir%/src/Presentation/Resource/Template/views', value: 'views');
 
     if ($configurator->env() === 'test') {
-        $configurator->extension(namespace: 'twig', config: [
-            'strict_variables' => true,
-        ]);
+        $twig->strictVariables(value: true);
     }
 };

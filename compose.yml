@@ -26,8 +26,6 @@ services:
       REDIS_DSN: "${REDIS_DSN}"
     volumes:
       - ./:/opt/project:consistent
-      - bundles:/opt/project/public/bundles
-      - storage:/opt/project/var
     networks:
       internal:
 
@@ -58,8 +56,6 @@ services:
       REDIS_DSN: "${REDIS_DSN}"
     volumes:
       - ./:/opt/project:consistent
-      - bundles:/opt/project/public/bundles
-      - storage:/opt/project/var
     networks:
       internal:
 
@@ -81,8 +77,6 @@ services:
       DATABASE_URL: "${DATABASE_URL}"
     volumes:
       - ./:/opt/project:consistent
-      - bundles:/opt/project/public/bundles
-      - storage:/opt/project/var
     networks:
       internal:
 
@@ -147,11 +141,9 @@ services:
       internal:
 
 volumes:
-  bundles:
   postgres:
   rabbitmq:
   redis:
-  storage:
 
 networks:
   internal:

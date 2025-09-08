@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\DebugConfig;
 
-return static function (ContainerConfigurator $configurator): void {
+return #[When(env: 'dev')] static function (ContainerConfigurator $configurator, DebugConfig $debug): void {
     if ($configurator->env() === 'dev') {
-        $configurator->extension(namespace: 'debug', config: [
-            'dump_destination' => 'tcp://%env(VAR_DUMPER_SERVER)%',
-        ]);
+        $debug->dumpDestination(value: 'tcp://%env(VAR_DUMPER_SERVER)%');
     }
 };

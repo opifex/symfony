@@ -3,20 +3,13 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\FrameworkConfig;
 
-return function (ContainerConfigurator $configurator): void {
-    $configurator->extension(namespace: 'framework', config: [
-        'router' => [
-            'utf8' => true,
-            'default_uri' => '%env(resolve:APP_URL)%',
-        ],
-    ]);
+return function (ContainerConfigurator $configurator, FrameworkConfig $framework): void {
+    $framework->router()->defaultUri(value: '%env(resolve:APP_URL)%');
+    $framework->router()->utf8(value: true);
 
     if ($configurator->env() === 'prod') {
-        $configurator->extension(namespace: 'framework', config: [
-            'router' => [
-                'strict_requirements' => null,
-            ],
-        ]);
+        $framework->router()->strictRequirements(value: null);
     }
 };
