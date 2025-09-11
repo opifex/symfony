@@ -14,20 +14,25 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class AbstractWebTestCase extends WebTestCase
+abstract class AbstractWebTestCase extends WebTestCase
 {
     #[Override]
     protected function setUp(): void
     {
         $this->createClient();
-        $this->loadFixture();
+        $this->purgeDatabase();
     }
 
-    public static function loadFixture(array $fixtures = []): void
+    public static function loadFixtures(array $fixtures = []): void
     {
         $loader = new Loader();
         array_walk($fixtures, fn(string $fixture) => $loader->addFixture(new $fixture()));
         new ORMExecutor(self::getEntityManager(), new ORMPurger())->execute($loader->getFixtures());
+    }
+
+    public static function purgeDatabase(): void
+    {
+        new ORMExecutor(self::getEntityManager(), new ORMPurger())->getPurger()->purge();
     }
 
     public static function getEntityManager(): EntityManagerInterface

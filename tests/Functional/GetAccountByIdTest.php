@@ -13,7 +13,7 @@ final class GetAccountByIdTest extends AbstractWebTestCase
 {
     public function testEnsureAdminCanGetExistingAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
@@ -29,7 +29,7 @@ final class GetAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToGetNonexistentAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendGetRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
@@ -38,7 +38,7 @@ final class GetAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToGetAccountWithoutPermission(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */

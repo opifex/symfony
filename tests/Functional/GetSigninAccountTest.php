@@ -12,7 +12,7 @@ final class GetSigninAccountTest extends AbstractWebTestCase
 {
     public function testEnsureUserCanGetSigninAccountWithValidBearer(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         $this->sendGetRequest(url: '/api/auth/me');

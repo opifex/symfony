@@ -13,7 +13,7 @@ final class GetAccountsByCriteriaTest extends AbstractWebTestCase
 {
     public function testEnsureAdminCanGetAccountsByCriteria(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendGetRequest(url: '/api/account', parameters: [
             'email' => 'admin@example.com',
@@ -28,7 +28,7 @@ final class GetAccountsByCriteriaTest extends AbstractWebTestCase
 
     public function testEryToGetAccountsByCriteriaWithoutPermission(): void
     {
-        $this->loadFixture([AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
         $this->sendGetRequest(url: '/api/account', parameters: [
             'email' => 'admin@example.com',

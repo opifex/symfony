@@ -14,7 +14,7 @@ final class UnblockAccountByIdTest extends AbstractWebTestCase
 {
     public function testEnsureAdminCanUnblockBlockedAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountHenry */
@@ -30,7 +30,7 @@ final class UnblockAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToUnblockNonexistentAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/unblock');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
@@ -39,7 +39,7 @@ final class UnblockAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToUnblockBlockedAccountWithoutPermission(): void
     {
-        $this->loadFixture([AccountActivatedJamesFixture::class, AccountBlockedHenryFixture::class]);
+        $this->loadFixtures([AccountActivatedJamesFixture::class, AccountBlockedHenryFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountHenry */

@@ -14,7 +14,7 @@ final class DeleteAccountByIdTest extends AbstractWebTestCase
 {
     public function testEnsureAdminCanDeleteExistingAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountJames */
@@ -30,7 +30,7 @@ final class DeleteAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToDeleteNonexistentAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendDeleteRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
@@ -39,7 +39,7 @@ final class DeleteAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToDeleteAccountWithoutPermission(): void
     {
-        $this->loadFixture([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'emma@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountJames */

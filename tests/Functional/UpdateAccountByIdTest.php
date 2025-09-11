@@ -14,7 +14,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
 {
     public function testEnsureAdminCanUpdateAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
@@ -34,7 +34,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToUpdateAccountWithoutPermission(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
@@ -54,7 +54,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToUpdateAccountWithExistedEmail(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
@@ -74,7 +74,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToUpdateAccountWithInvalidId(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         $this->sendPatchRequest(url: '/api/account/019661f3-78c3-7a26-9ccf-361042fa4f67', parameters: [

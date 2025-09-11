@@ -15,7 +15,7 @@ final class BlockAccountByIdTest extends AbstractWebTestCase
 {
     public function testEnsureAdminCanBlockActivatedAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountJames */
@@ -31,7 +31,7 @@ final class BlockAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToBlockNonexistentAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/block');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
@@ -40,7 +40,7 @@ final class BlockAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToBlockAlreadyBlockedAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountHenry */
@@ -56,7 +56,7 @@ final class BlockAccountByIdTest extends AbstractWebTestCase
 
     public function testTryToBlockAccountWithoutPermission(): void
     {
-        $this->loadFixture([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountEmma */

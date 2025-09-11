@@ -12,7 +12,7 @@ final class CreateNewAccountTest extends AbstractWebTestCase
 {
     public function testEnsureAdminCanCreateAccount(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendPostRequest(url: '/api/account', parameters: [
             'email' => 'created@example.com',
@@ -24,7 +24,7 @@ final class CreateNewAccountTest extends AbstractWebTestCase
 
     public function testTryToCreateAccountWithExistingEmail(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendPostRequest(url: '/api/account', parameters: [
             'email' => 'admin@example.com',
@@ -36,7 +36,7 @@ final class CreateNewAccountTest extends AbstractWebTestCase
 
     public function testTryToCreateAccountWithoutPermission(): void
     {
-        $this->loadFixture([AccountActivatedJamesFixture::class]);
+        $this->loadFixtures([AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
         $this->sendPostRequest(url: '/api/account', parameters: [
             'email' => 'created@example.com',

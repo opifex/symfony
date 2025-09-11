@@ -12,7 +12,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
 {
     public function testEnsureAdminCanSignin(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendPostRequest(url: '/api/auth/signin', parameters: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
@@ -23,7 +23,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
 
     public function testTryToSigninWithNonactivatedUser(): void
     {
-        $this->loadFixture([AccountRegisteredOliviaFixture::class]);
+        $this->loadFixtures([AccountRegisteredOliviaFixture::class]);
         $this->sendPostRequest(url: '/api/auth/signin', parameters: [
             'email' => 'olivia@example.com',
             'password' => 'password4#account',
@@ -44,7 +44,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
 
     public function testTryToSigninWithExtraAttributes(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendPostRequest(url: '/api/auth/signin', parameters: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',

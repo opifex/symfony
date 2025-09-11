@@ -31,7 +31,7 @@ final class SignupNewAccountTest extends AbstractWebTestCase
 
     public function testTryToSignupWithNonexistentCredentials(): void
     {
-        $this->loadFixture([AccountActivatedAdminFixture::class]);
+        $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendPostRequest(url: '/api/auth/signup', parameters: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
