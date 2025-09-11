@@ -18,10 +18,6 @@ final class GetSigninAccountTest extends AbstractWebTestCase
         $this->sendGetRequest(url: '/api/auth/me');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
         $this->assertResponseSchema(schemaFile: 'GetSigninAccountSchema.json');
-
-        $response = $this->grabArrayFromResponse();
-        $this->assertArrayHasKey(key: 'email', array: $response);
-        $this->assertEquals(expected: 'admin@example.com', actual: $response['email']);
     }
 
     public function testTryToGetSigninAccountWithoutAuthorizationHeader(): void

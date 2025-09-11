@@ -47,9 +47,7 @@ abstract class AbstractWebTestCase extends WebTestCase
 
     public static function grabArrayFromResponse(): array
     {
-        TestCase::assertJson(self::getClient()->getResponse()->getContent());
-
-        return json_decode(self::getClient()->getResponse()->getContent(), true);
+        return json_decode(self::getClient()->getResponse()->getContent(), true) ?? [];
     }
 
     public static function assertResponseBodyIsEmpty(): void

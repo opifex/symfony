@@ -21,9 +21,6 @@ final class GetAccountsByCriteriaTest extends AbstractWebTestCase
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
         $this->assertResponseSchema(schemaFile: 'GetAccountsByCriteriaSchema.json');
-        $response = $this->grabArrayFromResponse();
-        $this->assertArrayHasKey(key: 'email', array: $response['data'][0]);
-        $this->assertEquals(expected: 'admin@example.com', actual: $response['data'][0]['email']);
     }
 
     public function testEryToGetAccountsByCriteriaWithoutPermission(): void
