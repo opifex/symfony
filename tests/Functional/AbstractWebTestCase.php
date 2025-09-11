@@ -30,16 +30,6 @@ abstract class AbstractWebTestCase extends WebTestCase
         new ORMExecutor(self::getEntityManager(), new ORMPurger())->execute($loader->getFixtures());
     }
 
-    public static function purgeDatabase(): void
-    {
-        new ORMExecutor(self::getEntityManager(), new ORMPurger())->getPurger()->purge();
-    }
-
-    public static function getEntityManager(): EntityManagerInterface
-    {
-        return self::getContainer()->get(id: 'doctrine')->getManager();
-    }
-
     public static function grabEntityFromRepository(string $entity, array $criteria = []): object
     {
         return self::getEntityManager()->getRepository($entity)->findOneBy($criteria);
@@ -92,8 +82,18 @@ abstract class AbstractWebTestCase extends WebTestCase
         self::sendHttpRequest(method: Request::METHOD_PATCH, uri: $url, params: $params, server: $server);
     }
 
-    public static function sendHttpRequest(string $method, string $uri, array $params, array $server): void
+    private static function sendHttpRequest(string $method, string $uri, array $params, array $server): void
     {
         self::getClient()->jsonRequest($method, $uri, $params, $server, changeHistory: false);
+    }
+
+    private static function getEntityManager(): EntityManagerInterface
+    {
+        return self::getContainer()->get(id: 'doctrine')->getManager();
+    }
+
+    private static function purgeDatabase(): void
+    {
+        new ORMExecutor(self::getEntityManager(), new ORMPurger())->getPurger()->purge();
     }
 }
