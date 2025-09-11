@@ -7,11 +7,11 @@ namespace Tests\Unit;
 use App\Domain\Exception\Integration\JwtAccessTokenManagerException;
 use App\Domain\Model\Role;
 use App\Infrastructure\Adapter\Lcobucci\LcobucciJwtAdapter;
-use Codeception\Test\Unit;
 use Exception;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
 
-final class LcobucciJwtAdapterTest extends Unit
+final class LcobucciJwtAdapterTest extends TestCase
 {
     /**
      * @throws JwtAccessTokenManagerException

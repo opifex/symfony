@@ -9,20 +9,16 @@ use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountNotFoundException;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-final class GetSigninAccountHandlerTest extends Unit
+final class GetSigninAccountHandlerTest extends TestCase
 {
     private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
 
     private AuthorizationTokenManagerInterface&MockObject $authorizationTokenManager;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

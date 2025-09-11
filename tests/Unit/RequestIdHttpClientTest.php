@@ -6,15 +6,14 @@ namespace Tests\Unit;
 
 use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use App\Infrastructure\HttpClient\RequestIdHttpClient;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-final class RequestIdHttpClientTest extends Unit
+final class RequestIdHttpClientTest extends TestCase
 {
     private HttpClientInterface&MockObject $httpClient;
 
@@ -22,9 +21,6 @@ final class RequestIdHttpClientTest extends Unit
 
     private ResponseInterface&MockObject $response;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

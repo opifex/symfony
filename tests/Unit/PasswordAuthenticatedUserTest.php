@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
-use Codeception\Test\Unit;
+use PHPUnit\Framework\TestCase;
 
-final class PasswordAuthenticatedUserTest extends Unit
+final class PasswordAuthenticatedUserTest extends TestCase
 {
     public function testEraseCredentialsWithNoResult(): void
     {

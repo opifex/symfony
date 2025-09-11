@@ -6,12 +6,12 @@ namespace Tests\Unit;
 
 use App\Domain\Exception\Integration\HttpbinResponseProviderException;
 use App\Infrastructure\Adapter\Kennethreitz\KennethreitzHttpbinAdapter;
-use Codeception\Attribute\DataProvider;
-use Codeception\Test\Unit;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
-final class KennethreitzHttpbinAdapterTest extends Unit
+final class KennethreitzHttpbinAdapterTest extends TestCase
 {
     #[DataProvider(methodName: 'httpbinResponseProvider')]
     public function testGetJsonReturnResponse(array $response): void
@@ -40,7 +40,7 @@ final class KennethreitzHttpbinAdapterTest extends Unit
         $kennethreitzHttpbinAdapter->getJson();
     }
 
-    protected function httpbinResponseProvider(): array
+    public static function httpbinResponseProvider(): array
     {
         return [
             [['slideshow' => ['author' => 'Yours Truly', 'title' => 'Sample Slide Show']]],

@@ -6,11 +6,10 @@ namespace Tests\Unit;
 
 use App\Application\EventListener\KernelExceptionEventListener;
 use App\Domain\Contract\Protection\PrivacyDataProtectorInterface;
-use Codeception\Test\Unit;
 use LogicException;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class KernelExceptionEventListenerTest extends Unit
+final class KernelExceptionEventListenerTest extends TestCase
 {
     private KernelInterface&MockObject $kernel;
 
@@ -30,9 +29,6 @@ final class KernelExceptionEventListenerTest extends Unit
 
     private PrivacyDataProtectorInterface&MockObject $privacyDataProtector;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {
@@ -54,6 +50,8 @@ final class KernelExceptionEventListenerTest extends Unit
             requestType: HttpKernelInterface::MAIN_REQUEST,
             e: new LogicException(),
         );
+
+        $this->expectNotToPerformAssertions();
 
         new KernelExceptionEventListener($this->logger, $this->normalizer, $this->privacyDataProtector)($event);
     }

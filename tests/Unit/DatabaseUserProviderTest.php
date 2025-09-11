@@ -16,22 +16,18 @@ use App\Domain\Model\LocaleCode;
 use App\Domain\Model\Role;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Uid\Uuid;
 
-final class DatabaseUserProviderTest extends Unit
+final class DatabaseUserProviderTest extends TestCase
 {
     private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Support\Data\Fixture;
+namespace Tests\Support\Fixture;
 
 use App\Domain\Model\AccountStatus;
 use App\Domain\Model\LocaleCode;

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Infrastructure\Serializer\RequestNormalizer;
-use Codeception\Attribute\DataProvider;
-use Codeception\Test\Unit;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
-final class RequestNormalizerTest extends Unit
+final class RequestNormalizerTest extends TestCase
 {
     #[DataProvider(methodName: 'requestDataProvider')]
     public function testNormalizeWithDifferentTypes(mixed $value, mixed $expected): void
@@ -58,7 +58,7 @@ final class RequestNormalizerTest extends Unit
         $this->assertEquals(expected: [], actual: $normalized);
     }
 
-    protected function requestDataProvider(): array
+    public static function requestDataProvider(): array
     {
         return [
             ['value' => 'string', 'expected' => 'string'],

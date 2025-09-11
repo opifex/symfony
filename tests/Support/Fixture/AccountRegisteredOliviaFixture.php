@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Support\Data\Fixture;
+namespace Tests\Support\Fixture;
 
 use App\Domain\Model\AccountStatus;
 use App\Domain\Model\LocaleCode;
@@ -15,7 +15,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
 use Override;
 
-final class AccountActivatedEmmaFixture extends Fixture implements FixtureInterface
+final class AccountRegisteredOliviaFixture extends Fixture implements FixtureInterface
 {
     #[Override]
     public function load(ObjectManager $manager): void
@@ -24,14 +24,14 @@ final class AccountActivatedEmmaFixture extends Fixture implements FixtureInterf
         $account = new AccountEntity(
             id: $faker->unique()->uuid(),
             createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
-            email: $faker->unique()->bothify(string: 'emma@example.com'),
+            email: $faker->unique()->bothify(string: 'olivia@example.com'),
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),
             roles: [Role::User->toString()],
-            status: AccountStatus::Activated->toString(),
+            status: AccountStatus::Registered->toString(),
         );
         $manager->persist($account);
-        $this->addReference(name: 'account:activated:emma', object: $account);
+        $this->addReference(name: 'account:registered:olivia', object: $account);
         $manager->flush();
     }
 }

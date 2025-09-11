@@ -6,21 +6,17 @@ namespace Tests\Unit;
 
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Infrastructure\Workflow\AccountMarkingStore;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 use Symfony\Component\Workflow\Marking;
 
-final class AccountMarkingStoreTest extends Unit
+final class AccountMarkingStoreTest extends TestCase
 {
     private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

@@ -1,9 +1,0 @@
-actor: AcceptanceTester
-modules:
-  enabled:
-    - PhpBrowser:
-        url: https://localhost:8000
-step_decorators:
-  - Codeception\Step\ConditionalAssertion
-  - Codeception\Step\TryTo
-  - Codeception\Step\Retry

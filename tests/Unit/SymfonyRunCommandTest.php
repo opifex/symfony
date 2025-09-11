@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Presentation\Command\SymfonyRunCommand;
-use Codeception\Test\Unit;
 use Override;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-final class SymfonyRunCommandTest extends Unit
+final class SymfonyRunCommandTest extends TestCase
 {
     private Application $application;
 

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\Service\InMemoryRequestIdStorage;
-use Codeception\Test\Unit;
+use PHPUnit\Framework\TestCase;
 
-final class InMemoryRequestIdStorageTest extends Unit
+final class InMemoryRequestIdStorageTest extends TestCase
 {
     public function testInMemoryStorage(): void
     {

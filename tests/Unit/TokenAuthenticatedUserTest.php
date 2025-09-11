@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Infrastructure\Security\TokenAuthenticatedUser;
-use Codeception\Test\Unit;
+use PHPUnit\Framework\TestCase;
 
-final class TokenAuthenticatedUserTest extends Unit
+final class TokenAuthenticatedUserTest extends TestCase
 {
     public function testEraseCredentialsWithNoResult(): void
     {

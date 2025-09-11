@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Presentation\Controller\AbstractController;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Envelope;
@@ -16,13 +15,10 @@ use Symfony\Component\Messenger\Exception\LogicException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
-final class AbstractControllerTest extends Unit
+final class AbstractControllerTest extends TestCase
 {
     private MessageBusInterface&MockObject $messageBus;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

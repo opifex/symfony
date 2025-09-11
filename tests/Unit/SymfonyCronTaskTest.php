@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Presentation\Scheduler\SymfonyCronTask;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-final class SymfonyCronTaskTest extends Unit
+final class SymfonyCronTaskTest extends TestCase
 {
     private LoggerInterface&MockObject $logger;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {
@@ -26,6 +22,8 @@ final class SymfonyCronTaskTest extends Unit
 
     public function testInvokeCronTask(): void
     {
+        $this->expectNotToPerformAssertions();
+
         new SymfonyCronTask($this->logger)();
     }
 }

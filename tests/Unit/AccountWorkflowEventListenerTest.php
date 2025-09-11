@@ -5,23 +5,19 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\EventListener\AccountWorkflowEventListener;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 use Symfony\Component\Workflow\Marking;
 
-final class AccountWorkflowEventListenerTest extends Unit
+final class AccountWorkflowEventListenerTest extends TestCase
 {
     private EventDispatcherInterface&MockObject $eventDispatcher;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

@@ -7,21 +7,17 @@ namespace Tests\Unit;
 use App\Domain\Model\Role;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\PasswordAuthenticatedUserChecker;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
-final class PasswordAuthenticatedUserCheckerTest extends Unit
+final class PasswordAuthenticatedUserCheckerTest extends TestCase
 {
     private UserInterface&MockObject $user;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

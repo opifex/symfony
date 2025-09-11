@@ -7,22 +7,18 @@ namespace Tests\Unit;
 use App\Application\Service\AuthorizationTokenManager;
 use App\Domain\Exception\Authorization\AuthorizationRequiredException;
 use App\Domain\Model\Role;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final class AuthorizationTokenManagerTest extends Unit
+final class AuthorizationTokenManagerTest extends TestCase
 {
     private AuthorizationCheckerInterface&MockObject $authorizationChecker;
 
     private TokenStorageInterface&MockObject $tokenStorage;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

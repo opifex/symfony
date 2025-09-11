@@ -7,10 +7,9 @@ namespace Tests\Unit;
 use App\Application\EventListener\RequestIdEventListener;
 use App\Domain\Contract\Identification\RequestIdGeneratorInterface;
 use App\Domain\Contract\Identification\RequestIdStorageInterface;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +20,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-final class RequestIdEventListenerTest extends Unit
+final class RequestIdEventListenerTest extends TestCase
 {
     private HttpKernelInterface&MockObject $httpKernel;
 
@@ -33,9 +32,6 @@ final class RequestIdEventListenerTest extends Unit
 
     private RequestIdStorageInterface&MockObject $requestIdStorage;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {
@@ -59,6 +55,8 @@ final class RequestIdEventListenerTest extends Unit
             output: $this->output,
         );
 
+        $this->expectNotToPerformAssertions();
+
         $requestIdEventListener->onConsoleCommand($consoleCommandEvent);
     }
 
@@ -74,6 +72,8 @@ final class RequestIdEventListenerTest extends Unit
             input: $this->input,
             output: $this->output,
         );
+
+        $this->expectNotToPerformAssertions();
 
         $requestIdEventListener->onConsoleCommand($consoleCommandEvent);
     }
@@ -91,6 +91,8 @@ final class RequestIdEventListenerTest extends Unit
             requestType: HttpKernelInterface::SUB_REQUEST,
         );
 
+        $this->expectNotToPerformAssertions();
+
         $requestIdEventListener->onRequest($requestEvent);
     }
 
@@ -107,6 +109,8 @@ final class RequestIdEventListenerTest extends Unit
             requestType: HttpKernelInterface::SUB_REQUEST,
             response: new Response(),
         );
+
+        $this->expectNotToPerformAssertions();
 
         $requestIdEventListener->onResponse($responseEvent);
     }

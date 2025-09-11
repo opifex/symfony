@@ -10,12 +10,11 @@ use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Contract\Integration\JwtAccessTokenManagerInterface;
 use App\Domain\Exception\Account\AccountNotFoundException;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-final class SigninIntoAccountHandlerTest extends Unit
+final class SigninIntoAccountHandlerTest extends TestCase
 {
     private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
 
@@ -23,9 +22,6 @@ final class SigninIntoAccountHandlerTest extends Unit
 
     private JwtAccessTokenManagerInterface&MockObject $jwtAccessTokenManager;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

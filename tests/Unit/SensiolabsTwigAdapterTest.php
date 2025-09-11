@@ -6,20 +6,16 @@ namespace Tests\Unit;
 
 use App\Domain\Exception\Integration\TwigTemplateRendererException;
 use App\Infrastructure\Adapter\Sensiolabs\SensiolabsTwigAdapter;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Error\Error;
 
-final class SensiolabsTwigAdapterTest extends Unit
+final class SensiolabsTwigAdapterTest extends TestCase
 {
     private Environment&MockObject $environment;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {

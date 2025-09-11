@@ -7,16 +7,15 @@ namespace Tests\Unit;
 use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use App\Infrastructure\Messenger\Middleware\RequestIdMiddleware;
 use App\Infrastructure\Messenger\Stamp\RequestIdStamp;
-use Codeception\Test\Unit;
 use Override;
-use PHPUnit\Framework\MockObject\Exception as MockObjectException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 
-final class RequestIdMiddlewareTest extends Unit
+final class RequestIdMiddlewareTest extends TestCase
 {
     private MiddlewareInterface&MockObject $middleware;
 
@@ -24,9 +23,6 @@ final class RequestIdMiddlewareTest extends Unit
 
     private StackInterface&MockObject $stack;
 
-    /**
-     * @throws MockObjectException
-     */
     #[Override]
     protected function setUp(): void
     {
