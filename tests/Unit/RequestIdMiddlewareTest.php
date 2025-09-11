@@ -34,7 +34,6 @@ final class RequestIdMiddlewareTest extends TestCase
     public function testHandleEnvelopeWithRequestIdStamp(): void
     {
         $middleware = new RequestIdMiddleware($this->requestIdStorage);
-
         $requestIdStamp = new RequestIdStamp(requestId: '00000000-0000-6000-8000-000000000000');
         $envelope = new Envelope(new stdClass(), [$requestIdStamp]);
 
