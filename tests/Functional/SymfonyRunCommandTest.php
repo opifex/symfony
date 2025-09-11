@@ -27,7 +27,6 @@ final class SymfonyRunCommandTest extends KernelTestCase
         $command = $this->application->find(name: 'app:symfony:run');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['--delay' => 0]);
-
         $commandTester->assertCommandIsSuccessful();
         $this->assertStringContainsString(needle: 'Symfony console command', haystack: $commandTester->getDisplay());
         $this->assertStringContainsString(needle: 'Success', haystack: $commandTester->getDisplay());

@@ -76,7 +76,6 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-
         $this->sendPatchRequest(url: '/api/account/019661f3-78c3-7a26-9ccf-361042fa4f67', parameters: [
             'email' => 'user@example.com',
         ]);

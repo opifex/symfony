@@ -14,7 +14,6 @@ final class GetSigninAccountTest extends AbstractWebTestCase
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-
         $this->sendGetRequest(url: '/api/auth/me');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
         $this->assertResponseSchema(schemaFile: 'GetSigninAccountSchema.json');
