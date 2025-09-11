@@ -111,7 +111,7 @@
             "APP_ENV=test bin/console doctrine:database:drop --if-exists --force --no-interaction",
             "APP_ENV=test bin/console doctrine:database:create --no-interaction",
             "APP_ENV=test bin/console doctrine:migration:migrate --no-interaction",
-            "APP_ENV=test bin/phpunit --no-progress"
+            "APP_ENV=test vendor/bin/phpunit --no-progress"
         ],
         "auto-scripts": {
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
