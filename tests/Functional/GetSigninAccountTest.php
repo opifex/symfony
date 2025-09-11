@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 
@@ -28,16 +27,14 @@ final class GetSigninAccountTest extends AbstractWebTestCase
 
     public function testTryToGetSigninAccountWithInvalidAuthorizationHeader(): void
     {
-        $this->getClient()->setServerParameter('HTTP_Authorization', 'invalid');
-        $this->getClient()->request(method: Request::METHOD_GET, uri: '/api/auth/me');
+        $this->sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'invalid']);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
         $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToGetSigninAccountWithInvalidBearerToken(): void
     {
-        $this->getClient()->setServerParameter('HTTP_Authorization', 'Bearer invalid');
-        $this->getClient()->request(method: Request::METHOD_GET, uri: '/api/auth/me');
+        $this->sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'Bearer invalid']);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
         $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
     }

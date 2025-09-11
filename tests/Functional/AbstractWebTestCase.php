@@ -65,30 +65,35 @@ abstract class AbstractWebTestCase extends WebTestCase
 
     public static function sendAuthorizationRequest(string $email, string $password): void
     {
-        self::sendPostRequest(url: '/api/auth/signin', parameters: ['email' => $email, 'password' => $password]);
+        self::sendPostRequest(url: '/api/auth/signin', params: ['email' => $email, 'password' => $password]);
         self::getClient()->setServerParameter(
             key: 'HTTP_AUTHORIZATION',
             value: 'Bearer ' . self::grabArrayFromResponse()['access_token'] ?? '',
         );
     }
 
-    public static function sendGetRequest(string $url, array $parameters = []): void
+    public static function sendGetRequest(string $url, array $params = [], array $server = []): void
     {
-        self::getClient()->jsonRequest(method: Request::METHOD_GET, uri: $url, parameters: $parameters);
+        self::sendHttpRequest(method: Request::METHOD_GET, uri: $url, params: $params, server: $server);
     }
 
-    public static function sendPostRequest(string $url, array $parameters = []): void
+    public static function sendPostRequest(string $url, array $params = [], array $server = []): void
     {
-        self::getClient()->jsonRequest(method: Request::METHOD_POST, uri: $url, parameters: $parameters);
+        self::sendHttpRequest(method: Request::METHOD_POST, uri: $url, params: $params, server: $server);
     }
 
-    public static function sendDeleteRequest(string $url, array $parameters = []): void
+    public static function sendDeleteRequest(string $url, array $params = [], array $server = []): void
     {
-        self::getClient()->jsonRequest(method: Request::METHOD_DELETE, uri: $url, parameters: $parameters);
+        self::sendHttpRequest(method: Request::METHOD_DELETE, uri: $url, params: $params, server: $server);
     }
 
-    public static function sendPatchRequest(string $url, array $parameters = []): void
+    public static function sendPatchRequest(string $url, array $params = [], array $server = []): void
     {
-        self::getClient()->jsonRequest(method: Request::METHOD_PATCH, uri: $url, parameters: $parameters);
+        self::sendHttpRequest(method: Request::METHOD_PATCH, uri: $url, params: $params, server: $server);
+    }
+
+    public static function sendHttpRequest(string $method, string $uri, array $params, array $server): void
+    {
+        self::getClient()->jsonRequest($method, $uri, $params, $server, changeHistory: false);
     }
 }

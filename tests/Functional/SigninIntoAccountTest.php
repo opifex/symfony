@@ -13,7 +13,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
     public function testEnsureAdminCanSignin(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signin', parameters: [
+        $this->sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
         ]);
@@ -24,7 +24,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
     public function testTryToSigninWithNonactivatedUser(): void
     {
         $this->loadFixtures([AccountRegisteredOliviaFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signin', parameters: [
+        $this->sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'olivia@example.com',
             'password' => 'password4#account',
         ]);
@@ -34,7 +34,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
 
     public function testTryToSigninWithInvalidCredentials(): void
     {
-        $this->sendPostRequest(url: '/api/auth/signin', parameters: [
+        $this->sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'invalid@example.com',
             'password' => 'password4#account',
         ]);
@@ -45,7 +45,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
     public function testTryToSigninWithExtraAttributes(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signin', parameters: [
+        $this->sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'extra' => 'value',

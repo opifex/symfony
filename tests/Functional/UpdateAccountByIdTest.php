@@ -23,7 +23,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
             criteria: ['email' => 'admin@example.com'],
         );
 
-        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, parameters: [
+        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
             'email' => 'updated@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -43,7 +43,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
             criteria: ['email' => 'admin@example.com'],
         );
 
-        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, parameters: [
+        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
             'email' => 'updated@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -63,7 +63,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
             criteria: ['email' => 'admin@example.com'],
         );
 
-        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, parameters: [
+        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
             'email' => 'james@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -76,7 +76,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendPatchRequest(url: '/api/account/019661f3-78c3-7a26-9ccf-361042fa4f67', parameters: [
+        $this->sendPatchRequest(url: '/api/account/019661f3-78c3-7a26-9ccf-361042fa4f67', params: [
             'email' => 'user@example.com',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);

@@ -14,7 +14,7 @@ final class CreateNewAccountTest extends AbstractWebTestCase
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendPostRequest(url: '/api/account', parameters: [
+        $this->sendPostRequest(url: '/api/account', params: [
             'email' => 'created@example.com',
             'password' => 'password4#account',
         ]);
@@ -26,7 +26,7 @@ final class CreateNewAccountTest extends AbstractWebTestCase
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendPostRequest(url: '/api/account', parameters: [
+        $this->sendPostRequest(url: '/api/account', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
         ]);
@@ -38,7 +38,7 @@ final class CreateNewAccountTest extends AbstractWebTestCase
     {
         $this->loadFixtures([AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        $this->sendPostRequest(url: '/api/account', parameters: [
+        $this->sendPostRequest(url: '/api/account', params: [
             'email' => 'created@example.com',
             'password' => 'password4#account',
         ]);

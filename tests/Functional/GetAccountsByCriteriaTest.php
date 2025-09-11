@@ -15,7 +15,7 @@ final class GetAccountsByCriteriaTest extends AbstractWebTestCase
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendGetRequest(url: '/api/account', parameters: [
+        $this->sendGetRequest(url: '/api/account', params: [
             'email' => 'admin@example.com',
             'status' => AccountStatus::Activated->toString(),
         ]);
@@ -27,7 +27,7 @@ final class GetAccountsByCriteriaTest extends AbstractWebTestCase
     {
         $this->loadFixtures([AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        $this->sendGetRequest(url: '/api/account', parameters: [
+        $this->sendGetRequest(url: '/api/account', params: [
             'email' => 'admin@example.com',
             'status' => AccountStatus::Activated->toString(),
         ]);

@@ -11,7 +11,7 @@ final class SignupNewAccountTest extends AbstractWebTestCase
 {
     public function testEnsureUserCanSignup(): void
     {
-        $this->sendPostRequest(url: '/api/auth/signup', parameters: [
+        $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
         ]);
@@ -21,7 +21,7 @@ final class SignupNewAccountTest extends AbstractWebTestCase
 
     public function testTryToSignupWithInvalidCredentials(): void
     {
-        $this->sendPostRequest(url: '/api/auth/signup', parameters: [
+        $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'example.com',
             'password' => 'password4#account',
         ]);
@@ -32,7 +32,7 @@ final class SignupNewAccountTest extends AbstractWebTestCase
     public function testTryToSignupWithNonexistentCredentials(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signup', parameters: [
+        $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
         ]);
@@ -42,7 +42,7 @@ final class SignupNewAccountTest extends AbstractWebTestCase
 
     public function testTryToSignupWithInvalidTypes(): void
     {
-        $this->sendPostRequest(url: '/api/auth/signup', parameters: [
+        $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'example.com',
             'password' => ['password4#account'],
         ]);
