@@ -11,7 +11,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:17.3
+        image: postgres:17.6
         env:
           POSTGRES_DB: root
           POSTGRES_PASSWORD: root
@@ -43,7 +43,7 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
 
       - name: Checkout project sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install composer dependencies
         run: /usr/bin/composer install --no-scripts
