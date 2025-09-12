@@ -10,17 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedEmmaFixture;
-use Tests\Support\HttpClientRequestTrait;
+use Tests\Support\HttpClientComponentTrait;
 
 final class SignupNewAccountTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
-    use HttpClientRequestTrait;
+    use HttpClientComponentTrait;
 
     #[Override]
     protected function setUp(): void
     {
-        $this->createClient();
+        $this->activateHttpClient();
     }
 
     public function testEnsureUserCanSignup(): void

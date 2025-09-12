@@ -11,32 +11,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
-use Tests\Support\HttpClientAuthorizationTrait;
-use Tests\Support\HttpClientRequestTrait;
+use Tests\Support\HttpClientComponentTrait;
 
 final class GetAccountByIdTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
-    use HttpClientRequestTrait;
-    use HttpClientAuthorizationTrait;
+    use HttpClientComponentTrait;
 
     #[Override]
     protected function setUp(): void
     {
-        $this->createClient();
+        $this->activateHttpClient();
     }
 
     public function testEnsureAdminCanGetExistingAccount(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountAdmin */
-        $accountAdmin = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'admin@example.com'],
-        );
-
+        $accountAdmin = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'admin@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
         $this->sendGetRequest(url: '/api/account/' . $accountAdmin->id);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
         $this->assertResponseSchema(schema: 'GetAccountByIdSchema.json');
@@ -55,13 +50,10 @@ final class GetAccountByIdTest extends WebTestCase
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountAdmin */
-        $accountAdmin = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'admin@example.com'],
-        );
-
+        $accountAdmin = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'admin@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
         $this->sendGetRequest(url: '/api/account/' . $accountAdmin->id);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
         $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');

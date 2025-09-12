@@ -11,19 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
-use Tests\Support\HttpClientAuthorizationTrait;
-use Tests\Support\HttpClientRequestTrait;
+use Tests\Support\HttpClientComponentTrait;
 
 final class GetAccountsByCriteriaTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
-    use HttpClientRequestTrait;
-    use HttpClientAuthorizationTrait;
+    use HttpClientComponentTrait;
 
     #[Override]
     protected function setUp(): void
     {
-        $this->createClient();
+        $this->activateHttpClient();
     }
 
     public function testEnsureAdminCanGetAccountsByCriteria(): void

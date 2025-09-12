@@ -7,16 +7,16 @@ namespace Tests\Functional;
 use Override;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\Support\HttpClientRequestTrait;
+use Tests\Support\HttpClientComponentTrait;
 
 final class GetHealthStatusTest extends WebTestCase
 {
-    use HttpClientRequestTrait;
+    use HttpClientComponentTrait;
 
     #[Override]
     protected function setUp(): void
     {
-        $this->createClient();
+        $this->activateHttpClient();
     }
 
     public function testEnsureHealthStatusIsOk(): void

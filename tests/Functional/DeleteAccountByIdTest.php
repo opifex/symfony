@@ -12,32 +12,27 @@ use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedEmmaFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
-use Tests\Support\HttpClientAuthorizationTrait;
-use Tests\Support\HttpClientRequestTrait;
+use Tests\Support\HttpClientComponentTrait;
 
 final class DeleteAccountByIdTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
-    use HttpClientRequestTrait;
-    use HttpClientAuthorizationTrait;
+    use HttpClientComponentTrait;
 
     #[Override]
     protected function setUp(): void
     {
-        $this->createClient();
+        $this->activateHttpClient();
     }
 
     public function testEnsureAdminCanDeleteExistingAccount(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountJames */
-        $accountJames = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'james@example.com'],
-        );
-
+        $accountJames = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'james@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
         $this->sendDeleteRequest(url: '/api/account/' . $accountJames->id);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
         $this->assertResponseContentSame(expectedContent: '');
@@ -56,13 +51,10 @@ final class DeleteAccountByIdTest extends WebTestCase
     {
         $this->loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'emma@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountJames */
-        $accountJames = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'james@example.com'],
-        );
-
+        $accountJames = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'james@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
         $this->sendDeleteRequest(url: '/api/account/' . $accountJames->id);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
         $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');

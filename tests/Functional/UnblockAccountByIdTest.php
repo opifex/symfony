@@ -12,32 +12,27 @@ use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
 use Tests\Support\Fixture\AccountBlockedHenryFixture;
-use Tests\Support\HttpClientAuthorizationTrait;
-use Tests\Support\HttpClientRequestTrait;
+use Tests\Support\HttpClientComponentTrait;
 
 final class UnblockAccountByIdTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
-    use HttpClientRequestTrait;
-    use HttpClientAuthorizationTrait;
+    use HttpClientComponentTrait;
 
     #[Override]
     protected function setUp(): void
     {
-        $this->createClient();
+        $this->activateHttpClient();
     }
 
     public function testEnsureAdminCanUnblockBlockedAccount(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountHenry */
-        $accountHenry = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'henry@example.com'],
-        );
-
+        $accountHenry = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'henry@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
         $this->sendPostRequest(url: '/api/account/' . $accountHenry->id . '/unblock');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
         $this->assertResponseContentSame(expectedContent: '');
@@ -56,13 +51,10 @@ final class UnblockAccountByIdTest extends WebTestCase
     {
         $this->loadFixtures([AccountActivatedJamesFixture::class, AccountBlockedHenryFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountHenry */
-        $accountHenry = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'henry@example.com'],
-        );
-
+        $accountHenry = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'henry@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
         $this->sendPostRequest(url: '/api/account/' . $accountHenry->id . '/unblock');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
         $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');

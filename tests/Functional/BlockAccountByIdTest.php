@@ -13,32 +13,27 @@ use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedEmmaFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
 use Tests\Support\Fixture\AccountBlockedHenryFixture;
-use Tests\Support\HttpClientAuthorizationTrait;
-use Tests\Support\HttpClientRequestTrait;
+use Tests\Support\HttpClientComponentTrait;
 
 final class BlockAccountByIdTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
-    use HttpClientRequestTrait;
-    use HttpClientAuthorizationTrait;
+    use HttpClientComponentTrait;
 
     #[Override]
     protected function setUp(): void
     {
-        $this->createClient();
+        $this->activateHttpClient();
     }
 
     public function testEnsureAdminCanBlockActivatedAccount(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountJames */
-        $accountJames = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'james@example.com'],
-        );
-
+        $accountJames = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'james@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
         $this->sendPostRequest(url: '/api/account/' . $accountJames->id . '/block');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
         $this->assertResponseContentSame(expectedContent: '');
@@ -57,13 +52,10 @@ final class BlockAccountByIdTest extends WebTestCase
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountHenry */
-        $accountHenry = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'henry@example.com'],
-        );
-
+        $accountHenry = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'henry@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
         $this->sendPostRequest(url: '/api/account/' . $accountHenry->id . '/block');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
@@ -73,13 +65,10 @@ final class BlockAccountByIdTest extends WebTestCase
     {
         $this->loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-
-        /** @var AccountEntity $accountEmma */
-        $accountEmma = $this->getDatabaseEntity(
-            entity: AccountEntity::class,
-            criteria: ['email' => 'emma@example.com'],
-        );
-
+        $accountEmma = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'emma@example.com',
+        ]);
+        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountEmma);
         $this->sendPostRequest(url: '/api/account/' . $accountEmma->id . '/block');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
         $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
