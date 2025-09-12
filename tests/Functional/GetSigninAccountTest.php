@@ -15,27 +15,27 @@ final class GetSigninAccountTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendGetRequest(url: '/api/auth/me');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schemaFile: 'GetSigninAccountSchema.json');
+        $this->assertResponseSchema(schema: 'GetSigninAccountSchema.json');
     }
 
     public function testTryToGetSigninAccountWithoutAuthorizationHeader(): void
     {
         $this->sendGetRequest(url: '/api/auth/me');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToGetSigninAccountWithInvalidAuthorizationHeader(): void
     {
         $this->sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'invalid']);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToGetSigninAccountWithInvalidBearerToken(): void
     {
         $this->sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'Bearer invalid']);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

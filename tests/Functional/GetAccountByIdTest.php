@@ -17,14 +17,14 @@ final class GetAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
-        $accountAdmin = $this->grabEntityFromRepository(
+        $accountAdmin = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'admin@example.com'],
         );
 
         $this->sendGetRequest(url: '/api/account/' . $accountAdmin->id);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schemaFile: 'GetAccountByIdSchema.json');
+        $this->assertResponseSchema(schema: 'GetAccountByIdSchema.json');
     }
 
     public function testTryToGetNonexistentAccount(): void
@@ -33,7 +33,7 @@ final class GetAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendGetRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToGetAccountWithoutPermission(): void
@@ -42,13 +42,13 @@ final class GetAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
-        $accountAdmin = $this->grabEntityFromRepository(
+        $accountAdmin = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'admin@example.com'],
         );
 
         $this->sendGetRequest(url: '/api/account/' . $accountAdmin->id);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

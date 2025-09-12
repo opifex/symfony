@@ -18,14 +18,14 @@ final class UnblockAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountHenry */
-        $accountHenry = $this->grabEntityFromRepository(
+        $accountHenry = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'henry@example.com'],
         );
 
         $this->sendPostRequest(url: '/api/account/' . $accountHenry->id . '/unblock');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseBodyIsEmpty();
+        $this->assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToUnblockNonexistentAccount(): void
@@ -34,7 +34,7 @@ final class UnblockAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/unblock');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToUnblockBlockedAccountWithoutPermission(): void
@@ -43,13 +43,13 @@ final class UnblockAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountHenry */
-        $accountHenry = $this->grabEntityFromRepository(
+        $accountHenry = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'henry@example.com'],
         );
 
         $this->sendPostRequest(url: '/api/account/' . $accountHenry->id . '/unblock');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

@@ -18,7 +18,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schemaFile: 'SigninIntoAccountSchema.json');
+        $this->assertResponseSchema(schema: 'SigninIntoAccountSchema.json');
     }
 
     public function testTryToSigninWithNonactivatedUser(): void
@@ -29,7 +29,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToSigninWithInvalidCredentials(): void
@@ -39,7 +39,7 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToSigninWithExtraAttributes(): void
@@ -51,6 +51,6 @@ final class SigninIntoAccountTest extends AbstractWebTestCase
             'extra' => 'value',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

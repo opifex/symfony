@@ -18,14 +18,14 @@ final class DeleteAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountJames */
-        $accountJames = $this->grabEntityFromRepository(
+        $accountJames = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'james@example.com'],
         );
 
         $this->sendDeleteRequest(url: '/api/account/' . $accountJames->id);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseBodyIsEmpty();
+        $this->assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToDeleteNonexistentAccount(): void
@@ -34,7 +34,7 @@ final class DeleteAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendDeleteRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToDeleteAccountWithoutPermission(): void
@@ -43,13 +43,13 @@ final class DeleteAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'emma@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountJames */
-        $accountJames = $this->grabEntityFromRepository(
+        $accountJames = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'james@example.com'],
         );
 
         $this->sendDeleteRequest(url: '/api/account/' . $accountJames->id);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

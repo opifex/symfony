@@ -18,7 +18,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
-        $accountAdmin = $this->grabEntityFromRepository(
+        $accountAdmin = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'admin@example.com'],
         );
@@ -29,7 +29,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseBodyIsEmpty();
+        $this->assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToUpdateAccountWithoutPermission(): void
@@ -38,7 +38,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
-        $accountAdmin = $this->grabEntityFromRepository(
+        $accountAdmin = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'admin@example.com'],
         );
@@ -49,7 +49,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToUpdateAccountWithExistedEmail(): void
@@ -58,7 +58,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountAdmin */
-        $accountAdmin = $this->grabEntityFromRepository(
+        $accountAdmin = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'admin@example.com'],
         );
@@ -69,7 +69,7 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToUpdateAccountWithInvalidId(): void
@@ -80,6 +80,6 @@ final class UpdateAccountByIdTest extends AbstractWebTestCase
             'email' => 'user@example.com',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

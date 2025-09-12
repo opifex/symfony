@@ -20,7 +20,7 @@ final class GetAccountsByCriteriaTest extends AbstractWebTestCase
             'status' => AccountStatus::Activated->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schemaFile: 'GetAccountsByCriteriaSchema.json');
+        $this->assertResponseSchema(schema: 'GetAccountsByCriteriaSchema.json');
     }
 
     public function testEryToGetAccountsByCriteriaWithoutPermission(): void
@@ -32,6 +32,6 @@ final class GetAccountsByCriteriaTest extends AbstractWebTestCase
             'status' => AccountStatus::Activated->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

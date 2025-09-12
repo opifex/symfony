@@ -19,7 +19,7 @@ final class CreateNewAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CREATED);
-        $this->assertResponseSchema(schemaFile: 'CreateNewAccountSchema.json');
+        $this->assertResponseSchema(schema: 'CreateNewAccountSchema.json');
     }
 
     public function testTryToCreateAccountWithExistingEmail(): void
@@ -31,7 +31,7 @@ final class CreateNewAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToCreateAccountWithoutPermission(): void
@@ -43,6 +43,6 @@ final class CreateNewAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

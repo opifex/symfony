@@ -16,7 +16,7 @@ final class SignupNewAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseBodyIsEmpty();
+        $this->assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToSignupWithInvalidCredentials(): void
@@ -26,7 +26,7 @@ final class SignupNewAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToSignupWithNonexistentCredentials(): void
@@ -37,7 +37,7 @@ final class SignupNewAccountTest extends AbstractWebTestCase
             'password' => 'password4#account',
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToSignupWithInvalidTypes(): void
@@ -47,6 +47,6 @@ final class SignupNewAccountTest extends AbstractWebTestCase
             'password' => ['password4#account'],
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

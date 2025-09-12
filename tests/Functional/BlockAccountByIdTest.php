@@ -19,14 +19,14 @@ final class BlockAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountJames */
-        $accountJames = $this->grabEntityFromRepository(
+        $accountJames = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'james@example.com'],
         );
 
         $this->sendPostRequest(url: '/api/account/' . $accountJames->id . '/block');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseBodyIsEmpty();
+        $this->assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToBlockNonexistentAccount(): void
@@ -35,7 +35,7 @@ final class BlockAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         $this->sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/block');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToBlockAlreadyBlockedAccount(): void
@@ -44,14 +44,14 @@ final class BlockAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountHenry */
-        $accountHenry = $this->grabEntityFromRepository(
+        $accountHenry = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'henry@example.com'],
         );
 
         $this->sendPostRequest(url: '/api/account/' . $accountHenry->id . '/block');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToBlockAccountWithoutPermission(): void
@@ -60,13 +60,13 @@ final class BlockAccountByIdTest extends AbstractWebTestCase
         $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
 
         /** @var AccountEntity $accountEmma */
-        $accountEmma = $this->grabEntityFromRepository(
+        $accountEmma = $this->getDatabaseEntity(
             entity: AccountEntity::class,
             criteria: ['email' => 'emma@example.com'],
         );
 
         $this->sendPostRequest(url: '/api/account/' . $accountEmma->id . '/block');
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schemaFile: 'ApplicationExceptionSchema.json');
+        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }
