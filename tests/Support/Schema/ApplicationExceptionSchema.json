@@ -42,6 +42,9 @@
             "items": {
                 "type": "object",
                 "properties": {
+                    "message": {
+                        "type": "string"
+                    },
                     "file": {
                         "type": "string"
                     },
@@ -53,6 +56,7 @@
                     }
                 },
                 "required": [
+                    "message",
                     "file",
                     "type",
                     "line"
