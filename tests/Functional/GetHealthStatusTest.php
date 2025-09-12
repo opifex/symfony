@@ -4,10 +4,21 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Override;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\Support\HttpClientRequestTrait;
 
-final class GetHealthStatusTest extends AbstractWebTestCase
+final class GetHealthStatusTest extends WebTestCase
 {
+    use HttpClientRequestTrait;
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->createClient();
+    }
+
     public function testEnsureHealthStatusIsOk(): void
     {
         $this->sendGetRequest(url: '/api/health');

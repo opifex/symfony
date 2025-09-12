@@ -4,12 +4,25 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Override;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountRegisteredOliviaFixture;
+use Tests\Support\HttpClientRequestTrait;
 
-final class SigninIntoAccountTest extends AbstractWebTestCase
+final class SigninIntoAccountTest extends WebTestCase
 {
+    use DatabaseEntityManagerTrait;
+    use HttpClientRequestTrait;
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->createClient();
+    }
+
     public function testEnsureAdminCanSignin(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);

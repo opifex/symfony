@@ -4,11 +4,26 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Override;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
+use Tests\Support\HttpClientAuthorizationTrait;
+use Tests\Support\HttpClientRequestTrait;
 
-final class GetSigninAccountTest extends AbstractWebTestCase
+final class GetSigninAccountTest extends WebTestCase
 {
+    use DatabaseEntityManagerTrait;
+    use HttpClientRequestTrait;
+    use HttpClientAuthorizationTrait;
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->createClient();
+    }
+
     public function testEnsureUserCanGetSigninAccountWithValidBearer(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);

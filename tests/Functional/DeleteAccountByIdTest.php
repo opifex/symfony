@@ -5,13 +5,28 @@ declare(strict_types=1);
 namespace Tests\Functional;
 
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
+use Override;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedEmmaFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
+use Tests\Support\HttpClientAuthorizationTrait;
+use Tests\Support\HttpClientRequestTrait;
 
-final class DeleteAccountByIdTest extends AbstractWebTestCase
+final class DeleteAccountByIdTest extends WebTestCase
 {
+    use DatabaseEntityManagerTrait;
+    use HttpClientRequestTrait;
+    use HttpClientAuthorizationTrait;
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->createClient();
+    }
+
     public function testEnsureAdminCanDeleteExistingAccount(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);

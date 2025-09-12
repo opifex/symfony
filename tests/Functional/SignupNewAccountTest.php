@@ -4,13 +4,28 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Override;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
+use Tests\Support\Fixture\AccountActivatedEmmaFixture;
+use Tests\Support\HttpClientRequestTrait;
 
-final class SignupNewAccountTest extends AbstractWebTestCase
+final class SignupNewAccountTest extends WebTestCase
 {
+    use DatabaseEntityManagerTrait;
+    use HttpClientRequestTrait;
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->createClient();
+    }
+
     public function testEnsureUserCanSignup(): void
     {
+        $this->loadFixtures([AccountActivatedEmmaFixture::class]);
         $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',

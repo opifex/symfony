@@ -4,12 +4,27 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Override;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
+use Tests\Support\HttpClientAuthorizationTrait;
+use Tests\Support\HttpClientRequestTrait;
 
-final class CreateNewAccountTest extends AbstractWebTestCase
+final class CreateNewAccountTest extends WebTestCase
 {
+    use DatabaseEntityManagerTrait;
+    use HttpClientRequestTrait;
+    use HttpClientAuthorizationTrait;
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->createClient();
+    }
+
     public function testEnsureAdminCanCreateAccount(): void
     {
         $this->loadFixtures([AccountActivatedAdminFixture::class]);

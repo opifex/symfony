@@ -27,9 +27,4 @@ trait DatabaseEntityManagerTrait
     {
         return self::getContainer()->get(id: 'doctrine')->getManager();
     }
-
-    private static function purgeDatabase(): void
-    {
-        new ORMExecutor(self::getEntityManager(), new ORMPurger())->getPurger()->purge();
-    }
 }
