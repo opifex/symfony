@@ -132,6 +132,6 @@ final class ExceptionNormalizer implements NormalizerInterface
             'reason' => $this->formatViolationMessage($violation),
             'object' => $this->kernel->isDebug() ? $this->extractViolationObject($violation) : null,
             'value' => $this->kernel->isDebug() ? $violation->getInvalidValue() : null,
-        ]), iterator_to_array($violations));
+        ]), [...$violations]);
     }
 }

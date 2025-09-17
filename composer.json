@@ -48,6 +48,7 @@
         "symfony/twig-bundle": "7.3.*",
         "symfony/uid": "7.3.*",
         "symfony/validator": "7.3.*",
+        "symfony/webhook": "7.3.*",
         "symfony/workflow": "7.3.*",
         "symfony/yaml": "7.3.*",
         "twig/cssinliner-extra": "^3.21",

@@ -51,8 +51,8 @@ final class KernelExceptionEventListenerTest extends TestCase
             e: new LogicException(),
         );
 
-        $this->expectNotToPerformAssertions();
-
         new KernelExceptionEventListener($this->logger, $this->normalizer, $this->privacyDataProtector)($event);
+
+        $this->expectNotToPerformAssertions();
     }
 }

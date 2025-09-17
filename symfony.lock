@@ -522,6 +522,18 @@
             "config/routes/web_profiler.yaml"
         ]
     },
+    "symfony/webhook": {
+        "version": "7.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.3",
+            "ref": "b70844963dc84e9a99b94ae552efe691d74b087f"
+        },
+        "files": [
+            "config/routes/webhook.yaml"
+        ]
+    },
     "symfony/workflow": {
         "version": "6.1",
         "recipe": {

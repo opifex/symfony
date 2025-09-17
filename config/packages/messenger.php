@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Infrastructure\Messenger\Middleware\RequestIdMiddleware;
 use App\Infrastructure\Messenger\Middleware\ValidationMiddleware;
 use Symfony\Component\Mailer\Messenger\SendEmailMessage;
+use Symfony\Component\RemoteEvent\Messenger\ConsumeRemoteEventMessage;
 use Symfony\Config\FrameworkConfig;
 
 return static function (FrameworkConfig $framework): void {
@@ -18,16 +19,32 @@ return static function (FrameworkConfig $framework): void {
         ->middleware(value: 'doctrine_ping_connection')
         ->middleware(value: 'doctrine_transaction');
 
-    $framework->messenger()->transport(name: 'notifications_email')
+    $framework->messenger()->transport(name: 'notifier_emails')
         ->dsn(value: '%env(MESSENGER_TRANSPORT_DSN)%')
         ->options([
             'exchange' => [
                 'default_publish_routing_key' => 'normal',
-                'name' => '%env(APP_NAME)%.notifications_email.direct',
+                'name' => '%env(APP_NAME)%.notifier_emails.direct',
                 'type' => 'direct',
             ],
             'queues' => [
-                '%env(APP_NAME)%.notifications_email.direct' => [
+                '%env(APP_NAME)%.notifier_emails.direct' => [
+                    'binding_keys' => ['normal'],
+                ],
+            ],
+        ])
+        ->retryStrategy()->delay(value: 60000)->maxRetries(value: 3)->multiplier(value: 1);
+
+    $framework->messenger()->transport(name: 'webhook_events')
+        ->dsn(value: '%env(MESSENGER_TRANSPORT_DSN)%')
+        ->options([
+            'exchange' => [
+                'default_publish_routing_key' => 'normal',
+                'name' => '%env(APP_NAME)%.webhook_events.direct',
+                'type' => 'direct',
+            ],
+            'queues' => [
+                '%env(APP_NAME)%.webhook_events.direct' => [
                     'binding_keys' => ['normal'],
                 ],
             ],
@@ -39,5 +56,8 @@ return static function (FrameworkConfig $framework): void {
         ->options(['table_name' => 'messenger']);
 
     $framework->messenger()->routing(message_class: SendEmailMessage::class)
-        ->senders(['notifications_email']);
+        ->senders(['notifier_emails']);
+
+    $framework->messenger()->routing(message_class: ConsumeRemoteEventMessage::class)
+        ->senders(['webhook_events']);
 };

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\Scheduler\Event\PreRunEvent;
 
 final class RequestIdEventListener
 {
@@ -28,6 +29,13 @@ final class RequestIdEventListener
             return;
         }
 
+        $requestId = $this->requestIdGenerator->generate();
+        $this->requestIdStorage->setRequestId($requestId);
+    }
+
+    #[AsEventListener(event: PreRunEvent::class, priority: 100)]
+    public function onPreRunEvent(PreRunEvent $event): void
+    {
         $requestId = $this->requestIdGenerator->generate();
         $this->requestIdStorage->setRequestId($requestId);
     }

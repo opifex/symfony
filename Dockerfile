@@ -16,11 +16,9 @@ RUN set -e \
     && apk add --update ca-certificates git linux-headers nginx p7zip runuser supervisor unzip \
     && apk add --update icu-dev libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev rabbitmq-c-dev zlib-dev \
     && apk add --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install amqp-2.1.2 apcu-5.1.27 redis-6.2.0 xdebug-3.4.5 \
     && docker-php-ext-install gd intl opcache pcntl pdo_pgsql xsl zip \
-    && pecl install amqp-2.1.2 && docker-php-ext-enable amqp \
-    && pecl install apcu-5.1.27 && docker-php-ext-enable apcu \
-    && pecl install redis-6.2.0 && docker-php-ext-enable redis \
-    && pecl install xdebug-3.4.5 && docker-php-ext-enable xsl \
+    && docker-php-ext-enable amqp apcu redis xsl \
     && pecl clear-cache && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 # copy configuration files

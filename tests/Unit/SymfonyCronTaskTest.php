@@ -22,8 +22,8 @@ final class SymfonyCronTaskTest extends TestCase
 
     public function testInvokeCronTask(): void
     {
-        $this->expectNotToPerformAssertions();
-
         new SymfonyCronTask($this->logger)();
+
+        $this->expectNotToPerformAssertions();
     }
 }

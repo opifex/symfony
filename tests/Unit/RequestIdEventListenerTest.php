@@ -7,9 +7,11 @@ namespace Tests\Unit;
 use App\Application\EventListener\RequestIdEventListener;
 use App\Domain\Contract\Identification\RequestIdGeneratorInterface;
 use App\Domain\Contract\Identification\RequestIdStorageInterface;
+use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,6 +21,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Scheduler\Event\PreRunEvent;
+use Symfony\Component\Scheduler\Generator\MessageContext;
+use Symfony\Component\Scheduler\ScheduleProviderInterface;
+use Symfony\Component\Scheduler\Trigger\TriggerInterface;
 
 final class RequestIdEventListenerTest extends TestCase
 {
@@ -32,6 +38,10 @@ final class RequestIdEventListenerTest extends TestCase
 
     private RequestIdStorageInterface&MockObject $requestIdStorage;
 
+    private ScheduleProviderInterface&MockObject $scheduleProvider;
+
+    private TriggerInterface&MockObject $trigger;
+
     #[Override]
     protected function setUp(): void
     {
@@ -40,6 +50,8 @@ final class RequestIdEventListenerTest extends TestCase
         $this->output = $this->createMock(type: OutputInterface::class);
         $this->requestIdGenerator = $this->createMock(type: RequestIdGeneratorInterface::class);
         $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
+        $this->scheduleProvider = $this->createMock(type: ScheduleProviderInterface::class);
+        $this->trigger = $this->createMock(type: TriggerInterface::class);
     }
 
     public function testOnConsoleCommand(): void
@@ -55,9 +67,9 @@ final class RequestIdEventListenerTest extends TestCase
             output: $this->output,
         );
 
-        $this->expectNotToPerformAssertions();
-
         $requestIdEventListener->onConsoleCommand($consoleCommandEvent);
+
+        $this->expectNotToPerformAssertions();
     }
 
     public function testOnConsoleCommandWithEmptyCommand(): void
@@ -73,9 +85,32 @@ final class RequestIdEventListenerTest extends TestCase
             output: $this->output,
         );
 
-        $this->expectNotToPerformAssertions();
-
         $requestIdEventListener->onConsoleCommand($consoleCommandEvent);
+
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function testOnPreRunEvent(): void
+    {
+        $requestIdEventListener = new RequestIdEventListener(
+            requestIdGenerator: $this->requestIdGenerator,
+            requestIdStorage: $this->requestIdStorage,
+        );
+
+        $preRunEvent = new PreRunEvent(
+            schedule: $this->scheduleProvider,
+            messageContext: new MessageContext(
+                name: 'Test scheduler event',
+                id: '00000000-0000-6000-8000-000000000000',
+                trigger: $this->trigger,
+                triggeredAt: new DateTimeImmutable(),
+            ),
+            message: new stdClass(),
+        );
+
+        $requestIdEventListener->onPreRunEvent($preRunEvent);
+
+        $this->expectNotToPerformAssertions();
     }
 
     public function testOnRequestEventWithNotMainRequest(): void
@@ -91,9 +126,9 @@ final class RequestIdEventListenerTest extends TestCase
             requestType: HttpKernelInterface::SUB_REQUEST,
         );
 
-        $this->expectNotToPerformAssertions();
-
         $requestIdEventListener->onRequest($requestEvent);
+
+        $this->expectNotToPerformAssertions();
     }
 
     public function testOnResponseEventWithNotMainRequest(): void
@@ -110,8 +145,8 @@ final class RequestIdEventListenerTest extends TestCase
             response: new Response(),
         );
 
-        $this->expectNotToPerformAssertions();
-
         $requestIdEventListener->onResponse($responseEvent);
+
+        $this->expectNotToPerformAssertions();
     }
 }

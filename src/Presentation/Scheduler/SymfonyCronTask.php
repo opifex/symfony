@@ -7,7 +7,7 @@ namespace App\Presentation\Scheduler;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
-#[AsCronTask('@hourly')]
+#[AsCronTask('@hourly', schedule: 'tasks')]
 final class SymfonyCronTask
 {
     public function __construct(
