@@ -32,6 +32,7 @@ final class SignupNewAccountTest extends WebTestCase
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
         $this->assertResponseContentSame(expectedContent: '');
+        $this->assertEmailCount(count: 1);
     }
 
     public function testTryToSignupWithInvalidCredentials(): void

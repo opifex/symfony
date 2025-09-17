@@ -13,17 +13,6 @@ services:
       - postgres
       - rabbitmq
       - redis
-    environment:
-      APP_ENV: "${APP_ENV}"
-      APP_NAME: "${APP_NAME}"
-      APP_PORT: "${APP_PORT}"
-      APP_URL: "${APP_URL}"
-      DATABASE_URL: "${DATABASE_URL}"
-      HTTPBIN_URL: "${HTTPBIN_URL}"
-      MAILER_DSN: "${MAILER_DSN}"
-      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
-      MOCK_SERVER_URL: "${MOCK_SERVER_URL}"
-      REDIS_DSN: "${REDIS_DSN}"
     volumes:
       - ./:/opt/project:consistent
     networks:
@@ -43,17 +32,6 @@ services:
       - postgres
       - rabbitmq
       - redis
-    environment:
-      APP_ENV: "${APP_ENV}"
-      APP_NAME: "${APP_NAME}"
-      APP_PORT: "${APP_PORT}"
-      APP_URL: "${APP_URL}"
-      DATABASE_URL: "${DATABASE_URL}"
-      HTTPBIN_URL: "${HTTPBIN_URL}"
-      MAILER_DSN: "${MAILER_DSN}"
-      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
-      MOCK_SERVER_URL: "${MOCK_SERVER_URL}"
-      REDIS_DSN: "${REDIS_DSN}"
     volumes:
       - ./:/opt/project:consistent
     networks:
@@ -69,12 +47,6 @@ services:
     depends_on:
       - application
       - postgres
-    environment:
-      APP_ENV: "${APP_ENV}"
-      APP_NAME: "${APP_NAME}"
-      APP_PORT: "${APP_PORT}"
-      APP_URL: "${APP_URL}"
-      DATABASE_URL: "${DATABASE_URL}"
     volumes:
       - ./:/opt/project:consistent
     networks:
