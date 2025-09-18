@@ -104,15 +104,15 @@
             "bin/console messenger:setup-transports --no-interaction"
         ],
         "auto-quality": [
-            "APP_ENV=test bin/console cache:clear --no-interaction",
-            "APP_ENV=test bin/console lint:yaml src config --no-interaction",
-            "APP_ENV=test bin/console lint:twig src --no-interaction",
-            "APP_ENV=test bin/console lint:container --no-interaction",
-            "APP_ENV=test bin/console doctrine:mapping:info --no-interaction",
-            "APP_ENV=test bin/console doctrine:database:drop --if-exists --force --no-interaction",
-            "APP_ENV=test bin/console doctrine:database:create --no-interaction",
-            "APP_ENV=test bin/console doctrine:migration:migrate --no-interaction",
-            "APP_ENV=test bin/phpunit --no-progress"
+            "bin/console cache:clear --env=test --no-interaction",
+            "bin/console lint:yaml src config --env=test --no-interaction",
+            "bin/console lint:twig src --env=test --no-interaction",
+            "bin/console lint:container --env=test --no-interaction",
+            "bin/console doctrine:mapping:info --env=test --no-interaction",
+            "bin/console doctrine:database:drop --env=test --if-exists --force --no-interaction",
+            "bin/console doctrine:database:create --env=test --no-interaction",
+            "bin/console doctrine:migration:migrate --env=test --no-interaction",
+            "bin/phpunit --no-progress"
         ],
         "auto-scripts": {
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
