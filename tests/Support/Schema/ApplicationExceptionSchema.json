@@ -31,8 +31,7 @@
                 },
                 "required": [
                     "name",
-                    "reason",
-                    "object"
+                    "reason"
                 ],
                 "additionalProperties": false
             }
