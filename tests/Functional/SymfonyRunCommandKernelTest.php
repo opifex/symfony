@@ -12,7 +12,7 @@ use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-final class SymfonyRunCommandTest extends KernelTestCase
+final class SymfonyRunCommandKernelTest extends KernelTestCase
 {
     private readonly Command $command;
 

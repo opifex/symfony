@@ -11,7 +11,7 @@ use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\HttpClientComponentTrait;
 
-final class GetSigninAccountTest extends WebTestCase
+final class GetSigninAccountWebTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
     use HttpClientComponentTrait;

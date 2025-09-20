@@ -13,7 +13,7 @@ use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
 use Tests\Support\HttpClientComponentTrait;
 
-final class GetAccountsByCriteriaTest extends WebTestCase
+final class GetAccountsByCriteriaWebTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
     use HttpClientComponentTrait;

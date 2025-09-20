@@ -14,7 +14,7 @@ use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
 use Tests\Support\HttpClientComponentTrait;
 
-final class UpdateAccountByIdTest extends WebTestCase
+final class UpdateAccountByIdWebTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
     use HttpClientComponentTrait;

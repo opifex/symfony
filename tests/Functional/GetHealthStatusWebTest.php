@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\Support\HttpClientComponentTrait;
 
-final class GetHealthStatusTest extends WebTestCase
+final class GetHealthStatusWebTest extends WebTestCase
 {
     use HttpClientComponentTrait;
 

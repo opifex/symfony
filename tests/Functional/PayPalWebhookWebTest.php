@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\Support\HttpClientComponentTrait;
 
-final class PayPalWebhookTest extends WebTestCase
+final class PayPalWebhookWebTest extends WebTestCase
 {
     use HttpClientComponentTrait;
 
@@ -21,7 +21,7 @@ final class PayPalWebhookTest extends WebTestCase
 
     public function testPaypalWebhookReceivesSuccessfully(): void
     {
-        $webhookToken = $_ENV['PAYPAL_WEBHOOK_TOKEN'];
+        $webhookToken = '01994d6c14cc7509a99b50232e3f126c';
         $this->sendPostRequest(url: '/webhook/paypal?token=' . $webhookToken, params: [
             'id' => '8PT597110X687430LKGECATA',
             'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
@@ -40,7 +40,7 @@ final class PayPalWebhookTest extends WebTestCase
 
     public function testTryToSendWebhookWithInvalidPayload(): void
     {
-        $webhookToken = $_ENV['PAYPAL_WEBHOOK_TOKEN'];
+        $webhookToken = '01994d6c14cc7509a99b50232e3f126c';
         $this->sendPostRequest(url: '/webhook/paypal?token=' . $webhookToken, params: [
             'id' => '8PT597110X687430LKGECATA',
         ]);

@@ -12,7 +12,7 @@ use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountRegisteredOliviaFixture;
 use Tests\Support\HttpClientComponentTrait;
 
-final class SigninIntoAccountTest extends WebTestCase
+final class SigninIntoAccountWebTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
     use HttpClientComponentTrait;

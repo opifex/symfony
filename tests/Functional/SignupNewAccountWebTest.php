@@ -12,7 +12,7 @@ use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedEmmaFixture;
 use Tests\Support\HttpClientComponentTrait;
 
-final class SignupNewAccountTest extends WebTestCase
+final class SignupNewAccountWebTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
     use HttpClientComponentTrait;
