@@ -26,7 +26,6 @@ jobs:
 
     env:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
-      HTTPBIN_URL: http://localhost:1080/httpbin/
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
       PHP_VERSION: 8.4
