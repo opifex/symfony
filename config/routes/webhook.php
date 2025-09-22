@@ -6,6 +6,6 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $configurator): void {
     $configurator->add(name: 'app_webhook_api', path: '/webhook/{type}')
-        ->defaults(['_controller' => 'webhook.controller::handle'])
+        ->controller(['webhook.controller', 'handle'])
         ->requirements(['type' => '.+']);
 };

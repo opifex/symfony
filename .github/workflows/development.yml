@@ -23,17 +23,12 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-      mockserver:
-        image: mockserver/mockserver:latest
-        ports:
-          - 1080:1080
 
     env:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
       HTTPBIN_URL: http://localhost:1080/httpbin/
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
-      MOCK_SERVER_URL: http://localhost:1080
       PHP_VERSION: 8.4
 
     steps:
