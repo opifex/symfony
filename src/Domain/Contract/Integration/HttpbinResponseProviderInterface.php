@@ -9,18 +9,7 @@ use App\Domain\Exception\Integration\HttpbinResponseProviderException;
 interface HttpbinResponseProviderInterface
 {
     /**
-     * @return array{
-     *   slideshow: array{
-     *     author: string,
-     *     date: string,
-     *     title: string,
-     *     slides: array<int, array{
-     *       title: string,
-     *       type: string,
-     *       items?: string[]
-     *     }>
-     *   }
-     * }
+     * @return array<string, mixed>
      * @throws HttpbinResponseProviderException
      */
     public function getJson(): array;

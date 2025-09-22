@@ -32,7 +32,8 @@ final class SymfonyRunCommand extends Command
         $console = new SymfonyStyle($input, $output);
         $console->title($this->getDescription());
 
-        $slides = $this->httpbinResponseProvider->getJson()['slideshow']['slides'] ?? [];
+        $slideshow = (array)($this->httpbinResponseProvider->getJson()['slideshow'] ?? []);
+        $slides = (array)($slideshow['slides'] ?? []);
 
         foreach ($console->progressIterate($slides) as $slide) {
             $this->clock->sleep($delay);
