@@ -7,7 +7,7 @@ namespace Tests\Support;
 use Opis\JsonSchema\Validator;
 use Symfony\Component\HttpFoundation\Request;
 
-trait HttpClientComponentTrait
+trait HttpClientRequestsTrait
 {
     public function activateHttpClient(): void
     {

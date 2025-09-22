@@ -10,12 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
-use Tests\Support\HttpClientComponentTrait;
+use Tests\Support\HttpClientRequestsTrait;
 
 final class CreateNewAccountWebTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
-    use HttpClientComponentTrait;
+    use HttpClientRequestsTrait;
 
     #[Override]
     protected function setUp(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Command;
 
+use App\Domain\Contract\Integration\HttpbinResponseProviderInterface;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
@@ -17,6 +18,7 @@ final class SymfonyRunCommand extends Command
 {
     public function __construct(
         private readonly ClockInterface $clock,
+        private readonly HttpbinResponseProviderInterface $httpbinResponseProvider,
     ) {
         parent::__construct();
     }
@@ -30,7 +32,9 @@ final class SymfonyRunCommand extends Command
         $console = new SymfonyStyle($input, $output);
         $console->title($this->getDescription());
 
-        foreach ($console->progressIterate(array_fill(0, 10, null)) as $item) {
+        $slides = $this->httpbinResponseProvider->getJson()['slideshow']['slides'] ?? [];
+
+        foreach ($console->progressIterate($slides) as $slide) {
             $this->clock->sleep($delay);
         }
 
