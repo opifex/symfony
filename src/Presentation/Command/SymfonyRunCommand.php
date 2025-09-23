@@ -9,8 +9,6 @@ use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: 'app:symfony:run', description: 'Symfony console command')]
@@ -24,22 +22,20 @@ final class SymfonyRunCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
-        OutputInterface $output,
+        SymfonyStyle $symfonyStyle,
         #[Option(description: 'Delay in seconds between iterations.', name: 'delay')]
-        int $delay = 1,
+        int $delaySeconds = 1,
     ): int {
-        $console = new SymfonyStyle($input, $output);
-        $console->title($this->getDescription());
+        $symfonyStyle->title($this->getDescription());
 
-        $slideshow = (array)($this->httpbinResponseProvider->getJson()['slideshow'] ?? []);
-        $slides = (array)($slideshow['slides'] ?? []);
+        $slideshow = (array) ($this->httpbinResponseProvider->getJson()['slideshow'] ?? []);
+        $slides = (array) ($slideshow['slides'] ?? []);
 
-        foreach ($console->progressIterate($slides) as $slide) {
-            $this->clock->sleep($delay);
+        foreach ($symfonyStyle->progressIterate($slides) as $slide) {
+            $this->clock->sleep($delaySeconds);
         }
 
-        $console->success('Success');
+        $symfonyStyle->success('Success');
 
         return self::SUCCESS;
     }

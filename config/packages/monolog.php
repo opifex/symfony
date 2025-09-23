@@ -12,7 +12,14 @@ return static function (ContainerConfigurator $configurator, MonologConfig $mono
             ->level(value: 'debug')
             ->path(value: 'php://stdout')
             ->formatter(value: 'monolog.formatter.json');
-        $nestedHandler->channels()->elements(['!deprecation', '!doctrine', '!event', '!http_client', '!php']);
+        $nestedHandler->channels()->elements([
+            '!console',
+            '!deprecation',
+            '!doctrine',
+            '!event',
+            '!http_client',
+            '!php',
+        ]);
     }
 
     if ($configurator->env() === 'test') {
@@ -27,7 +34,9 @@ return static function (ContainerConfigurator $configurator, MonologConfig $mono
             ->handler('nested');
         $mainHandler->excludedHttpCode()->code(value: 404);
         $mainHandler->excludedHttpCode()->code(value: 405);
-        $mainHandler->channels()->elements(['!event']);
+        $mainHandler->channels()->elements([
+            '!event',
+        ]);
     }
 
     if ($configurator->env() === 'prod') {
@@ -36,6 +45,12 @@ return static function (ContainerConfigurator $configurator, MonologConfig $mono
             ->level(value: 'info')
             ->path(value: 'php://stdout')
             ->formatter(value: 'monolog.formatter.json');
-        $nestedHandler->channels()->elements(['!deprecation', '!doctrine', '!event', '!php', '!security']);
+        $nestedHandler->channels()->elements([
+            '!deprecation',
+            '!doctrine',
+            '!event',
+            '!php',
+            '!security',
+        ]);
     }
 };
