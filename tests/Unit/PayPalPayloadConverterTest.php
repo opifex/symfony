@@ -45,7 +45,7 @@ final class PayPalPayloadConverterTest extends TestCase
         ]);
     }
 
-    public static function eventTypeDataProvider(): array
+    public static function eventTypeDataProvider(): iterable
     {
         return [
             ['value' => 'PAYMENT.CAPTURE.DECLINED', 'expected' => PayPalPaymentCaptureEvent::DECLINED],

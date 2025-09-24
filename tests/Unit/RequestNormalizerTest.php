@@ -58,7 +58,7 @@ final class RequestNormalizerTest extends TestCase
         $this->assertEquals(expected: [], actual: $normalized);
     }
 
-    public static function requestDataProvider(): array
+    public static function requestDataProvider(): iterable
     {
         return [
             ['value' => 'string', 'expected' => 'string'],

@@ -40,7 +40,7 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
         $kennethreitzHttpbinAdapter->getJson();
     }
 
-    public static function httpbinResponseProvider(): array
+    public static function httpbinResponseProvider(): iterable
     {
         return [
             [['slideshow' => ['author' => 'Yours Truly', 'title' => 'Sample Slide Show']]],

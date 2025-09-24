@@ -19,7 +19,7 @@ final class RequestPrivacyDataProtectorTest extends TestCase
         $this->assertSame($expected, $protectedMessage);
     }
 
-    public static function requestDataProvider(): array
+    public static function requestDataProvider(): iterable
     {
         return [
             ['value' => ['email' => 'admin@example.com'], 'expected' => ['email' => 'a***n@example.com']],
