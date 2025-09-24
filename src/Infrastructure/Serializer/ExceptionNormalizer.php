@@ -9,20 +9,15 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\UnicodeString;
-use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
 final class ExceptionNormalizer implements NormalizerInterface
 {
-    private const string TRANSLATOR_DOMAIN = 'exceptions';
-
     public function __construct(
         private readonly KernelInterface $kernel,
-        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -39,7 +34,7 @@ final class ExceptionNormalizer implements NormalizerInterface
 
         $exception = [
             'code' => $this->generateExceptionCode($data),
-            'error' => $this->localizeExceptionMessage($data),
+            'error' => $data->getMessage(),
         ];
 
         if (method_exists($data, method: 'getViolations')) {
@@ -78,13 +73,6 @@ final class ExceptionNormalizer implements NormalizerInterface
         return Uuid::v5(Uuid::fromString(uuid: Uuid::NAMESPACE_OID), $throwable::class)->toString();
     }
 
-    private function localizeExceptionMessage(Throwable $throwable): string
-    {
-        $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
-
-        return $this->translator->trans($throwable->getMessage(), domain: $domain);
-    }
-
     private function extractViolationObject(ConstraintViolationInterface $violation): ?string
     {
         return match (true) {
@@ -97,13 +85,6 @@ final class ExceptionNormalizer implements NormalizerInterface
     private function formatViolationName(ConstraintViolationInterface $violation): string
     {
         return new UnicodeString($violation->getPropertyPath())->snake()->toString();
-    }
-
-    private function formatViolationMessage(ConstraintViolationInterface $violation): string
-    {
-        $domain = self::TRANSLATOR_DOMAIN . MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
-
-        return $this->translator->trans((string) $violation->getMessage(), $violation->getParameters(), $domain);
     }
 
     /**
@@ -129,7 +110,7 @@ final class ExceptionNormalizer implements NormalizerInterface
     {
         return array_map(fn(ConstraintViolationInterface $violation): array => array_filter([
             'name' => $this->formatViolationName($violation),
-            'reason' => $this->formatViolationMessage($violation),
+            'reason' => $violation->getMessage(),
             'object' => $this->kernel->isDebug() ? $this->extractViolationObject($violation) : null,
             'value' => $this->kernel->isDebug() ? $violation->getInvalidValue() : null,
         ]), [...$violations]);

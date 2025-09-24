@@ -21,15 +21,9 @@ final class AuthorizationTokenManager implements AuthorizationTokenManagerInterf
     }
 
     #[Override]
-    public function getUserIdentifier(): string
+    public function getUserIdentifier(): ?string
     {
-        $userIdentifier = $this->tokenStorage->getToken()?->getUserIdentifier();
-
-        if (!is_string($userIdentifier)) {
-            throw AuthorizationRequiredException::create();
-        }
-
-        return $userIdentifier;
+        return $this->tokenStorage->getToken()?->getUserIdentifier();
     }
 
     #[Override]

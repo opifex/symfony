@@ -31,14 +31,7 @@ final class ExceptionNormalizerTest extends TestCase
 
     public function testNormalizeThrowsInvalidArgumentException(): void
     {
-        $exceptionNormalizer = new ExceptionNormalizer($this->kernel, $this->translator);
-
-        $this->translator
-            ->expects($this->once())
-            ->method(constraint: 'trans')
-            ->with(arguments: 'Object expected to be a valid exception type.')
-            ->willReturn(value: 'Object expected to be a valid exception type.');
-
+        $exceptionNormalizer = new ExceptionNormalizer($this->kernel);
         $normalized = $exceptionNormalizer->normalize(data: null);
 
         $this->assertArrayHasKey(key: 'error', array: $normalized);

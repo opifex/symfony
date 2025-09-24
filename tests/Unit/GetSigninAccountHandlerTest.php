@@ -9,6 +9,7 @@ use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
 use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
 use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
 use App\Domain\Exception\Account\AccountNotFoundException;
+use App\Domain\Exception\Authorization\AuthorizationRequiredException;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -26,12 +27,29 @@ final class GetSigninAccountHandlerTest extends TestCase
         $this->authorizationTokenManager = $this->createMock(type: AuthorizationTokenManagerInterface::class);
     }
 
+    public function testInvokeThrowsAuthorizationRequiredException(): void
+    {
+        $handler = new GetSigninAccountHandler(
+            accountEntityRepository: $this->accountEntityRepository,
+            authorizationTokenManager: $this->authorizationTokenManager,
+        );
+
+        $this->expectException(exception: AuthorizationRequiredException::class);
+
+        $handler(new GetSigninAccountRequest());
+    }
+
     public function testInvokeThrowsExceptionWhenAccountNotFound(): void
     {
         $handler = new GetSigninAccountHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authorizationTokenManager: $this->authorizationTokenManager,
         );
+
+        $this->authorizationTokenManager
+            ->expects($this->once())
+            ->method(constraint: 'getUserIdentifier')
+            ->willReturn(value: '00000000-0000-6000-8000-000000000000');
 
         $this->accountEntityRepository
             ->expects($this->once())

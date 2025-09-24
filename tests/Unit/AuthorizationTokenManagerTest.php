@@ -26,7 +26,7 @@ final class AuthorizationTokenManagerTest extends TestCase
         $this->tokenStorage = $this->createMock(type: TokenStorageInterface::class);
     }
 
-    public function testGetUserIdentifierThrowsExceptionWithUnauthorizedUser(): void
+    public function testGetUserIdentifierReturnNullWithUnauthorizedUser(): void
     {
         $authorizationTokenManager = new AuthorizationTokenManager(
             authorizationChecker: $this->authorizationChecker,
@@ -38,9 +38,9 @@ final class AuthorizationTokenManagerTest extends TestCase
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
 
-        $this->expectException(exception: AuthorizationRequiredException::class);
+        $userIdentifier = $authorizationTokenManager->getUserIdentifier();
 
-        $authorizationTokenManager->getUserIdentifier();
+        $this->assertSame(expected: null, actual: $userIdentifier);
     }
 
     public function testCheckPermissionThrowsExceptionWithUnauthorizedUser(): void

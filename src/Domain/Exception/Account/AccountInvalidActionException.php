@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_UNPROCESSABLE_ENTITY)]
-class AccountActionInvalidException extends RuntimeException
+class AccountInvalidActionException extends RuntimeException
 {
     public static function create(): self
     {

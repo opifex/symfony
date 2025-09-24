@@ -36,7 +36,7 @@ final class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
     #[Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        throw $exception;
+        return null;
     }
 
     #[Override]

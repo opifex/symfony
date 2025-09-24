@@ -10,10 +10,7 @@ use App\Domain\Model\Role;
 
 interface AuthorizationTokenManagerInterface
 {
-    /**
-     * @throws AuthorizationRequiredException
-     */
-    public function getUserIdentifier(): string;
+    public function getUserIdentifier(): ?string;
 
     /**
      * @throws AuthorizationForbiddenException

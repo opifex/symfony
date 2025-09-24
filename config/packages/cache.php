@@ -15,4 +15,8 @@ return static function (FrameworkConfig $framework): void {
     $framework->cache()->pool(name: 'cache.storage')
         ->defaultLifetime(value: 60)
         ->adapters(['cache.adapter.redis', 'cache.adapter.array']);
+
+    $framework->cache()->pool(name: 'cache.rate_limiter')
+        ->defaultLifetime(value: 60)
+        ->adapters(['cache.adapter.redis', 'cache.adapter.array']);
 };

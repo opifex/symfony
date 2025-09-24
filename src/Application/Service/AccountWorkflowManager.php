@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Service;
 
 use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
-use App\Domain\Exception\Account\AccountActionInvalidException;
+use App\Domain\Exception\Account\AccountInvalidActionException;
 use App\Domain\Model\Account;
 use App\Domain\Model\AccountAction;
 use Override;
@@ -45,7 +45,7 @@ final class AccountWorkflowManager implements AccountWorkflowManagerInterface
     private function apply(Account $account, AccountAction $action): void
     {
         if (!$this->accountStateMachine->can($account, $action->toString())) {
-            throw AccountActionInvalidException::create();
+            throw AccountInvalidActionException::create();
         }
 
         $this->accountStateMachine->apply($account, $action->toString());
