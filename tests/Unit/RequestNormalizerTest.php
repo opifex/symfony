@@ -60,24 +60,17 @@ final class RequestNormalizerTest extends TestCase
 
     public static function requestDataProvider(): iterable
     {
-        return [
-            ['value' => 'string', 'expected' => 'string'],
-            ['value' => ['array' => '100'], 'expected' => ['array' => 100]],
-
-            ['value' => 100, 'expected' => 100],
-            ['value' => '100', 'expected' => 100],
-
-            ['value' => 100.56, 'expected' => 100.56],
-            ['value' => '100.56', 'expected' => 100.56],
-
-            ['value' => null, 'expected' => null],
-            ['value' => 'null', 'expected' => null],
-
-            ['value' => true, 'expected' => true],
-            ['value' => 'true', 'expected' => true],
-
-            ['value' => false, 'expected' => false],
-            ['value' => 'false', 'expected' => false],
-        ];
+        yield 'string remains string' => ['value' => 'string', 'expected' => 'string'];
+        yield 'array with string number to int' => ['value' => ['array' => '100'], 'expected' => ['array' => 100]];
+        yield 'integer remains integer' => ['value' => 100, 'expected' => 100];
+        yield 'string number to integer' => ['value' => '100', 'expected' => 100];
+        yield 'float remains float' => ['value' => 100.56, 'expected' => 100.56];
+        yield 'string float to float' => ['value' => '100.56', 'expected' => 100.56];
+        yield 'null remains null' => ['value' => null, 'expected' => null];
+        yield 'string "null" to null' => ['value' => 'null', 'expected' => null];
+        yield 'boolean true remains true' => ['value' => true, 'expected' => true];
+        yield 'string "true" to boolean true' => ['value' => 'true', 'expected' => true];
+        yield 'boolean false remains false' => ['value' => false, 'expected' => false];
+        yield 'string "false" to boolean false' => ['value' => 'false', 'expected' => false];
     }
 }

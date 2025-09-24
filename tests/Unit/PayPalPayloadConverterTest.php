@@ -24,11 +24,12 @@ final class PayPalPayloadConverterTest extends TestCase
     }
 
     #[DataProvider(methodName: 'eventTypeDataProvider')]
-    public function testConvertWithDifferentPayloads(string $value, string $expected): void
+    public function testConvertWithDifferentPayloads(string $eventType, string $expected): void
     {
         $id = '8PT597110X687430LKGECATA';
         $payPalPayloadConverter = new PayPalPayloadConverter($this->validator);
-        $remoteEvent = $payPalPayloadConverter->convert(payload: ['id' => $id, 'event_type' => $value]);
+        $remoteEvent = $payPalPayloadConverter->convert(payload: ['id' => $id, 'event_type' => $eventType]);
+
         $this->assertSame(expected: $id, actual: $remoteEvent->getId());
         $this->assertSame(expected: $expected, actual: $remoteEvent->getName());
     }
@@ -47,12 +48,25 @@ final class PayPalPayloadConverterTest extends TestCase
 
     public static function eventTypeDataProvider(): iterable
     {
-        return [
-            ['value' => 'PAYMENT.CAPTURE.DECLINED', 'expected' => PayPalPaymentCaptureEvent::DECLINED],
-            ['value' => 'PAYMENT.CAPTURE.COMPLETED', 'expected' => PayPalPaymentCaptureEvent::COMPLETED],
-            ['value' => 'PAYMENT.CAPTURE.PENDING', 'expected' => PayPalPaymentCaptureEvent::PENDING],
-            ['value' => 'PAYMENT.CAPTURE.REFUNDED', 'expected' => PayPalPaymentCaptureEvent::REFUNDED],
-            ['value' => 'PAYMENT.CAPTURE.REVERSED', 'expected' => PayPalPaymentCaptureEvent::REVERSED],
+        yield 'a payment capture completes' => [
+            'eventType' => 'PAYMENT.CAPTURE.COMPLETED',
+            'expected' => PayPalPaymentCaptureEvent::COMPLETED,
+        ];
+        yield 'a payment capture is declined' => [
+            'eventType' => 'PAYMENT.CAPTURE.DECLINED',
+            'expected' => PayPalPaymentCaptureEvent::DECLINED,
+        ];
+        yield 'the state of a payment capture changes to pending' => [
+            'eventType' => 'PAYMENT.CAPTURE.PENDING',
+            'expected' => PayPalPaymentCaptureEvent::PENDING,
+        ];
+        yield 'a merchant refunds a payment capture' => [
+            'eventType' => 'PAYMENT.CAPTURE.REFUNDED',
+            'expected' => PayPalPaymentCaptureEvent::REFUNDED,
+        ];
+        yield 'paypal reverses a payment capture' => [
+            'eventType' => 'PAYMENT.CAPTURE.REVERSED',
+            'expected' => PayPalPaymentCaptureEvent::REVERSED,
         ];
     }
 }

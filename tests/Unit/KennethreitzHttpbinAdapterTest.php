@@ -42,8 +42,8 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
 
     public static function httpbinResponseProvider(): iterable
     {
-        return [
-            [['slideshow' => ['author' => 'Yours Truly', 'title' => 'Sample Slide Show']]],
+        yield 'slideshow json structure from httpbin' => [
+            ['slideshow' => ['author' => 'Yours Truly', 'title' => 'Sample Slide Show']],
         ];
     }
 }

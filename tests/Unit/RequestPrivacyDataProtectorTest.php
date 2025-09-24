@@ -11,20 +11,27 @@ use PHPUnit\Framework\TestCase;
 final class RequestPrivacyDataProtectorTest extends TestCase
 {
     #[DataProvider(methodName: 'requestDataProvider')]
-    public function testProtectRequestData(array $value, array $expected): void
+    public function testProtectRequestData(array $data, array $expected): void
     {
         $requestPrivacyDataProtector = new RequestPrivacyDataProtector();
-        $protectedMessage = $requestPrivacyDataProtector->protect($value);
+        $protectedMessage = $requestPrivacyDataProtector->protect($data);
 
         $this->assertSame($expected, $protectedMessage);
     }
 
     public static function requestDataProvider(): iterable
     {
-        return [
-            ['value' => ['email' => 'admin@example.com'], 'expected' => ['email' => 'a***n@example.com']],
-            ['value' => ['password' => 'password4#account'], 'expected' => ['password' => '*****************']],
-            ['value' => [['email' => 'admin@example.com']], 'expected' => [['email' => 'a***n@example.com']]],
+        yield 'mask single email in array' => [
+            'data' => ['email' => 'admin@example.com'],
+            'expected' => ['email' => 'a***n@example.com'],
+        ];
+        yield 'mask single password in array' => [
+            'data' => ['password' => 'password4#account'],
+            'expected' => ['password' => '*****************'],
+        ];
+        yield 'mask email in nested array' => [
+            'data' => [['email' => 'admin@example.com']],
+            'expected' => [['email' => 'a***n@example.com']],
         ];
     }
 }
