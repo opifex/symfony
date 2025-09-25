@@ -30,7 +30,7 @@ final class PayPalPayloadConverter implements PayloadConverterInterface
             'event_type' => [new Assert\NotBlank(), new Assert\Type(type: 'string')],
         ], allowExtraFields: true));
 
-        if ($violations->count()) {
+        if ($violations->count() > 0) {
             $violationsList = array_map(
                 callback: fn(ConstraintViolationInterface $violation) => implode(separator: ' ', array: [
                     $violation->getPropertyPath(),

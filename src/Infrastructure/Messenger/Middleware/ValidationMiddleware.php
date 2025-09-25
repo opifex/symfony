@@ -23,7 +23,7 @@ final class ValidationMiddleware implements MiddlewareInterface
     {
         $violations = $this->validator->validate($envelope->getMessage());
 
-        if ($violations->count()) {
+        if ($violations->count() > 0) {
             throw ValidationFailedException::fromViolations($violations);
         }
 
