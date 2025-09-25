@@ -78,7 +78,7 @@ final class RequestNormalizer implements NormalizerInterface
     {
         return array_filter(
             array: $params,
-            callback: static fn(string $key): bool => !str_starts_with($key, '_'),
+            callback: static fn(string $key): bool => !str_starts_with($key, needle: '_'),
             mode: ARRAY_FILTER_USE_KEY,
         );
     }

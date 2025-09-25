@@ -58,11 +58,14 @@ final class KernelExceptionEventListener
         $this->logger->log(
             level: $logLevel?->level ?: LogLevel::ERROR,
             message: $throwable->getMessage() ?: 'Application exception event.',
-            context: array_filter([
-                'route' => $event->getRequest()->attributes->get(key: '_route'),
-                'request' => $this->privacyDataProtector->protect($request),
-                'exception' => $exception,
-            ]),
+            context: array_filter(
+                array: [
+                    'route' => $event->getRequest()->attributes->get(key: '_route'),
+                    'request' => $this->privacyDataProtector->protect($request),
+                    'exception' => $exception,
+                ],
+                callback: static fn(mixed $value): bool => $value !== '' && $value !== [],
+            ),
         );
 
         $event->allowCustomResponseCode();

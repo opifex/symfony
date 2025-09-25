@@ -100,7 +100,10 @@ final class ExceptionNormalizer implements NormalizerInterface
         ];
         $previous = $exception->getPrevious() ? $trace($exception->getPrevious()) : [];
 
-        return array_filter([$trace($exception), $previous]);
+        return array_filter(
+            array: [$trace($exception), $previous],
+            callback: static fn(mixed $value): bool => $value !== [],
+        );
     }
 
     /**
@@ -108,11 +111,14 @@ final class ExceptionNormalizer implements NormalizerInterface
      */
     private function formatViolations(ConstraintViolationListInterface $violations): array
     {
-        return array_map(fn(ConstraintViolationInterface $violation): array => array_filter([
-            'name' => $this->formatViolationName($violation),
-            'reason' => $violation->getMessage(),
-            'object' => $this->kernel->isDebug() ? $this->extractViolationObject($violation) : null,
-            'value' => $this->kernel->isDebug() ? $violation->getInvalidValue() : null,
-        ]), [...$violations]);
+        return array_map(fn(ConstraintViolationInterface $violation): array => array_filter(
+            array: [
+                'name' => $this->formatViolationName($violation),
+                'reason' => $violation->getMessage(),
+                'object' => $this->kernel->isDebug() ? $this->extractViolationObject($violation) : null,
+                'value' => $this->kernel->isDebug() ? $violation->getInvalidValue() : null,
+            ],
+            callback: static fn(mixed $value): bool => $value !== '' && $value !== null,
+        ), [...$violations]);
     }
 }
