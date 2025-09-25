@@ -8,12 +8,12 @@ use App\Domain\Model\AccountStatus;
 use App\Domain\Model\LocaleCode;
 use App\Domain\Model\Role;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
 use Override;
+use Symfony\Component\Clock\DatePoint;
 
 final class AccountBlockedHenryFixture extends Fixture implements FixtureInterface
 {
@@ -23,7 +23,7 @@ final class AccountBlockedHenryFixture extends Fixture implements FixtureInterfa
         $faker = Faker::create();
         $account = new AccountEntity(
             id: $faker->unique()->uuid(),
-            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
+            createdAt: DatePoint::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'henry@example.com'),
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),

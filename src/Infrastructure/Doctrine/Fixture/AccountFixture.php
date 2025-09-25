@@ -8,12 +8,12 @@ use App\Domain\Model\AccountStatus;
 use App\Domain\Model\LocaleCode;
 use App\Domain\Model\Role;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
 use Override;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher;
 
 final class AccountFixture extends Fixture implements FixtureInterface
@@ -27,7 +27,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
 
         $accountAdmin = new AccountEntity(
             id: $faker->unique()->uuid(),
-            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
+            createdAt: DatePoint::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $passwordHash,
             locale: LocaleCode::EnUs->toString(),
@@ -39,7 +39,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
 
         $accountUser = new AccountEntity(
             id: $faker->unique()->uuid(),
-            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
+            createdAt: DatePoint::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $passwordHash,
             locale: LocaleCode::EnUs->toString(),
@@ -54,7 +54,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             $accountStatus = $faker->randomElement(array: AccountStatus::values());
             $accountRandom = new AccountEntity(
                 id: $faker->unique()->uuid(),
-                createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
+                createdAt: DatePoint::createFromMutable($faker->dateTime()),
                 email: $faker->unique()->email(),
                 password: $passwordHash,
                 locale: LocaleCode::EnUs->toString(),

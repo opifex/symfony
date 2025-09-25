@@ -7,11 +7,11 @@ namespace Tests\Unit;
 use App\Application\EventListener\RequestIdEventListener;
 use App\Domain\Contract\Identification\RequestIdGeneratorInterface;
 use App\Domain\Contract\Identification\RequestIdStorageInterface;
-use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -103,7 +103,7 @@ final class RequestIdEventListenerTest extends TestCase
                 name: 'Test scheduler event',
                 id: '00000000-0000-6000-8000-000000000000',
                 trigger: $this->trigger,
-                triggeredAt: new DateTimeImmutable(),
+                triggeredAt: new DatePoint(),
             ),
             message: new stdClass(),
         );

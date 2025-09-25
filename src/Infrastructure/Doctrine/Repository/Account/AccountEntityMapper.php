@@ -22,7 +22,7 @@ final class AccountEntityMapper
     {
         return new Account(
             id: AccountIdentifier::fromString((string) $entity->id),
-            createdAt: DateTimeUtc::fromImmutable($entity->createdAt),
+            createdAt: DateTimeUtc::fromInterface($entity->createdAt),
             email: EmailAddress::fromString($entity->email),
             password: HashedPassword::fromString($entity->password),
             locale: LocaleCode::fromString($entity->locale),
