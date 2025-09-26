@@ -6,6 +6,7 @@ namespace App\Infrastructure\HttpClient;
 
 use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use App\Domain\Model\HttpSpecification;
+use Override;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
 use Symfony\Component\HttpClient\DecoratorTrait;
@@ -33,6 +34,7 @@ final class RequestIdHttpClient implements HttpClientInterface, ResetInterface
      * @param array<string, mixed> $options
      * @throws TransportExceptionInterface
      */
+    #[Override]
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
         $requestId = $this->requestIdStorage->getRequestId();

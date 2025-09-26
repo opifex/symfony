@@ -98,7 +98,7 @@ final class ExceptionNormalizer implements NormalizerInterface
             'type' => $throwable::class,
             'line' => $throwable->getLine(),
         ];
-        $previous = $exception->getPrevious() ? $trace($exception->getPrevious()) : [];
+        $previous = $exception->getPrevious() !== null ? $trace($exception->getPrevious()) : [];
 
         return array_filter(
             array: [$trace($exception), $previous],
