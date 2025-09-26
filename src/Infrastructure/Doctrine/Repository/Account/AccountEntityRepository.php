@@ -67,7 +67,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
 
         $this->defaultEntityManager->clear();
 
-        return $accountEntity ? AccountEntityMapper::map($accountEntity) : null;
+        return $accountEntity !== null ? AccountEntityMapper::map($accountEntity) : null;
     }
 
     #[Override]
@@ -78,7 +78,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
 
         $this->defaultEntityManager->clear();
 
-        return $accountEntity ? AccountEntityMapper::map($accountEntity) : null;
+        return $accountEntity !== null ? AccountEntityMapper::map($accountEntity) : null;
     }
 
     #[Override]

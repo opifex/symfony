@@ -28,7 +28,7 @@ final class SigninIntoAccountHandler
     {
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
 
-        if (!$userIdentifier) {
+        if ($userIdentifier === null) {
             $this->authenticationLimiter->create($request->email)->consume()->isAccepted()
                 ? throw AuthorizationRequiredException::create()
                 : throw AuthorizationThrottlingException::create();

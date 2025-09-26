@@ -23,7 +23,7 @@ final class SignupNewAccountHandler
 
     public function __invoke(SignupNewAccountRequest $request): SignupNewAccountResult
     {
-        if ($this->accountEntityRepository->findOneByEmail($request->email)) {
+        if ($this->accountEntityRepository->findOneByEmail($request->email) !== null) {
             throw AccountAlreadyExistsException::create();
         }
 

@@ -34,7 +34,7 @@ final class UpdateAccountByIdHandler
 
         if ($request->email !== null) {
             if (!$account->getEmail()->equals(EmailAddress::fromString($request->email))) {
-                if ($this->accountEntityRepository->findOneByEmail($request->email)) {
+                if ($this->accountEntityRepository->findOneByEmail($request->email) !== null) {
                     throw AccountAlreadyExistsException::create();
                 }
 

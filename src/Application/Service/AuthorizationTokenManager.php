@@ -29,7 +29,7 @@ final class AuthorizationTokenManager implements AuthorizationTokenManagerInterf
     #[Override]
     public function checkUserPermission(Role $role, mixed $subject = null): void
     {
-        if (!$this->tokenStorage->getToken()?->getUserIdentifier()) {
+        if ($this->tokenStorage->getToken()?->getUserIdentifier() === null) {
             throw AuthorizationRequiredException::create();
         }
 

@@ -28,7 +28,7 @@ final class CreateNewAccountHandler
     {
         $this->authorizationTokenManager->checkUserPermission(role: Role::Admin);
 
-        if ($this->accountEntityRepository->findOneByEmail($request->email)) {
+        if ($this->accountEntityRepository->findOneByEmail($request->email) !== null) {
             throw AccountAlreadyExistsException::create();
         }
 
