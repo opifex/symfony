@@ -105,12 +105,14 @@ final class LcobucciJwtAdapterTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateAccessTokenThrowsExceptionWithEmptyPassphrase(): void
+    public function testCreateAccessTokenThrowsExceptionWithEmptyConfiguration(): void
     {
         $lcobucciJwtAdapter = new LcobucciJwtAdapter(
             issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '',
+            signingKey: '',
+            verificationKey: '',
             clock: new MockClock(),
         );
 

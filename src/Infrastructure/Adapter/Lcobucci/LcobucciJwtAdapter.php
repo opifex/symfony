@@ -137,12 +137,12 @@ final class LcobucciJwtAdapter implements JwtAccessTokenManagerInterface
 
     private function getJwtConfiguration(): Configuration
     {
-        if (empty($this->passphrase)) {
+        if ($this->passphrase === '' || $this->signingKey === '' || $this->verificationKey === '') {
             throw JwtAccessTokenManagerException::tokenSignerIsNotConfigured();
         }
 
         $config = match (true) {
-            !empty($this->signingKey) && !empty($this->verificationKey) => Configuration::forAsymmetricSigner(
+            $this->signingKey !== null && $this->verificationKey !== null => Configuration::forAsymmetricSigner(
                 signer: new RsaSha256(),
                 signingKey: InMemory::plainText($this->signingKey, $this->passphrase),
                 verificationKey: InMemory::plainText($this->verificationKey, $this->passphrase),

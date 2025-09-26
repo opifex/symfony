@@ -27,7 +27,7 @@ class RequestParamTypeException extends RuntimeException
      */
     public static function create(?array $expected, ?string $path, ?string $root = null): self
     {
-        if (empty($expected) || $path === null) {
+        if ($expected === null || $path === null) {
             return new self(new ConstraintViolationList());
         }
 
