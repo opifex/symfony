@@ -56,8 +56,8 @@ final class KernelExceptionEventListener
         };
 
         $this->logger->log(
-            level: $logLevel?->level ?: LogLevel::ERROR,
-            message: $throwable->getMessage() ?: 'Application exception event.',
+            level: $logLevel !== null ? $logLevel->level : LogLevel::ERROR,
+            message: $throwable->getMessage() !== '' ? $throwable->getMessage() : 'Application exception event.',
             context: array_filter(
                 array: [
                     'route' => $event->getRequest()->attributes->get(key: '_route'),
