@@ -12,13 +12,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: 'app:symfony:run', description: 'Symfony console command')]
-final class SymfonyRunCommand extends Command
+final class SymfonyRunCommand
 {
     public function __construct(
         private readonly ClockInterface $clock,
         private readonly HttpbinResponseProviderInterface $httpbinResponseProvider,
     ) {
-        parent::__construct();
     }
 
     public function __invoke(
@@ -26,7 +25,7 @@ final class SymfonyRunCommand extends Command
         #[Option(description: 'Delay in seconds between iterations.', name: 'delay')]
         int $delaySeconds = 1,
     ): int {
-        $symfonyStyle->title($this->getDescription());
+        $symfonyStyle->title('Symfony console command');
 
         $slideshow = (array) ($this->httpbinResponseProvider->getJson()['slideshow'] ?? []);
         $slides = (array) ($slideshow['slides'] ?? []);
@@ -37,6 +36,6 @@ final class SymfonyRunCommand extends Command
 
         $symfonyStyle->success('Success');
 
-        return self::SUCCESS;
+        return Command::SUCCESS;
     }
 }

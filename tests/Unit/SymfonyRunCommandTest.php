@@ -7,33 +7,32 @@ namespace Tests\Unit;
 use App\Application\Contract\HttpbinResponseProviderInterface;
 use App\Presentation\Command\SymfonyRunCommand;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Clock\MockClock;
-use Symfony\Component\Console\Application;
+use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class SymfonyRunCommandTest extends TestCase
 {
-    private Application $application;
-
-    private HttpbinResponseProviderInterface&MockObject $httpbinResponseProvider;
-
     #[Override]
     protected function setUp(): void
     {
-        $this->application = new Application();
+        $this->clock = $this->createMock(type: ClockInterface::class);
         $this->httpbinResponseProvider = $this->createMock(type: HttpbinResponseProviderInterface::class);
-        $this->application->add(new SymfonyRunCommand(new MockClock(), $this->httpbinResponseProvider));
     }
 
     public function testExecuteWithSuccessResult(): void
     {
-        $commandTester = new CommandTester($this->application->get('app:symfony:run'));
-        $commandTester->execute(['--delay' => 0]);
+        $command = new SymfonyRunCommand($this->clock, $this->httpbinResponseProvider);
 
-        $this->assertSame(expected: Command::SUCCESS, actual: $commandTester->getStatusCode());
-        $this->assertStringContainsString(needle: '[OK] Success', haystack: $commandTester->getDisplay());
+        $output = new BufferedOutput();
+        $symfonyStyle = new SymfonyStyle(new ArrayInput([]), $output);
+
+        $result = $command($symfonyStyle, delaySeconds: 0);
+
+        $this->assertSame(expected: Command::SUCCESS, actual: $result);
+        $this->assertStringContainsString(needle: 'Success', haystack: $output->fetch());
     }
 }
