@@ -15,7 +15,7 @@ class ClassStructureSniff implements Sniff
     public array $allowedNamespaces = [
         'App\\Application' => ['App\\Domain'],
         'App\\Domain' => [],
-        'App\\Infrastructure' => ['App\\Domain'],
+        'App\\Infrastructure' => ['App\\Application', 'App\\Domain'],
         'App\\Presentation' => ['App\\Application', 'App\\Domain'],
     ];
 

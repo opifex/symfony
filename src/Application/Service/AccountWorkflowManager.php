@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
-use App\Domain\Exception\Account\AccountInvalidActionException;
-use App\Domain\Model\Account;
-use App\Domain\Model\AccountAction;
+use App\Domain\Account\Account;
+use App\Domain\Account\AccountAction;
+use App\Domain\Account\Contract\AccountWorkflowManagerInterface;
+use App\Domain\Account\Exception\AccountInvalidActionException;
 use Override;
 use Symfony\Component\Workflow\WorkflowInterface;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\EventListener;
 
-use App\Domain\Contract\Protection\PrivacyDataProtectorInterface;
+use App\Application\Contract\PrivacyDataProtectorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use ReflectionClass;

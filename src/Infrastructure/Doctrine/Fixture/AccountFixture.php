@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Fixture;
 
-use App\Domain\Model\AccountStatus;
-use App\Domain\Model\LocaleCode;
-use App\Domain\Model\Role;
+use App\Domain\Account\AccountStatus;
+use App\Domain\Common\LocaleCode;
+use App\Domain\Common\Role;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;

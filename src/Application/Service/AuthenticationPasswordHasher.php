@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\Authentication\AuthenticationPasswordHasherInterface;
+use App\Application\Contract\AuthenticationPasswordHasherInterface;
 use Override;
 use SensitiveParameter;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountRequest;
-use App\Domain\Model\HttpSpecification;
-use App\Domain\Model\LocaleCode;
+use App\Domain\Common\HttpSpecification;
+use App\Domain\Common\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

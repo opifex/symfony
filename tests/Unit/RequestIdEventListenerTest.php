@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Application\Contract\RequestIdGeneratorInterface;
+use App\Application\Contract\RequestIdStorageInterface;
 use App\Application\EventListener\RequestIdEventListener;
-use App\Domain\Contract\Identification\RequestIdGeneratorInterface;
-use App\Domain\Contract\Identification\RequestIdStorageInterface;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

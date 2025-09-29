@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\Integration\HttpbinResponseProviderException;
-use App\Infrastructure\Adapter\Kennethreitz\KennethreitzHttpbinAdapter;
+use App\Application\Exception\HttpbinRequestFailedException;
+use App\Infrastructure\Adapter\Kennethreitz\HttpbinResponseProvider;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -19,7 +19,7 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
         $apiUrl = 'https://api.example.com';
         $mockResponse = new MockResponse(json_encode($response));
         $mockHttpClient = new MockHttpClient($mockResponse);
-        $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($apiUrl, $mockHttpClient);
+        $kennethreitzHttpbinAdapter = new HttpbinResponseProvider($apiUrl, $mockHttpClient);
 
         $json = $kennethreitzHttpbinAdapter->getJson();
 
@@ -33,9 +33,9 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
 
         $apiUrl = 'https://api.example.com';
         $mockHttpClient = new MockHttpClient($mockResponse);
-        $kennethreitzHttpbinAdapter = new KennethreitzHttpbinAdapter($apiUrl, $mockHttpClient);
+        $kennethreitzHttpbinAdapter = new HttpbinResponseProvider($apiUrl, $mockHttpClient);
 
-        $this->expectException(HttpbinResponseProviderException::class);
+        $this->expectException(HttpbinRequestFailedException::class);
 
         $kennethreitzHttpbinAdapter->getJson();
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Model\Account;
+use App\Domain\Account\Account;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;

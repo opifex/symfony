@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SigninIntoAccount;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Contract\Integration\JwtAccessTokenManagerInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
-use App\Domain\Exception\Authorization\AuthorizationRequiredException;
-use App\Domain\Exception\Authorization\AuthorizationThrottlingException;
+use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Application\Contract\JwtAccessTokenManagerInterface;
+use App\Application\Exception\AuthorizationRequiredException;
+use App\Application\Exception\AuthorizationThrottlingException;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Model\Account;
-use App\Domain\Model\AccountIdentifier;
-use App\Domain\Model\AccountRoles;
-use App\Domain\Model\AccountStatus;
-use App\Domain\Model\Common\DateTimeUtc;
-use App\Domain\Model\Common\EmailAddress;
-use App\Domain\Model\Common\HashedPassword;
-use App\Domain\Model\LocaleCode;
-use App\Domain\Model\Role;
+use App\Domain\Account\Account;
+use App\Domain\Account\AccountIdentifier;
+use App\Domain\Account\AccountRoles;
+use App\Domain\Account\AccountStatus;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Common\LocaleCode;
+use App\Domain\Common\Role;
+use App\Domain\Common\ValueObject\DateTimeUtc;
+use App\Domain\Common\ValueObject\EmailAddress;
+use App\Domain\Common\ValueObject\HashedPassword;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Override;

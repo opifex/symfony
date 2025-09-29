@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\BlockAccountById;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Contract\Account\AccountWorkflowManagerInterface;
-use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
-use App\Domain\Model\Role;
+use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountWorkflowManagerInterface;
+use App\Domain\Account\Exception\AccountNotFoundException;
+use App\Domain\Common\Role;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

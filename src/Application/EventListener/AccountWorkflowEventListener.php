@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\EventListener;
 
-use App\Domain\Event\AccountRegisteredEvent;
-use App\Domain\Model\Account;
-use App\Domain\Model\AccountAction;
+use App\Domain\Account\Account;
+use App\Domain\Account\AccountAction;
+use App\Domain\Account\Event\AccountRegisteredEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Workflow\Attribute\AsCompletedListener;
 use Symfony\Component\Workflow\Event\CompletedEvent;

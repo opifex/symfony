@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\Integration\JwtAccessTokenManagerException;
-use App\Domain\Model\Role;
-use App\Infrastructure\Adapter\Lcobucci\LcobucciJwtAdapter;
+use App\Application\Exception\JwtConfigurationFailedException;
+use App\Application\Exception\JwtTokenInvalidException;
+use App\Domain\Common\Role;
+use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenManager;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
@@ -14,12 +15,11 @@ use Symfony\Component\Clock\MockClock;
 final class LcobucciJwtAdapterTest extends TestCase
 {
     /**
-     * @throws JwtAccessTokenManagerException
      * @throws Exception
      */
     public function testCreateAccessTokenWithPassphrase(): void
     {
-        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+        $lcobucciJwtAdapter = new JwtAccessTokenManager(
             issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
@@ -37,7 +37,6 @@ final class LcobucciJwtAdapterTest extends TestCase
     }
 
     /**
-     * @throws JwtAccessTokenManagerException
      * @throws Exception
      */
     public function testCreateAccessTokenWithSigningKey(): void
@@ -83,7 +82,7 @@ final class LcobucciJwtAdapterTest extends TestCase
         $verificationKey .= 'pwIDAQAB' . PHP_EOL;
         $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
-        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+        $lcobucciJwtAdapter = new JwtAccessTokenManager(
             issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
@@ -107,7 +106,7 @@ final class LcobucciJwtAdapterTest extends TestCase
      */
     public function testCreateAccessTokenThrowsExceptionWithEmptyConfiguration(): void
     {
-        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+        $lcobucciJwtAdapter = new JwtAccessTokenManager(
             issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '',
@@ -116,7 +115,7 @@ final class LcobucciJwtAdapterTest extends TestCase
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtAccessTokenManagerException::class);
+        $this->expectException(JwtConfigurationFailedException::class);
 
         $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
@@ -125,7 +124,6 @@ final class LcobucciJwtAdapterTest extends TestCase
     }
 
     /**
-     * @throws JwtAccessTokenManagerException
      * @throws Exception
      */
     public function testCreateAccessTokenThrowsExceptionWithInvalidSigningKey(): void
@@ -147,7 +145,7 @@ final class LcobucciJwtAdapterTest extends TestCase
         $verificationKey .= 'pwIDAQAB' . PHP_EOL;
         $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
-        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+        $lcobucciJwtAdapter = new JwtAccessTokenManager(
             issuer: 'http://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
@@ -156,7 +154,7 @@ final class LcobucciJwtAdapterTest extends TestCase
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtAccessTokenManagerException::class);
+        $this->expectException(JwtConfigurationFailedException::class);
 
         $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
@@ -165,12 +163,12 @@ final class LcobucciJwtAdapterTest extends TestCase
     }
 
     /**
-     * @throws JwtAccessTokenManagerException
+     * @throws JwtTokenInvalidException
      * @throws Exception
      */
     public function testDecodeAccessTokenThrowsExceptionWithExpiredToken(): void
     {
-        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+        $lcobucciJwtAdapter = new JwtAccessTokenManager(
             issuer: 'http://example.com',
             lifetime: 0,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
@@ -182,17 +180,17 @@ final class LcobucciJwtAdapterTest extends TestCase
             userRoles: [Role::User->toString()],
         );
 
-        $this->expectException(JwtAccessTokenManagerException::class);
+        $this->expectException(JwtTokenInvalidException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken($tokenString);
     }
 
     /**
-     * @throws Exception
+     * @throws JwtTokenInvalidException
      */
     public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenContent(): void
     {
-        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+        $lcobucciJwtAdapter = new JwtAccessTokenManager(
             issuer: 'http://example.com',
             lifetime: 1,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
@@ -202,24 +200,24 @@ final class LcobucciJwtAdapterTest extends TestCase
         $tokenString = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $tokenString .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
-        $this->expectException(JwtAccessTokenManagerException::class);
+        $this->expectException(JwtTokenInvalidException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken($tokenString);
     }
 
     /**
-     * @throws Exception
+     * @throws JwtTokenInvalidException
      */
     public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenStructure(): void
     {
-        $lcobucciJwtAdapter = new LcobucciJwtAdapter(
+        $lcobucciJwtAdapter = new JwtAccessTokenManager(
             issuer: 'http://example.com',
             lifetime: 1,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtAccessTokenManagerException::class);
+        $this->expectException(JwtTokenInvalidException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken(accessToken: 'invalid');
     }

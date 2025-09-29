@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Messenger\Middleware;
 
-use App\Domain\Contract\Identification\RequestIdStorageInterface;
+use App\Application\Contract\RequestIdStorageInterface;
 use App\Infrastructure\Messenger\Stamp\RequestIdStamp;
 use Override;
 use Symfony\Component\Messenger\Envelope;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\PayPal\RemoteEvent;
 
-use App\Domain\Event\PaymentReceivedEvent;
+use App\Domain\Payment\Event\PaymentReceivedEvent;
 use Override;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\RemoteEvent\Attribute\AsRemoteEventConsumer;

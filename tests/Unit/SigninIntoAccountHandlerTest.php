@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Application\Contract\JwtAccessTokenManagerInterface;
+use App\Application\Exception\AuthorizationThrottlingException;
 use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountHandler;
 use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountRequest;
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Contract\Integration\JwtAccessTokenManagerInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
-use App\Domain\Exception\Authorization\AuthorizationThrottlingException;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

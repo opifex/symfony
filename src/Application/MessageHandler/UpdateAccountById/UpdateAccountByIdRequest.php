@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\UpdateAccountById;
 
-use App\Domain\Model\LocaleCode;
+use App\Domain\Common\LocaleCode;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Messenger\Attribute\AsMessage;
 use Symfony\Component\Validator\Constraints as Assert;

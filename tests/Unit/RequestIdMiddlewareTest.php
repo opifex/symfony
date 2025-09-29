@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Contract\Identification\RequestIdStorageInterface;
+use App\Application\Contract\RequestIdStorageInterface;
 use App\Infrastructure\Messenger\Middleware\RequestIdMiddleware;
 use App\Infrastructure\Messenger\Stamp\RequestIdStamp;
 use Override;

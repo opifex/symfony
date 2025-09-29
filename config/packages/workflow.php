@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Domain\Model\Account;
-use App\Domain\Model\AccountAction;
-use App\Domain\Model\AccountStatus;
+use App\Domain\Account\Account;
+use App\Domain\Account\AccountAction;
+use App\Domain\Account\AccountStatus;
 use App\Infrastructure\Workflow\AccountMarkingStore;
 use Symfony\Config\FrameworkConfig;
 

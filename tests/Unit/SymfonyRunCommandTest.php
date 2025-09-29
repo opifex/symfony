@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Contract\Integration\HttpbinResponseProviderInterface;
+use App\Application\Contract\HttpbinResponseProviderInterface;
 use App\Presentation\Command\SymfonyRunCommand;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;

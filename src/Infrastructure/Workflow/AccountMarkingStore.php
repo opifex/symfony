@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Workflow;
 
-use App\Domain\Model\Account;
-use App\Domain\Model\AccountStatus;
+use App\Domain\Account\Account;
+use App\Domain\Account\AccountStatus;
 use Override;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 use Symfony\Component\Workflow\Marking;

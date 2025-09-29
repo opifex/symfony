@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Monolog;
 
-use App\Domain\Contract\Identification\RequestIdStorageInterface;
+use App\Application\Contract\RequestIdStorageInterface;
 use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 

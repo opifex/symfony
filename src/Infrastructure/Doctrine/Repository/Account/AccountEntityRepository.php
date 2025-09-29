@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Repository\Account;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Model\Account;
-use App\Domain\Model\AccountIdentifier;
-use App\Domain\Model\AccountSearchCriteria;
-use App\Domain\Model\AccountSearchResult;
+use App\Domain\Account\Account;
+use App\Domain\Account\AccountIdentifier;
+use App\Domain\Account\AccountSearchCriteria;
+use App\Domain\Account\AccountSearchResult;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;

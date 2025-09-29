@@ -73,11 +73,11 @@ provides **JSON-based** contracts with **JSON Web Token** (JWT) authorization.
 └──────────────────────────────────────────────────────────┘
         │                    │                    │
 ┌────────────────┐   ┌────────────────┐   ┌────────────────┐
-│  Application   │ ─ │  Presentation  │   │ Infrastructure │
+│  Presentation  │ ─ │  Application   │ ─ │ Infrastructure │
 └────────────────┘   └────────────────┘   └────────────────┘
         │                    │                    │
-┌────────────────┐   ┌────────────────┐   ┌────────────────┐       
-│    Services    │   │     Client     │   │   3rd-party    │       
+┌────────────────┐   ┌────────────────┐   ┌────────────────┐
+│     Client     │   │    Services    │   │   3rd-party    │
 └────────────────┘   └────────────────┘   └────────────────┘
 ```
 

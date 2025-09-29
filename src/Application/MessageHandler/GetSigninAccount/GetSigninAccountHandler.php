@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetSigninAccount;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Exception\Account\AccountNotFoundException;
-use App\Domain\Exception\Authorization\AuthorizationRequiredException;
-use App\Domain\Model\Role;
+use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Application\Exception\AuthorizationRequiredException;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Exception\AccountNotFoundException;
+use App\Domain\Common\Role;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

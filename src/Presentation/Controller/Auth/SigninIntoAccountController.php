@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountRequest;
-use App\Domain\Model\HttpSpecification;
+use App\Domain\Common\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

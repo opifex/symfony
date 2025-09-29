@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Model\Role;
+use App\Domain\Common\Role;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\PasswordAuthenticatedUserChecker;
 use Override;

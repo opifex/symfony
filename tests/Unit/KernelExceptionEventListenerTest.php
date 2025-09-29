@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Application\Contract\PrivacyDataProtectorInterface;
 use App\Application\EventListener\KernelExceptionEventListener;
-use App\Domain\Contract\Protection\PrivacyDataProtectorInterface;
 use LogicException;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;

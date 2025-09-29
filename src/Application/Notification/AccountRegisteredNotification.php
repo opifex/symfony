@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Notification;
 
-use App\Domain\Model\Account;
+use App\Domain\Account\Account;
 use Override;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;

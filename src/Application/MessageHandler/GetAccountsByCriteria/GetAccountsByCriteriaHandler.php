@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Model\AccountSearchCriteria;
-use App\Domain\Model\Role;
-use App\Domain\Model\SearchPagination;
+use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Domain\Account\AccountSearchCriteria;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Common\Role;
+use App\Domain\Common\SearchPagination;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

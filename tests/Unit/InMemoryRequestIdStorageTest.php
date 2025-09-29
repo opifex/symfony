@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Service\InMemoryRequestIdStorage;
+use App\Infrastructure\Identification\InMemoryRequestIdStorage;
 use PHPUnit\Framework\TestCase;
 
 final class InMemoryRequestIdStorageTest extends TestCase

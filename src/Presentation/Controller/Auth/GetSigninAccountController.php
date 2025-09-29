@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
-use App\Domain\Model\AccountStatus;
-use App\Domain\Model\HttpSpecification;
-use App\Domain\Model\LocaleCode;
-use App\Domain\Model\Role;
+use App\Domain\Account\AccountStatus;
+use App\Domain\Common\HttpSpecification;
+use App\Domain\Common\LocaleCode;
+use App\Domain\Common\Role;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

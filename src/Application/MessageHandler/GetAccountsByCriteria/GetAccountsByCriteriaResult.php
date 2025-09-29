@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
-use App\Domain\Model\Account;
-use App\Domain\Model\AccountSearchResult;
-use App\Domain\Model\SearchPagination;
+use App\Domain\Account\Account;
+use App\Domain\Account\AccountSearchResult;
+use App\Domain\Common\SearchPagination;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

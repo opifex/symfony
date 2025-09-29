@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Exception\Integration\TwigTemplateRendererException;
-use App\Infrastructure\Adapter\Sensiolabs\SensiolabsTwigAdapter;
+use App\Application\Exception\TwigRenderingFailedException;
+use App\Infrastructure\Adapter\Sensiolabs\TwigTemplateRenderer;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -24,7 +24,7 @@ final class SensiolabsTwigAdapterTest extends TestCase
 
     public function testRenderExistedTemplate(): void
     {
-        $sensiolabsTwigAdapter = new SensiolabsTwigAdapter($this->environment);
+        $sensiolabsTwigAdapter = new TwigTemplateRenderer($this->environment);
         $content = 'content';
 
         $this->environment
@@ -39,14 +39,14 @@ final class SensiolabsTwigAdapterTest extends TestCase
 
     public function testRenderThrowsExceptionOnTwigError(): void
     {
-        $sensiolabsTwigAdapter = new SensiolabsTwigAdapter($this->environment);
+        $sensiolabsTwigAdapter = new TwigTemplateRenderer($this->environment);
 
         $this->environment
             ->expects($this->once())
             ->method(constraint: 'render')
             ->willThrowException(new Error(message: ''));
 
-        $this->expectException(TwigTemplateRendererException::class);
+        $this->expectException(TwigRenderingFailedException::class);
 
         $sensiolabsTwigAdapter->render(name: 'example.html.twig');
     }

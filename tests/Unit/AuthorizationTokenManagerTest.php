@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Service\AuthorizationTokenManager;
-use App\Domain\Exception\Authorization\AuthorizationRequiredException;
-use App\Domain\Model\Role;
+use App\Domain\Common\Role;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

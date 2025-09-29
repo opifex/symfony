@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\UpdateAccountById;
 
-use App\Domain\Contract\Account\AccountEntityRepositoryInterface;
-use App\Domain\Contract\Authentication\AuthenticationPasswordHasherInterface;
-use App\Domain\Contract\Authorization\AuthorizationTokenManagerInterface;
-use App\Domain\Exception\Account\AccountAlreadyExistsException;
-use App\Domain\Exception\Account\AccountNotFoundException;
-use App\Domain\Model\Common\EmailAddress;
-use App\Domain\Model\Common\HashedPassword;
-use App\Domain\Model\LocaleCode;
-use App\Domain\Model\Role;
+use App\Application\Contract\AuthenticationPasswordHasherInterface;
+use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Exception\AccountAlreadyExistsException;
+use App\Domain\Account\Exception\AccountNotFoundException;
+use App\Domain\Common\LocaleCode;
+use App\Domain\Common\Role;
+use App\Domain\Common\ValueObject\EmailAddress;
+use App\Domain\Common\ValueObject\HashedPassword;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\EventListener;
 
-use App\Domain\Contract\Identification\RequestIdGeneratorInterface;
-use App\Domain\Contract\Identification\RequestIdStorageInterface;
-use App\Domain\Model\HttpSpecification;
+use App\Application\Contract\RequestIdGeneratorInterface;
+use App\Application\Contract\RequestIdStorageInterface;
+use App\Domain\Common\HttpSpecification;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;

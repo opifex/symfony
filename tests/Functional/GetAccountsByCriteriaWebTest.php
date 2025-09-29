@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use App\Domain\Model\AccountStatus;
+use App\Domain\Account\AccountStatus;
 use Override;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
