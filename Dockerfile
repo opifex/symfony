@@ -1,4 +1,4 @@
-FROM composer:2.8.11 AS composer
+FROM composer:2.8.12 AS composer
 # set working directory
 WORKDIR /tmp
 # copy composer files
@@ -8,7 +8,7 @@ RUN composer validate --strict
 # install composer dependencies
 RUN composer install --ignore-platform-reqs --no-cache --no-dev --no-plugins --no-scripts
 
-FROM php:8.4.12-fpm-alpine AS php
+FROM php:8.4.13-fpm-alpine AS php
 # set working directory
 WORKDIR /opt/project
 # install system packages
