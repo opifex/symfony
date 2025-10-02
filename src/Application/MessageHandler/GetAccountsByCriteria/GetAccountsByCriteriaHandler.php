@@ -7,8 +7,8 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Account\AccountSearchCriteria;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Common\Role;
 use App\Domain\Common\SearchPagination;
+use App\Domain\Security\Role;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

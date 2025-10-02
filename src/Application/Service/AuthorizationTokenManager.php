@@ -7,7 +7,7 @@ namespace App\Application\Service;
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Application\Exception\AuthorizationForbiddenException;
 use App\Application\Exception\AuthorizationRequiredException;
-use App\Domain\Common\Role;
+use App\Domain\Security\Role;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

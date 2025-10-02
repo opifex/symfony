@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\LocaleCode;
+use App\Domain\Localization\LocaleCode;
 use Symfony\Config\FrameworkConfig;
 
 return static function (FrameworkConfig $framework): void {

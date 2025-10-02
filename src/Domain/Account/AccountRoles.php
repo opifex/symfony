@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
-use App\Domain\Common\Role;
+use App\Domain\Security\Role;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]

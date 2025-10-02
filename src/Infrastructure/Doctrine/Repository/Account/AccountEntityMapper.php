@@ -8,10 +8,10 @@ use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\AccountRoles;
 use App\Domain\Account\AccountStatus;
-use App\Domain\Common\LocaleCode;
 use App\Domain\Common\ValueObject\DateTimeUtc;
 use App\Domain\Common\ValueObject\EmailAddress;
 use App\Domain\Common\ValueObject\HashedPassword;
+use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 

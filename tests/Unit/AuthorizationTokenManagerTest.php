@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Service\AuthorizationTokenManager;
-use App\Domain\Common\Role;
+use App\Domain\Security\Role;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

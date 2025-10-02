@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use App\Application\Exception\JwtConfigurationFailedException;
 use App\Application\Exception\JwtTokenInvalidException;
-use App\Domain\Common\Role;
+use App\Domain\Security\Role;
 use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenManager;
 use Exception;
 use PHPUnit\Framework\TestCase;

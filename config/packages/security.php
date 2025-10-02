@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\Role;
+use App\Domain\Security\Role;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\JsonLoginAuthenticator;
 use App\Infrastructure\Security\JwtAccessTokenHandler;

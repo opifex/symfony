@@ -2,27 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Common;
+namespace App\Domain\Security;
 
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-enum LocaleCode: string
+enum Role: string
 {
-    case EnUs = 'en-US';
-    case UkUa = 'uk-UA';
+    case Admin = 'ROLE_ADMIN';
+    case User = 'ROLE_USER';
 
     public static function fromString(string $value): self
     {
         return self::from($value);
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function values(): array
-    {
-        return array_map(static fn(self $item) => $item->value, self::cases());
     }
 
     public function toString(): string

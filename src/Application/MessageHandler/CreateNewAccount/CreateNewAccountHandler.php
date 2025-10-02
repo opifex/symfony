@@ -10,7 +10,7 @@ use App\Domain\Account\Account;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountWorkflowManagerInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
-use App\Domain\Common\Role;
+use App\Domain\Security\Role;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
