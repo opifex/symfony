@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Health;
 
 use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusRequest;
-use App\Domain\Common\HttpSpecification;
+use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Healthcheck\HealthStatus;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;

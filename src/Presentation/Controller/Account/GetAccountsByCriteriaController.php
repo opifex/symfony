@@ -7,7 +7,7 @@ namespace App\Presentation\Controller\Account;
 use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaRequest;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Account\AccountRole;
-use App\Domain\Common\HttpSpecification;
+use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;

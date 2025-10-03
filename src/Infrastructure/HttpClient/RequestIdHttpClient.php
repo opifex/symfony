@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\HttpClient;
 
 use App\Application\Contract\RequestIdStorageInterface;
-use App\Domain\Common\HttpSpecification;
+use App\Domain\Foundation\HttpSpecification;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;

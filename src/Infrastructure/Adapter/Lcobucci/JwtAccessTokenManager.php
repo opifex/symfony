@@ -7,7 +7,7 @@ namespace App\Infrastructure\Adapter\Lcobucci;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Application\Exception\JwtConfigurationFailedException;
 use App\Application\Exception\JwtTokenInvalidException;
-use App\Domain\Common\AuthorizationToken;
+use App\Domain\Foundation\AuthorizationToken;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use Lcobucci\JWT\Configuration;

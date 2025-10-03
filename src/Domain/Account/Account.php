@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
-use App\Domain\Common\ValueObject\DateTimeUtc;
-use App\Domain\Common\ValueObject\EmailAddress;
-use App\Domain\Common\ValueObject\HashedPassword;
+use App\Domain\Foundation\ValueObject\DateTimeUtc;
+use App\Domain\Foundation\ValueObject\EmailAddress;
+use App\Domain\Foundation\ValueObject\HashedPassword;
 use App\Domain\Localization\LocaleCode;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 

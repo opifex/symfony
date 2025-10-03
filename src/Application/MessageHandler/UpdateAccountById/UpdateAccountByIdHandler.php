@@ -10,8 +10,8 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Account\AccountRole;
-use App\Domain\Common\ValueObject\EmailAddress;
-use App\Domain\Common\ValueObject\HashedPassword;
+use App\Domain\Foundation\ValueObject\EmailAddress;
+use App\Domain\Foundation\ValueObject\HashedPassword;
 use App\Domain\Localization\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

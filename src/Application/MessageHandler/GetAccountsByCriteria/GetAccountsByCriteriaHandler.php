@@ -8,7 +8,7 @@ use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Account\AccountSearchCriteria;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\AccountRole;
-use App\Domain\Common\SearchPagination;
+use App\Domain\Foundation\SearchPagination;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
