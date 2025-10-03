@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\SignupNewAccount;
 
-use App\Domain\Common\LocaleCode;
+use App\Domain\Localization\LocaleCode;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Messenger\Attribute\AsMessage;
 use Symfony\Component\Validator\Constraints as Assert;

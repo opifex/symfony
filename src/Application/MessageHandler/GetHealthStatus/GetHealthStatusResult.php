@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\GetHealthStatus;
 
-use App\Domain\Health\Health;
+use App\Domain\Healthcheck\Healthcheck;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[Exclude]
 final class GetHealthStatusResult extends JsonResponse
 {
-    public static function success(Health $health): self
+    public static function success(Healthcheck $health): self
     {
         return new self(
             data: [

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Common\ValueObject;
+namespace App\Domain\Foundation\ValueObject;
 
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
 final class EmailAddress
 {
-    final protected function __construct(
+    final private function __construct(
         private readonly string $email,
     ) {
     }

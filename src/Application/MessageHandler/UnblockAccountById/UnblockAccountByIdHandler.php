@@ -8,7 +8,7 @@ use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountWorkflowManagerInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
-use App\Domain\Common\Role;
+use App\Domain\Account\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -23,7 +23,7 @@ final class UnblockAccountByIdHandler
 
     public function __invoke(UnblockAccountByIdRequest $request): UnblockAccountByIdResult
     {
-        $this->authorizationTokenManager->checkUserPermission(role: Role::Admin);
+        $this->authorizationTokenManager->checkUserPermission(role: AccountRole::Admin);
 
         $account = $this->accountEntityRepository->findOneById($request->id)
             ?? throw AccountNotFoundException::create();

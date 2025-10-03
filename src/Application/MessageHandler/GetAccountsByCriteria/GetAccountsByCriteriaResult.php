@@ -6,7 +6,7 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountSearchResult;
-use App\Domain\Common\SearchPagination;
+use App\Domain\Foundation\SearchPagination;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

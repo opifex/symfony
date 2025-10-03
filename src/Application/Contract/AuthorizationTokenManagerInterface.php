@@ -6,7 +6,7 @@ namespace App\Application\Contract;
 
 use App\Application\Exception\AuthorizationForbiddenException;
 use App\Application\Exception\AuthorizationRequiredException;
-use App\Domain\Common\Role;
+use App\Domain\Account\AccountRole;
 
 interface AuthorizationTokenManagerInterface
 {
@@ -16,5 +16,5 @@ interface AuthorizationTokenManagerInterface
      * @throws AuthorizationForbiddenException
      * @throws AuthorizationRequiredException
      */
-    public function checkUserPermission(Role $role, mixed $subject = null): void;
+    public function checkUserPermission(AccountRole $role, mixed $subject = null): void;
 }

@@ -32,7 +32,7 @@ final class SymfonyRunCommandKernelTest extends KernelTestCase
             new HttpMockClientResponse(
                 requestMethod: Request::METHOD_GET,
                 requestUrl: 'https://httpbin.org/json',
-                responseBody: $this->getResponseFromFile(file: 'HttpbinResponderGetJsonResponse.json'),
+                responseBody: $this->getResponseFromFile(file: 'HttpbinGetJsonResponse.json'),
             ),
         ]);
         $commandTester = new CommandTester($this->command);

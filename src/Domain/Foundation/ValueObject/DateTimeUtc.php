@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Common\ValueObject;
+namespace App\Domain\Foundation\ValueObject;
 
 use DateTimeInterface;
 use DateTimeZone;
@@ -14,19 +14,27 @@ final class DateTimeUtc
 {
     private const string TIMEZONE = 'UTC';
 
-    final protected function __construct(
+    final private function __construct(
         private readonly DatePoint $datetime,
     ) {
     }
 
     public static function now(): self
     {
-        return new self(new DatePoint()->setTimezone(new DateTimeZone(self::TIMEZONE)));
+        return new self(
+            new DatePoint()->setTimezone(
+                timezone: new DateTimeZone(timezone: self::TIMEZONE),
+            ),
+        );
     }
 
     public static function fromInterface(DateTimeInterface $datetime): self
     {
-        return new self(DatePoint::createFromInterface($datetime)->setTimezone(new DateTimeZone(self::TIMEZONE)));
+        return new self(
+            DatePoint::createFromInterface($datetime)->setTimezone(
+                timezone: new DateTimeZone(timezone: self::TIMEZONE),
+            ),
+        );
     }
 
     public function toImmutable(): DatePoint
@@ -36,6 +44,6 @@ final class DateTimeUtc
 
     public function toAtomString(): string
     {
-        return $this->datetime->format(DateTimeInterface::ATOM);
+        return $this->datetime->format(format: DateTimeInterface::ATOM);
     }
 }

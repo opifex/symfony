@@ -6,7 +6,7 @@ namespace App\Application\Contract;
 
 use App\Application\Exception\JwtConfigurationFailedException;
 use App\Application\Exception\JwtTokenInvalidException;
-use App\Domain\Common\AuthorizationToken;
+use App\Domain\Foundation\AuthorizationToken;
 use SensitiveParameter;
 
 interface JwtAccessTokenManagerInterface

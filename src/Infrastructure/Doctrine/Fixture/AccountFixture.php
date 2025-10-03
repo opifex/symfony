@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\Doctrine\Fixture;
 
 use App\Domain\Account\AccountStatus;
-use App\Domain\Common\LocaleCode;
-use App\Domain\Common\Role;
+use App\Domain\Account\AccountRole;
+use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -31,7 +31,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $passwordHash,
             locale: LocaleCode::EnUs->toString(),
-            roles: [Role::Admin->toString()],
+            roles: [AccountRole::Admin->toString()],
             status: AccountStatus::Activated->toString(),
         );
         $manager->persist($accountAdmin);
@@ -43,7 +43,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $passwordHash,
             locale: LocaleCode::EnUs->toString(),
-            roles: [Role::User->toString()],
+            roles: [AccountRole::User->toString()],
             status: AccountStatus::Activated->toString(),
         );
         $manager->persist($accountUser);
@@ -58,7 +58,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 email: $faker->unique()->email(),
                 password: $passwordHash,
                 locale: LocaleCode::EnUs->toString(),
-                roles: [Role::User->toString()],
+                roles: [AccountRole::User->toString()],
                 status: $accountStatus,
             );
             $manager->persist($accountRandom);

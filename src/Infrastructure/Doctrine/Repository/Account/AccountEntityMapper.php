@@ -6,12 +6,12 @@ namespace App\Infrastructure\Doctrine\Repository\Account;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\AccountRoles;
+use App\Domain\Account\AccountRoleSet;
 use App\Domain\Account\AccountStatus;
-use App\Domain\Common\LocaleCode;
-use App\Domain\Common\ValueObject\DateTimeUtc;
-use App\Domain\Common\ValueObject\EmailAddress;
-use App\Domain\Common\ValueObject\HashedPassword;
+use App\Domain\Foundation\ValueObject\DateTimeUtc;
+use App\Domain\Foundation\ValueObject\EmailAddress;
+use App\Domain\Foundation\ValueObject\HashedPassword;
+use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
@@ -26,7 +26,7 @@ final class AccountEntityMapper
             email: EmailAddress::fromString($entity->email),
             password: HashedPassword::fromString($entity->password),
             locale: LocaleCode::fromString($entity->locale),
-            roles: AccountRoles::fromStrings(...$entity->roles),
+            roles: AccountRoleSet::fromStrings(...$entity->roles),
             status: AccountStatus::fromString($entity->status),
         );
     }

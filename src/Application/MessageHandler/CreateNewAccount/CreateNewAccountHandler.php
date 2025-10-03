@@ -10,7 +10,7 @@ use App\Domain\Account\Account;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountWorkflowManagerInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
-use App\Domain\Common\Role;
+use App\Domain\Account\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -26,7 +26,7 @@ final class CreateNewAccountHandler
 
     public function __invoke(CreateNewAccountRequest $request): CreateNewAccountResult
     {
-        $this->authorizationTokenManager->checkUserPermission(role: Role::Admin);
+        $this->authorizationTokenManager->checkUserPermission(role: AccountRole::Admin);
 
         if ($this->accountEntityRepository->findOneByEmail($request->email) !== null) {
             throw AccountAlreadyExistsException::create();

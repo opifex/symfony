@@ -7,8 +7,8 @@ namespace App\Application\MessageHandler\GetAccountsByCriteria;
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Account\AccountSearchCriteria;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Common\Role;
-use App\Domain\Common\SearchPagination;
+use App\Domain\Account\AccountRole;
+use App\Domain\Foundation\SearchPagination;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -22,7 +22,7 @@ final class GetAccountsByCriteriaHandler
 
     public function __invoke(GetAccountsByCriteriaRequest $request): GetAccountsByCriteriaResult
     {
-        $this->authorizationTokenManager->checkUserPermission(role: Role::Admin);
+        $this->authorizationTokenManager->checkUserPermission(role: AccountRole::Admin);
 
         $searchPagination = new SearchPagination($request->page, $request->limit);
         $searchCriteria = new AccountSearchCriteria($request->email, $request->status, $searchPagination);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use App\Domain\Common\LocaleCode;
+use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Override;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

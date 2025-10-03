@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Domain\Common\Role;
+use App\Domain\Account\AccountRole;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\JsonLoginAuthenticator;
 use App\Infrastructure\Security\JwtAccessTokenHandler;
@@ -33,7 +33,7 @@ return static function (ContainerConfigurator $configurator, SecurityConfig $sec
         ->pattern(value: '^/api')
         ->accessToken()->tokenHandler(value: JwtAccessTokenHandler::class);
 
-    $security->roleHierarchy(Role::Admin->value, Role::User->value);
+    $security->roleHierarchy(AccountRole::Admin->value, AccountRole::User->value);
 
     if ($configurator->env() === 'test') {
         $security->passwordHasher(class: PasswordAuthenticatedUserInterface::class)

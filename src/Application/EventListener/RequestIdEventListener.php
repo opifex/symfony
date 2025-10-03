@@ -6,7 +6,7 @@ namespace App\Application\EventListener;
 
 use App\Application\Contract\RequestIdGeneratorInterface;
 use App\Application\Contract\RequestIdStorageInterface;
-use App\Domain\Common\HttpSpecification;
+use App\Domain\Foundation\HttpSpecification;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;

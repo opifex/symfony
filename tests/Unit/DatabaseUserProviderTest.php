@@ -6,14 +6,14 @@ namespace Tests\Unit;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\AccountRoles;
+use App\Domain\Account\AccountRoleSet;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Common\LocaleCode;
-use App\Domain\Common\Role;
-use App\Domain\Common\ValueObject\DateTimeUtc;
-use App\Domain\Common\ValueObject\EmailAddress;
-use App\Domain\Common\ValueObject\HashedPassword;
+use App\Domain\Account\AccountRole;
+use App\Domain\Foundation\ValueObject\DateTimeUtc;
+use App\Domain\Foundation\ValueObject\EmailAddress;
+use App\Domain\Foundation\ValueObject\HashedPassword;
+use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Override;
@@ -43,7 +43,7 @@ final class DatabaseUserProviderTest extends TestCase
             email: EmailAddress::fromString(email: 'email@example.com'),
             password: HashedPassword::fromString(passwordHash: 'password4#account'),
             locale: LocaleCode::EnUs,
-            roles: AccountRoles::fromStrings(Role::User->toString()),
+            roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
@@ -85,7 +85,7 @@ final class DatabaseUserProviderTest extends TestCase
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [Role::User->toString()],
+            roles: [AccountRole::User->toString()],
             enabled: true,
         );
 
