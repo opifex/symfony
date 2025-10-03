@@ -183,6 +183,9 @@
             "phpcs.xml.dist"
         ]
     },
+    "symfony/ai-bundle": {
+        "version": "dev-main"
+    },
     "symfony/amqp-messenger": {
         "version": "v6.0.1"
     },

@@ -3,7 +3,7 @@
     "description": "An example application using Symfony Framework",
     "type": "project",
     "license": "MIT",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": "^8.4",
@@ -24,6 +24,7 @@
         "dragonmantank/cron-expression": "^3.4",
         "lcobucci/jwt": "^5.5",
         "nelmio/api-doc-bundle": "^4.38",
+        "symfony/ai-bundle": "dev-main",
         "symfony/amqp-messenger": "7.3.*",
         "symfony/asset": "7.3.*",
         "symfony/console": "7.3.*",
