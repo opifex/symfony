@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Health;
+namespace App\Domain\Healthcheck;
 
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-class Health
+class Healthcheck
 {
     public function __construct(
         private readonly HealthStatus $status,

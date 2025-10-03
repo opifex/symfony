@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Health;
 
 use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusRequest;
 use App\Domain\Common\HttpSpecification;
-use App\Domain\Health\HealthStatus;
+use App\Domain\Healthcheck\HealthStatus;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
