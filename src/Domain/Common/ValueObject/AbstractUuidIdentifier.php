@@ -10,7 +10,7 @@ use Symfony\Component\Uid\Uuid;
 #[Exclude]
 abstract class AbstractUuidIdentifier
 {
-    final protected function __construct(
+    final private function __construct(
         private readonly string $uuid,
     ) {
     }

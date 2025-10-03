@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class HashedPassword
 {
-    final protected function __construct(
+    final private function __construct(
         private readonly string $passwordHash,
     ) {
     }

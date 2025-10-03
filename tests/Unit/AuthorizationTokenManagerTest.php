@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Service\AuthorizationTokenManager;
-use App\Domain\Security\Role;
+use App\Domain\Account\AccountRole;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -57,6 +57,6 @@ final class AuthorizationTokenManagerTest extends TestCase
 
         $this->expectException(exception: AuthorizationRequiredException::class);
 
-        $authorizationTokenManager->checkUserPermission(role: Role::User);
+        $authorizationTokenManager->checkUserPermission(role: AccountRole::User);
     }
 }

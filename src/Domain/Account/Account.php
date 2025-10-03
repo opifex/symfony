@@ -8,7 +8,6 @@ use App\Domain\Common\ValueObject\DateTimeUtc;
 use App\Domain\Common\ValueObject\EmailAddress;
 use App\Domain\Common\ValueObject\HashedPassword;
 use App\Domain\Localization\LocaleCode;
-use App\Domain\Security\Role;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
@@ -20,7 +19,7 @@ class Account
         private EmailAddress $email,
         private HashedPassword $password,
         private LocaleCode $locale,
-        private AccountRoles $roles,
+        private AccountRoleSet $roles,
         private AccountStatus $status,
     ) {
     }
@@ -33,7 +32,7 @@ class Account
             email: EmailAddress::fromString($email),
             password: HashedPassword::fromString($hashedPassword),
             locale: LocaleCode::fromString($locale),
-            roles: AccountRoles::fromStrings(Role::User->toString()),
+            roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
         );
     }
@@ -58,7 +57,7 @@ class Account
         return $this->locale;
     }
 
-    public function getRoles(): AccountRoles
+    public function getRoles(): AccountRoleSet
     {
         return $this->roles;
     }

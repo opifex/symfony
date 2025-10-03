@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use App\Application\Exception\JwtConfigurationFailedException;
 use App\Application\Exception\JwtTokenInvalidException;
-use App\Domain\Security\Role;
+use App\Domain\Account\AccountRole;
 use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenManager;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -28,12 +28,12 @@ final class LcobucciJwtAdapterTest extends TestCase
 
         $tokenString = $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
-            userRoles: [Role::User->toString()],
+            userRoles: [AccountRole::User->toString()],
         );
         $token = $lcobucciJwtAdapter->decodeAccessToken($tokenString);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->getUserIdentifier());
-        $this->assertSame(expected: [Role::User->toString()], actual: $token->getUserRoles());
+        $this->assertSame(expected: [AccountRole::User->toString()], actual: $token->getUserRoles());
     }
 
     /**
@@ -93,12 +93,12 @@ final class LcobucciJwtAdapterTest extends TestCase
 
         $tokenString = $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
-            userRoles: [Role::User->toString()],
+            userRoles: [AccountRole::User->toString()],
         );
         $token = $lcobucciJwtAdapter->decodeAccessToken($tokenString);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->getUserIdentifier());
-        $this->assertSame(expected: [Role::User->toString()], actual: $token->getUserRoles());
+        $this->assertSame(expected: [AccountRole::User->toString()], actual: $token->getUserRoles());
     }
 
     /**
@@ -119,7 +119,7 @@ final class LcobucciJwtAdapterTest extends TestCase
 
         $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
-            userRoles: [Role::User->toString()],
+            userRoles: [AccountRole::User->toString()],
         );
     }
 
@@ -158,7 +158,7 @@ final class LcobucciJwtAdapterTest extends TestCase
 
         $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
-            userRoles: [Role::User->toString()],
+            userRoles: [AccountRole::User->toString()],
         );
     }
 
@@ -177,7 +177,7 @@ final class LcobucciJwtAdapterTest extends TestCase
 
         $tokenString = $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
-            userRoles: [Role::User->toString()],
+            userRoles: [AccountRole::User->toString()],
         );
 
         $this->expectException(JwtTokenInvalidException::class);

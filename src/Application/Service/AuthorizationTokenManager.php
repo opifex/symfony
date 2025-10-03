@@ -7,7 +7,7 @@ namespace App\Application\Service;
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Application\Exception\AuthorizationForbiddenException;
 use App\Application\Exception\AuthorizationRequiredException;
-use App\Domain\Security\Role;
+use App\Domain\Account\AccountRole;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -27,7 +27,7 @@ final class AuthorizationTokenManager implements AuthorizationTokenManagerInterf
     }
 
     #[Override]
-    public function checkUserPermission(Role $role, mixed $subject = null): void
+    public function checkUserPermission(AccountRole $role, mixed $subject = null): void
     {
         if ($this->tokenStorage->getToken()?->getUserIdentifier() === null) {
             throw AuthorizationRequiredException::create();

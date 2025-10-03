@@ -6,9 +6,9 @@ namespace App\Presentation\Controller\Account;
 
 use App\Application\MessageHandler\GetAccountById\GetAccountByIdRequest;
 use App\Domain\Account\AccountStatus;
+use App\Domain\Account\AccountRole;
 use App\Domain\Common\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
-use App\Domain\Security\Role;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,7 +77,7 @@ final class GetAccountByIdController extends AbstractController
                             type: 'array',
                             items: new OA\Items(
                                 type: 'string',
-                                enum: Role::class,
+                                enum: AccountRole::class,
                             ),
                         ),
                         new OA\Property(

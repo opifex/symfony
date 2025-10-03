@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Domain\Security\Role;
+use App\Domain\Account\AccountRole;
 use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\PasswordAuthenticatedUserChecker;
 use Override;
@@ -30,7 +30,7 @@ final class PasswordAuthenticatedUserCheckerTest extends TestCase
         $accountUser = new PasswordAuthenticatedUser(
             userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [Role::User],
+            roles: [AccountRole::User],
             enabled: false,
         );
 
@@ -53,7 +53,7 @@ final class PasswordAuthenticatedUserCheckerTest extends TestCase
         $accountUser = new PasswordAuthenticatedUser(
             userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
-            roles: [Role::User],
+            roles: [AccountRole::User],
             enabled: true,
         );
         $accountUserChecker->checkPostAuth($accountUser);

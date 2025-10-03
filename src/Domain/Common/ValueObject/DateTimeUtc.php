@@ -14,7 +14,7 @@ final class DateTimeUtc
 {
     private const string TIMEZONE = 'UTC';
 
-    final protected function __construct(
+    final private function __construct(
         private readonly DatePoint $datetime,
     ) {
     }

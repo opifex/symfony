@@ -4,23 +4,22 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
-use App\Domain\Security\Role;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
-class AccountRoles
+class AccountRoleSet
 {
     /**
-     * @param Role[] $roles
+     * @param AccountRole[] $roles
      */
-    final protected function __construct(
-        private readonly array $roles = [],
+    final private function __construct(
+        private readonly array $roles,
     ) {
     }
 
     public static function fromStrings(string ...$roles): self
     {
-        return new self(array_map([Role::class, 'fromString'], $roles));
+        return new self(array_map([AccountRole::class, 'fromString'], array_unique($roles)));
     }
 
     /**
@@ -28,6 +27,6 @@ class AccountRoles
      */
     public function toArray(): array
     {
-        return array_map(fn(Role $role) => $role->toString(), $this->roles);
+        return array_map(fn(AccountRole $role) => $role->toString(), $this->roles);
     }
 }
