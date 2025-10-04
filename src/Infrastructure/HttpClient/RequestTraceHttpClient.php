@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\HttpClient;
 
-use App\Application\Contract\RequestIdStorageInterface;
+use App\Application\Contract\RequestTraceManagerInterface;
 use App\Domain\Foundation\HttpSpecification;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
@@ -17,12 +17,12 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Service\ResetInterface;
 
 #[AsDecorator(HttpClientInterface::class)]
-final class RequestIdHttpClient implements HttpClientInterface, ResetInterface
+final class RequestTraceHttpClient implements HttpClientInterface, ResetInterface
 {
     use DecoratorTrait;
 
     public function __construct(
-        private readonly RequestIdStorageInterface $requestIdStorage,
+        private readonly RequestTraceManagerInterface $requestTraceManager,
 
         #[AutowireDecorated]
         ?HttpClientInterface $client = null,
@@ -37,11 +37,11 @@ final class RequestIdHttpClient implements HttpClientInterface, ResetInterface
     #[Override]
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
-        $requestId = $this->requestIdStorage->getRequestId();
         $options['headers'] ??= [];
 
-        if ($requestId !== null && is_array($options['headers'])) {
-            $options['headers'][HttpSpecification::HEADER_X_REQUEST_ID] = $requestId;
+        if (is_array($options['headers'])) {
+            $traceId = $this->requestTraceManager->getTraceId();
+            $options['headers'][HttpSpecification::HEADER_X_REQUEST_ID] = $traceId;
         }
 
         return $this->client->request($method, $url, $options);

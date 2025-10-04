@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Contract\RequestIdStorageInterface;
-use App\Infrastructure\Messenger\Middleware\RequestIdMiddleware;
-use App\Infrastructure\Messenger\Stamp\RequestIdStamp;
+use App\Application\Contract\RequestTraceManagerInterface;
+use App\Infrastructure\Messenger\Middleware\RequestTraceMiddleware;
+use App\Infrastructure\Messenger\Stamp\RequestTraceStamp;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -15,11 +15,11 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 
-final class RequestIdMiddlewareTest extends TestCase
+final class RequestTraceMiddlewareTest extends TestCase
 {
     private MiddlewareInterface&MockObject $middleware;
 
-    private RequestIdStorageInterface&MockObject $requestIdStorage;
+    private RequestTraceManagerInterface&MockObject $requestTraceManager;
 
     private StackInterface&MockObject $stack;
 
@@ -27,15 +27,15 @@ final class RequestIdMiddlewareTest extends TestCase
     protected function setUp(): void
     {
         $this->middleware = $this->createMock(type: MiddlewareInterface::class);
-        $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
+        $this->requestTraceManager = $this->createMock(type: RequestTraceManagerInterface::class);
         $this->stack = $this->createMock(type: StackInterface::class);
     }
 
     public function testHandleEnvelopeWithRequestIdStamp(): void
     {
-        $middleware = new RequestIdMiddleware($this->requestIdStorage);
-        $requestIdStamp = new RequestIdStamp(requestId: '00000000-0000-6000-8000-000000000000');
-        $envelope = new Envelope(new stdClass(), [$requestIdStamp]);
+        $requestTraceMiddleware = new RequestTraceMiddleware($this->requestTraceManager);
+        $requestTraceStamp = new RequestTraceStamp(traceId: '00000000-0000-6000-8000-000000000000');
+        $envelope = new Envelope(new stdClass(), [$requestTraceStamp]);
 
         $this->stack
             ->expects($this->once())
@@ -48,6 +48,6 @@ final class RequestIdMiddlewareTest extends TestCase
             ->with($envelope, $this->stack)
             ->willReturn($envelope);
 
-        $middleware->handle($envelope, $this->stack);
+        $requestTraceMiddleware->handle($envelope, $this->stack);
     }
 }

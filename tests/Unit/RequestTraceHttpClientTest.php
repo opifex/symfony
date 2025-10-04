@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Contract\RequestIdStorageInterface;
-use App\Infrastructure\HttpClient\RequestIdHttpClient;
+use App\Application\Contract\RequestTraceManagerInterface;
+use App\Infrastructure\HttpClient\RequestTraceHttpClient;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -13,11 +13,11 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-final class RequestIdHttpClientTest extends TestCase
+final class RequestTraceHttpClientTest extends TestCase
 {
     private HttpClientInterface&MockObject $httpClient;
 
-    private RequestIdStorageInterface&MockObject $requestIdStorage;
+    private RequestTraceManagerInterface&MockObject $requestTraceManager;
 
     private ResponseInterface&MockObject $response;
 
@@ -25,12 +25,12 @@ final class RequestIdHttpClientTest extends TestCase
     protected function setUp(): void
     {
         $this->httpClient = $this->createMock(type: HttpClientInterface::class);
-        $this->requestIdStorage = $this->createMock(type: RequestIdStorageInterface::class);
+        $this->requestTraceManager = $this->createMock(type: RequestTraceManagerInterface::class);
         $this->response = $this->createMock(type: ResponseInterface::class);
 
-        $this->requestIdStorage
+        $this->requestTraceManager
             ->expects($this->any())
-            ->method(constraint: 'getRequestId')
+            ->method(constraint: 'getTraceId')
             ->willReturn(value: '00000000-0000-6000-8000-000000000000');
     }
 
@@ -39,13 +39,16 @@ final class RequestIdHttpClientTest extends TestCase
      */
     public function testPassingRequestIdHeader(): void
     {
-        $requestIdHttpClient = new RequestIdHttpClient($this->requestIdStorage, $this->httpClient);
+        $requestTraceHttpClient = new RequestTraceHttpClient(
+            requestTraceManager: $this->requestTraceManager,
+            client: $this->httpClient,
+        );
 
         $this->httpClient
             ->expects($this->once())
             ->method(constraint: 'request')
             ->willReturn($this->response);
 
-        $requestIdHttpClient->request(method: 'GET', url: 'https://api.example.com');
+        $requestTraceHttpClient->request(method: 'GET', url: 'https://api.example.com');
     }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class ValidationMiddleware implements MiddlewareInterface
+final class MessageValidationMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private readonly ValidatorInterface $validator,

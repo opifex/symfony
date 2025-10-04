@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Infrastructure\Messenger\Middleware\RequestIdMiddleware;
-use App\Infrastructure\Messenger\Middleware\ValidationMiddleware;
+use App\Infrastructure\Messenger\Middleware\RequestTraceMiddleware;
+use App\Infrastructure\Messenger\Middleware\MessageValidationMiddleware;
 use Symfony\Component\Mailer\Messenger\SendEmailMessage;
 use Symfony\Component\RemoteEvent\Messenger\ConsumeRemoteEventMessage;
 use Symfony\Config\FrameworkConfig;
@@ -13,8 +13,8 @@ return static function (FrameworkConfig $framework): void {
     $framework->messenger()->failureTransport(value: 'failed');
 
     $framework->messenger()->bus(name: 'default.bus')
-        ->middleware(value: RequestIdMiddleware::class)
-        ->middleware(value: ValidationMiddleware::class)
+        ->middleware(value: RequestTraceMiddleware::class)
+        ->middleware(value: MessageValidationMiddleware::class)
         ->middleware(value: 'doctrine_close_connection')
         ->middleware(value: 'doctrine_ping_connection')
         ->middleware(value: 'doctrine_transaction');

@@ -8,15 +8,15 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Messenger\Stamp\StampInterface;
 
 #[Exclude]
-final class RequestIdStamp implements StampInterface
+final class RequestTraceStamp implements StampInterface
 {
     public function __construct(
-        private readonly string $requestId,
+        private readonly string $traceId,
     ) {
     }
 
-    public function getRequestId(): string
+    public function getTraceId(): string
     {
-        return $this->requestId;
+        return $this->traceId;
     }
 }
