@@ -25,8 +25,8 @@ return static function (ContainerConfigurator $configurator, MonologConfig $mono
     if ($configurator->env() === 'test') {
         $monolog->handler('nested')
             ->type(value: 'stream')
-            ->path(value: '%kernel.logs_dir%/%kernel.environment%.log')
-            ->level(value: 'debug');
+            ->level(value: 'debug')
+            ->path(value: '%kernel.logs_dir%/%kernel.environment%.log');
 
         $mainHandler = $monolog->handler(name: 'main')
             ->type(value: 'fingers_crossed')
