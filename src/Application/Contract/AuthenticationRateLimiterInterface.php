@@ -6,5 +6,5 @@ namespace App\Application\Contract;
 
 interface AuthenticationRateLimiterInterface
 {
-    public function isAccepted(string $emailAddress): bool;
+    public function isAccepted(string $key): bool;
 }

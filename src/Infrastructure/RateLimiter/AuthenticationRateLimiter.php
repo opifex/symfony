@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Infrastructure\RateLimiter;
 
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use Override;
@@ -16,8 +16,8 @@ final class AuthenticationRateLimiter implements AuthenticationRateLimiterInterf
     }
 
     #[Override]
-    public function isAccepted(string $emailAddress): bool
+    public function isAccepted(string $key): bool
     {
-        return $this->authenticationLimiter->create($emailAddress)->consume()->isAccepted();
+        return $this->authenticationLimiter->create($key)->consume()->isAccepted();
     }
 }

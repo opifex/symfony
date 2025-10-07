@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Service\AuthenticationRateLimiter;
+use App\Infrastructure\RateLimiter\AuthenticationRateLimiter;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -42,7 +42,7 @@ final class AuthenticationRateLimiterTest extends TestCase
             ->willReturn($limiter);
 
         $isAccepted = $authenticationRateLimiter->isAccepted(
-            emailAddress: 'admin@example.com',
+            key: 'admin@example.com',
         );
 
         $this->assertTrue($isAccepted);
