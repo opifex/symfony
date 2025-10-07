@@ -8,7 +8,7 @@ use App\Application\Contract\AuthenticationPasswordHasherInterface;
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Account\Account;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Account\Contract\AccountWorkflowManagerInterface;
+use App\Domain\Account\Contract\AccountStateMachineInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\AccountRole;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -18,7 +18,7 @@ final class CreateNewAccountHandler
 {
     public function __construct(
         private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AccountWorkflowManagerInterface $accountWorkflowManager,
+        private readonly AccountStateMachineInterface $accountStateMachine,
         private readonly AuthenticationPasswordHasherInterface $authenticationPasswordHasher,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
     ) {
@@ -35,8 +35,8 @@ final class CreateNewAccountHandler
         $hashedPassword = $this->authenticationPasswordHasher->hash($request->password);
         $account = Account::create($request->email, $hashedPassword, $request->locale);
 
-        $this->accountWorkflowManager->register($account);
-        $this->accountWorkflowManager->activate($account);
+        $this->accountStateMachine->register($account);
+        $this->accountStateMachine->activate($account);
         $this->accountEntityRepository->save($account);
 
         return CreateNewAccountResult::success($account);

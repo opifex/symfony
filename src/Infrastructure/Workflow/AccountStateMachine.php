@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Infrastructure\Workflow;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountAction;
-use App\Domain\Account\Contract\AccountWorkflowManagerInterface;
+use App\Domain\Account\Contract\AccountStateMachineInterface;
 use App\Domain\Account\Exception\AccountInvalidActionException;
 use Override;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-final class AccountWorkflowManager implements AccountWorkflowManagerInterface
+final class AccountStateMachine implements AccountStateMachineInterface
 {
     public function __construct(
         private readonly WorkflowInterface $accountStateMachine,
@@ -21,28 +21,28 @@ final class AccountWorkflowManager implements AccountWorkflowManagerInterface
     #[Override]
     public function activate(Account $account): void
     {
-        $this->apply($account, action: AccountAction::Activate);
+        $this->applyTransition($account, action: AccountAction::Activate);
     }
 
     #[Override]
     public function block(Account $account): void
     {
-        $this->apply($account, action: AccountAction::Block);
+        $this->applyTransition($account, action: AccountAction::Block);
     }
 
     #[Override]
     public function register(Account $account): void
     {
-        $this->apply($account, action: AccountAction::Register);
+        $this->applyTransition($account, action: AccountAction::Register);
     }
 
     #[Override]
     public function unblock(Account $account): void
     {
-        $this->apply($account, action: AccountAction::Unblock);
+        $this->applyTransition($account, action: AccountAction::Unblock);
     }
 
-    private function apply(Account $account, AccountAction $action): void
+    private function applyTransition(Account $account, AccountAction $action): void
     {
         if (!$this->accountStateMachine->can($account, $action->toString())) {
             throw AccountInvalidActionException::create();
