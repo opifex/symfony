@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\CreateNewAccount;
 
-use App\Application\Contract\AuthenticationPasswordHasherInterface;
+use App\Application\Contract\UserPasswordHasherInterface;
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Account\Account;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
@@ -19,8 +19,8 @@ final class CreateNewAccountHandler
     public function __construct(
         private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AccountStateMachineInterface $accountStateMachine,
-        private readonly AuthenticationPasswordHasherInterface $authenticationPasswordHasher,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
@@ -32,7 +32,7 @@ final class CreateNewAccountHandler
             throw AccountAlreadyExistsException::create();
         }
 
-        $hashedPassword = $this->authenticationPasswordHasher->hash($request->password);
+        $hashedPassword = $this->userPasswordHasher->hash($request->password);
         $account = Account::create($request->email, $hashedPassword, $request->locale);
 
         $this->accountStateMachine->register($account);

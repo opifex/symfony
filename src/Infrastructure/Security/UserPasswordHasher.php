@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Infrastructure\Security;
 
-use App\Application\Contract\AuthenticationPasswordHasherInterface;
+use App\Application\Contract\UserPasswordHasherInterface;
 use Override;
 use SensitiveParameter;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-final class AuthenticationPasswordHasher implements AuthenticationPasswordHasherInterface
+final class UserPasswordHasher implements UserPasswordHasherInterface
 {
     public function __construct(
         private readonly PasswordHasherFactoryInterface $passwordHasherFactory,

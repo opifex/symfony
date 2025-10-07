@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\UpdateAccountById;
 
-use App\Application\Contract\AuthenticationPasswordHasherInterface;
+use App\Application\Contract\UserPasswordHasherInterface;
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
@@ -20,8 +20,8 @@ final class UpdateAccountByIdHandler
 {
     public function __construct(
         private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AuthenticationPasswordHasherInterface $authenticationPasswordHasher,
         private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
@@ -43,7 +43,7 @@ final class UpdateAccountByIdHandler
         }
 
         if ($request->password !== null) {
-            $passwordHash = $this->authenticationPasswordHasher->hash($request->password);
+            $passwordHash = $this->userPasswordHasher->hash($request->password);
             $account->changePassword(HashedPassword::fromString($passwordHash));
         }
 
