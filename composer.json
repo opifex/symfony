@@ -18,7 +18,7 @@
         "ext-xsl": "*",
         "ext-zend-opcache": "*",
         "ext-zip": "*",
-        "doctrine/doctrine-bundle": "^2.16",
+        "doctrine/doctrine-bundle": "^2.17",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.5",
         "dragonmantank/cron-expression": "^3.4",
@@ -161,7 +161,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.1",
         "fakerphp/faker": "^1.24",
-        "opis/json-schema": "^2.4",
+        "opis/json-schema": "^2.5",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-doctrine": "^2.0",

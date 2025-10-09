@@ -48,7 +48,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder->setFirstResult($criteria->getPagination()?->getOffset());
         $builder->setMaxResults($criteria->getPagination()?->getLimit());
 
-        $paginator = new Paginator($builder);
+        $paginator = new Paginator($builder, fetchJoinCollection: false);
         /** @var Traversable<int, AccountEntity> $iterator */
         $iterator = $paginator->getIterator();
 
