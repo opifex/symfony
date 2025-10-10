@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Security;
+namespace App\Infrastructure\Security\AuthenticatedUser;
 
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;

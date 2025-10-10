@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Security;
+namespace App\Infrastructure\Security\AccessTokenHandler;
 
 use App\Application\Contract\JwtAccessTokenManagerInterface;
+use App\Infrastructure\Security\AuthenticatedUser\TokenAuthenticatedUser;
 use Override;
 use SensitiveParameter;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;

@@ -6,16 +6,16 @@ namespace Tests\Unit;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
+use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountRoleSet;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Account\AccountRole;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\HashedPassword;
 use App\Domain\Localization\LocaleCode;
+use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\DatabaseUserProvider;
-use App\Infrastructure\Security\PasswordAuthenticatedUser;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

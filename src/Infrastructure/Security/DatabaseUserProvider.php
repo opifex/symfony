@@ -6,6 +6,7 @@ namespace App\Infrastructure\Security;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;

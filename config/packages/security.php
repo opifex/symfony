@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use App\Domain\Account\AccountRole;
+use App\Infrastructure\Security\AccessTokenHandler\JwtAccessTokenHandler;
+use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUserChecker;
 use App\Infrastructure\Security\DatabaseUserProvider;
-use App\Infrastructure\Security\JsonLoginAuthenticator;
-use App\Infrastructure\Security\JwtAccessTokenHandler;
-use App\Infrastructure\Security\PasswordAuthenticatedUserChecker;
+use App\Infrastructure\Security\LoginAuthenticator\JsonLoginAuthenticator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Config\SecurityConfig;
