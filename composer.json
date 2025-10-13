@@ -18,8 +18,8 @@
         "ext-xsl": "*",
         "ext-zend-opcache": "*",
         "ext-zip": "*",
-        "doctrine/doctrine-bundle": "^2.17",
-        "doctrine/doctrine-migrations-bundle": "^3.4",
+        "doctrine/doctrine-bundle": "^2.18",
+        "doctrine/doctrine-migrations-bundle": "^3.5",
         "doctrine/orm": "^3.5",
         "dragonmantank/cron-expression": "^3.4",
         "lcobucci/jwt": "^5.5",
@@ -159,7 +159,7 @@
         }
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^4.1",
+        "doctrine/doctrine-fixtures-bundle": "^4.2",
         "fakerphp/faker": "^1.24",
         "opis/json-schema": "^2.5",
         "phpstan/phpstan": "^2.1",
