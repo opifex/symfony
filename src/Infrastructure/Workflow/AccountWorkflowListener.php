@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\EventListener;
+namespace App\Infrastructure\Workflow;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountAction;
@@ -12,7 +12,7 @@ use Symfony\Component\Workflow\Attribute\AsCompletedListener;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Symfony\Component\Workflow\Exception\InvalidArgumentException;
 
-final class AccountWorkflowEventListener
+final class AccountWorkflowListener
 {
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
