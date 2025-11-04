@@ -20,7 +20,7 @@ final class AccountWorkflowListener
     }
 
     #[AsCompletedListener(workflow: 'account', transition: AccountAction::Register->value)]
-    public function onWorkflowAccountCompletedRegister(CompletedEvent $event): void
+    public function onRegisterCompleted(CompletedEvent $event): void
     {
         $account = $event->getSubject();
 

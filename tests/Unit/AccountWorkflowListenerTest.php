@@ -24,7 +24,7 @@ final class AccountWorkflowListenerTest extends TestCase
         $this->eventDispatcher = $this->createMock(type: EventDispatcherInterface::class);
     }
 
-    public function testOnWorkflowAccountCompletedRegister(): void
+    public function testOnRegisterCompleted(): void
     {
         $accountWorkflowListener = new AccountWorkflowListener(
             eventDispatcher: $this->eventDispatcher,
@@ -32,7 +32,7 @@ final class AccountWorkflowListenerTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        $accountWorkflowListener->onWorkflowAccountCompletedRegister(
+        $accountWorkflowListener->onRegisterCompleted(
             event: new CompletedEvent(new stdClass(), new Marking()),
         );
     }
