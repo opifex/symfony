@@ -34,6 +34,7 @@
         "symfony/framework-bundle": "7.3.*",
         "symfony/http-client": "7.3.*",
         "symfony/intl": "7.3.*",
+        "symfony/lock": "7.3.*",
         "symfony/mailer": "7.3.*",
         "symfony/messenger": "7.3.*",
         "symfony/monolog-bundle": "^3.10",
@@ -52,10 +53,10 @@
         "symfony/webhook": "7.3.*",
         "symfony/workflow": "7.3.*",
         "symfony/yaml": "7.3.*",
-        "twig/cssinliner-extra": "^3.21",
-        "twig/extra-bundle": "^3.21",
-        "twig/inky-extra": "^3.21",
-        "twig/twig": "^3.21"
+        "twig/cssinliner-extra": "^3.22",
+        "twig/extra-bundle": "^3.22",
+        "twig/inky-extra": "^3.22",
+        "twig/twig": "^3.22"
     },
     "config": {
         "allow-plugins": {
