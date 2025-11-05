@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\EventListener;
+namespace App\Infrastructure\HttpKernel\EventListener;
 
 use App\Application\Contract\PrivacyDataProtectorInterface;
 use Psr\Log\LoggerInterface;
@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExcep
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsEventListener(event: ExceptionEvent::class)]
-final class KernelExceptionEventListener
+final class ExceptionEventListener
 {
     public function __construct(
         private readonly LoggerInterface $logger,
