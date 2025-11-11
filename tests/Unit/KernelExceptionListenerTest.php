@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\Contract\PrivacyDataProtectorInterface;
-use App\Infrastructure\HttpKernel\EventListener\ExceptionEventListener;
+use App\Infrastructure\HttpKernel\EventListener\KernelExceptionListener;
 use LogicException;
 use Override;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class ExceptionEventListenerTest extends TestCase
+final class KernelExceptionListenerTest extends TestCase
 {
     private KernelInterface&MockObject $kernel;
 
@@ -51,7 +51,7 @@ final class ExceptionEventListenerTest extends TestCase
             e: new LogicException(),
         );
 
-        new ExceptionEventListener($this->logger, $this->normalizer, $this->privacyDataProtector)($event);
+        new KernelExceptionListener($this->logger, $this->normalizer, $this->privacyDataProtector)($event);
 
         $this->expectNotToPerformAssertions();
     }

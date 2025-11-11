@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Application\EventListener;
+namespace App\Infrastructure\HttpKernel\EventListener;
 
 use App\Application\Contract\RequestTraceManagerInterface;
 use App\Domain\Foundation\HttpSpecification;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
-final class RequestTraceEventListener
+final class ResponseTraceListener
 {
     public function __construct(
         private readonly RequestTraceManagerInterface $requestTraceManager,

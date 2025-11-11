@@ -11,7 +11,7 @@ use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AccountNotificationEventListener
+final class AccountNotificationListener
 {
     public function __construct(
         private readonly NotifierInterface $notifier,
