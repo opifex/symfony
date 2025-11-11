@@ -1,4 +1,4 @@
-FROM composer:2.8.12 AS composer
+FROM composer:2.9 AS composer
 # set working directory
 WORKDIR /tmp
 # copy composer files
@@ -16,7 +16,7 @@ RUN set -e \
     && apk add --update ca-certificates git linux-headers nginx p7zip runuser supervisor unzip \
     && apk add --update icu-dev libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev rabbitmq-c-dev zlib-dev \
     && apk add --virtual .build-deps $PHPIZE_DEPS \
-    && pecl install amqp-2.1.2 apcu-5.1.27 redis-6.2.0 xdebug-3.4.5 \
+    && pecl install amqp-2.1.2 apcu-5.1.27 redis-6.3.0 xdebug-3.4.7 \
     && docker-php-ext-install gd intl opcache pcntl pdo_pgsql xsl zip \
     && docker-php-ext-enable amqp apcu redis xsl \
     && pecl clear-cache && apk del .build-deps \
