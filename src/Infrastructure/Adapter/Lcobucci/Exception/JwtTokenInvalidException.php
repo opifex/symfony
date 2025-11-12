@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Exception;
+namespace App\Infrastructure\Adapter\Lcobucci\Exception;
 
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Exception;
+namespace App\Infrastructure\Adapter\Lcobucci\Exception;
 
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
@@ -12,10 +12,10 @@ use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_INTERNAL_SERVER_ERROR)]
-class HttpbinRequestFailedException extends RuntimeException
+class JwtConfigurationFailedException extends RuntimeException
 {
-    public static function fromException(Throwable $previous): self
+    public static function tokenSignerIsNotConfigured(?Throwable $previous = null): self
     {
-        return new self(message: 'Httpbin responder encountered an exception.', previous: $previous);
+        return new self(message: 'Authorization token signer is not configured.', previous: $previous);
     }
 }

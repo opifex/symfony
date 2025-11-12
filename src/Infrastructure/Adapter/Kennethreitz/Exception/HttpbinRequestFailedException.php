@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Exception;
+namespace App\Infrastructure\Adapter\Kennethreitz\Exception;
 
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
@@ -12,10 +12,10 @@ use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_INTERNAL_SERVER_ERROR)]
-class TwigRenderingFailedException extends RuntimeException
+class HttpbinRequestFailedException extends RuntimeException
 {
     public static function fromException(Throwable $previous): self
     {
-        return new self(message: 'Template renderer encountered an exception.', previous: $previous);
+        return new self(message: 'Httpbin responder encountered an exception.', previous: $previous);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter\Kennethreitz;
 
 use App\Application\Contract\HttpbinResponseProviderInterface;
-use App\Application\Exception\HttpbinRequestFailedException;
+use App\Infrastructure\Adapter\Kennethreitz\Exception\HttpbinRequestFailedException;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter\Sensiolabs;
 
 use App\Application\Contract\TwigTemplateRendererInterface;
-use App\Application\Exception\TwigRenderingFailedException;
+use App\Infrastructure\Adapter\Sensiolabs\Exception\TwigRenderingFailedException;
 use Override;
 use Twig\Environment;
 use Twig\Error\Error;

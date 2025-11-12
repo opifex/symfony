@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter\Lcobucci;
 
 use App\Application\Contract\JwtAccessTokenManagerInterface;
-use App\Application\Exception\JwtConfigurationFailedException;
-use App\Application\Exception\JwtTokenInvalidException;
 use App\Domain\Foundation\AuthorizationToken;
+use App\Infrastructure\Adapter\Lcobucci\Exception\JwtConfigurationFailedException;
+use App\Infrastructure\Adapter\Lcobucci\Exception\JwtTokenInvalidException;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use Lcobucci\JWT\Configuration;
