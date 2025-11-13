@@ -6,8 +6,8 @@ namespace App\Infrastructure\Adapter\Lcobucci;
 
 use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Domain\Foundation\AuthorizationToken;
-use App\Infrastructure\Adapter\Lcobucci\Exception\JwtConfigurationFailedException;
-use App\Infrastructure\Adapter\Lcobucci\Exception\JwtTokenInvalidException;
+use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidConfigurationException;
+use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidTokenException;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use Lcobucci\JWT\Configuration;
@@ -71,13 +71,13 @@ final class JwtAccessTokenManager implements JwtAccessTokenManagerInterface
             /** @var Plain $token */
             $token = $jsonWebToken->parser()->parse($accessToken);
         } catch (CannotDecodeContent $e) {
-            throw JwtTokenInvalidException::errorWhileDecodingToken($e);
+            throw InvalidTokenException::errorWhileDecodingToken($e);
         } catch (InvalidTokenStructure $e) {
-            throw JwtTokenInvalidException::tokenHaveInvalidStructure($e);
+            throw InvalidTokenException::tokenHaveInvalidStructure($e);
         }
 
         if (!$jsonWebToken->validator()->validate($token, ...$jsonWebToken->validationConstraints())) {
-            throw JwtTokenInvalidException::tokenIsInvalidOrExpired();
+            throw InvalidTokenException::tokenIsInvalidOrExpired();
         }
 
         return $this->getAuthorizationToken($token);
@@ -105,7 +105,7 @@ final class JwtAccessTokenManager implements JwtAccessTokenManagerInterface
         try {
             return $builder->getToken($jsonWebToken->signer(), $jsonWebToken->signingKey())->toString();
         } catch (InvalidKeyProvided $e) {
-            throw JwtConfigurationFailedException::tokenSignerIsNotConfigured($e);
+            throw InvalidConfigurationException::tokenSignerIsNotConfigured($e);
         }
     }
 
@@ -139,7 +139,7 @@ final class JwtAccessTokenManager implements JwtAccessTokenManagerInterface
     private function getJwtConfiguration(): Configuration
     {
         if ($this->passphrase === '' || $this->signingKey === '' || $this->verificationKey === '') {
-            throw JwtConfigurationFailedException::tokenSignerIsNotConfigured();
+            throw InvalidConfigurationException::tokenSignerIsNotConfigured();
         }
 
         $config = match (true) {

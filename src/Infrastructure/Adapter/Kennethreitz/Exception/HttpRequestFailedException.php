@@ -12,7 +12,7 @@ use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_INTERNAL_SERVER_ERROR)]
-class HttpbinRequestFailedException extends RuntimeException
+class HttpRequestFailedException extends RuntimeException
 {
     public static function fromException(Throwable $previous): self
     {

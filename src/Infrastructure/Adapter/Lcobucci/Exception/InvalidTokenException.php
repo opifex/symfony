@@ -12,7 +12,7 @@ use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_FORBIDDEN)]
-class JwtTokenInvalidException extends RuntimeException
+class InvalidTokenException extends RuntimeException
 {
     public static function errorWhileDecodingToken(?Throwable $previous = null): self
     {

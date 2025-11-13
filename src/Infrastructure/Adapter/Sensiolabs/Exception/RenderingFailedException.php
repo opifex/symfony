@@ -12,7 +12,7 @@ use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_INTERNAL_SERVER_ERROR)]
-class TwigRenderingFailedException extends RuntimeException
+class RenderingFailedException extends RuntimeException
 {
     public static function fromException(Throwable $previous): self
     {

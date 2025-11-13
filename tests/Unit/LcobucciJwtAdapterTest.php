@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Account\AccountRole;
-use App\Infrastructure\Adapter\Lcobucci\Exception\JwtConfigurationFailedException;
-use App\Infrastructure\Adapter\Lcobucci\Exception\JwtTokenInvalidException;
+use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidConfigurationException;
+use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidTokenException;
 use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenManager;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -115,7 +115,7 @@ final class LcobucciJwtAdapterTest extends TestCase
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtConfigurationFailedException::class);
+        $this->expectException(InvalidConfigurationException::class);
 
         $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
@@ -154,7 +154,7 @@ final class LcobucciJwtAdapterTest extends TestCase
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtConfigurationFailedException::class);
+        $this->expectException(InvalidConfigurationException::class);
 
         $lcobucciJwtAdapter->createAccessToken(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
@@ -163,7 +163,6 @@ final class LcobucciJwtAdapterTest extends TestCase
     }
 
     /**
-     * @throws JwtTokenInvalidException
      * @throws Exception
      */
     public function testDecodeAccessTokenThrowsExceptionWithExpiredToken(): void
@@ -180,14 +179,11 @@ final class LcobucciJwtAdapterTest extends TestCase
             userRoles: [AccountRole::User->toString()],
         );
 
-        $this->expectException(JwtTokenInvalidException::class);
+        $this->expectException(InvalidTokenException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken($tokenString);
     }
 
-    /**
-     * @throws JwtTokenInvalidException
-     */
     public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenContent(): void
     {
         $lcobucciJwtAdapter = new JwtAccessTokenManager(
@@ -200,14 +196,11 @@ final class LcobucciJwtAdapterTest extends TestCase
         $tokenString = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $tokenString .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
-        $this->expectException(JwtTokenInvalidException::class);
+        $this->expectException(InvalidTokenException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken($tokenString);
     }
 
-    /**
-     * @throws JwtTokenInvalidException
-     */
     public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenStructure(): void
     {
         $lcobucciJwtAdapter = new JwtAccessTokenManager(
@@ -217,7 +210,7 @@ final class LcobucciJwtAdapterTest extends TestCase
             clock: new MockClock(),
         );
 
-        $this->expectException(JwtTokenInvalidException::class);
+        $this->expectException(InvalidTokenException::class);
 
         $lcobucciJwtAdapter->decodeAccessToken(accessToken: 'invalid');
     }

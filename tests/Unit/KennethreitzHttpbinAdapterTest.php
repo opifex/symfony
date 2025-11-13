@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Infrastructure\Adapter\Kennethreitz\Exception\HttpbinRequestFailedException;
+use App\Infrastructure\Adapter\Kennethreitz\Exception\HttpRequestFailedException;
 use App\Infrastructure\Adapter\Kennethreitz\HttpbinResponseProvider;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +35,7 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
         $mockHttpClient = new MockHttpClient($mockResponse);
         $kennethreitzHttpbinAdapter = new HttpbinResponseProvider($apiUrl, $mockHttpClient);
 
-        $this->expectException(HttpbinRequestFailedException::class);
+        $this->expectException(HttpRequestFailedException::class);
 
         $kennethreitzHttpbinAdapter->getJson();
     }

@@ -12,7 +12,7 @@ use Throwable;
 
 #[Exclude]
 #[WithHttpStatus(statusCode: Response::HTTP_INTERNAL_SERVER_ERROR)]
-class JwtConfigurationFailedException extends RuntimeException
+class InvalidConfigurationException extends RuntimeException
 {
     public static function tokenSignerIsNotConfigured(?Throwable $previous = null): self
     {

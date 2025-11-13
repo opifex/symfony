@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter\Kennethreitz;
 
 use App\Application\Contract\HttpbinResponseProviderInterface;
-use App\Infrastructure\Adapter\Kennethreitz\Exception\HttpbinRequestFailedException;
+use App\Infrastructure\Adapter\Kennethreitz\Exception\HttpRequestFailedException;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
@@ -33,7 +33,7 @@ final class HttpbinResponseProvider implements HttpbinResponseProviderInterface
                 ],
             ])->request(method: 'GET', url: 'json')->toArray();
         } catch (ExceptionInterface $e) {
-            throw HttpbinRequestFailedException::fromException($e);
+            throw HttpRequestFailedException::fromException($e);
         }
     }
 }
