@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
 #[ORM\Entity]
-#[ORM\Table(name: 'account', uniqueConstraints: [new ORM\UniqueConstraint(columns: ['email'])])]
+#[ORM\Table(name: 'account')]
 class AccountEntity
 {
     public function __construct(
