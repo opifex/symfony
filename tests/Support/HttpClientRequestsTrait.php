@@ -16,7 +16,7 @@ trait HttpClientRequestsTrait
 
     public static function assertResponseSchema(string $schema): void
     {
-        $schemaObject = json_decode(file_get_contents(__DIR__ . '/../Support/Schema/' . $schema));
+        $schemaObject = json_decode(file_get_contents(filename: __DIR__ . '/../Support/Schema/' . $schema));
         $responseObject = json_decode(self::getClient()->getResponse()->getContent());
 
         self::assertTrue(new Validator()->validate($responseObject, $schemaObject)->isValid());
@@ -30,10 +30,9 @@ trait HttpClientRequestsTrait
     public static function sendAuthorizationRequest(string $email, string $password): void
     {
         self::sendPostRequest(url: '/api/auth/signin', params: ['email' => $email, 'password' => $password]);
-        self::getClient()->setServerParameter(
-            key: 'HTTP_AUTHORIZATION',
-            value: 'Bearer ' . json_decode(self::getClient()->getResponse()->getContent(), true)['access_token'] ?? '',
-        );
+        $jsonResponse = json_decode(self::getClient()->getResponse()->getContent(), associative: true);
+        $httpAuthorization = 'Bearer ' . ($jsonResponse['access_token'] ?? '');
+        self::getClient()->setServerParameter(key: 'HTTP_AUTHORIZATION', value: $httpAuthorization);
     }
 
     public static function sendGetRequest(string $url, array $params = [], array $server = []): void
