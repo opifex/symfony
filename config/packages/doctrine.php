@@ -15,9 +15,7 @@ return static function (ContainerConfigurator $configurator, DoctrineConfig $doc
         $defaultConnection->dbnameSuffix(value: '_test%env(default::TEST_TOKEN)%');
     }
 
-    $doctrine->orm()->autoGenerateProxyClasses(value: true);
     $doctrine->orm()->defaultEntityManager(value: 'default');
-    $doctrine->orm()->enableLazyGhostObjects(value: true);
 
     $defaultEntityManager = $doctrine->orm()->entityManager(name: 'default')
         ->connection(value: 'default')
@@ -29,8 +27,6 @@ return static function (ContainerConfigurator $configurator, DoctrineConfig $doc
         ->type(value: 'attribute');
 
     if ($configurator->env() === 'prod') {
-        $doctrine->orm()->autoGenerateProxyClasses(value: false);
-
         $defaultEntityManager->metadataCacheDriver()->type(value: 'pool')->pool(value: 'cache.doctrine');
         $defaultEntityManager->queryCacheDriver()->type(value: 'pool')->pool(value: 'cache.doctrine');
         $defaultEntityManager->resultCacheDriver()->type(value: 'pool')->pool(value: 'cache.doctrine');
