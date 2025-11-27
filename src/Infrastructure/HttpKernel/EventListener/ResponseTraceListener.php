@@ -24,7 +24,7 @@ final class ResponseTraceListener
         }
 
         $event->getResponse()->headers->set(
-            key: HttpSpecification::HEADER_X_REQUEST_ID,
+            key: HttpSpecification::HEADER_X_CORRELATION_ID,
             values: $this->requestTraceManager->getTraceId(),
         );
     }

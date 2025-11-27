@@ -41,7 +41,7 @@ final class RequestTraceHttpClient implements HttpClientInterface, ResetInterfac
 
         if (is_array($options['headers'])) {
             $traceId = $this->requestTraceManager->getTraceId();
-            $options['headers'][HttpSpecification::HEADER_X_REQUEST_ID] = $traceId;
+            $options['headers'][HttpSpecification::HEADER_X_CORRELATION_ID] = $traceId;
         }
 
         return $this->client->request($method, $url, $options);

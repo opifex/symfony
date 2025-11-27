@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 class HttpSpecification
 {
     /** Custom HTTP headers */
-    public const string HEADER_X_REQUEST_ID = 'X-Request-Id';
+    public const string HEADER_X_CORRELATION_ID = 'X-Correlation-Id';
     /** Standard HTTP status reasons */
     public const string STATUS_BAD_REQUEST = 'Bad Request';
     public const string STATUS_CONFLICT = 'Conflict';

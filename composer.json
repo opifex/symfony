@@ -37,7 +37,7 @@
         "symfony/lock": "7.3.*",
         "symfony/mailer": "7.3.*",
         "symfony/messenger": "7.3.*",
-        "symfony/monolog-bundle": "^3.10",
+        "symfony/monolog-bundle": "^3.11",
         "symfony/notifier": "7.3.*",
         "symfony/property-access": "7.3.*",
         "symfony/rate-limiter": "7.3.*",
