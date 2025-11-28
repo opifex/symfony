@@ -2,14 +2,22 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\App;
 
-return static function (ContainerConfigurator $configurator, FrameworkConfig $framework): void {
-    $framework->router()->defaultUri(value: '%env(resolve:APP_URL)%');
-    $framework->router()->utf8(value: true);
-
-    if ($configurator->env() === 'prod') {
-        $framework->router()->strictRequirements(value: null);
-    }
-};
+return App::config([
+    'framework' => [
+        'router' => [
+            'enabled' => true,
+            'default_uri' => '%env(resolve:APP_URL)%',
+            'utf8' => true,
+        ],
+    ],
+    'when@prod' => [
+        'framework' => [
+            'router' => [
+                'enabled' => true,
+                'strict_requirements' => null,
+            ],
+        ],
+    ],
+]);

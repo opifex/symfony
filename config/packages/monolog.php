@@ -2,55 +2,75 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Config\MonologConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\App;
 
-return static function (ContainerConfigurator $configurator, MonologConfig $monolog): void {
-    if ($configurator->env() === 'dev') {
-        $nestedHandler = $monolog->handler(name: 'nested')
-            ->type(value: 'stream')
-            ->level(value: 'debug')
-            ->path(value: 'php://stdout')
-            ->formatter(value: 'monolog.formatter.json');
-        $nestedHandler->channels()->elements([
-            '!console',
-            '!deprecation',
-            '!doctrine',
-            '!event',
-            '!http_client',
-            '!php',
-        ]);
-    }
-
-    if ($configurator->env() === 'test') {
-        $monolog->handler('nested')
-            ->type(value: 'stream')
-            ->level(value: 'debug')
-            ->path(value: '%kernel.logs_dir%/%kernel.environment%.log');
-
-        $mainHandler = $monolog->handler(name: 'main')
-            ->type(value: 'fingers_crossed')
-            ->actionLevel(value: 'error')
-            ->handler('nested');
-        $mainHandler->excludedHttpCode()->code(value: 404);
-        $mainHandler->excludedHttpCode()->code(value: 405);
-        $mainHandler->channels()->elements([
-            '!event',
-        ]);
-    }
-
-    if ($configurator->env() === 'prod') {
-        $nestedHandler = $monolog->handler(name: 'nested')
-            ->type(value: 'stream')
-            ->level(value: 'info')
-            ->path(value: 'php://stdout')
-            ->formatter(value: 'monolog.formatter.json');
-        $nestedHandler->channels()->elements([
-            '!deprecation',
-            '!doctrine',
-            '!event',
-            '!php',
-            '!security',
-        ]);
-    }
-};
+// todo: validate configuration
+return App::config([
+    'when@dev' => [
+        'monolog' => [
+            'handlers' => [
+                [
+                    'name' => 'nested',
+                    'type' => 'stream',
+                    'level' => 'debug',
+                    'path' => 'php://stdout',
+                    'formatter' => 'monolog.formatter.json',
+                    'channels' => [
+                        '!console',
+                        '!deprecation',
+                        '!doctrine',
+                        '!event',
+                        '!http_client',
+                        '!php',
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'when@test' => [
+        'monolog' => [
+            'handlers' => [
+                [
+                    'name' => 'nested',
+                    'type' => 'stream',
+                    'level' => 'debug',
+                    'path' => '%kernel.logs_dir%/%kernel.environment%.log',
+                ],
+                [
+                    'name' => 'main',
+                    'type' => 'fingers_crossed',
+                    'action_level' => 'error',
+                    'handler' => 'nested',
+                    // 'excluded_http_codes' => [
+                    //     ['code' => 404],
+                    //     ['code' => 405],
+                    // ],
+                    // 'excluded_http_codes' => [404, 405],
+                    // 'channels' => [
+                    //     '!event',
+                    // ]
+                ],
+            ],
+        ],
+    ],
+    'when@prod' => [
+        'monolog' => [
+            'handlers' => [
+                [
+                    'name' => 'nested',
+                    'type' => 'stream',
+                    'level' => 'info',
+                    'path' => 'php://stdout',
+                    'formatter' => 'monolog.formatter.json',
+                    'channels' => [
+                        '!deprecation',
+                        '!doctrine',
+                        '!event',
+                        '!php',
+                        '!security',
+                    ],
+                ],
+            ],
+        ],
+    ],
+]);

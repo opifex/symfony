@@ -2,21 +2,31 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\App;
 
-return static function (ContainerConfigurator $configurator, FrameworkConfig $framework): void {
-    $framework->secret(value: '%env(APP_SECRET)%');
-    $framework->trustedProxies(value: '%env(TRUSTED_PROXIES)%');
-    $framework->handleAllThrowables(value: true);
-    $framework->httpMethodOverride(value: false);
-    $framework->setLocaleFromAcceptLanguage(value: true);
-    $framework->setContentLanguageFromLocale(value: true);
-    $framework->serializer()->nameConverter(value: 'serializer.name_converter.camel_case_to_snake_case');
-    $framework->phpErrors()->log();
-
-    if ($configurator->env() === 'test') {
-        $framework->test(value: true);
-        $framework->session()->storageFactoryId(value: 'session.storage.factory.mock_file');
-    }
-};
+return App::config([
+    'framework' => [
+        'secret' => '%env(APP_SECRET)%',
+        'trusted_proxies' => '%env(TRUSTED_PROXIES)%',
+        'handle_all_throwables' => true,
+        'http_method_override' => false,
+        'set_locale_from_accept_language' => true,
+        'set_content_language_from_locale' => true,
+        'serializer' => [
+            'enabled' => true,
+            'name_converter' => 'serializer.name_converter.camel_case_to_snake_case',
+        ],
+        'php_errors' => [
+            'log' => true,
+        ],
+    ],
+    'when@test' => [
+        'framework' => [
+            'test' => true,
+            'session' => [
+                'enabled' => true,
+                'storage_factory_id' => 'session.storage.factory.mock_file',
+            ],
+        ],
+    ],
+]);

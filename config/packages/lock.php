@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\App;
 
-return static function (FrameworkConfig $framework): void {
-    $framework->lock(value: '%env(LOCK_DSN)%');
-};
+return App::config([
+    'framework' => [
+        'lock' => '%env(LOCK_DSN)%',
+    ],
+]);

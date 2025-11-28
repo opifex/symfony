@@ -2,12 +2,21 @@
 
 declare(strict_types=1);
 
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\App;
 
-return static function (FrameworkConfig $framework): void {
-    $framework->rateLimiter()->limiter(name: 'authentication')
-        ->policy(value: 'fixed_window')
-        ->limit(value: 5)
-        ->cachePool(value: 'cache.rate_limiter')
-        ->interval(value: '1 minute');
-};
+return App::config([
+    'framework' => [
+        'rate_limiter' => [
+            'enabled' => true,
+            'limiters' => [
+                [
+                    'name' => 'authentication',
+                    'policy' => 'fixed_window',
+                    'limit' => 5,
+                    'cache_pool' => 'cache.rate_limiter',
+                    'interval' => '1 minute',
+                ],
+            ],
+        ],
+    ],
+]);

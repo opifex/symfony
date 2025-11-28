@@ -3,10 +3,19 @@
 declare(strict_types=1);
 
 use App\Infrastructure\Adapter\PayPal\Webhook\PayPalRequestParser;
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\App;
 
-return static function (FrameworkConfig $framework): void {
-    $framework->webhook()->routing(type: 'paypal')
-        ->service(value: PayPalRequestParser::class)
-        ->secret(value: '%env(PAYPAL_WEBHOOK_TOKEN)%');
-};
+return App::config([
+    'framework' => [
+        'webhook' => [
+            'enabled' => true,
+            'routing' => [
+                [
+                    'type' => 'paypal',
+                    'service' => PayPalRequestParser::class,
+                    'secret' => '%env(PAYPAL_WEBHOOK_TOKEN)%',
+                ],
+            ],
+        ],
+    ],
+]);

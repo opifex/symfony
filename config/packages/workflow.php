@@ -6,35 +6,49 @@ use App\Domain\Account\Account;
 use App\Domain\Account\AccountAction;
 use App\Domain\Account\AccountStatus;
 use App\Infrastructure\Workflow\AccountMarkingStore;
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\App;
 
-return static function (FrameworkConfig $framework): void {
-    $accountWorkflow = $framework->workflows()->workflows('account')
-        ->type(value: 'state_machine')
-        ->supports([Account::class])
-        ->initialMarking(AccountStatus::Created->value);
-
-    $accountWorkflow->auditTrail(['enabled' => '%kernel.debug%']);
-    $accountWorkflow->markingStore()->service(value: AccountMarkingStore::class);
-
-    $accountWorkflow->place()->name(AccountStatus::Activated->value);
-    $accountWorkflow->place()->name(AccountStatus::Blocked->value);
-    $accountWorkflow->place()->name(AccountStatus::Created->value);
-    $accountWorkflow->place()->name(AccountStatus::Registered->value);
-
-    $accountWorkflow->transition()->name(AccountAction::Activate->value)
-        ->from(AccountStatus::Registered->value)
-        ->to(AccountStatus::Activated->value);
-
-    $accountWorkflow->transition()->name(AccountAction::Block->value)
-        ->from(AccountStatus::Activated->value)
-        ->to(AccountStatus::Blocked->value);
-
-    $accountWorkflow->transition()->name(AccountAction::Register->value)
-        ->from(AccountStatus::Created->value)
-        ->to(AccountStatus::Registered->value);
-
-    $accountWorkflow->transition()->name(AccountAction::Unblock->value)
-        ->from(AccountStatus::Blocked->value)
-        ->to(AccountStatus::Activated->value);
-};
+return App::config([
+    'framework' => [
+        'workflows' => [
+            'enabled' => true,
+            'workflows' => [
+                'account' => [
+                    'type' => 'state_machine',
+                    'supports' => [Account::class],
+                    'initial_marking' => AccountStatus::Created->value,
+                    'audit_trail' => [
+                        'enabled' => '%kernel.debug%',
+                    ],
+                    'marking_store' => [
+                        'service' => AccountMarkingStore::class,
+                    ],
+                    'places' => [
+                        AccountStatus::Activated->value,
+                        AccountStatus::Blocked->value,
+                        AccountStatus::Created->value,
+                        AccountStatus::Registered->value,
+                    ],
+                    'transitions' => [
+                        AccountAction::Activate->value => [
+                            'from' => AccountStatus::Registered->value,
+                            'to' => AccountStatus::Activated->value,
+                        ],
+                        AccountAction::Block->value => [
+                            'from' => AccountStatus::Activated->value,
+                            'to' => AccountStatus::Blocked->value,
+                        ],
+                        AccountAction::Register->value => [
+                            'from' => AccountStatus::Created->value,
+                            'to' => AccountStatus::Registered->value,
+                        ],
+                        AccountAction::Unblock->value => [
+                            'from' => AccountStatus::Blocked->value,
+                            'to' => AccountStatus::Activated->value,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+]);

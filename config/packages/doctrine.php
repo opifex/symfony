@@ -2,34 +2,78 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Config\DoctrineConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\App;
 
-return static function (ContainerConfigurator $configurator, DoctrineConfig $doctrine): void {
-    $doctrine->dbal()->defaultConnection(value: 'default');
-
-    $defaultConnection = $doctrine->dbal()->connection(name: 'default');
-    $defaultConnection->url(value: '%env(resolve:DATABASE_URL)%');
-
-    if ($configurator->env() === 'test') {
-        $defaultConnection->dbnameSuffix(value: '_test%env(default::TEST_TOKEN)%');
-    }
-
-    $doctrine->orm()->defaultEntityManager(value: 'default');
-
-    $defaultEntityManager = $doctrine->orm()->entityManager(name: 'default')
-        ->connection(value: 'default')
-        ->namingStrategy(value: 'doctrine.orm.naming_strategy.underscore_number_aware');
-
-    $defaultEntityManager->mapping(name: 'default')
-        ->dir(value: '%kernel.project_dir%/src/Infrastructure/Doctrine/Mapping')
-        ->prefix(value: 'App\Infrastructure\Doctrine\Mapping')
-        ->type(value: 'attribute');
-
-    if ($configurator->env() === 'prod') {
-        $defaultEntityManager->metadataCacheDriver()->type(value: 'pool')->pool(value: 'cache.doctrine');
-        $defaultEntityManager->queryCacheDriver()->type(value: 'pool')->pool(value: 'cache.doctrine');
-        $defaultEntityManager->resultCacheDriver()->type(value: 'pool')->pool(value: 'cache.doctrine');
-        $defaultEntityManager->secondLevelCache()->enabled(value: true)->regionCacheDriver()->type(value: 'pool')->pool(value: 'cache.doctrine');
-    }
-};
+return App::config([
+    'doctrine' => [
+        'dbal' => [
+            'default_connection' => 'default',
+            'connections' => [
+                [
+                    'name' => 'default',
+                    'url' => '%env(resolve:DATABASE_URL)%',
+                ],
+            ],
+        ],
+        'orm' => [
+            'default_entity_manager' => 'default',
+            'entity_managers' => [
+                [
+                    'name' => 'default',
+                    'connection' => 'default',
+                    'naming_strategy' => 'doctrine.orm.naming_strategy.underscore_number_aware',
+                    'mappings' => [
+                        [
+                            'name' => 'default',
+                            'dir' => '%kernel.project_dir%/src/Infrastructure/Doctrine/Mapping',
+                            'prefix' => 'App\\Infrastructure\\Doctrine\\Mapping',
+                            'type' => 'attribute',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'when@test' => [
+        'doctrine' => [
+            'dbal' => [
+                'connections' => [
+                    [
+                        'name' => 'default',
+                        'dbname_suffix' => '_test%env(default::TEST_TOKEN)%',
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'when@prod' => [
+        'doctrine' => [
+            'orm' => [
+                'entity_managers' => [
+                    [
+                        'name' => 'default',
+                        'metadata_cache_driver' => [
+                            'type' => 'pool',
+                            'pool' => 'cache.doctrine',
+                        ],
+                        'query_cache_driver' => [
+                            'type' => 'pool',
+                            'pool' => 'cache.doctrine',
+                        ],
+                        'result_cache_driver' => [
+                            'type' => 'pool',
+                            'pool' => 'cache.doctrine',
+                        ],
+                        'second_level_cache' => [
+                            'enabled' => true,
+                            'region_cache_driver' => [
+                                'type' => 'pool',
+                                'pool' => 'cache.doctrine',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+]);
