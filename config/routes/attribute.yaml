@@ -1,0 +1,5 @@
+app_attribute_api:
+  resource: ../../src/Presentation/Controller
+  type: attribute
+  prefix: /api
+  trailing_slash_on_root: false

@@ -8,9 +8,6 @@
   <arg name="parallel" value="10"/>
   <arg name="tab-width" value="4"/>
 
-  <file>../../bin</file>
-  <file>../../config</file>
-  <file>../../public</file>
   <file>../../src</file>
   <file>../../tests</file>
 
@@ -36,13 +33,10 @@
   <rule ref="Squiz.PHP.NonExecutableCode"/>
 
   <rule ref="Generic.Files.LineLength.TooLong">
-    <exclude-pattern>../config/packages/*</exclude-pattern>
-    <exclude-pattern>../config/routes/*</exclude-pattern>
     <exclude-pattern>../src/Infrastructure/Doctrine/Migration/*</exclude-pattern>
   </rule>
 
   <rule ref="Generic.Metrics.CyclomaticComplexity">
-    <exclude-pattern>../config/*</exclude-pattern>
     <exclude-pattern>../tests/*</exclude-pattern>
     <properties>
       <property name="complexity" value="15"/>
@@ -51,7 +45,6 @@
   </rule>
 
   <rule ref="Generic.PHP.ForbiddenFunctions">
-    <exclude-pattern>../config/*</exclude-pattern>
     <properties>
       <property name="forbiddenFunctions" type="array">
         <element key="create_function" value="null"/>

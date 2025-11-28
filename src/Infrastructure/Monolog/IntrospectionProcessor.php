@@ -13,16 +13,12 @@ final class IntrospectionProcessor
 {
     public function __construct(
         #[Autowire('%kernel.project_dir%')]
-        private readonly ?string $kernelProjectDir = null,
+        private readonly string $kernelProjectDir,
     ) {
     }
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        if ($this->kernelProjectDir === null) {
-            return $record;
-        }
-
         [$sourcesDir, $sourceOffset] = [$this->kernelProjectDir . '/src', strlen($this->kernelProjectDir) + 1];
 
         $backtrace = array_map(

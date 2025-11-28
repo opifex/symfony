@@ -42,9 +42,9 @@ final class PayPalRequestParser extends AbstractRequestParser
     #[Override]
     protected function doParse(Request $request, #[SensitiveParameter] string $secret): RemoteEvent
     {
-        $authorizationToken = $request->get(key: self::WEBHOOK_TOKEN_PARAM);
+        $authorizationToken = $request->query->getString(key: self::WEBHOOK_TOKEN_PARAM);
 
-        if ($authorizationToken === null || $authorizationToken !== $secret) {
+        if ($authorizationToken === '' || $authorizationToken !== $secret) {
             throw new RejectWebhookException(
                 statusCode: Response::HTTP_UNAUTHORIZED,
                 message: 'Invalid or missing webhook token.',

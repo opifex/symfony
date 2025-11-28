@@ -1,0 +1,9 @@
+framework:
+  router:
+    default_uri: '%env(resolve:APP_URL)%'
+    utf8: true
+
+when@prod:
+  framework:
+    router:
+      strict_requirements: ~

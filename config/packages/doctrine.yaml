@@ -1,0 +1,45 @@
+doctrine:
+  dbal:
+    default_connection: default
+    connections:
+      default:
+        url: '%env(resolve:DATABASE_URL)%'
+  orm:
+    default_entity_manager: default
+    entity_managers:
+      default:
+        connection: default
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        mappings:
+          default:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Mapping'
+            prefix: 'App\Infrastructure\Doctrine\Mapping'
+            type: attribute
+
+when@test:
+  doctrine:
+    dbal:
+      connections:
+        default:
+          dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+  doctrine:
+    orm:
+      entity_managers:
+        default:
+          metadata_cache_driver:
+            type: pool
+            pool: cache.doctrine
+          query_cache_driver:
+            type: pool
+            pool: cache.doctrine
+          result_cache_driver:
+            type: pool
+            pool: cache.doctrine
+          second_level_cache:
+            enabled: true
+            region_cache_driver:
+              type: pool
+              pool: cache.doctrine

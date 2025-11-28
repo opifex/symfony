@@ -1,0 +1,28 @@
+framework:
+  workflows:
+    account:
+      type: state_machine
+      supports:
+        - App\Domain\Account\Account
+      initial_marking: created
+      audit_trail: { enabled: '%kernel.debug%' }
+      marking_store:
+        service: App\Infrastructure\Workflow\AccountMarkingStore
+      places:
+        - activated
+        - blocked
+        - created
+        - registered
+      transitions:
+        register:
+          from: created
+          to: registered
+        activate:
+          from: registered
+          to: activated
+        block:
+          from: activated
+          to: blocked
+        unblock:
+          from: blocked
+          to: activated

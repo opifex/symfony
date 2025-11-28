@@ -1,0 +1,6 @@
+framework:
+  webhook:
+    routing:
+      paypal:
+        service: App\Infrastructure\Adapter\PayPal\Webhook\PayPalRequestParser
+        secret: '%env(PAYPAL_WEBHOOK_TOKEN)%'

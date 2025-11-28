@@ -1,0 +1,8 @@
+framework:
+  rate_limiter:
+    limiters:
+      authentication:
+        policy: fixed_window
+        limit: 5
+        interval: '1 minute'
+        cache_pool: cache.rate_limiter
