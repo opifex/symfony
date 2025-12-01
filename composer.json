@@ -18,7 +18,7 @@
         "ext-xsl": "*",
         "ext-zend-opcache": "*",
         "ext-zip": "*",
-        "doctrine/doctrine-bundle": "^3.0",
+        "doctrine/doctrine-bundle": "^3.1",
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": "^3.5",
         "dragonmantank/cron-expression": "^3.6",
