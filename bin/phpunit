@@ -3,23 +3,4 @@
 
 declare(strict_types=1);
 
-if (!ini_get(option: 'date.timezone')) {
-    ini_set(option: 'date.timezone', value: 'UTC');
-}
-
-if (is_file(filename: dirname(path: __DIR__) . '/vendor/phpunit/phpunit/phpunit')) {
-    if (PHP_VERSION_ID >= 80000) {
-        require dirname(path: __DIR__) . '/vendor/phpunit/phpunit/phpunit';
-    } else {
-        define('PHPUNIT_COMPOSER_INSTALL', dirname(path: __DIR__) . '/vendor/autoload.php');
-        require PHPUNIT_COMPOSER_INSTALL;
-        PHPUnit\TextUI\Command::main();
-    }
-} else {
-    if (!is_file(filename: dirname(path: __DIR__) . '/vendor/symfony/phpunit-bridge/bin/simple-phpunit.php')) {
-        echo "Unable to find the `simple-phpunit.php` script in `vendor/symfony/phpunit-bridge/bin/`.\n";
-        exit(1);
-    }
-
-    require dirname(path: __DIR__) . '/vendor/symfony/phpunit-bridge/bin/simple-phpunit.php';
-}
+require dirname(path: __DIR__) . '/vendor/phpunit/phpunit/phpunit';
