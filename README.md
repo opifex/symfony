@@ -17,14 +17,15 @@ APP_ENV=dev
 APP_NAME=symfony
 APP_PORT=8030
 APP_SECRET=166f851291ebd0ebf805b0188f1d5e7a
-APP_URL=http://localhost:8030
+
+DEFAULT_URI=http://localhost:8030
+API_GATEWAY_URI=http://localhost:8030
 
 DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=17&charset=utf8
 HTTPBIN_URL=https://httpbin.org/
+LOCK_DSN=redis://redis:6379?timeout=1&read_timeout=1
 MAILER_DSN=smtp://mailcatcher:1025
 MESSENGER_TRANSPORT_DSN=amqp://rabbitmq:5672/%2f/messages
-MOCK_SERVER_URL=http://mockserver:1080
-LOCK_DSN=redis://redis:6379?timeout=1&read_timeout=1
 REDIS_DSN=redis://redis:6379?timeout=1&read_timeout=1
 
 SYMFONY_IDE=idea://open?file=%f&line=%l&/opt/project>/local/path

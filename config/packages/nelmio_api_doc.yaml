@@ -8,7 +8,7 @@ nelmio_api_doc:
       title: '%env(APP_NAME)%'
       version: '%env(APP_VERSION)%'
     servers:
-      - url: '%env(APP_URL)%'
+      - url: '%env(DEFAULT_URI)%'
         description: API Gateway
     components:
       security_schemes:
