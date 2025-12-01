@@ -74,10 +74,8 @@
         "psr-4": {
             "App\\": "src/"
         },
-        "classmap": [
-            "config/"
-        ],
         "exclude-from-classmap": [
+            "config/",
             "tests/"
         ]
     },
