@@ -1,14 +1,15 @@
 nelmio_api_doc:
   areas:
     default:
-      path_patterns: [ '^/api' ]
+      path_patterns:
+        - ^/api
   documentation:
     info:
       title: '%env(APP_NAME)%'
       version: '%env(APP_VERSION)%'
     servers:
       - url: '%env(APP_URL)%'
-        description: 'API Gateway'
+        description: API Gateway
     components:
       security_schemes:
         bearer:

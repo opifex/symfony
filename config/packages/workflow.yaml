@@ -5,7 +5,8 @@ framework:
       supports:
         - App\Domain\Account\Account
       initial_marking: created
-      audit_trail: { enabled: '%kernel.debug%' }
+      audit_trail:
+        enabled: '%kernel.debug%'
       marking_store:
         service: App\Infrastructure\Workflow\AccountMarkingStore
       places:

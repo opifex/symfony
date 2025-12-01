@@ -4,7 +4,7 @@ doctrine_migrations:
   enable_profiler: '%kernel.debug%'
   custom_template: '%kernel.project_dir%/src/Presentation/Resource/Template/bundles/DoctrineMigrationsBundle/migration.php.twig'
   migrations_paths:
-    'App\Infrastructure\Doctrine\Migration': '%kernel.project_dir%/src/Infrastructure/Doctrine/Migration'
+    App\Infrastructure\Doctrine\Migration: '%kernel.project_dir%/src/Infrastructure/Doctrine/Migration'
   storage:
     table_storage:
       table_name: migration

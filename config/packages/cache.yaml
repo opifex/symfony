@@ -5,10 +5,16 @@ framework:
     pools:
       cache.doctrine:
         default_lifetime: 60
-        adapters: [ 'cache.adapter.redis', 'cache.adapter.array' ]
+        adapters:
+          - cache.adapter.redis
+          - cache.adapter.array
       cache.storage:
         default_lifetime: 60
-        adapters: [ 'cache.adapter.redis', 'cache.adapter.array' ]
+        adapters:
+          - cache.adapter.redis
+          - cache.adapter.array
       cache.rate_limiter:
         default_lifetime: 60
-        adapters: [ 'cache.adapter.redis', 'cache.adapter.array' ]
+        adapters:
+          - cache.adapter.redis
+          - cache.adapter.array

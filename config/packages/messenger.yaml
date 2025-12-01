@@ -20,7 +20,7 @@ framework:
             type: direct
           queues:
             '%env(APP_NAME)%.notifier_emails.direct':
-              binding_keys: [ 'normal' ]
+              binding_keys: [ normal ]
         retry_strategy:
           delay: 60000
           max_retries: 3
@@ -34,13 +34,13 @@ framework:
             type: direct
           queues:
             '%env(APP_NAME)%.webhook_events.direct':
-              binding_keys: [ 'normal' ]
+              binding_keys: [ normal ]
         retry_strategy:
           delay: 60000
           max_retries: 3
           multiplier: 1
       failed:
-        dsn: 'doctrine://default?queue_name=failed'
+        dsn: doctrine://default?queue_name=failed
         options:
           table_name: messenger
     routing:

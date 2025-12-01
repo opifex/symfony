@@ -14,7 +14,7 @@ doctrine:
           default:
             is_bundle: false
             dir: '%kernel.project_dir%/src/Infrastructure/Doctrine/Mapping'
-            prefix: 'App\Infrastructure\Doctrine\Mapping'
+            prefix: App\Infrastructure\Doctrine\Mapping
             type: attribute
 
 when@test:
@@ -39,7 +39,6 @@ when@prod:
             type: pool
             pool: cache.doctrine
           second_level_cache:
-            enabled: true
             region_cache_driver:
               type: pool
               pool: cache.doctrine
