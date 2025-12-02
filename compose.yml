@@ -77,7 +77,7 @@ services:
       internal:
 
   postgres:
-    image: postgres:17.3
+    image: postgres:18.1
     hostname: postgres
     container_name: "${APP_NAME}-postgres"
     restart: unless-stopped
