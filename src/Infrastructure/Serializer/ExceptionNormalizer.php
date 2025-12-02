@@ -114,7 +114,7 @@ final class ExceptionNormalizer implements NormalizerInterface
         return array_map(fn(ConstraintViolationInterface $violation): array => array_filter(
             array: [
                 'name' => $this->formatViolationName($violation),
-                'reason' => $violation->getMessage(),
+                'reason' => strtr((string) $violation->getMessage(), $violation->getParameters()),
                 'object' => $this->kernel->isDebug() ? $this->extractViolationObject($violation) : null,
                 'value' => $this->kernel->isDebug() ? $violation->getInvalidValue() : null,
             ],

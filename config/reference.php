@@ -162,8 +162,8 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *             driver?: scalar|null, // Default: "pdo_mysql"
  *             auto_commit?: bool,
  *             schema_filter?: scalar|null,
- *             logging?: bool, // Default: false
- *             profiling?: bool, // Default: false
+ *             logging?: bool, // Default: true
+ *             profiling?: bool, // Default: true
  *             profiling_collect_backtrace?: bool, // Enables collecting backtraces when profiling is enabled // Default: false
  *             profiling_collect_schema_errors?: bool, // Enables collecting schema errors when profiling is enabled // Default: true
  *             server_version?: scalar|null,
@@ -261,7 +261,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *                     pool?: scalar|null,
  *                 },
  *                 region_lock_lifetime?: scalar|null, // Default: 60
- *                 log_enabled?: bool, // Default: false
+ *                 log_enabled?: bool, // Default: true
  *                 region_lifetime?: scalar|null, // Default: 3600
  *                 enabled?: bool, // Default: true
  *                 factory?: scalar|null,
@@ -380,12 +380,19 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         }>,
  *     },
  * }
+ * @psalm-type DebugConfig = array{
+ *     max_items?: int, // Max number of displayed items past the first level, -1 means no limit. // Default: 2500
+ *     min_depth?: int, // Minimum tree depth to clone all the items, 1 is default. // Default: 1
+ *     max_string_length?: int, // Max length of displayed strings, -1 means no limit. // Default: -1
+ *     dump_destination?: scalar|null, // A stream URL where dumps should be written to. // Default: null
+ *     theme?: "dark"|"light", // Changes the color of the dump() output when rendered directly on the templating. "dark" (default) or "light". // Default: "dark"
+ * }
  * @psalm-type FrameworkConfig = array{
  *     secret?: scalar|null,
  *     http_method_override?: bool, // Set true to enable support for the '_method' request parameter to determine the intended HTTP method on POST requests. // Default: false
  *     allowed_http_method_override?: list<string>|null,
  *     trust_x_sendfile_type_header?: scalar|null, // Set true to enable support for xsendfile in binary file responses. // Default: "%env(bool:default::SYMFONY_TRUST_X_SENDFILE_TYPE_HEADER)%"
- *     ide?: scalar|null, // Default: null
+ *     ide?: scalar|null, // Default: "%env(default::SYMFONY_IDE)%"
  *     test?: bool,
  *     default_locale?: scalar|null, // Default: "en"
  *     set_locale_from_accept_language?: bool, // Whether to use the Accept-Language HTTP header to set the Request locale (only when the "_locale" request attribute is not passed). // Default: false
@@ -542,7 +549,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         paths?: array<string, scalar|null>,
  *         excluded_patterns?: list<scalar|null>,
  *         exclude_dotfiles?: bool, // If true, any files starting with "." will be excluded from the asset mapper. // Default: true
- *         server?: bool, // If true, a "dev server" will return the assets from the public directory (true in "debug" mode only by default). // Default: false
+ *         server?: bool, // If true, a "dev server" will return the assets from the public directory (true in "debug" mode only by default). // Default: true
  *         public_prefix?: scalar|null, // The public path where the assets will be written to (and served from when "server" is true). // Default: "/assets/"
  *         missing_import_mode?: "strict"|"warn"|"ignore", // Behavior if an asset cannot be found when imported from JavaScript or CSS files - e.g. "import './non-existent.js'". "strict" means an exception is thrown, "warn" means a warning is logged, "ignore" means the import is left as-is. // Default: "warn"
  *         extensions?: array<string, scalar|null>,
@@ -662,7 +669,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     },
  *     php_errors?: array{ // PHP errors handling configuration
  *         log?: mixed, // Use the application logger instead of the PHP logger for logging PHP errors. // Default: true
- *         throw?: bool, // Throw PHP errors as \ErrorException instances. // Default: false
+ *         throw?: bool, // Throw PHP errors as \ErrorException instances. // Default: true
  *     },
  *     exceptions?: array<string, array{ // Default: []
  *         log_level?: scalar|null, // The level of log message. Null to let Symfony decide. // Default: null
@@ -725,7 +732,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     scheduler?: bool|array{ // Scheduler configuration
  *         enabled?: bool, // Default: true
  *     },
- *     disallow_search_engine_index?: bool, // Enabled by default when debug is enabled. // Default: false
+ *     disallow_search_engine_index?: bool, // Enabled by default when debug is enabled. // Default: true
  *     http_client?: bool|array{ // HTTP Client configuration
  *         enabled?: bool, // Default: true
  *         max_host_connections?: int, // The maximum number of connections to a single host.
@@ -1486,13 +1493,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         },
  *         ...<mixed>
  *     },
- * }
- * @psalm-type DebugConfig = array{
- *     max_items?: int, // Max number of displayed items past the first level, -1 means no limit. // Default: 2500
- *     min_depth?: int, // Minimum tree depth to clone all the items, 1 is default. // Default: 1
- *     max_string_length?: int, // Max length of displayed strings, -1 means no limit. // Default: -1
- *     dump_destination?: scalar|null, // A stream URL where dumps should be written to. // Default: null
- *     theme?: "dark"|"light", // Changes the color of the dump() output when rendered directly on the templating. "dark" (default) or "light". // Default: "dark"
  * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
