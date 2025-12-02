@@ -33,9 +33,9 @@ class RequestParamTypeException extends RuntimeException
 
         $constraint = new ConstraintViolationList([
             new ConstraintViolation(
-                message: 'This value should be of type {type}.',
+                message: 'This value should be of type {{ types }}.',
                 messageTemplate: null,
-                parameters: ['{type}' => implode(separator: ', ', array: $expected)],
+                parameters: ['{{ types }}' => implode(separator: ', ', array: $expected)],
                 root: $root,
                 propertyPath: $path,
                 invalidValue: null,
