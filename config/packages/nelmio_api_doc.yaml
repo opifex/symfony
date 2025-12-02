@@ -1,8 +1,7 @@
 nelmio_api_doc:
   areas:
     default:
-      path_patterns:
-        - ^/api
+      path_patterns: [ ^/api ]
   documentation:
     info:
       title: '%env(APP_NAME)%'

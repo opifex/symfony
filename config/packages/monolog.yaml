@@ -6,30 +6,20 @@ when@dev:
         level: debug
         path: php://stdout
         formatter: monolog.formatter.json
-        channels:
-          - '!console'
-          - '!deprecation'
-          - '!doctrine'
-          - '!event'
-          - '!http_client'
-          - '!php'
+        channels: [ '!doctrine', '!event' ]
 
 when@test:
   monolog:
     handlers:
-      nested:
-        type: stream
-        level: debug
-        path: '%kernel.logs_dir%/%kernel.environment%.log'
       main:
         type: fingers_crossed
         action_level: error
         handler: nested
-        excluded_http_codes:
-          - 404
-          - 405
-        channels:
-          - '!event'
+        excluded_http_codes: [ 404, 405 ]
+      nested:
+        type: stream
+        level: debug
+        path: '%kernel.logs_dir%/%kernel.environment%.log'
 
 when@prod:
   monolog:
@@ -39,9 +29,4 @@ when@prod:
         level: info
         path: php://stdout
         formatter: monolog.formatter.json
-        channels:
-          - '!deprecation'
-          - '!doctrine'
-          - '!event'
-          - '!php'
-          - '!security'
+        channels: [ '!doctrine', '!event', '!security' ]

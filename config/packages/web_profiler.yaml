@@ -10,3 +10,4 @@ when@test:
   framework:
     profiler:
       enabled: true
+      collect_serializer_data: true
