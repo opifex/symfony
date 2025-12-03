@@ -22,15 +22,15 @@ final class RequestTraceMiddleware implements MiddlewareInterface
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
         $requestTraceStamp = $envelope->last(stampFqcn: RequestTraceStamp::class);
-        $traceId = $this->requestTraceManager->getTraceId();
+        $correlationId = $this->requestTraceManager->getCorrelationId();
 
         if ($requestTraceStamp instanceof RequestTraceStamp) {
-            $this->requestTraceManager->setTraceId($requestTraceStamp->getTraceId());
+            $this->requestTraceManager->setCorrelationId($requestTraceStamp->getCorrelationId());
 
             return $stack->next()->handle($envelope, $stack);
         }
 
-        $envelope = $envelope->with(new RequestTraceStamp($traceId));
+        $envelope = $envelope->with(new RequestTraceStamp($correlationId));
 
         return $stack->next()->handle($envelope, $stack);
     }

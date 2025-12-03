@@ -13,13 +13,13 @@ final class RequestTraceManagerTest extends TestCase
     {
         $requestTraceManager = new RequestTraceManager();
 
-        $traceId = '00000000-0000-6000-8000-000000000000';
-        $requestTraceManager->setTraceId($traceId);
+        $correlationId = '00000000-0000-6000-8000-000000000000';
+        $requestTraceManager->setCorrelationId($correlationId);
 
-        $this->assertEquals($traceId, $requestTraceManager->getTraceId());
+        $this->assertEquals($correlationId, $requestTraceManager->getCorrelationId());
 
         $requestTraceManager->reset();
 
-        $this->assertNotSame(expected: $traceId, actual: $requestTraceManager->getTraceId());
+        $this->assertNotSame(expected: $correlationId, actual: $requestTraceManager->getCorrelationId());
     }
 }

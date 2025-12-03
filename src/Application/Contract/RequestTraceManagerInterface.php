@@ -6,7 +6,7 @@ namespace App\Application\Contract;
 
 interface RequestTraceManagerInterface
 {
-    public function setTraceId(string $traceId): void;
+    public function setCorrelationId(string $correlationId): void;
 
-    public function getTraceId(): string;
+    public function getCorrelationId(): string;
 }

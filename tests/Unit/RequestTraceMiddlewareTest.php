@@ -27,7 +27,7 @@ final class RequestTraceMiddlewareTest extends TestCase
     public function testHandleEnvelopeWithRequestIdStamp(): void
     {
         $requestTraceMiddleware = new RequestTraceMiddleware($this->requestTraceManager);
-        $requestTraceStamp = new RequestTraceStamp(traceId: '00000000-0000-6000-8000-000000000000');
+        $requestTraceStamp = new RequestTraceStamp(correlationId: '00000000-0000-6000-8000-000000000000');
         $envelope = new Envelope(new stdClass(), [$requestTraceStamp]);
 
         $this->stack

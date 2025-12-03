@@ -23,7 +23,7 @@ final class RequestTraceHttpClientTest extends TestCase
 
         $this->requestTraceManager
             ->expects($this->any())
-            ->method(constraint: 'getTraceId')
+            ->method(constraint: 'getCorrelationId')
             ->willReturn(value: '00000000-0000-6000-8000-000000000000');
     }
 

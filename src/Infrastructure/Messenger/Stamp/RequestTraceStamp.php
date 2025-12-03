@@ -11,12 +11,12 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
 final class RequestTraceStamp implements StampInterface
 {
     public function __construct(
-        private readonly string $traceId,
+        private readonly string $correlationId,
     ) {
     }
 
-    public function getTraceId(): string
+    public function getCorrelationId(): string
     {
-        return $this->traceId;
+        return $this->correlationId;
     }
 }

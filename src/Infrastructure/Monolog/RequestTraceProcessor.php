@@ -18,8 +18,8 @@ final class RequestTraceProcessor
 
     public function __invoke(LogRecord $record): LogRecord
     {
-        $traceId = $this->requestTraceManager->getTraceId();
-        $record->extra['correlation_id'] = $traceId;
+        $correlationId = $this->requestTraceManager->getCorrelationId();
+        $record->extra['correlation_id'] = $correlationId;
 
         return $record;
     }

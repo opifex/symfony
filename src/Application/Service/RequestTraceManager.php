@@ -11,23 +11,23 @@ use Symfony\Contracts\Service\ResetInterface;
 
 final class RequestTraceManager implements RequestTraceManagerInterface, ResetInterface
 {
-    private ?string $traceId = null;
+    private ?string $correlationId = null;
 
     #[Override]
-    public function setTraceId(string $traceId): void
+    public function setCorrelationId(string $correlationId): void
     {
-        $this->traceId = $traceId;
+        $this->correlationId = $correlationId;
     }
 
     #[Override]
-    public function getTraceId(): string
+    public function getCorrelationId(): string
     {
-        return $this->traceId ??= Uuid::v4()->toString();
+        return $this->correlationId ??= Uuid::v4()->toString();
     }
 
     #[Override]
     public function reset(): void
     {
-        $this->traceId = null;
+        $this->correlationId = null;
     }
 }
