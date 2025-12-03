@@ -7,7 +7,6 @@ namespace Tests\Unit;
 use App\Infrastructure\Serializer\ExceptionNormalizer;
 use Exception;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -18,10 +17,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ExceptionNormalizerTest extends TestCase
 {
-    private KernelInterface&MockObject $kernel;
-
-    private TranslatorInterface&MockObject $translator;
-
     #[Override]
     protected function setUp(): void
     {

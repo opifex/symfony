@@ -17,7 +17,6 @@ use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\DatabaseUserProvider;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -26,8 +25,6 @@ use Symfony\Component\Uid\Uuid;
 
 final class DatabaseUserProviderTest extends TestCase
 {
-    private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
-
     #[Override]
     protected function setUp(): void
     {

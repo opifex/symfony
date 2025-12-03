@@ -13,19 +13,10 @@ use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountRequest;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class SigninIntoAccountHandlerTest extends TestCase
 {
-    private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
-
-    private AuthenticationRateLimiterInterface&MockObject $authenticationRateLimiter;
-
-    private AuthorizationTokenManagerInterface&MockObject $authorizationTokenManager;
-
-    private JwtAccessTokenManagerInterface&MockObject $jwtAccessTokenManager;
-
     #[Override]
     protected function setUp(): void
     {

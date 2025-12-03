@@ -7,14 +7,11 @@ namespace Tests\Unit;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPaymentCaptureEvent;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalRemoteEventConsumer;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class PayPalRemoteEventConsumerTest extends TestCase
 {
-    private EventDispatcherInterface&MockObject $eventDispatcher;
-
     #[Override]
     protected function setUp(): void
     {

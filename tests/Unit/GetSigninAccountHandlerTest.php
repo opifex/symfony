@@ -11,15 +11,10 @@ use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class GetSigninAccountHandlerTest extends TestCase
 {
-    private AccountEntityRepositoryInterface&MockObject $accountEntityRepository;
-
-    private AuthorizationTokenManagerInterface&MockObject $authorizationTokenManager;
-
     #[Override]
     protected function setUp(): void
     {

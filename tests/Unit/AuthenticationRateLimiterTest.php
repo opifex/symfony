@@ -6,7 +6,6 @@ namespace Tests\Unit;
 
 use App\Infrastructure\RateLimiter\AuthenticationRateLimiter;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\RateLimit;
@@ -14,8 +13,6 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 final class AuthenticationRateLimiterTest extends TestCase
 {
-    private RateLimiterFactoryInterface&MockObject $rateLimiterFactory;
-
     #[Override]
     protected function setUp(): void
     {

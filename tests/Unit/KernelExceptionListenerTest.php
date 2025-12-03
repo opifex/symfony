@@ -8,7 +8,6 @@ use App\Application\Contract\PrivacyDataProtectorInterface;
 use App\Infrastructure\HttpKernel\EventListener\KernelExceptionListener;
 use LogicException;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
@@ -21,14 +20,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class KernelExceptionListenerTest extends TestCase
 {
-    private KernelInterface&MockObject $kernel;
-
-    private LoggerInterface&MockObject $logger;
-
-    private NormalizerInterface&MockObject $normalizer;
-
-    private PrivacyDataProtectorInterface&MockObject $privacyDataProtector;
-
     #[Override]
     protected function setUp(): void
     {

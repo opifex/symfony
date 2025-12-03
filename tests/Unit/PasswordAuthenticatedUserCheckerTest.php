@@ -8,7 +8,6 @@ use App\Domain\Account\AccountRole;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUserChecker;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,8 +15,6 @@ use Symfony\Component\Uid\Uuid;
 
 final class PasswordAuthenticatedUserCheckerTest extends TestCase
 {
-    private UserInterface&MockObject $user;
-
     #[Override]
     protected function setUp(): void
     {

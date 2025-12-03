@@ -6,7 +6,6 @@ namespace Tests\Unit;
 
 use App\Infrastructure\Workflow\AccountWorkflowListener;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -16,8 +15,6 @@ use Symfony\Component\Workflow\Marking;
 
 final class AccountWorkflowListenerTest extends TestCase
 {
-    private EventDispatcherInterface&MockObject $eventDispatcher;
-
     #[Override]
     protected function setUp(): void
     {

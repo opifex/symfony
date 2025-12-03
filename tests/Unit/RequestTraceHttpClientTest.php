@@ -7,7 +7,6 @@ namespace Tests\Unit;
 use App\Application\Contract\RequestTraceManagerInterface;
 use App\Infrastructure\HttpClient\RequestTraceHttpClient;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -15,12 +14,6 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class RequestTraceHttpClientTest extends TestCase
 {
-    private HttpClientInterface&MockObject $httpClient;
-
-    private RequestTraceManagerInterface&MockObject $requestTraceManager;
-
-    private ResponseInterface&MockObject $response;
-
     #[Override]
     protected function setUp(): void
     {

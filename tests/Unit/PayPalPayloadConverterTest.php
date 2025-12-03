@@ -8,15 +8,12 @@ use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPayloadConverter;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPaymentCaptureEvent;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\RemoteEvent\Exception\ParseException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class PayPalPayloadConverterTest extends TestCase
 {
-    private ValidatorInterface&MockObject $validator;
-
     #[Override]
     protected function setUp(): void
     {

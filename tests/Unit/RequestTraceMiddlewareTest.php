@@ -8,7 +8,6 @@ use App\Application\Contract\RequestTraceManagerInterface;
 use App\Infrastructure\Messenger\Middleware\RequestTraceMiddleware;
 use App\Infrastructure\Messenger\Stamp\RequestTraceStamp;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Messenger\Envelope;
@@ -17,12 +16,6 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
 
 final class RequestTraceMiddlewareTest extends TestCase
 {
-    private MiddlewareInterface&MockObject $middleware;
-
-    private RequestTraceManagerInterface&MockObject $requestTraceManager;
-
-    private StackInterface&MockObject $stack;
-
     #[Override]
     protected function setUp(): void
     {

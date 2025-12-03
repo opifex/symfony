@@ -6,7 +6,7 @@ when@dev:
         level: debug
         path: php://stdout
         formatter: monolog.formatter.json
-        channels: [ '!doctrine', '!event' ]
+        channels: [ '!console', '!doctrine', '!event' ]
 
 when@test:
   monolog:
@@ -29,4 +29,4 @@ when@prod:
         level: info
         path: php://stdout
         formatter: monolog.formatter.json
-        channels: [ '!doctrine', '!event', '!security' ]
+        channels: [ '!console', '!doctrine', '!event', '!security' ]

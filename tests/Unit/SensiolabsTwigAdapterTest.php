@@ -7,15 +7,12 @@ namespace Tests\Unit;
 use App\Infrastructure\Adapter\Sensiolabs\Exception\RenderingFailedException;
 use App\Infrastructure\Adapter\Sensiolabs\TwigTemplateRenderer;
 use Override;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Error\Error;
 
 final class SensiolabsTwigAdapterTest extends TestCase
 {
-    private Environment&MockObject $environment;
-
     #[Override]
     protected function setUp(): void
     {

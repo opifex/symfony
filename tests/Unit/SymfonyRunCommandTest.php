@@ -42,6 +42,6 @@ final class SymfonyRunCommandTest extends TestCase
         $result = $command($symfonyStyle, delaySeconds: 0);
 
         $this->assertSame(expected: Command::SUCCESS, actual: $result);
-        $this->assertStringContainsString(needle: 'Success', haystack: $output->fetch());
+        $this->assertStringContainsString(needle: '[OK]', haystack: $output->fetch());
     }
 }

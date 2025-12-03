@@ -109,6 +109,7 @@
         ],
         "auto-quality": [
             "bin/console cache:clear --env=test --no-interaction",
+            "bin/console logs:clear --env=test --no-interaction",
             "bin/console lint:yaml src config --env=test --no-interaction",
             "bin/console lint:twig src --env=test --no-interaction",
             "bin/console lint:container --env=test --no-interaction",
