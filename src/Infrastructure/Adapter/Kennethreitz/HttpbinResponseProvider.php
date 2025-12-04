@@ -16,7 +16,6 @@ final class HttpbinResponseProvider implements HttpbinResponseProviderInterface
     public function __construct(
         #[Autowire('%env(HTTPBIN_URL)%')]
         private readonly string $apiUrl,
-
         private readonly HttpClientInterface $httpClient,
     ) {
     }

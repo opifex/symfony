@@ -23,7 +23,6 @@ final class RequestTraceHttpClient implements HttpClientInterface, ResetInterfac
 
     public function __construct(
         private readonly RequestTraceManagerInterface $requestTraceManager,
-
         #[AutowireDecorated]
         ?HttpClientInterface $client = null,
     ) {
