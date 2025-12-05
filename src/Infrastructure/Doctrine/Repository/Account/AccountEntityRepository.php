@@ -56,7 +56,10 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
             $this->defaultEntityManager->detach($accountEntity);
         }
 
-        return new AccountSearchResult(AccountEntityMapper::mapAll(...$iterator), $paginator->count());
+        return new AccountSearchResult(
+            accounts: AccountEntityMapper::mapAll(...$iterator),
+            totalResultCount: $paginator->count(),
+        );
     }
 
     #[Override]
