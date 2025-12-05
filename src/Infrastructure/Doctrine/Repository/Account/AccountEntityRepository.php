@@ -52,7 +52,9 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         /** @var Traversable<int, AccountEntity> $iterator */
         $iterator = $paginator->getIterator();
 
-        $this->defaultEntityManager->clear();
+        foreach ($iterator as $accountEntity) {
+            $this->defaultEntityManager->detach($accountEntity);
+        }
 
         return new AccountSearchResult(AccountEntityMapper::mapAll(...$iterator), $paginator->count());
     }
@@ -60,25 +62,37 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     #[Override]
     public function findOneById(string $id): ?Account
     {
-        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
-        $accountEntity = $accountRepository->findOneBy(criteria: [
-            'id' => Uuid::fromString($id)->toString(),
-        ]);
+        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->setParameter(key: 'id', value: Uuid::fromString($id)->toString());
+        $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
-        $this->defaultEntityManager->clear();
+        if (!$accountEntity instanceof AccountEntity) {
+            return null;
+        }
 
-        return $accountEntity !== null ? AccountEntityMapper::map($accountEntity) : null;
+        $this->defaultEntityManager->detach($accountEntity);
+
+        return AccountEntityMapper::map($accountEntity);
     }
 
     #[Override]
     public function findOneByEmail(string $email): ?Account
     {
-        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
-        $accountEntity = $accountRepository->findOneBy(criteria: ['email' => $email]);
+        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->setParameter(key: 'email', value: $email);
+        $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
-        $this->defaultEntityManager->clear();
+        if (!$accountEntity instanceof AccountEntity) {
+            return null;
+        }
 
-        return $accountEntity !== null ? AccountEntityMapper::map($accountEntity) : null;
+        $this->defaultEntityManager->detach($accountEntity);
+
+        return AccountEntityMapper::map($accountEntity);
     }
 
     #[Override]
@@ -88,10 +102,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
         $builder->setParameter(key: 'id', value: Uuid::fromString($account->getId()->toString())->toString());
-
         $builder->getQuery()->execute();
-
-        $this->defaultEntityManager->clear();
     }
 
     #[Override]
@@ -115,9 +126,8 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $accountEntity->status = $account->getStatus()->toString();
 
         $this->defaultEntityManager->persist($accountEntity);
-
         $this->defaultEntityManager->flush();
-        $this->defaultEntityManager->clear();
+        $this->defaultEntityManager->detach($accountEntity);
 
         return AccountIdentifier::fromString((string) $accountEntity->id);
     }
