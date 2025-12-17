@@ -72,5 +72,6 @@ final class RequestNormalizerTest extends TestCase
         yield 'string "true" to boolean true' => ['value' => 'true', 'expected' => true];
         yield 'boolean false remains false' => ['value' => false, 'expected' => false];
         yield 'string "false" to boolean false' => ['value' => 'false', 'expected' => false];
+        yield 'scientific number remains string' => ['value' => '38328e88', 'expected' => '38328e88'];
     }
 }
