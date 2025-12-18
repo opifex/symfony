@@ -28,7 +28,7 @@ final class BlockAccountByIdHandler
         $account = $this->accountEntityRepository->findOneById($request->id)
             ?? throw AccountNotFoundException::create();
 
-        $this->accountStateMachine->block($account);
+        $account = $this->accountStateMachine->block($account);
         $this->accountEntityRepository->save($account);
 
         return BlockAccountByIdResult::success();

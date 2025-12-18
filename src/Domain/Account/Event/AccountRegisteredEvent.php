@@ -11,9 +11,14 @@ use Symfony\Contracts\EventDispatcher\Event;
 #[Exclude]
 final class AccountRegisteredEvent extends Event
 {
-    public function __construct(
+    private function __construct(
         private readonly Account $account,
     ) {
+    }
+
+    public static function create(Account $account): self
+    {
+        return new self($account);
     }
 
     public function getAccount(): Account

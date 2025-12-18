@@ -28,7 +28,7 @@ final class UnblockAccountByIdHandler
         $account = $this->accountEntityRepository->findOneById($request->id)
             ?? throw AccountNotFoundException::create();
 
-        $this->accountStateMachine->unblock($account);
+        $account = $this->accountStateMachine->unblock($account);
         $this->accountEntityRepository->save($account);
 
         return UnblockAccountByIdResult::success();

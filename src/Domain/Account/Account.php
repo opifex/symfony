@@ -8,19 +8,20 @@ use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\HashedPassword;
 use App\Domain\Localization\LocaleCode;
+use NoDiscard;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 #[Exclude]
 class Account
 {
     public function __construct(
-        private AccountIdentifier $id,
-        private DateTimeUtc $createdAt,
-        private EmailAddress $email,
-        private HashedPassword $password,
-        private LocaleCode $locale,
-        private AccountRoleSet $roles,
-        private AccountStatus $status,
+        private readonly AccountIdentifier $id,
+        private readonly DateTimeUtc $createdAt,
+        private readonly EmailAddress $email,
+        private readonly HashedPassword $password,
+        private readonly LocaleCode $locale,
+        private readonly AccountRoleSet $roles,
+        private readonly AccountStatus $status,
     ) {
     }
 
@@ -77,23 +78,27 @@ class Account
         return $this->status === AccountStatus::Activated;
     }
 
-    public function changeEmail(EmailAddress $email): void
+    #[NoDiscard]
+    public function withEmail(EmailAddress $email): self
     {
-        $this->email = $email;
+        return clone($this, ['email' => $email]);
     }
 
-    public function changePassword(HashedPassword $hashedPassword): void
+    #[NoDiscard]
+    public function withPassword(HashedPassword $hashedPassword): self
     {
-        $this->password = $hashedPassword;
+        return clone($this, ['password' => $hashedPassword]);
     }
 
-    public function switchLocale(LocaleCode $locale): void
+    #[NoDiscard]
+    public function withLocale(LocaleCode $locale): self
     {
-        $this->locale = $locale;
+        return clone($this, ['locale' => $locale]);
     }
 
-    public function updateStatus(AccountStatus $status): void
+    #[NoDiscard]
+    public function withStatus(AccountStatus $status): self
     {
-        $this->status = $status;
+        return clone($this, ['status' => $status]);
     }
 }

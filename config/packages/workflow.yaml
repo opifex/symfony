@@ -3,12 +3,10 @@ framework:
     account:
       type: state_machine
       supports:
-        - App\Domain\Account\Account
+        - App\Infrastructure\Workflow\AccountMarking
       initial_marking: created
       audit_trail:
         enabled: '%kernel.debug%'
-      marking_store:
-        service: App\Infrastructure\Workflow\AccountMarkingStore
       places:
         - activated
         - blocked

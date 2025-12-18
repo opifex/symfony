@@ -12,20 +12,20 @@ interface AccountStateMachineInterface
     /**
      * @throws AccountInvalidActionException
      */
-    public function activate(Account $account): void;
+    public function activate(Account $account): Account;
 
     /**
      * @throws AccountInvalidActionException
      */
-    public function block(Account $account): void;
+    public function block(Account $account): Account;
 
     /**
      * @throws AccountInvalidActionException
      */
-    public function register(Account $account): void;
+    public function register(Account $account): Account;
 
     /**
      * @throws AccountInvalidActionException
      */
-    public function unblock(Account $account): void;
+    public function unblock(Account $account): Account;
 }

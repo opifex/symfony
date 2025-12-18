@@ -38,17 +38,17 @@ final class UpdateAccountByIdHandler
                     throw AccountAlreadyExistsException::create();
                 }
 
-                $account->changeEmail(EmailAddress::fromString($request->email));
+                $account = $account->withEmail(EmailAddress::fromString($request->email));
             }
         }
 
         if ($request->password !== null) {
             $passwordHash = $this->userPasswordHasher->hash($request->password);
-            $account->changePassword(HashedPassword::fromString($passwordHash));
+            $account = $account->withPassword(HashedPassword::fromString($passwordHash));
         }
 
         if ($request->locale !== null) {
-            $account->switchLocale(LocaleCode::fromString($request->locale));
+            $account = $account->withLocale(LocaleCode::fromString($request->locale));
         }
 
         $this->accountEntityRepository->save($account);

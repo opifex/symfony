@@ -3,8 +3,6 @@ framework:
   trusted_proxies: '%env(TRUSTED_PROXIES)%'
   handle_all_throwables: true
   http_method_override: false
-  set_locale_from_accept_language: true
-  set_content_language_from_locale: true
   serializer:
     name_converter: serializer.name_converter.camel_case_to_snake_case
   php_errors:
