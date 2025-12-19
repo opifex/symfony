@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\MessageHandler\UpdateAccountById\UpdateAccountByIdRequest;
+use App\Application\MessageHandler\Command\UpdateAccountById\UpdateAccountByIdCommand;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
@@ -58,23 +58,23 @@ final class UpdateAccountByIdController extends AbstractController
         ],
         responses: [
             new OA\Response(
-                response: Response::HTTP_BAD_REQUEST,
+                response: HttpSpecification::HTTP_BAD_REQUEST,
                 description: HttpSpecification::STATUS_BAD_REQUEST,
             ),
             new OA\Response(
-                response: Response::HTTP_FORBIDDEN,
+                response: HttpSpecification::HTTP_FORBIDDEN,
                 description: HttpSpecification::STATUS_FORBIDDEN,
             ),
             new OA\Response(
-                response: Response::HTTP_NOT_FOUND,
+                response: HttpSpecification::HTTP_NOT_FOUND,
                 description: HttpSpecification::STATUS_NOT_FOUND,
             ),
             new OA\Response(
-                response: Response::HTTP_NO_CONTENT,
+                response: HttpSpecification::HTTP_NO_CONTENT,
                 description: HttpSpecification::STATUS_NO_CONTENT,
             ),
             new OA\Response(
-                response: Response::HTTP_UNAUTHORIZED,
+                response: HttpSpecification::HTTP_UNAUTHORIZED,
                 description: HttpSpecification::STATUS_UNAUTHORIZED,
             ),
         ],
@@ -84,8 +84,8 @@ final class UpdateAccountByIdController extends AbstractController
         name: 'app_update_account_by_id',
         methods: Request::METHOD_PATCH,
     )]
-    public function __invoke(#[ValueResolver('payload')] UpdateAccountByIdRequest $request): Response
+    public function __invoke(#[ValueResolver('payload')] UpdateAccountByIdCommand $request): Response
     {
-        return $this->getHandledResult($request);
+        return $this->commandMessageBus->dispatch($request)->toResponse();
     }
 }

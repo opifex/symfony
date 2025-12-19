@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\PayPal\RemoteEvent;
 
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\RemoteEvent\RemoteEvent;
 
-#[Exclude]
 final class PayPalPaymentCaptureEvent extends RemoteEvent
 {
     // A payment capture completes.

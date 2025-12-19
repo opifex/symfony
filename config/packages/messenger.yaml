@@ -1,14 +1,27 @@
 framework:
   messenger:
-    default_bus: default.bus
+    default_bus: command.bus
     failure_transport: failed
     buses:
-      default.bus:
+      command.bus:
         middleware:
           - App\Infrastructure\Messenger\Middleware\RequestTraceMiddleware
           - App\Infrastructure\Messenger\Middleware\MessageValidationMiddleware
-          - doctrine_close_connection
           - doctrine_ping_connection
+          - doctrine_close_connection
+          - doctrine_transaction
+      query.bus:
+        middleware:
+          - App\Infrastructure\Messenger\Middleware\RequestTraceMiddleware
+          - App\Infrastructure\Messenger\Middleware\MessageValidationMiddleware
+          - doctrine_ping_connection
+          - doctrine_close_connection
+      event.bus:
+        default_middleware: allow_no_handlers
+        middleware:
+          - App\Infrastructure\Messenger\Middleware\RequestTraceMiddleware
+          - doctrine_ping_connection
+          - doctrine_close_connection
           - doctrine_transaction
     transports:
       notifier_emails:

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Application\MessageHandler\SignupNewAccount\SignupNewAccountRequest;
+use App\Application\MessageHandler\Command\SignupNewAccount\SignupNewAccountCommand;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
@@ -51,15 +51,15 @@ final class SignupNewAccountController extends AbstractController
         tags: ['Authorization'],
         responses: [
             new OA\Response(
-                response: Response::HTTP_BAD_REQUEST,
+                response: HttpSpecification::HTTP_BAD_REQUEST,
                 description: HttpSpecification::STATUS_BAD_REQUEST,
             ),
             new OA\Response(
-                response: Response::HTTP_CONFLICT,
+                response: HttpSpecification::HTTP_CONFLICT,
                 description: HttpSpecification::STATUS_CONFLICT,
             ),
             new OA\Response(
-                response: Response::HTTP_NO_CONTENT,
+                response: HttpSpecification::HTTP_NO_CONTENT,
                 description: HttpSpecification::STATUS_NO_CONTENT,
             ),
         ],
@@ -69,8 +69,8 @@ final class SignupNewAccountController extends AbstractController
         name: 'app_signup_new_account',
         methods: Request::METHOD_POST,
     )]
-    public function __invoke(#[ValueResolver('payload')] SignupNewAccountRequest $request): Response
+    public function __invoke(#[ValueResolver('payload')] SignupNewAccountCommand $request): Response
     {
-        return $this->getHandledResult($request);
+        return $this->commandMessageBus->dispatch($request)->toResponse();
     }
 }

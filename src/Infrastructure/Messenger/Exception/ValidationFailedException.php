@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Messenger\Exception;
 
+use App\Domain\Foundation\HttpSpecification;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-#[Exclude]
-#[WithHttpStatus(statusCode: Response::HTTP_UNPROCESSABLE_ENTITY)]
+#[WithHttpStatus(statusCode: HttpSpecification::HTTP_UNPROCESSABLE_ENTITY)]
 class ValidationFailedException extends RuntimeException
 {
     public function __construct(

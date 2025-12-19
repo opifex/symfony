@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\Security\AuthenticatedUser;
 
 use Override;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[Exclude]
 final class TokenAuthenticatedUser implements UserInterface
 {
     /**

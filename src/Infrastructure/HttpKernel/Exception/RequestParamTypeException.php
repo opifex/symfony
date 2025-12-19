@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\HttpKernel\Exception;
 
+use App\Domain\Foundation\HttpSpecification;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-#[Exclude]
-#[WithHttpStatus(statusCode: Response::HTTP_UNPROCESSABLE_ENTITY)]
+#[WithHttpStatus(statusCode: HttpSpecification::HTTP_UNPROCESSABLE_ENTITY)]
 class RequestParamTypeException extends RuntimeException
 {
     public function __construct(

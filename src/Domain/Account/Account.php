@@ -9,9 +9,7 @@ use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\HashedPassword;
 use App\Domain\Localization\LocaleCode;
 use NoDiscard;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
-#[Exclude]
 class Account
 {
     public function __construct(

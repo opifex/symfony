@@ -7,9 +7,7 @@ namespace App\Infrastructure\Doctrine\Mapping;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
-#[Exclude]
 #[ORM\Entity]
 #[ORM\Table(name: 'account')]
 class AccountEntity

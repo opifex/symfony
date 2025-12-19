@@ -7,9 +7,7 @@ namespace App\Domain\Foundation\ValueObject;
 use DateTimeInterface;
 use DateTimeZone;
 use Symfony\Component\Clock\DatePoint;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
-#[Exclude]
 final class DateTimeUtc
 {
     private const string TIMEZONE = 'UTC';

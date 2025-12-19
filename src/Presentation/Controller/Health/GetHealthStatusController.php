@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Health;
 
-use App\Application\MessageHandler\GetHealthStatus\GetHealthStatusRequest;
+use App\Application\MessageHandler\Query\GetHealthStatus\GetHealthStatusQuery;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Healthcheck\HealthStatus;
 use App\Presentation\Controller\AbstractController;
@@ -23,11 +23,11 @@ final class GetHealthStatusController extends AbstractController
         tags: ['Health'],
         responses: [
             new OA\Response(
-                response: Response::HTTP_BAD_REQUEST,
+                response: HttpSpecification::HTTP_BAD_REQUEST,
                 description: HttpSpecification::STATUS_BAD_REQUEST,
             ),
             new OA\Response(
-                response: Response::HTTP_OK,
+                response: HttpSpecification::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
                 content: new OA\JsonContent(
                     properties: [
@@ -48,8 +48,8 @@ final class GetHealthStatusController extends AbstractController
         name: 'app_get_health_status',
         methods: Request::METHOD_GET,
     )]
-    public function __invoke(#[ValueResolver('payload')] GetHealthStatusRequest $request): Response
+    public function __invoke(#[ValueResolver('payload')] GetHealthStatusQuery $request): Response
     {
-        return $this->getHandledResult($request);
+        return $this->queryMessageBus->ask($request)->toResponse();
     }
 }

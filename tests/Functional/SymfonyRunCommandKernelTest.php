@@ -10,8 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpFoundation\Request;
-use Tests\Support\HttpMockClientTrait;
 use Tests\Support\HttpMockClientResponse;
+use Tests\Support\HttpMockClientTrait;
 
 final class SymfonyRunCommandKernelTest extends KernelTestCase
 {

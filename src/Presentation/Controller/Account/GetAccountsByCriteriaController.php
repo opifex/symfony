@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\MessageHandler\GetAccountsByCriteria\GetAccountsByCriteriaRequest;
-use App\Domain\Account\AccountStatus;
+use App\Application\MessageHandler\Query\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
 use App\Domain\Account\AccountRole;
+use App\Domain\Account\AccountStatus;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
@@ -56,15 +56,15 @@ final class GetAccountsByCriteriaController extends AbstractController
         ],
         responses: [
             new OA\Response(
-                response: Response::HTTP_BAD_REQUEST,
+                response: HttpSpecification::HTTP_BAD_REQUEST,
                 description: HttpSpecification::STATUS_BAD_REQUEST,
             ),
             new OA\Response(
-                response: Response::HTTP_FORBIDDEN,
+                response: HttpSpecification::HTTP_FORBIDDEN,
                 description: HttpSpecification::STATUS_FORBIDDEN,
             ),
             new OA\Response(
-                response: Response::HTTP_OK,
+                response: HttpSpecification::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
                 content: new OA\JsonContent(
                     properties: [
@@ -138,7 +138,7 @@ final class GetAccountsByCriteriaController extends AbstractController
                 ),
             ),
             new OA\Response(
-                response: Response::HTTP_UNAUTHORIZED,
+                response: HttpSpecification::HTTP_UNAUTHORIZED,
                 description: HttpSpecification::STATUS_UNAUTHORIZED,
             ),
         ],
@@ -148,8 +148,8 @@ final class GetAccountsByCriteriaController extends AbstractController
         name: 'app_get_accounts_by_criteria',
         methods: Request::METHOD_GET,
     )]
-    public function __invoke(#[ValueResolver('payload')] GetAccountsByCriteriaRequest $request): Response
+    public function __invoke(#[ValueResolver('payload')] GetAccountsByCriteriaQuery $request): Response
     {
-        return $this->getHandledResult($request);
+        return $this->queryMessageBus->ask($request)->toResponse();
     }
 }

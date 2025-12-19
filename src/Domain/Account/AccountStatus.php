@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
-
-#[Exclude]
 enum AccountStatus: string
 {
     case Activated = 'activated';

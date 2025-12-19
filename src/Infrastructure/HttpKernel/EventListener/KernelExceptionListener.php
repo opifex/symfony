@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Infrastructure\HttpKernel\EventListener;
 
 use App\Application\Contract\PrivacyDataProtectorInterface;
+use App\Domain\Foundation\HttpSpecification;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\HttpKernel\Attribute\WithLogLevel;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -52,7 +52,7 @@ final class KernelExceptionListener
         [$statusCode, $headers] = match (true) {
             $httpStatus instanceof WithHttpStatus => [$httpStatus->statusCode, $httpStatus->headers],
             $throwable instanceof HttpExceptionInterface => [$throwable->getStatusCode(), $throwable->getHeaders()],
-            default => [Response::HTTP_INTERNAL_SERVER_ERROR, []],
+            default => [HttpSpecification::HTTP_INTERNAL_SERVER_ERROR, []],
         };
 
         $this->logger->log(

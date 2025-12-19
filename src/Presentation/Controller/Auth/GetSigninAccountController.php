@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
-use App\Domain\Account\AccountStatus;
+use App\Application\MessageHandler\Query\GetSigninAccount\GetSigninAccountQuery;
 use App\Domain\Account\AccountRole;
+use App\Domain\Account\AccountStatus;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
@@ -26,11 +26,11 @@ final class GetSigninAccountController extends AbstractController
         tags: ['Authorization'],
         responses: [
             new OA\Response(
-                response: Response::HTTP_BAD_REQUEST,
+                response: HttpSpecification::HTTP_BAD_REQUEST,
                 description: HttpSpecification::STATUS_BAD_REQUEST,
             ),
             new OA\Response(
-                response: Response::HTTP_OK,
+                response: HttpSpecification::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
                 content: new OA\JsonContent(
                     properties: [
@@ -73,7 +73,7 @@ final class GetSigninAccountController extends AbstractController
                 ),
             ),
             new OA\Response(
-                response: Response::HTTP_UNAUTHORIZED,
+                response: HttpSpecification::HTTP_UNAUTHORIZED,
                 description: HttpSpecification::STATUS_UNAUTHORIZED,
             ),
         ],
@@ -83,8 +83,8 @@ final class GetSigninAccountController extends AbstractController
         name: 'app_get_signin_account',
         methods: Request::METHOD_GET,
     )]
-    public function __invoke(#[ValueResolver('payload')] GetSigninAccountRequest $request): Response
+    public function __invoke(#[ValueResolver('payload')] GetSigninAccountQuery $request): Response
     {
-        return $this->getHandledResult($request);
+        return $this->queryMessageBus->ask($request)->toResponse();
     }
 }

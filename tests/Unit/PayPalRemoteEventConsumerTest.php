@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Application\Contract\EventMessageBusInterface;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPaymentCaptureEvent;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalRemoteEventConsumer;
 use Override;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class PayPalRemoteEventConsumerTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
     {
-        $this->eventDispatcher = $this->createMock(type: EventDispatcherInterface::class);
+        $this->eventMessageBus = $this->createMock(type: EventMessageBusInterface::class);
     }
 
     public function testConsumeDispatchesPaymentReceivedEventOnCompleted(): void
     {
-        $payPalRemoteEventConsumer = new PayPalRemoteEventConsumer($this->eventDispatcher);
+        $payPalRemoteEventConsumer = new PayPalRemoteEventConsumer($this->eventMessageBus);
         $payPalRemoteEventConsumer->consume(
             new PayPalPaymentCaptureEvent(
                 name: PayPalPaymentCaptureEvent::COMPLETED,

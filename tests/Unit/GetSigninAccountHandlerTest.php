@@ -6,8 +6,8 @@ namespace Tests\Unit;
 
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Application\Exception\AuthorizationRequiredException;
-use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountHandler;
-use App\Application\MessageHandler\GetSigninAccount\GetSigninAccountRequest;
+use App\Application\MessageHandler\Query\GetSigninAccount\GetSigninAccountQuery;
+use App\Application\MessageHandler\Query\GetSigninAccount\GetSigninAccountQueryHandler;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;
@@ -24,19 +24,19 @@ final class GetSigninAccountHandlerTest extends TestCase
 
     public function testInvokeThrowsAuthorizationRequiredException(): void
     {
-        $handler = new GetSigninAccountHandler(
+        $handler = new GetSigninAccountQueryHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authorizationTokenManager: $this->authorizationTokenManager,
         );
 
         $this->expectException(exception: AuthorizationRequiredException::class);
 
-        $handler(new GetSigninAccountRequest());
+        $handler(new GetSigninAccountQuery());
     }
 
     public function testInvokeThrowsExceptionWhenAccountNotFound(): void
     {
-        $handler = new GetSigninAccountHandler(
+        $handler = new GetSigninAccountQueryHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authorizationTokenManager: $this->authorizationTokenManager,
         );
@@ -53,6 +53,6 @@ final class GetSigninAccountHandlerTest extends TestCase
 
         $this->expectException(exception: AccountNotFoundException::class);
 
-        $handler(new GetSigninAccountRequest());
+        $handler(new GetSigninAccountQuery());
     }
 }

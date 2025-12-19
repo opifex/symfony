@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\MessageHandler\GetAccountById\GetAccountByIdRequest;
-use App\Domain\Account\AccountStatus;
+use App\Application\MessageHandler\Query\GetAccountById\GetAccountByIdQuery;
 use App\Domain\Account\AccountRole;
+use App\Domain\Account\AccountStatus;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
@@ -34,19 +34,19 @@ final class GetAccountByIdController extends AbstractController
         ],
         responses: [
             new OA\Response(
-                response: Response::HTTP_BAD_REQUEST,
+                response: HttpSpecification::HTTP_BAD_REQUEST,
                 description: HttpSpecification::STATUS_BAD_REQUEST,
             ),
             new OA\Response(
-                response: Response::HTTP_FORBIDDEN,
+                response: HttpSpecification::HTTP_FORBIDDEN,
                 description: HttpSpecification::STATUS_FORBIDDEN,
             ),
             new OA\Response(
-                response: Response::HTTP_NOT_FOUND,
+                response: HttpSpecification::HTTP_NOT_FOUND,
                 description: HttpSpecification::STATUS_NOT_FOUND,
             ),
             new OA\Response(
-                response: Response::HTTP_OK,
+                response: HttpSpecification::HTTP_OK,
                 description: HttpSpecification::STATUS_OK,
                 content: new OA\JsonContent(
                     properties: [
@@ -90,7 +90,7 @@ final class GetAccountByIdController extends AbstractController
                 ),
             ),
             new OA\Response(
-                response: Response::HTTP_UNAUTHORIZED,
+                response: HttpSpecification::HTTP_UNAUTHORIZED,
                 description: HttpSpecification::STATUS_UNAUTHORIZED,
             ),
         ],
@@ -100,8 +100,8 @@ final class GetAccountByIdController extends AbstractController
         name: 'app_get_account_by_id',
         methods: Request::METHOD_GET,
     )]
-    public function __invoke(#[ValueResolver('payload')] GetAccountByIdRequest $request): Response
+    public function __invoke(#[ValueResolver('payload')] GetAccountByIdQuery $request): Response
     {
-        return $this->getHandledResult($request);
+        return $this->queryMessageBus->ask($request)->toResponse();
     }
 }

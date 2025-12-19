@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation\ValueObject;
 
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Uid\Uuid;
 
-#[Exclude]
 abstract class AbstractUuidIdentifier
 {
     final private function __construct(

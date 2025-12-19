@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Account\Exception;
 
+use App\Domain\Foundation\HttpSpecification;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
-#[Exclude]
-#[WithHttpStatus(statusCode: Response::HTTP_CONFLICT)]
+#[WithHttpStatus(statusCode: HttpSpecification::HTTP_CONFLICT)]
 class AccountAlreadyExistsException extends RuntimeException
 {
     public static function create(): self

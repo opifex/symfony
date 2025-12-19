@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Support\Fixture;
 
-use App\Domain\Account\AccountStatus;
 use App\Domain\Account\AccountRole;
+use App\Domain\Account\AccountStatus;
 use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;

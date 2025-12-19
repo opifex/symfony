@@ -8,8 +8,8 @@ use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Application\Exception\AuthorizationThrottlingException;
-use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountHandler;
-use App\Application\MessageHandler\SigninIntoAccount\SigninIntoAccountRequest;
+use App\Application\MessageHandler\Command\SigninIntoAccount\SigninIntoAccountCommand;
+use App\Application\MessageHandler\Command\SigninIntoAccount\SigninIntoAccountCommandHandler;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;
@@ -28,7 +28,7 @@ final class SigninIntoAccountHandlerTest extends TestCase
 
     public function testInvokeThrowsThrottlingException(): void
     {
-        $handler = new SigninIntoAccountHandler(
+        $handler = new SigninIntoAccountCommandHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authenticationRateLimiter: $this->authenticationRateLimiter,
             authorizationTokenManager: $this->authorizationTokenManager,
@@ -42,12 +42,12 @@ final class SigninIntoAccountHandlerTest extends TestCase
 
         $this->expectException(exception: AuthorizationThrottlingException::class);
 
-        $handler(new SigninIntoAccountRequest());
+        $handler(new SigninIntoAccountCommand());
     }
 
     public function testInvokeThrowsExceptionWhenAccountNotFound(): void
     {
-        $handler = new SigninIntoAccountHandler(
+        $handler = new SigninIntoAccountCommandHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authenticationRateLimiter: $this->authenticationRateLimiter,
             authorizationTokenManager: $this->authorizationTokenManager,
@@ -61,12 +61,12 @@ final class SigninIntoAccountHandlerTest extends TestCase
 
         $this->expectException(exception: AccountNotFoundException::class);
 
-        $handler(new SigninIntoAccountRequest());
+        $handler(new SigninIntoAccountCommand());
     }
 
     public function testInvokeThrowsExceptionWhenAccountThrottled(): void
     {
-        $handler = new SigninIntoAccountHandler(
+        $handler = new SigninIntoAccountCommandHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authenticationRateLimiter: $this->authenticationRateLimiter,
             authorizationTokenManager: $this->authorizationTokenManager,
@@ -80,6 +80,6 @@ final class SigninIntoAccountHandlerTest extends TestCase
 
         $this->expectException(exception: AuthorizationThrottlingException::class);
 
-        $handler(new SigninIntoAccountRequest());
+        $handler(new SigninIntoAccountCommand());
     }
 }

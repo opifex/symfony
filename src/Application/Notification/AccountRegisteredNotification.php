@@ -7,14 +7,12 @@ namespace App\Application\Notification;
 use App\Domain\Account\Account;
 use Override;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Notifier\Message\EmailMessage;
 use Symfony\Component\Notifier\Notification\EmailNotificationInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Exclude]
 final class AccountRegisteredNotification extends Notification implements EmailNotificationInterface
 {
     private string $subject = 'Thank you for registration';

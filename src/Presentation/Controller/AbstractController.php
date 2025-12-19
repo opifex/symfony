@@ -4,34 +4,14 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\Exception\LogicException;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\HandledStamp;
+use App\Application\Contract\CommandMessageBusInterface;
+use App\Application\Contract\QueryMessageBusInterface;
 
 abstract class AbstractController
 {
     public function __construct(
-        private readonly MessageBusInterface $messageBus,
+        protected readonly CommandMessageBusInterface $commandMessageBus,
+        protected readonly QueryMessageBusInterface $queryMessageBus,
     ) {
-    }
-
-    protected function getHandledResult(object $message): Response
-    {
-        $envelope = $this->messageBus->dispatch($message);
-        $handledStamps = $envelope->all(stampFqcn: HandledStamp::class);
-        $handledResult = $handledStamps[0]->getResult();
-
-        if (count($handledStamps) !== 1) {
-            $exceptionMessage = 'Message of type "%s" was handled multiple times, but only one handler is expected.';
-            throw new LogicException(sprintf($exceptionMessage, get_debug_type($envelope->getMessage())));
-        }
-
-        if (!$handledResult instanceof Response) {
-            $exceptionMessage = 'Message handler for type "%s" must return valid Response object.';
-            throw new LogicException(sprintf($exceptionMessage, get_debug_type($envelope->getMessage())));
-        }
-
-        return $handledResult;
     }
 }

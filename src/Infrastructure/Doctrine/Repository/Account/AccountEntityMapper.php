@@ -13,9 +13,7 @@ use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\HashedPassword;
 use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
-use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
-#[Exclude]
 final class AccountEntityMapper
 {
     public static function map(AccountEntity $entity): Account

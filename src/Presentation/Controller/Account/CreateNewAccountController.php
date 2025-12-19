@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\MessageHandler\CreateNewAccount\CreateNewAccountRequest;
+use App\Application\MessageHandler\Command\CreateNewAccount\CreateNewAccountCommand;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
@@ -52,15 +52,15 @@ final class CreateNewAccountController extends AbstractController
         tags: ['Account'],
         responses: [
             new OA\Response(
-                response: Response::HTTP_BAD_REQUEST,
+                response: HttpSpecification::HTTP_BAD_REQUEST,
                 description: HttpSpecification::STATUS_BAD_REQUEST,
             ),
             new OA\Response(
-                response: Response::HTTP_CONFLICT,
+                response: HttpSpecification::HTTP_CONFLICT,
                 description: HttpSpecification::STATUS_CONFLICT,
             ),
             new OA\Response(
-                response: Response::HTTP_CREATED,
+                response: HttpSpecification::HTTP_CREATED,
                 description: HttpSpecification::STATUS_CREATED,
                 content: new OA\JsonContent(
                     properties: [
@@ -74,11 +74,11 @@ final class CreateNewAccountController extends AbstractController
                 ),
             ),
             new OA\Response(
-                response: Response::HTTP_FORBIDDEN,
+                response: HttpSpecification::HTTP_FORBIDDEN,
                 description: HttpSpecification::STATUS_FORBIDDEN,
             ),
             new OA\Response(
-                response: Response::HTTP_UNAUTHORIZED,
+                response: HttpSpecification::HTTP_UNAUTHORIZED,
                 description: HttpSpecification::STATUS_UNAUTHORIZED,
             ),
         ],
@@ -88,8 +88,8 @@ final class CreateNewAccountController extends AbstractController
         name: 'app_create_new_account',
         methods: Request::METHOD_POST,
     )]
-    public function __invoke(#[ValueResolver('payload')] CreateNewAccountRequest $request): Response
+    public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $request): Response
     {
-        return $this->getHandledResult($request);
+        return $this->commandMessageBus->dispatch($request)->toResponse();
     }
 }
