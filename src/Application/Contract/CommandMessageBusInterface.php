@@ -8,7 +8,5 @@ use App\Domain\Foundation\MessageHandlerResult;
 
 interface CommandMessageBusInterface
 {
-    public const string NAME = 'command.bus';
-
     public function dispatch(object $command): MessageHandlerResult;
 }
