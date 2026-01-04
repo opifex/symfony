@@ -27,8 +27,13 @@ framework:
       notifier_emails:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
-          table_name: messenger
-          queue_name: 'notifier_emails'
+          exchange:
+            default_publish_routing_key: normal
+            name: '%env(APP_NAME)%.notifier_emails.direct'
+            type: direct
+          queues:
+            '%env(APP_NAME)%.notifier_emails.direct':
+              binding_keys: [ normal ]
         retry_strategy:
           delay: 60000
           max_retries: 3
@@ -36,8 +41,13 @@ framework:
       webhook_events:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
-          table_name: messenger
-          queue_name: 'webhook_events'
+          exchange:
+            default_publish_routing_key: normal
+            name: '%env(APP_NAME)%.webhook_events.direct'
+            type: direct
+          queues:
+            '%env(APP_NAME)%.webhook_events.direct':
+              binding_keys: [ normal ]
         retry_strategy:
           delay: 60000
           max_retries: 3
