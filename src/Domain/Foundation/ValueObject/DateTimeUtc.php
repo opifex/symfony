@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation\ValueObject;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use Symfony\Component\Clock\DatePoint;
 
 final class DateTimeUtc
 {
     private const string TIMEZONE = 'UTC';
 
     final private function __construct(
-        private readonly DatePoint $datetime,
+        private readonly DateTimeImmutable $datetime,
     ) {
     }
 
     public static function now(): self
     {
         return new self(
-            new DatePoint()->setTimezone(
+            new DateTimeImmutable()->setTimezone(
                 timezone: new DateTimeZone(timezone: self::TIMEZONE),
             ),
         );
@@ -29,13 +29,13 @@ final class DateTimeUtc
     public static function fromInterface(DateTimeInterface $datetime): self
     {
         return new self(
-            DatePoint::createFromInterface($datetime)->setTimezone(
+            DateTimeImmutable::createFromInterface($datetime)->setTimezone(
                 timezone: new DateTimeZone(timezone: self::TIMEZONE),
             ),
         );
     }
 
-    public function toImmutable(): DatePoint
+    public function toImmutable(): DateTimeImmutable
     {
         return $this->datetime;
     }

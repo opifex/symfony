@@ -16,13 +16,13 @@ final class EmailAddress
         return new self($email);
     }
 
-    public function equals(EmailAddress $emailAddress): bool
-    {
-        return strtolower($this->email) === strtolower($emailAddress->email);
-    }
-
     public function toString(): string
     {
         return $this->email;
+    }
+
+    public function equals(EmailAddress $emailAddress): bool
+    {
+        return strtolower($this->email) === strtolower($emailAddress->email);
     }
 }
