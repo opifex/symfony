@@ -43,11 +43,7 @@ final class GetHealthStatusController extends AbstractController
             ),
         ],
     )]
-    #[Route(
-        path: '/health',
-        name: 'app_get_health_status',
-        methods: Request::METHOD_GET,
-    )]
+    #[Route(path: '/health', name: 'app_get_health_status', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetHealthStatusQuery $request): Response
     {
         return $this->queryMessageBus->ask($request)->toResponse();

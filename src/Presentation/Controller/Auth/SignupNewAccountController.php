@@ -64,11 +64,7 @@ final class SignupNewAccountController extends AbstractController
             ),
         ],
     )]
-    #[Route(
-        path: '/auth/signup',
-        name: 'app_signup_new_account',
-        methods: Request::METHOD_POST,
-    )]
+    #[Route(path: '/auth/signup', name: 'app_signup_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SignupNewAccountCommand $request): Response
     {
         return $this->commandMessageBus->dispatch($request)->toResponse();

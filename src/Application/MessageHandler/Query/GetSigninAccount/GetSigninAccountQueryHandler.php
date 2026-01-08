@@ -6,7 +6,6 @@ namespace App\Application\MessageHandler\Query\GetSigninAccount;
 
 use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Application\Exception\AuthorizationRequiredException;
-use App\Domain\Account\AccountRole;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -22,8 +21,6 @@ final class GetSigninAccountQueryHandler
 
     public function __invoke(GetSigninAccountQuery $request): GetSigninAccountQueryResult
     {
-        $this->authorizationTokenManager->checkUserPermission(role: AccountRole::User);
-
         $userIdentifier = $this->authorizationTokenManager->getUserIdentifier()
             ?? throw AuthorizationRequiredException::create();
 

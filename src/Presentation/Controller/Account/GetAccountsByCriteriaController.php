@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class GetAccountsByCriteriaController extends AbstractController
@@ -143,11 +144,8 @@ final class GetAccountsByCriteriaController extends AbstractController
             ),
         ],
     )]
-    #[Route(
-        path: '/account',
-        name: 'app_get_accounts_by_criteria',
-        methods: Request::METHOD_GET,
-    )]
+    #[IsGranted(attribute: 'ROLE_ADMIN')]
+    #[Route(path: '/account', name: 'app_get_accounts_by_criteria', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetAccountsByCriteriaQuery $request): Response
     {
         return $this->queryMessageBus->ask($request)->toResponse();

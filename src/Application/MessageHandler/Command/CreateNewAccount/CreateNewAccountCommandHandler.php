@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\Command\CreateNewAccount;
 
-use App\Application\Contract\AuthorizationTokenManagerInterface;
 use App\Application\Contract\EventMessageBusInterface;
 use App\Domain\Account\Account;
-use App\Domain\Account\AccountRole;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
 use App\Domain\Account\Contract\AccountStateMachineInterface;
@@ -22,15 +20,12 @@ final class CreateNewAccountCommandHandler
         private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AccountPasswordHasherInterface $accountPasswordHasher,
         private readonly AccountStateMachineInterface $accountStateMachine,
-        private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
         private readonly EventMessageBusInterface $eventMessageBus,
     ) {
     }
 
     public function __invoke(CreateNewAccountCommand $request): CreateNewAccountCommandResult
     {
-        $this->authorizationTokenManager->checkUserPermission(role: AccountRole::Admin);
-
         if ($this->accountEntityRepository->findOneByEmail($request->email) !== null) {
             throw AccountAlreadyExistsException::create();
         }

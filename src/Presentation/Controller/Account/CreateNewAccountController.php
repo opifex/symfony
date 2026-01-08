@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class CreateNewAccountController extends AbstractController
@@ -83,11 +84,8 @@ final class CreateNewAccountController extends AbstractController
             ),
         ],
     )]
-    #[Route(
-        path: '/account',
-        name: 'app_create_new_account',
-        methods: Request::METHOD_POST,
-    )]
+    #[IsGranted(attribute: 'ROLE_ADMIN')]
+    #[Route(path: '/account', name: 'app_create_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $request): Response
     {
         return $this->commandMessageBus->dispatch($request)->toResponse();

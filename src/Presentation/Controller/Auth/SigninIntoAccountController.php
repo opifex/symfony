@@ -64,11 +64,7 @@ final class SigninIntoAccountController extends AbstractController
             ),
         ],
     )]
-    #[Route(
-        path: '/auth/signin',
-        name: 'app_signin_into_account',
-        methods: Request::METHOD_POST,
-    )]
+    #[Route(path: '/auth/signin', name: 'app_signin_into_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SigninIntoAccountCommand $request): Response
     {
         return $this->commandMessageBus->dispatch($request)->toResponse();

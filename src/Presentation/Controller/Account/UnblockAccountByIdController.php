@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class UnblockAccountByIdController extends AbstractController
@@ -52,11 +53,8 @@ final class UnblockAccountByIdController extends AbstractController
             ),
         ],
     )]
-    #[Route(
-        path: '/account/{id}/unblock',
-        name: 'app_unblock_account_by_id',
-        methods: Request::METHOD_POST,
-    )]
+    #[IsGranted(attribute: 'ROLE_ADMIN')]
+    #[Route(path: '/account/{id}/unblock', name: 'app_unblock_account_by_id', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] UnblockAccountByIdCommand $request): Response
     {
         return $this->commandMessageBus->dispatch($request)->toResponse();

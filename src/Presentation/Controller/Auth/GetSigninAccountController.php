@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class GetSigninAccountController extends AbstractController
@@ -78,11 +79,8 @@ final class GetSigninAccountController extends AbstractController
             ),
         ],
     )]
-    #[Route(
-        path: '/auth/me',
-        name: 'app_get_signin_account',
-        methods: Request::METHOD_GET,
-    )]
+    #[IsGranted(attribute: 'ROLE_USER')]
+    #[Route(path: '/auth/me', name: 'app_get_signin_account', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetSigninAccountQuery $request): Response
     {
         return $this->queryMessageBus->ask($request)->toResponse();
