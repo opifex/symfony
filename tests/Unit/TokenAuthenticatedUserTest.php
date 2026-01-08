@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Infrastructure\Security\User\TokenAuthenticatedUser;
+use App\Infrastructure\Security\AuthenticatedUser\TokenAuthenticatedUser;
 use PHPUnit\Framework\TestCase;
 
 final class TokenAuthenticatedUserTest extends TestCase

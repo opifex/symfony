@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler\Query\GetSigninAccount;
 
-use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
@@ -15,13 +15,13 @@ final class GetSigninAccountQueryHandler
 {
     public function __construct(
         private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
+        private readonly AuthorizationTokenStorageInterface $authorizationTokenStorage,
     ) {
     }
 
     public function __invoke(GetSigninAccountQuery $request): GetSigninAccountQueryResult
     {
-        $userIdentifier = $this->authorizationTokenManager->getUserIdentifier()
+        $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier()
             ?? throw AuthorizationRequiredException::create();
 
         $account = $this->accountEntityRepository->findOneById($userIdentifier)

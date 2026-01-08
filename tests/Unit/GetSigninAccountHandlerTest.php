@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\MessageHandler\Query\GetSigninAccount\GetSigninAccountQuery;
 use App\Application\MessageHandler\Query\GetSigninAccount\GetSigninAccountQueryHandler;
@@ -19,14 +19,14 @@ final class GetSigninAccountHandlerTest extends TestCase
     protected function setUp(): void
     {
         $this->accountEntityRepository = $this->createMock(type: AccountEntityRepositoryInterface::class);
-        $this->authorizationTokenManager = $this->createMock(type: AuthorizationTokenManagerInterface::class);
+        $this->authorizationTokenStorage = $this->createMock(type: AuthorizationTokenStorageInterface::class);
     }
 
     public function testInvokeThrowsAuthorizationRequiredException(): void
     {
         $handler = new GetSigninAccountQueryHandler(
             accountEntityRepository: $this->accountEntityRepository,
-            authorizationTokenManager: $this->authorizationTokenManager,
+            authorizationTokenStorage: $this->authorizationTokenStorage,
         );
 
         $this->expectException(exception: AuthorizationRequiredException::class);
@@ -38,10 +38,10 @@ final class GetSigninAccountHandlerTest extends TestCase
     {
         $handler = new GetSigninAccountQueryHandler(
             accountEntityRepository: $this->accountEntityRepository,
-            authorizationTokenManager: $this->authorizationTokenManager,
+            authorizationTokenStorage: $this->authorizationTokenStorage,
         );
 
-        $this->authorizationTokenManager
+        $this->authorizationTokenStorage
             ->expects($this->once())
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '00000000-0000-6000-8000-000000000000');

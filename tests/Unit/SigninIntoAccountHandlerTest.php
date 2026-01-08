@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Application\Contract\AuthenticationRateLimiterInterface;
-use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Application\MessageHandler\Command\SigninIntoAccount\SigninIntoAccountCommand;
@@ -22,7 +22,7 @@ final class SigninIntoAccountHandlerTest extends TestCase
     {
         $this->accountEntityRepository = $this->createMock(type: AccountEntityRepositoryInterface::class);
         $this->authenticationRateLimiter = $this->createMock(type: AuthenticationRateLimiterInterface::class);
-        $this->authorizationTokenManager = $this->createMock(type: AuthorizationTokenManagerInterface::class);
+        $this->authorizationTokenStorage = $this->createMock(type: AuthorizationTokenStorageInterface::class);
         $this->jwtAccessTokenManager = $this->createMock(type: JwtAccessTokenManagerInterface::class);
     }
 
@@ -31,7 +31,7 @@ final class SigninIntoAccountHandlerTest extends TestCase
         $handler = new SigninIntoAccountCommandHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authenticationRateLimiter: $this->authenticationRateLimiter,
-            authorizationTokenManager: $this->authorizationTokenManager,
+            authorizationTokenStorage: $this->authorizationTokenStorage,
             jwtAccessTokenManager: $this->jwtAccessTokenManager,
         );
 
@@ -50,11 +50,11 @@ final class SigninIntoAccountHandlerTest extends TestCase
         $handler = new SigninIntoAccountCommandHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authenticationRateLimiter: $this->authenticationRateLimiter,
-            authorizationTokenManager: $this->authorizationTokenManager,
+            authorizationTokenStorage: $this->authorizationTokenStorage,
             jwtAccessTokenManager: $this->jwtAccessTokenManager,
         );
 
-        $this->authorizationTokenManager
+        $this->authorizationTokenStorage
             ->expects($this->once())
             ->method(constraint: 'getUserIdentifier')
             ->willReturn(value: '00000000-0000-6000-8000-000000000000');
@@ -69,7 +69,7 @@ final class SigninIntoAccountHandlerTest extends TestCase
         $handler = new SigninIntoAccountCommandHandler(
             accountEntityRepository: $this->accountEntityRepository,
             authenticationRateLimiter: $this->authenticationRateLimiter,
-            authorizationTokenManager: $this->authorizationTokenManager,
+            authorizationTokenStorage: $this->authorizationTokenStorage,
             jwtAccessTokenManager: $this->jwtAccessTokenManager,
         );
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Service\AuthorizationTokenManager;
+use App\Infrastructure\Security\TokenStorage\AuthorizationTokenStorage;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class AuthorizationTokenManagerTest extends TestCase
+final class AuthorizationTokenStorageTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -19,7 +19,7 @@ final class AuthorizationTokenManagerTest extends TestCase
 
     public function testGetUserIdentifierReturnNullWithUnauthorizedUser(): void
     {
-        $authorizationTokenManager = new AuthorizationTokenManager(
+        $authorizationTokenStorage = new AuthorizationTokenStorage(
             tokenStorage: $this->tokenStorage,
         );
 
@@ -28,7 +28,7 @@ final class AuthorizationTokenManagerTest extends TestCase
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
 
-        $userIdentifier = $authorizationTokenManager->getUserIdentifier();
+        $userIdentifier = $authorizationTokenStorage->getUserIdentifier();
 
         $this->assertSame(expected: null, actual: $userIdentifier);
     }

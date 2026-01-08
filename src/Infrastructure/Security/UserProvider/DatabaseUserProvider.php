@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Security\User;
+namespace App\Infrastructure\Security\UserProvider;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;

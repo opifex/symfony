@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Security\User;
+namespace App\Infrastructure\Security\AuthenticatedUser;
 
 use Override;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;

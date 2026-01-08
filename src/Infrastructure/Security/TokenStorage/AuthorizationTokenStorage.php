@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Infrastructure\Security\TokenStorage;
 
-use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Application\Contract\AuthorizationTokenStorageInterface;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class AuthorizationTokenManager implements AuthorizationTokenManagerInterface
+final class AuthorizationTokenStorage implements AuthorizationTokenStorageInterface
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,

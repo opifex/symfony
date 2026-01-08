@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\MessageHandler\Command\SigninIntoAccount;
 
 use App\Application\Contract\AuthenticationRateLimiterInterface;
-use App\Application\Contract\AuthorizationTokenManagerInterface;
+use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
@@ -19,14 +19,14 @@ final class SigninIntoAccountCommandHandler
     public function __construct(
         private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AuthenticationRateLimiterInterface $authenticationRateLimiter,
-        private readonly AuthorizationTokenManagerInterface $authorizationTokenManager,
+        private readonly AuthorizationTokenStorageInterface $authorizationTokenStorage,
         private readonly JwtAccessTokenManagerInterface $jwtAccessTokenManager,
     ) {
     }
 
     public function __invoke(SigninIntoAccountCommand $request): SigninIntoAccountCommandResult
     {
-        $userIdentifier = $this->authorizationTokenManager->getUserIdentifier();
+        $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
 
         if ($userIdentifier === null) {
             if (!$this->authenticationRateLimiter->isAccepted($request->email)) {
