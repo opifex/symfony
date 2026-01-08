@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Domain\Account\AccountRole;
-use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
-use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUserChecker;
+use App\Infrastructure\Security\User\PasswordAuthenticatedUser;
+use App\Infrastructure\Security\User\PasswordAuthenticatedUserChecker;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\LockedException;

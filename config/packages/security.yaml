@@ -1,7 +1,7 @@
 security:
   providers:
     database:
-      id: App\Infrastructure\Security\DatabaseUserProvider
+      id: App\Infrastructure\Security\User\DatabaseUserProvider
   password_hashers:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
       algorithm: auto
@@ -13,14 +13,14 @@ security:
       stateless: true
       pattern: ^/api/auth/signin
       provider: database
-      user_checker: App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUserChecker
+      user_checker: App\Infrastructure\Security\User\PasswordAuthenticatedUserChecker
       custom_authenticators:
-        - App\Infrastructure\Security\LoginAuthenticator\JsonLoginAuthenticator
+        - App\Infrastructure\Security\Authenticator\JsonLoginAuthenticator
     authorization:
       stateless: true
       pattern: ^/api
       access_token:
-        token_handler: App\Infrastructure\Security\AccessTokenHandler\JwtAccessTokenHandler
+        token_handler: App\Infrastructure\Security\AccessToken\JwtAccessTokenHandler
   role_hierarchy:
     ROLE_ADMIN: [ ROLE_USER ]
 

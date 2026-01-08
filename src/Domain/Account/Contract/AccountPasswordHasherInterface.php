@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Contract;
+namespace App\Domain\Account\Contract;
 
 use SensitiveParameter;
 
-interface UserPasswordHasherInterface
+interface AccountPasswordHasherInterface
 {
     public function hash(#[SensitiveParameter] string $plainPassword): string;
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Security\LoginAuthenticator;
+namespace App\Infrastructure\Security\Authenticator;
 
 use Override;
 use Symfony\Component\HttpFoundation\Request;

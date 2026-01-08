@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
+use App\Infrastructure\Security\User\PasswordAuthenticatedUser;
 use PHPUnit\Framework\TestCase;
 
 final class PasswordAuthenticatedUserTest extends TestCase
