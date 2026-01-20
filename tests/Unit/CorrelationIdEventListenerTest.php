@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Contract\RequestTraceManagerInterface;
-use App\Infrastructure\HttpKernel\EventListener\ResponseTraceListener;
+use App\Infrastructure\HttpKernel\EventListener\CorrelationIdEventListener;
+use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,19 +13,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-final class RequestTraceListenerTest extends TestCase
+final class CorrelationIdEventListenerTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
     {
         $this->httpKernel = $this->createMock(type: HttpKernelInterface::class);
-        $this->requestTraceManager = $this->createMock(type: RequestTraceManagerInterface::class);
     }
 
     public function testOnResponseEventWithNotMainRequest(): void
     {
-        $responseTraceListener = new ResponseTraceListener(
-            requestTraceManager: $this->requestTraceManager,
+        $correlationIdEventListener = new CorrelationIdEventListener(
+            correlationIdProvider: new CorrelationIdProvider(),
         );
 
         $responseEvent = new ResponseEvent(
@@ -35,7 +34,7 @@ final class RequestTraceListenerTest extends TestCase
             response: new Response(),
         );
 
-        $responseTraceListener->onResponse($responseEvent);
+        $correlationIdEventListener->onResponse($responseEvent);
 
         $this->expectNotToPerformAssertions();
     }

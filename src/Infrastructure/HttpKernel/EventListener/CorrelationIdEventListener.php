@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\HttpKernel\EventListener;
 
-use App\Application\Contract\RequestTraceManagerInterface;
-use App\Domain\Foundation\HttpSpecification;
+use App\Infrastructure\Observability\CorrelationIdProvider;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
-final class ResponseTraceListener
+final class CorrelationIdEventListener
 {
     public function __construct(
-        private readonly RequestTraceManagerInterface $requestTraceManager,
+        private readonly CorrelationIdProvider $correlationIdProvider,
     ) {
     }
 
@@ -24,8 +23,8 @@ final class ResponseTraceListener
         }
 
         $event->getResponse()->headers->set(
-            key: HttpSpecification::HEADER_X_CORRELATION_ID,
-            values: $this->requestTraceManager->getCorrelationId(),
+            key: $this->correlationIdProvider->getHttpHeaderName(),
+            values: $this->correlationIdProvider->getCorrelationId(),
         );
     }
 }

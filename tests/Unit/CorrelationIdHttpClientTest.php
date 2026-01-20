@@ -4,27 +4,21 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Application\Contract\RequestTraceManagerInterface;
-use App\Infrastructure\HttpClient\RequestTraceHttpClient;
+use App\Infrastructure\HttpClient\CorrelationIdHttpClient;
+use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-final class RequestTraceHttpClientTest extends TestCase
+final class CorrelationIdHttpClientTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
     {
         $this->httpClient = $this->createMock(type: HttpClientInterface::class);
-        $this->requestTraceManager = $this->createMock(type: RequestTraceManagerInterface::class);
         $this->response = $this->createMock(type: ResponseInterface::class);
-
-        $this->requestTraceManager
-            ->expects($this->any())
-            ->method(constraint: 'getCorrelationId')
-            ->willReturn(value: '00000000-0000-6000-8000-000000000000');
     }
 
     /**
@@ -32,8 +26,8 @@ final class RequestTraceHttpClientTest extends TestCase
      */
     public function testPassingRequestIdHeader(): void
     {
-        $requestTraceHttpClient = new RequestTraceHttpClient(
-            requestTraceManager: $this->requestTraceManager,
+        $correlationIdHttpClient = new CorrelationIdHttpClient(
+            correlationIdProvider: new CorrelationIdProvider(),
             client: $this->httpClient,
         );
 
@@ -42,6 +36,6 @@ final class RequestTraceHttpClientTest extends TestCase
             ->method(constraint: 'request')
             ->willReturn($this->response);
 
-        $requestTraceHttpClient->request(method: 'GET', url: 'https://api.example.com');
+        $correlationIdHttpClient->request(method: 'GET', url: 'https://api.example.com');
     }
 }

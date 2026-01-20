@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\HttpClient;
 
-use App\Application\Contract\RequestTraceManagerInterface;
-use App\Domain\Foundation\HttpSpecification;
+use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
@@ -17,12 +16,12 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Service\ResetInterface;
 
 #[AsDecorator(HttpClientInterface::class)]
-final class RequestTraceHttpClient implements HttpClientInterface, ResetInterface
+final class CorrelationIdHttpClient implements HttpClientInterface, ResetInterface
 {
     use DecoratorTrait;
 
     public function __construct(
-        private readonly RequestTraceManagerInterface $requestTraceManager,
+        private readonly CorrelationIdProvider $correlationIdProvider,
         #[AutowireDecorated]
         ?HttpClientInterface $client = null,
     ) {
@@ -39,8 +38,9 @@ final class RequestTraceHttpClient implements HttpClientInterface, ResetInterfac
         $options['headers'] ??= [];
 
         if (is_array($options['headers'])) {
-            $correlationId = $this->requestTraceManager->getCorrelationId();
-            $options['headers'][HttpSpecification::HEADER_X_CORRELATION_ID] = $correlationId;
+            $correlationId = $this->correlationIdProvider->getCorrelationId();
+            $httpHeaderName = $this->correlationIdProvider->getHttpHeaderName();
+            $options['headers'][$httpHeaderName] = $correlationId;
         }
 
         return $this->client->request($method, $url, $options);

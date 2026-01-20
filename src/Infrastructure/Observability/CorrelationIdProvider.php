@@ -2,27 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Infrastructure\Observability;
 
-use App\Application\Contract\RequestTraceManagerInterface;
 use Override;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Contracts\Service\ResetInterface;
 
-final class RequestTraceManager implements RequestTraceManagerInterface, ResetInterface
+final class CorrelationIdProvider implements ResetInterface
 {
     private ?string $correlationId = null;
 
-    #[Override]
     public function setCorrelationId(string $correlationId): void
     {
         $this->correlationId = $correlationId;
     }
 
-    #[Override]
     public function getCorrelationId(): string
     {
         return $this->correlationId ??= Uuid::v4()->toString();
+    }
+
+    public function getHttpHeaderName(): string
+    {
+        return 'X-Correlation-Id';
     }
 
     #[Override]
