@@ -30,6 +30,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
+          extensions: amqp, apcu, gd, intl, pdo_pgsql, redis, xsl, zip
 
       - name: Checkout project sources
         uses: actions/checkout@v6
