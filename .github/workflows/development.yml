@@ -17,7 +17,7 @@ jobs:
           POSTGRES_PASSWORD: root
           POSTGRES_USER: root
         ports:
-          - 5432:5432
+          - 5432/tcp
 
     env:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
