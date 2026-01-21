@@ -28,30 +28,63 @@ jobs:
       - name: Checkout project sources
         uses: actions/checkout@v6
 
+      - name: Set up docker buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build local docker image
-        run: docker build -t app-image .
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: app-image:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Run automated code quality assurance
         run: |
           docker run --rm \
             --network host \
             -e DATABASE_URL="${{ env.DATABASE_URL }}" \
-            -e MAILER_DSN="${{ env.MAILER_DSN }}" \
-            -e MESSENGER_TRANSPORT_DSN="${{ env.MESSENGER_TRANSPORT_DSN }}" \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            app-image /usr/bin/composer auto-analyze
+            app-image sh -c "git config --global --add safe.directory /app && /usr/bin/composer install --no-scripts && /usr/bin/composer auto-analyze"
 
       - name: Run automated project quality assurance
         run: |
           docker run --rm \
             --network host \
             -e DATABASE_URL="${{ env.DATABASE_URL }}" \
-            -e MAILER_DSN="${{ env.MAILER_DSN }}" \
-            -e MESSENGER_TRANSPORT_DSN="${{ env.MESSENGER_TRANSPORT_DSN }}" \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            app-image /usr/bin/composer auto-quality
+            app-image sh -c "git config --global --add safe.directory /app && /usr/bin/composer auto-quality"
+
+
+
+
+#      - name: Build local docker image
+#        run: docker build -t app-image .
+#
+#      - name: Run automated code quality assurance
+#        run: |
+#          docker run --rm \
+#            --network host \
+#            -e DATABASE_URL="${{ env.DATABASE_URL }}" \
+#            -e MAILER_DSN="${{ env.MAILER_DSN }}" \
+#            -e MESSENGER_TRANSPORT_DSN="${{ env.MESSENGER_TRANSPORT_DSN }}" \
+#            -v ${{ github.workspace }}:/app \
+#            -w /app \
+#            app-image /usr/bin/composer auto-analyze
+#
+#      - name: Run automated project quality assurance
+#        run: |
+#          docker run --rm \
+#            --network host \
+#            -e DATABASE_URL="${{ env.DATABASE_URL }}" \
+#            -e MAILER_DSN="${{ env.MAILER_DSN }}" \
+#            -e MESSENGER_TRANSPORT_DSN="${{ env.MESSENGER_TRANSPORT_DSN }}" \
+#            -v ${{ github.workspace }}:/app \
+#            -w /app \
+#            app-image /usr/bin/composer auto-quality
 
       - name: Upload project code coverage reports
         uses: codecov/codecov-action@v5
