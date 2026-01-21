@@ -23,13 +23,12 @@ jobs:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
-      PHP_VERSION: 8.5
 
     steps:
       - name: Setup virtual environment
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ env.PHP_VERSION }}
+          php-version: 8.5
           extensions: amqp, apcu, gd, intl, pdo_pgsql, redis, xsl, zip
 
       - name: Checkout project sources
