@@ -20,6 +20,8 @@ jobs:
           - 5432:5432
 
     env:
+      APP_ENV: test
+      APP_NAME: symfony
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
@@ -44,47 +46,13 @@ jobs:
         run: |
           docker run --rm \
             --network host \
+            -e APP_NAME="${{ env.APP_NAME }}" \
             -e DATABASE_URL="${{ env.DATABASE_URL }}" \
+            -e MAILER_DSN="${{ env.MAILER_DSN }}" \
+            -e MESSENGER_TRANSPORT_DSN="${{ env.MESSENGER_TRANSPORT_DSN }}" \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            app-image sh -c "git config --global --add safe.directory /app && /usr/bin/composer install --no-scripts && /usr/bin/composer auto-analyze"
-
-      - name: Run automated project quality assurance
-        run: |
-          docker run --rm \
-            --network host \
-            -e DATABASE_URL="${{ env.DATABASE_URL }}" \
-            -v ${{ github.workspace }}:/app \
-            -w /app \
-            app-image sh -c "git config --global --add safe.directory /app && /usr/bin/composer auto-quality"
-
-
-
-
-#      - name: Build local docker image
-#        run: docker build -t app-image .
-#
-#      - name: Run automated code quality assurance
-#        run: |
-#          docker run --rm \
-#            --network host \
-#            -e DATABASE_URL="${{ env.DATABASE_URL }}" \
-#            -e MAILER_DSN="${{ env.MAILER_DSN }}" \
-#            -e MESSENGER_TRANSPORT_DSN="${{ env.MESSENGER_TRANSPORT_DSN }}" \
-#            -v ${{ github.workspace }}:/app \
-#            -w /app \
-#            app-image /usr/bin/composer auto-analyze
-#
-#      - name: Run automated project quality assurance
-#        run: |
-#          docker run --rm \
-#            --network host \
-#            -e DATABASE_URL="${{ env.DATABASE_URL }}" \
-#            -e MAILER_DSN="${{ env.MAILER_DSN }}" \
-#            -e MESSENGER_TRANSPORT_DSN="${{ env.MESSENGER_TRANSPORT_DSN }}" \
-#            -v ${{ github.workspace }}:/app \
-#            -w /app \
-#            app-image /usr/bin/composer auto-quality
+            app-image analyze
 
       - name: Upload project code coverage reports
         uses: codecov/codecov-action@v5
