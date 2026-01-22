@@ -27,40 +27,32 @@ jobs:
       PHP_EXTENSIONS: amqp, apcu, gd, intl, pdo_pgsql, redis, xsl, zip
 
     steps:
-      - name: Setup php extensions cache environment
-        id: extensions-cache
+      - name: Prepare PHP extensions cache
         uses: shivammathur/cache-extensions@v1
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
-          key: php-extensions-cache-key
+          key: php-extensions-cache
 
-      - name: Cache environment php extensions
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.extensions-cache.outputs.dir }}
-          key: ${{ steps.extensions-cache.outputs.key }}
-          restore-keys: ${{ steps.extensions-cache.outputs.key }}
-
-      - name: Setup virtual environment
+      - name: Setup PHP runtime
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
 
-      - name: Checkout project sources
+      - name: Checkout source code
         uses: actions/checkout@v6
 
-      - name: Install composer dependencies
+      - name: Install Composer dependencies
         run: /usr/bin/composer install --no-scripts
 
-      - name: Run automated code quality assurance
+      - name: Run static code analysis
         run: /usr/bin/composer auto-analyze
 
-      - name: Run automated project quality assurance
+      - name: Run tests and quality checks
         run: /usr/bin/composer auto-quality
 
-      - name: Upload project code coverage reports
+      - name: Upload code coverage reports
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
