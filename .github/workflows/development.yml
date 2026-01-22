@@ -23,13 +23,30 @@ jobs:
       DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
+      PHP_VERSION: 8.5
+      PHP_EXTENSIONS: amqp, apcu, gd, intl, pdo_pgsql, redis, xsl, zip
 
     steps:
+      - name: Setup php extensions cache environment
+        id: extensions-cache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          key: php-extensions-cache-key
+
+      - name: Cache environment php extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.extensions-cache.outputs.dir }}
+          key: ${{ steps.extensions-cache.outputs.key }}
+          restore-keys: ${{ steps.extensions-cache.outputs.key }}
+
       - name: Setup virtual environment
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.5
-          extensions: amqp, apcu, gd, intl, pdo_pgsql, redis, xsl, zip
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
 
       - name: Checkout project sources
         uses: actions/checkout@v6
