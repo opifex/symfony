@@ -11,6 +11,7 @@
         "ext-apcu": "*",
         "ext-gd": "*",
         "ext-intl": "*",
+        "ext-pcntl": "*",
         "ext-pdo_pgsql": "*",
         "ext-redis": "*",
         "ext-xsl": "*",

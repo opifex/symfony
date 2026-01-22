@@ -24,7 +24,7 @@ jobs:
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
       PHP_VERSION: 8.5
-      PHP_EXTENSIONS: amqp, apcu, gd, intl, pdo_pgsql, redis, xsl, zip
+      PHP_EXTENSIONS: amqp, apcu, gd, intl, pcntl, pdo_pgsql, redis, xsl, zip
 
     steps:
       - name: Prepare PHP extensions cache
