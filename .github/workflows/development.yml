@@ -52,7 +52,7 @@ jobs:
             -e MESSENGER_TRANSPORT_DSN="${{ env.MESSENGER_TRANSPORT_DSN }}" \
             -v ${{ github.workspace }}:/app \
             -w /app \
-            app-image analyze
+            app-image quality
 
       - name: Upload project code coverage reports
         uses: codecov/codecov-action@v5
