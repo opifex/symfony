@@ -6,7 +6,7 @@ COPY composer.json composer.lock ./
 # validate composer files syntax and perform automated checks
 RUN composer validate --strict
 # install composer dependencies
-RUN composer install --ignore-platform-reqs --no-cache --no-dev --no-plugins --no-scripts
+RUN composer install --ignore-platform-reqs --no-cache --no-dev --no-interaction --no-plugins --no-scripts
 
 FROM php:8.5.2-fpm-alpine AS php
 # set working directory

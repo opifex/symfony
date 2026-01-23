@@ -60,8 +60,7 @@ jobs:
           restore-keys: ${{ runner.os }}-vendor-
 
       - name: Install Composer dependencies
-        if: steps.vendor-cache.outputs.cache-hit != true
-        run: /usr/bin/composer install --no-scripts --prefer-dist --no-interaction
+        run: /usr/bin/composer install --no-interaction --no-scripts
 
       - name: Run static code analysis
         run: /usr/bin/composer auto-analyze
