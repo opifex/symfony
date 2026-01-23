@@ -34,6 +34,13 @@ jobs:
           extensions: ${{ env.PHP_EXTENSIONS }}
           key: php-extensions-cache
 
+      - name: Cache environment php extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.extensions-cache.outputs.dir }}
+          key: ${{ steps.extensions-cache.outputs.key }}
+          restore-keys: ${{ steps.extensions-cache.outputs.key }}
+
       - name: Setup PHP runtime
         uses: shivammathur/setup-php@v2
         with:
