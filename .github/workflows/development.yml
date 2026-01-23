@@ -28,6 +28,7 @@ jobs:
 
     steps:
       - name: Prepare PHP extensions cache
+        id: extensions-cache
         uses: shivammathur/cache-extensions@v1
         with:
           php-version: ${{ env.PHP_VERSION }}
