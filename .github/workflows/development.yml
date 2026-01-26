@@ -51,7 +51,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v6
 
-      - name: Cache vendor folder
+      - name: Load Composer dependencies cache
         id: vendor-cache
         uses: actions/cache@v4
         with:

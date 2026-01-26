@@ -51,10 +51,10 @@
         "symfony/webhook": "7.4.*",
         "symfony/workflow": "7.4.*",
         "symfony/yaml": "7.4.*",
-        "twig/cssinliner-extra": "^3.22",
-        "twig/extra-bundle": "^3.22",
-        "twig/inky-extra": "^3.22",
-        "twig/twig": "^3.22"
+        "twig/cssinliner-extra": "^3.23",
+        "twig/extra-bundle": "^3.23",
+        "twig/inky-extra": "^3.23",
+        "twig/twig": "^3.23"
     },
     "config": {
         "allow-plugins": {
@@ -164,6 +164,7 @@
         "doctrine/doctrine-fixtures-bundle": "^4.3",
         "fakerphp/faker": "^1.24",
         "opis/json-schema": "^2.6",
+        "phpdocumentor/reflection-docblock": "^5.6",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-doctrine": "^2.0",
