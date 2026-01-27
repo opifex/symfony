@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\RateLimiter\AuthenticationRateLimiter;
 use Override;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +12,7 @@ use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\RateLimit;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
+#[AllowDynamicProperties]
 final class AuthenticationRateLimiterTest extends TestCase
 {
     #[Override]

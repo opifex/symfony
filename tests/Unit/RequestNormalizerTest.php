@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Serializer\RequestNormalizer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +12,7 @@ use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
+#[AllowDynamicProperties]
 final class RequestNormalizerTest extends TestCase
 {
     #[DataProvider(methodName: 'requestDataProvider')]

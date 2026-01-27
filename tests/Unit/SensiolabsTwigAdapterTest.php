@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Adapter\Sensiolabs\Exception\RenderingFailedException;
 use App\Infrastructure\Adapter\Sensiolabs\TwigTemplateRenderer;
 use Override;
@@ -11,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Error\Error;
 
+#[AllowDynamicProperties]
 final class SensiolabsTwigAdapterTest extends TestCase
 {
     #[Override]

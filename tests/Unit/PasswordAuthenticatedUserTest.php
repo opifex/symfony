@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use PHPUnit\Framework\TestCase;
 
+#[AllowDynamicProperties]
 final class PasswordAuthenticatedUserTest extends TestCase
 {
     public function testEraseCredentialsWithNoResult(): void

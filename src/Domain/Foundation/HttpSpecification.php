@@ -27,6 +27,4 @@ class HttpSpecification
     public const string STATUS_NO_CONTENT = 'No Content';
     public const string STATUS_OK = 'OK';
     public const string STATUS_UNAUTHORIZED = 'Unauthorized';
-    /** Custom HTTP headers */
-    public const string HEADER_X_CORRELATION_ID = 'X-Correlation-Id';
 }

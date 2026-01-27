@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPayloadConverter;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPaymentCaptureEvent;
 use Override;
@@ -12,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\RemoteEvent\Exception\ParseException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[AllowDynamicProperties]
 final class PayPalPayloadConverterTest extends TestCase
 {
     #[Override]

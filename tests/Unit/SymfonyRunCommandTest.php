@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Application\Contract\HttpbinResponseProviderInterface;
 use App\Presentation\Command\SymfonyRunCommand;
 use Override;
@@ -15,6 +16,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Tests\Support\HttpMockClientTrait;
 
+#[AllowDynamicProperties]
 final class SymfonyRunCommandTest extends TestCase
 {
     use HttpMockClientTrait;

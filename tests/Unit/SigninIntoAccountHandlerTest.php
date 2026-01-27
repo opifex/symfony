@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
@@ -15,6 +16,7 @@ use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;
 use PHPUnit\Framework\TestCase;
 
+#[AllowDynamicProperties]
 final class SigninIntoAccountHandlerTest extends TestCase
 {
     #[Override]

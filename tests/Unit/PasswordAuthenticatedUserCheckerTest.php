@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Domain\Account\AccountRole;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUserChecker;
@@ -13,6 +14,7 @@ use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
+#[AllowDynamicProperties]
 final class PasswordAuthenticatedUserCheckerTest extends TestCase
 {
     #[Override]

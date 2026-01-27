@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Messenger\MessageBus\QueryMessageBus;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -15,6 +16,7 @@ use Symfony\Component\Messenger\Exception\LogicException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
+#[AllowDynamicProperties]
 final class QueryMessageBusTest extends TestCase
 {
     #[Override]

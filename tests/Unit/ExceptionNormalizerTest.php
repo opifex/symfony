@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Serializer\ExceptionNormalizer;
 use Exception;
 use Override;
@@ -15,6 +16,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[AllowDynamicProperties]
 final class ExceptionNormalizerTest extends TestCase
 {
     #[Override]

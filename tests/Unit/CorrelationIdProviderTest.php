@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Observability\CorrelationIdProvider;
 use PHPUnit\Framework\TestCase;
 
+#[AllowDynamicProperties]
 final class CorrelationIdProviderTest extends TestCase
 {
     public function testInMemoryStorage(): void

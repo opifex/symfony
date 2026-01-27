@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Domain\Account\AccountRole;
 use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidConfigurationException;
 use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidTokenException;
@@ -12,6 +13,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
 
+#[AllowDynamicProperties]
 final class LcobucciJwtAdapterTest extends TestCase
 {
     /**

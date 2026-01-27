@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\AccountRole;
@@ -23,6 +24,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Uid\Uuid;
 
+#[AllowDynamicProperties]
 final class DatabaseUserProviderTest extends TestCase
 {
     #[Override]

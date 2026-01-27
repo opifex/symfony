@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Security\TokenStorage\AuthorizationTokenStorage;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+#[AllowDynamicProperties]
 final class AuthorizationTokenStorageTest extends TestCase
 {
     #[Override]

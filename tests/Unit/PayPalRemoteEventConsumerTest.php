@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Application\Contract\EventMessageBusInterface;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPaymentCaptureEvent;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalRemoteEventConsumer;
 use Override;
 use PHPUnit\Framework\TestCase;
 
+#[AllowDynamicProperties]
 final class PayPalRemoteEventConsumerTest extends TestCase
 {
     #[Override]

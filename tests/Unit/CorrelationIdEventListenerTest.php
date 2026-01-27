@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\HttpKernel\EventListener\CorrelationIdEventListener;
 use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+#[AllowDynamicProperties]
 final class CorrelationIdEventListenerTest extends TestCase
 {
     #[Override]

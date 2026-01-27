@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Application\Service\RequestPrivacyDataProtector;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+#[AllowDynamicProperties]
 final class RequestPrivacyDataProtectorTest extends TestCase
 {
     #[DataProvider(methodName: 'requestDataProvider')]

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\MessageHandler\Query\GetSigninAccount\GetSigninAccountQuery;
@@ -13,6 +14,7 @@ use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;
 use PHPUnit\Framework\TestCase;
 
+#[AllowDynamicProperties]
 final class GetSigninAccountHandlerTest extends TestCase
 {
     #[Override]

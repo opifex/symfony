@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Presentation\Command\LogsClearCommand;
 use Override;
 use PHPUnit\Framework\TestCase;
@@ -15,6 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+#[AllowDynamicProperties]
 final class LogsClearCommandTest extends TestCase
 {
     #[Override]

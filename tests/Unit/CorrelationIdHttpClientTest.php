@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\HttpClient\CorrelationIdHttpClient;
 use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
@@ -12,6 +13,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
+#[AllowDynamicProperties]
 final class CorrelationIdHttpClientTest extends TestCase
 {
     #[Override]

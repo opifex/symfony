@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Infrastructure\Messenger\Middleware\CorrelationIdMiddleware;
 use App\Infrastructure\Messenger\Stamp\CorrelationIdStamp;
 use App\Infrastructure\Observability\CorrelationIdProvider;
@@ -15,6 +16,7 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 
+#[AllowDynamicProperties]
 final class CorrelationIdMiddlewareTest extends TestCase
 {
     #[Override]

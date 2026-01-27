@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use AllowDynamicProperties;
 use App\Application\Contract\PrivacyDataProtectorInterface;
 use App\Infrastructure\HttpKernel\EventListener\KernelExceptionListener;
 use LogicException;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+#[AllowDynamicProperties]
 final class KernelExceptionListenerTest extends TestCase
 {
     #[Override]
