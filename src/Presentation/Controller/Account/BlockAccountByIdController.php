@@ -20,7 +20,7 @@ final class BlockAccountByIdController extends AbstractController
 {
     #[OA\Post(
         summary: 'Block account by identifier',
-        security: [['bearer' => []]],
+        security: [['Bearer' => []]],
         tags: ['Account'],
         parameters: [
             new OA\Parameter(

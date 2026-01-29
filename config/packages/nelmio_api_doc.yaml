@@ -10,7 +10,8 @@ nelmio_api_doc:
       - url: '%env(DEFAULT_URI)%'
         description: API Gateway
     components:
-      security_schemes:
-        bearer:
+      securitySchemes:
+        Bearer:
           type: http
           scheme: bearer
+          bearerFormat: JWT

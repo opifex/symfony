@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Security\AuthenticatedUser;
 
 use Override;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final class PasswordAuthenticatedUserChecker implements UserCheckerInterface
 {
     #[Override]
-    public function checkPostAuth(UserInterface $user): void
+    public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void
     {
         if ($user instanceof PasswordAuthenticatedUser && !$user->isEnabled()) {
             throw new LockedException(message: 'The presented account is not activated.');

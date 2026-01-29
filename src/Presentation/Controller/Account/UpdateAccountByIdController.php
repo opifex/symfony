@@ -21,7 +21,7 @@ final class UpdateAccountByIdController extends AbstractController
 {
     #[OA\Patch(
         summary: 'Update account by identifier',
-        security: [['bearer' => []]],
+        security: [['Bearer' => []]],
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
                 properties: [

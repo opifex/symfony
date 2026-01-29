@@ -23,7 +23,7 @@ final class GetAccountByIdController extends AbstractController
 {
     #[OA\Get(
         summary: 'Get account by identifier',
-        security: [['bearer' => []]],
+        security: [['Bearer' => []]],
         tags: ['Account'],
         parameters: [
             new OA\Parameter(

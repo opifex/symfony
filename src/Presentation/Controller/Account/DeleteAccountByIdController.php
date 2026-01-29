@@ -20,7 +20,7 @@ final class DeleteAccountByIdController extends AbstractController
 {
     #[OA\Delete(
         summary: 'Delete account by identifier',
-        security: [['bearer' => []]],
+        security: [['Bearer' => []]],
         tags: ['Account'],
         parameters: [
             new OA\Parameter(

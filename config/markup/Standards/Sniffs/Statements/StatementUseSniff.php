@@ -52,7 +52,7 @@ class StatementUseSniff implements Sniff
      */
     private function getAllDependencies(File $phpcsFile, mixed $stackPtr): array
     {
-        $lastPtr = $phpcsFile->findNext([T_CLASS, T_ENUM, T_INTERFACE, T_TRAIT], start: $stackPtr + 1) ?? null;
+        $lastPtr = $phpcsFile->findNext([T_CLASS, T_ENUM, T_INTERFACE, T_TRAIT], start: $stackPtr + 1) ?: null;
         $allDependencies = [];
 
         while ($stackPtr = $phpcsFile->findNext([T_USE], start: $stackPtr + 1, end: $lastPtr)) {
@@ -86,7 +86,7 @@ class StatementUseSniff implements Sniff
     private function getUsedTokens(File $phpcsFile, mixed $stackPtr): array
     {
         $tokens = $phpcsFile->getTokens();
-        $tokensSearchKeys = [T_STRING, T_DOC_COMMENT_STRING, T_DOC_COMMENT_WHITESPACE];
+        $tokensSearchKeys = [T_STRING, T_DOC_COMMENT_STRING, T_NAME_QUALIFIED, T_DOC_COMMENT_WHITESPACE];
         $tokensPreviousTypes = ['T_DOUBLE_COLON', 'T_FUNCTION', 'T_OBJECT_OPERATOR'];
         $tokensUsed = [];
 
@@ -96,6 +96,7 @@ class StatementUseSniff implements Sniff
             if (!in_array($tokens[$previousToken]['type'], $tokensPreviousTypes)) {
                 $tokenContent = strtok($tokens[$stackPtr]['content'], token: '$');
                 $tokenName = trim(str_replace(search: ['(', ')', '[', ']', ' '], replace: '', subject: $tokenContent));
+                $tokenName = strstr($tokenName, needle: '\\', before_needle: true) ?: $tokenName;
                 $tokensUsed = array_merge($tokensUsed, preg_split(pattern: '/[|&,<>]/', subject: $tokenName));
             }
         }

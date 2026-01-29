@@ -35,6 +35,6 @@ class MethodReturnTypeSniff implements Sniff
     #[Override]
     public function register(): array
     {
-        return [T_CLOSURE, T_FUNCTION];
+        return [T_FUNCTION];
     }
 }

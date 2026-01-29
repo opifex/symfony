@@ -20,7 +20,7 @@ final class UnblockAccountByIdController extends AbstractController
 {
     #[OA\Post(
         summary: 'Unblock account by identifier',
-        security: [['bearer' => []]],
+        security: [['Bearer' => []]],
         tags: ['Account'],
         parameters: [
             new OA\Parameter(

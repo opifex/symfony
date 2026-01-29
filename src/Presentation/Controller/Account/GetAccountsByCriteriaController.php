@@ -23,7 +23,7 @@ final class GetAccountsByCriteriaController extends AbstractController
 {
     #[OA\Get(
         summary: 'Get accounts by criteria',
-        security: [['bearer' => []]],
+        security: [['Bearer' => []]],
         tags: ['Account'],
         parameters: [
             new OA\Parameter(

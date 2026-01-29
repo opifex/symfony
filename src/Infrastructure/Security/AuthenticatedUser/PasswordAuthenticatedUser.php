@@ -40,12 +40,6 @@ final class PasswordAuthenticatedUser implements PasswordAuthenticatedUserInterf
         return $this->roles;
     }
 
-    #[Override]
-    public function eraseCredentials(): void
-    {
-        // Nothing to do
-    }
-
     public function isEnabled(): bool
     {
         return $this->enabled;

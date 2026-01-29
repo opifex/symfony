@@ -23,7 +23,7 @@ final class GetSigninAccountController extends AbstractController
 {
     #[OA\Get(
         summary: 'Get signin account information',
-        security: [['bearer' => []]],
+        security: [['Bearer' => []]],
         tags: ['Authorization'],
         responses: [
             new OA\Response(

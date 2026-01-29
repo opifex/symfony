@@ -21,7 +21,7 @@ final class CreateNewAccountController extends AbstractController
 {
     #[OA\Post(
         summary: 'Create new account',
-        security: [['bearer' => []]],
+        security: [['Bearer' => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
