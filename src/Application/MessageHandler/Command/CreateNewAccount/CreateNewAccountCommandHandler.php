@@ -24,14 +24,14 @@ final class CreateNewAccountCommandHandler
     ) {
     }
 
-    public function __invoke(CreateNewAccountCommand $request): CreateNewAccountCommandResult
+    public function __invoke(CreateNewAccountCommand $command): CreateNewAccountCommandResult
     {
-        if ($this->accountEntityRepository->findOneByEmail($request->email) !== null) {
+        if ($this->accountEntityRepository->findOneByEmail($command->email) !== null) {
             throw AccountAlreadyExistsException::create();
         }
 
-        $hashedPassword = $this->accountPasswordHasher->hash($request->password);
-        $account = Account::create($request->email, $hashedPassword, $request->locale);
+        $hashedPassword = $this->accountPasswordHasher->hash($command->password);
+        $account = Account::create($command->email, $hashedPassword, $command->locale);
         $account = $this->accountStateMachine->register($account);
         $account = $this->accountStateMachine->activate($account);
         $this->accountEntityRepository->save($account);

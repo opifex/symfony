@@ -17,56 +17,52 @@ use Symfony\Component\Routing\Attribute\Route;
 #[AsController]
 final class SigninIntoAccountController extends AbstractController
 {
-    #[OA\Post(
-        summary: 'Signin into account',
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                required: ['email', 'password'],
-                properties: [
-                    new OA\Property(
-                        property: 'email',
-                        type: 'email',
-                        example: 'admin@example.com',
-                    ),
-                    new OA\Property(
-                        property: 'password',
-                        type: 'password',
-                        example: 'password4#account',
-                    ),
-                ],
-                type: 'object',
-            ),
-        ),
-        tags: ['Authorization'],
-        responses: [
-            new OA\Response(
-                response: HttpSpecification::HTTP_BAD_REQUEST,
-                description: HttpSpecification::STATUS_BAD_REQUEST,
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_OK,
-                description: HttpSpecification::STATUS_OK,
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'access_token',
-                            type: 'string',
-                            example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE3MzQwODgyMTguOTU5ODI0...',
-                        ),
-                    ],
-                    type: 'object',
+    #[OA\Post(summary: 'Signin into account')]
+    #[OA\Tag(name: 'Authorization')]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            required: ['email', 'password'],
+            properties: [
+                new OA\Property(
+                    property: 'email',
+                    type: 'email',
+                    example: 'admin@example.com',
                 ),
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_UNAUTHORIZED,
-                description: HttpSpecification::STATUS_UNAUTHORIZED,
-            ),
-        ],
+                new OA\Property(
+                    property: 'password',
+                    type: 'password',
+                    example: 'password4#account',
+                ),
+            ],
+            type: 'object',
+        ),
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_OK,
+        description: HttpSpecification::STATUS_OK,
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'access_token',
+                    type: 'string',
+                    example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE3MzQwODgyMTguOTU5ODI0...',
+                ),
+            ],
+            type: 'object',
+        ),
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_BAD_REQUEST,
+        description: HttpSpecification::STATUS_BAD_REQUEST,
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_UNAUTHORIZED,
+        description: HttpSpecification::STATUS_UNAUTHORIZED,
     )]
     #[Route(path: '/auth/signin', name: 'app_signin_into_account', methods: Request::METHOD_POST)]
-    public function __invoke(#[ValueResolver('payload')] SigninIntoAccountCommand $request): Response
+    public function __invoke(#[ValueResolver('payload')] SigninIntoAccountCommand $command): Response
     {
-        return $this->commandMessageBus->dispatch($request)->toResponse();
+        return $this->commandMessageBus->dispatch($command)->toResponse();
     }
 }

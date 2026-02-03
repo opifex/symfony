@@ -24,12 +24,12 @@ final class SigninIntoAccountCommandHandler
     ) {
     }
 
-    public function __invoke(SigninIntoAccountCommand $request): SigninIntoAccountCommandResult
+    public function __invoke(SigninIntoAccountCommand $command): SigninIntoAccountCommandResult
     {
         $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
 
         if ($userIdentifier === null) {
-            if (!$this->authenticationRateLimiter->isAccepted($request->email)) {
+            if (!$this->authenticationRateLimiter->isAccepted($command->email)) {
                 throw AuthorizationThrottlingException::create();
             }
 

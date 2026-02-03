@@ -19,7 +19,7 @@ final class GetSigninAccountQueryHandler
     ) {
     }
 
-    public function __invoke(GetSigninAccountQuery $request): GetSigninAccountQueryResult
+    public function __invoke(GetSigninAccountQuery $query): GetSigninAccountQueryResult
     {
         $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier()
             ?? throw AuthorizationRequiredException::create();

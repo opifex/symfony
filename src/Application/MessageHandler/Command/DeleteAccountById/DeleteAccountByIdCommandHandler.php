@@ -16,9 +16,9 @@ final class DeleteAccountByIdCommandHandler
     ) {
     }
 
-    public function __invoke(DeleteAccountByIdCommand $request): DeleteAccountByIdCommandResult
+    public function __invoke(DeleteAccountByIdCommand $command): DeleteAccountByIdCommandResult
     {
-        $account = $this->accountEntityRepository->findOneById($request->id)
+        $account = $this->accountEntityRepository->findOneById($command->id)
             ?? throw AccountNotFoundException::create();
 
         $this->accountEntityRepository->delete($account);

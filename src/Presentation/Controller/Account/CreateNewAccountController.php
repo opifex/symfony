@@ -19,75 +19,70 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class CreateNewAccountController extends AbstractController
 {
-    #[OA\Post(
-        summary: 'Create new account',
-        security: [['Bearer' => []]],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                required: ['email', 'password'],
-                properties: [
-                    new OA\Property(
-                        property: 'email',
-                        type: 'email',
-                        example: 'user@example.com',
-                    ),
-                    new OA\Property(
-                        property: 'password',
-                        type: 'password',
-                        maxLength: 32,
-                        minLength: 8,
-                        example: 'password4#account',
-                    ),
-                    new OA\Property(
-                        property: 'locale',
-                        type: 'string',
-                        default: LocaleCode::EnUs,
-                        enum: LocaleCode::class,
-                        example: LocaleCode::EnUs,
-                    ),
-                ],
-                type: 'object',
-            ),
-        ),
-        tags: ['Account'],
-        responses: [
-            new OA\Response(
-                response: HttpSpecification::HTTP_BAD_REQUEST,
-                description: HttpSpecification::STATUS_BAD_REQUEST,
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_CONFLICT,
-                description: HttpSpecification::STATUS_CONFLICT,
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_CREATED,
-                description: HttpSpecification::STATUS_CREATED,
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'id',
-                            type: 'string',
-                            example: '00000000-0000-6000-8000-000000000000',
-                        ),
-                    ],
-                    type: 'object',
+    #[OA\Post(summary: 'Create new account', security: [['Bearer' => []]])]
+    #[OA\Tag(name: 'Account')]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            required: ['email', 'password'],
+            properties: [
+                new OA\Property(
+                    property: 'email',
+                    type: 'email',
+                    example: 'user@example.com',
                 ),
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_FORBIDDEN,
-                description: HttpSpecification::STATUS_FORBIDDEN,
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_UNAUTHORIZED,
-                description: HttpSpecification::STATUS_UNAUTHORIZED,
-            ),
-        ],
+                new OA\Property(
+                    property: 'password',
+                    type: 'password',
+                    maxLength: 32,
+                    minLength: 8,
+                    example: 'password4#account',
+                ),
+                new OA\Property(
+                    property: 'locale',
+                    type: 'string',
+                    default: LocaleCode::EnUs,
+                    enum: LocaleCode::class,
+                    example: LocaleCode::EnUs,
+                ),
+            ],
+            type: 'object',
+        ),
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_CREATED,
+        description: HttpSpecification::STATUS_CREATED,
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'id',
+                    type: 'string',
+                    example: '00000000-0000-6000-8000-000000000000',
+                ),
+            ],
+            type: 'object',
+        ),
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_BAD_REQUEST,
+        description: HttpSpecification::STATUS_BAD_REQUEST,
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_CONFLICT,
+        description: HttpSpecification::STATUS_CONFLICT,
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_FORBIDDEN,
+        description: HttpSpecification::STATUS_FORBIDDEN,
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_UNAUTHORIZED,
+        description: HttpSpecification::STATUS_UNAUTHORIZED,
     )]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account', name: 'app_create_new_account', methods: Request::METHOD_POST)]
-    public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $request): Response
+    public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $command): Response
     {
-        return $this->commandMessageBus->dispatch($request)->toResponse();
+        return $this->commandMessageBus->dispatch($command)->toResponse();
     }
 }

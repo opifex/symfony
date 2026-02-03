@@ -21,68 +21,63 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class GetSigninAccountController extends AbstractController
 {
-    #[OA\Get(
-        summary: 'Get signin account information',
-        security: [['Bearer' => []]],
-        tags: ['Authorization'],
-        responses: [
-            new OA\Response(
-                response: HttpSpecification::HTTP_BAD_REQUEST,
-                description: HttpSpecification::STATUS_BAD_REQUEST,
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_OK,
-                description: HttpSpecification::STATUS_OK,
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'id',
-                            type: 'uuid',
-                            example: '00000000-0000-6000-8000-000000000000',
-                        ),
-                        new OA\Property(
-                            property: 'email',
-                            type: 'email',
-                            example: 'admin@example.com',
-                        ),
-                        new OA\Property(
-                            property: 'locale',
-                            type: 'string',
-                            example: LocaleCode::EnUs,
-                        ),
-                        new OA\Property(
-                            property: 'status',
-                            type: 'string',
-                            enum: AccountStatus::class,
-                            example: AccountStatus::Activated,
-                        ),
-                        new OA\Property(
-                            property: 'roles',
-                            type: 'array',
-                            items: new OA\Items(
-                                type: 'string',
-                                enum: AccountRole::class,
-                            ),
-                        ),
-                        new OA\Property(
-                            property: 'created_at',
-                            type: 'string',
-                            example: '2025-01-01T12:00:00+00:00',
-                        ),
-                    ],
-                    type: 'object',
+    #[OA\Get(summary: 'Get signin account information', security: [['Bearer' => []]])]
+    #[OA\Tag(name: 'Authorization')]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_OK,
+        description: HttpSpecification::STATUS_OK,
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'id',
+                    type: 'uuid',
+                    example: '00000000-0000-6000-8000-000000000000',
                 ),
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_UNAUTHORIZED,
-                description: HttpSpecification::STATUS_UNAUTHORIZED,
-            ),
-        ],
+                new OA\Property(
+                    property: 'email',
+                    type: 'email',
+                    example: 'admin@example.com',
+                ),
+                new OA\Property(
+                    property: 'locale',
+                    type: 'string',
+                    example: LocaleCode::EnUs,
+                ),
+                new OA\Property(
+                    property: 'status',
+                    type: 'string',
+                    enum: AccountStatus::class,
+                    example: AccountStatus::Activated,
+                ),
+                new OA\Property(
+                    property: 'roles',
+                    type: 'array',
+                    items: new OA\Items(
+                        type: 'string',
+                        enum: AccountRole::class,
+                    ),
+                ),
+                new OA\Property(
+                    property: 'created_at',
+                    type: 'string',
+                    example: '2025-01-01T12:00:00+00:00',
+                ),
+            ],
+            type: 'object',
+        ),
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_BAD_REQUEST,
+        description: HttpSpecification::STATUS_BAD_REQUEST,
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_UNAUTHORIZED,
+        description: HttpSpecification::STATUS_UNAUTHORIZED,
     )]
     #[IsGranted(attribute: 'ROLE_USER')]
     #[Route(path: '/auth/me', name: 'app_get_signin_account', methods: Request::METHOD_GET)]
-    public function __invoke(#[ValueResolver('payload')] GetSigninAccountQuery $request): Response
+    public function __invoke(#[ValueResolver('payload')] GetSigninAccountQuery $query): Response
     {
-        return $this->queryMessageBus->ask($request)->toResponse();
+        return $this->queryMessageBus->ask($query)->toResponse();
     }
 }

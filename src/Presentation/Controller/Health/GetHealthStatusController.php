@@ -18,34 +18,30 @@ use Symfony\Component\Routing\Attribute\Route;
 #[AsController]
 final class GetHealthStatusController extends AbstractController
 {
-    #[OA\Get(
-        summary: 'Get health status',
-        tags: ['Health'],
-        responses: [
-            new OA\Response(
-                response: HttpSpecification::HTTP_BAD_REQUEST,
-                description: HttpSpecification::STATUS_BAD_REQUEST,
-            ),
-            new OA\Response(
-                response: HttpSpecification::HTTP_OK,
-                description: HttpSpecification::STATUS_OK,
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'status',
-                            type: 'string',
-                            enum: HealthStatus::class,
-                            example: HealthStatus::Ok,
-                        ),
-                    ],
-                    type: 'object',
+    #[OA\Get(summary: 'Get health status')]
+    #[OA\Tag(name: 'Health')]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_OK,
+        description: HttpSpecification::STATUS_OK,
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'status',
+                    type: 'string',
+                    enum: HealthStatus::class,
+                    example: HealthStatus::Ok,
                 ),
-            ),
-        ],
+            ],
+            type: 'object',
+        ),
+    )]
+    #[OA\Response(
+        response: HttpSpecification::HTTP_BAD_REQUEST,
+        description: HttpSpecification::STATUS_BAD_REQUEST,
     )]
     #[Route(path: '/health', name: 'app_get_health_status', methods: Request::METHOD_GET)]
-    public function __invoke(#[ValueResolver('payload')] GetHealthStatusQuery $request): Response
+    public function __invoke(#[ValueResolver('payload')] GetHealthStatusQuery $query): Response
     {
-        return $this->queryMessageBus->ask($request)->toResponse();
+        return $this->queryMessageBus->ask($query)->toResponse();
     }
 }

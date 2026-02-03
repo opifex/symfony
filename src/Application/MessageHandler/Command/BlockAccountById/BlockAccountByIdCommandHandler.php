@@ -18,9 +18,9 @@ final class BlockAccountByIdCommandHandler
     ) {
     }
 
-    public function __invoke(BlockAccountByIdCommand $request): BlockAccountByIdCommandResult
+    public function __invoke(BlockAccountByIdCommand $command): BlockAccountByIdCommandResult
     {
-        $account = $this->accountEntityRepository->findOneById($request->id)
+        $account = $this->accountEntityRepository->findOneById($command->id)
             ?? throw AccountNotFoundException::create();
 
         $account = $this->accountStateMachine->block($account);

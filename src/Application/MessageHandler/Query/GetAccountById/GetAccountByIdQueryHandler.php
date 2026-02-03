@@ -16,9 +16,9 @@ final class GetAccountByIdQueryHandler
     ) {
     }
 
-    public function __invoke(GetAccountByIdQuery $request): GetAccountByIdQueryResult
+    public function __invoke(GetAccountByIdQuery $query): GetAccountByIdQueryResult
     {
-        $account = $this->accountEntityRepository->findOneById($request->id)
+        $account = $this->accountEntityRepository->findOneById($query->id)
             ?? throw AccountNotFoundException::create();
 
         return GetAccountByIdQueryResult::success($account);

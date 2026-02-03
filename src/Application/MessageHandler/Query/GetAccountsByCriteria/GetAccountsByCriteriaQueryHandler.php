@@ -17,10 +17,10 @@ final class GetAccountsByCriteriaQueryHandler
     ) {
     }
 
-    public function __invoke(GetAccountsByCriteriaQuery $request): GetAccountsByCriteriaQueryResult
+    public function __invoke(GetAccountsByCriteriaQuery $query): GetAccountsByCriteriaQueryResult
     {
-        $searchPagination = new SearchPagination($request->page, $request->limit);
-        $searchCriteria = new AccountSearchCriteria($request->email, $request->status, $searchPagination);
+        $searchPagination = new SearchPagination($query->page, $query->limit);
+        $searchCriteria = new AccountSearchCriteria($query->email, $query->status, $searchPagination);
 
         $accountSearchResult = $this->accountEntityRepository->findByCriteria($searchCriteria);
 

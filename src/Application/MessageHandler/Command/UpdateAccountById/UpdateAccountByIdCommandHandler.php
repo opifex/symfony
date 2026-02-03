@@ -22,28 +22,28 @@ final class UpdateAccountByIdCommandHandler
     ) {
     }
 
-    public function __invoke(UpdateAccountByIdCommand $request): UpdateAccountByIdCommandResult
+    public function __invoke(UpdateAccountByIdCommand $command): UpdateAccountByIdCommandResult
     {
-        $account = $this->accountEntityRepository->findOneById($request->id)
+        $account = $this->accountEntityRepository->findOneById($command->id)
             ?? throw AccountNotFoundException::create();
 
-        if ($request->email !== null) {
-            if (!$account->getEmail()->equals(EmailAddress::fromString($request->email))) {
-                if ($this->accountEntityRepository->findOneByEmail($request->email) !== null) {
+        if ($command->email !== null) {
+            if (!$account->getEmail()->equals(EmailAddress::fromString($command->email))) {
+                if ($this->accountEntityRepository->findOneByEmail($command->email) !== null) {
                     throw AccountAlreadyExistsException::create();
                 }
 
-                $account = $account->withEmail(EmailAddress::fromString($request->email));
+                $account = $account->withEmail(EmailAddress::fromString($command->email));
             }
         }
 
-        if ($request->password !== null) {
-            $passwordHash = $this->accountPasswordHasher->hash($request->password);
+        if ($command->password !== null) {
+            $passwordHash = $this->accountPasswordHasher->hash($command->password);
             $account = $account->withPassword(HashedPassword::fromString($passwordHash));
         }
 
-        if ($request->locale !== null) {
-            $account = $account->withLocale(LocaleCode::fromString($request->locale));
+        if ($command->locale !== null) {
+            $account = $account->withLocale(LocaleCode::fromString($command->locale));
         }
 
         $this->accountEntityRepository->save($account);

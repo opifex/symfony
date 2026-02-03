@@ -18,9 +18,9 @@ final class UnblockAccountByIdCommandHandler
     ) {
     }
 
-    public function __invoke(UnblockAccountByIdCommand $request): UnblockAccountByIdCommandResult
+    public function __invoke(UnblockAccountByIdCommand $command): UnblockAccountByIdCommandResult
     {
-        $account = $this->accountEntityRepository->findOneById($request->id)
+        $account = $this->accountEntityRepository->findOneById($command->id)
             ?? throw AccountNotFoundException::create();
 
         $account = $this->accountStateMachine->unblock($account);
