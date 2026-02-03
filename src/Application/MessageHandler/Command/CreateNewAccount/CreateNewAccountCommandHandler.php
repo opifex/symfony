@@ -31,10 +31,10 @@ final class CreateNewAccountCommandHandler
         }
 
         $hashedPassword = $this->accountPasswordHasher->hash($command->password);
-        $account = Account::create($command->email, $hashedPassword, $command->locale);
-        $account = $this->accountStateMachine->register($account);
-        $account = $this->accountStateMachine->activate($account);
-        $this->accountEntityRepository->save($account);
+        $account = Account::create($command->email, $hashedPassword, $command->locale)
+            |> $this->accountStateMachine->register(...)
+            |> $this->accountStateMachine->activate(...)
+            |> $this->accountEntityRepository->save(...);
 
         $accountRegisteredEvent = AccountRegisteredEvent::create($account);
         $this->eventMessageBus->publish($accountRegisteredEvent);

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Doctrine\Repository\Account;
 
 use App\Domain\Account\Account;
-use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\AccountSearchCriteria;
 use App\Domain\Account\AccountSearchResult;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
@@ -109,7 +108,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function save(Account $account): AccountIdentifier
+    public function save(Account $account): Account
     {
         $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
         $accountEntity = $accountRepository->findOneBy(criteria: [
@@ -132,6 +131,6 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $this->defaultEntityManager->flush();
         $this->defaultEntityManager->detach($accountEntity);
 
-        return AccountIdentifier::fromString((string) $accountEntity->id);
+        return AccountEntityMapper::map($accountEntity);
     }
 }
