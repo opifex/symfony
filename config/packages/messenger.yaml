@@ -57,5 +57,5 @@ framework:
         options:
           table_name: messenger
     routing:
-      'Symfony\Component\Mailer\Messenger\SendEmailMessage': notifier_emails
-      'Symfony\Component\RemoteEvent\Messenger\ConsumeRemoteEventMessage': webhook_events
+      Symfony\Component\Mailer\Messenger\SendEmailMessage: notifier_emails
+      Symfony\Component\RemoteEvent\Messenger\ConsumeRemoteEventMessage: webhook_events
