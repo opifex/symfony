@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Notifier\EventHandler;
+namespace App\Infrastructure\Notifier\MessageHandler;
 
 use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Infrastructure\Notifier\TemplatedEmailNotification;
