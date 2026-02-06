@@ -23,10 +23,10 @@ class Account
     ) {
     }
 
-    public static function create(string $email, string $hashedPassword, string $locale): self
+    public static function create(string $uuid, string $email, string $hashedPassword, string $locale): self
     {
         return new self(
-            id: AccountIdentifier::generate(),
+            id: AccountIdentifier::fromString($uuid),
             createdAt: DateTimeUtc::now(),
             email: EmailAddress::fromString($email),
             password: HashedPassword::fromString($hashedPassword),

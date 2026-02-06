@@ -38,8 +38,8 @@ final class UpdateAccountByIdCommandHandler
         }
 
         if ($command->password !== null) {
-            $passwordHash = $this->accountPasswordHasher->hash($command->password);
-            $account = $account->withPassword(HashedPassword::fromString($passwordHash));
+            $accountPassword = $this->accountPasswordHasher->hash($command->password);
+            $account = $account->withPassword(HashedPassword::fromString($accountPassword));
         }
 
         if ($command->locale !== null) {

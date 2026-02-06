@@ -37,7 +37,7 @@ final class DatabaseUserProviderTest extends TestCase
     {
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $account = new Account(
-            id: AccountIdentifier::generate(),
+            id: AccountIdentifier::fromString(uuid: '00000000-0000-6000-8000-000000000000'),
             createdAt: DateTimeUtc::now(),
             email: EmailAddress::fromString(email: 'email@example.com'),
             password: HashedPassword::fromString(passwordHash: 'password4#account'),
