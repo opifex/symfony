@@ -6,7 +6,6 @@ namespace App\Infrastructure\Workflow;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountAction;
-use App\Domain\Account\AccountStatus;
 use App\Domain\Account\Contract\AccountStateMachineInterface;
 use App\Domain\Account\Exception\AccountInvalidActionException;
 use NoDiscard;
@@ -58,6 +57,6 @@ final class AccountStateMachine implements AccountStateMachineInterface
 
         $this->accountStateMachine->apply($marking, $action->toString());
 
-        return $account->withStatus(AccountStatus::fromString($marking->marking));
+        return $account->withStatus($marking->marking);
     }
 }

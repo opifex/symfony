@@ -13,7 +13,7 @@ final class EmailAddress
 
     public static function fromString(string $email): self
     {
-        return new self($email);
+        return new self(strtolower($email));
     }
 
     public function toString(): string
@@ -21,8 +21,8 @@ final class EmailAddress
         return $this->email;
     }
 
-    public function equals(EmailAddress $emailAddress): bool
+    public function equals(string $emailAddress): bool
     {
-        return strtolower($this->email) === strtolower($emailAddress->email);
+        return $this->email === self::fromString($emailAddress)->toString();
     }
 }
