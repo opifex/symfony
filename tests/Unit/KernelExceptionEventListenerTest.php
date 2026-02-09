@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use AllowDynamicProperties;
 use App\Application\Contract\PrivacyDataProtectorInterface;
-use App\Infrastructure\HttpKernel\EventListener\KernelExceptionListener;
+use App\Infrastructure\HttpKernel\EventListener\KernelExceptionEventListener;
 use LogicException;
 use Override;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AllowDynamicProperties]
-final class KernelExceptionListenerTest extends TestCase
+final class KernelExceptionEventListenerTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -44,7 +44,7 @@ final class KernelExceptionListenerTest extends TestCase
             e: new LogicException(),
         );
 
-        new KernelExceptionListener($this->logger, $this->normalizer, $this->privacyDataProtector)($event);
+        new KernelExceptionEventListener($this->logger, $this->normalizer, $this->privacyDataProtector)($event);
 
         $this->expectNotToPerformAssertions();
     }

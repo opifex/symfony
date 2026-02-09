@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use Override;
-use Symfony\Component\Uid\Uuid;
 use Traversable;
 
 final class AccountEntityRepository implements AccountEntityRepositoryInterface
@@ -67,7 +66,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: Uuid::fromString($id)->toString());
+        $builder->setParameter(key: 'id', value: $id);
         $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
         if (!$accountEntity instanceof AccountEntity) {
@@ -103,7 +102,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: Uuid::fromString($account->getId()->toString())->toString());
+        $builder->setParameter(key: 'id', value: $account->getId()->toString());
         $builder->getQuery()->execute();
     }
 
@@ -111,13 +110,11 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     public function save(Account $account): Account
     {
         $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
-        $accountEntity = $accountRepository->findOneBy(criteria: [
-            'id' => Uuid::fromString($account->getId()->toString())->toString(),
-        ]);
+        $accountEntity = $accountRepository->findOneBy(criteria: ['id' => $account->getId()->toString()]);
 
         if ($accountEntity === null) {
             $accountEntity = new AccountEntity();
-            $accountEntity->id = Uuid::fromString($account->getId()->toString())->toString();
+            $accountEntity->id = $account->getId()->toString();
             $accountEntity->createdAt = $account->getCreatedAt()->toImmutable();
         }
 
