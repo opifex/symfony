@@ -19,7 +19,7 @@ final class CommandMessageBus implements CommandMessageBusInterface
 {
     public function __construct(
         #[Autowire(service: 'command.bus')]
-        protected readonly MessageBusInterface $messageBus,
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 

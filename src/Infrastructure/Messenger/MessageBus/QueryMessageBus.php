@@ -19,7 +19,7 @@ final class QueryMessageBus implements QueryMessageBusInterface
 {
     public function __construct(
         #[Autowire(service: 'query.bus')]
-        protected readonly MessageBusInterface $messageBus,
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 

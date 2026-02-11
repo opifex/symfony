@@ -16,7 +16,7 @@ final class EventMessageBus implements EventMessageBusInterface
 {
     public function __construct(
         #[Autowire(service: 'event.bus')]
-        protected readonly MessageBusInterface $messageBus,
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
