@@ -37,21 +37,21 @@ final class JwtAccessTokenManager implements JwtAccessTokenManagerInterface
      * @param non-empty-string $issuer
      */
     public function __construct(
-        #[Autowire('%env(string:JWT_ISSUER)%')]
+        #[Autowire(env: 'JWT_ISSUER')]
         private readonly string $issuer,
 
-        #[Autowire('%env(int:JWT_LIFETIME)%')]
+        #[Autowire(env: 'JWT_LIFETIME')]
         private readonly int $lifetime,
 
-        #[Autowire('%env(string:JWT_PASSPHRASE)%')]
+        #[Autowire(env: 'JWT_PASSPHRASE')]
         #[SensitiveParameter]
         private readonly string $passphrase,
 
-        #[Autowire('%env(default::string:JWT_SIGNING_KEY)%')]
+        #[Autowire(env: 'JWT_SIGNING_KEY')]
         #[SensitiveParameter]
         private readonly ?string $signingKey = null,
 
-        #[Autowire('%env(default::string:JWT_VERIFICATION_KEY)%')]
+        #[Autowire(env: 'JWT_VERIFICATION_KEY')]
         #[SensitiveParameter]
         private readonly ?string $verificationKey = null,
 
