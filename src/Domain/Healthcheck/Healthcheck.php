@@ -6,7 +6,7 @@ namespace App\Domain\Healthcheck;
 
 class Healthcheck
 {
-    public function __construct(
+    private function __construct(
         private readonly HealthStatus $status,
     ) {
     }

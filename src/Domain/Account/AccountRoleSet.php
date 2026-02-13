@@ -9,7 +9,7 @@ class AccountRoleSet
     /**
      * @param AccountRole[] $roles
      */
-    final private function __construct(
+    private function __construct(
         private readonly array $roles,
     ) {
     }
