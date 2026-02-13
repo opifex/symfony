@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Health;
 
-use App\Application\MessageHandler\Query\GetHealthStatus\GetHealthStatusQuery;
+use App\Application\Query\GetHealthStatus\GetHealthStatusQuery;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Healthcheck\HealthStatus;
 use App\Presentation\Controller\AbstractController;

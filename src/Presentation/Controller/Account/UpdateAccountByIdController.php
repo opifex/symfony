@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\MessageHandler\Command\UpdateAccountById\UpdateAccountByIdCommand;
+use App\Application\Command\UpdateAccountById\UpdateAccountByIdCommand;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
+use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommand;
+use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommandHandler;
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Application\Exception\AuthorizationThrottlingException;
-use App\Application\MessageHandler\Command\SigninIntoAccount\SigninIntoAccountCommand;
-use App\Application\MessageHandler\Command\SigninIntoAccount\SigninIntoAccountCommandHandler;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;

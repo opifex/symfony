@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\MessageHandler\Command\UnblockAccountById\UnblockAccountByIdCommand;
+use App\Application\Command\UnblockAccountById\UnblockAccountByIdCommand;
 use App\Domain\Foundation\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;

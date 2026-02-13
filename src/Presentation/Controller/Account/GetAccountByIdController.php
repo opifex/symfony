@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Account;
 
-use App\Application\MessageHandler\Query\GetAccountById\GetAccountByIdQuery;
+use App\Application\Query\GetAccountById\GetAccountByIdQuery;
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Foundation\HttpSpecification;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Application\MessageHandler\Command\SignupNewAccount\SignupNewAccountCommand;
+use App\Application\Command\SignupNewAccount\SignupNewAccountCommand;
 use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;

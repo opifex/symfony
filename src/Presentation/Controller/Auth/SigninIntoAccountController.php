@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Controller\Auth;
 
-use App\Application\MessageHandler\Command\SigninIntoAccount\SigninIntoAccountCommand;
+use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommand;
 use App\Domain\Foundation\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
