@@ -28,7 +28,7 @@ final class UpdateAccountByIdCommandHandler
             ?? throw AccountNotFoundException::create();
 
         if ($command->email !== null) {
-            if (!$account->getEmail()->equals($command->email)) {
+            if (!$account->getEmail()->equals(EmailAddress::fromString($command->email))) {
                 if ($this->accountEntityRepository->findOneByEmail($command->email) !== null) {
                     throw AccountAlreadyExistsException::create();
                 }

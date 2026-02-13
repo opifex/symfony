@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation\ValueObject;
 
+use DomainException;
+
 final class EmailAddress
 {
     final private function __construct(
@@ -13,7 +15,13 @@ final class EmailAddress
 
     public static function fromString(string $email): self
     {
-        return new self(strtolower($email));
+        $email = strtolower(trim($email));
+
+        if (filter_var($email, filter: FILTER_VALIDATE_EMAIL) === false) {
+            throw new DomainException(message: 'Invalid email address provided.');
+        }
+
+        return new self($email);
     }
 
     public function toString(): string
@@ -21,8 +29,8 @@ final class EmailAddress
         return $this->email;
     }
 
-    public function equals(string $emailAddress): bool
+    public function equals(self $emailAddress): bool
     {
-        return $this->email === self::fromString($emailAddress)->toString();
+        return $this->email === $emailAddress->email;
     }
 }
