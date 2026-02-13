@@ -12,7 +12,7 @@ final class DateTimeUtc
 {
     private const string TIMEZONE = 'UTC';
 
-    final private function __construct(
+    private function __construct(
         private readonly DateTimeImmutable $datetime,
     ) {
     }

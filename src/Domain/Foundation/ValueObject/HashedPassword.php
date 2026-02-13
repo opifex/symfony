@@ -6,14 +6,14 @@ namespace App\Domain\Foundation\ValueObject;
 
 final class HashedPassword
 {
-    final private function __construct(
+    private function __construct(
         private readonly string $passwordHash,
     ) {
     }
 
     public static function fromString(string $passwordHash): self
     {
-        return new self($passwordHash);
+        return new self(trim($passwordHash));
     }
 
     public function toString(): string
