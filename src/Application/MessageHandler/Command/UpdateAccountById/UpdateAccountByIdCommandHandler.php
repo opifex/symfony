@@ -8,6 +8,9 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountNotFoundException;
+use App\Domain\Foundation\ValueObject\EmailAddress;
+use App\Domain\Foundation\ValueObject\HashedPassword;
+use App\Domain\Localization\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -30,17 +33,17 @@ final class UpdateAccountByIdCommandHandler
                     throw AccountAlreadyExistsException::create();
                 }
 
-                $account = $account->withEmail($command->email);
+                $account = $account->withEmail(EmailAddress::fromString($command->email));
             }
         }
 
         if ($command->password !== null) {
             $accountPassword = $this->accountPasswordHasher->hash($command->password);
-            $account = $account->withPassword($accountPassword);
+            $account = $account->withPassword(HashedPassword::fromString($accountPassword));
         }
 
         if ($command->locale !== null) {
-            $account = $account->withLocale($command->locale);
+            $account = $account->withLocale(LocaleCode::fromString($command->locale));
         }
 
         $this->accountEntityRepository->save($account);

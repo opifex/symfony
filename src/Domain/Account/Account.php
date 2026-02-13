@@ -77,26 +77,26 @@ class Account
     }
 
     #[NoDiscard]
-    public function withEmail(string $email): self
+    public function withEmail(EmailAddress $email): self
     {
-        return clone($this, ['email' => EmailAddress::fromString($email)]);
+        return clone($this, ['email' => $email]);
     }
 
     #[NoDiscard]
-    public function withPassword(string $hashedPassword): self
+    public function withPassword(HashedPassword $hashedPassword): self
     {
-        return clone($this, ['password' => HashedPassword::fromString($hashedPassword)]);
+        return clone($this, ['password' => $hashedPassword]);
     }
 
     #[NoDiscard]
-    public function withLocale(string $locale): self
+    public function withLocale(LocaleCode $locale): self
     {
-        return clone($this, ['locale' => LocaleCode::fromString($locale)]);
+        return clone($this, ['locale' => $locale]);
     }
 
     #[NoDiscard]
-    public function withStatus(string $status): self
+    public function withStatus(AccountStatus $status): self
     {
-        return clone($this, ['status' => AccountStatus::fromString($status)]);
+        return clone($this, ['status' => $status]);
     }
 }
