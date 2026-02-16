@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Lcobucci\Exception;
 
-use App\Domain\Foundation\HttpSpecification;
 use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Throwable;
 
-#[WithHttpStatus(statusCode: HttpSpecification::HTTP_FORBIDDEN)]
+#[WithHttpStatus(statusCode: 403)]
 class InvalidTokenException extends RuntimeException
 {
     public static function errorWhileDecodingToken(?Throwable $previous = null): self

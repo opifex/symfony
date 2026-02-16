@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\HttpKernel\EventListener;
 
 use App\Application\Contract\PrivacyDataProtectorInterface;
-use App\Domain\Foundation\HttpSpecification;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use ReflectionClass;
@@ -52,7 +51,7 @@ final class KernelExceptionEventListener
         [$statusCode, $headers] = match (true) {
             $httpStatus instanceof WithHttpStatus => [$httpStatus->statusCode, $httpStatus->headers],
             $throwable instanceof HttpExceptionInterface => [$throwable->getStatusCode(), $throwable->getHeaders()],
-            default => [HttpSpecification::HTTP_INTERNAL_SERVER_ERROR, []],
+            default => [500, []],
         };
 
         $this->logger->log(

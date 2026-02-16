@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\PayPal\Webhook;
 
-use App\Domain\Foundation\HttpSpecification;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPayloadConverter;
 use Override;
 use SensitiveParameter;
@@ -45,10 +44,7 @@ final class PayPalRequestParser extends AbstractRequestParser
         $authorizationToken = $request->query->getString(key: self::WEBHOOK_TOKEN_PARAM);
 
         if ($authorizationToken === '' || $authorizationToken !== $secret) {
-            throw new RejectWebhookException(
-                statusCode: HttpSpecification::HTTP_UNAUTHORIZED,
-                message: 'Invalid or missing webhook token.',
-            );
+            throw new RejectWebhookException(statusCode: 401, message: 'Invalid or missing webhook token.');
         }
 
         try {

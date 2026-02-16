@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Exception;
 
-use App\Domain\Foundation\HttpSpecification;
 use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
-#[WithHttpStatus(statusCode: HttpSpecification::HTTP_TOO_MANY_REQUESTS)]
+#[WithHttpStatus(statusCode: 429)]
 class AuthorizationThrottlingException extends RuntimeException
 {
     public static function create(): self

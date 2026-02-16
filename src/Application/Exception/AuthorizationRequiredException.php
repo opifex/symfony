@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Exception;
 
-use App\Domain\Foundation\HttpSpecification;
 use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
-#[WithHttpStatus(statusCode: HttpSpecification::HTTP_UNAUTHORIZED)]
+#[WithHttpStatus(statusCode: 401)]
 class AuthorizationRequiredException extends RuntimeException
 {
     public static function create(): self

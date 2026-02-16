@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Account\Exception;
 
-use App\Domain\Foundation\HttpSpecification;
 use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Throwable;
 
-#[WithHttpStatus(statusCode: HttpSpecification::HTTP_NOT_FOUND)]
+#[WithHttpStatus(statusCode: 404)]
 class AccountNotFoundException extends RuntimeException
 {
     public static function create(?Throwable $previous = null): self
