@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommand;
-use App\Domain\Foundation\HttpSpecification;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -39,8 +39,8 @@ final class SigninIntoAccountController extends AbstractController
         ),
     )]
     #[OA\Response(
-        response: HttpSpecification::HTTP_OK,
-        description: HttpSpecification::STATUS_OK,
+        response: Response::HTTP_OK,
+        description: 'OK',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
@@ -52,17 +52,14 @@ final class SigninIntoAccountController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_BAD_REQUEST,
-        description: HttpSpecification::STATUS_BAD_REQUEST,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_UNAUTHORIZED,
-        description: HttpSpecification::STATUS_UNAUTHORIZED,
-    )]
+    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
+    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
     #[Route(path: '/auth/signin', name: 'app_signin_into_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SigninIntoAccountCommand $command): Response
     {
-        return $this->commandMessageBus->dispatch($command)->toResponse();
+        return new JsonResponse(
+            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            status: Response::HTTP_OK,
+        );
     }
 }

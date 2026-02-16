@@ -11,4 +11,3 @@ parameters:
     - ../../src
   ignoreErrors:
     - identifier: method.childParameterType
-    - identifier: missingType.iterableValue

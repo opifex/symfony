@@ -6,7 +6,6 @@ namespace App\Application\Query\GetAccountsByCriteria;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountSearchResult;
-use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Foundation\MessageHandlerResult;
 use App\Domain\Foundation\SearchPagination;
 
@@ -15,7 +14,7 @@ final class GetAccountsByCriteriaQueryResult extends MessageHandlerResult
     public static function success(AccountSearchResult $accountSearchResult, SearchPagination $searchPagination): self
     {
         return new self(
-            data: [
+            payload: [
                 'meta' => [
                     'current_page' => $searchPagination->getPage(),
                     'items_per_page' => $searchPagination->getLimit(),
@@ -33,7 +32,6 @@ final class GetAccountsByCriteriaQueryResult extends MessageHandlerResult
                     array: $accountSearchResult->getAccounts(),
                 ),
             ],
-            status: HttpSpecification::HTTP_OK,
         );
     }
 }

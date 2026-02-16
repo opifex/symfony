@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Application\Query\GetSigninAccount;
 
 use App\Domain\Account\Account;
-use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Foundation\MessageHandlerResult;
 
 final class GetSigninAccountQueryResult extends MessageHandlerResult
@@ -13,7 +12,7 @@ final class GetSigninAccountQueryResult extends MessageHandlerResult
     public static function success(Account $account): self
     {
         return new self(
-            data: [
+            payload: [
                 'id' => $account->getId()->toString(),
                 'email' => $account->getEmail()->toString(),
                 'locale' => $account->getLocale()->toString(),
@@ -21,7 +20,6 @@ final class GetSigninAccountQueryResult extends MessageHandlerResult
                 'roles' => $account->getRoles()->toArray(),
                 'created_at' => $account->getCreatedAt()->toAtomString(),
             ],
-            status: HttpSpecification::HTTP_OK,
         );
     }
 }

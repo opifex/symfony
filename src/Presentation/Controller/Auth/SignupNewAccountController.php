@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Command\SignupNewAccount\SignupNewAccountCommand;
-use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -48,21 +48,15 @@ final class SignupNewAccountController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_BAD_REQUEST,
-        description: HttpSpecification::STATUS_BAD_REQUEST,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_CONFLICT,
-        description: HttpSpecification::STATUS_CONFLICT,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_NO_CONTENT,
-        description: HttpSpecification::STATUS_NO_CONTENT,
-    )]
+    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
+    #[OA\Response(response: Response::HTTP_CONFLICT, description: 'Conflict')]
+    #[OA\Response(response: Response::HTTP_NO_CONTENT, description: 'No Content')]
     #[Route(path: '/auth/signup', name: 'app_signup_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SignupNewAccountCommand $command): Response
     {
-        return $this->commandMessageBus->dispatch($command)->toResponse();
+        return new JsonResponse(
+            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            status: Response::HTTP_NO_CONTENT,
+        );
     }
 }

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Command\CreateNewAccount\CreateNewAccountCommand;
-use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -50,8 +50,8 @@ final class CreateNewAccountController extends AbstractController
         ),
     )]
     #[OA\Response(
-        response: HttpSpecification::HTTP_CREATED,
-        description: HttpSpecification::STATUS_CREATED,
+        response: Response::HTTP_CREATED,
+        description: 'Created',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
@@ -63,26 +63,17 @@ final class CreateNewAccountController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_BAD_REQUEST,
-        description: HttpSpecification::STATUS_BAD_REQUEST,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_CONFLICT,
-        description: HttpSpecification::STATUS_CONFLICT,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_FORBIDDEN,
-        description: HttpSpecification::STATUS_FORBIDDEN,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_UNAUTHORIZED,
-        description: HttpSpecification::STATUS_UNAUTHORIZED,
-    )]
+    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
+    #[OA\Response(response: Response::HTTP_CONFLICT, description: 'Conflict')]
+    #[OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden')]
+    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account', name: 'app_create_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $command): Response
     {
-        return $this->commandMessageBus->dispatch($command)->toResponse();
+        return new JsonResponse(
+            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            status: Response::HTTP_CREATED,
+        );
     }
 }

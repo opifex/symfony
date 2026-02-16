@@ -7,10 +7,10 @@ namespace App\Presentation\Controller\Account;
 use App\Application\Query\GetAccountById\GetAccountByIdQuery;
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountStatus;
-use App\Domain\Foundation\HttpSpecification;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -29,8 +29,8 @@ final class GetAccountByIdController extends AbstractController
         example: '00000000-0000-6000-8000-000000000000',
     )]
     #[OA\Response(
-        response: HttpSpecification::HTTP_OK,
-        description: HttpSpecification::STATUS_OK,
+        response: Response::HTTP_OK,
+        description: 'OK',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
@@ -72,26 +72,17 @@ final class GetAccountByIdController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_BAD_REQUEST,
-        description: HttpSpecification::STATUS_BAD_REQUEST,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_FORBIDDEN,
-        description: HttpSpecification::STATUS_FORBIDDEN,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_NOT_FOUND,
-        description: HttpSpecification::STATUS_NOT_FOUND,
-    )]
-    #[OA\Response(
-        response: HttpSpecification::HTTP_UNAUTHORIZED,
-        description: HttpSpecification::STATUS_UNAUTHORIZED,
-    )]
+    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
+    #[OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden')]
+    #[OA\Response(response: Response::HTTP_NOT_FOUND, description: 'Not Found')]
+    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account/{id}', name: 'app_get_account_by_id', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetAccountByIdQuery $query): Response
     {
-        return $this->queryMessageBus->ask($query)->toResponse();
+        return new JsonResponse(
+            data: $this->queryMessageBus->ask($query)->getPayload(),
+            status: Response::HTTP_OK,
+        );
     }
 }

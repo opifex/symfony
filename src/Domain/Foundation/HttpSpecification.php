@@ -18,13 +18,4 @@ class HttpSpecification
     public const int HTTP_UNPROCESSABLE_ENTITY = 422;
     public const int HTTP_TOO_MANY_REQUESTS = 429;
     public const int HTTP_INTERNAL_SERVER_ERROR = 500;
-    /** Standard HTTP status reasons */
-    public const string STATUS_BAD_REQUEST = 'Bad Request';
-    public const string STATUS_CONFLICT = 'Conflict';
-    public const string STATUS_CREATED = 'Created';
-    public const string STATUS_FORBIDDEN = 'Forbidden';
-    public const string STATUS_NOT_FOUND = 'Not Found';
-    public const string STATUS_NO_CONTENT = 'No Content';
-    public const string STATUS_OK = 'OK';
-    public const string STATUS_UNAUTHORIZED = 'Unauthorized';
 }
