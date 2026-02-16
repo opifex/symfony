@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Health;
 
 use App\Application\Query\GetHealthStatus\GetHealthStatusQuery;
+use App\Application\Query\GetHealthStatus\GetHealthStatusQueryResult;
 use App\Domain\Healthcheck\HealthStatus;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
@@ -39,8 +40,11 @@ final class GetHealthStatusController extends AbstractController
     #[Route(path: '/health', name: 'app_get_health_status', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetHealthStatusQuery $query): Response
     {
+        /** @var GetHealthStatusQueryResult $handledResult */
+        $handledResult = $this->queryMessageBus->ask($query);
+
         return new JsonResponse(
-            data: $this->queryMessageBus->ask($query)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_OK,
         );
     }

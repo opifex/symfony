@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Command\CreateNewAccount\CreateNewAccountCommand;
+use App\Application\Command\CreateNewAccount\CreateNewAccountCommandResult;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
@@ -71,8 +72,11 @@ final class CreateNewAccountController extends AbstractController
     #[Route(path: '/account', name: 'app_create_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $command): Response
     {
+        /** @var CreateNewAccountCommandResult $handledResult */
+        $handledResult = $this->commandMessageBus->dispatch($command);
+
         return new JsonResponse(
-            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_CREATED,
         );
     }

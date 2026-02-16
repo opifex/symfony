@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Query\GetAccountById\GetAccountByIdQuery;
+use App\Application\Query\GetAccountById\GetAccountByIdQueryResult;
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Localization\LocaleCode;
@@ -80,8 +81,11 @@ final class GetAccountByIdController extends AbstractController
     #[Route(path: '/account/{id}', name: 'app_get_account_by_id', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetAccountByIdQuery $query): Response
     {
+        /** @var GetAccountByIdQueryResult $handledResult */
+        $handledResult = $this->queryMessageBus->ask($query);
+
         return new JsonResponse(
-            data: $this->queryMessageBus->ask($query)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_OK,
         );
     }

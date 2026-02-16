@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Command\SigninIntoAccount;
 
-use App\Domain\Foundation\MessageHandlerResult;
+use App\Domain\Foundation\AbstractHandlerResult;
 
-final class SigninIntoAccountCommandResult extends MessageHandlerResult
+final class SigninIntoAccountCommandResult extends AbstractHandlerResult
 {
     public static function success(string $accessToken): self
     {

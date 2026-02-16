@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Command\UpdateAccountById\UpdateAccountByIdCommand;
+use App\Application\Command\UpdateAccountById\UpdateAccountByIdCommandResult;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
@@ -61,8 +62,11 @@ final class UpdateAccountByIdController extends AbstractController
     #[Route(path: '/account/{id}', name: 'app_update_account_by_id', methods: Request::METHOD_PATCH)]
     public function __invoke(#[ValueResolver('payload')] UpdateAccountByIdCommand $command): Response
     {
+        /** @var UpdateAccountByIdCommandResult $handledResult */
+        $handledResult = $this->commandMessageBus->dispatch($command);
+
         return new JsonResponse(
-            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_NO_CONTENT,
         );
     }

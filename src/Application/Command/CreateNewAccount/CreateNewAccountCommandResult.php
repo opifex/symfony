@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Application\Command\CreateNewAccount;
 
 use App\Domain\Account\Account;
-use App\Domain\Foundation\MessageHandlerResult;
+use App\Domain\Foundation\AbstractHandlerResult;
 
-final class CreateNewAccountCommandResult extends MessageHandlerResult
+final class CreateNewAccountCommandResult extends AbstractHandlerResult
 {
     public static function success(Account $account): self
     {

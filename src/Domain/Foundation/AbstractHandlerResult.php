@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation;
 
-class MessageHandlerResult
+abstract class AbstractHandlerResult
 {
     protected function __construct(
         private readonly mixed $payload = null,

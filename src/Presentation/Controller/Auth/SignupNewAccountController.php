@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Command\SignupNewAccount\SignupNewAccountCommand;
+use App\Application\Command\SignupNewAccount\SignupNewAccountCommandResult;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
@@ -54,8 +55,11 @@ final class SignupNewAccountController extends AbstractController
     #[Route(path: '/auth/signup', name: 'app_signup_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SignupNewAccountCommand $command): Response
     {
+        /** @var SignupNewAccountCommandResult $handledResult */
+        $handledResult = $this->commandMessageBus->dispatch($command);
+
         return new JsonResponse(
-            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_NO_CONTENT,
         );
     }

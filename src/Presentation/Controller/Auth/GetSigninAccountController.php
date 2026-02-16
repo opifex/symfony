@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Query\GetSigninAccount\GetSigninAccountQuery;
+use App\Application\Query\GetSigninAccount\GetSigninAccountQueryResult;
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Localization\LocaleCode;
@@ -72,8 +73,11 @@ final class GetSigninAccountController extends AbstractController
     #[Route(path: '/auth/me', name: 'app_get_signin_account', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetSigninAccountQuery $query): Response
     {
+        /** @var GetSigninAccountQueryResult $handledResult */
+        $handledResult = $this->queryMessageBus->ask($query);
+
         return new JsonResponse(
-            data: $this->queryMessageBus->ask($query)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_OK,
         );
     }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Query\GetHealthStatus;
 
-use App\Domain\Foundation\MessageHandlerResult;
+use App\Domain\Foundation\AbstractHandlerResult;
 use App\Domain\Healthcheck\Healthcheck;
 
-final class GetHealthStatusQueryResult extends MessageHandlerResult
+final class GetHealthStatusQueryResult extends AbstractHandlerResult
 {
     public static function success(Healthcheck $health): self
     {

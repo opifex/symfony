@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Messenger\MessageBus;
 
 use App\Application\Contract\QueryMessageBusInterface;
-use App\Domain\Foundation\MessageHandlerResult;
+use App\Domain\Foundation\AbstractHandlerResult;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\Lazy;
@@ -27,7 +27,7 @@ final class QueryMessageBus implements QueryMessageBusInterface
      * @throws ExceptionInterface
      */
     #[Override]
-    public function ask(object $query): MessageHandlerResult
+    public function ask(object $query): mixed
     {
         $envelope = $this->messageBus->dispatch($query);
         $handledStamps = $envelope->all(stampFqcn: HandledStamp::class);
@@ -38,7 +38,7 @@ final class QueryMessageBus implements QueryMessageBusInterface
             throw new LogicException(sprintf($exceptionMessage, get_debug_type($envelope->getMessage())));
         }
 
-        if (!$handledResult instanceof MessageHandlerResult) {
+        if (!$handledResult instanceof AbstractHandlerResult) {
             $exceptionMessage = 'Message handler for type "%s" must return valid result object.';
             throw new LogicException(sprintf($exceptionMessage, get_debug_type($envelope->getMessage())));
         }

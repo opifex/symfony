@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Application\Query\GetAccountById;
 
 use App\Domain\Account\Account;
-use App\Domain\Foundation\MessageHandlerResult;
+use App\Domain\Foundation\AbstractHandlerResult;
 
-final class GetAccountByIdQueryResult extends MessageHandlerResult
+final class GetAccountByIdQueryResult extends AbstractHandlerResult
 {
     public static function success(Account $account): self
     {

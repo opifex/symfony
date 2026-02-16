@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Command\UnblockAccountById\UnblockAccountByIdCommand;
+use App\Application\Command\UnblockAccountById\UnblockAccountByIdCommandResult;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,8 +35,11 @@ final class UnblockAccountByIdController extends AbstractController
     #[Route(path: '/account/{id}/unblock', name: 'app_unblock_account_by_id', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] UnblockAccountByIdCommand $command): Response
     {
+        /** @var UnblockAccountByIdCommandResult $handledResult */
+        $handledResult = $this->commandMessageBus->dispatch($command);
+
         return new JsonResponse(
-            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_NO_CONTENT,
         );
     }

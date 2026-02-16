@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Query\GetAccountsByCriteria\GetAccountsByCriteriaQuery;
+use App\Application\Query\GetAccountsByCriteria\GetAccountsByCriteriaQueryResult;
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Localization\LocaleCode;
@@ -125,8 +126,11 @@ final class GetAccountsByCriteriaController extends AbstractController
     #[Route(path: '/account', name: 'app_get_accounts_by_criteria', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetAccountsByCriteriaQuery $query): Response
     {
+        /** @var GetAccountsByCriteriaQueryResult $handledResult */
+        $handledResult = $this->queryMessageBus->ask($query);
+
         return new JsonResponse(
-            data: $this->queryMessageBus->ask($query)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_OK,
         );
     }

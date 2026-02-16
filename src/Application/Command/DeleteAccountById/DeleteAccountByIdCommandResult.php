@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Command\DeleteAccountById;
 
-use App\Domain\Foundation\MessageHandlerResult;
+use App\Domain\Foundation\AbstractHandlerResult;
 
-final class DeleteAccountByIdCommandResult extends MessageHandlerResult
+final class DeleteAccountByIdCommandResult extends AbstractHandlerResult
 {
     public static function success(): self
     {

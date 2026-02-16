@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Account;
 
 use App\Application\Command\DeleteAccountById\DeleteAccountByIdCommand;
+use App\Application\Command\DeleteAccountById\DeleteAccountByIdCommandResult;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,8 +35,11 @@ final class DeleteAccountByIdController extends AbstractController
     #[Route(path: '/account/{id}', name: 'app_delete_account_by_id', methods: Request::METHOD_DELETE)]
     public function __invoke(#[ValueResolver('payload')] DeleteAccountByIdCommand $command): Response
     {
+        /** @var DeleteAccountByIdCommandResult $handledResult */
+        $handledResult = $this->commandMessageBus->dispatch($command);
+
         return new JsonResponse(
-            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_NO_CONTENT,
         );
     }

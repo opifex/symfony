@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Controller\Auth;
 
 use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommand;
+use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommandResult;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -57,8 +58,11 @@ final class SigninIntoAccountController extends AbstractController
     #[Route(path: '/auth/signin', name: 'app_signin_into_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SigninIntoAccountCommand $command): Response
     {
+        /** @var SigninIntoAccountCommandResult $handledResult */
+        $handledResult = $this->commandMessageBus->dispatch($command);
+
         return new JsonResponse(
-            data: $this->commandMessageBus->dispatch($command)->getPayload(),
+            data: $handledResult->getPayload(),
             status: Response::HTTP_OK,
         );
     }

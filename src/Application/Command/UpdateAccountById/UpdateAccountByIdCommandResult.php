@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Command\UpdateAccountById;
 
-use App\Domain\Foundation\MessageHandlerResult;
+use App\Domain\Foundation\AbstractHandlerResult;
 
-final class UpdateAccountByIdCommandResult extends MessageHandlerResult
+final class UpdateAccountByIdCommandResult extends AbstractHandlerResult
 {
     public static function success(): self
     {

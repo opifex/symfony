@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Command\BlockAccountById;
 
-use App\Domain\Foundation\MessageHandlerResult;
+use App\Domain\Foundation\AbstractHandlerResult;
 
-final class BlockAccountByIdCommandResult extends MessageHandlerResult
+final class BlockAccountByIdCommandResult extends AbstractHandlerResult
 {
     public static function success(): self
     {
