@@ -12,7 +12,6 @@ use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Account\Exception\AccountNotFoundException;
 use Override;
 use PHPUnit\Framework\TestCase;
 
@@ -43,25 +42,6 @@ final class SigninIntoAccountHandlerTest extends TestCase
             ->willThrowException(AuthorizationThrottlingException::create());
 
         $this->expectException(exception: AuthorizationThrottlingException::class);
-
-        $handler(new SigninIntoAccountCommand());
-    }
-
-    public function testInvokeThrowsExceptionWhenAccountNotFound(): void
-    {
-        $handler = new SigninIntoAccountCommandHandler(
-            accountEntityRepository: $this->accountEntityRepository,
-            authenticationRateLimiter: $this->authenticationRateLimiter,
-            authorizationTokenStorage: $this->authorizationTokenStorage,
-            jwtAccessTokenManager: $this->jwtAccessTokenManager,
-        );
-
-        $this->authorizationTokenStorage
-            ->expects($this->once())
-            ->method(constraint: 'getUserIdentifier')
-            ->willReturn(value: '00000000-0000-6000-8000-000000000000');
-
-        $this->expectException(exception: AccountNotFoundException::class);
 
         $handler(new SigninIntoAccountCommand());
     }

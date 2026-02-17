@@ -6,7 +6,6 @@ namespace App\Application\Command\UnblockAccountById;
 
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountStateMachineInterface;
-use App\Domain\Account\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -20,11 +19,9 @@ final class UnblockAccountByIdCommandHandler
 
     public function __invoke(UnblockAccountByIdCommand $command): UnblockAccountByIdCommandResult
     {
-        $account = $this->accountEntityRepository->findOneById($command->id)
-            ?? throw AccountNotFoundException::create();
-
-        $account = $this->accountStateMachine->unblock($account);
-        $this->accountEntityRepository->save($account);
+        $this->accountEntityRepository->findOneById($command->id)
+            |> $this->accountStateMachine->unblock(...)
+            |> $this->accountEntityRepository->save(...);
 
         return UnblockAccountByIdCommandResult::success();
     }

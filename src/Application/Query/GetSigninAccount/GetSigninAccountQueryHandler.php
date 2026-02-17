@@ -7,7 +7,6 @@ namespace App\Application\Query\GetSigninAccount;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Account\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -24,8 +23,7 @@ final class GetSigninAccountQueryHandler
         $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier()
             ?? throw AuthorizationRequiredException::create();
 
-        $account = $this->accountEntityRepository->findOneById($userIdentifier)
-            ?? throw AccountNotFoundException::create();
+        $account = $this->accountEntityRepository->findOneById($userIdentifier);
 
         return GetSigninAccountQueryResult::success($account);
     }

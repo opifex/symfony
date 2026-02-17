@@ -11,7 +11,6 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
 use App\Domain\Account\Contract\AccountStateMachineInterface;
 use App\Domain\Account\Event\AccountRegisteredEvent;
-use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -28,10 +27,7 @@ final class CreateNewAccountCommandHandler
 
     public function __invoke(CreateNewAccountCommand $command): CreateNewAccountCommandResult
     {
-        if ($this->accountEntityRepository->findOneByEmail($command->email) !== null) {
-            throw AccountAlreadyExistsException::create();
-        }
-
+        $this->accountEntityRepository->ensureEmailIsAvailable($command->email);
         $accountIdentifier = $this->uuidIdentityGenerator->generate();
         $accountPassword = $this->accountPasswordHasher->hash($command->password);
         $account = Account::create($accountIdentifier, $command->email, $accountPassword, $command->locale)

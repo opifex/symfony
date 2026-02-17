@@ -11,6 +11,7 @@ use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountRoleSet;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\HashedPassword;
@@ -71,7 +72,7 @@ final class DatabaseUserProviderTest extends TestCase
         $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
-            ->willReturn(value: null);
+            ->willThrowException(AccountNotFoundException::create());
 
         $this->expectException(UserNotFoundException::class);
 

@@ -6,8 +6,6 @@ namespace App\Application\Command\UpdateAccountById;
 
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
-use App\Domain\Account\Exception\AccountAlreadyExistsException;
-use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\HashedPassword;
 use App\Domain\Localization\LocaleCode;
@@ -24,15 +22,11 @@ final class UpdateAccountByIdCommandHandler
 
     public function __invoke(UpdateAccountByIdCommand $command): UpdateAccountByIdCommandResult
     {
-        $account = $this->accountEntityRepository->findOneById($command->id)
-            ?? throw AccountNotFoundException::create();
+        $account = $this->accountEntityRepository->findOneById($command->id);
 
         if ($command->email !== null) {
             if (!$account->getEmail()->equals(EmailAddress::fromString($command->email))) {
-                if ($this->accountEntityRepository->findOneByEmail($command->email) !== null) {
-                    throw AccountAlreadyExistsException::create();
-                }
-
+                $this->accountEntityRepository->ensureEmailIsAvailable($command->email);
                 $account = $account->withEmail(EmailAddress::fromString($command->email));
             }
         }

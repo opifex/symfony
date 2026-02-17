@@ -6,7 +6,6 @@ namespace App\Application\Command\BlockAccountById;
 
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountStateMachineInterface;
-use App\Domain\Account\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -20,11 +19,9 @@ final class BlockAccountByIdCommandHandler
 
     public function __invoke(BlockAccountByIdCommand $command): BlockAccountByIdCommandResult
     {
-        $account = $this->accountEntityRepository->findOneById($command->id)
-            ?? throw AccountNotFoundException::create();
-
-        $account = $this->accountStateMachine->block($account);
-        $this->accountEntityRepository->save($account);
+        $this->accountEntityRepository->findOneById($command->id)
+            |> $this->accountStateMachine->block(...)
+            |> $this->accountEntityRepository->save(...);
 
         return BlockAccountByIdCommandResult::success();
     }

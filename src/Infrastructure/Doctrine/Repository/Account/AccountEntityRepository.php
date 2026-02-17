@@ -8,6 +8,8 @@ use App\Domain\Account\Account;
 use App\Domain\Account\AccountSearchCriteria;
 use App\Domain\Account\AccountSearchResult;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Exception\AccountAlreadyExistsException;
+use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -61,7 +63,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function findOneById(string $id): ?Account
+    public function findOneById(string $id): Account
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
@@ -70,7 +72,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
         if (!$accountEntity instanceof AccountEntity) {
-            return null;
+            throw AccountNotFoundException::create();
         }
 
         $this->defaultEntityManager->detach($accountEntity);
@@ -79,7 +81,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     }
 
     #[Override]
-    public function findOneByEmail(string $email): ?Account
+    public function findOneByEmail(string $email): Account
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
@@ -88,12 +90,26 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
         if (!$accountEntity instanceof AccountEntity) {
-            return null;
+            throw AccountNotFoundException::create();
         }
 
         $this->defaultEntityManager->detach($accountEntity);
 
         return AccountEntityMapper::map($accountEntity);
+    }
+
+    #[Override]
+    public function ensureEmailIsAvailable(string $email): void
+    {
+        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->setParameter(key: 'email', value: $email);
+        $builder->setMaxResults(maxResults: 1);
+
+        if ($builder->getQuery()->getOneOrNullResult() !== null) {
+            throw AccountAlreadyExistsException::create();
+        }
     }
 
     #[Override]

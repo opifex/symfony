@@ -10,7 +10,6 @@ use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Account\Exception\AccountNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -36,8 +35,7 @@ final class SigninIntoAccountCommandHandler
             throw AuthorizationRequiredException::create();
         }
 
-        $account = $this->accountEntityRepository->findOneById($userIdentifier)
-            ?? throw AccountNotFoundException::create();
+        $account = $this->accountEntityRepository->findOneById($userIdentifier);
 
         $accessToken = $this->jwtAccessTokenManager->createAccessToken(
             userIdentifier: $account->getId()->toString(),
