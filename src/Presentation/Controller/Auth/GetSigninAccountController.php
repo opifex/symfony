@@ -11,7 +11,6 @@ use App\Domain\Account\AccountStatus;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -76,9 +75,6 @@ final class GetSigninAccountController extends AbstractController
         /** @var GetSigninAccountQueryResult $handledResult */
         $handledResult = $this->queryMessageBus->ask($query);
 
-        return new JsonResponse(
-            data: $handledResult->getPayload(),
-            status: Response::HTTP_OK,
-        );
+        return $this->json($handledResult, status: Response::HTTP_OK);
     }
 }

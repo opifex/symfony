@@ -9,7 +9,6 @@ use App\Application\Command\UpdateAccountById\UpdateAccountByIdCommandResult;
 use App\Domain\Localization\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -65,9 +64,6 @@ final class UpdateAccountByIdController extends AbstractController
         /** @var UpdateAccountByIdCommandResult $handledResult */
         $handledResult = $this->commandMessageBus->dispatch($command);
 
-        return new JsonResponse(
-            data: $handledResult->getPayload(),
-            status: Response::HTTP_NO_CONTENT,
-        );
+        return $this->json($handledResult, status: Response::HTTP_NO_CONTENT);
     }
 }

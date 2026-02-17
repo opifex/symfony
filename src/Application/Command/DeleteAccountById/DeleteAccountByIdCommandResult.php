@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace App\Application\Command\DeleteAccountById;
 
-use App\Domain\Foundation\AbstractHandlerResult;
+use JsonSerializable;
+use Override;
 
-final class DeleteAccountByIdCommandResult extends AbstractHandlerResult
+final class DeleteAccountByIdCommandResult implements JsonSerializable
 {
     public static function success(): self
     {
         return new self();
+    }
+
+    #[Override]
+    public function jsonSerialize(): null
+    {
+        return null;
     }
 }

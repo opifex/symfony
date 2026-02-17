@@ -5,10 +5,16 @@ declare(strict_types=1);
 namespace App\Application\Query\GetSigninAccount;
 
 use App\Domain\Account\Account;
-use App\Domain\Foundation\AbstractHandlerResult;
+use JsonSerializable;
+use Override;
 
-final class GetSigninAccountQueryResult extends AbstractHandlerResult
+final class GetSigninAccountQueryResult implements JsonSerializable
 {
+    private function __construct(
+        private readonly mixed $payload = null,
+    ) {
+    }
+
     public static function success(Account $account): self
     {
         return new self(
@@ -21,5 +27,11 @@ final class GetSigninAccountQueryResult extends AbstractHandlerResult
                 'created_at' => $account->getCreatedAt()->toAtomString(),
             ],
         );
+    }
+
+    #[Override]
+    public function jsonSerialize(): mixed
+    {
+        return $this->payload;
     }
 }

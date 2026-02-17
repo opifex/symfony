@@ -5,10 +5,16 @@ declare(strict_types=1);
 namespace App\Application\Command\CreateNewAccount;
 
 use App\Domain\Account\Account;
-use App\Domain\Foundation\AbstractHandlerResult;
+use JsonSerializable;
+use Override;
 
-final class CreateNewAccountCommandResult extends AbstractHandlerResult
+final class CreateNewAccountCommandResult implements JsonSerializable
 {
+    private function __construct(
+        private readonly mixed $payload = null,
+    ) {
+    }
+
     public static function success(Account $account): self
     {
         return new self(
@@ -16,5 +22,11 @@ final class CreateNewAccountCommandResult extends AbstractHandlerResult
                 'id' => $account->getId()->toString(),
             ],
         );
+    }
+
+    #[Override]
+    public function jsonSerialize(): mixed
+    {
+        return $this->payload;
     }
 }

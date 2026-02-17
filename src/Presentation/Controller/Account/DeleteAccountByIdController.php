@@ -8,7 +8,6 @@ use App\Application\Command\DeleteAccountById\DeleteAccountByIdCommand;
 use App\Application\Command\DeleteAccountById\DeleteAccountByIdCommandResult;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -38,9 +37,6 @@ final class DeleteAccountByIdController extends AbstractController
         /** @var DeleteAccountByIdCommandResult $handledResult */
         $handledResult = $this->commandMessageBus->dispatch($command);
 
-        return new JsonResponse(
-            data: $handledResult->getPayload(),
-            status: Response::HTTP_NO_CONTENT,
-        );
+        return $this->json($handledResult, status: Response::HTTP_NO_CONTENT);
     }
 }

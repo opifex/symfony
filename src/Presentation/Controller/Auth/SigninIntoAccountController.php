@@ -8,7 +8,6 @@ use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommand;
 use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommandResult;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -61,9 +60,6 @@ final class SigninIntoAccountController extends AbstractController
         /** @var SigninIntoAccountCommandResult $handledResult */
         $handledResult = $this->commandMessageBus->dispatch($command);
 
-        return new JsonResponse(
-            data: $handledResult->getPayload(),
-            status: Response::HTTP_OK,
-        );
+        return $this->json($handledResult, status: Response::HTTP_OK);
     }
 }

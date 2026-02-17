@@ -6,11 +6,17 @@ namespace App\Application\Query\GetAccountsByCriteria;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountSearchResult;
-use App\Domain\Foundation\AbstractHandlerResult;
 use App\Domain\Foundation\SearchPagination;
+use JsonSerializable;
+use Override;
 
-final class GetAccountsByCriteriaQueryResult extends AbstractHandlerResult
+final class GetAccountsByCriteriaQueryResult implements JsonSerializable
 {
+    private function __construct(
+        private readonly mixed $payload = null,
+    ) {
+    }
+
     public static function success(AccountSearchResult $accountSearchResult, SearchPagination $searchPagination): self
     {
         return new self(
@@ -33,5 +39,11 @@ final class GetAccountsByCriteriaQueryResult extends AbstractHandlerResult
                 ),
             ],
         );
+    }
+
+    #[Override]
+    public function jsonSerialize(): mixed
+    {
+        return $this->payload;
     }
 }
