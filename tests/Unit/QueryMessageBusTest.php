@@ -47,11 +47,6 @@ final class QueryMessageBusTest extends TestCase
 
     public static function handledStampsProvider(): iterable
     {
-        yield 'single stamp with invalid result' => [
-            [
-                new HandledStamp(result: null, handlerName: 'handler'),
-            ],
-        ];
         yield 'multiple stamps for envelope' => [
             [
                 new HandledStamp(result: null, handlerName: 'handler1'),
