@@ -7,10 +7,13 @@ namespace App\Application\Command\CreateNewAccount;
 use App\Application\Contract\EventMessageBusInterface;
 use App\Application\Contract\UuidIdentityGeneratorInterface;
 use App\Domain\Account\Account;
+use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
 use App\Domain\Account\Contract\AccountStateMachineInterface;
 use App\Domain\Account\Event\AccountRegisteredEvent;
+use App\Domain\Foundation\ValueObject\EmailAddress;
+use App\Domain\Localization\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -27,10 +30,16 @@ final class CreateNewAccountCommandHandler
 
     public function __invoke(CreateNewAccountCommand $command): CreateNewAccountCommandResult
     {
-        $this->accountEntityRepository->ensureEmailIsAvailable($command->email);
-        $accountIdentifier = $this->uuidIdentityGenerator->generate();
+        $accountEmail = EmailAddress::fromString($command->email);
+
+        $this->accountEntityRepository->ensureEmailIsAvailable($accountEmail);
+
+        $accountId = AccountIdentifier::fromString($this->uuidIdentityGenerator->generate());
+        $accountLocale = LocaleCode::fromString($command->locale);
         $accountPassword = $this->accountPasswordHasher->hash($command->password);
-        $account = Account::create($accountIdentifier, $command->email, $accountPassword, $command->locale)
+
+        $account = Account::create($accountId, $accountEmail, $accountPassword);
+        $account = $account->withLocale($accountLocale)
                 |> $this->accountStateMachine->register(...)
                 |> $this->accountStateMachine->activate(...)
                 |> $this->accountEntityRepository->save(...);

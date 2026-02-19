@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Application\Contract;
 
+use App\Application\Exception\AuthorizationRequiredException;
+
 interface AuthorizationTokenStorageInterface
 {
-    public function getUserIdentifier(): ?string;
+    /**
+     * @throws AuthorizationRequiredException
+     */
+    public function getUserIdentifier(): string;
 }

@@ -22,8 +22,8 @@ final class TwigTemplateRenderer implements TwigTemplateRendererInterface
     {
         try {
             return $this->environment->render($name, $context);
-        } catch (Error $e) {
-            throw RenderingFailedException::fromException($e);
+        } catch (Error $exception) {
+            throw RenderingFailedException::fromException($exception);
         }
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Command\UnblockAccountById;
 
+use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountStateMachineInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -19,7 +20,9 @@ final class UnblockAccountByIdCommandHandler
 
     public function __invoke(UnblockAccountByIdCommand $command): UnblockAccountByIdCommandResult
     {
-        $this->accountEntityRepository->findOneById($command->id)
+        $accountId = AccountIdentifier::fromString($command->id);
+
+        $this->accountEntityRepository->findOneById($accountId)
             |> $this->accountStateMachine->unblock(...)
             |> $this->accountEntityRepository->save(...);
 

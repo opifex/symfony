@@ -10,6 +10,7 @@ use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommandHandler;
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
+use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Override;
@@ -36,6 +37,11 @@ final class SigninIntoAccountHandlerTest extends TestCase
             jwtAccessTokenManager: $this->jwtAccessTokenManager,
         );
 
+        $this->authorizationTokenStorage
+            ->expects($this->once())
+            ->method(constraint: 'getUserIdentifier')
+            ->willThrowException(AuthorizationRequiredException::create());
+
         $this->authenticationRateLimiter
             ->expects($this->once())
             ->method(constraint: 'isAccepted')
@@ -54,6 +60,11 @@ final class SigninIntoAccountHandlerTest extends TestCase
             authorizationTokenStorage: $this->authorizationTokenStorage,
             jwtAccessTokenManager: $this->jwtAccessTokenManager,
         );
+
+        $this->authorizationTokenStorage
+            ->expects($this->once())
+            ->method(constraint: 'getUserIdentifier')
+            ->willThrowException(AuthorizationRequiredException::create());
 
         $this->authenticationRateLimiter
             ->expects($this->once())

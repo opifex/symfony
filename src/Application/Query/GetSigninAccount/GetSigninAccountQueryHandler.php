@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Query\GetSigninAccount;
 
 use App\Application\Contract\AuthorizationTokenStorageInterface;
-use App\Application\Exception\AuthorizationRequiredException;
+use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -20,10 +20,11 @@ final class GetSigninAccountQueryHandler
 
     public function __invoke(GetSigninAccountQuery $query): GetSigninAccountQueryResult
     {
-        $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier()
-            ?? throw AuthorizationRequiredException::create();
+        $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
 
-        $account = $this->accountEntityRepository->findOneById($userIdentifier);
+        $accountId = AccountIdentifier::fromString($userIdentifier);
+
+        $account = $this->accountEntityRepository->findOneById($accountId);
 
         return GetSigninAccountQueryResult::success($account);
     }

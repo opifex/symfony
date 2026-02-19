@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
+use App\Application\Exception\AuthorizationRequiredException;
 use App\Infrastructure\Security\TokenStorage\AuthorizationTokenStorage;
 use Override;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +20,7 @@ final class AuthorizationTokenStorageTest extends TestCase
         $this->tokenStorage = $this->createMock(type: TokenStorageInterface::class);
     }
 
-    public function testGetUserIdentifierReturnNullWithUnauthorizedUser(): void
+    public function testGetUserIdentifierThrowsExceptionWithUnauthorizedUser(): void
     {
         $authorizationTokenStorage = new AuthorizationTokenStorage(
             tokenStorage: $this->tokenStorage,
@@ -30,8 +31,8 @@ final class AuthorizationTokenStorageTest extends TestCase
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
 
-        $userIdentifier = $authorizationTokenStorage->getUserIdentifier();
+        $this->expectException(exception: AuthorizationRequiredException::class);
 
-        $this->assertSame(expected: null, actual: $userIdentifier);
+        $authorizationTokenStorage->getUserIdentifier();
     }
 }

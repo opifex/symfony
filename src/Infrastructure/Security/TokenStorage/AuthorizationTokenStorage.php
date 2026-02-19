@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Security\TokenStorage;
 
 use App\Application\Contract\AuthorizationTokenStorageInterface;
+use App\Application\Exception\AuthorizationRequiredException;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -16,8 +17,14 @@ final class AuthorizationTokenStorage implements AuthorizationTokenStorageInterf
     }
 
     #[Override]
-    public function getUserIdentifier(): ?string
+    public function getUserIdentifier(): string
     {
-        return $this->tokenStorage->getToken()?->getUserIdentifier();
+        $userIdentifier = $this->tokenStorage->getToken()?->getUserIdentifier();
+
+        if (!is_string($userIdentifier)) {
+            throw AuthorizationRequiredException::create();
+        }
+
+        return $userIdentifier;
     }
 }

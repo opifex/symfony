@@ -49,8 +49,8 @@ final class PayPalRequestParser extends AbstractRequestParser
 
         try {
             return $this->payloadConverter->convert($request->toArray());
-        } catch (ParseException $e) {
-            throw new RejectWebhookException(message: 'Webhook payload could not be parsed.', previous: $e);
+        } catch (ParseException $exception) {
+            throw new RejectWebhookException(message: 'Webhook payload could not be parsed.', previous: $exception);
         }
     }
 }

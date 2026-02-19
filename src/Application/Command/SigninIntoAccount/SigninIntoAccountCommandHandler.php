@@ -9,6 +9,7 @@ use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenManagerInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
+use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -25,17 +26,19 @@ final class SigninIntoAccountCommandHandler
 
     public function __invoke(SigninIntoAccountCommand $command): SigninIntoAccountCommandResult
     {
-        $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
-
-        if ($userIdentifier === null) {
+        try {
+            $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
+        } catch (AuthorizationRequiredException $exception) {
             if (!$this->authenticationRateLimiter->isAccepted($command->email)) {
                 throw AuthorizationThrottlingException::create();
             }
 
-            throw AuthorizationRequiredException::create();
+            throw $exception;
         }
 
-        $account = $this->accountEntityRepository->findOneById($userIdentifier);
+        $accountId = AccountIdentifier::fromString($userIdentifier);
+
+        $account = $this->accountEntityRepository->findOneById($accountId);
 
         $accessToken = $this->jwtAccessTokenManager->createAccessToken(
             userIdentifier: $account->getId()->toString(),

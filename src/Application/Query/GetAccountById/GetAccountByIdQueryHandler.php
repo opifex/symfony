@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Query\GetAccountById;
 
+use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -17,7 +18,9 @@ final class GetAccountByIdQueryHandler
 
     public function __invoke(GetAccountByIdQuery $query): GetAccountByIdQueryResult
     {
-        $account = $this->accountEntityRepository->findOneById($query->id);
+        $accountId = AccountIdentifier::fromString($query->id);
+
+        $account = $this->accountEntityRepository->findOneById($accountId);
 
         return GetAccountByIdQueryResult::success($account);
     }

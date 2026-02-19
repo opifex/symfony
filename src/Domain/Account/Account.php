@@ -6,7 +6,7 @@ namespace App\Domain\Account;
 
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
-use App\Domain\Foundation\ValueObject\HashedPassword;
+use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use NoDiscard;
 
@@ -16,21 +16,21 @@ class Account
         private readonly AccountIdentifier $id,
         private readonly DateTimeUtc $createdAt,
         private readonly EmailAddress $email,
-        private readonly HashedPassword $password,
+        private readonly PasswordHash $password,
         private readonly LocaleCode $locale,
         private readonly AccountRoleSet $roles,
         private readonly AccountStatus $status,
     ) {
     }
 
-    public static function create(string $uuid, string $email, string $hashedPassword, string $locale): self
+    public static function create(AccountIdentifier $id, EmailAddress $email, PasswordHash $password): self
     {
         return new self(
-            id: AccountIdentifier::fromString($uuid),
+            id: $id,
             createdAt: DateTimeUtc::now(),
-            email: EmailAddress::fromString($email),
-            password: HashedPassword::fromString($hashedPassword),
-            locale: LocaleCode::fromString($locale),
+            email: $email,
+            password: $password,
+            locale: LocaleCode::EnUs,
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
         );
@@ -46,7 +46,7 @@ class Account
         return $this->email;
     }
 
-    public function getPassword(): HashedPassword
+    public function getPassword(): PasswordHash
     {
         return $this->password;
     }
@@ -83,7 +83,7 @@ class Account
     }
 
     #[NoDiscard]
-    public function withPassword(HashedPassword $hashedPassword): self
+    public function withPassword(PasswordHash $hashedPassword): self
     {
         return clone($this, ['password' => $hashedPassword]);
     }

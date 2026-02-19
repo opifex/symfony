@@ -14,7 +14,7 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
-use App\Domain\Foundation\ValueObject\HashedPassword;
+use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\UserProvider\DatabaseUserProvider;
@@ -41,7 +41,7 @@ final class DatabaseUserProviderTest extends TestCase
             id: AccountIdentifier::fromString(uuid: '00000000-0000-6000-8000-000000000000'),
             createdAt: DateTimeUtc::now(),
             email: EmailAddress::fromString(email: 'email@example.com'),
-            password: HashedPassword::fromString(passwordHash: 'password4#account'),
+            password: PasswordHash::fromString(passwordHash: 'password4#account'),
             locale: LocaleCode::EnUs,
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
@@ -56,7 +56,7 @@ final class DatabaseUserProviderTest extends TestCase
         $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
-            ->with($account->getEmail()->toString())
+            ->with($account->getEmail())
             ->willReturn($account);
 
         $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->getEmail()->toString());

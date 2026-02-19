@@ -10,7 +10,7 @@ use App\Domain\Account\AccountRoleSet;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
-use App\Domain\Foundation\ValueObject\HashedPassword;
+use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 
@@ -22,7 +22,7 @@ final class AccountEntityMapper
             id: AccountIdentifier::fromString((string) $entity->id),
             createdAt: DateTimeUtc::fromInterface($entity->createdAt),
             email: EmailAddress::fromString($entity->email),
-            password: HashedPassword::fromString($entity->password),
+            password: PasswordHash::fromString($entity->password),
             locale: LocaleCode::fromString($entity->locale),
             roles: AccountRoleSet::fromStrings(...$entity->roles),
             status: AccountStatus::fromString($entity->status),

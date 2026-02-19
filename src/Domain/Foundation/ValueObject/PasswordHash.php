@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation\ValueObject;
 
-final class HashedPassword
+final class PasswordHash
 {
     private function __construct(
         private readonly string $passwordHash,

@@ -70,10 +70,10 @@ final class JwtAccessTokenManager implements JwtAccessTokenManagerInterface
         try {
             /** @var Plain $token */
             $token = $jsonWebToken->parser()->parse($accessToken);
-        } catch (CannotDecodeContent $e) {
-            throw InvalidTokenException::errorWhileDecodingToken($e);
-        } catch (InvalidTokenStructure $e) {
-            throw InvalidTokenException::tokenHaveInvalidStructure($e);
+        } catch (CannotDecodeContent $exception) {
+            throw InvalidTokenException::errorWhileDecodingToken($exception);
+        } catch (InvalidTokenStructure $exception) {
+            throw InvalidTokenException::tokenHaveInvalidStructure($exception);
         }
 
         if (!$jsonWebToken->validator()->validate($token, ...$jsonWebToken->validationConstraints())) {
@@ -104,8 +104,8 @@ final class JwtAccessTokenManager implements JwtAccessTokenManagerInterface
 
         try {
             return $builder->getToken($jsonWebToken->signer(), $jsonWebToken->signingKey())->toString();
-        } catch (InvalidKeyProvided $e) {
-            throw InvalidConfigurationException::tokenSignerIsNotConfigured($e);
+        } catch (InvalidKeyProvided $exception) {
+            throw InvalidConfigurationException::tokenSignerIsNotConfigured($exception);
         }
     }
 

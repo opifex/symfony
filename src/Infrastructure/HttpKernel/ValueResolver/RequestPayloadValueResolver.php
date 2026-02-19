@@ -41,10 +41,10 @@ final class RequestPayloadValueResolver implements ValueResolverInterface
         try {
             /** @var object[] */
             return [$this->denormalizer->denormalize($payload, $type, context: $context)];
-        } catch (ExtraAttributesException $e) {
-            throw RequestExtraParamsException::create($e->getExtraAttributes(), $type);
-        } catch (NotNormalizableValueException $e) {
-            throw RequestParamTypeException::create($e->getExpectedTypes(), $e->getPath(), $type);
+        } catch (ExtraAttributesException $exception) {
+            throw RequestExtraParamsException::create($exception->getExtraAttributes(), $type);
+        } catch (NotNormalizableValueException $exception) {
+            throw RequestParamTypeException::create($exception->getExpectedTypes(), $exception->getPath(), $type);
         }
     }
 }

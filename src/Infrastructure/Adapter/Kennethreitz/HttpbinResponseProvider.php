@@ -31,8 +31,8 @@ final class HttpbinResponseProvider implements HttpbinResponseProviderInterface
                     'Accept' => 'application/json',
                 ],
             ])->request(method: 'GET', url: 'json')->toArray();
-        } catch (ExceptionInterface $e) {
-            throw HttpRequestFailedException::fromException($e);
+        } catch (ExceptionInterface $exception) {
+            throw HttpRequestFailedException::fromException($exception);
         }
     }
 }

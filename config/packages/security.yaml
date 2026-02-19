@@ -3,7 +3,7 @@ security:
     database:
       id: App\Infrastructure\Security\UserProvider\DatabaseUserProvider
   password_hashers:
-    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+    App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser:
       algorithm: auto
   firewalls:
     development:
@@ -27,5 +27,5 @@ security:
 when@test:
   security:
     password_hashers:
-      Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+      App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser:
         algorithm: plaintext
