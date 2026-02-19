@@ -27,8 +27,9 @@ final class DatabaseUserProvider implements UserProviderInterface
     #[Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
+        $emailAddress = EmailAddress::fromString($identifier);
+
         try {
-            $emailAddress = EmailAddress::fromString($identifier);
             $account = $this->accountEntityRepository->findOneByEmail($emailAddress);
         } catch (AccountNotFoundException $exception) {
             throw new UserNotFoundException(previous: $exception);
