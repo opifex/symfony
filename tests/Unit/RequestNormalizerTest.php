@@ -15,8 +15,19 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 #[AllowDynamicProperties]
 final class RequestNormalizerTest extends TestCase
 {
-    #[DataProvider(methodName: 'requestDataProvider')]
-    public function testNormalizeWithDifferentTypes(mixed $value, mixed $expected): void
+    #[DataProvider(methodName: 'queryDataProvider')]
+    public function testNormalizeQueryWithDifferentTypes(mixed $value, mixed $expected): void
+    {
+        $requestNormalizer = new RequestNormalizer();
+        $request = new Request(query: ['value' => $value]);
+        $normalized = $requestNormalizer->normalize($request);
+
+        $this->assertArrayHasKey(key: 'value', array: $normalized);
+        $this->assertSame($expected, $normalized['value']);
+    }
+
+    #[DataProvider(methodName: 'contentDataProvider')]
+    public function testNormalizeContentWithDifferentTypes(mixed $value, mixed $expected): void
     {
         $requestNormalizer = new RequestNormalizer();
         $request = new Request(content: json_encode(['value' => $value]));
@@ -60,10 +71,10 @@ final class RequestNormalizerTest extends TestCase
         $this->assertEquals(expected: [], actual: $normalized);
     }
 
-    public static function requestDataProvider(): iterable
+    public static function queryDataProvider(): iterable
     {
         yield 'string remains string' => ['value' => 'string', 'expected' => 'string'];
-        yield 'string number remains string' => ['value' => '100', 'expected' => '100'];
+        yield 'string number remains integer' => ['value' => '100', 'expected' => 100];
         yield 'array remains array' => ['value' => ['array' => 100], 'expected' => ['array' => 100]];
         yield 'integer remains integer' => ['value' => 100, 'expected' => 100];
         yield 'float remains float' => ['value' => 100.56, 'expected' => 100.56];
@@ -73,6 +84,19 @@ final class RequestNormalizerTest extends TestCase
         yield 'string "true" to boolean true' => ['value' => 'true', 'expected' => true];
         yield 'boolean false remains false' => ['value' => false, 'expected' => false];
         yield 'string "false" to boolean false' => ['value' => 'false', 'expected' => false];
+        yield 'scientific number remains string' => ['value' => '38328e88', 'expected' => '38328e88'];
+    }
+
+    public static function contentDataProvider(): iterable
+    {
+        yield 'string remains string' => ['value' => 'string', 'expected' => 'string'];
+        yield 'string number remains string' => ['value' => '100', 'expected' => '100'];
+        yield 'array remains array' => ['value' => ['array' => 100], 'expected' => ['array' => 100]];
+        yield 'integer remains integer' => ['value' => 100, 'expected' => 100];
+        yield 'float remains float' => ['value' => 100.56, 'expected' => 100.56];
+        yield 'null remains null' => ['value' => null, 'expected' => null];
+        yield 'boolean true remains true' => ['value' => true, 'expected' => true];
+        yield 'boolean false remains false' => ['value' => false, 'expected' => false];
         yield 'scientific number remains string' => ['value' => '38328e88', 'expected' => '38328e88'];
     }
 }

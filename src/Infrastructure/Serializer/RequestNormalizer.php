@@ -23,7 +23,7 @@ final class RequestNormalizer implements NormalizerInterface
             throw new InvalidArgumentException(message: 'Object expected to be a valid request type.');
         }
 
-        return (array) $this->transformTypes($this->filterParams($this->extractParams($data)));
+        return $this->filterParams($this->extractParams($data));
     }
 
     /**
@@ -51,8 +51,8 @@ final class RequestNormalizer implements NormalizerInterface
     {
         /** @var array<string, mixed> */
         return array_merge_recursive(
-            $request->query->all(),
-            $request->attributes->all(key: '_route_params'),
+            (array) $this->transformTypes($request->query->all()),
+            (array) $this->transformTypes($request->attributes->all(key: '_route_params')),
             $this->parseContent($request),
         );
     }
