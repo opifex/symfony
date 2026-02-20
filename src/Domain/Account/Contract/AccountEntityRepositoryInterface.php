@@ -16,8 +16,8 @@ interface AccountEntityRepositoryInterface
     public function findByCriteria(
         ?string $accountEmail = null,
         ?string $accountStatus = null,
-        int $currentPageNumber = 1,
-        int $itemsPerPageAmount = 10,
+        ?int $currentPageNumber = null,
+        ?int $itemsPerPageAmount = null,
     ): SearchPaginationResult;
 
     /**

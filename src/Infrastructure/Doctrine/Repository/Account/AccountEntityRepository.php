@@ -32,8 +32,8 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     public function findByCriteria(
         ?string $accountEmail = null,
         ?string $accountStatus = null,
-        int $currentPageNumber = 1,
-        int $itemsPerPageAmount = 10,
+        ?int $currentPageNumber = null,
+        ?int $itemsPerPageAmount = null,
     ): SearchPaginationResult {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
@@ -50,8 +50,10 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
 
         $builder->addOrderBy($builder->expr()->desc(expr: 'account.createdAt'));
 
-        $builder->setFirstResult(firstResult: ($currentPageNumber - 1) * $itemsPerPageAmount);
-        $builder->setMaxResults($itemsPerPageAmount);
+        if ($currentPageNumber !== null && $itemsPerPageAmount !== null) {
+            $builder->setFirstResult(firstResult: ($currentPageNumber - 1) * $itemsPerPageAmount);
+            $builder->setMaxResults($itemsPerPageAmount);
+        }
 
         $paginator = new Paginator($builder, fetchJoinCollection: false);
         /** @var Traversable<int, AccountEntity> $iterator */
@@ -64,8 +66,8 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         return new SearchPaginationResult(
             resultItems: AccountEntityMapper::mapAll(...$iterator),
             totalResultsCount: $paginator->count(),
-            currentPageNumber: $currentPageNumber,
-            itemsPerPageAmount: $itemsPerPageAmount,
+            currentPageNumber: $currentPageNumber ?? 1,
+            itemsPerPageAmount: $itemsPerPageAmount ?? $paginator->count(),
         );
     }
 

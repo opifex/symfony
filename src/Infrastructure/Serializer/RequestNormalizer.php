@@ -91,6 +91,8 @@ final class RequestNormalizer implements NormalizerInterface
                 $data === 'true' => true,
                 $data === 'false' => false,
                 $data === 'null' => null,
+                preg_match(pattern: '/^-?\d+$/', subject: $data) === 1 => (int) $data,
+                preg_match(pattern: '/^-?\d+\.\d+$/', subject: $data) === 1 => (float) $data,
                 default => $data,
             },
             is_array($data) => array_map(fn($item) => $this->transformTypes($item), $data),
