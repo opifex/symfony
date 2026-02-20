@@ -6,11 +6,10 @@ namespace App\Infrastructure\Doctrine\Repository\Account;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\AccountSearchCriteria;
-use App\Domain\Account\AccountSearchResult;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountNotFoundException;
+use App\Domain\Foundation\SearchPaginationResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,25 +29,29 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
      * @throws Exception
      */
     #[Override]
-    public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult
-    {
+    public function findByCriteria(
+        ?string $accountEmail = null,
+        ?string $accountStatus = null,
+        int $currentPageNumber = 1,
+        int $itemsPerPageAmount = 10,
+    ): SearchPaginationResult {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
 
-        if ($criteria->getEmail() !== null) {
+        if ($accountEmail !== null) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
-            $builder->setParameter(key: 'email', value: '%' . $criteria->getEmail() . '%');
+            $builder->setParameter(key: 'email', value: '%' . $accountEmail . '%');
         }
 
-        if ($criteria->getStatus() !== null) {
+        if ($accountStatus !== null) {
             $builder->andWhere($builder->expr()->eq(x: 'account.status', y: ':status'));
-            $builder->setParameter(key: 'status', value: $criteria->getStatus());
+            $builder->setParameter(key: 'status', value: $accountStatus);
         }
 
         $builder->addOrderBy($builder->expr()->desc(expr: 'account.createdAt'));
 
-        $builder->setFirstResult($criteria->getPagination()?->getOffset());
-        $builder->setMaxResults($criteria->getPagination()?->getLimit());
+        $builder->setFirstResult(firstResult: ($currentPageNumber - 1) * $itemsPerPageAmount);
+        $builder->setMaxResults($itemsPerPageAmount);
 
         $paginator = new Paginator($builder, fetchJoinCollection: false);
         /** @var Traversable<int, AccountEntity> $iterator */
@@ -58,9 +61,11 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
             $this->defaultEntityManager->detach($accountEntity);
         }
 
-        return new AccountSearchResult(
-            accounts: AccountEntityMapper::mapAll(...$iterator),
-            totalResultCount: $paginator->count(),
+        return new SearchPaginationResult(
+            resultItems: AccountEntityMapper::mapAll(...$iterator),
+            totalResultsCount: $paginator->count(),
+            currentPageNumber: $currentPageNumber,
+            itemsPerPageAmount: $itemsPerPageAmount,
         );
     }
 

@@ -6,15 +6,19 @@ namespace App\Domain\Account\Contract;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\AccountSearchCriteria;
-use App\Domain\Account\AccountSearchResult;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountNotFoundException;
+use App\Domain\Foundation\SearchPaginationResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 
 interface AccountEntityRepositoryInterface
 {
-    public function findByCriteria(AccountSearchCriteria $criteria): AccountSearchResult;
+    public function findByCriteria(
+        ?string $accountEmail = null,
+        ?string $accountStatus = null,
+        int $currentPageNumber = 1,
+        int $itemsPerPageAmount = 10,
+    ): SearchPaginationResult;
 
     /**
      * @throws AccountNotFoundException
