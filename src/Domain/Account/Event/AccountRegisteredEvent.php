@@ -9,17 +9,12 @@ use App\Domain\Account\Account;
 class AccountRegisteredEvent
 {
     private function __construct(
-        private readonly Account $account,
+        public readonly Account $account,
     ) {
     }
 
     public static function create(Account $account): self
     {
         return new self($account);
-    }
-
-    public function getAccount(): Account
-    {
-        return $this->account;
     }
 }

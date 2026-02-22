@@ -19,12 +19,12 @@ final class GetSigninAccountQueryResult implements JsonSerializable
     {
         return new self(
             payload: [
-                'id' => $account->getId()->toString(),
-                'email' => $account->getEmail()->toString(),
-                'locale' => $account->getLocale()->toString(),
-                'status' => $account->getStatus()->toString(),
-                'roles' => $account->getRoles()->toArray(),
-                'created_at' => $account->getCreatedAt()->toAtomString(),
+                'id' => $account->id->toString(),
+                'email' => $account->email->toString(),
+                'locale' => $account->locale->toString(),
+                'status' => $account->status->toString(),
+                'roles' => $account->roles->toArray(),
+                'created_at' => $account->createdAt->toAtomString(),
             ],
         );
     }

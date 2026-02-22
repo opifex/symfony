@@ -29,7 +29,7 @@ final class UpdateAccountByIdCommandHandler
         if ($command->email !== null) {
             $emailAddress = EmailAddress::fromString($command->email);
 
-            if (!$account->getEmail()->equals($emailAddress)) {
+            if (!$account->email->equals($emailAddress)) {
                 $this->accountEntityRepository->ensureEmailIsAvailable($emailAddress);
                 $account = $account->withEmail($emailAddress);
             }

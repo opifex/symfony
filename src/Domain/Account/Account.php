@@ -13,13 +13,13 @@ use NoDiscard;
 class Account
 {
     public function __construct(
-        private readonly AccountIdentifier $id,
-        private readonly DateTimeUtc $createdAt,
-        private readonly EmailAddress $email,
-        private readonly PasswordHash $password,
-        private readonly LocaleCode $locale,
-        private readonly AccountRoleSet $roles,
-        private readonly AccountStatus $status,
+        public readonly AccountIdentifier $id,
+        public readonly DateTimeUtc $createdAt,
+        public readonly EmailAddress $email,
+        public readonly PasswordHash $password,
+        public readonly LocaleCode $locale,
+        public readonly AccountRoleSet $roles,
+        public readonly AccountStatus $status,
     ) {
     }
 
@@ -34,41 +34,6 @@ class Account
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
         );
-    }
-
-    public function getId(): AccountIdentifier
-    {
-        return $this->id;
-    }
-
-    public function getEmail(): EmailAddress
-    {
-        return $this->email;
-    }
-
-    public function getPassword(): PasswordHash
-    {
-        return $this->password;
-    }
-
-    public function getLocale(): LocaleCode
-    {
-        return $this->locale;
-    }
-
-    public function getRoles(): AccountRoleSet
-    {
-        return $this->roles;
-    }
-
-    public function getStatus(): AccountStatus
-    {
-        return $this->status;
-    }
-
-    public function getCreatedAt(): DateTimeUtc
-    {
-        return $this->createdAt;
     }
 
     public function isActive(): bool

@@ -36,9 +36,9 @@ final class DatabaseUserProvider implements UserProviderInterface
         }
 
         return new PasswordAuthenticatedUser(
-            userIdentifier: $account->getId()->toString(),
-            password: $account->getPassword()->toString(),
-            roles: $account->getRoles()->toArray(),
+            userIdentifier: $account->id->toString(),
+            password: $account->password->toString(),
+            roles: $account->roles->toArray(),
             enabled: $account->isActive(),
         );
     }

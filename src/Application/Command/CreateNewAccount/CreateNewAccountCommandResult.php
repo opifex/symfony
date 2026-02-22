@@ -19,7 +19,7 @@ final class CreateNewAccountCommandResult implements JsonSerializable
     {
         return new self(
             payload: [
-                'id' => $account->getId()->toString(),
+                'id' => $account->id->toString(),
             ],
         );
     }

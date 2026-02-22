@@ -19,7 +19,7 @@ final class GetHealthStatusQueryResult implements JsonSerializable
     {
         return new self(
             payload: [
-                'status' => $health->getStatus()->toString(),
+                'status' => $health->status->toString(),
             ],
         );
     }

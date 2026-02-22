@@ -41,8 +41,8 @@ final class SigninIntoAccountCommandHandler
         $account = $this->accountEntityRepository->findOneById($accountId);
 
         $accessToken = $this->jwtAccessTokenManager->createAccessToken(
-            userIdentifier: $account->getId()->toString(),
-            userRoles: $account->getRoles()->toArray(),
+            userIdentifier: $account->id->toString(),
+            userRoles: $account->roles->toArray(),
         );
 
         return SigninIntoAccountCommandResult::success($accessToken);

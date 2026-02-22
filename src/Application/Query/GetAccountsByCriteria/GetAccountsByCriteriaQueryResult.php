@@ -19,23 +19,23 @@ final class GetAccountsByCriteriaQueryResult implements JsonSerializable
     public static function success(SearchPaginationResult $accountSearchResult): self
     {
         /** @var Account[] $accounts */
-        $accounts = $accountSearchResult->getResultItems();
+        $accounts = $accountSearchResult->resultItemsList;
 
         return new self(
             payload: [
                 'meta' => [
-                    'current_page' => $accountSearchResult->getCurrentPageNumber(),
-                    'items_per_page' => $accountSearchResult->getItemsPerPageAmount(),
-                    'total_items' => $accountSearchResult->getTotalResultsCount(),
+                    'current_page' => $accountSearchResult->currentPageNumber,
+                    'items_per_page' => $accountSearchResult->itemsPerPageAmount,
+                    'total_items' => $accountSearchResult->totalResultsCount,
                 ],
                 'data' => array_map(
                     callback: static fn(Account $account): array => [
-                        'id' => $account->getId()->toString(),
-                        'email' => $account->getEmail()->toString(),
-                        'locale' => $account->getLocale()->toString(),
-                        'status' => $account->getStatus()->toString(),
-                        'roles' => $account->getRoles()->toArray(),
-                        'created_at' => $account->getCreatedAt()->toAtomString(),
+                        'id' => $account->id->toString(),
+                        'email' => $account->email->toString(),
+                        'locale' => $account->locale->toString(),
+                        'status' => $account->status->toString(),
+                        'roles' => $account->roles->toArray(),
+                        'created_at' => $account->createdAt->toAtomString(),
                     ],
                     array: $accounts,
                 ),

@@ -27,9 +27,9 @@ final class AccountRegisteredEventHandler
 
     public function __invoke(AccountRegisteredEvent $event): void
     {
-        $locale = $event->getAccount()->getLocale()->toString();
+        $locale = $event->account->locale->toString();
         $subject = $this->translator->trans($this->subject, locale: $locale);
-        $context = ['account' => ['email' => $event->getAccount()->getEmail()->toString()]];
+        $context = ['account' => ['email' => $event->account->email->toString()]];
 
         $templatedEmail = new TemplatedEmail();
         $templatedEmail->subject($subject);
@@ -37,7 +37,7 @@ final class AccountRegisteredEventHandler
         $templatedEmail->htmlTemplate($this->template);
         $templatedEmail->context([...['locale' => $locale], ...$context]);
 
-        $recipient = new Recipient($event->getAccount()->getEmail()->toString());
+        $recipient = new Recipient($event->account->email->toString());
         $notification = new TemplatedEmailNotification($templatedEmail);
 
         $this->notifier->send($notification, $recipient);

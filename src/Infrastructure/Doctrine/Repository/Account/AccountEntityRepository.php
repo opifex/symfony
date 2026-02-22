@@ -64,7 +64,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         }
 
         return new SearchPaginationResult(
-            resultItems: AccountEntityMapper::mapAll(...$iterator),
+            resultItemsList: AccountEntityMapper::mapAll(...$iterator),
             totalResultsCount: $paginator->count(),
             currentPageNumber: $currentPageNumber ?? 1,
             itemsPerPageAmount: $itemsPerPageAmount ?? $paginator->count(),
@@ -127,7 +127,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->delete()->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $account->getId()->toString());
+        $builder->setParameter(key: 'id', value: $account->id->toString());
         $builder->getQuery()->execute();
     }
 
@@ -135,19 +135,19 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     public function save(Account $account): Account
     {
         $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
-        $accountEntity = $accountRepository->findOneBy(criteria: ['id' => $account->getId()->toString()]);
+        $accountEntity = $accountRepository->findOneBy(criteria: ['id' => $account->id->toString()]);
 
         if ($accountEntity === null) {
             $accountEntity = new AccountEntity();
-            $accountEntity->id = $account->getId()->toString();
-            $accountEntity->createdAt = $account->getCreatedAt()->toImmutable();
+            $accountEntity->id = $account->id->toString();
+            $accountEntity->createdAt = $account->createdAt->toImmutable();
         }
 
-        $accountEntity->email = $account->getEmail()->toString();
-        $accountEntity->locale = $account->getLocale()->toString();
-        $accountEntity->password = $account->getPassword()->toString();
-        $accountEntity->roles = $account->getRoles()->toArray();
-        $accountEntity->status = $account->getStatus()->toString();
+        $accountEntity->email = $account->email->toString();
+        $accountEntity->locale = $account->locale->toString();
+        $accountEntity->password = $account->password->toString();
+        $accountEntity->roles = $account->roles->toArray();
+        $accountEntity->status = $account->status->toString();
 
         $this->defaultEntityManager->persist($accountEntity);
         $this->defaultEntityManager->flush();

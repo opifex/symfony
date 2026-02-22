@@ -47,19 +47,19 @@ final class DatabaseUserProviderTest extends TestCase
             status: AccountStatus::Created,
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
-            userIdentifier: $account->getId()->toString(),
-            password: $account->getPassword()->toString(),
-            roles: $account->getRoles()->toArray(),
+            userIdentifier: $account->id->toString(),
+            password: $account->password->toString(),
+            roles: $account->roles->toArray(),
             enabled: true,
         );
 
         $this->accountEntityRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
-            ->with($account->getEmail())
+            ->with($account->email)
             ->willReturn($account);
 
-        $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->getEmail()->toString());
+        $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->email->toString());
 
         $this->assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
         $this->assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());

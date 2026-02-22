@@ -50,7 +50,7 @@ final class AccountStateMachine implements AccountStateMachineInterface
 
     private function applyTransition(Account $account, AccountAction $action): Account
     {
-        $marking = new AccountMarking($account->getStatus()->toString());
+        $marking = new AccountMarking($account->status->toString());
 
         if (!$this->accountStateMachine->can($marking, $action->toString())) {
             throw AccountInvalidActionException::create();

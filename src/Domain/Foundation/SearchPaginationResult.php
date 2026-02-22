@@ -7,36 +7,13 @@ namespace App\Domain\Foundation;
 class SearchPaginationResult
 {
     /**
-     * @param object[] $resultItems
+     * @param object[] $resultItemsList
      */
     public function __construct(
-        private readonly array $resultItems,
-        private readonly int $totalResultsCount,
-        private readonly int $currentPageNumber,
-        private readonly int $itemsPerPageAmount,
+        public readonly array $resultItemsList,
+        public readonly int $totalResultsCount,
+        public readonly int $currentPageNumber,
+        public readonly int $itemsPerPageAmount,
     ) {
-    }
-
-    /**
-     * @return object[]
-     */
-    public function getResultItems(): array
-    {
-        return $this->resultItems;
-    }
-
-    public function getTotalResultsCount(): int
-    {
-        return $this->totalResultsCount;
-    }
-
-    public function getCurrentPageNumber(): int
-    {
-        return $this->currentPageNumber;
-    }
-
-    public function getItemsPerPageAmount(): int
-    {
-        return $this->itemsPerPageAmount;
     }
 }
