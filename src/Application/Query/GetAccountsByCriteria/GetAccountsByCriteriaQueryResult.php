@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Query\GetAccountsByCriteria;
 
 use App\Domain\Account\Account;
-use App\Domain\Foundation\SearchPaginationResult;
+use App\Domain\Foundation\SearchResult;
 use JsonSerializable;
 use Override;
 
@@ -16,17 +16,17 @@ final class GetAccountsByCriteriaQueryResult implements JsonSerializable
     ) {
     }
 
-    public static function success(SearchPaginationResult $accountSearchResult): self
+    public static function success(SearchResult $searchResult): self
     {
         /** @var Account[] $accounts */
-        $accounts = $accountSearchResult->resultItemsList;
+        $accounts = $searchResult->items;
 
         return new self(
             payload: [
                 'meta' => [
-                    'current_page' => $accountSearchResult->currentPageNumber,
-                    'items_per_page' => $accountSearchResult->itemsPerPageAmount,
-                    'total_items' => $accountSearchResult->totalResultsCount,
+                    'current_page' => $searchResult->pageNumber,
+                    'items_per_page' => $searchResult->pageSize,
+                    'total_items' => $searchResult->totalCount,
                 ],
                 'data' => array_map(
                     callback: static fn(Account $account): array => [

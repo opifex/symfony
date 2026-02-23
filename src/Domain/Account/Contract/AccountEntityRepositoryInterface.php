@@ -8,7 +8,7 @@ use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountNotFoundException;
-use App\Domain\Foundation\SearchPaginationResult;
+use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 
 interface AccountEntityRepositoryInterface
@@ -16,9 +16,9 @@ interface AccountEntityRepositoryInterface
     public function findByCriteria(
         ?string $accountEmail = null,
         ?string $accountStatus = null,
-        ?int $currentPageNumber = null,
-        ?int $itemsPerPageAmount = null,
-    ): SearchPaginationResult;
+        ?int $pageNumber = null,
+        ?int $pageSize = null,
+    ): SearchResult;
 
     /**
      * @throws AccountNotFoundException

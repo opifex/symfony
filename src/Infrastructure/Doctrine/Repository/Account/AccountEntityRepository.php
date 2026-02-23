@@ -9,7 +9,7 @@ use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountNotFoundException;
-use App\Domain\Foundation\SearchPaginationResult;
+use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,9 +32,9 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     public function findByCriteria(
         ?string $accountEmail = null,
         ?string $accountStatus = null,
-        ?int $currentPageNumber = null,
-        ?int $itemsPerPageAmount = null,
-    ): SearchPaginationResult {
+        ?int $pageNumber = null,
+        ?int $pageSize = null,
+    ): SearchResult {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
 
@@ -50,9 +50,9 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
 
         $builder->addOrderBy($builder->expr()->desc(expr: 'account.createdAt'));
 
-        if ($currentPageNumber !== null && $itemsPerPageAmount !== null) {
-            $builder->setFirstResult(firstResult: ($currentPageNumber - 1) * $itemsPerPageAmount);
-            $builder->setMaxResults($itemsPerPageAmount);
+        if ($pageNumber !== null && $pageSize !== null) {
+            $builder->setFirstResult(firstResult: ($pageNumber - 1) * $pageSize);
+            $builder->setMaxResults($pageSize);
         }
 
         $paginator = new Paginator($builder, fetchJoinCollection: false);
@@ -63,11 +63,11 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
             $this->defaultEntityManager->detach($accountEntity);
         }
 
-        return new SearchPaginationResult(
-            resultItemsList: AccountEntityMapper::mapAll(...$iterator),
-            totalResultsCount: $paginator->count(),
-            currentPageNumber: $currentPageNumber ?? 1,
-            itemsPerPageAmount: $itemsPerPageAmount ?? $paginator->count(),
+        return new SearchResult(
+            items: AccountEntityMapper::mapAll(...$iterator),
+            totalCount: $paginator->count(),
+            pageNumber: $pageNumber ?? 1,
+            pageSize: $pageSize ?? $paginator->count(),
         );
     }
 

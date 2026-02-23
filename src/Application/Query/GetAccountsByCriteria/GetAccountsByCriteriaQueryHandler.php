@@ -17,13 +17,13 @@ final class GetAccountsByCriteriaQueryHandler
 
     public function __invoke(GetAccountsByCriteriaQuery $query): GetAccountsByCriteriaQueryResult
     {
-        $accountSearchResult = $this->accountEntityRepository->findByCriteria(
+        $searchResult = $this->accountEntityRepository->findByCriteria(
             accountEmail: $query->email,
             accountStatus: $query->status,
-            currentPageNumber: $query->page,
-            itemsPerPageAmount: $query->limit,
+            pageNumber: $query->page,
+            pageSize: $query->limit,
         );
 
-        return GetAccountsByCriteriaQueryResult::success($accountSearchResult);
+        return GetAccountsByCriteriaQueryResult::success($searchResult);
     }
 }
