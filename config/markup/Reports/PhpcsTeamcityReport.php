@@ -7,7 +7,7 @@ namespace Reports;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Reports\Report;
 
-class PhpcsTeamcityReport implements Report
+final class PhpcsTeamcityReport implements Report
 {
     private array $inspectionTypes = [];
 

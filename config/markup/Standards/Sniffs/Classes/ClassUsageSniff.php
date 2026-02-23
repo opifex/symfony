@@ -8,7 +8,7 @@ use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-class ClassUsageSniff implements Sniff
+final class ClassUsageSniff implements Sniff
 {
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void

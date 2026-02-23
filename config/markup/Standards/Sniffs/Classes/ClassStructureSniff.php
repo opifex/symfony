@@ -8,7 +8,7 @@ use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-class ClassStructureSniff implements Sniff
+final class ClassStructureSniff implements Sniff
 {
     public string $appNamespace = 'App';
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Payment\Event;
 
-class PaymentReceivedEvent
+final class PaymentReceivedEvent
 {
     public static function create(): self
     {

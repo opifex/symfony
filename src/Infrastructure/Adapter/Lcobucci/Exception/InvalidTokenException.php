@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Throwable;
 
 #[WithHttpStatus(statusCode: 403)]
-class InvalidTokenException extends RuntimeException
+final class InvalidTokenException extends RuntimeException
 {
     public static function errorWhileDecodingToken(?Throwable $previous = null): self
     {

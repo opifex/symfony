@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Throwable;
 
 #[WithHttpStatus(statusCode: 500)]
-class RenderingFailedException extends RuntimeException
+final class RenderingFailedException extends RuntimeException
 {
     public static function fromException(Throwable $previous): self
     {

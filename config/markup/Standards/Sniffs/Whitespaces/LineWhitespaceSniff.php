@@ -8,7 +8,7 @@ use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-class LineWhitespaceSniff implements Sniff
+final class LineWhitespaceSniff implements Sniff
 {
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'account')]
-class AccountEntity
+final class AccountEntity
 {
     public function __construct(
         #[ORM\Id]

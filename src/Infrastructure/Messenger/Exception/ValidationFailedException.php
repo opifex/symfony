@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[WithHttpStatus(statusCode: 422)]
-class ValidationFailedException extends RuntimeException
+final class ValidationFailedException extends RuntimeException
 {
     public function __construct(
         private readonly ConstraintViolationListInterface $violations,

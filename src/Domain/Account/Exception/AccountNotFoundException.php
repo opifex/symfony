@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Throwable;
 
 #[WithHttpStatus(statusCode: 404)]
-class AccountNotFoundException extends RuntimeException
+final class AccountNotFoundException extends RuntimeException
 {
     public static function create(?Throwable $previous = null): self
     {

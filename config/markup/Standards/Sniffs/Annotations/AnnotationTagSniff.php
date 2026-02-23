@@ -8,7 +8,7 @@ use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-class AnnotationTagSniff implements Sniff
+final class AnnotationTagSniff implements Sniff
 {
     public array $allowedTags = ['@extends', '@implements', '@param', '@return', '@throws', '@var'];
 

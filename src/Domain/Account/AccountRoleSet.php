@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
-class AccountRoleSet
+final class AccountRoleSet
 {
     /**
      * @param AccountRole[] $roles

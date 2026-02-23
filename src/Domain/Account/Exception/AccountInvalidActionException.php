@@ -8,7 +8,7 @@ use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
 #[WithHttpStatus(statusCode: 422)]
-class AccountInvalidActionException extends RuntimeException
+final class AccountInvalidActionException extends RuntimeException
 {
     public static function create(): self
     {

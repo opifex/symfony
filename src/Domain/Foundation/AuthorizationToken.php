@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation;
 
-class AuthorizationToken
+final class AuthorizationToken
 {
     /**
      * @param string[] $userRoles

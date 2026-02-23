@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Throwable;
 
 #[WithHttpStatus(statusCode: 500)]
-class InvalidConfigurationException extends RuntimeException
+final class InvalidConfigurationException extends RuntimeException
 {
     public static function tokenSignerIsNotConfigured(?Throwable $previous = null): self
     {

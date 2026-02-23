@@ -7,7 +7,7 @@ namespace Reports;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Reports\Report;
 
-class PhpcsGithubReport implements Report
+final class PhpcsGithubReport implements Report
 {
     public function generateFileReport(
         mixed $report,

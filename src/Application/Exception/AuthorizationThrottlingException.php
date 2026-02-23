@@ -8,7 +8,7 @@ use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 
 #[WithHttpStatus(statusCode: 429)]
-class AuthorizationThrottlingException extends RuntimeException
+final class AuthorizationThrottlingException extends RuntimeException
 {
     public static function create(): self
     {

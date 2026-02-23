@@ -6,6 +6,6 @@ namespace App\Domain\Account;
 
 use App\Domain\Foundation\ValueObject\AbstractUuidIdentifier;
 
-class AccountIdentifier extends AbstractUuidIdentifier
+final class AccountIdentifier extends AbstractUuidIdentifier
 {
 }

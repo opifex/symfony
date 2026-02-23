@@ -10,7 +10,7 @@ use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use NoDiscard;
 
-class Account
+final class Account
 {
     public function __construct(
         public readonly AccountIdentifier $id,

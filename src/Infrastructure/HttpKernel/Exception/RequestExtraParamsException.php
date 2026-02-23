@@ -11,7 +11,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[WithHttpStatus(statusCode: 422)]
-class RequestExtraParamsException extends RuntimeException
+final class RequestExtraParamsException extends RuntimeException
 {
     public function __construct(
         private readonly ConstraintViolationListInterface $violations,
