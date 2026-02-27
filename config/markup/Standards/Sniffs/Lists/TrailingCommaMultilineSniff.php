@@ -30,7 +30,7 @@ final class TrailingCommaMultilineSniff implements Sniff
         if (isset($scopeOpener) && isset($scopeCloser)) {
             for ($index = $scopeCloser; $index >= $scopeOpener; $index--) {
                 if ($tokens[$index]['code'] === T_WHITESPACE && $tokens[$index]['content'] === PHP_EOL) {
-                    if ($tokens[$index - 1]['code'] !== T_COMMA) {
+                    if (!in_array(needle: $tokens[$index - 1]['code'], haystack: [T_COMMA, T_SEMICOLON])) {
                         $phpcsFile->addFixableError(
                             error: 'Multi-line arrays, arguments and match expressions must have a trailing comma',
                             stackPtr: $index - 1,

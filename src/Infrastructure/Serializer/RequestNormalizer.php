@@ -6,6 +6,7 @@ namespace App\Infrastructure\Serializer;
 
 use Override;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -53,6 +54,7 @@ final class RequestNormalizer implements NormalizerInterface
         return array_merge_recursive(
             (array) $this->transformTypes($request->query->all()),
             (array) $this->transformTypes($request->attributes->all(key: '_route_params')),
+            $this->transformFiles($request->files->all()),
             $this->parseContent($request),
         );
     }
@@ -95,8 +97,28 @@ final class RequestNormalizer implements NormalizerInterface
                 preg_match(pattern: '/^-?\d+\.\d+$/', subject: $data) === 1 => (float) $data,
                 default => $data,
             },
-            is_array($data) => array_map(fn($item) => $this->transformTypes($item), $data),
+            is_array($data) => array_map(fn($item): mixed => $this->transformTypes($item), $data),
             default => $data,
         };
+    }
+
+    /**
+     * @param array<int|string, mixed> $files
+     * @return array<int|string, mixed>
+     */
+    private function transformFiles(array $files): array
+    {
+        return array_map(function ($file): mixed {
+            return match (true) {
+                $file instanceof UploadedFile => [
+                    'filename' => $file->getClientOriginalName(),
+                    'mime_type' => $file->getMimeType() ?? 'application/octet-stream',
+                    'content' => $file->getContent(),
+                    'size' => $file->getSize() !== false ? $file->getSize() : 0,
+                ],
+                is_array($file) => $this->transformFiles($file),
+                default => $file,
+            };
+        }, $files);
     }
 }
