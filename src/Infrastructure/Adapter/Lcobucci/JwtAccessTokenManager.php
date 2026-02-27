@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter\Lcobucci;
 
 use App\Application\Contract\JwtAccessTokenManagerInterface;
-use App\Domain\Foundation\AuthorizationToken;
 use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidConfigurationException;
 use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidTokenException;
 use DateInterval;
@@ -62,8 +61,7 @@ final class JwtAccessTokenManager implements JwtAccessTokenManagerInterface
     /**
      * @param non-empty-string $accessToken
      */
-    #[Override]
-    public function decodeAccessToken(#[SensitiveParameter] string $accessToken): AuthorizationToken
+    public function decodeAccessToken(#[SensitiveParameter] string $accessToken): JwtAccessToken
     {
         $jsonWebToken = $this->getJwtConfiguration();
 
@@ -126,14 +124,14 @@ final class JwtAccessTokenManager implements JwtAccessTokenManagerInterface
         return new DateInterval(sprintf('PT%sS', $this->lifetime));
     }
 
-    private function getAuthorizationToken(Plain $token): AuthorizationToken
+    private function getAuthorizationToken(Plain $token): JwtAccessToken
     {
         /** @var string $userIdentifier */
         $userIdentifier = $token->claims()->get(name: RegisteredClaims::SUBJECT) ?? '';
         /** @var string[] $userRoles */
         $userRoles = $token->claims()->get(name: self::CLAIM_ROLES) ?? [];
 
-        return new AuthorizationToken($userIdentifier, $userRoles);
+        return new JwtAccessToken($userIdentifier, $userRoles);
     }
 
     private function getJwtConfiguration(): Configuration
