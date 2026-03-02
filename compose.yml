@@ -88,7 +88,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: admin
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql
     networks:
       internal:
 
