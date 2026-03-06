@@ -6,7 +6,7 @@ namespace App\Application\Command\SigninIntoAccount;
 
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
-use App\Application\Contract\JwtAccessTokenManagerInterface;
+use App\Application\Contract\JwtAccessTokenIssuerInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\AccountIdentifier;
@@ -20,7 +20,7 @@ final class SigninIntoAccountCommandHandler
         private readonly AccountEntityRepositoryInterface $accountEntityRepository,
         private readonly AuthenticationRateLimiterInterface $authenticationRateLimiter,
         private readonly AuthorizationTokenStorageInterface $authorizationTokenStorage,
-        private readonly JwtAccessTokenManagerInterface $jwtAccessTokenManager,
+        private readonly JwtAccessTokenIssuerInterface $jwtAccessTokenIssuer,
     ) {
     }
 
@@ -40,7 +40,7 @@ final class SigninIntoAccountCommandHandler
 
         $account = $this->accountEntityRepository->findOneById($accountId);
 
-        $accessToken = $this->jwtAccessTokenManager->createAccessToken(
+        $accessToken = $this->jwtAccessTokenIssuer->issue(
             userIdentifier: $account->id->toString(),
             userRoles: $account->roles->toArray(),
         );

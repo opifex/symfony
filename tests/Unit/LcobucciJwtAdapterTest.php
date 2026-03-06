@@ -8,31 +8,41 @@ use AllowDynamicProperties;
 use App\Domain\Account\AccountRole;
 use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidConfigurationException;
 use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidTokenException;
-use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenManager;
+use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenIssuer;
+use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenParser;
+use App\Infrastructure\Adapter\Lcobucci\JwtConfigurationBag;
 use Exception;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
 
 #[AllowDynamicProperties]
 final class LcobucciJwtAdapterTest extends TestCase
 {
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->clock = new MockClock();
+    }
+
     /**
      * @throws Exception
      */
     public function testCreateAccessTokenWithPassphrase(): void
     {
-        $lcobucciJwtAdapter = new JwtAccessTokenManager(
+        $jwtConfigurationBag = new JwtConfigurationBag(
             issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
-            clock: new MockClock(),
         );
+        $jwtAccessTokenIssuer = new JwtAccessTokenIssuer($jwtConfigurationBag);
+        $jwtAccessTokenParser = new JwtAccessTokenParser($jwtConfigurationBag);
 
-        $tokenString = $lcobucciJwtAdapter->createAccessToken(
+        $tokenString = $jwtAccessTokenIssuer->issue(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
             userRoles: [AccountRole::User->toString()],
         );
-        $token = $lcobucciJwtAdapter->decodeAccessToken($tokenString);
+        $token = $jwtAccessTokenParser->parse($tokenString);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->userIdentifier);
         $this->assertSame(expected: [AccountRole::User->toString()], actual: $token->userRoles);
@@ -84,20 +94,21 @@ final class LcobucciJwtAdapterTest extends TestCase
         $verificationKey .= 'pwIDAQAB' . PHP_EOL;
         $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
-        $lcobucciJwtAdapter = new JwtAccessTokenManager(
+        $jwtConfigurationBag = new JwtConfigurationBag(
             issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             signingKey: $signingKey,
             verificationKey: $verificationKey,
-            clock: new MockClock(),
         );
+        $jwtAccessTokenIssuer = new JwtAccessTokenIssuer($jwtConfigurationBag);
+        $jwtAccessTokenParser = new JwtAccessTokenParser($jwtConfigurationBag);
 
-        $tokenString = $lcobucciJwtAdapter->createAccessToken(
+        $tokenString = $jwtAccessTokenIssuer->issue(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
             userRoles: [AccountRole::User->toString()],
         );
-        $token = $lcobucciJwtAdapter->decodeAccessToken($tokenString);
+        $token = $jwtAccessTokenParser->parse($tokenString);
 
         $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->userIdentifier);
         $this->assertSame(expected: [AccountRole::User->toString()], actual: $token->userRoles);
@@ -108,18 +119,18 @@ final class LcobucciJwtAdapterTest extends TestCase
      */
     public function testCreateAccessTokenThrowsExceptionWithEmptyConfiguration(): void
     {
-        $lcobucciJwtAdapter = new JwtAccessTokenManager(
+        $jwtConfigurationBag = new JwtConfigurationBag(
             issuer: 'https://example.com',
             lifetime: 86400,
             passphrase: '',
             signingKey: '',
             verificationKey: '',
-            clock: new MockClock(),
         );
+        $jwtAccessTokenIssuer = new JwtAccessTokenIssuer($jwtConfigurationBag);
 
         $this->expectException(InvalidConfigurationException::class);
 
-        $lcobucciJwtAdapter->createAccessToken(
+        $jwtAccessTokenIssuer->issue(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
             userRoles: [AccountRole::User->toString()],
         );
@@ -147,18 +158,18 @@ final class LcobucciJwtAdapterTest extends TestCase
         $verificationKey .= 'pwIDAQAB' . PHP_EOL;
         $verificationKey .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
-        $lcobucciJwtAdapter = new JwtAccessTokenManager(
+        $jwtConfigurationBag = new JwtConfigurationBag(
             issuer: 'http://example.com',
             lifetime: 86400,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
             signingKey: $signingKey,
             verificationKey: $verificationKey,
-            clock: new MockClock(),
         );
+        $jwtAccessTokenIssuer = new JwtAccessTokenIssuer($jwtConfigurationBag);
 
         $this->expectException(InvalidConfigurationException::class);
 
-        $lcobucciJwtAdapter->createAccessToken(
+        $jwtAccessTokenIssuer->issue(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
             userRoles: [AccountRole::User->toString()],
         );
@@ -169,51 +180,52 @@ final class LcobucciJwtAdapterTest extends TestCase
      */
     public function testDecodeAccessTokenThrowsExceptionWithExpiredToken(): void
     {
-        $lcobucciJwtAdapter = new JwtAccessTokenManager(
-            issuer: 'http://example.com',
+        $jwtConfigurationBag = new JwtConfigurationBag(
+            issuer: 'https://example.com',
             lifetime: 0,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
-            clock: new MockClock(),
         );
+        $jwtAccessTokenIssuer = new JwtAccessTokenIssuer($jwtConfigurationBag);
+        $jwtAccessTokenParser = new JwtAccessTokenParser($jwtConfigurationBag);
 
-        $tokenString = $lcobucciJwtAdapter->createAccessToken(
+        $tokenString = $jwtAccessTokenIssuer->issue(
             userIdentifier: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22',
             userRoles: [AccountRole::User->toString()],
         );
 
         $this->expectException(InvalidTokenException::class);
 
-        $lcobucciJwtAdapter->decodeAccessToken($tokenString);
+        $jwtAccessTokenParser->parse($tokenString);
     }
 
     public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenContent(): void
     {
-        $lcobucciJwtAdapter = new JwtAccessTokenManager(
-            issuer: 'http://example.com',
+        $jwtConfigurationBag = new JwtConfigurationBag(
+            issuer: 'https://example.com',
             lifetime: 1,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
-            clock: new MockClock(),
         );
+        $jwtAccessTokenParser = new JwtAccessTokenParser($jwtConfigurationBag);
 
         $tokenString = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2N';
         $tokenString .= '.6fwOHO3K4mnu0r_TQU0QUn1OkphV84LdSHBNGOGhbCQ';
 
         $this->expectException(InvalidTokenException::class);
 
-        $lcobucciJwtAdapter->decodeAccessToken($tokenString);
+        $jwtAccessTokenParser->parse($tokenString);
     }
 
     public function testDecodeAccessTokenThrowsExceptionWithInvalidTokenStructure(): void
     {
-        $lcobucciJwtAdapter = new JwtAccessTokenManager(
-            issuer: 'http://example.com',
+        $jwtConfigurationBag = new JwtConfigurationBag(
+            issuer: 'https://example.com',
             lifetime: 1,
             passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
-            clock: new MockClock(),
         );
+        $jwtAccessTokenParser = new JwtAccessTokenParser($jwtConfigurationBag);
 
         $this->expectException(InvalidTokenException::class);
 
-        $lcobucciJwtAdapter->decodeAccessToken(accessToken: 'invalid');
+        $jwtAccessTokenParser->parse(accessToken: 'invalid');
     }
 }

@@ -9,7 +9,7 @@ use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommand;
 use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommandHandler;
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
-use App\Application\Contract\JwtAccessTokenManagerInterface;
+use App\Application\Contract\JwtAccessTokenIssuerInterface;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
@@ -25,7 +25,7 @@ final class SigninIntoAccountHandlerTest extends TestCase
         $this->accountEntityRepository = $this->createMock(type: AccountEntityRepositoryInterface::class);
         $this->authenticationRateLimiter = $this->createMock(type: AuthenticationRateLimiterInterface::class);
         $this->authorizationTokenStorage = $this->createMock(type: AuthorizationTokenStorageInterface::class);
-        $this->jwtAccessTokenManager = $this->createMock(type: JwtAccessTokenManagerInterface::class);
+        $this->jwtAccessTokenIssuer = $this->createMock(type: JwtAccessTokenIssuerInterface::class);
     }
 
     public function testInvokeThrowsThrottlingException(): void
@@ -34,7 +34,7 @@ final class SigninIntoAccountHandlerTest extends TestCase
             accountEntityRepository: $this->accountEntityRepository,
             authenticationRateLimiter: $this->authenticationRateLimiter,
             authorizationTokenStorage: $this->authorizationTokenStorage,
-            jwtAccessTokenManager: $this->jwtAccessTokenManager,
+            jwtAccessTokenIssuer: $this->jwtAccessTokenIssuer,
         );
 
         $this->authorizationTokenStorage
@@ -58,7 +58,7 @@ final class SigninIntoAccountHandlerTest extends TestCase
             accountEntityRepository: $this->accountEntityRepository,
             authenticationRateLimiter: $this->authenticationRateLimiter,
             authorizationTokenStorage: $this->authorizationTokenStorage,
-            jwtAccessTokenManager: $this->jwtAccessTokenManager,
+            jwtAccessTokenIssuer: $this->jwtAccessTokenIssuer,
         );
 
         $this->authorizationTokenStorage
