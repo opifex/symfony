@@ -7,12 +7,14 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Infrastructure\RateLimiter\AuthenticationRateLimiter;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\RateLimit;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class AuthenticationRateLimiterTest extends TestCase
 {
     #[Override]

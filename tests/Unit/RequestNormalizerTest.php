@@ -7,6 +7,7 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Infrastructure\Serializer\RequestNormalizer;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class RequestNormalizerTest extends TestCase
 {
     #[Override]

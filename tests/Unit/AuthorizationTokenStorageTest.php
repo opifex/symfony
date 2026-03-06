@@ -8,10 +8,12 @@ use AllowDynamicProperties;
 use App\Application\Exception\AuthorizationRequiredException;
 use App\Infrastructure\Security\TokenStorage\AuthorizationTokenStorage;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class AuthorizationTokenStorageTest extends TestCase
 {
     #[Override]

@@ -8,11 +8,13 @@ use AllowDynamicProperties;
 use App\Infrastructure\Adapter\Sensiolabs\Exception\RenderingFailedException;
 use App\Infrastructure\Adapter\Sensiolabs\TwigTemplateRenderer;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Error\Error;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class SensiolabsTwigAdapterTest extends TestCase
 {
     #[Override]

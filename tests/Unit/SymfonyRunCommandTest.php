@@ -8,6 +8,7 @@ use AllowDynamicProperties;
 use App\Application\Contract\HttpbinResponseProviderInterface;
 use App\Presentation\Command\SymfonyRunCommand;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Console\Command\Command;
@@ -17,6 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Tests\Support\HttpMockClientTrait;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class SymfonyRunCommandTest extends TestCase
 {
     use HttpMockClientTrait;

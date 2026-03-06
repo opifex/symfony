@@ -6,10 +6,12 @@ namespace Tests\Unit;
 
 use AllowDynamicProperties;
 use App\Infrastructure\HttpKernel\Exception\RequestParamTypeException;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\ConstraintViolationList;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class RequestParamTypeExceptionTest extends TestCase
 {
     public function testCreateWithEmptyExpectedValue(): void

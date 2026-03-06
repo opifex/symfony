@@ -8,6 +8,7 @@ use AllowDynamicProperties;
 use App\Infrastructure\Serializer\ExceptionNormalizer;
 use Exception;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class ExceptionNormalizerTest extends TestCase
 {
     #[Override]

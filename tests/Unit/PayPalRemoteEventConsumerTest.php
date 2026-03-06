@@ -9,9 +9,11 @@ use App\Application\Contract\EventMessageBusInterface;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPaymentCaptureEvent;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalRemoteEventConsumer;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class PayPalRemoteEventConsumerTest extends TestCase
 {
     #[Override]

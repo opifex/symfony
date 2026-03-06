@@ -6,9 +6,11 @@ namespace Tests\Unit;
 
 use AllowDynamicProperties;
 use App\Infrastructure\Observability\CorrelationIdProvider;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class CorrelationIdProviderTest extends TestCase
 {
     public function testInMemoryStorage(): void

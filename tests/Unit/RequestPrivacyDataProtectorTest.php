@@ -6,10 +6,12 @@ namespace Tests\Unit;
 
 use AllowDynamicProperties;
 use App\Application\Service\RequestPrivacyDataProtector;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class RequestPrivacyDataProtectorTest extends TestCase
 {
     #[DataProvider(methodName: 'requestDataProvider')]

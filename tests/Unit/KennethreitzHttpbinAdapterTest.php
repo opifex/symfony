@@ -7,12 +7,14 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Infrastructure\Adapter\Kennethreitz\Exception\HttpRequestFailedException;
 use App\Infrastructure\Adapter\Kennethreitz\HttpbinResponseProvider;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class KennethreitzHttpbinAdapterTest extends TestCase
 {
     #[DataProvider(methodName: 'httpbinResponseProvider')]

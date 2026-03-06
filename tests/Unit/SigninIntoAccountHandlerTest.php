@@ -14,9 +14,11 @@ use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class SigninIntoAccountHandlerTest extends TestCase
 {
     #[Override]

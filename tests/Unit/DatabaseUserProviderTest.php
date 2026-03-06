@@ -19,6 +19,7 @@ use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\UserProvider\DatabaseUserProvider;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -26,6 +27,7 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Uid\Uuid;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class DatabaseUserProviderTest extends TestCase
 {
     #[Override]
