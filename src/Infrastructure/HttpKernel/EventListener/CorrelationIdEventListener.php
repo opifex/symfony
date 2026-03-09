@@ -8,10 +8,10 @@ use App\Infrastructure\Observability\CorrelationIdProvider;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
-final class CorrelationIdEventListener
+final readonly class CorrelationIdEventListener
 {
     public function __construct(
-        private readonly CorrelationIdProvider $correlationIdProvider,
+        private CorrelationIdProvider $correlationIdProvider,
     ) {
     }
 

@@ -6,10 +6,10 @@ namespace App\Infrastructure\Messenger\Stamp;
 
 use Symfony\Component\Messenger\Stamp\StampInterface;
 
-final class CorrelationIdStamp implements StampInterface
+final readonly class CorrelationIdStamp implements StampInterface
 {
     public function __construct(
-        private readonly string $correlationId,
+        private string $correlationId,
     ) {
     }
 

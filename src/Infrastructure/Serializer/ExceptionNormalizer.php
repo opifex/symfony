@@ -14,10 +14,10 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Throwable;
 
-final class ExceptionNormalizer implements NormalizerInterface
+final readonly class ExceptionNormalizer implements NormalizerInterface
 {
     public function __construct(
-        private readonly KernelInterface $kernel,
+        private KernelInterface $kernel,
     ) {
     }
 

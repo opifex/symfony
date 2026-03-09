@@ -8,10 +8,10 @@ use App\Application\Contract\AuthenticationRateLimiterInterface;
 use Override;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
-final class AuthenticationRateLimiter implements AuthenticationRateLimiterInterface
+final readonly class AuthenticationRateLimiter implements AuthenticationRateLimiterInterface
 {
     public function __construct(
-        private readonly RateLimiterFactoryInterface $authenticationLimiter,
+        private RateLimiterFactoryInterface $authenticationLimiter,
     ) {
     }
 

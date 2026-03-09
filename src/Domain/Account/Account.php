@@ -10,16 +10,16 @@ use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use NoDiscard;
 
-final class Account
+final readonly class Account
 {
     public function __construct(
-        public readonly AccountIdentifier $id,
-        public readonly DateTimeUtc $createdAt,
-        public readonly EmailAddress $email,
-        public readonly PasswordHash $password,
-        public readonly LocaleCode $locale,
-        public readonly AccountRoleSet $roles,
-        public readonly AccountStatus $status,
+        public AccountIdentifier $id,
+        public DateTimeUtc $createdAt,
+        public EmailAddress $email,
+        public PasswordHash $password,
+        public LocaleCode $locale,
+        public AccountRoleSet $roles,
+        public AccountStatus $status,
     ) {
     }
 

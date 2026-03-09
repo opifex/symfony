@@ -10,10 +10,10 @@ use Override;
 use Twig\Environment;
 use Twig\Error\Error;
 
-final class TwigTemplateRenderer implements TwigTemplateRendererInterface
+final readonly class TwigTemplateRenderer implements TwigTemplateRendererInterface
 {
     public function __construct(
-        private readonly Environment $environment,
+        private Environment $environment,
     ) {
     }
 

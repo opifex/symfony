@@ -11,10 +11,10 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 
-final class CorrelationIdMiddleware implements MiddlewareInterface
+final readonly class CorrelationIdMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly CorrelationIdProvider $correlationIdProvider,
+        private CorrelationIdProvider $correlationIdProvider,
     ) {
     }
 

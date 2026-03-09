@@ -14,13 +14,13 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class SigninIntoAccountCommandHandler
+final readonly class SigninIntoAccountCommandHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AuthenticationRateLimiterInterface $authenticationRateLimiter,
-        private readonly AuthorizationTokenStorageInterface $authorizationTokenStorage,
-        private readonly JwtAccessTokenIssuerInterface $jwtAccessTokenIssuer,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AuthenticationRateLimiterInterface $authenticationRateLimiter,
+        private AuthorizationTokenStorageInterface $authorizationTokenStorage,
+        private JwtAccessTokenIssuerInterface $jwtAccessTokenIssuer,
     ) {
     }
 

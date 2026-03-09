@@ -6,10 +6,10 @@ namespace App\Domain\Account\Event;
 
 use App\Domain\Account\Account;
 
-final class AccountRegisteredEvent
+final readonly class AccountRegisteredEvent
 {
     private function __construct(
-        public readonly Account $account,
+        public Account $account,
     ) {
     }
 

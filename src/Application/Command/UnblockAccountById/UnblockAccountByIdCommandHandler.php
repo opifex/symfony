@@ -10,11 +10,11 @@ use App\Domain\Account\Contract\AccountStateMachineInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class UnblockAccountByIdCommandHandler
+final readonly class UnblockAccountByIdCommandHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AccountStateMachineInterface $accountStateMachine,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountStateMachineInterface $accountStateMachine,
     ) {
     }
 

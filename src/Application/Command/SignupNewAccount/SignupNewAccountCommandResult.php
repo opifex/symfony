@@ -7,7 +7,7 @@ namespace App\Application\Command\SignupNewAccount;
 use JsonSerializable;
 use Override;
 
-final class SignupNewAccountCommandResult implements JsonSerializable
+final readonly class SignupNewAccountCommandResult implements JsonSerializable
 {
     public static function success(): self
     {

@@ -8,10 +8,10 @@ use App\Domain\Account\Account;
 use JsonSerializable;
 use Override;
 
-final class GetSigninAccountQueryResult implements JsonSerializable
+final readonly class GetSigninAccountQueryResult implements JsonSerializable
 {
     private function __construct(
-        private readonly mixed $payload = null,
+        private mixed $payload = null,
     ) {
     }
 

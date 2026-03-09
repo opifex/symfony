@@ -11,10 +11,10 @@ use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use SensitiveParameter;
 
-final class JwtAccessTokenParser
+final readonly class JwtAccessTokenParser
 {
     public function __construct(
-        private readonly JwtConfigurationBag $jwtConfigurationBag,
+        private JwtConfigurationBag $jwtConfigurationBag,
     ) {
     }
 

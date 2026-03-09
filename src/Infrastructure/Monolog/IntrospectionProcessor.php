@@ -9,11 +9,11 @@ use Monolog\LogRecord;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsMonologProcessor]
-final class IntrospectionProcessor
+final readonly class IntrospectionProcessor
 {
     public function __construct(
         #[Autowire(param: 'kernel.project_dir')]
-        private readonly string $kernelProjectDir,
+        private string $kernelProjectDir,
     ) {
     }
 

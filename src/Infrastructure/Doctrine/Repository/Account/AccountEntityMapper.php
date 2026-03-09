@@ -14,7 +14,7 @@ use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 
-final class AccountEntityMapper
+final readonly class AccountEntityMapper
 {
     public static function map(AccountEntity $entity): Account
     {

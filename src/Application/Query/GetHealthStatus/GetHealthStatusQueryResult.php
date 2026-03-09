@@ -8,10 +8,10 @@ use App\Domain\Healthcheck\Healthcheck;
 use JsonSerializable;
 use Override;
 
-final class GetHealthStatusQueryResult implements JsonSerializable
+final readonly class GetHealthStatusQueryResult implements JsonSerializable
 {
     private function __construct(
-        private readonly mixed $payload = null,
+        private mixed $payload = null,
     ) {
     }
 

@@ -9,10 +9,10 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class GetAccountByIdQueryHandler
+final readonly class GetAccountByIdQueryHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
     ) {
     }
 

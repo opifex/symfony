@@ -11,12 +11,12 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class HttpbinResponseProvider implements HttpbinResponseProviderInterface
+final readonly class HttpbinResponseProvider implements HttpbinResponseProviderInterface
 {
     public function __construct(
         #[Autowire(env: 'HTTPBIN_URL')]
-        private readonly string $apiUrl,
-        private readonly HttpClientInterface $httpClient,
+        private string $apiUrl,
+        private HttpClientInterface $httpClient,
     ) {
     }
 

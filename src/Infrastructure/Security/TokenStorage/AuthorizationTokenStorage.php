@@ -9,10 +9,10 @@ use App\Application\Exception\AuthorizationRequiredException;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class AuthorizationTokenStorage implements AuthorizationTokenStorageInterface
+final readonly class AuthorizationTokenStorage implements AuthorizationTokenStorageInterface
 {
     public function __construct(
-        private readonly TokenStorageInterface $tokenStorage,
+        private TokenStorageInterface $tokenStorage,
     ) {
     }
 

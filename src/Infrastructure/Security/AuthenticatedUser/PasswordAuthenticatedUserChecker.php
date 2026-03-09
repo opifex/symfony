@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class PasswordAuthenticatedUserChecker implements UserCheckerInterface
+final readonly class PasswordAuthenticatedUserChecker implements UserCheckerInterface
 {
     #[Override]
     public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void

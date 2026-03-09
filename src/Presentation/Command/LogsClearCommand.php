@@ -12,11 +12,11 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 #[AsCommand(name: 'logs:clear', description: 'Clears log files for the current environment')]
-final class LogsClearCommand
+final readonly class LogsClearCommand
 {
     public function __construct(
-        private readonly Filesystem $filesystem,
-        private readonly KernelInterface $kernel,
+        private Filesystem $filesystem,
+        private KernelInterface $kernel,
     ) {
     }
 

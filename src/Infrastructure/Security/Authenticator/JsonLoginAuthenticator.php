@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
-final class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
+final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
 {
     #[Override]
     public function authenticate(Request $request): Passport

@@ -18,10 +18,10 @@ use Exception;
 use Override;
 use Traversable;
 
-final class AccountEntityRepository implements AccountEntityRepositoryInterface
+final readonly class AccountEntityRepository implements AccountEntityRepositoryInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $defaultEntityManager,
+        private EntityManagerInterface $defaultEntityManager,
     ) {
     }
 

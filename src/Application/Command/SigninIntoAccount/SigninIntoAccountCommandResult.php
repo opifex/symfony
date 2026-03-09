@@ -7,10 +7,10 @@ namespace App\Application\Command\SigninIntoAccount;
 use JsonSerializable;
 use Override;
 
-final class SigninIntoAccountCommandResult implements JsonSerializable
+final readonly class SigninIntoAccountCommandResult implements JsonSerializable
 {
     private function __construct(
-        private readonly mixed $payload = null,
+        private mixed $payload = null,
     ) {
     }
 

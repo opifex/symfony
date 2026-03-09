@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class RequestNormalizer implements NormalizerInterface
+final readonly class RequestNormalizer implements NormalizerInterface
 {
     /**
      * @param array<int|string, mixed> $context

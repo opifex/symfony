@@ -11,10 +11,10 @@ use SensitiveParameter;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 
-final class JwtAccessTokenHandler implements AccessTokenHandlerInterface
+final readonly class JwtAccessTokenHandler implements AccessTokenHandlerInterface
 {
     public function __construct(
-        private readonly JwtAccessTokenParser $jwtAccessTokenParser,
+        private JwtAccessTokenParser $jwtAccessTokenParser,
     ) {
     }
 

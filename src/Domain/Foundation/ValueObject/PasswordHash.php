@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation\ValueObject;
 
-final class PasswordHash
+final readonly class PasswordHash
 {
     private function __construct(
-        private readonly string $passwordHash,
+        private string $passwordHash,
     ) {
     }
 

@@ -12,10 +12,10 @@ use Lcobucci\JWT\Signer\InvalidKeyProvided;
 use Override;
 use Symfony\Component\Uid\Uuid;
 
-final class JwtAccessTokenIssuer implements JwtAccessTokenIssuerInterface
+final readonly class JwtAccessTokenIssuer implements JwtAccessTokenIssuerInterface
 {
     public function __construct(
-        private readonly JwtConfigurationBag $jwtConfigurationBag,
+        private JwtConfigurationBag $jwtConfigurationBag,
     ) {
     }
 

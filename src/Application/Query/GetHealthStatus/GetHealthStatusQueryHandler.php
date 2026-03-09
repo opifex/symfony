@@ -8,7 +8,7 @@ use App\Domain\Healthcheck\Healthcheck;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class GetHealthStatusQueryHandler
+final readonly class GetHealthStatusQueryHandler
 {
     public function __invoke(GetHealthStatusQuery $query): GetHealthStatusQueryResult
     {

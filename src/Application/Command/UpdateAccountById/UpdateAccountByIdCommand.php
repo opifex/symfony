@@ -7,23 +7,23 @@ namespace App\Application\Command\UpdateAccountById;
 use App\Domain\Localization\LocaleCode;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class UpdateAccountByIdCommand
+final readonly class UpdateAccountByIdCommand
 {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        public readonly string $id = '',
+        public string $id = '',
 
         #[Assert\Email]
-        public readonly ?string $email = null,
+        public ?string $email = null,
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\PasswordStrength]
-        public readonly ?string $password = null,
+        public ?string $password = null,
 
         #[Assert\Locale]
         #[Assert\Choice(callback: [LocaleCode::class, 'values'])]
-        public readonly ?string $locale = null,
+        public ?string $locale = null,
     ) {
     }
 }

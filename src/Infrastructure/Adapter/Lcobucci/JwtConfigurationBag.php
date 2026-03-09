@@ -17,31 +17,31 @@ use Symfony\Component\Clock\Clock;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-final class JwtConfigurationBag
+final readonly class JwtConfigurationBag
 {
     /**
      * @param non-empty-string $issuer
      */
     public function __construct(
         #[Autowire(env: 'JWT_ISSUER')]
-        public readonly string $issuer,
+        public string $issuer,
 
         #[Autowire(env: 'JWT_LIFETIME')]
-        public readonly int $lifetime,
+        public int $lifetime,
 
         #[Autowire(env: 'JWT_PASSPHRASE')]
         #[SensitiveParameter]
-        public readonly string $passphrase,
+        public string $passphrase,
 
         #[Autowire(env: 'JWT_SIGNING_KEY')]
         #[SensitiveParameter]
-        public readonly ?string $signingKey = null,
+        public ?string $signingKey = null,
 
         #[Autowire(env: 'JWT_VERIFICATION_KEY')]
         #[SensitiveParameter]
-        public readonly ?string $verificationKey = null,
+        public ?string $verificationKey = null,
 
-        public readonly ClockInterface $clock = new Clock(),
+        public ClockInterface $clock = new Clock(),
     ) {
     }
 

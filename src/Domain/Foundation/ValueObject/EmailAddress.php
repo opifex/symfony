@@ -6,10 +6,10 @@ namespace App\Domain\Foundation\ValueObject;
 
 use DomainException;
 
-final class EmailAddress
+final readonly class EmailAddress
 {
     private function __construct(
-        private readonly string $email,
+        private string $email,
     ) {
     }
 

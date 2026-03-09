@@ -12,10 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class PayPalPayloadConverter implements PayloadConverterInterface
+final readonly class PayPalPayloadConverter implements PayloadConverterInterface
 {
     public function __construct(
-        private readonly ValidatorInterface $validator,
+        private ValidatorInterface $validator,
     ) {
     }
 

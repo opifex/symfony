@@ -10,11 +10,11 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class GetSigninAccountQueryHandler
+final readonly class GetSigninAccountQueryHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AuthorizationTokenStorageInterface $authorizationTokenStorage,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AuthorizationTokenStorageInterface $authorizationTokenStorage,
     ) {
     }
 

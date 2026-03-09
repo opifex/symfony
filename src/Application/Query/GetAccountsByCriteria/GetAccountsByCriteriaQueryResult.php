@@ -9,10 +9,10 @@ use App\Domain\Foundation\SearchResult;
 use JsonSerializable;
 use Override;
 
-final class GetAccountsByCriteriaQueryResult implements JsonSerializable
+final readonly class GetAccountsByCriteriaQueryResult implements JsonSerializable
 {
     private function __construct(
-        private readonly mixed $payload = null,
+        private mixed $payload = null,
     ) {
     }
 

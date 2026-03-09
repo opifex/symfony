@@ -6,15 +6,15 @@ namespace App\Application\Command\SigninIntoAccount;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class SigninIntoAccountCommand
+final readonly class SigninIntoAccountCommand
 {
     public function __construct(
         #[Assert\Email]
         #[Assert\NotBlank]
-        public readonly string $email = '',
+        public string $email = '',
 
         #[Assert\NotBlank]
-        public readonly string $password = '',
+        public string $password = '',
     ) {
     }
 }
