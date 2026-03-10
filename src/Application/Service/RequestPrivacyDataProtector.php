@@ -7,10 +7,10 @@ namespace App\Application\Service;
 use App\Application\Contract\PrivacyDataProtectorInterface;
 use Override;
 
-final class RequestPrivacyDataProtector implements PrivacyDataProtectorInterface
+final readonly class RequestPrivacyDataProtector implements PrivacyDataProtectorInterface
 {
     /** @var array<string, string> */
-    private array $templates = [
+    private const array PATTERNS = [
         'email' => '/(?<=.).(?=.*.{1}@)/u',
         'password' => '/./u',
     ];
@@ -19,8 +19,8 @@ final class RequestPrivacyDataProtector implements PrivacyDataProtectorInterface
     public function protect(array $data): array
     {
         foreach ($data as $key => $value) {
-            if (is_string($value) && array_key_exists($key, $this->templates)) {
-                $data[$key] = preg_replace($this->templates[$key], replacement: '*', subject: $value);
+            if (is_string($value) && array_key_exists($key, array: self::PATTERNS)) {
+                $data[$key] = preg_replace(self::PATTERNS[$key], replacement: '*', subject: $value);
             } elseif (is_array($value)) {
                 /** @var array<string, mixed> $value */
                 $data[$key] = $this->protect($value);

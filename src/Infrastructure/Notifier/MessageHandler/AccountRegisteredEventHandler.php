@@ -15,6 +15,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AsMessageHandler]
 final readonly class AccountRegisteredEventHandler
 {
+    private const string SUBJECT = 'Thank you for registration';
+
     public function __construct(
         private NotifierInterface $notifier,
         private TranslatorInterface $translator,
@@ -24,7 +26,7 @@ final readonly class AccountRegisteredEventHandler
     public function __invoke(AccountRegisteredEvent $event): void
     {
         $locale = $event->account->locale->toString();
-        $subject = $this->translator->trans('Thank you for registration', locale: $locale);
+        $subject = $this->translator->trans(self::SUBJECT, locale: $locale);
         $context = ['account' => ['email' => $event->account->email->toString()]];
 
         $templatedEmail = new TemplatedEmail();
