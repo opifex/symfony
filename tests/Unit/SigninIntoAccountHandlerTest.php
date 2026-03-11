@@ -51,7 +51,7 @@ final class SigninIntoAccountHandlerTest extends TestCase
 
         $this->expectException(exception: AuthorizationThrottlingException::class);
 
-        $handler(new SigninIntoAccountCommand());
+        $handler(new SigninIntoAccountCommand(email: 'admin@example.com', password: 'password4#account'));
     }
 
     public function testInvokeThrowsExceptionWhenAccountThrottled(): void
@@ -75,6 +75,6 @@ final class SigninIntoAccountHandlerTest extends TestCase
 
         $this->expectException(exception: AuthorizationThrottlingException::class);
 
-        $handler(new SigninIntoAccountCommand());
+        $handler(new SigninIntoAccountCommand(email: 'admin@example.com', password: 'password4#account'));
     }
 }

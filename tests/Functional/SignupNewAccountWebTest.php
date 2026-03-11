@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use App\Domain\Localization\LocaleCode;
 use Override;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +30,7 @@ final class SignupNewAccountWebTest extends WebTestCase
         $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
+            'locale' => LocaleCode::EnUs->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
         $this->assertResponseContentSame(expectedContent: '');
@@ -40,6 +42,7 @@ final class SignupNewAccountWebTest extends WebTestCase
         $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'example.com',
             'password' => 'password4#account',
+            'locale' => LocaleCode::EnUs->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
@@ -51,6 +54,7 @@ final class SignupNewAccountWebTest extends WebTestCase
         $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
+            'locale' => LocaleCode::EnUs->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
         $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
@@ -61,6 +65,7 @@ final class SignupNewAccountWebTest extends WebTestCase
         $this->sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'example.com',
             'password' => ['password4#account'],
+            'locale' => LocaleCode::EnUs->toString(),
         ]);
         $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');

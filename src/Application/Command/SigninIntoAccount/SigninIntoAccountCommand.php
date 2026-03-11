@@ -11,10 +11,10 @@ final readonly class SigninIntoAccountCommand
     public function __construct(
         #[Assert\Email]
         #[Assert\NotBlank]
-        public string $email = '',
+        public string $email,
 
         #[Assert\NotBlank]
-        public string $password = '',
+        public string $password,
     ) {
     }
 }

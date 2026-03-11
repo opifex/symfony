@@ -11,7 +11,7 @@ final readonly class UnblockAccountByIdCommand
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        public string $id = '',
+        public string $id,
     ) {
     }
 }
