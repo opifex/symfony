@@ -12,15 +12,15 @@ final readonly class SignupNewAccountCommand
     public function __construct(
         #[Assert\Email]
         #[Assert\NotBlank]
-        public string $email,
+        public string $email = '',
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\PasswordStrength]
-        public string $password,
+        public string $password = '',
 
         #[Assert\Locale]
         #[Assert\Choice(callback: [LocaleCode::class, 'values'])]
-        public string $locale,
+        public string $locale = '',
     ) {
     }
 }

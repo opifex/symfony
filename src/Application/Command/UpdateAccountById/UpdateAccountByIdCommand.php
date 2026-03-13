@@ -12,7 +12,7 @@ final readonly class UpdateAccountByIdCommand
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        public string $id,
+        public string $id = '',
 
         #[Assert\Email]
         public ?string $email = null,
