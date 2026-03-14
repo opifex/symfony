@@ -26,11 +26,11 @@ final readonly class JwtAccessTokenIssuer implements JwtAccessTokenIssuerInterfa
     #[Override]
     public function issue(string $userIdentifier, array $userRoles = []): string
     {
-        $config = $this->jwtConfigurationBag->create();
+        $configuration = $this->jwtConfigurationBag->configuration();
         $lifetimeInterval = new DateInterval(sprintf('PT%sS', $this->jwtConfigurationBag->lifetime));
         $tokenIssuedAt = $this->jwtConfigurationBag->clock->now();
 
-        $builder = $config->builder()
+        $builder = $configuration->builder()
             ->canOnlyBeUsedAfter($tokenIssuedAt)
             ->expiresAt($tokenIssuedAt->add($lifetimeInterval))
             ->identifiedBy(Uuid::v4()->toString())
@@ -40,7 +40,7 @@ final readonly class JwtAccessTokenIssuer implements JwtAccessTokenIssuerInterfa
             ->withClaim(name: JwtRegisteredClaims::ROLES, value: $userRoles);
 
         try {
-            return $builder->getToken($config->signer(), $config->signingKey())->toString();
+            return $builder->getToken($configuration->signer(), $configuration->signingKey())->toString();
         } catch (InvalidKeyProvided $exception) {
             throw InvalidConfigurationException::tokenSignerIsNotConfigured($exception);
         }

@@ -45,7 +45,7 @@ final readonly class JwtConfigurationBag
     ) {
     }
 
-    public function create(): Configuration
+    public function configuration(): Configuration
     {
         if ($this->passphrase === '' || $this->signingKey === '' || $this->verificationKey === '') {
             throw InvalidConfigurationException::tokenSignerIsNotConfigured();

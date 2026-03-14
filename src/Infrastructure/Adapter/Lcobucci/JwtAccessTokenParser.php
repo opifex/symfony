@@ -23,18 +23,18 @@ final readonly class JwtAccessTokenParser
      */
     public function parse(#[SensitiveParameter] string $accessToken): JwtAccessToken
     {
-        $config = $this->jwtConfigurationBag->create();
+        $configuration = $this->jwtConfigurationBag->configuration();
 
         try {
             /** @var Plain $token */
-            $token = $config->parser()->parse($accessToken);
+            $token = $configuration->parser()->parse($accessToken);
         } catch (CannotDecodeContent $exception) {
             throw InvalidTokenException::errorWhileDecodingToken($exception);
         } catch (InvalidTokenStructure $exception) {
             throw InvalidTokenException::tokenHaveInvalidStructure($exception);
         }
 
-        if (!$config->validator()->validate($token, ...$config->validationConstraints())) {
+        if (!$configuration->validator()->validate($token, ...$configuration->validationConstraints())) {
             throw InvalidTokenException::tokenIsInvalidOrExpired();
         }
 
