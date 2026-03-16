@@ -19,7 +19,7 @@ final readonly class AccountEntityMapper
     public static function map(AccountEntity $entity): Account
     {
         return new Account(
-            id: AccountIdentifier::fromString((string) $entity->id),
+            id: AccountIdentifier::fromString($entity->id),
             createdAt: DateTimeUtc::fromInterface($entity->createdAt),
             email: EmailAddress::fromString($entity->email),
             password: PasswordHash::fromString($entity->password),

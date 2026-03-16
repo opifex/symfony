@@ -15,7 +15,7 @@ final class AccountEntity
     public function __construct(
         #[ORM\Id]
         #[ORM\Column(name: 'id', type: Types::GUID)]
-        public ?string $id = null,
+        public string $id = '',
 
         #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]
         public DateTimeImmutable $createdAt = new DateTimeImmutable(),
