@@ -50,10 +50,10 @@
         "symfony/webhook": "8.0.*",
         "symfony/workflow": "8.0.*",
         "symfony/yaml": "8.0.*",
-        "twig/cssinliner-extra": "^3.23",
-        "twig/extra-bundle": "^3.23",
-        "twig/inky-extra": "^3.23",
-        "twig/twig": "^3.23"
+        "twig/cssinliner-extra": "^3.24",
+        "twig/extra-bundle": "^3.24",
+        "twig/inky-extra": "^3.24",
+        "twig/twig": "^3.24"
     },
     "config": {
         "allow-plugins": {
