@@ -19,9 +19,9 @@ RUN set -eux \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd intl pcntl pdo_pgsql xsl zip \
     && docker-php-ext-enable amqp apcu redis \
+    && update-ca-certificates --fresh \
     && pecl clear-cache && apk del .build-deps \
-    && rm -rf /tmp/* /usr/local/lib/php/doc/* \
-    && update-ca-certificates --fresh
+    && rm -rf /tmp/* /usr/local/lib/php/doc/*
 # copy configuration files for services and runtime
 COPY ./config/docker/messenger.conf /etc/supervisor/messenger.conf
 COPY ./config/docker/nginx.conf /etc/nginx/nginx.conf
