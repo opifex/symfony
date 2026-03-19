@@ -11,7 +11,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:18.1
+        image: postgres:18.3
         env:
           POSTGRES_DB: root
           POSTGRES_PASSWORD: root
@@ -36,7 +36,7 @@ jobs:
           key: php-extensions-cache
 
       - name: Cache environment php extensions
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.extensions-cache.outputs.dir }}
           key: ${{ steps.extensions-cache.outputs.key }}
@@ -53,7 +53,7 @@ jobs:
 
       - name: Load Composer dependencies cache
         id: vendor-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: vendor
           key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
