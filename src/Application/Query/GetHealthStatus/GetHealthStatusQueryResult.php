@@ -15,11 +15,11 @@ final readonly class GetHealthStatusQueryResult implements JsonSerializable
     ) {
     }
 
-    public static function success(Healthcheck $health): self
+    public static function success(Healthcheck $healthcheck): self
     {
         return new self(
             payload: [
-                'status' => $health->status->toString(),
+                'status' => $healthcheck->status->toString(),
             ],
         );
     }
