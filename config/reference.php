@@ -360,7 +360,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             name?: scalar|Param|null,
  *             description?: scalar|Param|null,
  *             openIdConnectUrl?: scalar|Param|null,
- *             ...<mixed>
+ *             ...<string, mixed>
  *         }>,
  *         with_attribute?: bool|Param, // whether to filter by attributes // Default: false
  *         disable_default_routes?: bool|Param, // if set disables default routes without attributes // Default: false
@@ -1482,7 +1482,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             use_underscore?: bool|Param, // Default: true
  *             unordered_list_markers?: list<scalar|Param|null>,
  *         },
- *         ...<mixed>
+ *         ...<string, mixed>
  *     },
  * }
  * @psalm-type ConfigType = array{
