@@ -30,7 +30,7 @@ final readonly class IntrospectionProcessor
             ),
         );
 
-        if (count($backtrace) !== 0) {
+        if ($backtrace !== []) {
             $record->extra['backtrace'] = array_values($backtrace);
         }
 
