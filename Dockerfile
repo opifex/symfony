@@ -15,7 +15,7 @@ RUN set -eux \
     && apk add --no-cache freetype icu libjpeg-turbo libpng libpq libxml2 libxslt libzip rabbitmq-c zlib \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS freetype-dev icu-dev libjpeg-turbo-dev \
         libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev linux-headers rabbitmq-c-dev zlib-dev \
-    && pecl install amqp-2.2.0 apcu-5.1.28 redis-6.3.0 xdebug-3.5.0 \
+    && pecl install amqp-2.2.0 apcu-5.1.28 redis-6.3.0 xdebug-3.5.1 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd intl pcntl pdo_pgsql xsl zip \
     && docker-php-ext-enable amqp apcu redis \
