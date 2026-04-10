@@ -138,6 +138,37 @@ final class LcobucciJwtAdapterTest extends TestCase
         );
     }
 
+    public function testCreateAccessTokenThrowsExceptionWithEmptyUserIdentifier(): void
+    {
+        $jwtConfigurationBag = new JwtConfigurationBag(
+            issuer: 'https://example.com',
+            lifetime: 86400,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+        );
+        $jwtAccessTokenIssuer = new JwtAccessTokenIssuer($jwtConfigurationBag);
+
+        $this->expectException(InvalidConfigurationException::class);
+
+        $jwtAccessTokenIssuer->issue(
+            userIdentifier: '',
+            userRoles: [AccountRole::User->toString()],
+        );
+    }
+
+    public function testDecodeAccessTokenThrowsExceptionWithUserIdentifier(): void
+    {
+        $jwtConfigurationBag = new JwtConfigurationBag(
+            issuer: 'https://example.com',
+            lifetime: 1,
+            passphrase: '9f58129324cc3fc4ab32e6e60a79f7ca',
+        );
+        $jwtAccessTokenParser = new JwtAccessTokenParser($jwtConfigurationBag);
+
+        $this->expectException(InvalidTokenException::class);
+
+        $jwtAccessTokenParser->parse(accessToken: '');
+    }
+
     /**
      * @throws Exception
      */

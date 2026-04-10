@@ -20,7 +20,6 @@ final readonly class JwtAccessTokenIssuer implements JwtAccessTokenIssuerInterfa
     }
 
     /**
-     * @param non-empty-string $userIdentifier
      * @throws DateMalformedIntervalStringException
      */
     #[Override]
@@ -29,6 +28,10 @@ final readonly class JwtAccessTokenIssuer implements JwtAccessTokenIssuerInterfa
         $configuration = $this->jwtConfigurationBag->configuration();
         $lifetimeInterval = new DateInterval(sprintf('PT%sS', $this->jwtConfigurationBag->lifetime));
         $tokenIssuedAt = $this->jwtConfigurationBag->clock->now();
+
+        if ($userIdentifier === '') {
+            throw InvalidConfigurationException::tokenSubjectIsEmpty();
+        }
 
         $builder = $configuration->builder()
             ->canOnlyBeUsedAfter($tokenIssuedAt)

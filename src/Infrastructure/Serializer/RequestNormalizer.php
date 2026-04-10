@@ -28,7 +28,7 @@ final readonly class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array<string, mixed> $context
+     * @param array<array-key, mixed> $context
      */
     #[Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool

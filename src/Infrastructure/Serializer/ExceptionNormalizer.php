@@ -22,7 +22,7 @@ final readonly class ExceptionNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array<string, mixed> $context
+     * @param array<array-key, mixed> $context
      * @return array<string, mixed>
      */
     #[Override]
@@ -51,7 +51,7 @@ final readonly class ExceptionNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array<string, mixed> $context
+     * @param array<array-key, mixed> $context
      */
     #[Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool

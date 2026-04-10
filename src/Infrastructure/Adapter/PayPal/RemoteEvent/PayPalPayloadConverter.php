@@ -20,7 +20,7 @@ final readonly class PayPalPayloadConverter implements PayloadConverterInterface
     }
 
     /**
-     * @param array{id: string, event_type: string} $payload
+     * @param array<array-key, mixed> $payload
      */
     #[Override]
     public function convert(array $payload): RemoteEvent
@@ -41,15 +41,20 @@ final readonly class PayPalPayloadConverter implements PayloadConverterInterface
             throw new ParseException(sprintf('Invalid payload. %s', implode(separator: ' ', array: $violationsList)));
         }
 
-        $name = match ($payload['event_type']) {
+        /** @var string $id */
+        $id = $payload['id'];
+        /** @var string $eventType */
+        $eventType = $payload['event_type'];
+
+        $name = match ($eventType) {
             'PAYMENT.CAPTURE.DECLINED' => PayPalPaymentCaptureEvent::DECLINED,
             'PAYMENT.CAPTURE.COMPLETED' => PayPalPaymentCaptureEvent::COMPLETED,
             'PAYMENT.CAPTURE.PENDING' => PayPalPaymentCaptureEvent::PENDING,
             'PAYMENT.CAPTURE.REFUNDED' => PayPalPaymentCaptureEvent::REFUNDED,
             'PAYMENT.CAPTURE.REVERSED' => PayPalPaymentCaptureEvent::REVERSED,
-            default => throw new ParseException(sprintf('Unsupported event type "%s".', $payload['event_type'])),
+            default => throw new ParseException(sprintf('Unsupported event type "%s".', $eventType)),
         };
 
-        return new PayPalPaymentCaptureEvent($name, $payload['id'], $payload);
+        return new PayPalPaymentCaptureEvent($name, $id, $payload);
     }
 }

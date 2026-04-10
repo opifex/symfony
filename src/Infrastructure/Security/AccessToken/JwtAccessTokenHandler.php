@@ -18,9 +18,6 @@ final readonly class JwtAccessTokenHandler implements AccessTokenHandlerInterfac
     ) {
     }
 
-    /**
-     * @param non-empty-string $accessToken
-     */
     #[Override]
     public function getUserBadgeFrom(#[SensitiveParameter] string $accessToken): UserBadge
     {

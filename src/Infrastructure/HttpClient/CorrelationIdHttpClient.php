@@ -29,7 +29,7 @@ final class CorrelationIdHttpClient implements HttpClientInterface, ResetInterfa
     }
 
     /**
-     * @param array<string, mixed> $options
+     * @param array<array-key, mixed> $options
      * @throws TransportExceptionInterface
      */
     #[Override]

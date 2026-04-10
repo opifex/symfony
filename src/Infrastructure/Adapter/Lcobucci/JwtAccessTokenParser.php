@@ -18,12 +18,13 @@ final readonly class JwtAccessTokenParser
     ) {
     }
 
-    /**
-     * @param non-empty-string $accessToken
-     */
     public function parse(#[SensitiveParameter] string $accessToken): JwtAccessToken
     {
         $configuration = $this->jwtConfigurationBag->configuration();
+
+        if ($accessToken === '') {
+            throw InvalidTokenException::tokenHaveEmptyContent();
+        }
 
         try {
             /** @var Plain $token */
