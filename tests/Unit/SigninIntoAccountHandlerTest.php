@@ -10,7 +10,6 @@ use App\Application\Command\SigninIntoAccount\SigninIntoAccountCommandHandler;
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenIssuerInterface;
-use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Override;
@@ -38,35 +37,6 @@ final class SigninIntoAccountHandlerTest extends TestCase
             authorizationTokenStorage: $this->authorizationTokenStorage,
             jwtAccessTokenIssuer: $this->jwtAccessTokenIssuer,
         );
-
-        $this->authorizationTokenStorage
-            ->expects($this->once())
-            ->method(constraint: 'getUserIdentifier')
-            ->willThrowException(AuthorizationRequiredException::create());
-
-        $this->authenticationRateLimiter
-            ->expects($this->once())
-            ->method(constraint: 'isAccepted')
-            ->willThrowException(AuthorizationThrottlingException::create());
-
-        $this->expectException(exception: AuthorizationThrottlingException::class);
-
-        $handler(new SigninIntoAccountCommand(email: 'admin@example.com', password: 'password4#account'));
-    }
-
-    public function testInvokeThrowsExceptionWhenAccountThrottled(): void
-    {
-        $handler = new SigninIntoAccountCommandHandler(
-            accountEntityRepository: $this->accountEntityRepository,
-            authenticationRateLimiter: $this->authenticationRateLimiter,
-            authorizationTokenStorage: $this->authorizationTokenStorage,
-            jwtAccessTokenIssuer: $this->jwtAccessTokenIssuer,
-        );
-
-        $this->authorizationTokenStorage
-            ->expects($this->once())
-            ->method(constraint: 'getUserIdentifier')
-            ->willThrowException(AuthorizationRequiredException::create());
 
         $this->authenticationRateLimiter
             ->expects($this->once())

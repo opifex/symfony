@@ -7,7 +7,6 @@ namespace App\Application\Command\SigninIntoAccount;
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenIssuerInterface;
-use App\Application\Exception\AuthorizationRequiredException;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
@@ -26,15 +25,11 @@ final readonly class SigninIntoAccountCommandHandler
 
     public function __invoke(SigninIntoAccountCommand $command): SigninIntoAccountCommandResult
     {
-        try {
-            $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
-        } catch (AuthorizationRequiredException $exception) {
-            if (!$this->authenticationRateLimiter->isAccepted($command->email)) {
-                throw AuthorizationThrottlingException::create();
-            }
-
-            throw $exception;
+        if (!$this->authenticationRateLimiter->isAccepted($command->email)) {
+            throw AuthorizationThrottlingException::create();
         }
+
+        $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
 
         $accountId = AccountIdentifier::fromString($userIdentifier);
 

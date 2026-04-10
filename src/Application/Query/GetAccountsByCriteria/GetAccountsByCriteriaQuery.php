@@ -21,6 +21,7 @@ final readonly class GetAccountsByCriteriaQuery
         public int $page = 1,
 
         #[Assert\DivisibleBy(value: 1)]
+        #[Assert\LessThanOrEqual(value: 100)]
         #[Assert\Positive]
         public int $limit = 10,
     ) {
