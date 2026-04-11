@@ -47,9 +47,6 @@ final class PayPalPayloadConverterTest extends TestCase
         ]);
     }
 
-    /**
-     * @return array<array-key, mixed>
-     */
     public static function eventTypeDataProvider(): iterable
     {
         yield 'a payment capture completes' => [

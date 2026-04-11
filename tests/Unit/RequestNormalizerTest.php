@@ -145,9 +145,6 @@ final class RequestNormalizerTest extends TestCase
         self::assertEquals(expected: [], actual: $normalized);
     }
 
-    /**
-     * @return array<array-key, mixed>
-     */
     public static function queryDataProvider(): iterable
     {
         yield 'string remains string' => ['value' => 'string', 'expected' => 'string'];
@@ -164,9 +161,6 @@ final class RequestNormalizerTest extends TestCase
         yield 'scientific number remains string' => ['value' => '38328e88', 'expected' => '38328e88'];
     }
 
-    /**
-     * @return array<array-key, mixed>
-     */
     public static function contentDataProvider(): iterable
     {
         yield 'string remains string' => ['value' => 'string', 'expected' => 'string'];

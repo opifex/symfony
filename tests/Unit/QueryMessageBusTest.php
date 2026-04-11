@@ -47,9 +47,6 @@ final class QueryMessageBusTest extends TestCase
         $messageBus->ask($queryMessage);
     }
 
-    /**
-     * @return array<array-key, mixed>
-     */
     public static function handledStampsProvider(): iterable
     {
         yield 'multiple stamps for envelope' => [

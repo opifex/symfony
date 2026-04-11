@@ -23,9 +23,6 @@ final class RequestPrivacyDataProtectorTest extends TestCase
         self::assertSame($expected, $protectedMessage);
     }
 
-    /**
-     * @return array<array-key, mixed>
-     */
     public static function requestDataProvider(): iterable
     {
         yield 'mask single email in array' => [

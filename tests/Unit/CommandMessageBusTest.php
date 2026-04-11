@@ -47,9 +47,6 @@ final class CommandMessageBusTest extends TestCase
         $messageBus->dispatch($commandMessage);
     }
 
-    /**
-     * @return array<array-key, mixed>
-     */
     public static function handledStampsProvider(): iterable
     {
         yield 'multiple stamps for envelope' => [

@@ -44,9 +44,6 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
         $kennethreitzHttpbinAdapter->getJson();
     }
 
-    /**
-     * @return array<array-key, mixed>
-     */
     public static function httpbinResponseProvider(): iterable
     {
         yield 'slideshow json structure from httpbin' => [
