@@ -39,8 +39,7 @@ final class CorrelationIdHttpClient implements HttpClientInterface, ResetInterfa
 
         if (is_array($options['headers'])) {
             $correlationId = $this->correlationIdProvider->getCorrelationId();
-            $httpHeaderName = $this->correlationIdProvider->getHttpHeaderName();
-            $options['headers'][$httpHeaderName] = $correlationId;
+            $options['headers']['X-Correlation-Id'] = $correlationId;
         }
 
         return $this->client->request($method, $url, $options);

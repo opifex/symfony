@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
-use App\Infrastructure\HttpKernel\EventListener\CorrelationIdEventListener;
-use App\Infrastructure\Observability\CorrelationIdProvider;
+use App\Infrastructure\HttpKernel\EventListener\SecurityHeadersEventListener;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +16,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 #[AllowDynamicProperties]
 #[AllowMockObjectsWithoutExpectations]
-final class CorrelationIdEventListenerTest extends TestCase
+final class SecurityHeadersEventListenerTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -27,9 +26,7 @@ final class CorrelationIdEventListenerTest extends TestCase
 
     public function testOnResponseEventWithNotMainRequest(): void
     {
-        $correlationIdEventListener = new CorrelationIdEventListener(
-            correlationIdProvider: new CorrelationIdProvider(),
-        );
+        $securityHeadersEventListener = new SecurityHeadersEventListener();
 
         $responseEvent = new ResponseEvent(
             kernel: $this->httpKernel,
@@ -38,7 +35,7 @@ final class CorrelationIdEventListenerTest extends TestCase
             response: new Response(),
         );
 
-        ($correlationIdEventListener)($responseEvent);
+        ($securityHeadersEventListener)($responseEvent);
 
         $this->expectNotToPerformAssertions();
     }
