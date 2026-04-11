@@ -27,7 +27,7 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
 
         $json = $kennethreitzHttpbinAdapter->getJson();
 
-        $this->assertSame($json, $response);
+        self::assertSame($json, $response);
     }
 
     public function testGetJsonThrowsExceptionOnHttpError(): void
@@ -44,6 +44,9 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
         $kennethreitzHttpbinAdapter->getJson();
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function httpbinResponseProvider(): iterable
     {
         yield 'slideshow json structure from httpbin' => [

@@ -18,6 +18,6 @@ final class RequestParamTypeExceptionTest extends TestCase
     {
         $exception = RequestParamTypeException::create(expected: null, path: null);
 
-        $this->assertEquals($exception->getViolations(), new ConstraintViolationList());
+        self::assertEquals($exception->getViolations(), new ConstraintViolationList());
     }
 }

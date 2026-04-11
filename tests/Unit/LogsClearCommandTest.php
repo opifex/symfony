@@ -37,7 +37,7 @@ final class LogsClearCommandTest extends TestCase
 
         $result = $command($symfonyStyle);
 
-        $this->assertSame(expected: Command::SUCCESS, actual: $result);
+        self::assertSame(expected: Command::SUCCESS, actual: $result);
     }
 
     public function testExecuteWithUnableToRemoveFileResult(): void

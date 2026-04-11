@@ -46,8 +46,8 @@ final class LcobucciJwtAdapterTest extends TestCase
         );
         $token = $jwtAccessTokenParser->parse($tokenString);
 
-        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->userIdentifier);
-        $this->assertSame(expected: [AccountRole::User->toString()], actual: $token->userRoles);
+        self::assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->userIdentifier);
+        self::assertSame(expected: [AccountRole::User->toString()], actual: $token->userRoles);
     }
 
     /**
@@ -112,8 +112,8 @@ final class LcobucciJwtAdapterTest extends TestCase
         );
         $token = $jwtAccessTokenParser->parse($tokenString);
 
-        $this->assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->userIdentifier);
-        $this->assertSame(expected: [AccountRole::User->toString()], actual: $token->userRoles);
+        self::assertSame(expected: '1ecf9f2d-05ab-6eae-8eaa-ad0c6336af22', actual: $token->userIdentifier);
+        self::assertSame(expected: [AccountRole::User->toString()], actual: $token->userRoles);
     }
 
     /**

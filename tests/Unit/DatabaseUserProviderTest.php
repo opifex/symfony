@@ -63,8 +63,8 @@ final class DatabaseUserProviderTest extends TestCase
 
         $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->email->toString());
 
-        $this->assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
-        $this->assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());
+        self::assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
+        self::assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());
     }
 
     public function testLoadUserByIdentifierWithInvalidIdentifier(): void
@@ -101,7 +101,7 @@ final class DatabaseUserProviderTest extends TestCase
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $supports = $databaseUserProvider->supportsClass(class: PasswordAuthenticatedUser::class);
 
-        $this->assertTrue($supports);
+        self::assertTrue($supports);
     }
 
     public function testCheckSupportsClassWithNonMatchingClass(): void
@@ -109,6 +109,6 @@ final class DatabaseUserProviderTest extends TestCase
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $supports = $databaseUserProvider->supportsClass(class: stdClass::class);
 
-        $this->assertFalse($supports);
+        self::assertFalse($supports);
     }
 }

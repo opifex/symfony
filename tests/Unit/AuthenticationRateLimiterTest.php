@@ -46,6 +46,6 @@ final class AuthenticationRateLimiterTest extends TestCase
             key: 'admin@example.com',
         );
 
-        $this->assertTrue($isAccepted);
+        self::assertTrue($isAccepted);
     }
 }

@@ -32,8 +32,8 @@ final class RequestNormalizerTest extends TestCase
         $request = new Request(query: ['value' => $value]);
         $normalized = $requestNormalizer->normalize($request);
 
-        $this->assertArrayHasKey(key: 'value', array: $normalized);
-        $this->assertSame($expected, $normalized['value']);
+        self::assertArrayHasKey(key: 'value', array: $normalized);
+        self::assertSame($expected, $normalized['value']);
     }
 
     #[DataProvider(methodName: 'contentDataProvider')]
@@ -43,8 +43,8 @@ final class RequestNormalizerTest extends TestCase
         $request = new Request(content: json_encode(['value' => $value]));
         $normalized = $requestNormalizer->normalize($request);
 
-        $this->assertArrayHasKey(key: 'value', array: $normalized);
-        $this->assertSame($expected, $normalized['value']);
+        self::assertArrayHasKey(key: 'value', array: $normalized);
+        self::assertSame($expected, $normalized['value']);
     }
 
     public function testNormalizeUploadedFile(): void
@@ -73,10 +73,10 @@ final class RequestNormalizerTest extends TestCase
         $request = new Request(files: ['file' => $this->uploadedFile]);
         $normalized = $requestNormalizer->normalize($request);
 
-        $this->assertSame(expected: 'test.txt', actual: $normalized['file']['filename']);
-        $this->assertSame(expected: 'text/plain', actual: $normalized['file']['mime_type']);
-        $this->assertSame(expected: 'content', actual: $normalized['file']['content']);
-        $this->assertSame(expected: 7, actual: $normalized['file']['size']);
+        self::assertSame(expected: 'test.txt', actual: $normalized['file']['filename']);
+        self::assertSame(expected: 'text/plain', actual: $normalized['file']['mime_type']);
+        self::assertSame(expected: 'content', actual: $normalized['file']['content']);
+        self::assertSame(expected: 7, actual: $normalized['file']['size']);
     }
 
     public function testNormalizeUploadedFilesArray(): void
@@ -105,10 +105,10 @@ final class RequestNormalizerTest extends TestCase
         $request = new Request(files: ['file' => [$this->uploadedFile]]);
         $normalized = $requestNormalizer->normalize($request);
 
-        $this->assertSame(expected: 'test.txt', actual: $normalized['file'][0]['filename']);
-        $this->assertSame(expected: 'text/plain', actual: $normalized['file'][0]['mime_type']);
-        $this->assertSame(expected: 'content', actual: $normalized['file'][0]['content']);
-        $this->assertSame(expected: 7, actual: $normalized['file'][0]['size']);
+        self::assertSame(expected: 'test.txt', actual: $normalized['file'][0]['filename']);
+        self::assertSame(expected: 'text/plain', actual: $normalized['file'][0]['mime_type']);
+        self::assertSame(expected: 'content', actual: $normalized['file'][0]['content']);
+        self::assertSame(expected: 7, actual: $normalized['file'][0]['size']);
     }
 
     public function testGetSupportedTypes(): void
@@ -116,16 +116,16 @@ final class RequestNormalizerTest extends TestCase
         $requestNormalizer = new RequestNormalizer();
         $supportedTypes = $requestNormalizer->getSupportedTypes(format: null);
 
-        $this->assertArrayHasKey(key: Request::class, array: $supportedTypes);
-        $this->assertTrue($supportedTypes[Request::class]);
+        self::assertArrayHasKey(key: Request::class, array: $supportedTypes);
+        self::assertTrue($supportedTypes[Request::class]);
     }
 
     public function testCheckSupportsNormalization(): void
     {
         $requestNormalizer = new RequestNormalizer();
 
-        $this->assertTrue($requestNormalizer->supportsNormalization(new Request()));
-        $this->assertFalse($requestNormalizer->supportsNormalization(new stdClass()));
+        self::assertTrue($requestNormalizer->supportsNormalization(new Request()));
+        self::assertFalse($requestNormalizer->supportsNormalization(new stdClass()));
     }
 
     public function testNormalizeThrowsInvalidArgumentException(): void
@@ -142,9 +142,12 @@ final class RequestNormalizerTest extends TestCase
         $requestNormalizer = new RequestNormalizer();
         $normalized = $requestNormalizer->normalize(new Request(content: 'invalid'));
 
-        $this->assertEquals(expected: [], actual: $normalized);
+        self::assertEquals(expected: [], actual: $normalized);
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function queryDataProvider(): iterable
     {
         yield 'string remains string' => ['value' => 'string', 'expected' => 'string'];
@@ -161,6 +164,9 @@ final class RequestNormalizerTest extends TestCase
         yield 'scientific number remains string' => ['value' => '38328e88', 'expected' => '38328e88'];
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function contentDataProvider(): iterable
     {
         yield 'string remains string' => ['value' => 'string', 'expected' => 'string'];

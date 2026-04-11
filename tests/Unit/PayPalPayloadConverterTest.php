@@ -31,8 +31,8 @@ final class PayPalPayloadConverterTest extends TestCase
         $payPalPayloadConverter = new PayPalPayloadConverter($this->validator);
         $remoteEvent = $payPalPayloadConverter->convert(payload: ['id' => $id, 'event_type' => $eventType]);
 
-        $this->assertSame(expected: $id, actual: $remoteEvent->getId());
-        $this->assertSame(expected: $expected, actual: $remoteEvent->getName());
+        self::assertSame(expected: $id, actual: $remoteEvent->getId());
+        self::assertSame(expected: $expected, actual: $remoteEvent->getName());
     }
 
     public function testConvertWithInvalidEventType(): void
@@ -47,6 +47,9 @@ final class PayPalPayloadConverterTest extends TestCase
         ]);
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function eventTypeDataProvider(): iterable
     {
         yield 'a payment capture completes' => [

@@ -27,9 +27,12 @@ final class EmailAddressTest extends TestCase
     {
         $emailAddress = EmailAddress::fromString($value);
 
-        $this->assertSame($expected, $emailAddress->toString());
+        self::assertSame($expected, $emailAddress->toString());
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function emailAddressProvider(): iterable
     {
         yield 'already normalized email' => ['value' => 'email@example.com', 'expected' => 'email@example.com'];
