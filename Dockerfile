@@ -6,7 +6,7 @@ COPY composer.json composer.lock ./
 # install production dependencies
 RUN composer install --ignore-platform-reqs --no-dev --no-plugins --no-scripts
 
-FROM php:8.5.4-fpm-alpine AS php
+FROM php:8.5.5-fpm-alpine AS php
 # set temporary working directory
 WORKDIR /opt/project
 # install system packages, build dependencies, extensions, and update certificates
