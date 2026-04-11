@@ -347,6 +347,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         assets_mode?: scalar|Param|null, // Default: "cdn"
  *         swagger_ui_config?: array<mixed>,
  *         redocly_config?: array<mixed>,
+ *         scalar_config?: array<mixed>,
  *         stoplight_config?: array<mixed>,
  *     },
  *     areas?: array<string, array{ // Default: {"default":{"path_patterns":[],"host_patterns":[],"with_attribute":false,"documentation":[],"name_patterns":[],"disable_default_routes":false,"cache":[],"security":[]}}
