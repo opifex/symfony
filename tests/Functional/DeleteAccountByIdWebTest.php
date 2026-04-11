@@ -22,41 +22,41 @@ final class DeleteAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::activateHttpClient();
     }
 
     public function testEnsureAdminCanDeleteExistingAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $accountJames = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        $accountJames = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'james@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
-        $this->sendDeleteRequest(url: '/api/account/' . $accountJames->id);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseContentSame(expectedContent: '');
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
+        self::sendDeleteRequest(url: '/api/account/' . $accountJames->id);
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
+        self::assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToDeleteNonexistentAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendDeleteRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendDeleteRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToDeleteAccountWithoutPermission(): void
     {
-        $this->loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'emma@example.com', password: 'password4#account');
-        $accountJames = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'emma@example.com', password: 'password4#account');
+        $accountJames = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'james@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
-        $this->sendDeleteRequest(url: '/api/account/' . $accountJames->id);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
+        self::sendDeleteRequest(url: '/api/account/' . $accountJames->id);
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

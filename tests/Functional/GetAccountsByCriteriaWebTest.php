@@ -21,30 +21,30 @@ final class GetAccountsByCriteriaWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::activateHttpClient();
     }
 
     public function testEnsureAdminCanGetAccountsByCriteria(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendGetRequest(url: '/api/account', params: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendGetRequest(url: '/api/account', params: [
             'email' => 'admin@example.com',
             'status' => AccountStatus::Activated->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schema: 'GetAccountsByCriteriaSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
+        self::assertResponseSchema(schema: 'GetAccountsByCriteriaSchema.json');
     }
 
     public function testEryToGetAccountsByCriteriaWithoutPermission(): void
     {
-        $this->loadFixtures([AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        $this->sendGetRequest(url: '/api/account', params: [
+        self::loadFixtures([AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
+        self::sendGetRequest(url: '/api/account', params: [
             'email' => 'admin@example.com',
             'status' => AccountStatus::Activated->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

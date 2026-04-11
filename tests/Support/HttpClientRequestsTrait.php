@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 trait HttpClientRequestsTrait
 {
-    public function activateHttpClient(): void
+    public static function activateHttpClient(): void
     {
         self::createClient();
     }

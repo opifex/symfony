@@ -28,17 +28,17 @@ final class SymfonyRunCommandKernelTest extends KernelTestCase
 
     public function testEnsureConsoleCommandExecutesSuccessfully(): void
     {
-        $this->loadMockResponses([
+        self::loadMockResponses([
             new HttpMockClientResponse(
                 requestMethod: Request::METHOD_GET,
                 requestUrl: 'https://httpbin.org/json',
-                responseBody: $this->getResponseFromFile(file: 'HttpbinGetJsonResponse.json'),
+                responseBody: self::getResponseFromFile(file: 'HttpbinGetJsonResponse.json'),
             ),
         ]);
         $commandTester = new CommandTester($this->command);
         $commandTester->execute(['--delay' => 0]);
         $commandTester->assertCommandIsSuccessful();
-        $this->assertStringContainsString(needle: 'Symfony console command', haystack: $commandTester->getDisplay());
-        $this->assertStringContainsString(needle: 'Success', haystack: $commandTester->getDisplay());
+        self::assertStringContainsString(needle: 'Symfony console command', haystack: $commandTester->getDisplay());
+        self::assertStringContainsString(needle: 'Success', haystack: $commandTester->getDisplay());
     }
 }

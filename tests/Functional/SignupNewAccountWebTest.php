@@ -21,53 +21,53 @@ final class SignupNewAccountWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::activateHttpClient();
     }
 
     public function testEnsureUserCanSignup(): void
     {
-        $this->loadFixtures([AccountActivatedEmmaFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signup', params: [
+        self::loadFixtures([AccountActivatedEmmaFixture::class]);
+        self::sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseContentSame(expectedContent: '');
-        $this->assertEmailCount(count: 1);
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
+        self::assertResponseContentSame(expectedContent: '');
+        self::assertEmailCount(count: 1);
     }
 
     public function testTryToSignupWithInvalidCredentials(): void
     {
-        $this->sendPostRequest(url: '/api/auth/signup', params: [
+        self::sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToSignupWithNonexistentCredentials(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signup', params: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToSignupWithInvalidTypes(): void
     {
-        $this->sendPostRequest(url: '/api/auth/signup', params: [
+        self::sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'example.com',
             'password' => ['password4#account'],
             'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

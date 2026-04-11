@@ -11,6 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 trait DatabaseEntityManagerTrait
 {
+    /**
+     * @param class-string[] $fixtures
+     */
     public static function loadFixtures(array $fixtures = []): void
     {
         $loader = new Loader();
@@ -18,6 +21,9 @@ trait DatabaseEntityManagerTrait
         new ORMExecutor(self::getEntityManager(), new ORMPurger())->execute($loader->getFixtures());
     }
 
+    /**
+     * @param array<string, mixed> $criteria
+     */
     public static function getDatabaseEntity(string $entity, array $criteria = []): object
     {
         return self::getEntityManager()->getRepository($entity)->findOneBy($criteria);

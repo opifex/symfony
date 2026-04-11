@@ -22,68 +22,68 @@ final class UpdateAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::activateHttpClient();
     }
 
     public function testEnsureAdminCanUpdateAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $accountAdmin = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        $accountAdmin = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'admin@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
+        self::sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
             'email' => 'updated@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseContentSame(expectedContent: '');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
+        self::assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToUpdateAccountWithoutPermission(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        $accountAdmin = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
+        $accountAdmin = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'admin@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
+        self::sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
             'email' => 'updated@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToUpdateAccountWithExistedEmail(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $accountAdmin = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        $accountAdmin = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'admin@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        $this->sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
+        self::sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
             'email' => 'james@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToUpdateAccountWithInvalidId(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendPatchRequest(url: '/api/account/019661f3-78c3-7a26-9ccf-361042fa4f67', params: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendPatchRequest(url: '/api/account/019661f3-78c3-7a26-9ccf-361042fa4f67', params: [
             'email' => 'user@example.com',
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

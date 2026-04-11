@@ -23,54 +23,54 @@ final class BlockAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::activateHttpClient();
     }
 
     public function testEnsureAdminCanBlockActivatedAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $accountJames = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        $accountJames = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'james@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
-        $this->sendPostRequest(url: '/api/account/' . $accountJames->id . '/block');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        $this->assertResponseContentSame(expectedContent: '');
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
+        self::sendPostRequest(url: '/api/account/' . $accountJames->id . '/block');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
+        self::assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToBlockNonexistentAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/block');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/block');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToBlockAlreadyBlockedAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $accountHenry = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        $accountHenry = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'henry@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
-        $this->sendPostRequest(url: '/api/account/' . $accountHenry->id . '/block');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
+        self::sendPostRequest(url: '/api/account/' . $accountHenry->id . '/block');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToBlockAccountWithoutPermission(): void
     {
-        $this->loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        $accountEmma = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
+        $accountEmma = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'emma@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountEmma);
-        $this->sendPostRequest(url: '/api/account/' . $accountEmma->id . '/block');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountEmma);
+        self::sendPostRequest(url: '/api/account/' . $accountEmma->id . '/block');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
+        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }
