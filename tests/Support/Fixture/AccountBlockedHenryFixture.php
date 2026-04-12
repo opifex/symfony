@@ -23,12 +23,12 @@ final class AccountBlockedHenryFixture extends Fixture implements FixtureInterfa
         $faker = Faker::create();
         $account = new AccountEntity(
             id: $faker->unique()->uuid(),
-            createdAt: DatePoint::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'henry@example.com'),
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::User->toString()],
             status: AccountStatus::Blocked->toString(),
+            createdAt: DatePoint::createFromMutable($faker->dateTime()),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:blocked:henry', object: $account);

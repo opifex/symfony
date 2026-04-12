@@ -27,24 +27,24 @@ final class AccountFixture extends Fixture implements FixtureInterface
 
         $accountAdmin = new AccountEntity(
             id: $faker->unique()->uuid(),
-            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $passwordHash,
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::Admin->toString()],
             status: AccountStatus::Activated->toString(),
+            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
         );
         $manager->persist($accountAdmin);
         $this->addReference(name: 'account:admin', object: $accountAdmin);
 
         $accountUser = new AccountEntity(
             id: $faker->unique()->uuid(),
-            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $passwordHash,
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::User->toString()],
             status: AccountStatus::Activated->toString(),
+            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
         );
         $manager->persist($accountUser);
         $this->addReference(name: 'account:user', object: $accountUser);
@@ -54,12 +54,12 @@ final class AccountFixture extends Fixture implements FixtureInterface
             $accountStatus = $faker->randomElement(array: AccountStatus::values());
             $accountRandom = new AccountEntity(
                 id: $faker->unique()->uuid(),
-                createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
                 email: $faker->unique()->email(),
                 password: $passwordHash,
                 locale: LocaleCode::EnUs->toString(),
                 roles: [AccountRole::User->toString()],
                 status: $accountStatus,
+                createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
             );
             $manager->persist($accountRandom);
         }

@@ -41,12 +41,12 @@ final class DatabaseUserProviderTest extends TestCase
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $account = new Account(
             id: AccountIdentifier::fromString(uuid: '00000000-0000-6000-8000-000000000000'),
-            createdAt: DateTimeUtc::now(),
             email: EmailAddress::fromString(email: 'email@example.com'),
             password: PasswordHash::fromString(passwordHash: 'password4#account'),
             locale: LocaleCode::EnUs,
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
+            createdAt: DateTimeUtc::now(),
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: $account->id->toString(),

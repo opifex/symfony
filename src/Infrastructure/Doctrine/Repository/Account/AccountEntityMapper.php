@@ -20,12 +20,12 @@ final readonly class AccountEntityMapper
     {
         return new Account(
             id: AccountIdentifier::fromString($entity->id),
-            createdAt: DateTimeUtc::fromInterface($entity->createdAt),
             email: EmailAddress::fromString($entity->email),
             password: PasswordHash::fromString($entity->password),
             locale: LocaleCode::fromString($entity->locale),
             roles: AccountRoleSet::fromStrings(...$entity->roles),
             status: AccountStatus::fromString($entity->status),
+            createdAt: DateTimeUtc::fromInterface($entity->createdAt),
         );
     }
 

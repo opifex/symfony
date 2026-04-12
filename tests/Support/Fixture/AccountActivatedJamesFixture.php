@@ -23,12 +23,12 @@ final class AccountActivatedJamesFixture extends Fixture implements FixtureInter
         $faker = Faker::create();
         $account = new AccountEntity(
             id: $faker->unique()->uuid(),
-            createdAt: DatePoint::createFromMutable($faker->dateTime()),
             email: $faker->unique()->bothify(string: 'james@example.com'),
             password: 'password4#account',
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::User->toString()],
             status: AccountStatus::Activated->toString(),
+            createdAt: DatePoint::createFromMutable($faker->dateTime()),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:activated:james', object: $account);

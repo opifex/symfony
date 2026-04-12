@@ -12,6 +12,7 @@ use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
@@ -37,6 +38,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     ): SearchResult {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->isNull(x: 'account.deletedAt'));
 
         if ($accountEmail !== null) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
@@ -77,6 +79,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
         $builder->setParameter(key: 'id', value: $id->toString());
         $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
@@ -95,6 +98,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
         $builder->setParameter(key: 'email', value: $email->toString());
         $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
@@ -113,6 +117,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
         $builder->setParameter(key: 'email', value: $email->toString());
         $builder->setMaxResults(maxResults: 1);
 
@@ -125,9 +130,11 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     public function delete(Account $account): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->delete()->from(from: AccountEntity::class, alias: 'account');
+        $builder->update(update: AccountEntity::class, alias: 'account');
+        $builder->set(key: 'account.deletedAt', value: ':now');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
         $builder->setParameter(key: 'id', value: $account->id->toString());
+        $builder->setParameter(key: 'now', value: new DateTimeImmutable());
         $builder->getQuery()->execute();
     }
 

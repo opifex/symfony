@@ -14,12 +14,12 @@ final readonly class Account
 {
     public function __construct(
         public AccountIdentifier $id,
-        public DateTimeUtc $createdAt,
         public EmailAddress $email,
         public PasswordHash $password,
         public LocaleCode $locale,
         public AccountRoleSet $roles,
         public AccountStatus $status,
+        public DateTimeUtc $createdAt,
     ) {
     }
 
@@ -27,12 +27,12 @@ final readonly class Account
     {
         return new self(
             id: $id,
-            createdAt: DateTimeUtc::now(),
             email: $email,
             password: $password,
             locale: LocaleCode::EnUs,
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
+            createdAt: DateTimeUtc::now(),
         );
     }
 
