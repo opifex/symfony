@@ -88,14 +88,14 @@ final class GetAccountsByCriteriaController extends AbstractController
                             new OA\Property(
                                 property: 'locale',
                                 type: 'string',
-                                enum: LocaleCode::class,
                                 example: LocaleCode::EnUs,
+                                enum: LocaleCode::class,
                             ),
                             new OA\Property(
                                 property: 'status',
                                 type: 'string',
-                                enum: AccountStatus::class,
                                 example: AccountStatus::Activated,
+                                enum: AccountStatus::class,
                             ),
                             new OA\Property(
                                 property: 'roles',

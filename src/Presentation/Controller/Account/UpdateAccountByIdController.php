@@ -32,16 +32,16 @@ final class UpdateAccountByIdController extends AbstractController
                 new OA\Property(
                     property: 'password',
                     type: 'password',
+                    example: 'password4#account',
                     maxLength: 32,
                     minLength: 8,
-                    example: 'password4#account',
                 ),
                 new OA\Property(
                     property: 'locale',
                     type: 'string',
+                    example: LocaleCode::EnUs,
                     default: LocaleCode::EnUs,
                     enum: LocaleCode::class,
-                    example: LocaleCode::EnUs,
                 ),
             ],
             type: 'object',
