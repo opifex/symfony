@@ -14,11 +14,13 @@ final readonly class SigninIntoAccountCommandResult implements JsonSerializable
     ) {
     }
 
-    public static function success(string $accessToken): self
+    public static function success(string $accessToken, int $expiresIn): self
     {
         return new self(
             payload: [
                 'access_token' => $accessToken,
+                'token_type' => 'Bearer',
+                'expires_in' => $expiresIn,
             ],
         );
     }

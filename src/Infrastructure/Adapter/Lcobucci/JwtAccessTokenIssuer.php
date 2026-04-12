@@ -48,4 +48,10 @@ final readonly class JwtAccessTokenIssuer implements JwtAccessTokenIssuerInterfa
             throw InvalidConfigurationException::tokenSignerIsNotConfigured($exception);
         }
     }
+
+    #[Override]
+    public function lifetime(): int
+    {
+        return $this->jwtConfigurationBag->lifetime;
+    }
 }

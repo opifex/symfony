@@ -35,11 +35,12 @@ final readonly class SigninIntoAccountCommandHandler
 
         $account = $this->accountEntityRepository->findOneById($accountId);
 
+        $expiresIn = $this->jwtAccessTokenIssuer->lifetime();
         $accessToken = $this->jwtAccessTokenIssuer->issue(
             userIdentifier: $account->id->toString(),
             userRoles: $account->roles->toArray(),
         );
 
-        return SigninIntoAccountCommandResult::success($accessToken);
+        return SigninIntoAccountCommandResult::success($accessToken, $expiresIn);
     }
 }
