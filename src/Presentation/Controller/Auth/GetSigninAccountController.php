@@ -62,6 +62,11 @@ final class GetSigninAccountController extends AbstractController
                     type: 'string',
                     example: '2025-01-01T12:00:00+00:00',
                 ),
+                new OA\Property(
+                    property: 'updated_at',
+                    type: 'string',
+                    example: '2025-01-01T12:00:00+00:00',
+                ),
             ],
             type: 'object',
         ),

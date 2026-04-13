@@ -47,6 +47,7 @@ final class DatabaseUserProviderTest extends TestCase
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
             createdAt: DateTimeUtc::now(),
+            updatedAt: DateTimeUtc::now(),
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: $account->id->toString(),

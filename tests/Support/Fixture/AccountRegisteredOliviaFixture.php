@@ -28,7 +28,12 @@ final class AccountRegisteredOliviaFixture extends Fixture implements FixtureInt
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::User->toString()],
             status: AccountStatus::Registered->toString(),
-            createdAt: DatePoint::createFromMutable($faker->dateTime()),
+            createdAt: DatePoint::createFromMutable(
+                object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
+            ),
+            updatedAt: DatePoint::createFromMutable(
+                object: $faker->dateTimeBetween(startDate: $createdAt, endDate: '-1 day'),
+            ),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:registered:olivia', object: $account);

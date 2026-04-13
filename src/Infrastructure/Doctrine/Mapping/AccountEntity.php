@@ -37,6 +37,9 @@ final class AccountEntity
         #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]
         public DateTimeImmutable $createdAt = new DateTimeImmutable(),
 
+        #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
+        public DateTimeImmutable $updatedAt = new DateTimeImmutable(),
+
         #[ORM\Column(name: 'deleted_at', type: Types::DATETIME_IMMUTABLE, nullable: true)]
         public ?DateTimeImmutable $deletedAt = null,
     ) {

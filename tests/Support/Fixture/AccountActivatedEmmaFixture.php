@@ -28,7 +28,12 @@ final class AccountActivatedEmmaFixture extends Fixture implements FixtureInterf
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::User->toString()],
             status: AccountStatus::Activated->toString(),
-            createdAt: DatePoint::createFromMutable($faker->dateTime()),
+            createdAt: DatePoint::createFromMutable(
+                object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
+            ),
+            updatedAt: DatePoint::createFromMutable(
+                object: $faker->dateTimeBetween(startDate: $createdAt, endDate: '-1 day'),
+            ),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:activated:emma', object: $account);

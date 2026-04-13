@@ -155,6 +155,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $accountEntity->password = $account->password->toString();
         $accountEntity->roles = $account->roles->toArray();
         $accountEntity->status = $account->status->toString();
+        $accountEntity->updatedAt = $account->updatedAt->toImmutable();
 
         $this->defaultEntityManager->persist($accountEntity);
         $this->defaultEntityManager->flush();

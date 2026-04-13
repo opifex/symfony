@@ -28,7 +28,12 @@ final class AccountBlockedHenryFixture extends Fixture implements FixtureInterfa
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::User->toString()],
             status: AccountStatus::Blocked->toString(),
-            createdAt: DatePoint::createFromMutable($faker->dateTime()),
+            createdAt: DatePoint::createFromMutable(
+                object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
+            ),
+            updatedAt: DatePoint::createFromMutable(
+                object: $faker->dateTimeBetween(startDate: $createdAt, endDate: '-1 day'),
+            ),
         );
         $manager->persist($account);
         $this->addReference(name: 'account:blocked:henry', object: $account);

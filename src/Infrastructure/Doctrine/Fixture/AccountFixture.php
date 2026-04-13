@@ -8,12 +8,12 @@ use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountStatus;
 use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as Faker;
 use Override;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\PasswordHasher\Hasher\NativePasswordHasher;
 
 final class AccountFixture extends Fixture implements FixtureInterface
@@ -32,7 +32,12 @@ final class AccountFixture extends Fixture implements FixtureInterface
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::Admin->toString()],
             status: AccountStatus::Activated->toString(),
-            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
+            createdAt: DatePoint::createFromMutable(
+                object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
+            ),
+            updatedAt: DatePoint::createFromMutable(
+                object: $faker->dateTimeBetween(startDate: $createdAt, endDate: '-1 day'),
+            ),
         );
         $manager->persist($accountAdmin);
         $this->addReference(name: 'account:admin', object: $accountAdmin);
@@ -44,7 +49,12 @@ final class AccountFixture extends Fixture implements FixtureInterface
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::User->toString()],
             status: AccountStatus::Activated->toString(),
-            createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
+            createdAt: DatePoint::createFromMutable(
+                object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
+            ),
+            updatedAt: DatePoint::createFromMutable(
+                object: $faker->dateTimeBetween(startDate: $createdAt, endDate: '-1 day'),
+            ),
         );
         $manager->persist($accountUser);
         $this->addReference(name: 'account:user', object: $accountUser);
@@ -59,7 +69,12 @@ final class AccountFixture extends Fixture implements FixtureInterface
                 locale: LocaleCode::EnUs->toString(),
                 roles: [AccountRole::User->toString()],
                 status: $accountStatus,
-                createdAt: DateTimeImmutable::createFromMutable($faker->dateTime()),
+                createdAt: DatePoint::createFromMutable(
+                    object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
+                ),
+                updatedAt: DatePoint::createFromMutable(
+                    object: $faker->dateTimeBetween(startDate: $createdAt, endDate: '-1 day'),
+                ),
             );
             $manager->persist($accountRandom);
         }

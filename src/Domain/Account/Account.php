@@ -20,6 +20,7 @@ final readonly class Account
         public AccountRoleSet $roles,
         public AccountStatus $status,
         public DateTimeUtc $createdAt,
+        public DateTimeUtc $updatedAt,
     ) {
     }
 
@@ -33,6 +34,7 @@ final readonly class Account
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
             createdAt: DateTimeUtc::now(),
+            updatedAt: DateTimeUtc::now(),
         );
     }
 
@@ -44,24 +46,24 @@ final readonly class Account
     #[NoDiscard]
     public function withEmail(EmailAddress $email): self
     {
-        return clone($this, ['email' => $email]);
+        return clone($this, ['email' => $email, 'updatedAt' => DateTimeUtc::now()]);
     }
 
     #[NoDiscard]
     public function withPassword(PasswordHash $hashedPassword): self
     {
-        return clone($this, ['password' => $hashedPassword]);
+        return clone($this, ['password' => $hashedPassword, 'updatedAt' => DateTimeUtc::now()]);
     }
 
     #[NoDiscard]
     public function withLocale(LocaleCode $locale): self
     {
-        return clone($this, ['locale' => $locale]);
+        return clone($this, ['locale' => $locale, 'updatedAt' => DateTimeUtc::now()]);
     }
 
     #[NoDiscard]
     public function withStatus(AccountStatus $status): self
     {
-        return clone($this, ['status' => $status]);
+        return clone($this, ['status' => $status, 'updatedAt' => DateTimeUtc::now()]);
     }
 }

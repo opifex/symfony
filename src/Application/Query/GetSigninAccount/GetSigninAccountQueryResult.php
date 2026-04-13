@@ -25,6 +25,7 @@ final readonly class GetSigninAccountQueryResult implements JsonSerializable
                 'status' => $account->status->toString(),
                 'roles' => $account->roles->toArray(),
                 'created_at' => $account->createdAt->toAtomString(),
+                'updated_at' => $account->updatedAt->toAtomString(),
             ],
         );
     }

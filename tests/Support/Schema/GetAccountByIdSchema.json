@@ -33,6 +33,10 @@
         "created_at": {
             "type": "string",
             "format": "date-time"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time"
         }
     },
     "required": [
@@ -41,7 +45,8 @@
         "locale",
         "status",
         "roles",
-        "created_at"
+        "created_at",
+        "updated_at"
     ],
     "additionalProperties": false
 }
