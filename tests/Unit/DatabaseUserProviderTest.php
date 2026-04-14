@@ -38,11 +38,12 @@ final class DatabaseUserProviderTest extends TestCase
 
     public function testLoadUserByIdentifierWithEmail(): void
     {
+        $passwordHash = '$2y$13$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ01234';
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $account = new Account(
             id: AccountIdentifier::fromString(uuid: '00000000-0000-6000-8000-000000000000'),
             email: EmailAddress::fromString(email: 'email@example.com'),
-            password: PasswordHash::fromString(passwordHash: 'password4#account'),
+            password: PasswordHash::fromString($passwordHash),
             locale: LocaleCode::EnUs,
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,

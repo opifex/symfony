@@ -28,4 +28,5 @@ when@test:
   security:
     password_hashers:
       App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser:
-        algorithm: plaintext
+        algorithm: bcrypt
+        cost: 4

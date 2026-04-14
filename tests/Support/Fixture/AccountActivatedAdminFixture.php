@@ -24,7 +24,7 @@ final class AccountActivatedAdminFixture extends Fixture implements FixtureInter
         $account = new AccountEntity(
             id: $faker->unique()->uuid(),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
-            password: 'password4#account',
+            password: '$2y$04$MtKP5g6X5uDiiMJLsyvECuUIpD./6gmZ5of6yo2GXHgw/8fujhtpG',
             locale: LocaleCode::EnUs->toString(),
             roles: [AccountRole::Admin->toString()],
             status: AccountStatus::Activated->toString(),
