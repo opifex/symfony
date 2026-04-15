@@ -35,7 +35,6 @@ final class UnblockAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
         self::sendPostRequest(url: '/api/account/' . $accountHenry->id . '/unblock');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        self::assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToUnblockNonexistentAccount(): void

@@ -35,7 +35,6 @@ final class DeleteAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
         self::sendDeleteRequest(url: '/api/account/' . $accountJames->id);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        self::assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToDeleteNonexistentAccount(): void

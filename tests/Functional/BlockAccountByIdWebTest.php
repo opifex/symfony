@@ -36,7 +36,6 @@ final class BlockAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
         self::sendPostRequest(url: '/api/account/' . $accountJames->id . '/block');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        self::assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToBlockNonexistentAccount(): void

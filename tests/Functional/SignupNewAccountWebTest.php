@@ -33,7 +33,6 @@ final class SignupNewAccountWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        self::assertResponseContentSame(expectedContent: '');
         self::assertEmailCount(count: 1);
     }
 

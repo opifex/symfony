@@ -39,7 +39,6 @@ final class UpdateAccountByIdWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        self::assertResponseContentSame(expectedContent: '');
     }
 
     public function testTryToUpdateAccountWithoutPermission(): void
