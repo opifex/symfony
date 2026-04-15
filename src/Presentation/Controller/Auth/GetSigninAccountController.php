@@ -30,18 +30,21 @@ final class GetSigninAccountController extends AbstractController
             properties: [
                 new OA\Property(
                     property: 'id',
-                    type: 'uuid',
+                    type: 'string',
+                    format: 'uuid',
                     example: '00000000-0000-6000-8000-000000000000',
                 ),
                 new OA\Property(
                     property: 'email',
-                    type: 'email',
+                    type: 'string',
+                    format: 'email',
                     example: 'admin@example.com',
                 ),
                 new OA\Property(
                     property: 'locale',
                     type: 'string',
                     example: LocaleCode::EnUs,
+                    enum: LocaleCode::class,
                 ),
                 new OA\Property(
                     property: 'status',
@@ -71,8 +74,6 @@ final class GetSigninAccountController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
-    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
     #[IsGranted(attribute: 'ROLE_USER')]
     #[Route(path: '/auth/me', name: 'app_get_signin_account', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetSigninAccountQuery $query): Response

@@ -26,12 +26,14 @@ final class UpdateAccountByIdController extends AbstractController
             properties: [
                 new OA\Property(
                     property: 'email',
-                    type: 'email',
+                    type: 'string',
+                    format: 'email',
                     example: 'user@example.com',
                 ),
                 new OA\Property(
                     property: 'password',
-                    type: 'password',
+                    type: 'string',
+                    format: 'password',
                     example: 'password4#account',
                     maxLength: 32,
                     minLength: 8,
@@ -52,11 +54,10 @@ final class UpdateAccountByIdController extends AbstractController
         description: 'Account unique identifier',
         example: '00000000-0000-6000-8000-000000000000',
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
-    #[OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden')]
-    #[OA\Response(response: Response::HTTP_NOT_FOUND, description: 'Not Found')]
-    #[OA\Response(response: Response::HTTP_NO_CONTENT, description: 'No Content')]
-    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
+    #[OA\Response(
+        response: Response::HTTP_NO_CONTENT,
+        description: 'No Content',
+    )]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account/{id}', name: 'app_update_account_by_id', methods: Request::METHOD_PATCH)]
     public function __invoke(#[ValueResolver('payload')] UpdateAccountByIdCommand $command): Response

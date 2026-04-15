@@ -77,12 +77,14 @@ final class GetAccountsByCriteriaController extends AbstractController
                         properties: [
                             new OA\Property(
                                 property: 'id',
-                                type: 'uuid',
+                                type: 'string',
+                                format: 'uuid',
                                 example: '00000000-0000-6000-8000-000000000000',
                             ),
                             new OA\Property(
                                 property: 'email',
-                                type: 'email',
+                                type: 'string',
+                                format: 'email',
                                 example: 'admin@example.com',
                             ),
                             new OA\Property(
@@ -123,9 +125,6 @@ final class GetAccountsByCriteriaController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
-    #[OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden')]
-    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account', name: 'app_get_accounts_by_criteria', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetAccountsByCriteriaQuery $query): Response

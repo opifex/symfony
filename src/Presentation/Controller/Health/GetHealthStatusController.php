@@ -35,7 +35,6 @@ final class GetHealthStatusController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
     #[Route(path: '/health', name: 'app_get_health_status', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetHealthStatusQuery $query): Response
     {

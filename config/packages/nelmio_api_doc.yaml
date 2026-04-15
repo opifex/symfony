@@ -15,3 +15,27 @@ nelmio_api_doc:
           type: http
           scheme: bearer
           bearerFormat: JWT
+      schemas:
+        ErrorResponse:
+          type: object
+          properties:
+            code:
+              type: string
+              format: uuid
+            error:
+              type: string
+            violations:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  reason:
+                    type: string
+                required:
+                  - name
+                  - reason
+          required:
+            - code
+            - error

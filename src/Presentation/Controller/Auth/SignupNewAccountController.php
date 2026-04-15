@@ -27,12 +27,14 @@ final class SignupNewAccountController extends AbstractController
             properties: [
                 new OA\Property(
                     property: 'email',
-                    type: 'email',
+                    type: 'string',
+                    format: 'email',
                     example: 'user@example.com',
                 ),
                 new OA\Property(
                     property: 'password',
-                    type: 'password',
+                    type: 'string',
+                    format: 'password',
                     example: 'password4#account',
                     maxLength: 32,
                     minLength: 8,
@@ -48,9 +50,10 @@ final class SignupNewAccountController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
-    #[OA\Response(response: Response::HTTP_CONFLICT, description: 'Conflict')]
-    #[OA\Response(response: Response::HTTP_NO_CONTENT, description: 'No Content')]
+    #[OA\Response(
+        response: Response::HTTP_NO_CONTENT,
+        description: 'No Content',
+    )]
     #[Route(path: '/auth/signup', name: 'app_signup_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SignupNewAccountCommand $command): Response
     {
