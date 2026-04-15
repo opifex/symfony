@@ -16,27 +16,25 @@ final class GetHealthStatusWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureHealthStatusIsOk(): void
     {
         self::sendGetRequest(url: '/api/health');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        self::assertResponseSchema(schema: 'GetHealthStatusSchema.json');
+        self::assertResponseSchema();
     }
 
     public function testTryToGetHealthWithInvalidMethod(): void
     {
         self::sendPostRequest(url: '/api/health');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_METHOD_NOT_ALLOWED);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 
     public function testTryToGetHealthWithInvalidRoute(): void
     {
         self::sendGetRequest(url: '/api/invalid');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
     }
 }

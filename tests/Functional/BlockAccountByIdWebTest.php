@@ -23,7 +23,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanBlockActivatedAccount(): void
@@ -44,7 +44,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         self::sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/block');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToBlockAlreadyBlockedAccount(): void
@@ -57,7 +57,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
         self::sendPostRequest(url: '/api/account/' . $accountHenry->id . '/block');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToBlockAccountWithoutPermission(): void
@@ -70,6 +70,6 @@ final class BlockAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountEmma);
         self::sendPostRequest(url: '/api/account/' . $accountEmma->id . '/block');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }

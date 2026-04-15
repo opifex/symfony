@@ -20,7 +20,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanSignin(): void
@@ -31,7 +31,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
             'password' => 'password4#account',
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        self::assertResponseSchema(schema: 'SigninIntoAccountSchema.json');
+        self::assertResponseSchema();
     }
 
     public function testTryToSigninWithNonactivatedUser(): void
@@ -42,7 +42,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
             'password' => 'password4#account',
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToSigninWithInvalidCredentials(): void
@@ -52,7 +52,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
             'password' => 'password4#account',
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToSigninWithExtraAttributes(): void
@@ -64,6 +64,6 @@ final class SigninIntoAccountWebTest extends WebTestCase
             'extra' => 'value',
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }

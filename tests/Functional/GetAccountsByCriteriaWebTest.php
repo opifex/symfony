@@ -21,7 +21,7 @@ final class GetAccountsByCriteriaWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanGetAccountsByCriteria(): void
@@ -33,7 +33,7 @@ final class GetAccountsByCriteriaWebTest extends WebTestCase
             'status' => AccountStatus::Activated->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        self::assertResponseSchema(schema: 'GetAccountsByCriteriaSchema.json');
+        self::assertResponseSchema();
     }
 
     public function testEryToGetAccountsByCriteriaWithoutPermission(): void
@@ -45,6 +45,6 @@ final class GetAccountsByCriteriaWebTest extends WebTestCase
             'status' => AccountStatus::Activated->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }

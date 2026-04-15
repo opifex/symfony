@@ -22,7 +22,7 @@ final class UnblockAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanUnblockBlockedAccount(): void
@@ -43,7 +43,7 @@ final class UnblockAccountByIdWebTest extends WebTestCase
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         self::sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/unblock');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToUnblockBlockedAccountWithoutPermission(): void
@@ -56,6 +56,6 @@ final class UnblockAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
         self::sendPostRequest(url: '/api/account/' . $accountHenry->id . '/unblock');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }

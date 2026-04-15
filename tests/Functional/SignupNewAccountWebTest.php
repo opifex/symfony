@@ -21,7 +21,7 @@ final class SignupNewAccountWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureUserCanSignup(): void
@@ -44,7 +44,7 @@ final class SignupNewAccountWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToSignupWithNonexistentCredentials(): void
@@ -56,7 +56,7 @@ final class SignupNewAccountWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToSignupWithInvalidTypes(): void
@@ -67,6 +67,6 @@ final class SignupNewAccountWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }

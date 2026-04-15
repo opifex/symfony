@@ -16,7 +16,7 @@ final class PayPalWebhookWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testPaypalWebhookReceivesSuccessfully(): void

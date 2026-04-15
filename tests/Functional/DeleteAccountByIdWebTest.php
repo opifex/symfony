@@ -22,7 +22,7 @@ final class DeleteAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanDeleteExistingAccount(): void
@@ -43,7 +43,7 @@ final class DeleteAccountByIdWebTest extends WebTestCase
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         self::sendDeleteRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToDeleteAccountWithoutPermission(): void
@@ -56,6 +56,6 @@ final class DeleteAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
         self::sendDeleteRequest(url: '/api/account/' . $accountJames->id);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }

@@ -22,7 +22,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanUpdateAccount(): void
@@ -55,7 +55,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToUpdateAccountWithExistedEmail(): void
@@ -72,7 +72,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToUpdateAccountWithInvalidId(): void
@@ -83,6 +83,6 @@ final class UpdateAccountByIdWebTest extends WebTestCase
             'email' => 'user@example.com',
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }

@@ -21,7 +21,7 @@ final class GetAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanGetExistingAccount(): void
@@ -34,7 +34,7 @@ final class GetAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
         self::sendGetRequest(url: '/api/account/' . $accountAdmin->id);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        self::assertResponseSchema(schema: 'GetAccountByIdSchema.json');
+        self::assertResponseSchema();
     }
 
     public function testTryToGetNonexistentAccount(): void
@@ -43,7 +43,7 @@ final class GetAccountByIdWebTest extends WebTestCase
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
         self::sendGetRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToGetAccountWithoutPermission(): void
@@ -56,6 +56,6 @@ final class GetAccountByIdWebTest extends WebTestCase
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
         self::sendGetRequest(url: '/api/account/' . $accountAdmin->id);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }

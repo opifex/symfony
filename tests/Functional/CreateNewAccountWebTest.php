@@ -21,7 +21,7 @@ final class CreateNewAccountWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        self::activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanCreateAccount(): void
@@ -34,7 +34,7 @@ final class CreateNewAccountWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CREATED);
-        self::assertResponseSchema(schema: 'CreateNewAccountSchema.json');
+        self::assertResponseSchema();
     }
 
     public function testTryToCreateAccountWithExistingEmail(): void
@@ -47,7 +47,7 @@ final class CreateNewAccountWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToCreateAccountWithoutPermission(): void
@@ -60,6 +60,6 @@ final class CreateNewAccountWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        self::assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertErrorResponseSchema();
     }
 }
