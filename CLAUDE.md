@@ -37,71 +37,96 @@ composer load-fixtures        # Load test fixtures
 docker-compose --env-file .env.local up -d      # Start all services
 ```
 
-Services: application (port 8030), messenger, migration, postgres, redis, rabbitmq, mailcatcher.
+| Service | Port | Purpose |
+|---------|------|---------|
+| application | 8030 | Symfony app (Nginx + PHP-FPM) |
+| messenger | — | AMQP message consumer (3 queues) |
+| migration | — | Runs migrations on startup, then exits |
+| postgres | 5432 | PostgreSQL 18.3 |
+| redis | 6379 | Cache & session store |
+| rabbitmq | 15672 | Message broker (management UI) |
+| mailcatcher | 1088 | Email testing UI |
 
 ## Architecture
 
 ```
 src/
 ├── Domain/           # Business models, value objects, interfaces (no framework deps)
-│   ├── Account/      # User accounts, roles, registration
-│   ├── Payment/      # Payment processing (PayPal)
-│   ├── Foundation/   # Core value objects (EmailAddress, PasswordHash, etc.)
-│   ├── Healthcheck/  # System health probes
-│   └── Localization/ # Multi-language support
-├── Application/      # Use cases, orchestration
-│   ├── Command/      # Write operations (CQRS commands + handlers)
-│   ├── Query/        # Read operations (CQRS queries + handlers)
-│   ├── Contract/     # Service interfaces (bus, etc.)
-│   ├── MessageHandler/ # Async message handlers
-│   └── Service/      # Application services
-├── Infrastructure/   # Framework & external integrations
-│   ├── Doctrine/     # ORM mappings, migrations, repositories, fixtures
-│   ├── Security/     # JWT auth, rate limiting
-│   ├── Messenger/    # Bus middleware (correlation ID, validation, transactions)
-│   └── ...           # Adapters, serializers, HTTP client, etc.
-└── Presentation/     # Client-facing layer
-    ├── Controller/   # HTTP endpoints (attribute routing, JSON responses)
-    ├── Command/      # Console commands
-    ├── Scheduler/    # Cron tasks
-    └── Resource/     # API resource DTOs
+├── Application/      # Use cases: commands, queries, contracts, services
+├── Infrastructure/   # Framework integrations, adapters, Doctrine, messenger
+└── Presentation/     # Controllers, console commands, scheduler, resources
 ```
 
-### Key Patterns
+### Modules
 
-- **DDD layer enforcement** (enforced by custom PHPCS sniff at lint time):
-  - `Domain` — zero imports from Application/Infrastructure/Presentation
-  - `Application` — may import from Domain only
-  - `Infrastructure` — may import from Domain and Application
-  - `Presentation` — may import from Domain and Application
-- **Three message buses**: command.bus, query.bus, event.bus — each with dedicated middleware (see `config/packages/messenger.yaml`)
-- **CQRS**: Commands in `Application/Command/`, queries in `Application/Query/`, each with a paired handler class
-  - Each command/query lives in its own folder with three files: `FooCommand.php` (message DTO), `FooCommandHandler.php` (`__invoke` with `#[AsMessageHandler]`), `FooCommandResult.php` (implements `JsonSerializable`)
-  - Command/query buses enforce exactly one handler per message; event bus allows zero or many
-- **Doctrine attribute mapping**: Entity mappings use PHP 8 attributes, not YAML/XML
-- **Contracts layer**: `Application/Contract/` defines interfaces implemented in Infrastructure
+| Module | Location | Purpose |
+|--------|----------|---------|
+| **Account** | `Domain/Account/` | Users, roles, registration, state machine |
+| **Payment** | `Domain/Payment/` | Payment processing (PayPal webhooks) |
+| **Foundation** | `Domain/Foundation/` | Shared value objects (EmailAddress, PasswordHash, DateTimeUtc) |
+| **Healthcheck** | `Domain/Healthcheck/` | System health probes |
+| **Localization** | `Domain/Localization/` | Multi-language support (en-US, uk-UA) |
+
+### Layer Dependency Rules
+
+Enforced by custom PHPCS sniff (`config/markup/Standards/Sniffs/Classes/ClassStructureSniff.php`) at lint time:
+
+- **Domain** → no imports from Application/Infrastructure/Presentation
+- **Application** → may import from Domain only
+- **Infrastructure** → may import from Domain and Application
+- **Presentation** → may import from Domain and Application
+
+### Three Message Buses
+
+Configured in `config/packages/messenger.yaml` with dedicated middleware each:
+
+| Bus | Middleware | Notes |
+|-----|-----------|-------|
+| `command.bus` | correlation ID, validation, doctrine transaction | Exactly one handler per message |
+| `query.bus` | correlation ID, validation, doctrine transaction | Exactly one handler per message |
+| `event.bus` | correlation ID, doctrine transaction | Zero or many handlers allowed |
+
+### CQRS Pattern
+
+Each command/query lives in its own folder with three files:
+
+```
+Application/Command/CreateNewAccount/
+├── CreateNewAccountCommand.php        # Message DTO with validation constraints
+├── CreateNewAccountCommandHandler.php # __invoke() with #[AsMessageHandler]
+└── CreateNewAccountCommandResult.php  # implements JsonSerializable
+```
+
+### Key Conventions
+
+- **Immutable aggregates**: `final readonly` classes; mutation via `withX()` methods that `clone()` — marked `#[NoDiscard]`
+- **Pipe operator** (`|>`): Handlers chain transformations (e.g., `Account::create(...) |> $stateMachine->register(...) |> $repo->save(...)`)
+- **Value objects**: Private constructor + `fromString()` factory + validation in constructor
+- **`#[SensitiveParameter]`**: On JWT tokens, password hashes, and secrets
+- **Doctrine mapping**: PHP 8 attributes only (not YAML/XML), entities in `Infrastructure/Doctrine/Mapping/`
+- **Separate ORM entities**: `AccountEntity` (Doctrine) ↔ `Account` (Domain) mapped via `AccountEntityMapper`
+- **Contracts layer**: `Application/Contract/` and `Domain/*/Contract/` define interfaces; Infrastructure implements
 
 ## Coding Standards
 
-### Conventions
-- **Immutable aggregates**: Domain entities use `readonly` classes; mutation via `withX()` methods that `clone()` — marked `#[NoDiscard]` so unused returns are flagged
-- **Pipe operator** (`|>`): Handlers chain transformations (e.g., `Account::create(...) |> $stateMachine->register(...) |> $repo->save(...)`)
-- **Value objects**: Private constructor + `fromString()` factory method + validation in constructor
-- **`#[SensitiveParameter]`**: Used on JWT tokens, password hashes, and secrets to redact from stack traces
-
-- **PHPCS**: PSR-12 + custom rules in `config/markup/phpcs.xml`. Enforces strict types, bans `die`/`echo`/`var_dump`/`dd`/`eval`, max cyclomatic complexity 15, max line length 120
+- **PHPCS**: PSR-12 + custom rules in `config/markup/phpcs.xml` — strict types required, max cyclomatic complexity 15, max line length 120, bans `die`/`echo`/`var_dump`/`dd`/`eval`
 - **PHPStan**: Level max with strict rules, Doctrine/Symfony/PHPUnit extensions (`config/markup/phpstan.neon`)
 - **Tests**: PHPUnit 13.1, random execution order, strict mode (fails on deprecations/notices/warnings)
-- All source files must declare `strict_types=1`
+- All source files must declare `strict_types=1`; all concrete classes must be `final`
 
 ## Testing
 
-- `tests/Unit/` — domain logic, value objects
-- `tests/Functional/` — API endpoint tests using WebTestCase with `DatabaseEntityManagerTrait` (fixture loading) and `HttpClientRequestsTrait` (auth + OpenAPI schema assertions)
+- `tests/Unit/` — domain logic, value objects, handlers
+- `tests/Functional/` — API endpoints via WebTestCase with `DatabaseEntityManagerTrait` + `HttpClientRequestsTrait`
   - Pattern: load fixtures → `sendAuthorizationRequest()` → `jsonRequest()` → assert status + `assertResponseSchema()`
-- `tests/Support/` — shared fixtures and traits (`DatabaseEntityManagerTrait`, `HttpClientRequestsTrait`)
+- `tests/Support/` — shared fixtures and traits
+- Fixture password for all test accounts: `password4#account`
 - Coverage excludes migrations, fixtures, and Kernel
 
 ## API Documentation
 
 Available at `http://localhost[:port]/docs` (OpenAPI/Swagger via Nelmio).
+
+## CI
+
+GitHub Actions on push to `main`: `composer auto-analyze` then `composer auto-quality` against PostgreSQL 18.3. Coverage uploaded to Codecov.
