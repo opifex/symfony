@@ -34,12 +34,12 @@ composer load-fixtures        # Load test fixtures
 
 ### Docker
 ```bash
-docker-compose --env-file .env.local up -d      # Start all services
+docker compose up -d                             # Start all services
 ```
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| application | 8030 | Symfony app (Nginx + PHP-FPM) |
+| application | 80 (configurable via APP_PORT) | Symfony app (Nginx + PHP-FPM) |
 | messenger | — | AMQP message consumer (3 queues) |
 | migration | — | Runs migrations on startup, then exits |
 | postgres | 5432 | PostgreSQL 18.3 |
@@ -118,7 +118,7 @@ Application/Command/CreateNewAccount/
 
 - `tests/Unit/` — domain logic, value objects, handlers
 - `tests/Functional/` — API endpoints via WebTestCase with `DatabaseEntityManagerTrait` + `HttpClientRequestsTrait`
-  - Pattern: load fixtures → `sendAuthorizationRequest()` → `jsonRequest()` → assert status + `assertResponseSchema()`
+  - Pattern: load fixtures → `sendAuthorizationRequest()` → `sendPostRequest()`/`sendGetRequest()` → assert status + `assertResponseSchema()`
 - `tests/Support/` — shared fixtures and traits
 - Fixture password for all test accounts: `password4#account`
 - Coverage excludes migrations, fixtures, and Kernel

@@ -36,7 +36,7 @@ public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $co
 ## Routing
 
 - Attribute-based: `#[Route(path: '...', name: '...', methods: '...')]`
-- Route names: `app_{use_case}_{entity}` (e.g., `app_create_account`)
+- Route names: `app_{action}_{entity}_{qualifier}` (e.g., `app_create_new_account`, `app_block_account_by_id`)
 - Security: `#[IsGranted('ROLE_ADMIN')]` or `#[IsGranted('ROLE_USER')]`
 
 ## OpenAPI Documentation
