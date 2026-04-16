@@ -1,4 +1,0 @@
-interface:
-  display_name: "Lint Test Autofix"
-  short_description: "Run docker-compose lint/tests and fix failures iteratively"
-  default_prompt: "Run Composer lint and test commands inside Docker Compose application container, fix issues found, and repeat until green or blocked."
