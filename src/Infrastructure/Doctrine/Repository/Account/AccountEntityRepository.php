@@ -12,16 +12,17 @@ use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use Override;
 use Traversable;
 
-final class AccountEntityRepository implements AccountEntityRepositoryInterface
+final readonly class AccountEntityRepository implements AccountEntityRepositoryInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $defaultEntityManager,
+        private EntityManagerInterface $defaultEntityManager,
     ) {
     }
 
@@ -37,6 +38,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     ): SearchResult {
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
+        $builder->where($builder->expr()->isNull(x: 'account.deletedAt'));
 
         if ($accountEmail !== null) {
             $builder->andWhere($builder->expr()->like(x: 'account.email', y: ':email'));
@@ -77,6 +79,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
+        $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
         $builder->setParameter(key: 'id', value: $id->toString());
         $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
@@ -95,6 +98,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
         $builder->setParameter(key: 'email', value: $email->toString());
         $accountEntity = $builder->getQuery()->getOneOrNullResult();
 
@@ -113,6 +117,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $builder = $this->defaultEntityManager->createQueryBuilder();
         $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
+        $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
         $builder->setParameter(key: 'email', value: $email->toString());
         $builder->setMaxResults(maxResults: 1);
 
@@ -125,9 +130,11 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
     public function delete(Account $account): void
     {
         $builder = $this->defaultEntityManager->createQueryBuilder();
-        $builder->delete()->from(from: AccountEntity::class, alias: 'account');
+        $builder->update(update: AccountEntity::class, alias: 'account');
+        $builder->set(key: 'account.deletedAt', value: ':now');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
         $builder->setParameter(key: 'id', value: $account->id->toString());
+        $builder->setParameter(key: 'now', value: new DateTimeImmutable());
         $builder->getQuery()->execute();
     }
 
@@ -148,6 +155,7 @@ final class AccountEntityRepository implements AccountEntityRepositoryInterface
         $accountEntity->password = $account->password->toString();
         $accountEntity->roles = $account->roles->toArray();
         $accountEntity->status = $account->status->toString();
+        $accountEntity->updatedAt = $account->updatedAt->toImmutable();
 
         $this->defaultEntityManager->persist($accountEntity);
         $this->defaultEntityManager->flush();

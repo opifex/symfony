@@ -21,41 +21,41 @@ final class GetAccountByIdWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanGetExistingAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $accountAdmin = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        $accountAdmin = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'admin@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        $this->sendGetRequest(url: '/api/account/' . $accountAdmin->id);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schema: 'GetAccountByIdSchema.json');
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
+        self::sendGetRequest(url: '/api/account/' . $accountAdmin->id);
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
+        self::assertResponseSchema();
     }
 
     public function testTryToGetNonexistentAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendGetRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendGetRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToGetAccountWithoutPermission(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        $accountAdmin = $this->getDatabaseEntity(entity: AccountEntity::class, criteria: [
+        self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
+        $accountAdmin = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
             'email' => 'admin@example.com',
         ]);
-        $this->assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        $this->sendGetRequest(url: '/api/account/' . $accountAdmin->id);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
+        self::sendGetRequest(url: '/api/account/' . $accountAdmin->id);
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
+        self::assertErrorResponseSchema();
     }
 }

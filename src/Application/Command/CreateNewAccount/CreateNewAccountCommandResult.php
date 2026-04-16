@@ -8,10 +8,10 @@ use App\Domain\Account\Account;
 use JsonSerializable;
 use Override;
 
-final class CreateNewAccountCommandResult implements JsonSerializable
+final readonly class CreateNewAccountCommandResult implements JsonSerializable
 {
     private function __construct(
-        private readonly mixed $payload = null,
+        private mixed $payload = null,
     ) {
     }
 

@@ -7,14 +7,14 @@ namespace App\Infrastructure\Security\AuthenticatedUser;
 use Override;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class TokenAuthenticatedUser implements UserInterface
+final readonly class TokenAuthenticatedUser implements UserInterface
 {
     /**
      * @param string[] $roles
      */
     public function __construct(
-        private readonly string $userIdentifier,
-        private readonly array $roles = [],
+        private string $userIdentifier,
+        private array $roles = [],
     ) {
     }
 

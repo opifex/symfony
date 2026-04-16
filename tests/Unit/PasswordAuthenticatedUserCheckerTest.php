@@ -9,12 +9,14 @@ use App\Domain\Account\AccountRole;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUserChecker;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class PasswordAuthenticatedUserCheckerTest extends TestCase
 {
     #[Override]

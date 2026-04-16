@@ -9,10 +9,10 @@ use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 
 #[AsMonologProcessor]
-final class CorrelationIdProcessor
+final readonly class CorrelationIdProcessor
 {
     public function __construct(
-        private readonly CorrelationIdProvider $correlationIdProvider,
+        private CorrelationIdProvider $correlationIdProvider,
     ) {
     }
 

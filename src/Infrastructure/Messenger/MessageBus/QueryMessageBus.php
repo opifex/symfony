@@ -14,11 +14,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 #[Lazy]
-final class QueryMessageBus implements QueryMessageBusInterface
+final readonly class QueryMessageBus implements QueryMessageBusInterface
 {
     public function __construct(
         #[Autowire(service: 'query.bus')]
-        private readonly MessageBusInterface $messageBus,
+        private MessageBusInterface $messageBus,
     ) {
     }
 

@@ -12,10 +12,10 @@ use SensitiveParameter;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
-final class AccountPasswordHasher implements AccountPasswordHasherInterface
+final readonly class AccountPasswordHasher implements AccountPasswordHasherInterface
 {
     public function __construct(
-        private readonly PasswordHasherFactoryInterface $passwordHasherFactory,
+        private PasswordHasherFactoryInterface $passwordHasherFactory,
     ) {
     }
 

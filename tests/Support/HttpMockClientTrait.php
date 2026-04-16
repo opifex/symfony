@@ -37,6 +37,6 @@ trait HttpMockClientTrait
 
     public static function getResponseFromFile(string $file): string
     {
-        return file_get_contents(__DIR__ . '/../Support/Response/' . $file);
+        return file_get_contents(filename: __DIR__ . '/../Support/Response/' . $file);
     }
 }

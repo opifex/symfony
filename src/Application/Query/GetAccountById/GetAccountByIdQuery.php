@@ -6,12 +6,12 @@ namespace App\Application\Query\GetAccountById;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class GetAccountByIdQuery
+final readonly class GetAccountByIdQuery
 {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        public readonly string $id = '',
+        public string $id = '',
     ) {
     }
 }

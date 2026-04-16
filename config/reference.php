@@ -347,6 +347,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         assets_mode?: scalar|Param|null, // Default: "cdn"
  *         swagger_ui_config?: array<mixed>,
  *         redocly_config?: array<mixed>,
+ *         scalar_config?: array<mixed>,
  *         stoplight_config?: array<mixed>,
  *     },
  *     areas?: array<string, array{ // Default: {"default":{"path_patterns":[],"host_patterns":[],"with_attribute":false,"documentation":[],"name_patterns":[],"disable_default_routes":false,"cache":[],"security":[]}}
@@ -360,7 +361,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             name?: scalar|Param|null,
  *             description?: scalar|Param|null,
  *             openIdConnectUrl?: scalar|Param|null,
- *             ...<mixed>
+ *             ...<string, mixed>
  *         }>,
  *         with_attribute?: bool|Param, // whether to filter by attributes // Default: false
  *         disable_default_routes?: bool|Param, // if set disables default routes without attributes // Default: false
@@ -381,6 +382,34 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             areas?: list<scalar|Param|null>,
  *         }>,
  *     },
+ * }
+ * @psalm-type NelmioCorsConfig = array{
+ *     defaults?: array{
+ *         allow_credentials?: bool|Param, // Default: false
+ *         allow_origin?: list<scalar|Param|null>,
+ *         allow_headers?: list<scalar|Param|null>,
+ *         allow_methods?: list<scalar|Param|null>,
+ *         allow_private_network?: bool|Param, // Default: false
+ *         expose_headers?: list<scalar|Param|null>,
+ *         max_age?: scalar|Param|null, // Default: 0
+ *         hosts?: list<scalar|Param|null>,
+ *         origin_regex?: bool|Param, // Default: false
+ *         forced_allow_origin_value?: scalar|Param|null, // Default: null
+ *         skip_same_as_origin?: bool|Param, // Default: true
+ *     },
+ *     paths?: array<string, array{ // Default: []
+ *         allow_credentials?: bool|Param,
+ *         allow_origin?: list<scalar|Param|null>,
+ *         allow_headers?: list<scalar|Param|null>,
+ *         allow_methods?: list<scalar|Param|null>,
+ *         allow_private_network?: bool|Param,
+ *         expose_headers?: list<scalar|Param|null>,
+ *         max_age?: scalar|Param|null, // Default: 0
+ *         hosts?: list<scalar|Param|null>,
+ *         origin_regex?: bool|Param,
+ *         forced_allow_origin_value?: scalar|Param|null, // Default: null
+ *         skip_same_as_origin?: bool|Param,
+ *     }>,
  * }
  * @psalm-type DebugConfig = array{
  *     max_items?: int|Param, // Max number of displayed items past the first level, -1 means no limit. // Default: 2500
@@ -1482,7 +1511,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             use_underscore?: bool|Param, // Default: true
  *             unordered_list_markers?: list<scalar|Param|null>,
  *         },
- *         ...<mixed>
+ *         ...<string, mixed>
  *     },
  * }
  * @psalm-type ConfigType = array{
@@ -1492,6 +1521,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     doctrine?: DoctrineConfig,
  *     doctrine_migrations?: DoctrineMigrationsConfig,
  *     nelmio_api_doc?: NelmioApiDocConfig,
+ *     nelmio_cors?: NelmioCorsConfig,
  *     framework?: FrameworkConfig,
  *     monolog?: MonologConfig,
  *     security?: SecurityConfig,
@@ -1504,6 +1534,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         nelmio_api_doc?: NelmioApiDocConfig,
+ *         nelmio_cors?: NelmioCorsConfig,
  *         debug?: DebugConfig,
  *         framework?: FrameworkConfig,
  *         monolog?: MonologConfig,
@@ -1519,6 +1550,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         nelmio_api_doc?: NelmioApiDocConfig,
+ *         nelmio_cors?: NelmioCorsConfig,
  *         framework?: FrameworkConfig,
  *         monolog?: MonologConfig,
  *         security?: SecurityConfig,
@@ -1532,6 +1564,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         nelmio_api_doc?: NelmioApiDocConfig,
+ *         nelmio_cors?: NelmioCorsConfig,
  *         framework?: FrameworkConfig,
  *         monolog?: MonologConfig,
  *         security?: SecurityConfig,

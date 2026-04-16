@@ -6,45 +6,41 @@ namespace App\Application\Command\SigninIntoAccount;
 
 use App\Application\Contract\AuthenticationRateLimiterInterface;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
-use App\Application\Contract\JwtAccessTokenManagerInterface;
-use App\Application\Exception\AuthorizationRequiredException;
+use App\Application\Contract\JwtAccessTokenIssuerInterface;
 use App\Application\Exception\AuthorizationThrottlingException;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class SigninIntoAccountCommandHandler
+final readonly class SigninIntoAccountCommandHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AuthenticationRateLimiterInterface $authenticationRateLimiter,
-        private readonly AuthorizationTokenStorageInterface $authorizationTokenStorage,
-        private readonly JwtAccessTokenManagerInterface $jwtAccessTokenManager,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AuthenticationRateLimiterInterface $authenticationRateLimiter,
+        private AuthorizationTokenStorageInterface $authorizationTokenStorage,
+        private JwtAccessTokenIssuerInterface $jwtAccessTokenIssuer,
     ) {
     }
 
     public function __invoke(SigninIntoAccountCommand $command): SigninIntoAccountCommandResult
     {
-        try {
-            $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
-        } catch (AuthorizationRequiredException $exception) {
-            if (!$this->authenticationRateLimiter->isAccepted($command->email)) {
-                throw AuthorizationThrottlingException::create();
-            }
-
-            throw $exception;
+        if (!$this->authenticationRateLimiter->isAccepted($command->email)) {
+            throw AuthorizationThrottlingException::create();
         }
+
+        $userIdentifier = $this->authorizationTokenStorage->getUserIdentifier();
 
         $accountId = AccountIdentifier::fromString($userIdentifier);
 
         $account = $this->accountEntityRepository->findOneById($accountId);
 
-        $accessToken = $this->jwtAccessTokenManager->createAccessToken(
+        $expiresIn = $this->jwtAccessTokenIssuer->lifetime();
+        $accessToken = $this->jwtAccessTokenIssuer->issue(
             userIdentifier: $account->id->toString(),
             userRoles: $account->roles->toArray(),
         );
 
-        return SigninIntoAccountCommandResult::success($accessToken);
+        return SigninIntoAccountCommandResult::success($accessToken, $expiresIn);
     }
 }

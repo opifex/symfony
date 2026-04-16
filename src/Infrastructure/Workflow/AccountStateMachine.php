@@ -13,10 +13,10 @@ use NoDiscard;
 use Override;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-final class AccountStateMachine implements AccountStateMachineInterface
+final readonly class AccountStateMachine implements AccountStateMachineInterface
 {
     public function __construct(
-        private readonly WorkflowInterface $accountStateMachine,
+        private WorkflowInterface $accountStateMachine,
     ) {
     }
 

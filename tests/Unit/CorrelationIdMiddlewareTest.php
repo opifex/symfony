@@ -9,6 +9,7 @@ use App\Infrastructure\Messenger\Middleware\CorrelationIdMiddleware;
 use App\Infrastructure\Messenger\Stamp\CorrelationIdStamp;
 use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Messenger\Envelope;
@@ -17,6 +18,7 @@ use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class CorrelationIdMiddlewareTest extends TestCase
 {
     #[Override]

@@ -7,18 +7,20 @@ namespace App\Application\Command\SigninIntoAccount;
 use JsonSerializable;
 use Override;
 
-final class SigninIntoAccountCommandResult implements JsonSerializable
+final readonly class SigninIntoAccountCommandResult implements JsonSerializable
 {
     private function __construct(
-        private readonly mixed $payload = null,
+        private mixed $payload = null,
     ) {
     }
 
-    public static function success(string $accessToken): self
+    public static function success(string $accessToken, int $expiresIn): self
     {
         return new self(
             payload: [
                 'access_token' => $accessToken,
+                'token_type' => 'Bearer',
+                'expires_in' => $expiresIn,
             ],
         );
     }

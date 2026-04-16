@@ -26,12 +26,14 @@ final class SigninIntoAccountController extends AbstractController
             properties: [
                 new OA\Property(
                     property: 'email',
-                    type: 'email',
+                    type: 'string',
+                    format: 'email',
                     example: 'admin@example.com',
                 ),
                 new OA\Property(
                     property: 'password',
-                    type: 'password',
+                    type: 'string',
+                    format: 'password',
                     example: 'password4#account',
                 ),
             ],
@@ -42,18 +44,27 @@ final class SigninIntoAccountController extends AbstractController
         response: Response::HTTP_OK,
         description: 'OK',
         content: new OA\JsonContent(
+            required: ['access_token', 'token_type', 'expires_in'],
             properties: [
                 new OA\Property(
                     property: 'access_token',
                     type: 'string',
                     example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE3MzQwODgyMTguOTU5ODI0...',
                 ),
+                new OA\Property(
+                    property: 'token_type',
+                    type: 'string',
+                    example: 'Bearer',
+                ),
+                new OA\Property(
+                    property: 'expires_in',
+                    type: 'integer',
+                    example: 3600,
+                ),
             ],
             type: 'object',
         ),
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
-    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
     #[Route(path: '/auth/signin', name: 'app_signin_into_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SigninIntoAccountCommand $command): Response
     {

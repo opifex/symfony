@@ -19,11 +19,11 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsTargetedValueResolver('payload')]
-final class RequestPayloadValueResolver implements ValueResolverInterface
+final readonly class RequestPayloadValueResolver implements ValueResolverInterface
 {
     public function __construct(
-        private readonly DenormalizerInterface $denormalizer,
-        private readonly NormalizerInterface $normalizer,
+        private DenormalizerInterface $denormalizer,
+        private NormalizerInterface $normalizer,
     ) {
     }
 

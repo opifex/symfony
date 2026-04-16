@@ -12,11 +12,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: 'app:symfony:run', description: 'Symfony console command')]
-final class SymfonyRunCommand
+final readonly class SymfonyRunCommand
 {
     public function __construct(
-        private readonly ClockInterface $clock,
-        private readonly HttpbinResponseProviderInterface $httpbinResponseProvider,
+        private ClockInterface $clock,
+        private HttpbinResponseProviderInterface $httpbinResponseProvider,
     ) {
     }
 

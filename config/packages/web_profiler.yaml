@@ -1,13 +1,9 @@
 when@dev:
   framework:
-    profiler:
-      enabled: true
-      collect_serializer_data: true
+    profiler: true
   web_profiler:
     toolbar: true
 
 when@test:
   framework:
-    profiler:
-      enabled: true
-      collect_serializer_data: true
+    profiler: true

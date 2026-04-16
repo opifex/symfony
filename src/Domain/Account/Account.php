@@ -10,16 +10,17 @@ use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use NoDiscard;
 
-final class Account
+final readonly class Account
 {
     public function __construct(
-        public readonly AccountIdentifier $id,
-        public readonly DateTimeUtc $createdAt,
-        public readonly EmailAddress $email,
-        public readonly PasswordHash $password,
-        public readonly LocaleCode $locale,
-        public readonly AccountRoleSet $roles,
-        public readonly AccountStatus $status,
+        public AccountIdentifier $id,
+        public EmailAddress $email,
+        public PasswordHash $password,
+        public LocaleCode $locale,
+        public AccountRoleSet $roles,
+        public AccountStatus $status,
+        public DateTimeUtc $createdAt,
+        public DateTimeUtc $updatedAt,
     ) {
     }
 
@@ -27,12 +28,13 @@ final class Account
     {
         return new self(
             id: $id,
-            createdAt: DateTimeUtc::now(),
             email: $email,
             password: $password,
             locale: LocaleCode::EnUs,
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
+            createdAt: DateTimeUtc::now(),
+            updatedAt: DateTimeUtc::now(),
         );
     }
 
@@ -44,24 +46,24 @@ final class Account
     #[NoDiscard]
     public function withEmail(EmailAddress $email): self
     {
-        return clone($this, ['email' => $email]);
+        return clone($this, ['email' => $email, 'updatedAt' => DateTimeUtc::now()]);
     }
 
     #[NoDiscard]
     public function withPassword(PasswordHash $hashedPassword): self
     {
-        return clone($this, ['password' => $hashedPassword]);
+        return clone($this, ['password' => $hashedPassword, 'updatedAt' => DateTimeUtc::now()]);
     }
 
     #[NoDiscard]
     public function withLocale(LocaleCode $locale): self
     {
-        return clone($this, ['locale' => $locale]);
+        return clone($this, ['locale' => $locale, 'updatedAt' => DateTimeUtc::now()]);
     }
 
     #[NoDiscard]
     public function withStatus(AccountStatus $status): self
     {
-        return clone($this, ['status' => $status]);
+        return clone($this, ['status' => $status, 'updatedAt' => DateTimeUtc::now()]);
     }
 }

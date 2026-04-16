@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation;
 
-final class SearchResult
+final readonly class SearchResult
 {
     /**
      * @param object[] $items
      */
     public function __construct(
-        public readonly array $items,
-        public readonly int $totalCount,
-        public readonly int $pageNumber,
-        public readonly int $pageSize,
+        public array $items,
+        public int $totalCount,
+        public int $pageNumber,
+        public int $pageSize,
     ) {
     }
 }

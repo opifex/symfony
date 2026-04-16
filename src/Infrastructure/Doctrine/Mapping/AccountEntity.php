@@ -10,17 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'account')]
+#[ORM\UniqueConstraint(columns: ['email'], options: ['where' => '(deleted_at IS NULL)'])]
 final class AccountEntity
 {
     public function __construct(
         #[ORM\Id]
         #[ORM\Column(name: 'id', type: Types::GUID)]
-        public ?string $id = null,
+        public string $id = '',
 
-        #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]
-        public DateTimeImmutable $createdAt = new DateTimeImmutable(),
-
-        #[ORM\Column(name: 'email', type: Types::STRING, unique: true, options: ['length' => 320])]
+        #[ORM\Column(name: 'email', type: Types::STRING, options: ['length' => 320])]
         public string $email = '',
 
         #[ORM\Column(name: 'password', type: Types::STRING, options: ['length' => 60])]
@@ -35,6 +33,15 @@ final class AccountEntity
 
         #[ORM\Column(name: 'status', type: Types::STRING, options: ['length' => 24])]
         public string $status = '',
+
+        #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]
+        public DateTimeImmutable $createdAt = new DateTimeImmutable(),
+
+        #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
+        public DateTimeImmutable $updatedAt = new DateTimeImmutable(),
+
+        #[ORM\Column(name: 'deleted_at', type: Types::DATETIME_IMMUTABLE, nullable: true)]
+        public ?DateTimeImmutable $deletedAt = null,
     ) {
     }
 }

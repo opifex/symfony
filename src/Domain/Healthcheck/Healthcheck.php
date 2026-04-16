@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Healthcheck;
 
-final class Healthcheck
+final readonly class Healthcheck
 {
     private function __construct(
-        public readonly HealthStatus $status,
+        public HealthStatus $status,
     ) {
     }
 

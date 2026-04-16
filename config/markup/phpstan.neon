@@ -9,5 +9,3 @@ parameters:
   level: max
   paths:
     - ../../src
-  ignoreErrors:
-    - identifier: method.childParameterType

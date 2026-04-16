@@ -25,11 +25,10 @@ final class BlockAccountByIdController extends AbstractController
         description: 'Account unique identifier',
         example: '00000000-0000-6000-8000-000000000000',
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
-    #[OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden')]
-    #[OA\Response(response: Response::HTTP_NOT_FOUND, description: 'Not Found')]
-    #[OA\Response(response: Response::HTTP_NO_CONTENT, description: 'No Content')]
-    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
+    #[OA\Response(
+        response: Response::HTTP_NO_CONTENT,
+        description: 'No Content',
+    )]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account/{id}/block', name: 'app_block_account_by_id', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] BlockAccountByIdCommand $command): Response

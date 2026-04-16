@@ -9,10 +9,10 @@ use App\Domain\Foundation\SearchResult;
 use JsonSerializable;
 use Override;
 
-final class GetAccountsByCriteriaQueryResult implements JsonSerializable
+final readonly class GetAccountsByCriteriaQueryResult implements JsonSerializable
 {
     private function __construct(
-        private readonly mixed $payload = null,
+        private mixed $payload = null,
     ) {
     }
 
@@ -36,6 +36,7 @@ final class GetAccountsByCriteriaQueryResult implements JsonSerializable
                         'status' => $account->status->toString(),
                         'roles' => $account->roles->toArray(),
                         'created_at' => $account->createdAt->toAtomString(),
+                        'updated_at' => $account->updatedAt->toAtomString(),
                     ],
                     array: $accounts,
                 ),

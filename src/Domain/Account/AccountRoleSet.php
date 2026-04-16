@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
-final class AccountRoleSet
+final readonly class AccountRoleSet
 {
     /**
      * @param AccountRole[] $roles
      */
     private function __construct(
-        private readonly array $roles,
+        private array $roles,
     ) {
     }
 

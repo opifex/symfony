@@ -15,4 +15,9 @@ final class InvalidConfigurationException extends RuntimeException
     {
         return new self(message: 'Authorization token signer is not configured.', previous: $previous);
     }
+
+    public static function tokenSubjectIsEmpty(?Throwable $previous = null): self
+    {
+        return new self(message: 'Authorization token subject must not be empty.', previous: $previous);
+    }
 }

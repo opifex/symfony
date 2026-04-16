@@ -7,10 +7,12 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Presentation\Scheduler\SymfonyCronTask;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class SymfonyCronTaskTest extends TestCase
 {
     #[Override]

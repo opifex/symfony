@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-final class RequestNormalizer implements NormalizerInterface
+final readonly class RequestNormalizer implements NormalizerInterface
 {
     /**
      * @param array<int|string, mixed> $context
@@ -28,7 +28,7 @@ final class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array<string, mixed> $context
+     * @param array<array-key, mixed> $context
      */
     #[Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool

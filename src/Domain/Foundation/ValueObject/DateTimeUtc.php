@@ -8,12 +8,12 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 
-final class DateTimeUtc
+final readonly class DateTimeUtc
 {
     private const string TIMEZONE = 'UTC';
 
     private function __construct(
-        private readonly DateTimeImmutable $datetime,
+        private DateTimeImmutable $datetime,
     ) {
     }
 

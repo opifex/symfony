@@ -14,15 +14,15 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Throwable;
 
-final class ExceptionNormalizer implements NormalizerInterface
+final readonly class ExceptionNormalizer implements NormalizerInterface
 {
     public function __construct(
-        private readonly KernelInterface $kernel,
+        private KernelInterface $kernel,
     ) {
     }
 
     /**
-     * @param array<string, mixed> $context
+     * @param array<array-key, mixed> $context
      * @return array<string, mixed>
      */
     #[Override]
@@ -51,7 +51,7 @@ final class ExceptionNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array<string, mixed> $context
+     * @param array<array-key, mixed> $context
      */
     #[Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool

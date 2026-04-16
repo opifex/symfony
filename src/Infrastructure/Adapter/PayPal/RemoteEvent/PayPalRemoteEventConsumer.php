@@ -12,10 +12,10 @@ use Symfony\Component\RemoteEvent\Consumer\ConsumerInterface;
 use Symfony\Component\RemoteEvent\RemoteEvent;
 
 #[AsRemoteEventConsumer('paypal')]
-final class PayPalRemoteEventConsumer implements ConsumerInterface
+final readonly class PayPalRemoteEventConsumer implements ConsumerInterface
 {
     public function __construct(
-        private readonly EventMessageBusInterface $eventMessageBus,
+        private EventMessageBusInterface $eventMessageBus,
     ) {
     }
 

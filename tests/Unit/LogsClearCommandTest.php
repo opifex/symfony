@@ -7,6 +7,7 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Presentation\Command\LogsClearCommand;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -17,6 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class LogsClearCommandTest extends TestCase
 {
     #[Override]
@@ -35,7 +37,7 @@ final class LogsClearCommandTest extends TestCase
 
         $result = $command($symfonyStyle);
 
-        $this->assertSame(expected: Command::SUCCESS, actual: $result);
+        self::assertSame(expected: Command::SUCCESS, actual: $result);
     }
 
     public function testExecuteWithUnableToRemoveFileResult(): void

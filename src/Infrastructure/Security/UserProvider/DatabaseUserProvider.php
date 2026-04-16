@@ -17,10 +17,10 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * @implements UserProviderInterface<PasswordAuthenticatedUser>
  */
-final class DatabaseUserProvider implements UserProviderInterface
+final readonly class DatabaseUserProvider implements UserProviderInterface
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
     ) {
     }
 
