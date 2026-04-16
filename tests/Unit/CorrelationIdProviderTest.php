@@ -6,9 +6,11 @@ namespace Tests\Unit;
 
 use AllowDynamicProperties;
 use App\Infrastructure\Observability\CorrelationIdProvider;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class CorrelationIdProviderTest extends TestCase
 {
     public function testInMemoryStorage(): void
@@ -18,10 +20,10 @@ final class CorrelationIdProviderTest extends TestCase
         $correlationId = '00000000-0000-6000-8000-000000000000';
         $correlationIdProvider->setCorrelationId($correlationId);
 
-        $this->assertEquals($correlationId, $correlationIdProvider->getCorrelationId());
+        self::assertEquals($correlationId, $correlationIdProvider->getCorrelationId());
 
         $correlationIdProvider->reset();
 
-        $this->assertNotSame(expected: $correlationId, actual: $correlationIdProvider->getCorrelationId());
+        self::assertNotSame(expected: $correlationId, actual: $correlationIdProvider->getCorrelationId());
     }
 }

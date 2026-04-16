@@ -28,14 +28,13 @@ final class GetHealthStatusController extends AbstractController
                 new OA\Property(
                     property: 'status',
                     type: 'string',
-                    enum: HealthStatus::class,
                     example: HealthStatus::Ok,
+                    enum: HealthStatus::class,
                 ),
             ],
             type: 'object',
         ),
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
     #[Route(path: '/health', name: 'app_get_health_status', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetHealthStatusQuery $query): Response
     {

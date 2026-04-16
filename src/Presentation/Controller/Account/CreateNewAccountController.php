@@ -28,22 +28,24 @@ final class CreateNewAccountController extends AbstractController
             properties: [
                 new OA\Property(
                     property: 'email',
-                    type: 'email',
+                    type: 'string',
+                    format: 'email',
                     example: 'user@example.com',
                 ),
                 new OA\Property(
                     property: 'password',
-                    type: 'password',
+                    type: 'string',
+                    format: 'password',
+                    example: 'password4#account',
                     maxLength: 32,
                     minLength: 8,
-                    example: 'password4#account',
                 ),
                 new OA\Property(
                     property: 'locale',
                     type: 'string',
+                    example: LocaleCode::EnUs,
                     default: LocaleCode::EnUs,
                     enum: LocaleCode::class,
-                    example: LocaleCode::EnUs,
                 ),
             ],
             type: 'object',
@@ -63,10 +65,6 @@ final class CreateNewAccountController extends AbstractController
             type: 'object',
         ),
     )]
-    #[OA\Response(response: Response::HTTP_BAD_REQUEST, description: 'Bad Request')]
-    #[OA\Response(response: Response::HTTP_CONFLICT, description: 'Conflict')]
-    #[OA\Response(response: Response::HTTP_FORBIDDEN, description: 'Forbidden')]
-    #[OA\Response(response: Response::HTTP_UNAUTHORIZED, description: 'Unauthorized')]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account', name: 'app_create_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $command): Response

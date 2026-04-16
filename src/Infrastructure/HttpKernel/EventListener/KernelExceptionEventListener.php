@@ -20,12 +20,12 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExcep
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsEventListener(event: ExceptionEvent::class)]
-final class KernelExceptionEventListener
+final readonly class KernelExceptionEventListener
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly NormalizerInterface $normalizer,
-        private readonly PrivacyDataProtectorInterface $privacyDataProtector,
+        private LoggerInterface $logger,
+        private NormalizerInterface $normalizer,
+        private PrivacyDataProtectorInterface $privacyDataProtector,
     ) {
     }
 

@@ -6,14 +6,14 @@ namespace Tests\Support;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class HttpMockClientResponse
+final readonly class HttpMockClientResponse
 {
     public function __construct(
-        public readonly string $requestMethod,
-        public readonly string $requestUrl,
-        public readonly string $responseBody = '',
-        public readonly int $responseStatusCode = Response::HTTP_OK,
-        public readonly array $responseHeaders = [],
+        public string $requestMethod,
+        public string $requestUrl,
+        public string $responseBody = '',
+        public int $responseStatusCode = Response::HTTP_OK,
+        public array $responseHeaders = [],
     ) {
     }
 }

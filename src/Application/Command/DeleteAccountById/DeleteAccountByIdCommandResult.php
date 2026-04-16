@@ -7,7 +7,7 @@ namespace App\Application\Command\DeleteAccountById;
 use JsonSerializable;
 use Override;
 
-final class DeleteAccountByIdCommandResult implements JsonSerializable
+final readonly class DeleteAccountByIdCommandResult implements JsonSerializable
 {
     public static function success(): self
     {

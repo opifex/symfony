@@ -1,6 +1,5 @@
 doctrine_migrations:
   all_or_nothing: true
-  transactional: true
   enable_profiler: '%kernel.debug%'
   custom_template: '%kernel.project_dir%/src/Presentation/Resource/Template/bundles/DoctrineMigrationsBundle/migration.php.twig'
   migrations_paths:

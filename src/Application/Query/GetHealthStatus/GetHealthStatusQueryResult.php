@@ -8,18 +8,18 @@ use App\Domain\Healthcheck\Healthcheck;
 use JsonSerializable;
 use Override;
 
-final class GetHealthStatusQueryResult implements JsonSerializable
+final readonly class GetHealthStatusQueryResult implements JsonSerializable
 {
     private function __construct(
-        private readonly mixed $payload = null,
+        private mixed $payload = null,
     ) {
     }
 
-    public static function success(Healthcheck $health): self
+    public static function success(Healthcheck $healthcheck): self
     {
         return new self(
             payload: [
-                'status' => $health->status->toString(),
+                'status' => $healthcheck->status->toString(),
             ],
         );
     }

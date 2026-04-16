@@ -16,27 +16,25 @@ final class GetHealthStatusWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureHealthStatusIsOk(): void
     {
-        $this->sendGetRequest(url: '/api/health');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schema: 'GetHealthStatusSchema.json');
+        self::sendGetRequest(url: '/api/health');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
+        self::assertResponseSchema();
     }
 
     public function testTryToGetHealthWithInvalidMethod(): void
     {
-        $this->sendPostRequest(url: '/api/health');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_METHOD_NOT_ALLOWED);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::sendPostRequest(url: '/api/health');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public function testTryToGetHealthWithInvalidRoute(): void
     {
-        $this->sendGetRequest(url: '/api/invalid');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::sendGetRequest(url: '/api/invalid');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
     }
 }

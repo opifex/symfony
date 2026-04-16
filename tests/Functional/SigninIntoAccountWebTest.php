@@ -20,50 +20,50 @@ final class SigninIntoAccountWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanSignin(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signin', params: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schema: 'SigninIntoAccountSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
+        self::assertResponseSchema();
     }
 
     public function testTryToSigninWithNonactivatedUser(): void
     {
-        $this->loadFixtures([AccountRegisteredOliviaFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signin', params: [
+        self::loadFixtures([AccountRegisteredOliviaFixture::class]);
+        self::sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'olivia@example.com',
             'password' => 'password4#account',
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToSigninWithInvalidCredentials(): void
     {
-        $this->sendPostRequest(url: '/api/auth/signin', params: [
+        self::sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'invalid@example.com',
             'password' => 'password4#account',
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToSigninWithExtraAttributes(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendPostRequest(url: '/api/auth/signin', params: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'extra' => 'value',
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
+        self::assertErrorResponseSchema();
     }
 }

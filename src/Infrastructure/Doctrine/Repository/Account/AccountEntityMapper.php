@@ -14,18 +14,19 @@ use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 
-final class AccountEntityMapper
+final readonly class AccountEntityMapper
 {
     public static function map(AccountEntity $entity): Account
     {
         return new Account(
-            id: AccountIdentifier::fromString((string) $entity->id),
-            createdAt: DateTimeUtc::fromInterface($entity->createdAt),
+            id: AccountIdentifier::fromString($entity->id),
             email: EmailAddress::fromString($entity->email),
             password: PasswordHash::fromString($entity->password),
             locale: LocaleCode::fromString($entity->locale),
             roles: AccountRoleSet::fromStrings(...$entity->roles),
             status: AccountStatus::fromString($entity->status),
+            createdAt: DateTimeUtc::fromInterface(datetime: $entity->createdAt),
+            updatedAt: DateTimeUtc::fromInterface(datetime: $entity->updatedAt),
         );
     }
 

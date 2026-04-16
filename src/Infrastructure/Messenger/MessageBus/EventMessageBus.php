@@ -12,11 +12,11 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[Lazy]
-final class EventMessageBus implements EventMessageBusInterface
+final readonly class EventMessageBus implements EventMessageBusInterface
 {
     public function __construct(
         #[Autowire(service: 'event.bus')]
-        private readonly MessageBusInterface $messageBus,
+        private MessageBusInterface $messageBus,
     ) {
     }
 

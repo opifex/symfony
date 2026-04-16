@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Unit;
+
+use AllowDynamicProperties;
+use App\Infrastructure\HttpKernel\EventListener\SecurityHeadersEventListener;
+use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+
+#[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
+final class SecurityHeadersEventListenerTest extends TestCase
+{
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->httpKernel = $this->createMock(type: HttpKernelInterface::class);
+    }
+
+    public function testOnResponseEventWithNotMainRequest(): void
+    {
+        $securityHeadersEventListener = new SecurityHeadersEventListener();
+
+        $responseEvent = new ResponseEvent(
+            kernel: $this->httpKernel,
+            request: new Request(),
+            requestType: HttpKernelInterface::SUB_REQUEST,
+            response: new Response(),
+        );
+
+        ($securityHeadersEventListener)($responseEvent);
+
+        $this->expectNotToPerformAssertions();
+    }
+}

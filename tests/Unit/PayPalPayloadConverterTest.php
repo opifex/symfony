@@ -8,12 +8,14 @@ use AllowDynamicProperties;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPayloadConverter;
 use App\Infrastructure\Adapter\PayPal\RemoteEvent\PayPalPaymentCaptureEvent;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\RemoteEvent\Exception\ParseException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class PayPalPayloadConverterTest extends TestCase
 {
     #[Override]
@@ -29,8 +31,8 @@ final class PayPalPayloadConverterTest extends TestCase
         $payPalPayloadConverter = new PayPalPayloadConverter($this->validator);
         $remoteEvent = $payPalPayloadConverter->convert(payload: ['id' => $id, 'event_type' => $eventType]);
 
-        $this->assertSame(expected: $id, actual: $remoteEvent->getId());
-        $this->assertSame(expected: $expected, actual: $remoteEvent->getName());
+        self::assertSame(expected: $id, actual: $remoteEvent->getId());
+        self::assertSame(expected: $expected, actual: $remoteEvent->getName());
     }
 
     public function testConvertWithInvalidEventType(): void

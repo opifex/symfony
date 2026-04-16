@@ -7,10 +7,12 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use DomainException;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class EmailAddressTest extends TestCase
 {
     public function testInvalidEmailThrowsDomainException(): void
@@ -25,7 +27,7 @@ final class EmailAddressTest extends TestCase
     {
         $emailAddress = EmailAddress::fromString($value);
 
-        $this->assertSame($expected, $emailAddress->toString());
+        self::assertSame($expected, $emailAddress->toString());
     }
 
     public static function emailAddressProvider(): iterable

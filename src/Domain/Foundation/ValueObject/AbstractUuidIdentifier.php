@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation\ValueObject;
 
-abstract class AbstractUuidIdentifier
+abstract readonly class AbstractUuidIdentifier
 {
     final private function __construct(
-        private readonly string $uuid,
+        private string $uuid,
     ) {
     }
 

@@ -12,11 +12,11 @@ use App\Domain\Localization\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class UpdateAccountByIdCommandHandler
+final readonly class UpdateAccountByIdCommandHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AccountPasswordHasherInterface $accountPasswordHasher,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountPasswordHasherInterface $accountPasswordHasher,
     ) {
     }
 

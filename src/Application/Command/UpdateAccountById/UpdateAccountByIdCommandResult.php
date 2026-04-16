@@ -7,7 +7,7 @@ namespace App\Application\Command\UpdateAccountById;
 use JsonSerializable;
 use Override;
 
-final class UpdateAccountByIdCommandResult implements JsonSerializable
+final readonly class UpdateAccountByIdCommandResult implements JsonSerializable
 {
     public static function success(): self
     {

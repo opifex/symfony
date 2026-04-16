@@ -8,10 +8,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
 #[AsCronTask('@hourly', schedule: 'tasks')]
-final class SymfonyCronTask
+final readonly class SymfonyCronTask
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
+        private LoggerInterface $logger,
     ) {
     }
 

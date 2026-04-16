@@ -19,36 +19,36 @@ final class GetSigninAccountWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureUserCanGetSigninAccountWithValidBearer(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendGetRequest(url: '/api/auth/me');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
-        $this->assertResponseSchema(schema: 'GetSigninAccountSchema.json');
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendGetRequest(url: '/api/auth/me');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
+        self::assertResponseSchema();
     }
 
     public function testTryToGetSigninAccountWithoutAuthorizationHeader(): void
     {
-        $this->sendGetRequest(url: '/api/auth/me');
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::sendGetRequest(url: '/api/auth/me');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToGetSigninAccountWithInvalidAuthorizationHeader(): void
     {
-        $this->sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'invalid']);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'invalid']);
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToGetSigninAccountWithInvalidBearerToken(): void
     {
-        $this->sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'Bearer invalid']);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'Bearer invalid']);
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
+        self::assertErrorResponseSchema();
     }
 }

@@ -8,16 +8,16 @@ use Override;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class PasswordAuthenticatedUser implements PasswordAuthenticatedUserInterface, UserInterface
+final readonly class PasswordAuthenticatedUser implements PasswordAuthenticatedUserInterface, UserInterface
 {
     /**
      * @param string[] $roles
      */
     public function __construct(
-        private readonly string $userIdentifier,
-        private readonly string $password,
-        private readonly array $roles = [],
-        private readonly bool $enabled = true,
+        private string $userIdentifier,
+        private string $password,
+        private array $roles = [],
+        private bool $enabled = true,
     ) {
     }
 

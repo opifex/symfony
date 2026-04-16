@@ -9,6 +9,7 @@ use App\Application\Contract\PrivacyDataProtectorInterface;
 use App\Infrastructure\HttpKernel\EventListener\KernelExceptionEventListener;
 use LogicException;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
@@ -20,6 +21,7 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class KernelExceptionEventListenerTest extends TestCase
 {
     #[Override]

@@ -6,12 +6,12 @@ namespace App\Application\Command\UnblockAccountById;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class UnblockAccountByIdCommand
+final readonly class UnblockAccountByIdCommand
 {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        public readonly string $id = '',
+        public string $id = '',
     ) {
     }
 }

@@ -9,10 +9,10 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class DeleteAccountByIdCommandHandler
+final readonly class DeleteAccountByIdCommandHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
     ) {
     }
 

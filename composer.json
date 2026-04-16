@@ -21,7 +21,8 @@
         "doctrine/orm": "^3.6",
         "dragonmantank/cron-expression": "^3.6",
         "lcobucci/jwt": "^5.6",
-        "nelmio/api-doc-bundle": "^5.9",
+        "nelmio/api-doc-bundle": "^5.10",
+        "nelmio/cors-bundle": "^2.6",
         "symfony/amqp-messenger": "8.0.*",
         "symfony/asset": "8.0.*",
         "symfony/console": "8.0.*",
@@ -50,10 +51,10 @@
         "symfony/webhook": "8.0.*",
         "symfony/workflow": "8.0.*",
         "symfony/yaml": "8.0.*",
-        "twig/cssinliner-extra": "^3.23",
-        "twig/extra-bundle": "^3.23",
-        "twig/inky-extra": "^3.23",
-        "twig/twig": "^3.23"
+        "twig/cssinliner-extra": "^3.24",
+        "twig/extra-bundle": "^3.24",
+        "twig/inky-extra": "^3.24",
+        "twig/twig": "^3.24"
     },
     "config": {
         "allow-plugins": {
@@ -85,6 +86,7 @@
     },
     "scripts": {
         "auto-analyze": [
+            "composer audit",
             "composer validate --strict",
             "phpcs --standard=config/markup/phpcs.xml",
             "phpstan --configuration=config/markup/phpstan.neon --memory-limit=4G --no-progress"
@@ -94,7 +96,7 @@
             "bin/console lint:twig src --env=prod --no-interaction",
             "bin/console lint:container --env=prod --no-interaction",
             "bin/console doctrine:migrations:sync-metadata-storage --env=prod --no-interaction",
-            "bin/console doctrine:migration:migrate --env=prod --no-interaction",
+            "bin/console doctrine:migrations:migrate --env=prod --no-interaction",
             "bin/console messenger:setup-transports --env=prod --no-interaction",
             "bin/console cache:clear --env=prod --no-interaction"
         ],
@@ -113,7 +115,9 @@
             "bin/console doctrine:mapping:info --env=test --no-interaction",
             "bin/console doctrine:database:drop --env=test --if-exists --force --no-interaction",
             "bin/console doctrine:database:create --env=test --no-interaction",
-            "bin/console doctrine:migration:migrate --env=test --no-interaction",
+            "bin/console doctrine:migrations:migrate --env=test --allow-no-migration --no-interaction",
+            "bin/console messenger:setup-transports --env=test --no-interaction",
+            "bin/console doctrine:schema:validate --env=test --no-interaction",
             "bin/phpunit --no-progress"
         ],
         "auto-scripts": {
@@ -123,11 +127,11 @@
         "debug-composer": "composer validate --strict && composer audit && composer diagnose",
         "debug-container": "bin/console lint:container --no-interaction",
         "debug-recipes": "composer symfony:recipes",
-        "debug-router": "bin/console debug:router | grep -v '^  _'",
-        "debug-scheduler": "bin/console debug:scheduler",
+        "debug-router": "bin/console debug:router --no-interaction | grep -v '^  _'",
+        "debug-scheduler": "bin/console debug:scheduler --no-interaction",
         "fix-style": "phpcbf --standard=config/markup/phpcs.xml",
         "load-fixtures": "bin/console doctrine:fixtures:load --no-interaction",
-        "migration-create": "bin/console doctrine:migration:diff --nowdoc --no-interaction",
+        "migration-create": "bin/console doctrine:migrations:diff --allow-empty-diff --nowdoc --no-interaction",
         "migration-down": "bin/console doctrine:migrations:migrate prev --no-interaction",
         "migration-up": "bin/console doctrine:migrations:migrate --no-interaction",
         "post-install-cmd": "@auto-scripts",
@@ -169,7 +173,7 @@
         "phpstan/phpstan-phpunit": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
-        "phpunit/phpunit": "^12.5",
+        "phpunit/phpunit": "^13.1",
         "squizlabs/php_codesniffer": "^4.0",
         "symfony/browser-kit": "8.0.*",
         "symfony/debug-bundle": "8.0.*",

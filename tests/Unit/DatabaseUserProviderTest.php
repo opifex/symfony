@@ -19,6 +19,7 @@ use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
 use App\Infrastructure\Security\UserProvider\DatabaseUserProvider;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -26,6 +27,7 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Uid\Uuid;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class DatabaseUserProviderTest extends TestCase
 {
     #[Override]
@@ -36,15 +38,17 @@ final class DatabaseUserProviderTest extends TestCase
 
     public function testLoadUserByIdentifierWithEmail(): void
     {
+        $passwordHash = '$2y$13$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ01234';
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $account = new Account(
             id: AccountIdentifier::fromString(uuid: '00000000-0000-6000-8000-000000000000'),
-            createdAt: DateTimeUtc::now(),
             email: EmailAddress::fromString(email: 'email@example.com'),
-            password: PasswordHash::fromString(passwordHash: 'password4#account'),
+            password: PasswordHash::fromString($passwordHash),
             locale: LocaleCode::EnUs,
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
+            createdAt: DateTimeUtc::now(),
+            updatedAt: DateTimeUtc::now(),
         );
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: $account->id->toString(),
@@ -61,8 +65,8 @@ final class DatabaseUserProviderTest extends TestCase
 
         $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->email->toString());
 
-        $this->assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
-        $this->assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());
+        self::assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
+        self::assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());
     }
 
     public function testLoadUserByIdentifierWithInvalidIdentifier(): void
@@ -99,7 +103,7 @@ final class DatabaseUserProviderTest extends TestCase
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $supports = $databaseUserProvider->supportsClass(class: PasswordAuthenticatedUser::class);
 
-        $this->assertTrue($supports);
+        self::assertTrue($supports);
     }
 
     public function testCheckSupportsClassWithNonMatchingClass(): void
@@ -107,6 +111,6 @@ final class DatabaseUserProviderTest extends TestCase
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
         $supports = $databaseUserProvider->supportsClass(class: stdClass::class);
 
-        $this->assertFalse($supports);
+        self::assertFalse($supports);
     }
 }

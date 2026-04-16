@@ -21,6 +21,11 @@ final class InvalidTokenException extends RuntimeException
         return new self(message: 'Authorization token have invalid structure.', previous: $previous);
     }
 
+    public static function tokenHaveEmptyContent(?Throwable $previous = null): self
+    {
+        return new self(message: 'Authorization token have empty content.', previous: $previous);
+    }
+
     public static function tokenIsInvalidOrExpired(?Throwable $previous = null): self
     {
         return new self(message: 'Authorization token is invalid or expired.', previous: $previous);

@@ -22,11 +22,6 @@ final class CorrelationIdProvider implements ResetInterface
         return $this->correlationId ??= Uuid::v4()->toString();
     }
 
-    public function getHttpHeaderName(): string
-    {
-        return 'X-Correlation-Id';
-    }
-
     #[Override]
     public function reset(): void
     {

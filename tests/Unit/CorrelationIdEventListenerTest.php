@@ -8,6 +8,7 @@ use AllowDynamicProperties;
 use App\Infrastructure\HttpKernel\EventListener\CorrelationIdEventListener;
 use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class CorrelationIdEventListenerTest extends TestCase
 {
     #[Override]
@@ -36,7 +38,7 @@ final class CorrelationIdEventListenerTest extends TestCase
             response: new Response(),
         );
 
-        $correlationIdEventListener->onResponse($responseEvent);
+        ($correlationIdEventListener)($responseEvent);
 
         $this->expectNotToPerformAssertions();
     }

@@ -8,6 +8,7 @@ use AllowDynamicProperties;
 use App\Infrastructure\Serializer\ExceptionNormalizer;
 use Exception;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class ExceptionNormalizerTest extends TestCase
 {
     #[Override]
@@ -31,8 +33,8 @@ final class ExceptionNormalizerTest extends TestCase
         $exceptionNormalizer = new ExceptionNormalizer($this->kernel);
         $normalized = $exceptionNormalizer->normalize(data: null);
 
-        $this->assertArrayHasKey(key: 'error', array: $normalized);
-        $this->assertEquals(expected: 'Object expected to be a valid exception type.', actual: $normalized['error']);
+        self::assertArrayHasKey(key: 'error', array: $normalized);
+        self::assertEquals(expected: 'Object expected to be a valid exception type.', actual: $normalized['error']);
     }
 
     public function testNormalizeDebugModeWithViolations(): void
@@ -70,9 +72,9 @@ final class ExceptionNormalizerTest extends TestCase
 
         $normalized = $exceptionNormalizer->normalize($throwable);
 
-        $this->assertArrayHasKey(key: 'code', array: $normalized);
-        $this->assertArrayHasKey(key: 'error', array: $normalized);
-        $this->assertArrayHasKey(key: 'violations', array: $normalized);
-        $this->assertArrayHasKey(key: 'trace', array: $normalized);
+        self::assertArrayHasKey(key: 'code', array: $normalized);
+        self::assertArrayHasKey(key: 'error', array: $normalized);
+        self::assertArrayHasKey(key: 'violations', array: $normalized);
+        self::assertArrayHasKey(key: 'trace', array: $normalized);
     }
 }

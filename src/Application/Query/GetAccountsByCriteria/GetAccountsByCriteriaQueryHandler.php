@@ -8,10 +8,10 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class GetAccountsByCriteriaQueryHandler
+final readonly class GetAccountsByCriteriaQueryHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
     ) {
     }
 

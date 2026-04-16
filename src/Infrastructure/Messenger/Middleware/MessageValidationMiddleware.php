@@ -11,10 +11,10 @@ use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class MessageValidationMiddleware implements MiddlewareInterface
+final readonly class MessageValidationMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly ValidatorInterface $validator,
+        private ValidatorInterface $validator,
     ) {
     }
 

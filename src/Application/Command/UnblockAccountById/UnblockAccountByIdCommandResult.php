@@ -7,7 +7,7 @@ namespace App\Application\Command\UnblockAccountById;
 use JsonSerializable;
 use Override;
 
-final class UnblockAccountByIdCommandResult implements JsonSerializable
+final readonly class UnblockAccountByIdCommandResult implements JsonSerializable
 {
     public static function success(): self
     {

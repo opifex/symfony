@@ -8,12 +8,14 @@ use AllowDynamicProperties;
 use App\Infrastructure\HttpClient\CorrelationIdHttpClient;
 use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 #[AllowDynamicProperties]
+#[AllowMockObjectsWithoutExpectations]
 final class CorrelationIdHttpClientTest extends TestCase
 {
     #[Override]

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use App\Domain\Localization\LocaleCode;
 use Override;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,42 +21,45 @@ final class CreateNewAccountWebTest extends WebTestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->activateHttpClient();
+        self::loadHttpClient();
     }
 
     public function testEnsureAdminCanCreateAccount(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendPostRequest(url: '/api/account', params: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendPostRequest(url: '/api/account', params: [
             'email' => 'created@example.com',
             'password' => 'password4#account',
+            'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CREATED);
-        $this->assertResponseSchema(schema: 'CreateNewAccountSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CREATED);
+        self::assertResponseSchema();
     }
 
     public function testTryToCreateAccountWithExistingEmail(): void
     {
-        $this->loadFixtures([AccountActivatedAdminFixture::class]);
-        $this->sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        $this->sendPostRequest(url: '/api/account', params: [
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendPostRequest(url: '/api/account', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
+            'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CONFLICT);
+        self::assertErrorResponseSchema();
     }
 
     public function testTryToCreateAccountWithoutPermission(): void
     {
-        $this->loadFixtures([AccountActivatedJamesFixture::class]);
-        $this->sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        $this->sendPostRequest(url: '/api/account', params: [
+        self::loadFixtures([AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
+        self::sendPostRequest(url: '/api/account', params: [
             'email' => 'created@example.com',
             'password' => 'password4#account',
+            'locale' => LocaleCode::EnUs->toString(),
         ]);
-        $this->assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
-        $this->assertResponseSchema(schema: 'ApplicationExceptionSchema.json');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
+        self::assertErrorResponseSchema();
     }
 }

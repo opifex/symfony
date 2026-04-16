@@ -17,14 +17,14 @@ use App\Domain\Localization\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class CreateNewAccountCommandHandler
+final readonly class CreateNewAccountCommandHandler
 {
     public function __construct(
-        private readonly AccountEntityRepositoryInterface $accountEntityRepository,
-        private readonly AccountPasswordHasherInterface $accountPasswordHasher,
-        private readonly AccountStateMachineInterface $accountStateMachine,
-        private readonly EventMessageBusInterface $eventMessageBus,
-        private readonly UuidIdentityGeneratorInterface $uuidIdentityGenerator,
+        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountPasswordHasherInterface $accountPasswordHasher,
+        private AccountStateMachineInterface $accountStateMachine,
+        private EventMessageBusInterface $eventMessageBus,
+        private UuidIdentityGeneratorInterface $uuidIdentityGenerator,
     ) {
     }
 

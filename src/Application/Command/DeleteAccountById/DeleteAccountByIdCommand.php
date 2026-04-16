@@ -6,12 +6,12 @@ namespace App\Application\Command\DeleteAccountById;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class DeleteAccountByIdCommand
+final readonly class DeleteAccountByIdCommand
 {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Uuid]
-        public readonly string $id = '',
+        public string $id = '',
     ) {
     }
 }

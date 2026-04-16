@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Lcobucci;
 
-final class JwtAccessToken
+final readonly class JwtAccessToken
 {
     /**
      * @param string[] $userRoles
      */
     public function __construct(
-        public readonly string $userIdentifier,
-        public readonly array $userRoles = [],
+        public string $userIdentifier,
+        public array $userRoles = [],
     ) {
     }
 }
