@@ -48,7 +48,7 @@ final class GetSigninAccountWebTest extends WebTestCase
     public function testTryToGetSigninAccountWithInvalidBearerToken(): void
     {
         self::sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'Bearer invalid']);
-        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
         self::assertErrorResponseSchema();
     }
 }

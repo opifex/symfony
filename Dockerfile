@@ -1,4 +1,4 @@
-FROM composer:2.9.5 AS composer
+FROM composer:2.9.7 AS composer
 # set temporary working directory
 WORKDIR /tmp
 # copy composer manifest files

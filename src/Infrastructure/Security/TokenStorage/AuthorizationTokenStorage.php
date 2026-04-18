@@ -6,8 +6,11 @@ namespace App\Infrastructure\Security\TokenStorage;
 
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Exception\AuthorizationRequiredException;
+use App\Infrastructure\Security\AuthenticatedUser\TokenAuthenticatedUser;
+use DateTimeImmutable;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 final readonly class AuthorizationTokenStorage implements AuthorizationTokenStorageInterface
 {
@@ -17,14 +20,38 @@ final readonly class AuthorizationTokenStorage implements AuthorizationTokenStor
     }
 
     #[Override]
-    public function getUserIdentifier(): string
+    public function getTokenIdentifier(): string
     {
-        $userIdentifier = $this->tokenStorage->getToken()?->getUserIdentifier();
+        $user = $this->tokenStorage->getToken()?->getUser();
 
-        if (!is_string($userIdentifier)) {
+        if (!$user instanceof TokenAuthenticatedUser) {
             throw AuthorizationRequiredException::create();
         }
 
-        return $userIdentifier;
+        return $user->getTokenIdentifier();
+    }
+
+    #[Override]
+    public function getTokenExpiresAt(): DateTimeImmutable
+    {
+        $user = $this->tokenStorage->getToken()?->getUser();
+
+        if (!$user instanceof TokenAuthenticatedUser) {
+            throw AuthorizationRequiredException::create();
+        }
+
+        return $user->getTokenExpiresAt();
+    }
+
+    #[Override]
+    public function getUserIdentifier(): string
+    {
+        $user = $this->tokenStorage->getToken();
+
+        if (!$user instanceof TokenInterface) {
+            throw AuthorizationRequiredException::create();
+        }
+
+        return $user->getUserIdentifier();
     }
 }

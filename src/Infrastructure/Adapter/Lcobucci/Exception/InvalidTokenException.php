@@ -8,7 +8,7 @@ use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Throwable;
 
-#[WithHttpStatus(statusCode: 403)]
+#[WithHttpStatus(statusCode: 401)]
 final class InvalidTokenException extends RuntimeException
 {
     public static function errorWhileDecodingToken(?Throwable $previous = null): self
@@ -29,5 +29,10 @@ final class InvalidTokenException extends RuntimeException
     public static function tokenIsInvalidOrExpired(?Throwable $previous = null): self
     {
         return new self(message: 'Authorization token is invalid or expired.', previous: $previous);
+    }
+
+    public static function tokenIsAlreadyRevoked(?Throwable $previous = null): self
+    {
+        return new self(message: 'Authorization token has been revoked.', previous: $previous);
     }
 }

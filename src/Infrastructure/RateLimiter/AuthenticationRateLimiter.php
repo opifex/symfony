@@ -18,6 +18,6 @@ final readonly class AuthenticationRateLimiter implements AuthenticationRateLimi
     #[Override]
     public function isAccepted(string $key): bool
     {
-        return $this->authenticationLimiter->create($key)->consume()->isAccepted();
+        return $this->authenticationLimiter->create(sha1($key))->consume()->isAccepted();
     }
 }

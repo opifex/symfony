@@ -12,6 +12,8 @@ framework:
       cache.rate_limiter:
         default_lifetime: 60
         adapters: [ cache.adapter.redis, cache.adapter.array ]
+      cache.token_revocation:
+        adapters: [ cache.adapter.redis ]
 
 when@test:
   framework:
@@ -23,3 +25,5 @@ when@test:
           adapters: [ cache.adapter.array ]
         cache.rate_limiter:
           adapters: [ cache.adapter.array ]
+        cache.token_revocation:
+          adapters: [ cache.adapter.filesystem ]

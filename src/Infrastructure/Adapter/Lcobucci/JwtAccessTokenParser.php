@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter\Lcobucci;
 
 use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidTokenException;
+use DateTimeImmutable;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token\Plain;
@@ -39,11 +40,15 @@ final readonly class JwtAccessTokenParser
             throw InvalidTokenException::tokenIsInvalidOrExpired();
         }
 
+        /** @var string $identifier */
+        $identifier = $token->claims()->get(name: RegisteredClaims::ID) ?? '';
+        /** @var DateTimeImmutable $expiresAt */
+        $expiresAt = $token->claims()->get(name: RegisteredClaims::EXPIRATION_TIME);
         /** @var string $userIdentifier */
         $userIdentifier = $token->claims()->get(name: RegisteredClaims::SUBJECT) ?? '';
         /** @var string[] $userRoles */
         $userRoles = $token->claims()->get(name: JwtRegisteredClaims::ROLES) ?? [];
 
-        return new JwtAccessToken($userIdentifier, $userRoles);
+        return new JwtAccessToken($identifier, $expiresAt, $userIdentifier, $userRoles);
     }
 }

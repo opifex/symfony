@@ -37,4 +37,36 @@ final class AuthorizationTokenStorageTest extends TestCase
 
         $authorizationTokenStorage->getUserIdentifier();
     }
+
+    public function testGetTokenIdentifierThrowsExceptionWithUnauthorizedUser(): void
+    {
+        $authorizationTokenStorage = new AuthorizationTokenStorage(
+            tokenStorage: $this->tokenStorage,
+        );
+
+        $this->tokenStorage
+            ->expects($this->once())
+            ->method(constraint: 'getToken')
+            ->willReturn(value: null);
+
+        $this->expectException(exception: AuthorizationRequiredException::class);
+
+        $authorizationTokenStorage->getTokenIdentifier();
+    }
+
+    public function testGetTokenExpiresAtThrowsExceptionWithUnauthorizedUser(): void
+    {
+        $authorizationTokenStorage = new AuthorizationTokenStorage(
+            tokenStorage: $this->tokenStorage,
+        );
+
+        $this->tokenStorage
+            ->expects($this->once())
+            ->method(constraint: 'getToken')
+            ->willReturn(value: null);
+
+        $this->expectException(exception: AuthorizationRequiredException::class);
+
+        $authorizationTokenStorage->getTokenExpiresAt();
+    }
 }
