@@ -44,7 +44,6 @@ final class CreateNewAccountController extends AbstractController
                     property: 'locale',
                     type: 'string',
                     example: LocaleCode::EnUs,
-                    default: LocaleCode::EnUs,
                     enum: LocaleCode::class,
                 ),
             ],
