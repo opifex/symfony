@@ -36,16 +36,16 @@ final class GetAccountsByCriteriaController extends AbstractController
         example: AccountStatus::Activated,
     )]
     #[OA\QueryParameter(
-        name: 'limit',
-        description: 'Result items limit',
-        schema: new OA\Schema(type: 'integer'),
-        example: 10,
+        name: 'page',
+        description: 'Result page number',
+        schema: new OA\Schema(type: 'integer', default: 1, minimum: 1),
+        example: 1,
     )]
     #[OA\QueryParameter(
-        name: 'offset',
-        description: 'Result items offset',
-        schema: new OA\Schema(type: 'integer'),
-        example: 0,
+        name: 'limit',
+        description: 'Result items limit',
+        schema: new OA\Schema(type: 'integer', default: 10, maximum: 100, minimum: 1),
+        example: 10,
     )]
     #[OA\Response(
         response: Response::HTTP_OK,

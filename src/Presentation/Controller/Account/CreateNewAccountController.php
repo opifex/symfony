@@ -59,6 +59,7 @@ final class CreateNewAccountController extends AbstractController
                 new OA\Property(
                     property: 'id',
                     type: 'string',
+                    format: 'uuid',
                     example: '00000000-0000-6000-8000-000000000000',
                 ),
             ],
