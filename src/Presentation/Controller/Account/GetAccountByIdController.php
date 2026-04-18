@@ -68,11 +68,13 @@ final class GetAccountByIdController extends AbstractController
                 new OA\Property(
                     property: 'created_at',
                     type: 'string',
+                    format: 'date-time',
                     example: '2025-01-01T12:00:00+00:00',
                 ),
                 new OA\Property(
                     property: 'updated_at',
                     type: 'string',
+                    format: 'date-time',
                     example: '2025-01-01T12:00:00+00:00',
                 ),
             ],

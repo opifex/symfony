@@ -26,6 +26,7 @@ final class GetAccountsByCriteriaController extends AbstractController
     #[OA\QueryParameter(
         name: 'email',
         description: 'Account email address',
+        schema: new OA\Schema(type: 'string', format: 'email'),
         example: 'admin@example.com',
     )]
     #[OA\QueryParameter(
@@ -37,11 +38,13 @@ final class GetAccountsByCriteriaController extends AbstractController
     #[OA\QueryParameter(
         name: 'limit',
         description: 'Result items limit',
+        schema: new OA\Schema(type: 'integer'),
         example: 10,
     )]
     #[OA\QueryParameter(
         name: 'offset',
         description: 'Result items offset',
+        schema: new OA\Schema(type: 'integer'),
         example: 0,
     )]
     #[OA\Response(
@@ -110,11 +113,13 @@ final class GetAccountsByCriteriaController extends AbstractController
                             new OA\Property(
                                 property: 'created_at',
                                 type: 'string',
+                                format: 'date-time',
                                 example: '2025-01-01T12:00:00+00:00',
                             ),
                             new OA\Property(
                                 property: 'updated_at',
                                 type: 'string',
+                                format: 'date-time',
                                 example: '2025-01-01T12:00:00+00:00',
                             ),
                         ],
