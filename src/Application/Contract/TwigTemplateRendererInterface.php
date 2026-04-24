@@ -7,7 +7,7 @@ namespace App\Application\Contract;
 interface TwigTemplateRendererInterface
 {
     /**
-     * @param array<string, mixed> $context
+     * @param array<array-key, mixed> $context
      */
     public function render(string $name, array $context = []): string;
 }

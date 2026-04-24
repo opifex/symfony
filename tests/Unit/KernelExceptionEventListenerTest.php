@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
-use App\Application\Contract\PrivacyDataProtectorInterface;
 use App\Infrastructure\HttpKernel\EventListener\KernelExceptionEventListener;
 use LogicException;
 use Override;
@@ -30,7 +29,6 @@ final class KernelExceptionEventListenerTest extends TestCase
         $this->kernel = $this->createMock(type: KernelInterface::class);
         $this->logger = $this->createMock(type: LoggerInterface::class);
         $this->normalizer = $this->createMock(type: NormalizerInterface::class);
-        $this->privacyDataProtector = $this->createMock(type: PrivacyDataProtectorInterface::class);
     }
 
     /**
@@ -46,7 +44,7 @@ final class KernelExceptionEventListenerTest extends TestCase
             e: new LogicException(),
         );
 
-        new KernelExceptionEventListener($this->logger, $this->normalizer, $this->privacyDataProtector)($event);
+        new KernelExceptionEventListener($this->logger, $this->normalizer)($event);
 
         $this->expectNotToPerformAssertions();
     }

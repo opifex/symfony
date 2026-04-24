@@ -24,7 +24,7 @@ final readonly class HttpbinResponseProvider implements HttpbinResponseProviderI
     public function getJson(): array
     {
         try {
-            /** @var array<string, mixed> */
+            /** @var array<array-key, mixed> */
             return $this->httpClient->withOptions([
                 'base_uri' => $this->apiUrl,
                 'headers' => [

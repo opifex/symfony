@@ -7,7 +7,7 @@ namespace App\Application\Contract;
 interface HttpbinResponseProviderInterface
 {
     /**
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
      */
     public function getJson(): array;
 }

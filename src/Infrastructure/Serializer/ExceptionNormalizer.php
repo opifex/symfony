@@ -23,7 +23,7 @@ final readonly class ExceptionNormalizer implements NormalizerInterface
 
     /**
      * @param array<array-key, mixed> $context
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
      */
     #[Override]
     public function normalize(mixed $data, ?string $format = null, array $context = []): array

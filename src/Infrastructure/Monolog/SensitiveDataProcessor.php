@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Infrastructure\Monolog;
 
-use App\Application\Contract\PrivacyDataProtectorInterface;
-use Override;
+use Monolog\Attribute\AsMonologProcessor;
+use Monolog\LogRecord;
 
-final readonly class RequestPrivacyDataProtector implements PrivacyDataProtectorInterface
+#[AsMonologProcessor]
+final readonly class SensitiveDataProcessor
 {
     /** @var array<string, string> */
     private const array PATTERNS = [
@@ -15,14 +16,22 @@ final readonly class RequestPrivacyDataProtector implements PrivacyDataProtector
         'password' => '/./u',
     ];
 
-    #[Override]
-    public function protect(array $data): array
+    public function __invoke(LogRecord $record): LogRecord
+    {
+        return $record->with(context: $this->protect($record->context));
+    }
+
+    /**
+     * @param array<array-key, mixed> $data
+     * @return array<array-key, mixed>
+     */
+    private function protect(array $data): array
     {
         foreach ($data as $key => $value) {
             if (is_string($value) && array_key_exists($key, array: self::PATTERNS)) {
                 $data[$key] = preg_replace(self::PATTERNS[$key], replacement: '*', subject: $value);
             } elseif (is_array($value)) {
-                /** @var array<string, mixed> $value */
+                /** @var array<array-key, mixed> $value */
                 $data[$key] = $this->protect($value);
             }
         }

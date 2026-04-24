@@ -14,8 +14,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final readonly class RequestNormalizer implements NormalizerInterface
 {
     /**
-     * @param array<int|string, mixed> $context
-     * @return array<int|string, mixed>
+     * @param array<array-key, mixed> $context
+     * @return array<array-key, mixed>
      */
     #[Override]
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
@@ -46,11 +46,11 @@ final readonly class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
      */
     private function extractParams(Request $request): array
     {
-        /** @var array<string, mixed> */
+        /** @var array<array-key, mixed> */
         return array_merge_recursive(
             (array) $this->transformTypes($request->query->all()),
             (array) $this->transformTypes($request->attributes->all(key: '_route_params')),
@@ -60,12 +60,12 @@ final readonly class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
      */
     private function parseContent(Request $request): array
     {
         try {
-            /** @var array<string, mixed> */
+            /** @var array<array-key, mixed> */
             return $request->toArray();
         } catch (JsonException) {
             return [];
@@ -73,8 +73,8 @@ final readonly class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array<string, mixed> $params
-     * @return array<string, mixed>
+     * @param array<array-key, mixed> $params
+     * @return array<array-key, mixed>
      */
     private function filterParams(array $params): array
     {
@@ -103,8 +103,8 @@ final readonly class RequestNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param array<int|string, mixed> $files
-     * @return array<int|string, mixed>
+     * @param array<array-key, mixed> $files
+     * @return array<array-key, mixed>
      */
     private function transformFiles(array $files): array
     {

@@ -5,22 +5,32 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
-use App\Application\Service\RequestPrivacyDataProtector;
+use App\Infrastructure\Monolog\SensitiveDataProcessor;
+use DateTimeImmutable;
+use Monolog\Level;
+use Monolog\LogRecord;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[AllowDynamicProperties]
 #[AllowMockObjectsWithoutExpectations]
-final class RequestPrivacyDataProtectorTest extends TestCase
+final class SensitiveDataProcessorTest extends TestCase
 {
     #[DataProvider(methodName: 'requestDataProvider')]
-    public function testProtectRequestData(array $data, array $expected): void
+    public function testProtectLogRecordContext(array $data, array $expected): void
     {
-        $requestPrivacyDataProtector = new RequestPrivacyDataProtector();
-        $protectedMessage = $requestPrivacyDataProtector->protect($data);
+        $processed = new SensitiveDataProcessor()(
+            new LogRecord(
+                datetime: new DateTimeImmutable(),
+                channel: 'test',
+                level: Level::Info,
+                message: 'test',
+                context: $data,
+            ),
+        );
 
-        self::assertSame($expected, $protectedMessage);
+        self::assertSame($expected, $processed->context);
     }
 
     public static function requestDataProvider(): iterable

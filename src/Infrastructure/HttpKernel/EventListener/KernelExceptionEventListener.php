@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\HttpKernel\EventListener;
 
-use App\Application\Contract\PrivacyDataProtectorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use ReflectionClass;
@@ -25,7 +24,6 @@ final readonly class KernelExceptionEventListener
     public function __construct(
         private LoggerInterface $logger,
         private NormalizerInterface $normalizer,
-        private PrivacyDataProtectorInterface $privacyDataProtector,
     ) {
     }
 
@@ -41,8 +39,6 @@ final readonly class KernelExceptionEventListener
             $throwable = $throwable->getPrevious() ?? $throwable;
         }
 
-        /** @var array<string, mixed> $request */
-        $request = (array) $this->normalizer->normalize($event->getRequest());
         $exception = (array) $this->normalizer->normalize($throwable);
         $exceptionClass = new ReflectionClass($throwable);
         $httpStatus = ($exceptionClass->getAttributes(name: WithHttpStatus::class)[0] ?? null)?->newInstance();
@@ -60,7 +56,7 @@ final readonly class KernelExceptionEventListener
             context: array_filter(
                 array: [
                     'route' => $event->getRequest()->attributes->get(key: '_route'),
-                    'request' => $this->privacyDataProtector->protect($request),
+                    'request' => $this->normalizer->normalize($event->getRequest()),
                     'exception' => $exception,
                 ],
                 callback: static fn(mixed $value): bool => $value !== '' && $value !== [],
