@@ -21,7 +21,7 @@ final class AccountEntity
         #[ORM\Column(name: 'email', type: Types::STRING, options: ['length' => 320])]
         public string $email = '',
 
-        #[ORM\Column(name: 'password', type: Types::STRING, options: ['length' => 60])]
+        #[ORM\Column(name: 'password', type: Types::STRING, options: ['length' => 128])]
         public string $password = '',
 
         #[ORM\Column(name: 'locale', type: Types::STRING, options: ['length' => 5])]

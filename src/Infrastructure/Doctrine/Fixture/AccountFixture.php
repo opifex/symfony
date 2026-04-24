@@ -22,7 +22,7 @@ final class AccountFixture extends Fixture implements FixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Faker::create();
-        $passwordHasher = new NativePasswordHasher();
+        $passwordHasher = new NativePasswordHasher(algorithm: 'argon2id');
         $passwordHash = $passwordHasher->hash(plainPassword: 'password4#account');
 
         $accountAdmin = new AccountEntity(
