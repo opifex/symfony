@@ -6,9 +6,6 @@ framework:
       cache.doctrine:
         default_lifetime: 60
         adapters: [ cache.adapter.redis, cache.adapter.array ]
-      cache.storage:
-        default_lifetime: 60
-        adapters: [ cache.adapter.redis, cache.adapter.array ]
       cache.rate_limiter:
         default_lifetime: 60
         adapters: [ cache.adapter.redis, cache.adapter.array ]
@@ -20,8 +17,6 @@ when@test:
     cache:
       pools:
         cache.doctrine:
-          adapters: [ cache.adapter.array ]
-        cache.storage:
           adapters: [ cache.adapter.array ]
         cache.rate_limiter:
           adapters: [ cache.adapter.array ]
