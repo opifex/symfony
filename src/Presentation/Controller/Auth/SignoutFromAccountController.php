@@ -24,7 +24,7 @@ final class SignoutFromAccountController extends AbstractController
         response: Response::HTTP_NO_CONTENT,
         description: 'No Content',
     )]
-    #[IsGranted(attribute: 'ROLE_USER')]
+    #[IsGranted(attribute: 'IS_AUTHENTICATED_FULLY')]
     #[Route(path: '/auth/signout', name: 'app_signout_from_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SignoutFromAccountCommand $command): Response
     {

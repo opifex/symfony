@@ -10,6 +10,7 @@ use DateTimeImmutable;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 final readonly class AuthorizationTokenStorage implements AuthorizationTokenStorageInterface
 {
@@ -24,7 +25,7 @@ final readonly class AuthorizationTokenStorage implements AuthorizationTokenStor
         $user = $this->tokenStorage->getToken()?->getUser();
 
         if (!$user instanceof TokenAuthenticatedUser) {
-            throw AuthorizationRequiredException::create();
+            throw new AuthenticationException();
         }
 
         return $user->getTokenIdentifier();
@@ -36,7 +37,7 @@ final readonly class AuthorizationTokenStorage implements AuthorizationTokenStor
         $user = $this->tokenStorage->getToken()?->getUser();
 
         if (!$user instanceof TokenAuthenticatedUser) {
-            throw AuthorizationRequiredException::create();
+            throw new AuthenticationException();
         }
 
         return $user->getTokenExpiresAt();
@@ -48,7 +49,7 @@ final readonly class AuthorizationTokenStorage implements AuthorizationTokenStor
         $user = $this->tokenStorage->getToken();
 
         if (!$user instanceof TokenInterface) {
-            throw AuthorizationRequiredException::create();
+            throw new AuthenticationException();
         }
 
         return $user->getUserIdentifier();

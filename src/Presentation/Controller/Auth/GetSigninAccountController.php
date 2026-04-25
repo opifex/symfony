@@ -76,7 +76,7 @@ final class GetSigninAccountController extends AbstractController
             type: 'object',
         ),
     )]
-    #[IsGranted(attribute: 'ROLE_USER')]
+    #[IsGranted(attribute: 'IS_AUTHENTICATED_FULLY')]
     #[Route(path: '/auth/me', name: 'app_get_signin_account', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetSigninAccountQuery $query): Response
     {

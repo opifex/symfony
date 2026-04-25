@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
-use App\Infrastructure\Security\TokenStorage\AuthorizationRequiredException;
 use App\Infrastructure\Security\TokenStorage\AuthorizationTokenStorage;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 #[AllowDynamicProperties]
 #[AllowMockObjectsWithoutExpectations]
@@ -33,7 +33,7 @@ final class AuthorizationTokenStorageTest extends TestCase
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
 
-        $this->expectException(exception: AuthorizationRequiredException::class);
+        $this->expectException(exception: AuthenticationException::class);
 
         $authorizationTokenStorage->getUserIdentifier();
     }
@@ -49,7 +49,7 @@ final class AuthorizationTokenStorageTest extends TestCase
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
 
-        $this->expectException(exception: AuthorizationRequiredException::class);
+        $this->expectException(exception: AuthenticationException::class);
 
         $authorizationTokenStorage->getTokenIdentifier();
     }
@@ -65,7 +65,7 @@ final class AuthorizationTokenStorageTest extends TestCase
             ->method(constraint: 'getToken')
             ->willReturn(value: null);
 
-        $this->expectException(exception: AuthorizationRequiredException::class);
+        $this->expectException(exception: AuthenticationException::class);
 
         $authorizationTokenStorage->getTokenExpiresAt();
     }
