@@ -11,12 +11,14 @@ use App\Domain\Account\Contract\AccountStateMachineInterface;
 use App\Domain\Account\Exception\AccountInvalidActionException;
 use NoDiscard;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 final readonly class AccountStateMachine implements AccountStateMachineInterface
 {
     public function __construct(
-        private WorkflowInterface $accountStateMachine,
+        #[Autowire(service: 'state_machine.account')]
+        private WorkflowInterface $workflow,
     ) {
     }
 
@@ -52,11 +54,11 @@ final readonly class AccountStateMachine implements AccountStateMachineInterface
     {
         $marking = new AccountMarking($account->status->toString());
 
-        if (!$this->accountStateMachine->can($marking, $action->toString())) {
+        if (!$this->workflow->can($marking, $action->toString())) {
             throw AccountInvalidActionException::create();
         }
 
-        $this->accountStateMachine->apply($marking, $action->toString());
+        $this->workflow->apply($marking, $action->toString());
 
         return $account->withStatus(AccountStatus::fromString($marking->marking));
     }

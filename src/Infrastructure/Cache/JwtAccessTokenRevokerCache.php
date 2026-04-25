@@ -16,7 +16,7 @@ final readonly class JwtAccessTokenRevokerCache implements JwtAccessTokenRevoker
 {
     public function __construct(
         #[Autowire(service: 'cache.token_revocation')]
-        private CacheItemPoolInterface $cache,
+        private CacheItemPoolInterface $cacheItemPool,
         private ClockInterface $clock,
     ) {
     }
@@ -33,11 +33,11 @@ final readonly class JwtAccessTokenRevokerCache implements JwtAccessTokenRevoker
             return;
         }
 
-        $cacheItem = $this->cache->getItem($tokenIdentifier);
+        $cacheItem = $this->cacheItemPool->getItem($tokenIdentifier);
         $cacheItem->set(value: true);
         $cacheItem->expiresAfter($ttl);
 
-        $this->cache->save($cacheItem);
+        $this->cacheItemPool->save($cacheItem);
     }
 
     /**
@@ -46,6 +46,6 @@ final readonly class JwtAccessTokenRevokerCache implements JwtAccessTokenRevoker
     #[Override]
     public function isRevoked(string $tokenIdentifier): bool
     {
-        return $this->cache->hasItem($tokenIdentifier);
+        return $this->cacheItemPool->hasItem($tokenIdentifier);
     }
 }

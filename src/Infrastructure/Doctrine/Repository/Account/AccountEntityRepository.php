@@ -17,12 +17,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Traversable;
 
 final readonly class AccountEntityRepository implements AccountEntityRepositoryInterface
 {
     public function __construct(
-        private EntityManagerInterface $defaultEntityManager,
+        #[Autowire(service: 'doctrine.orm.default_entity_manager')]
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -36,7 +38,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         ?int $pageNumber = null,
         ?int $pageSize = null,
     ): SearchResult {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder = $this->entityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->isNull(x: 'account.deletedAt'));
 
@@ -62,7 +64,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $iterator = $paginator->getIterator();
 
         foreach ($iterator as $accountEntity) {
-            $this->defaultEntityManager->detach($accountEntity);
+            $this->entityManager->detach($accountEntity);
         }
 
         return new SearchResult(
@@ -76,7 +78,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     #[Override]
     public function findOneById(AccountIdentifier $id): Account
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder = $this->entityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
         $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
@@ -87,7 +89,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
             throw AccountNotFoundException::create();
         }
 
-        $this->defaultEntityManager->detach($accountEntity);
+        $this->entityManager->detach($accountEntity);
 
         return AccountEntityMapper::map($accountEntity);
     }
@@ -95,7 +97,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     #[Override]
     public function findOneByEmail(EmailAddress $email): Account
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder = $this->entityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
         $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
@@ -106,7 +108,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
             throw AccountNotFoundException::create();
         }
 
-        $this->defaultEntityManager->detach($accountEntity);
+        $this->entityManager->detach($accountEntity);
 
         return AccountEntityMapper::map($accountEntity);
     }
@@ -114,7 +116,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     #[Override]
     public function ensureEmailIsAvailable(EmailAddress $email): void
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder = $this->entityManager->createQueryBuilder();
         $builder->select(['1'])->from(from: AccountEntity::class, alias: 'account');
         $builder->where($builder->expr()->eq(x: 'account.email', y: ':email'));
         $builder->andWhere($builder->expr()->isNull(x: 'account.deletedAt'));
@@ -129,7 +131,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     #[Override]
     public function delete(Account $account): void
     {
-        $builder = $this->defaultEntityManager->createQueryBuilder();
+        $builder = $this->entityManager->createQueryBuilder();
         $builder->update(update: AccountEntity::class, alias: 'account');
         $builder->set(key: 'account.deletedAt', value: ':now');
         $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
@@ -141,7 +143,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     #[Override]
     public function save(Account $account): Account
     {
-        $accountRepository = $this->defaultEntityManager->getRepository(AccountEntity::class);
+        $accountRepository = $this->entityManager->getRepository(AccountEntity::class);
         $accountEntity = $accountRepository->findOneBy(criteria: ['id' => $account->id->toString()]);
 
         if ($accountEntity === null) {
@@ -157,9 +159,9 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $accountEntity->status = $account->status->toString();
         $accountEntity->updatedAt = $account->updatedAt->toImmutable();
 
-        $this->defaultEntityManager->persist($accountEntity);
-        $this->defaultEntityManager->flush();
-        $this->defaultEntityManager->detach($accountEntity);
+        $this->entityManager->persist($accountEntity);
+        $this->entityManager->flush();
+        $this->entityManager->detach($accountEntity);
 
         return AccountEntityMapper::map($accountEntity);
     }

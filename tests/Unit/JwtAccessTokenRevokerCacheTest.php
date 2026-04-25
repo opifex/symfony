@@ -32,7 +32,7 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
      */
     public function testRevokeStoresTokenWithTtl(): void
     {
-        $revocation = new JwtAccessTokenRevokerCache(cache: $this->cache, clock: $this->clock);
+        $revocation = new JwtAccessTokenRevokerCache($this->cache, $this->clock);
 
         $this->cache
             ->expects($this->once())
@@ -59,7 +59,7 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
 
         $revocation->revoke(
             tokenIdentifier: 'abc-jti-123',
-            expiresAt: new DateTimeImmutable('2026-01-01T01:00:00+00:00'),
+            expiresAt: new DateTimeImmutable(datetime: '2026-01-01T01:00:00+00:00'),
         );
     }
 
@@ -68,7 +68,7 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
      */
     public function testRevokeIsNoOpWhenTokenAlreadyExpired(): void
     {
-        $revocation = new JwtAccessTokenRevokerCache(cache: $this->cache, clock: $this->clock);
+        $revocation = new JwtAccessTokenRevokerCache($this->cache, $this->clock);
 
         $this->cache
             ->expects($this->never())
@@ -76,7 +76,7 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
 
         $revocation->revoke(
             tokenIdentifier: 'abc-jti-123',
-            expiresAt: new DateTimeImmutable('2025-12-31T23:59:59+00:00'),
+            expiresAt: new DateTimeImmutable(datetime: '2025-12-31T23:59:59+00:00'),
         );
     }
 
@@ -85,7 +85,7 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
      */
     public function testIsRevokedReturnsTrueWhenItemExists(): void
     {
-        $revocation = new JwtAccessTokenRevokerCache(cache: $this->cache, clock: $this->clock);
+        $revocation = new JwtAccessTokenRevokerCache($this->cache, $this->clock);
 
         $this->cache
             ->expects($this->once())
@@ -101,7 +101,7 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
      */
     public function testIsRevokedReturnsFalseWhenItemDoesNotExist(): void
     {
-        $revocation = new JwtAccessTokenRevokerCache(cache: $this->cache, clock: $this->clock);
+        $revocation = new JwtAccessTokenRevokerCache($this->cache, $this->clock);
 
         $this->cache
             ->expects($this->once())
