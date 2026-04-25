@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security\Authenticator;
 
-use App\Infrastructure\Security\Exception\AuthorizationThrottlingException;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Security\TokenStorage;
 
 use App\Application\Contract\AuthorizationTokenStorageInterface;
-use App\Application\Exception\AuthorizationRequiredException;
 use App\Infrastructure\Security\AuthenticatedUser\TokenAuthenticatedUser;
 use DateTimeImmutable;
 use Override;

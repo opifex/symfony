@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
+use App\Infrastructure\Security\Authenticator\AuthorizationThrottlingException;
 use App\Infrastructure\Security\Authenticator\JsonLoginAuthenticator;
-use App\Infrastructure\Security\Exception\AuthorizationThrottlingException;
 use JsonException;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;

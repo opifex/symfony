@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Security\Exception;
+namespace App\Infrastructure\Security\Authenticator;
 
 use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;

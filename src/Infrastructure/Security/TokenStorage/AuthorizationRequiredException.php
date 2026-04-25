@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Exception;
+namespace App\Infrastructure\Security\TokenStorage;
 
 use RuntimeException;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
