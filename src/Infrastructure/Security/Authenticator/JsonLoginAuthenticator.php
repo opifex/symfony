@@ -8,6 +8,7 @@ use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -47,7 +48,7 @@ final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorI
         $key = sha1($request->getPayload()->getString(key: 'email'));
 
         if (!$this->rateLimiterFactory->create($key)->consume()->isAccepted()) {
-            throw AuthorizationThrottlingException::create();
+            throw new TooManyRequestsHttpException(message: 'Too many requests detected, please try again later.');
         }
 
         return null;

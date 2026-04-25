@@ -25,7 +25,7 @@ final readonly class AuthorizationTokenStorage implements AuthorizationTokenStor
         $user = $this->tokenStorage->getToken()?->getUser();
 
         if (!$user instanceof TokenAuthenticatedUser) {
-            throw new AuthenticationException();
+            throw new AuthenticationException(message: 'Unable to retrieve token identifier.');
         }
 
         return $user->getTokenIdentifier();
@@ -37,7 +37,7 @@ final readonly class AuthorizationTokenStorage implements AuthorizationTokenStor
         $user = $this->tokenStorage->getToken()?->getUser();
 
         if (!$user instanceof TokenAuthenticatedUser) {
-            throw new AuthenticationException();
+            throw new AuthenticationException(message: 'Unable to retrieve token expiry.');
         }
 
         return $user->getTokenExpiresAt();
@@ -49,7 +49,7 @@ final readonly class AuthorizationTokenStorage implements AuthorizationTokenStor
         $user = $this->tokenStorage->getToken();
 
         if (!$user instanceof TokenInterface) {
-            throw new AuthenticationException();
+            throw new AuthenticationException(message: 'Invalid authorization credentials provided.');
         }
 
         return $user->getUserIdentifier();

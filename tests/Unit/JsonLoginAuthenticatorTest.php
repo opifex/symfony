@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
-use App\Infrastructure\Security\Authenticator\AuthorizationThrottlingException;
 use App\Infrastructure\Security\Authenticator\JsonLoginAuthenticator;
 use JsonException;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\RateLimit;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
@@ -54,7 +54,7 @@ final class JsonLoginAuthenticatorTest extends TestCase
                 ),
             );
 
-        $this->expectException(exception: AuthorizationThrottlingException::class);
+        $this->expectException(exception: TooManyRequestsHttpException::class);
 
         $authenticator->onAuthenticationFailure($request, new AuthenticationException());
     }
