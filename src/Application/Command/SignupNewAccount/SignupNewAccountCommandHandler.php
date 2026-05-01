@@ -10,7 +10,6 @@ use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
-use App\Domain\Account\Contract\AccountStateMachineInterface;
 use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Localization\LocaleCode;
@@ -22,7 +21,6 @@ final readonly class SignupNewAccountCommandHandler
     public function __construct(
         private AccountEntityRepositoryInterface $accountEntityRepository,
         private AccountPasswordHasherInterface $accountPasswordHasher,
-        private AccountStateMachineInterface $accountStateMachine,
         private EventMessageBusInterface $eventMessageBus,
         private UuidIdentityGeneratorInterface $uuidIdentityGenerator,
     ) {
@@ -39,10 +37,8 @@ final readonly class SignupNewAccountCommandHandler
         $accountPassword = $this->accountPasswordHasher->hash($command->password);
 
         $account = Account::create($accountId, $accountEmail, $accountPassword);
-        $account = $account->withLocale($accountLocale)
-                |> $this->accountStateMachine->register(...)
-                |> $this->accountStateMachine->activate(...)
-                |> $this->accountEntityRepository->save(...);
+        $account = $account->withLocale($accountLocale)->register()->activate()
+            |> $this->accountEntityRepository->save(...);
 
         $accountRegisteredEvent = AccountRegisteredEvent::create($account);
         $this->eventMessageBus->publish($accountRegisteredEvent);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
+use App\Domain\Account\Exception\AccountInvalidActionException;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\PasswordHash;
@@ -46,24 +47,79 @@ final readonly class Account
     #[NoDiscard]
     public function withEmail(EmailAddress $email): self
     {
-        return clone($this, ['email' => $email, 'updatedAt' => DateTimeUtc::now()]);
+        return clone($this, [
+            'email' => $email,
+            'updatedAt' => DateTimeUtc::now(),
+        ]);
     }
 
     #[NoDiscard]
     public function withPassword(PasswordHash $hashedPassword): self
     {
-        return clone($this, ['password' => $hashedPassword, 'updatedAt' => DateTimeUtc::now()]);
+        return clone($this, [
+            'password' => $hashedPassword,
+            'updatedAt' => DateTimeUtc::now(),
+        ]);
     }
 
     #[NoDiscard]
     public function withLocale(LocaleCode $locale): self
     {
-        return clone($this, ['locale' => $locale, 'updatedAt' => DateTimeUtc::now()]);
+        return clone($this, [
+            'locale' => $locale,
+            'updatedAt' => DateTimeUtc::now(),
+        ]);
     }
 
     #[NoDiscard]
-    public function withStatus(AccountStatus $status): self
+    public function register(): self
     {
-        return clone($this, ['status' => $status, 'updatedAt' => DateTimeUtc::now()]);
+        if ($this->status !== AccountStatus::Created) {
+            throw AccountInvalidActionException::create();
+        }
+
+        return clone($this, [
+            'status' => AccountStatus::Registered,
+            'updatedAt' => DateTimeUtc::now(),
+        ]);
+    }
+
+    #[NoDiscard]
+    public function activate(): self
+    {
+        if ($this->status !== AccountStatus::Registered) {
+            throw AccountInvalidActionException::create();
+        }
+
+        return clone($this, [
+            'status' => AccountStatus::Activated,
+            'updatedAt' => DateTimeUtc::now(),
+        ]);
+    }
+
+    #[NoDiscard]
+    public function block(): self
+    {
+        if ($this->status !== AccountStatus::Activated) {
+            throw AccountInvalidActionException::create();
+        }
+
+        return clone($this, [
+            'status' => AccountStatus::Blocked,
+            'updatedAt' => DateTimeUtc::now(),
+        ]);
+    }
+
+    #[NoDiscard]
+    public function unblock(): self
+    {
+        if ($this->status !== AccountStatus::Blocked) {
+            throw AccountInvalidActionException::create();
+        }
+
+        return clone($this, [
+            'status' => AccountStatus::Activated,
+            'updatedAt' => DateTimeUtc::now(),
+        ]);
     }
 }

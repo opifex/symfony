@@ -6,7 +6,6 @@ namespace App\Application\Command\BlockAccountById;
 
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
-use App\Domain\Account\Contract\AccountStateMachineInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -14,7 +13,6 @@ final readonly class BlockAccountByIdCommandHandler
 {
     public function __construct(
         private AccountEntityRepositoryInterface $accountEntityRepository,
-        private AccountStateMachineInterface $accountStateMachine,
     ) {
     }
 
@@ -22,8 +20,7 @@ final readonly class BlockAccountByIdCommandHandler
     {
         $accountId = AccountIdentifier::fromString($command->id);
 
-        $this->accountEntityRepository->findOneById($accountId)
-            |> $this->accountStateMachine->block(...)
+        $this->accountEntityRepository->findOneById($accountId)->block()
             |> $this->accountEntityRepository->save(...);
 
         return BlockAccountByIdCommandResult::success();
