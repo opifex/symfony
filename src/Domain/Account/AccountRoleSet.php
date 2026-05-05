@@ -14,6 +14,11 @@ final readonly class AccountRoleSet
     ) {
     }
 
+    public static function fromRoles(AccountRole ...$roles): self
+    {
+        return new self(array_values(array_column($roles, column_key: null, index_key: 'value')));
+    }
+
     public static function fromStrings(string ...$roles): self
     {
         return new self(array_map([AccountRole::class, 'fromString'], array_unique($roles)));

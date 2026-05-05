@@ -45,7 +45,7 @@ final class DatabaseUserProviderTest extends TestCase
             email: EmailAddress::fromString(email: 'email@example.com'),
             password: PasswordHash::fromString($passwordHash),
             locale: LocaleCode::EnUs,
-            roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
+            roles: AccountRoleSet::fromRoles(roles: AccountRole::User),
             status: AccountStatus::Created,
             createdAt: DateTimeUtc::now(),
             updatedAt: DateTimeUtc::now(),

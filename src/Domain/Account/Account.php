@@ -36,7 +36,7 @@ final readonly class Account
             email: $email,
             password: $password,
             locale: $locale,
-            roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
+            roles: AccountRoleSet::fromRoles(roles: AccountRole::User),
             status: AccountStatus::Created,
             createdAt: DateTimeUtc::now(),
             updatedAt: DateTimeUtc::now(),
