@@ -19,7 +19,7 @@ final class PayPalWebhookWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testPaypalWebhookReceivesSuccessfully(): void
+    public function testWebhookAcceptsValidPayPalEvent(): void
     {
         $webhookToken = '01994d6c14cc7509a99b50232e3f126c';
         self::sendPostRequest(url: '/webhook/paypal?token=' . $webhookToken, params: [
@@ -29,7 +29,7 @@ final class PayPalWebhookWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_ACCEPTED);
     }
 
-    public function testTryToSendWebhookWithoutToken(): void
+    public function testWebhookReturnsUnauthorizedWithoutToken(): void
     {
         self::sendPostRequest(url: '/webhook/paypal', params: [
             'id' => '8PT597110X687430LKGECATA',
@@ -38,7 +38,7 @@ final class PayPalWebhookWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testTryToSendWebhookWithInvalidPayload(): void
+    public function testWebhookRejectsPayloadWithMissingEventType(): void
     {
         $webhookToken = '01994d6c14cc7509a99b50232e3f126c';
         self::sendPostRequest(url: '/webhook/paypal?token=' . $webhookToken, params: [

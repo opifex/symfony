@@ -25,7 +25,7 @@ final class UnblockAccountByIdWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAdminCanUnblockBlockedAccount(): void
+    public function testAdminUnblocksBlockedAccount(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -37,7 +37,7 @@ final class UnblockAccountByIdWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
     }
 
-    public function testTryToUnblockNonexistentAccount(): void
+    public function testUnblockNonexistentAccountReturnsNotFound(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -46,7 +46,7 @@ final class UnblockAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToUnblockNonBlockedAccount(): void
+    public function testUnblockNonBlockedAccountReturnsUnprocessableEntity(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -59,7 +59,7 @@ final class UnblockAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToUnblockBlockedAccountWithoutPermission(): void
+    public function testUnblockAccountReturnsForbiddenWithoutAdminRole(): void
     {
         self::loadFixtures([AccountActivatedJamesFixture::class, AccountBlockedHenryFixture::class]);
         self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');

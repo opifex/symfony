@@ -25,7 +25,7 @@ final class CorrelationIdEventListenerTest extends TestCase
         $this->httpKernel = $this->createMock(type: HttpKernelInterface::class);
     }
 
-    public function testOnResponseEventWithNotMainRequest(): void
+    public function testIgnoresSubRequestOnResponseEvent(): void
     {
         $correlationIdEventListener = new CorrelationIdEventListener(
             correlationIdProvider: new CorrelationIdProvider(),

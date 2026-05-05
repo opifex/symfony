@@ -31,7 +31,7 @@ final class CorrelationIdMiddlewareTest extends TestCase
     /**
      * @throws ExceptionInterface
      */
-    public function testHandleEnvelopeWithRequestIdStamp(): void
+    public function testForwardsCorrelationIdFromEnvelopeStamp(): void
     {
         $correlationIdMiddleware = new CorrelationIdMiddleware(new CorrelationIdProvider());
         $correlationIdStamp = new CorrelationIdStamp(correlationId: '00000000-0000-6000-8000-000000000000');

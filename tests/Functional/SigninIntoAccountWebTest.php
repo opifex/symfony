@@ -23,7 +23,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAdminCanSignin(): void
+    public function testSigninWithValidCredentialsReturnsAccessToken(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendPostRequest(url: '/api/auth/signin', params: [
@@ -34,7 +34,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
         self::assertResponseSchema();
     }
 
-    public function testTryToSigninWithNonactivatedUser(): void
+    public function testSigninWithNonActivatedAccountReturnsUnauthorized(): void
     {
         self::loadFixtures([AccountRegisteredOliviaFixture::class]);
         self::sendPostRequest(url: '/api/auth/signin', params: [
@@ -45,7 +45,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToSigninWithInvalidCredentials(): void
+    public function testSigninWithInvalidCredentialsReturnsUnauthorized(): void
     {
         self::sendPostRequest(url: '/api/auth/signin', params: [
             'email' => 'invalid@example.com',
@@ -55,7 +55,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToSigninWithExtraAttributes(): void
+    public function testSigninWithExtraAttributesReturnsUnprocessableEntity(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendPostRequest(url: '/api/auth/signin', params: [

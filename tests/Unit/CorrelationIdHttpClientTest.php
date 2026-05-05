@@ -28,7 +28,7 @@ final class CorrelationIdHttpClientTest extends TestCase
     /**
      * @throws TransportExceptionInterface
      */
-    public function testPassingRequestIdHeader(): void
+    public function testAddsCorrelationIdHeaderToRequest(): void
     {
         $correlationIdHttpClient = new CorrelationIdHttpClient(
             correlationIdProvider: new CorrelationIdProvider(),

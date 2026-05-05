@@ -28,7 +28,7 @@ final class LogsClearCommandTest extends TestCase
         $this->kernel = $this->createMock(type: KernelInterface::class);
     }
 
-    public function testExecuteWithSuccessResult(): void
+    public function testClearsLogFilesSuccessfully(): void
     {
         $command = new LogsClearCommand($this->filesystem, $this->kernel);
 
@@ -40,7 +40,7 @@ final class LogsClearCommandTest extends TestCase
         self::assertSame(expected: Command::SUCCESS, actual: $result);
     }
 
-    public function testExecuteWithUnableToRemoveFileResult(): void
+    public function testThrowsRuntimeExceptionWhenFileRemovalFails(): void
     {
         $command = new LogsClearCommand($this->filesystem, $this->kernel);
 

@@ -22,7 +22,7 @@ final class SignoutFromAccountWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAuthenticatedUserCanSignout(): void
+    public function testSignoutWithValidTokenReturnsNoContent(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -30,7 +30,7 @@ final class SignoutFromAccountWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
     }
 
-    public function testEnsureSignoutInvalidatesToken(): void
+    public function testSignoutInvalidatesJwtToken(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -40,7 +40,7 @@ final class SignoutFromAccountWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testSignoutRequiresAuthentication(): void
+    public function testSignoutWithoutTokenReturnsUnauthorized(): void
     {
         self::sendPostRequest(url: '/api/auth/signout');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);

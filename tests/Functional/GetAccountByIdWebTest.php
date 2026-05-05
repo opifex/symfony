@@ -24,7 +24,7 @@ final class GetAccountByIdWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAdminCanGetExistingAccount(): void
+    public function testAdminGetsExistingAccount(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -37,7 +37,7 @@ final class GetAccountByIdWebTest extends WebTestCase
         self::assertResponseSchema();
     }
 
-    public function testTryToGetNonexistentAccount(): void
+    public function testGetNonexistentAccountReturnsNotFound(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -46,7 +46,7 @@ final class GetAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToGetAccountWithoutPermission(): void
+    public function testGetAccountReturnsForbiddenWithoutAdminRole(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');

@@ -35,7 +35,7 @@ final class KernelExceptionEventListenerTest extends TestCase
      * @throws ExceptionInterface
      * @throws ReflectionException
      */
-    public function testInvokeWithLogicException(): void
+    public function testHandlesKernelExceptionEvent(): void
     {
         $event = new ExceptionEvent(
             kernel: $this->kernel,

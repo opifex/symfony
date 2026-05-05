@@ -24,7 +24,7 @@ final class SignupNewAccountWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureUserCanSignup(): void
+    public function testSignupWithValidEmailSendsConfirmation(): void
     {
         self::loadFixtures([AccountActivatedEmmaFixture::class]);
         self::sendPostRequest(url: '/api/auth/signup', params: [
@@ -36,7 +36,7 @@ final class SignupNewAccountWebTest extends WebTestCase
         self::assertEmailCount(count: 1);
     }
 
-    public function testTryToSignupWithInvalidCredentials(): void
+    public function testSignupWithInvalidEmailFormatReturnsUnprocessableEntity(): void
     {
         self::sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'example.com',
@@ -47,7 +47,7 @@ final class SignupNewAccountWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToSignupWithNonexistentCredentials(): void
+    public function testSignupWithAlreadyRegisteredEmailReturnsConflict(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendPostRequest(url: '/api/auth/signup', params: [
@@ -59,7 +59,7 @@ final class SignupNewAccountWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToSignupWithInvalidTypes(): void
+    public function testSignupWithInvalidFieldTypesReturnsUnprocessableEntity(): void
     {
         self::sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'example.com',

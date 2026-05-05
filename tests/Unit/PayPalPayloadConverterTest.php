@@ -25,7 +25,7 @@ final class PayPalPayloadConverterTest extends TestCase
     }
 
     #[DataProvider(methodName: 'eventTypeDataProvider')]
-    public function testConvertWithDifferentPayloads(string $eventType, string $expected): void
+    public function testConvertsPayPalEventTypeToPaymentStatus(string $eventType, string $expected): void
     {
         $id = '8PT597110X687430LKGECATA';
         $payPalPayloadConverter = new PayPalPayloadConverter($this->validator);

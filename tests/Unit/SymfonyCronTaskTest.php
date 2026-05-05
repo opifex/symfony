@@ -21,7 +21,7 @@ final class SymfonyCronTaskTest extends TestCase
         $this->logger = $this->createMock(type: LoggerInterface::class);
     }
 
-    public function testInvokeCronTask(): void
+    public function testInvokesCronTaskWithoutErrors(): void
     {
         new SymfonyCronTask($this->logger)();
 

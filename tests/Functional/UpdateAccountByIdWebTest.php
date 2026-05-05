@@ -25,7 +25,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAdminCanUpdateAccount(): void
+    public function testAdminUpdatesAccount(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -41,7 +41,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
     }
 
-    public function testTryToUpdateAccountWithoutPermission(): void
+    public function testUpdateAccountReturnsForbiddenWithoutAdminRole(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
@@ -58,7 +58,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToUpdateAccountWithExistedEmail(): void
+    public function testUpdateAccountWithExistingEmailReturnsConflict(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -75,7 +75,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToUpdateAccountWithInvalidId(): void
+    public function testUpdateNonexistentAccountReturnsNotFound(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');

@@ -30,7 +30,7 @@ final class SymfonyRunCommandTest extends TestCase
         $this->httpbinResponseProvider = $this->createMock(type: HttpbinResponseProviderInterface::class);
     }
 
-    public function testExecuteWithSuccessResult(): void
+    public function testExecutesCommandSuccessfully(): void
     {
         $command = new SymfonyRunCommand($this->clock, $this->httpbinResponseProvider);
         $httpbinResponse = $this->getResponseFromFile(file: 'HttpbinGetJsonResponse.json');

@@ -26,7 +26,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAdminCanBlockActivatedAccount(): void
+    public function testAdminBlocksActivatedAccount(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -38,7 +38,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
     }
 
-    public function testTryToBlockNonexistentAccount(): void
+    public function testBlockNonexistentAccountReturnsNotFound(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -47,7 +47,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToBlockAlreadyBlockedAccount(): void
+    public function testBlockAlreadyBlockedAccountReturnsUnprocessableEntity(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class, AccountBlockedHenryFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -60,7 +60,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToBlockAccountWithoutPermission(): void
+    public function testBlockAccountReturnsForbiddenWithoutAdminRole(): void
     {
         self::loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');

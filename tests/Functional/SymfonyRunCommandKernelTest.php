@@ -26,7 +26,7 @@ final class SymfonyRunCommandKernelTest extends KernelTestCase
         $this->command = $application->find(name: 'app:symfony:run');
     }
 
-    public function testEnsureConsoleCommandExecutesSuccessfully(): void
+    public function testConsoleCommandExecutesSuccessfully(): void
     {
         self::loadMockResponses([
             new HttpMockClientResponse(

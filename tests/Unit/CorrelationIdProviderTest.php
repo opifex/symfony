@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 #[AllowMockObjectsWithoutExpectations]
 final class CorrelationIdProviderTest extends TestCase
 {
-    public function testInMemoryStorage(): void
+    public function testStoresAndResetsCorrelationIdInMemory(): void
     {
         $correlationIdProvider = new CorrelationIdProvider();
 

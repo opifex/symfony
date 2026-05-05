@@ -26,7 +26,7 @@ final class RequestNormalizerTest extends TestCase
     }
 
     #[DataProvider(methodName: 'queryDataProvider')]
-    public function testNormalizeQueryWithDifferentData(mixed $value, mixed $expected): void
+    public function testNormalizesQueryParameterTypes(mixed $value, mixed $expected): void
     {
         $requestNormalizer = new RequestNormalizer();
         $request = new Request(query: ['value' => $value]);
@@ -37,7 +37,7 @@ final class RequestNormalizerTest extends TestCase
     }
 
     #[DataProvider(methodName: 'contentDataProvider')]
-    public function testNormalizeContentWithDifferentData(mixed $value, mixed $expected): void
+    public function testNormalizesJsonRequestContent(mixed $value, mixed $expected): void
     {
         $requestNormalizer = new RequestNormalizer();
         $request = new Request(content: json_encode(['value' => $value]));
@@ -111,7 +111,7 @@ final class RequestNormalizerTest extends TestCase
         self::assertSame(expected: 7, actual: $normalized['file'][0]['size']);
     }
 
-    public function testGetSupportedTypes(): void
+    public function testReturnsSupportedNormalizerTypes(): void
     {
         $requestNormalizer = new RequestNormalizer();
         $supportedTypes = $requestNormalizer->getSupportedTypes(format: null);
@@ -120,7 +120,7 @@ final class RequestNormalizerTest extends TestCase
         self::assertTrue($supportedTypes[Request::class]);
     }
 
-    public function testCheckSupportsNormalization(): void
+    public function testSupportsNormalizationForRequestOnly(): void
     {
         $requestNormalizer = new RequestNormalizer();
 
@@ -137,7 +137,7 @@ final class RequestNormalizerTest extends TestCase
         $requestNormalizer->normalize(new stdClass());
     }
 
-    public function testNormalizeWithInvalidRequest(): void
+    public function testReturnsEmptyArrayForInvalidJsonContent(): void
     {
         $requestNormalizer = new RequestNormalizer();
         $normalized = $requestNormalizer->normalize(new Request(content: 'invalid'));

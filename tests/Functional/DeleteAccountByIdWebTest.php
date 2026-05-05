@@ -25,7 +25,7 @@ final class DeleteAccountByIdWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAdminCanDeleteExistingAccount(): void
+    public function testAdminDeletesAccount(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -37,7 +37,7 @@ final class DeleteAccountByIdWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
     }
 
-    public function testTryToDeleteNonexistentAccount(): void
+    public function testDeleteNonexistentAccountReturnsNotFound(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -46,7 +46,7 @@ final class DeleteAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToDeleteAccountWithoutPermission(): void
+    public function testDeleteAccountReturnsForbiddenWithoutAdminRole(): void
     {
         self::loadFixtures([AccountActivatedEmmaFixture::class, AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'emma@example.com', password: 'password4#account');

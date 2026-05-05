@@ -14,7 +14,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 #[AllowMockObjectsWithoutExpectations]
 final class RequestParamTypeExceptionTest extends TestCase
 {
-    public function testCreateWithEmptyExpectedValue(): void
+    public function testCreatesEmptyViolationListForEmptyExpectedValue(): void
     {
         $exception = RequestParamTypeException::create(expected: null, path: null);
 

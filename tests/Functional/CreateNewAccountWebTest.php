@@ -24,7 +24,7 @@ final class CreateNewAccountWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAdminCanCreateAccount(): void
+    public function testAdminCreatesAccount(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -37,7 +37,7 @@ final class CreateNewAccountWebTest extends WebTestCase
         self::assertResponseSchema();
     }
 
-    public function testTryToCreateAccountWithExistingEmail(): void
+    public function testCreateAccountWithExistingEmailReturnsConflict(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -50,7 +50,7 @@ final class CreateNewAccountWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToCreateAccountWithoutPermission(): void
+    public function testCreateAccountReturnsForbiddenWithoutAdminRole(): void
     {
         self::loadFixtures([AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');

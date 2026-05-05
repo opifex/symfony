@@ -24,7 +24,7 @@ final class GetAccountsByCriteriaWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureAdminCanGetAccountsByCriteria(): void
+    public function testAdminGetsAccountsByCriteria(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -36,7 +36,7 @@ final class GetAccountsByCriteriaWebTest extends WebTestCase
         self::assertResponseSchema();
     }
 
-    public function testEryToGetAccountsByCriteriaWithoutPermission(): void
+    public function testGetAccountsByCriteriaReturnsForbiddenWithoutAdminRole(): void
     {
         self::loadFixtures([AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');

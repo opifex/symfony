@@ -22,7 +22,7 @@ final class GetSigninAccountWebTest extends WebTestCase
         self::loadHttpClient();
     }
 
-    public function testEnsureUserCanGetSigninAccountWithValidBearer(): void
+    public function testGetSigninAccountReturnsCurrentUser(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
@@ -31,21 +31,21 @@ final class GetSigninAccountWebTest extends WebTestCase
         self::assertResponseSchema();
     }
 
-    public function testTryToGetSigninAccountWithoutAuthorizationHeader(): void
+    public function testGetSigninAccountReturnsUnauthorizedWithoutHeader(): void
     {
         self::sendGetRequest(url: '/api/auth/me');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToGetSigninAccountWithInvalidAuthorizationHeader(): void
+    public function testGetSigninAccountReturnsUnauthorizedForInvalidHeader(): void
     {
         self::sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'invalid']);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
         self::assertErrorResponseSchema();
     }
 
-    public function testTryToGetSigninAccountWithInvalidBearerToken(): void
+    public function testGetSigninAccountReturnsUnauthorizedForInvalidToken(): void
     {
         self::sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'Bearer invalid']);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);

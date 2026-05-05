@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 final class SensitiveDataProcessorTest extends TestCase
 {
     #[DataProvider(methodName: 'requestDataProvider')]
-    public function testProtectLogRecordContext(array $data, array $expected): void
+    public function testMasksSensitiveFieldsInLogContext(array $data, array $expected): void
     {
         $processed = new SensitiveDataProcessor()(
             new LogRecord(

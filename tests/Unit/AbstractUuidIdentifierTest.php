@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 final class AbstractUuidIdentifierTest extends TestCase
 {
     #[DataProvider(methodName: 'validUuidProvider')]
-    public function testEnsureValidUuidIsAccepted(string $uuid): void
+    public function testValidUuidIsAccepted(string $uuid): void
     {
         $identifier = AccountIdentifier::fromString(uuid: $uuid);
 
@@ -24,7 +24,7 @@ final class AbstractUuidIdentifierTest extends TestCase
     }
 
     #[DataProvider(methodName: 'invalidUuidProvider')]
-    public function testTryToCreateIdentifierWithInvalidUuid(string $uuid): void
+    public function testInvalidUuidThrowsException(string $uuid): void
     {
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage(message: 'Invalid UUID identifier provided.');

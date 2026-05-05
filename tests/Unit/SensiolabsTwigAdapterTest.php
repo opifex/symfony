@@ -23,7 +23,7 @@ final class SensiolabsTwigAdapterTest extends TestCase
         $this->environment = $this->createMock(type: Environment::class);
     }
 
-    public function testRenderExistedTemplate(): void
+    public function testRendersExistingTemplate(): void
     {
         $sensiolabsTwigAdapter = new TwigTemplateRenderer($this->environment);
         $content = 'content';

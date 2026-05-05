@@ -18,7 +18,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 final class KennethreitzHttpbinAdapterTest extends TestCase
 {
     #[DataProvider(methodName: 'httpbinResponseProvider')]
-    public function testGetJsonReturnResponse(array $response): void
+    public function testGetJsonReturnsDecodedResponse(array $response): void
     {
         $apiUrl = 'https://api.example.com';
         $mockResponse = new MockResponse(json_encode($response));

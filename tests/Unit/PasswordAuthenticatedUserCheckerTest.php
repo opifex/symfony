@@ -25,7 +25,7 @@ final class PasswordAuthenticatedUserCheckerTest extends TestCase
         $this->user = $this->createMock(type: UserInterface::class);
     }
 
-    public function testCheckPostAuthWithBlockedAccount(): void
+    public function testThrowsLockedExceptionForBlockedAccount(): void
     {
         $accountUserChecker = new PasswordAuthenticatedUserChecker();
         $accountUser = new PasswordAuthenticatedUser(
@@ -40,7 +40,7 @@ final class PasswordAuthenticatedUserCheckerTest extends TestCase
         $accountUserChecker->checkPostAuth($accountUser);
     }
 
-    public function testCheckPostAuthWithNonAccountUser(): void
+    public function testSkipsCheckForNonPasswordAuthenticatedUser(): void
     {
         $accountUserChecker = new PasswordAuthenticatedUserChecker();
         $accountUserChecker->checkPostAuth($this->user);
@@ -48,7 +48,7 @@ final class PasswordAuthenticatedUserCheckerTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testCheckPostAuthWithVerifiedAccount(): void
+    public function testAllowsEnabledAccountToPassPostAuthCheck(): void
     {
         $accountUserChecker = new PasswordAuthenticatedUserChecker();
         $accountUser = new PasswordAuthenticatedUser(

@@ -24,7 +24,7 @@ final class SecurityHeadersEventListenerTest extends TestCase
         $this->httpKernel = $this->createMock(type: HttpKernelInterface::class);
     }
 
-    public function testOnResponseEventWithNotMainRequest(): void
+    public function testIgnoresSubRequestOnResponseEvent(): void
     {
         $securityHeadersEventListener = new SecurityHeadersEventListener();
 
