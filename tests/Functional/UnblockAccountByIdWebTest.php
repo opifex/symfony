@@ -46,6 +46,19 @@ final class UnblockAccountByIdWebTest extends WebTestCase
         self::assertErrorResponseSchema();
     }
 
+    public function testTryToUnblockNonBlockedAccount(): void
+    {
+        self::loadFixtures([AccountActivatedAdminFixture::class, AccountActivatedJamesFixture::class]);
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        $accountJames = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'james@example.com',
+        ]);
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
+        self::sendPostRequest(url: '/api/account/' . $accountJames->id . '/unblock');
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
+        self::assertErrorResponseSchema();
+    }
+
     public function testTryToUnblockBlockedAccountWithoutPermission(): void
     {
         self::loadFixtures([AccountActivatedJamesFixture::class, AccountBlockedHenryFixture::class]);
