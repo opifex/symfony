@@ -25,13 +25,17 @@ final readonly class Account
     ) {
     }
 
-    public static function create(AccountIdentifier $id, EmailAddress $email, PasswordHash $password): self
-    {
+    public static function create(
+        AccountIdentifier $id,
+        EmailAddress $email,
+        PasswordHash $password,
+        LocaleCode $locale,
+    ): self {
         return new self(
             id: $id,
             email: $email,
             password: $password,
-            locale: LocaleCode::EnUs,
+            locale: $locale,
             roles: AccountRoleSet::fromStrings(AccountRole::User->toString()),
             status: AccountStatus::Created,
             createdAt: DateTimeUtc::now(),

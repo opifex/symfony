@@ -36,8 +36,8 @@ final readonly class SignupNewAccountCommandHandler
         $accountLocale = LocaleCode::fromString($command->locale);
         $accountPassword = $this->accountPasswordHasher->hash($command->password);
 
-        $account = Account::create($accountId, $accountEmail, $accountPassword);
-        $account = $account->withLocale($accountLocale)->register()->activate()
+        $account = Account::create($accountId, $accountEmail, $accountPassword, $accountLocale);
+        $account = $account->register()->activate()
             |> $this->accountEntityRepository->save(...);
 
         $accountRegisteredEvent = AccountRegisteredEvent::create($account);

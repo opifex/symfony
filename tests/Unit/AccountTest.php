@@ -10,6 +10,7 @@ use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Exception\AccountInvalidActionException;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\PasswordHash;
+use App\Domain\Localization\LocaleCode;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
@@ -24,6 +25,7 @@ final class AccountTest extends TestCase
             id: AccountIdentifier::fromString(uuid: '00000000-0000-6000-8000-000000000000'),
             email: EmailAddress::fromString(email: 'email@example.com'),
             password: PasswordHash::fromString($passwordHash),
+            locale: LocaleCode::EnUs,
         );
     }
 
