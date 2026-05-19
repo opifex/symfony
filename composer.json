@@ -53,7 +53,7 @@
         "twig/cssinliner-extra": "^3.24",
         "twig/extra-bundle": "^3.24",
         "twig/inky-extra": "^3.24",
-        "twig/twig": "^3.24"
+        "twig/twig": "^3.25"
     },
     "config": {
         "allow-plugins": {
