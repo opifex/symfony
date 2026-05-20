@@ -50,10 +50,10 @@
         "symfony/validator": "8.0.*",
         "symfony/webhook": "8.0.*",
         "symfony/yaml": "8.0.*",
-        "twig/cssinliner-extra": "^3.24",
+        "twig/cssinliner-extra": "^3.26",
         "twig/extra-bundle": "^3.24",
-        "twig/inky-extra": "^3.24",
-        "twig/twig": "^3.25"
+        "twig/inky-extra": "^3.26",
+        "twig/twig": "^3.26"
     },
     "config": {
         "allow-plugins": {
