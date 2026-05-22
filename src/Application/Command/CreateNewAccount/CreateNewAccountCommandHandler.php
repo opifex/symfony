@@ -28,17 +28,15 @@ final readonly class CreateNewAccountCommandHandler
 
     public function __invoke(CreateNewAccountCommand $command): CreateNewAccountCommandResult
     {
-        $accountEmail = EmailAddress::fromString($command->email);
+        $account = Account::create(
+            id: AccountIdentifier::fromString($this->uuidIdentityGenerator->generate()),
+            email: EmailAddress::fromString($command->email),
+            password: $this->accountPasswordHasher->hash($command->password),
+            locale: LocaleCode::fromString($command->locale),
+        )->register()->activate();
 
-        $this->accountEntityRepository->ensureEmailIsAvailable($accountEmail);
-
-        $accountId = AccountIdentifier::fromString($this->uuidIdentityGenerator->generate());
-        $accountLocale = LocaleCode::fromString($command->locale);
-        $accountPassword = $this->accountPasswordHasher->hash($command->password);
-
-        $account = Account::create($accountId, $accountEmail, $accountPassword, $accountLocale);
-        $account = $account->register()->activate()
-            |> $this->accountEntityRepository->save(...);
+        $this->accountEntityRepository->ensureEmailIsAvailable($account->email);
+        $account = $this->accountEntityRepository->save($account);
 
         $accountRegisteredEvent = AccountRegisteredEvent::create($account);
         $this->eventMessageBus->publish($accountRegisteredEvent);
