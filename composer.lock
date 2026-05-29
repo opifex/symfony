@@ -9139,16 +9139,16 @@
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "2.0.22",
+            "version": "2.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "e87516b034749432d51653c0147e053e476e8c53"
+                "reference": "4821d678585be36f585273de38c06b7e4a98bb91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/e87516b034749432d51653c0147e053e476e8c53",
-                "reference": "e87516b034749432d51653c0147e053e476e8c53",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/4821d678585be36f585273de38c06b7e4a98bb91",
+                "reference": "4821d678585be36f585273de38c06b7e4a98bb91",
                 "shasum": ""
             },
             "require": {
@@ -9210,9 +9210,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/2.0.22"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/2.0.23"
             },
-            "time": "2026-05-09T08:10:48+00:00"
+            "time": "2026-05-25T15:58:25+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -9323,16 +9323,16 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "2.0.18",
+            "version": "2.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "a12176b639dec54e8bfd0a5ebf5fc36ffe003b5d"
+                "reference": "546071ed7f80a89ec30909346eb7cc741800740a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/a12176b639dec54e8bfd0a5ebf5fc36ffe003b5d",
-                "reference": "a12176b639dec54e8bfd0a5ebf5fc36ffe003b5d",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/546071ed7f80a89ec30909346eb7cc741800740a",
+                "reference": "546071ed7f80a89ec30909346eb7cc741800740a",
                 "shasum": ""
             },
             "require": {
@@ -9391,9 +9391,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/2.0.18"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/2.0.19"
             },
-            "time": "2026-05-18T14:51:49+00:00"
+            "time": "2026-05-29T12:52:44+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
