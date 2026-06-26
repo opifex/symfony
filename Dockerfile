@@ -52,4 +52,4 @@ EXPOSE 80 9000
 # healthcheck for service availability
 HEALTHCHECK --interval=2s --timeout=5s --retries=1 CMD curl -f http://localhost/api/health || exit 1
 # set container entrypoint
-ENTRYPOINT ["/bin/sh", "./config/docker/entrypoint.conf"]
+ENTRYPOINT ["./config/docker/entrypoint.conf"]
