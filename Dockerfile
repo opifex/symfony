@@ -50,6 +50,7 @@ RUN git config --global --add safe.directory "$PWD" \
 # expose ports
 EXPOSE 80 9000
 # healthcheck for service availability
-HEALTHCHECK --interval=2s --timeout=5s --retries=1 CMD curl -f http://localhost/api/health || exit 1
+HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
+    CMD curl -f http://localhost/api/health || exit 1
 # set container entrypoint
 ENTRYPOINT ["./config/docker/entrypoint.conf"]
