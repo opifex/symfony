@@ -48,7 +48,7 @@ RUN git config --global --add safe.directory "$PWD" \
     && runuser -u www-data -- composer dump-autoload --classmap-authoritative \
     && runuser -u www-data -- composer dump-env prod --empty
 # expose ports
-EXPOSE 80 9000
+EXPOSE 80
 # healthcheck for service availability
 HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
     CMD curl -f http://localhost/api/health || exit 1
