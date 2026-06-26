@@ -6,21 +6,28 @@ COPY composer.json composer.lock ./
 # install production dependencies
 RUN composer install --ignore-platform-reqs --no-dev --no-plugins --no-scripts
 
+FROM ghcr.io/php/pie:bin AS pie
+
 FROM php:8.5.7-fpm-alpine AS php
 # set temporary working directory
 WORKDIR /opt/project
+# copy pie binary for PHP extension installation
+COPY --from=pie /pie /usr/local/bin/pie
 # install system packages, build dependencies, extensions, and update certificates
 RUN set -eux \
-    && apk add --no-cache ca-certificates git nginx p7zip runuser supervisor unzip \
+    && apk add --no-cache ca-certificates curl git nginx p7zip runuser supervisor unzip \
     && apk add --no-cache freetype icu libjpeg-turbo libpng libpq libxml2 libxslt libzip rabbitmq-c zlib \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS freetype-dev icu-dev libjpeg-turbo-dev \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS freetype-dev icu-dev libjpeg-turbo-dev libtool \
         libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev linux-headers rabbitmq-c-dev zlib-dev \
-    && pecl install amqp-2.2.0 apcu-5.1.28 redis-6.3.0 xdebug-3.5.3 \
+    && pie install --no-cache --skip-enable-extension php-amqp/php-amqp:2.2.0 \
+    && pie install --no-cache --skip-enable-extension apcu/apcu:5.1.28 \
+    && pie install --no-cache --skip-enable-extension phpredis/phpredis:6.3.0 \
+    && pie install --no-cache --skip-enable-extension xdebug/xdebug:3.5.3 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd intl pcntl pdo_pgsql xsl zip \
     && docker-php-ext-enable amqp apcu redis \
     && update-ca-certificates --fresh \
-    && pecl clear-cache && apk del .build-deps \
+    && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/*
 # copy configuration files for services and runtime
 COPY ./config/docker/messenger.conf /etc/supervisor/messenger.conf
