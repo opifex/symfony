@@ -9,6 +9,7 @@ use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\Lazy;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[Lazy]
@@ -26,6 +27,10 @@ final readonly class EventMessageBus implements EventMessageBusInterface
     #[Override]
     public function publish(object $event): void
     {
-        $this->messageBus->dispatch($event);
+        try {
+            $this->messageBus->dispatch($event);
+        } catch (NoHandlerForMessageException) {
+            return;
+        }
     }
 }
