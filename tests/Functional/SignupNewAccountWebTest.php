@@ -12,11 +12,13 @@ use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedEmmaFixture;
 use Tests\Support\HttpClientRequestsTrait;
+use Tests\Support\MessengerTransportTrait;
 
 final class SignupNewAccountWebTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
     use HttpClientRequestsTrait;
+    use MessengerTransportTrait;
 
     #[Override]
     protected function setUp(): void
@@ -27,12 +29,14 @@ final class SignupNewAccountWebTest extends WebTestCase
     public function testSignupWithValidEmailSendsConfirmation(): void
     {
         self::loadFixtures([AccountActivatedEmmaFixture::class]);
+        self::purgeMessengerTransport(name: 'domain_events');
         self::sendPostRequest(url: '/api/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
+        self::consumeMessengerTransport(name: 'domain_events');
         self::assertEmailCount(count: 1);
     }
 

@@ -24,6 +24,14 @@ framework:
           - doctrine_close_connection
           - doctrine_transaction
     transports:
+      domain_events:
+        dsn: doctrine://default?queue_name=domain_events
+        options:
+          table_name: messenger
+        retry_strategy:
+          delay: 60000
+          max_retries: 3
+          multiplier: 1
       notifier_emails:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
@@ -57,5 +65,6 @@ framework:
         options:
           table_name: messenger
     routing:
+      App\Domain\Account\Event\AccountRegisteredEvent: domain_events
       Symfony\Component\Mailer\Messenger\SendEmailMessage: notifier_emails
       Symfony\Component\RemoteEvent\Messenger\ConsumeRemoteEventMessage: webhook_events

@@ -12,11 +12,13 @@ use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
 use Tests\Support\Fixture\AccountActivatedJamesFixture;
 use Tests\Support\HttpClientRequestsTrait;
+use Tests\Support\MessengerTransportTrait;
 
 final class CreateNewAccountWebTest extends WebTestCase
 {
     use DatabaseEntityManagerTrait;
     use HttpClientRequestsTrait;
+    use MessengerTransportTrait;
 
     #[Override]
     protected function setUp(): void
@@ -35,6 +37,25 @@ final class CreateNewAccountWebTest extends WebTestCase
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CREATED);
         self::assertResponseSchema();
+    }
+
+    public function testAdminCreatesAccountQueuesDomainEventInOutbox(): void
+    {
+        self::loadFixtures([AccountActivatedAdminFixture::class]);
+        $messageCount = self::countMessengerTransportMessages(name: 'domain_events');
+
+        self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
+        self::sendPostRequest(url: '/api/account', params: [
+            'email' => 'created@example.com',
+            'password' => 'password4#account',
+            'locale' => LocaleCode::EnUs->toString(),
+        ]);
+
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_CREATED);
+        self::assertSame(
+            expected: $messageCount + 1,
+            actual: self::countMessengerTransportMessages(name: 'domain_events'),
+        );
     }
 
     public function testCreateAccountWithExistingEmailReturnsConflict(): void
