@@ -10,6 +10,7 @@ use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountRoleSet;
 use App\Domain\Account\AccountStatus;
+use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountRevisionConflictException;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
@@ -18,6 +19,8 @@ use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use App\Infrastructure\Doctrine\Repository\Account\AccountEntityRepository;
 use DateTimeImmutable;
+use Doctrine\DBAL\Driver\Exception as DriverException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -64,6 +67,23 @@ final class AccountEntityRepositoryTest extends TestCase
             ->willThrowException(OptimisticLockException::lockFailed($accountEntity));
 
         $this->expectException(AccountRevisionConflictException::class);
+
+        (void) $this->accountEntityRepository->save($account);
+    }
+
+    public function testSaveConvertsUniqueConstraintViolationToDomainException(): void
+    {
+        $account = $this->createAccount();
+
+        $driverException = $this->createMock(type: DriverException::class);
+        $repository = $this->createMock(type: EntityRepository::class);
+        $repository->method(constraint: 'findOneBy')->willReturn(value: null);
+        $this->entityManager->method(constraint: 'getRepository')->willReturn($repository);
+        $this->entityManager
+            ->method(constraint: 'flush')
+            ->willThrowException(new UniqueConstraintViolationException($driverException, query: null));
+
+        $this->expectException(AccountAlreadyExistsException::class);
 
         (void) $this->accountEntityRepository->save($account);
     }

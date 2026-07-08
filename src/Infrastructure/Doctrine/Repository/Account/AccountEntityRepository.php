@@ -13,6 +13,7 @@ use App\Domain\Account\Exception\AccountRevisionConflictException;
 use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -156,6 +157,8 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
             $this->entityManager->flush();
         } catch (OptimisticLockException) {
             throw AccountRevisionConflictException::create();
+        } catch (UniqueConstraintViolationException) {
+            throw AccountAlreadyExistsException::create();
         }
 
         $this->entityManager->detach($accountEntity);
