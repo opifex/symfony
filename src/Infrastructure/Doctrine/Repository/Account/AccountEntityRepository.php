@@ -149,7 +149,10 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $accountEntity->password = $account->password->toString();
         $accountEntity->roles = $account->roles->toArray();
         $accountEntity->status = $account->status->toString();
-        $accountEntity->deletedAt = $account->deletedAt?->toImmutable();
+
+        if ($account->deletedAt?->equals($accountEntity->deletedAt) !== true) {
+            $accountEntity->deletedAt = $account->deletedAt?->toImmutable();
+        }
 
         $this->entityManager->persist($accountEntity);
 

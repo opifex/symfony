@@ -35,6 +35,11 @@ final readonly class DateTimeUtc
         );
     }
 
+    public function equals(?DateTimeInterface $datetime): bool
+    {
+        return $this->datetime->getTimestamp() === $datetime?->getTimestamp();
+    }
+
     public function toImmutable(): DateTimeImmutable
     {
         return $this->datetime;
