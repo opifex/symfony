@@ -9,11 +9,13 @@ use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountNotFoundException;
+use App\Domain\Account\Exception\AccountRevisionConflictException;
 use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use Override;
@@ -150,6 +152,8 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
             $accountEntity = new AccountEntity();
             $accountEntity->id = $account->id->toString();
             $accountEntity->createdAt = $account->createdAt->toImmutable();
+        } elseif ($accountEntity->version !== $account->version) {
+            throw AccountRevisionConflictException::create();
         }
 
         $accountEntity->email = $account->email->toString();
@@ -157,10 +161,15 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $accountEntity->password = $account->password->toString();
         $accountEntity->roles = $account->roles->toArray();
         $accountEntity->status = $account->status->toString();
-        $accountEntity->updatedAt = $account->updatedAt->toImmutable();
 
         $this->entityManager->persist($accountEntity);
-        $this->entityManager->flush();
+
+        try {
+            $this->entityManager->flush();
+        } catch (OptimisticLockException) {
+            throw AccountRevisionConflictException::create();
+        }
+
         $this->entityManager->detach($accountEntity);
 
         return AccountEntityMapper::map($accountEntity);

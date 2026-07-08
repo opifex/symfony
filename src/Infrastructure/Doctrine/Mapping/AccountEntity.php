@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'account')]
 #[ORM\UniqueConstraint(columns: ['email'], options: ['where' => '(deleted_at IS NULL)'])]
 final class AccountEntity
@@ -42,6 +43,16 @@ final class AccountEntity
 
         #[ORM\Column(name: 'deleted_at', type: Types::DATETIME_IMMUTABLE, nullable: true)]
         public ?DateTimeImmutable $deletedAt = null,
+
+        #[ORM\Version]
+        #[ORM\Column(name: 'version', type: Types::INTEGER, options: ['default' => 1])]
+        public int $version = 1,
     ) {
+    }
+
+    #[ORM\PreUpdate]
+    public function touch(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 }

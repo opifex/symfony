@@ -22,6 +22,7 @@ final readonly class Account
         public AccountStatus $status,
         public DateTimeUtc $createdAt,
         public DateTimeUtc $updatedAt,
+        public int $version = 1,
     ) {
     }
 
@@ -51,28 +52,19 @@ final readonly class Account
     #[NoDiscard]
     public function withEmail(EmailAddress $email): self
     {
-        return clone($this, [
-            'email' => $email,
-            'updatedAt' => DateTimeUtc::now(),
-        ]);
+        return clone($this, ['email' => $email]);
     }
 
     #[NoDiscard]
     public function withPassword(PasswordHash $hashedPassword): self
     {
-        return clone($this, [
-            'password' => $hashedPassword,
-            'updatedAt' => DateTimeUtc::now(),
-        ]);
+        return clone($this, ['password' => $hashedPassword]);
     }
 
     #[NoDiscard]
     public function withLocale(LocaleCode $locale): self
     {
-        return clone($this, [
-            'locale' => $locale,
-            'updatedAt' => DateTimeUtc::now(),
-        ]);
+        return clone($this, ['locale' => $locale]);
     }
 
     #[NoDiscard]
@@ -82,10 +74,7 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, [
-            'status' => AccountStatus::Registered,
-            'updatedAt' => DateTimeUtc::now(),
-        ]);
+        return clone($this, ['status' => AccountStatus::Registered]);
     }
 
     #[NoDiscard]
@@ -95,10 +84,7 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, [
-            'status' => AccountStatus::Activated,
-            'updatedAt' => DateTimeUtc::now(),
-        ]);
+        return clone($this, ['status' => AccountStatus::Activated]);
     }
 
     #[NoDiscard]
@@ -108,10 +94,7 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, [
-            'status' => AccountStatus::Blocked,
-            'updatedAt' => DateTimeUtc::now(),
-        ]);
+        return clone($this, ['status' => AccountStatus::Blocked]);
     }
 
     #[NoDiscard]
@@ -121,9 +104,6 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, [
-            'status' => AccountStatus::Activated,
-            'updatedAt' => DateTimeUtc::now(),
-        ]);
+        return clone($this, ['status' => AccountStatus::Activated]);
     }
 }

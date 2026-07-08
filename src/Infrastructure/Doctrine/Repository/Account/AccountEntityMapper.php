@@ -27,6 +27,7 @@ final readonly class AccountEntityMapper
             status: AccountStatus::fromString($entity->status),
             createdAt: DateTimeUtc::fromInterface(datetime: $entity->createdAt),
             updatedAt: DateTimeUtc::fromInterface(datetime: $entity->updatedAt),
+            version: $entity->version,
         );
     }
 

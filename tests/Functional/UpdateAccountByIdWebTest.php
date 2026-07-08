@@ -39,6 +39,13 @@ final class UpdateAccountByIdWebTest extends WebTestCase
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
+        self::getEntityManager()->clear();
+        $accountUpdated = self::getDatabaseEntity(entity: AccountEntity::class, criteria: [
+            'email' => 'updated@example.com',
+        ]);
+        self::assertInstanceOf(expected: AccountEntity::class, actual: $accountUpdated);
+        self::assertSame(expected: 2, actual: $accountUpdated->version);
+        self::assertGreaterThan(minimum: $accountAdmin->updatedAt, actual: $accountUpdated->updatedAt);
     }
 
     public function testUpdateAccountReturnsForbiddenWithoutAdminRole(): void
