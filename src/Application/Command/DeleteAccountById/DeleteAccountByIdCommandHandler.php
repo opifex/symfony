@@ -20,8 +20,8 @@ final readonly class DeleteAccountByIdCommandHandler
     {
         $accountId = AccountIdentifier::fromString($command->id);
 
-        $this->accountEntityRepository->findOneById($accountId)
-            |> $this->accountEntityRepository->delete(...);
+        $this->accountEntityRepository->findOneById($accountId)->delete()
+            |> $this->accountEntityRepository->save(...);
 
         return DeleteAccountByIdCommandResult::success();
     }

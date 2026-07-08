@@ -44,4 +44,13 @@ final class AccountTest extends TestCase
 
         (void) $this->account->activate();
     }
+
+    public function testDeleteThrowsWhenAlreadyDeleted(): void
+    {
+        $deleted = $this->account->delete();
+
+        $this->expectException(AccountInvalidActionException::class);
+
+        (void) $deleted->delete();
+    }
 }

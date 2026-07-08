@@ -35,7 +35,5 @@ interface AccountEntityRepositoryInterface
      */
     public function ensureEmailIsAvailable(EmailAddress $email): void;
 
-    public function delete(Account $account): void;
-
     public function save(Account $account): Account;
 }

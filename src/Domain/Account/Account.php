@@ -21,7 +21,8 @@ final readonly class Account
         public AccountRoleSet $roles,
         public AccountStatus $status,
         public DateTimeUtc $createdAt,
-        public DateTimeUtc $updatedAt,
+        public ?DateTimeUtc $updatedAt = null,
+        public ?DateTimeUtc $deletedAt = null,
         public int $version = 1,
     ) {
     }
@@ -40,7 +41,6 @@ final readonly class Account
             roles: AccountRoleSet::fromRoles(roles: AccountRole::User),
             status: AccountStatus::Created,
             createdAt: DateTimeUtc::now(),
-            updatedAt: DateTimeUtc::now(),
         );
     }
 
@@ -105,5 +105,15 @@ final readonly class Account
         }
 
         return clone($this, ['status' => AccountStatus::Activated]);
+    }
+
+    #[NoDiscard]
+    public function delete(): self
+    {
+        if ($this->deletedAt !== null) {
+            throw AccountInvalidActionException::create();
+        }
+
+        return clone($this, ['deletedAt' => DateTimeUtc::now()]);
     }
 }

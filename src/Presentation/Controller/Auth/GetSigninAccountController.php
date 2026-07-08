@@ -71,6 +71,7 @@ final class GetSigninAccountController extends AbstractController
                     type: 'string',
                     format: 'date-time',
                     example: '2025-01-01T12:00:00+00:00',
+                    nullable: true,
                 ),
             ],
             type: 'object',

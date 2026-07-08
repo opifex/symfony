@@ -13,7 +13,6 @@ use App\Domain\Account\Exception\AccountRevisionConflictException;
 use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -131,18 +130,6 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     }
 
     #[Override]
-    public function delete(Account $account): void
-    {
-        $builder = $this->entityManager->createQueryBuilder();
-        $builder->update(update: AccountEntity::class, alias: 'account');
-        $builder->set(key: 'account.deletedAt', value: ':now');
-        $builder->where($builder->expr()->eq(x: 'account.id', y: ':id'));
-        $builder->setParameter(key: 'id', value: $account->id->toString());
-        $builder->setParameter(key: 'now', value: new DateTimeImmutable());
-        $builder->getQuery()->execute();
-    }
-
-    #[Override]
     public function save(Account $account): Account
     {
         $accountRepository = $this->entityManager->getRepository(AccountEntity::class);
@@ -161,6 +148,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         $accountEntity->password = $account->password->toString();
         $accountEntity->roles = $account->roles->toArray();
         $accountEntity->status = $account->status->toString();
+        $accountEntity->deletedAt = $account->deletedAt?->toImmutable();
 
         $this->entityManager->persist($accountEntity);
 

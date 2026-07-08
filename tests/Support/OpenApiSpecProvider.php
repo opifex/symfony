@@ -57,6 +57,10 @@ final class OpenApiSpecProvider
 
         $result = clone $schema;
 
+        if (($result->nullable ?? false) === true && isset($result->type) && is_string($result->type)) {
+            $result->type = [$result->type, 'null'];
+        }
+
         if (isset($result->properties)) {
             foreach ((array) $result->properties as $key => $property) {
                 $result->properties->{$key} = self::resolveReferences($property, $spec);

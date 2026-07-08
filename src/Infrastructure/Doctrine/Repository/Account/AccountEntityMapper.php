@@ -26,7 +26,8 @@ final readonly class AccountEntityMapper
             roles: AccountRoleSet::fromStrings(...$entity->roles),
             status: AccountStatus::fromString($entity->status),
             createdAt: DateTimeUtc::fromInterface(datetime: $entity->createdAt),
-            updatedAt: DateTimeUtc::fromInterface(datetime: $entity->updatedAt),
+            updatedAt: $entity->updatedAt !== null ? DateTimeUtc::fromInterface(datetime: $entity->updatedAt) : null,
+            deletedAt: $entity->deletedAt !== null ? DateTimeUtc::fromInterface(datetime: $entity->deletedAt) : null,
             version: $entity->version,
         );
     }
