@@ -1,4 +1,4 @@
-FROM composer:2.10.1 AS composer
+FROM composer:2.10.2 AS composer
 # set temporary working directory
 WORKDIR /tmp
 # copy composer manifest files
@@ -8,7 +8,7 @@ RUN composer install --ignore-platform-reqs --no-dev --no-plugins --no-scripts
 
 FROM ghcr.io/php/pie:bin AS pie
 
-FROM php:8.5.7-fpm-alpine AS php
+FROM php:8.5.8-fpm-alpine AS php
 # set temporary working directory
 WORKDIR /opt/project
 # copy pie binary for PHP extension installation
