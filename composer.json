@@ -18,7 +18,7 @@
         "ext-zip": "*",
         "doctrine/doctrine-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^4.0",
-        "doctrine/orm": "^3.6,<3.6.8",
+        "doctrine/orm": "^3.6",
         "dragonmantank/cron-expression": "^3.6",
         "lcobucci/jwt": "^5.6",
         "nelmio/api-doc-bundle": "^5.11",
