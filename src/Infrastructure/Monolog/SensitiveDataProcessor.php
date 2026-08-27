@@ -7,7 +7,7 @@ namespace App\Infrastructure\Monolog;
 use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 
-#[AsMonologProcessor]
+#[AsMonologProcessor(priority: -100)]
 final readonly class SensitiveDataProcessor
 {
     /** @var array<string, string> */
