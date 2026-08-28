@@ -23,12 +23,21 @@ API_GATEWAY_URI=http://localhost:8030
 
 DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=17&charset=utf8
 HTTPBIN_URL=https://httpbin.org/
+JWT_PASSPHRASE=3a8d33b54f002565767e28d24743ad51b30a061ce31b9516b98efd64612009d721ca1c68fb7143193af754c352bf4edb2796fd13b89395d983c5c337d5a44be4
 LOCK_DSN=redis://redis:6379?timeout=1&read_timeout=1
 MAILER_DSN=smtp://mailcatcher:1025
 MESSENGER_TRANSPORT_DSN=amqp://rabbitmq:5672/%2f/messages
+PAYPAL_WEBHOOK_TOKEN=32045343896bbc210ab2924776f349d5d849709fd33b7697a7dbfc947795ddf0
 REDIS_DSN=redis://redis:6379?timeout=1&read_timeout=1
 
 SYMFONY_IDE=idea://open?file=%f&line=%l&/opt/project>/local/path
+```
+
+Generate real values and set them in `.env.local`.
+
+```
+$ openssl rand -hex 64   # JWT_PASSPHRASE  (256+ bits, required for HS256)
+$ openssl rand -hex 32   # PAYPAL_WEBHOOK_TOKEN
 ```
 
 Create `codeception.yml` with the following set of parameters.
