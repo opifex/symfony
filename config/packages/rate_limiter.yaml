@@ -1,8 +1,13 @@
 framework:
   rate_limiter:
     limiters:
-      json_login_authenticator:
-        policy: fixed_window
+      email_ip_login:
+        policy: token_bucket
         limit: 5
-        interval: 1 minute
+        rate: { interval: '5 minutes' }
+        cache_pool: cache.rate_limiter
+      ip_login:
+        policy: sliding_window
+        limit: 50
+        interval: '15 minutes'
         cache_pool: cache.rate_limiter

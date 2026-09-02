@@ -21,8 +21,10 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
 {
     public function __construct(
-        #[Autowire(service: 'limiter.json_login_authenticator')]
-        private RateLimiterFactoryInterface $rateLimiterFactory,
+        #[Autowire(service: 'limiter.email_ip_login')]
+        private RateLimiterFactoryInterface $emailIpRateLimiterFactory,
+        #[Autowire(service: 'limiter.ip_login')]
+        private RateLimiterFactoryInterface $ipRateLimiterFactory,
     ) {
     }
 
@@ -32,6 +34,8 @@ final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorI
         $payload = $request->getPayload();
         $userBadge = new UserBadge($payload->getString(key: 'email'));
         $credentials = new PasswordCredentials($payload->getString(key: 'password'));
+
+        $this->enforceRateLimit($userBadge->getUserIdentifier(), $request->getClientIp(), tokens: 0);
 
         return new Passport($userBadge, $credentials);
     }
@@ -45,11 +49,9 @@ final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorI
     #[Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $key = sha1($request->getPayload()->getString(key: 'email'));
+        $email = $request->getPayload()->getString(key: 'email');
 
-        if (!$this->rateLimiterFactory->create($key)->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException(message: 'Too many requests detected, please try again later.');
-        }
+        $this->enforceRateLimit($email, $request->getClientIp());
 
         return null;
     }
@@ -70,5 +72,21 @@ final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorI
     public function isInteractive(): bool
     {
         return true;
+    }
+
+    private function enforceRateLimit(string $email, ?string $ip = null, int $tokens = 1): void
+    {
+        $normalizedEmail = mb_strtolower(trim($email), 'UTF-8');
+        $normalizedIp = mb_strtolower(trim(string: $ip ?? 'unknown'), 'UTF-8');
+
+        $emailIpKey = hash(algo: 'sha256', data: $normalizedEmail . '|' . $normalizedIp);
+        $ipKey = hash(algo: 'sha256', data: $normalizedIp);
+
+        $emailIpLimit = $this->emailIpRateLimiterFactory->create($emailIpKey)->consume($tokens);
+        $ipLimit = $this->ipRateLimiterFactory->create($ipKey)->consume($tokens);
+
+        if (!$emailIpLimit->isAccepted() || !$ipLimit->isAccepted()) {
+            throw new TooManyRequestsHttpException(message: 'Too many requests detected, please try again later.');
+        }
     }
 }
