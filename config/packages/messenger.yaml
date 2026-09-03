@@ -20,6 +20,7 @@ framework:
         default_middleware: allow_no_handlers
         middleware:
           - App\Infrastructure\Messenger\Middleware\CorrelationIdMiddleware
+          - App\Infrastructure\Messenger\Middleware\MessageValidationMiddleware
           - doctrine_ping_connection
           - doctrine_close_connection
           - doctrine_transaction
