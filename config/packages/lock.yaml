@@ -1,2 +1,6 @@
 framework:
   lock: '%env(LOCK_DSN)%'
+
+when@test:
+  framework:
+    lock: 'flock'
