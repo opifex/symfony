@@ -7,10 +7,12 @@ namespace App\Infrastructure\Messenger\Middleware;
 use App\Infrastructure\Messenger\Stamp\CorrelationIdStamp;
 use App\Infrastructure\Observability\CorrelationIdProvider;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 
+#[AsAlias('application_correlation_id')]
 final readonly class CorrelationIdMiddleware implements MiddlewareInterface
 {
     public function __construct(

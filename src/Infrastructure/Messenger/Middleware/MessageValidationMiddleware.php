@@ -6,11 +6,13 @@ namespace App\Infrastructure\Messenger\Middleware;
 
 use App\Infrastructure\Messenger\Exception\ValidationFailedException;
 use Override;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[AsAlias('application_message_validation')]
 final readonly class MessageValidationMiddleware implements MiddlewareInterface
 {
     public function __construct(

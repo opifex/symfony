@@ -13,6 +13,7 @@ use App\Domain\Account\Exception\AccountRevisionConflictException;
 use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
+use App\Infrastructure\Messenger\DomainEventCollector;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
@@ -27,6 +28,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
     public function __construct(
         #[Autowire(service: 'doctrine.orm.default_entity_manager')]
         private EntityManagerInterface $entityManager,
+        private DomainEventCollector $domainEventCollector,
     ) {
     }
 
@@ -165,6 +167,7 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         }
 
         $this->entityManager->detach($accountEntity);
+        $this->domainEventCollector->collect(...$account->releaseEvents());
 
         return AccountEntityMapper::map($accountEntity);
     }

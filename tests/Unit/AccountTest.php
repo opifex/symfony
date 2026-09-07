@@ -7,6 +7,7 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
+use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Domain\Account\Exception\AccountInvalidActionException;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\PasswordHash;
@@ -36,6 +37,18 @@ final class AccountTest extends TestCase
         $this->expectException(AccountInvalidActionException::class);
 
         (void) $registered->register();
+    }
+
+    public function testRegisterRaisesAccountRegisteredEvent(): void
+    {
+        self::assertSame([], $this->account->releaseEvents());
+
+        $registered = $this->account->register();
+        $events = $registered->releaseEvents();
+
+        self::assertCount(expectedCount: 1, haystack: $events);
+        self::assertInstanceOf(expected: AccountRegisteredEvent::class, actual: $events[0]);
+        self::assertSame($registered->email, $events[0]->account->email);
     }
 
     public function testActivateThrowsWhenNotInRegisteredStatus(): void

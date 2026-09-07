@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\Command\SignupNewAccount;
 
-use App\Application\Contract\EventMessageBusInterface;
 use App\Application\Contract\UuidIdentityGeneratorInterface;
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
-use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Localization\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -21,7 +19,6 @@ final readonly class SignupNewAccountCommandHandler
     public function __construct(
         private AccountEntityRepositoryInterface $accountEntityRepository,
         private AccountPasswordHasherInterface $accountPasswordHasher,
-        private EventMessageBusInterface $eventMessageBus,
         private UuidIdentityGeneratorInterface $uuidIdentityGenerator,
     ) {
     }
@@ -37,9 +34,6 @@ final readonly class SignupNewAccountCommandHandler
 
         $this->accountEntityRepository->ensureEmailIsAvailable($account->email);
         $this->accountEntityRepository->save($account);
-
-        $accountRegisteredEvent = AccountRegisteredEvent::create($account);
-        $this->eventMessageBus->publish($accountRegisteredEvent);
 
         return SignupNewAccountCommandResult::success();
     }

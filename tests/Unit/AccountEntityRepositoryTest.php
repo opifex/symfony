@@ -18,6 +18,7 @@ use App\Domain\Foundation\ValueObject\PasswordHash;
 use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use App\Infrastructure\Doctrine\Repository\Account\AccountEntityRepository;
+use App\Infrastructure\Messenger\DomainEventCollector;
 use DateTimeImmutable;
 use Doctrine\DBAL\Driver\Exception as DriverException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -36,7 +37,27 @@ final class AccountEntityRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $this->entityManager = $this->createMock(type: EntityManagerInterface::class);
-        $this->accountEntityRepository = new AccountEntityRepository($this->entityManager);
+        $this->domainEventCollector = new DomainEventCollector();
+        $this->accountEntityRepository = new AccountEntityRepository($this->entityManager, $this->domainEventCollector);
+    }
+
+    public function testSaveRecordsEventsReleasedFromTheAccount(): void
+    {
+        $account = Account::create(
+            id: AccountIdentifier::fromString(uuid: '00000000-0000-6000-8000-000000000000'),
+            email: EmailAddress::fromString(email: 'email@example.com'),
+            password: PasswordHash::fromString('$2y$12$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ01234'),
+            locale: LocaleCode::EnUs,
+        )->register();
+        $releasedEvents = $account->releaseEvents();
+
+        $repository = $this->createMock(type: EntityRepository::class);
+        $repository->method(constraint: 'findOneBy')->willReturn(value: null);
+        $this->entityManager->method(constraint: 'getRepository')->willReturn($repository);
+
+        $this->accountEntityRepository->save($account);
+
+        self::assertSame($releasedEvents, $this->domainEventCollector->releaseEvents());
     }
 
     public function testSaveThrowsWhenStoredVersionDiffersFromAccountVersion(): void

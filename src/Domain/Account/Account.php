@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
+use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Domain\Account\Exception\AccountInvalidActionException;
+use App\Domain\Foundation\DomainEventsTrait;
+use App\Domain\Foundation\ImmutableCloneTrait;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\PasswordHash;
@@ -13,6 +16,12 @@ use NoDiscard;
 
 final readonly class Account
 {
+    use DomainEventsTrait;
+    use ImmutableCloneTrait;
+
+    /**
+     * @param object[] $events
+     */
     public function __construct(
         public AccountIdentifier $id,
         public EmailAddress $email,
@@ -24,6 +33,7 @@ final readonly class Account
         public ?DateTimeUtc $updatedAt = null,
         public ?DateTimeUtc $deletedAt = null,
         public int $version = 1,
+        private array $events = [],
     ) {
     }
 
@@ -52,19 +62,19 @@ final readonly class Account
     #[NoDiscard]
     public function withEmail(EmailAddress $email): self
     {
-        return clone($this, ['email' => $email]);
+        return $this->withFields(['email' => $email]);
     }
 
     #[NoDiscard]
     public function withPassword(PasswordHash $hashedPassword): self
     {
-        return clone($this, ['password' => $hashedPassword]);
+        return $this->withFields(['password' => $hashedPassword]);
     }
 
     #[NoDiscard]
     public function withLocale(LocaleCode $locale): self
     {
-        return clone($this, ['locale' => $locale]);
+        return $this->withFields(['locale' => $locale]);
     }
 
     #[NoDiscard]
@@ -74,7 +84,9 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, ['status' => AccountStatus::Registered]);
+        $registered = $this->withFields(['status' => AccountStatus::Registered]);
+
+        return $registered->withEvents(AccountRegisteredEvent::create($registered));
     }
 
     #[NoDiscard]
@@ -84,7 +96,7 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, ['status' => AccountStatus::Activated]);
+        return $this->withFields(['status' => AccountStatus::Activated]);
     }
 
     #[NoDiscard]
@@ -94,7 +106,7 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, ['status' => AccountStatus::Blocked]);
+        return $this->withFields(['status' => AccountStatus::Blocked]);
     }
 
     #[NoDiscard]
@@ -104,7 +116,7 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, ['status' => AccountStatus::Activated]);
+        return $this->withFields(['status' => AccountStatus::Activated]);
     }
 
     #[NoDiscard]
@@ -114,6 +126,6 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return clone($this, ['deletedAt' => DateTimeUtc::now()]);
+        return $this->withFields(['deletedAt' => DateTimeUtc::now()]);
     }
 }
