@@ -26,7 +26,7 @@ final class SignoutFromAccountWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendPostRequest(url: '/api/auth/signout');
+        self::sendPostRequest(url: '/api/v1/auth/signout');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
     }
 
@@ -34,15 +34,15 @@ final class SignoutFromAccountWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendPostRequest(url: '/api/auth/signout');
+        self::sendPostRequest(url: '/api/v1/auth/signout');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
-        self::sendPostRequest(url: '/api/auth/signout');
+        self::sendPostRequest(url: '/api/v1/auth/signout');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
     }
 
     public function testSignoutWithoutTokenReturnsUnauthorized(): void
     {
-        self::sendPostRequest(url: '/api/auth/signout');
+        self::sendPostRequest(url: '/api/v1/auth/signout');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
     }
 }

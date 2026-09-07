@@ -26,7 +26,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
     public function testSigninWithValidCredentialsReturnsAccessToken(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
-        self::sendPostRequest(url: '/api/auth/signin', params: [
+        self::sendPostRequest(url: '/api/v1/auth/signin', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
         ]);
@@ -37,7 +37,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
     public function testSigninWithNonActivatedAccountReturnsUnauthorized(): void
     {
         self::loadFixtures([AccountRegisteredOliviaFixture::class]);
-        self::sendPostRequest(url: '/api/auth/signin', params: [
+        self::sendPostRequest(url: '/api/v1/auth/signin', params: [
             'email' => 'olivia@example.com',
             'password' => 'password4#account',
         ]);
@@ -47,7 +47,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
 
     public function testSigninWithInvalidCredentialsReturnsUnauthorized(): void
     {
-        self::sendPostRequest(url: '/api/auth/signin', params: [
+        self::sendPostRequest(url: '/api/v1/auth/signin', params: [
             'email' => 'invalid@example.com',
             'password' => 'password4#account',
         ]);
@@ -58,7 +58,7 @@ final class SigninIntoAccountWebTest extends WebTestCase
     public function testSigninWithExtraAttributesReturnsUnprocessableEntity(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
-        self::sendPostRequest(url: '/api/auth/signin', params: [
+        self::sendPostRequest(url: '/api/v1/auth/signin', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'extra' => 'value',

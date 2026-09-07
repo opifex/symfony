@@ -32,7 +32,7 @@ final class GetAccountByIdWebTest extends WebTestCase
             'email' => 'admin@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        self::sendGetRequest(url: '/api/account/' . $accountAdmin->id);
+        self::sendGetRequest(url: '/api/v1/account/' . $accountAdmin->id);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
         self::assertResponseSchema();
     }
@@ -41,7 +41,7 @@ final class GetAccountByIdWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendGetRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
+        self::sendGetRequest(url: '/api/v1/account/00000000-0000-6000-8000-000000000000');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
         self::assertErrorResponseSchema();
     }
@@ -54,7 +54,7 @@ final class GetAccountByIdWebTest extends WebTestCase
             'email' => 'admin@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        self::sendGetRequest(url: '/api/account/' . $accountAdmin->id);
+        self::sendGetRequest(url: '/api/v1/account/' . $accountAdmin->id);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
         self::assertErrorResponseSchema();
     }

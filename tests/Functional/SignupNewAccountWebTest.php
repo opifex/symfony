@@ -30,7 +30,7 @@ final class SignupNewAccountWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedEmmaFixture::class]);
         self::purgeMessengerTransport(name: 'domain_events');
-        self::sendPostRequest(url: '/api/auth/signup', params: [
+        self::sendPostRequest(url: '/api/v1/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -42,7 +42,7 @@ final class SignupNewAccountWebTest extends WebTestCase
 
     public function testSignupWithInvalidEmailFormatReturnsUnprocessableEntity(): void
     {
-        self::sendPostRequest(url: '/api/auth/signup', params: [
+        self::sendPostRequest(url: '/api/v1/auth/signup', params: [
             'email' => 'example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -54,7 +54,7 @@ final class SignupNewAccountWebTest extends WebTestCase
     public function testSignupWithAlreadyRegisteredEmailReturnsConflict(): void
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
-        self::sendPostRequest(url: '/api/auth/signup', params: [
+        self::sendPostRequest(url: '/api/v1/auth/signup', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -65,7 +65,7 @@ final class SignupNewAccountWebTest extends WebTestCase
 
     public function testSignupWithInvalidFieldTypesReturnsUnprocessableEntity(): void
     {
-        self::sendPostRequest(url: '/api/auth/signup', params: [
+        self::sendPostRequest(url: '/api/v1/auth/signup', params: [
             'email' => 'example.com',
             'password' => ['password4#account'],
             'locale' => LocaleCode::EnUs->toString(),

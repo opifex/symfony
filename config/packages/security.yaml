@@ -11,7 +11,7 @@ security:
       security: false
     authentication:
       stateless: true
-      pattern: ^/api/auth/signin
+      pattern: ^/api/v1/auth/signin
       provider: database
       user_checker: App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUserChecker
       custom_authenticators:

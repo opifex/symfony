@@ -34,7 +34,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
             'email' => 'james@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
-        self::sendPostRequest(url: '/api/account/' . $accountJames->id . '/block');
+        self::sendPostRequest(url: '/api/v1/account/' . $accountJames->id . '/block');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
     }
 
@@ -42,7 +42,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendPostRequest(url: '/api/account/00000000-0000-6000-8000-000000000000/block');
+        self::sendPostRequest(url: '/api/v1/account/00000000-0000-6000-8000-000000000000/block');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
         self::assertErrorResponseSchema();
     }
@@ -55,7 +55,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
             'email' => 'henry@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountHenry);
-        self::sendPostRequest(url: '/api/account/' . $accountHenry->id . '/block');
+        self::sendPostRequest(url: '/api/v1/account/' . $accountHenry->id . '/block');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNPROCESSABLE_ENTITY);
         self::assertErrorResponseSchema();
     }
@@ -68,7 +68,7 @@ final class BlockAccountByIdWebTest extends WebTestCase
             'email' => 'emma@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountEmma);
-        self::sendPostRequest(url: '/api/account/' . $accountEmma->id . '/block');
+        self::sendPostRequest(url: '/api/v1/account/' . $accountEmma->id . '/block');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
         self::assertErrorResponseSchema();
     }

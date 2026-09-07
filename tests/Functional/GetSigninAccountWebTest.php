@@ -26,28 +26,28 @@ final class GetSigninAccountWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendGetRequest(url: '/api/auth/me');
+        self::sendGetRequest(url: '/api/v1/auth/me');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
         self::assertResponseSchema();
     }
 
     public function testGetSigninAccountReturnsUnauthorizedWithoutHeader(): void
     {
-        self::sendGetRequest(url: '/api/auth/me');
+        self::sendGetRequest(url: '/api/v1/auth/me');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
         self::assertErrorResponseSchema();
     }
 
     public function testGetSigninAccountReturnsUnauthorizedForInvalidHeader(): void
     {
-        self::sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'invalid']);
+        self::sendGetRequest(url: '/api/v1/auth/me', server: ['HTTP_Authorization' => 'invalid']);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
         self::assertErrorResponseSchema();
     }
 
     public function testGetSigninAccountReturnsUnauthorizedForInvalidToken(): void
     {
-        self::sendGetRequest(url: '/api/auth/me', server: ['HTTP_Authorization' => 'Bearer invalid']);
+        self::sendGetRequest(url: '/api/v1/auth/me', server: ['HTTP_Authorization' => 'Bearer invalid']);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
         self::assertErrorResponseSchema();
     }

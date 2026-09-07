@@ -33,7 +33,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
             'email' => 'admin@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        self::sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
+        self::sendPatchRequest(url: '/api/v1/account/' . $accountAdmin->id, params: [
             'email' => 'updated@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -56,7 +56,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
             'email' => 'admin@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        self::sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
+        self::sendPatchRequest(url: '/api/v1/account/' . $accountAdmin->id, params: [
             'email' => 'updated@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -73,7 +73,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
             'email' => 'admin@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountAdmin);
-        self::sendPatchRequest(url: '/api/account/' . $accountAdmin->id, params: [
+        self::sendPatchRequest(url: '/api/v1/account/' . $accountAdmin->id, params: [
             'email' => 'james@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -86,7 +86,7 @@ final class UpdateAccountByIdWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendPatchRequest(url: '/api/account/019661f3-78c3-7a26-9ccf-361042fa4f67', params: [
+        self::sendPatchRequest(url: '/api/v1/account/019661f3-78c3-7a26-9ccf-361042fa4f67', params: [
             'email' => 'user@example.com',
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);

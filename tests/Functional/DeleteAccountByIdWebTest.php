@@ -33,7 +33,7 @@ final class DeleteAccountByIdWebTest extends WebTestCase
             'email' => 'james@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
-        self::sendDeleteRequest(url: '/api/account/' . $accountJames->id);
+        self::sendDeleteRequest(url: '/api/v1/account/' . $accountJames->id);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
     }
 
@@ -41,7 +41,7 @@ final class DeleteAccountByIdWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendDeleteRequest(url: '/api/account/00000000-0000-6000-8000-000000000000');
+        self::sendDeleteRequest(url: '/api/v1/account/00000000-0000-6000-8000-000000000000');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_FOUND);
         self::assertErrorResponseSchema();
     }
@@ -54,7 +54,7 @@ final class DeleteAccountByIdWebTest extends WebTestCase
             'email' => 'james@example.com',
         ]);
         self::assertInstanceOf(expected: AccountEntity::class, actual: $accountJames);
-        self::sendDeleteRequest(url: '/api/account/' . $accountJames->id);
+        self::sendDeleteRequest(url: '/api/v1/account/' . $accountJames->id);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FORBIDDEN);
         self::assertErrorResponseSchema();
     }

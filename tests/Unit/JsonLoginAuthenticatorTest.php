@@ -180,7 +180,7 @@ final class JsonLoginAuthenticatorTest extends TestCase
     private function createSigninRequest(): Request
     {
         return Request::create(
-            uri: '/api/auth/signin',
+            uri: '/api/v1/auth/signin',
             method: 'POST',
             server: ['REMOTE_ADDR' => '203.0.113.10'],
             content: json_encode([

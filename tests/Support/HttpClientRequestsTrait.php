@@ -44,7 +44,7 @@ trait HttpClientRequestsTrait
 
     public static function sendAuthorizationRequest(string $email, string $password): void
     {
-        self::sendPostRequest(url: '/api/auth/signin', params: ['email' => $email, 'password' => $password]);
+        self::sendPostRequest(url: '/api/v1/auth/signin', params: ['email' => $email, 'password' => $password]);
         $jsonResponse = json_decode(self::getClient()->getResponse()->getContent(), associative: true);
         $httpAuthorization = 'Bearer ' . ($jsonResponse['access_token'] ?? '');
         self::getClient()->setServerParameter(key: 'HTTP_AUTHORIZATION', value: $httpAuthorization);

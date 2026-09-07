@@ -28,7 +28,7 @@ final class GetAccountsByCriteriaWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendGetRequest(url: '/api/account', params: [
+        self::sendGetRequest(url: '/api/v1/account', params: [
             'email' => 'admin@example.com',
             'status' => AccountStatus::Activated->toString(),
         ]);
@@ -40,7 +40,7 @@ final class GetAccountsByCriteriaWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        self::sendGetRequest(url: '/api/account', params: [
+        self::sendGetRequest(url: '/api/v1/account', params: [
             'email' => 'admin@example.com',
             'status' => AccountStatus::Activated->toString(),
         ]);

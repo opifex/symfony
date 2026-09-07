@@ -30,7 +30,7 @@ final class CreateNewAccountWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendPostRequest(url: '/api/account', params: [
+        self::sendPostRequest(url: '/api/v1/account', params: [
             'email' => 'created@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -45,7 +45,7 @@ final class CreateNewAccountWebTest extends WebTestCase
         $messageCount = self::countMessengerTransportMessages(name: 'domain_events');
 
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendPostRequest(url: '/api/account', params: [
+        self::sendPostRequest(url: '/api/v1/account', params: [
             'email' => 'created@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -62,7 +62,7 @@ final class CreateNewAccountWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedAdminFixture::class]);
         self::sendAuthorizationRequest(email: 'admin@example.com', password: 'password4#account');
-        self::sendPostRequest(url: '/api/account', params: [
+        self::sendPostRequest(url: '/api/v1/account', params: [
             'email' => 'admin@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
@@ -75,7 +75,7 @@ final class CreateNewAccountWebTest extends WebTestCase
     {
         self::loadFixtures([AccountActivatedJamesFixture::class]);
         self::sendAuthorizationRequest(email: 'james@example.com', password: 'password4#account');
-        self::sendPostRequest(url: '/api/account', params: [
+        self::sendPostRequest(url: '/api/v1/account', params: [
             'email' => 'created@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
