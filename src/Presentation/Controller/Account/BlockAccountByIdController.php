@@ -29,6 +29,11 @@ final class BlockAccountByIdController extends AbstractController
         response: Response::HTTP_NO_CONTENT,
         description: 'No Content',
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (401, 403, 404, 422)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account/{id}/block', name: 'app_block_account_by_id', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] BlockAccountByIdCommand $command): Response

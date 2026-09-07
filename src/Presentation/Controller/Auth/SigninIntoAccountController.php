@@ -65,6 +65,11 @@ final class SigninIntoAccountController extends AbstractController
             type: 'object',
         ),
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (401, 422)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[Route(path: '/auth/signin', name: 'app_signin_into_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SigninIntoAccountCommand $command): Response
     {

@@ -29,6 +29,11 @@ final class DeleteAccountByIdController extends AbstractController
         response: Response::HTTP_NO_CONTENT,
         description: 'No Content',
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (401, 403, 404, 422)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account/{id}', name: 'app_delete_account_by_id', methods: Request::METHOD_DELETE)]
     public function __invoke(#[ValueResolver('payload')] DeleteAccountByIdCommand $command): Response

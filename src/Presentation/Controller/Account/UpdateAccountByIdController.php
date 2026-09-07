@@ -58,6 +58,11 @@ final class UpdateAccountByIdController extends AbstractController
         response: Response::HTTP_NO_CONTENT,
         description: 'No Content',
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (401, 403, 404, 409, 422)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account/{id}', name: 'app_update_account_by_id', methods: Request::METHOD_PATCH)]
     public function __invoke(#[ValueResolver('payload')] UpdateAccountByIdCommand $command): Response

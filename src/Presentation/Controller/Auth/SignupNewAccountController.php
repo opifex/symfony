@@ -53,6 +53,11 @@ final class SignupNewAccountController extends AbstractController
         response: Response::HTTP_NO_CONTENT,
         description: 'No Content',
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (409, 422)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[Route(path: '/auth/signup', name: 'app_signup_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SignupNewAccountCommand $command): Response
     {

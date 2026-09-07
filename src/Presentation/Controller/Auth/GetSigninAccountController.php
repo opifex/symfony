@@ -77,6 +77,11 @@ final class GetSigninAccountController extends AbstractController
             type: 'object',
         ),
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (401)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[IsGranted(attribute: 'IS_AUTHENTICATED_FULLY')]
     #[Route(path: '/auth/me', name: 'app_get_signin_account', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetSigninAccountQuery $query): Response

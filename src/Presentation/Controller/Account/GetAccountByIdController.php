@@ -82,6 +82,11 @@ final class GetAccountByIdController extends AbstractController
             type: 'object',
         ),
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (401, 403, 404, 422)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account/{id}', name: 'app_get_account_by_id', methods: Request::METHOD_GET)]
     public function __invoke(#[ValueResolver('payload')] GetAccountByIdQuery $query): Response

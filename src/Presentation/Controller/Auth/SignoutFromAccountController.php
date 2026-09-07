@@ -24,6 +24,11 @@ final class SignoutFromAccountController extends AbstractController
         response: Response::HTTP_NO_CONTENT,
         description: 'No Content',
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (401)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[IsGranted(attribute: 'IS_AUTHENTICATED_FULLY')]
     #[Route(path: '/auth/signout', name: 'app_signout_from_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SignoutFromAccountCommand $command): Response

@@ -65,6 +65,11 @@ final class CreateNewAccountController extends AbstractController
             type: 'object',
         ),
     )]
+    #[OA\Response(
+        response: '4XX',
+        description: 'Client Error (401, 403, 409, 422)',
+        content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
+    )]
     #[IsGranted(attribute: 'ROLE_ADMIN')]
     #[Route(path: '/account', name: 'app_create_new_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] CreateNewAccountCommand $command): Response
