@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
-use App\Application\Contract\EventMessageBusInterface;
 use App\Infrastructure\Messenger\DomainEventCollector;
+use App\Infrastructure\Messenger\MessageBus\EventMessageBus;
 use App\Infrastructure\Messenger\Middleware\DomainEventMiddleware;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
@@ -16,6 +16,7 @@ use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Throwable;
 
 #[AllowDynamicProperties]
@@ -28,7 +29,8 @@ final class DomainEventMiddlewareTest extends TestCase
         $this->nextMiddleware = $this->createMock(type: MiddlewareInterface::class);
         $this->stack = $this->createMock(type: StackInterface::class);
         $this->domainEventCollector = new DomainEventCollector();
-        $this->eventMessageBus = $this->createMock(type: EventMessageBusInterface::class);
+        $this->messageBus = $this->createMock(type: MessageBusInterface::class);
+        $this->eventMessageBus = new EventMessageBus($this->messageBus);
     }
 
     /**
@@ -50,10 +52,11 @@ final class DomainEventMiddlewareTest extends TestCase
                 return $envelope;
             });
 
-        $this->eventMessageBus
+        $this->messageBus
             ->expects($this->once())
-            ->method(constraint: 'publish')
-            ->with($event);
+            ->method(constraint: 'dispatch')
+            ->with($event)
+            ->willReturn(new Envelope($event));
 
         $publishDomainEventMiddleware = new DomainEventMiddleware(
             $this->domainEventCollector,
@@ -85,11 +88,13 @@ final class DomainEventMiddlewareTest extends TestCase
             });
 
         $publishedEvents = [];
-        $this->eventMessageBus
+        $this->messageBus
             ->expects($this->exactly(count: 2))
-            ->method(constraint: 'publish')
-            ->willReturnCallback(function (object $event) use (&$publishedEvents): void {
+            ->method(constraint: 'dispatch')
+            ->willReturnCallback(function (object $event) use (&$publishedEvents): Envelope {
                 $publishedEvents[] = $event;
+
+                return new Envelope($event);
             });
 
         $publishDomainEventMiddleware = new DomainEventMiddleware(
@@ -118,7 +123,7 @@ final class DomainEventMiddlewareTest extends TestCase
                 throw new RuntimeException(message: 'handler failed');
             });
 
-        $this->eventMessageBus->expects($this->never())->method(constraint: 'publish');
+        $this->messageBus->expects($this->never())->method(constraint: 'dispatch');
 
         $publishDomainEventMiddleware = new DomainEventMiddleware(
             $this->domainEventCollector,

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\PayPal\RemoteEvent;
 
-use App\Application\Contract\EventMessageBusInterface;
 use App\Domain\Payment\Event\PaymentReceivedEvent;
+use App\Infrastructure\Messenger\MessageBus\EventMessageBus;
 use Override;
 use Symfony\Component\RemoteEvent\Attribute\AsRemoteEventConsumer;
 use Symfony\Component\RemoteEvent\Consumer\ConsumerInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\RemoteEvent\RemoteEvent;
 final readonly class PayPalRemoteEventConsumer implements ConsumerInterface
 {
     public function __construct(
-        private EventMessageBusInterface $eventMessageBus,
+        private EventMessageBus $eventMessageBus,
     ) {
     }
 

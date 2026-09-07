@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Messenger\Middleware;
 
-use App\Application\Contract\EventMessageBusInterface;
 use App\Infrastructure\Messenger\DomainEventCollector;
+use App\Infrastructure\Messenger\MessageBus\EventMessageBus;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use Symfony\Component\Messenger\Envelope;
@@ -18,7 +18,7 @@ final readonly class DomainEventMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private DomainEventCollector $domainEventCollector,
-        private EventMessageBusInterface $eventMessageBus,
+        private EventMessageBus $eventMessageBus,
     ) {
     }
 
