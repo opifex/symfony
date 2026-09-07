@@ -1,4 +1,4 @@
-FROM composer:2.10.2 AS composer
+FROM composer:2.10.3 AS composer
 # set temporary working directory
 WORKDIR /tmp
 # copy composer manifest files
@@ -8,7 +8,7 @@ RUN composer install --ignore-platform-reqs --no-dev --no-plugins --no-scripts
 
 FROM ghcr.io/php/pie:bin AS pie
 
-FROM php:8.5.9-fpm-alpine AS php
+FROM php:8.5.10-fpm-alpine AS php
 # set temporary working directory
 WORKDIR /opt/project
 # copy pie binary for PHP extension installation
@@ -51,6 +51,6 @@ RUN git config --global --add safe.directory "$PWD" \
 EXPOSE 80
 # healthcheck for service availability
 HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
-    CMD curl -f http://localhost/api/health || exit 1
+    CMD curl -f http://localhost/api/v1/health || exit 1
 # set container entrypoint
 ENTRYPOINT ["./config/docker/entrypoint.conf"]
