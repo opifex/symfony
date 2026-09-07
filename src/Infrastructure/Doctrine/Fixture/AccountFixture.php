@@ -29,9 +29,9 @@ final class AccountFixture extends Fixture implements FixtureInterface
             id: $faker->unique()->uuid(),
             email: $faker->unique()->bothify(string: 'admin@example.com'),
             password: $passwordHash,
-            locale: LocaleCode::EnUs->toString(),
+            locale: LocaleCode::EnUs,
             roles: [AccountRole::Admin->toString()],
-            status: AccountStatus::Activated->toString(),
+            status: AccountStatus::Activated,
             createdAt: DatePoint::createFromMutable(
                 object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
             ),
@@ -46,9 +46,9 @@ final class AccountFixture extends Fixture implements FixtureInterface
             id: $faker->unique()->uuid(),
             email: $faker->unique()->bothify(string: 'user@example.com'),
             password: $passwordHash,
-            locale: LocaleCode::EnUs->toString(),
+            locale: LocaleCode::EnUs,
             roles: [AccountRole::User->toString()],
-            status: AccountStatus::Activated->toString(),
+            status: AccountStatus::Activated,
             createdAt: DatePoint::createFromMutable(
                 object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
             ),
@@ -60,13 +60,13 @@ final class AccountFixture extends Fixture implements FixtureInterface
         $this->addReference(name: 'account:user', object: $accountUser);
 
         for ($index = 1; $index <= 10; $index++) {
-            /** @var string $accountStatus */
-            $accountStatus = $faker->randomElement(array: AccountStatus::values());
+            /** @var AccountStatus $accountStatus */
+            $accountStatus = $faker->randomElement(array: AccountStatus::cases());
             $accountRandom = new AccountEntity(
                 id: $faker->unique()->uuid(),
                 email: $faker->unique()->email(),
                 password: $passwordHash,
-                locale: LocaleCode::EnUs->toString(),
+                locale: LocaleCode::EnUs,
                 roles: [AccountRole::User->toString()],
                 status: $accountStatus,
                 createdAt: DatePoint::createFromMutable(

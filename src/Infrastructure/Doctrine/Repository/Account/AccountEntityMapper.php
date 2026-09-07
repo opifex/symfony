@@ -7,11 +7,9 @@ namespace App\Infrastructure\Doctrine\Repository\Account;
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\AccountRoleSet;
-use App\Domain\Account\AccountStatus;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\PasswordHash;
-use App\Domain\Localization\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 
 final readonly class AccountEntityMapper
@@ -22,9 +20,9 @@ final readonly class AccountEntityMapper
             id: AccountIdentifier::fromString($entity->id),
             email: EmailAddress::fromString($entity->email),
             password: PasswordHash::fromString($entity->password),
-            locale: LocaleCode::fromString($entity->locale),
+            locale: $entity->locale,
             roles: AccountRoleSet::fromStrings(...$entity->roles),
-            status: AccountStatus::fromString($entity->status),
+            status: $entity->status,
             createdAt: DateTimeUtc::fromInterface(datetime: $entity->createdAt),
             updatedAt: $entity->updatedAt !== null ? DateTimeUtc::fromInterface(datetime: $entity->updatedAt) : null,
             deletedAt: $entity->deletedAt !== null ? DateTimeUtc::fromInterface(datetime: $entity->deletedAt) : null,

@@ -11,11 +11,6 @@ enum AccountStatus: string
     case Created = 'created';
     case Registered = 'registered';
 
-    public static function fromString(string $value): self
-    {
-        return self::from($value);
-    }
-
     /**
      * @return string[]
      */

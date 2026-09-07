@@ -84,9 +84,9 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        $registered = $this->withFields(['status' => AccountStatus::Registered]);
+        $account = $this->withFields(['status' => AccountStatus::Registered]);
 
-        return $registered->withEvents(AccountRegisteredEvent::create($registered));
+        return $account->withEvents(AccountRegisteredEvent::create($account));
     }
 
     #[NoDiscard]

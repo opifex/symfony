@@ -25,9 +25,9 @@ final class AccountActivatedJamesFixture extends Fixture implements FixtureInter
             id: $faker->unique()->uuid(),
             email: $faker->unique()->bothify(string: 'james@example.com'),
             password: '$2y$04$MtKP5g6X5uDiiMJLsyvECuUIpD./6gmZ5of6yo2GXHgw/8fujhtpG',
-            locale: LocaleCode::EnUs->toString(),
+            locale: LocaleCode::EnUs,
             roles: [AccountRole::User->toString()],
-            status: AccountStatus::Activated->toString(),
+            status: AccountStatus::Activated,
             createdAt: DatePoint::createFromMutable(
                 object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
             ),

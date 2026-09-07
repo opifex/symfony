@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Mapping;
 
+use App\Domain\Account\AccountStatus;
+use App\Domain\Localization\LocaleCode;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,15 +27,15 @@ final class AccountEntity
         #[ORM\Column(name: 'password', type: Types::STRING, options: ['length' => 128])]
         public string $password = '',
 
-        #[ORM\Column(name: 'locale', type: Types::STRING, options: ['length' => 5])]
-        public string $locale = '',
+        #[ORM\Column(name: 'locale', type: Types::ENUM, enumType: LocaleCode::class)]
+        public LocaleCode $locale = LocaleCode::EnUs,
 
         /** @var string[] $roles */
         #[ORM\Column(name: 'roles', type: Types::JSON)]
         public array $roles = [],
 
-        #[ORM\Column(name: 'status', type: Types::STRING, options: ['length' => 24])]
-        public string $status = '',
+        #[ORM\Column(name: 'status', type: Types::ENUM, enumType: AccountStatus::class)]
+        public AccountStatus $status = AccountStatus::Created,
 
         #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE, updatable: false)]
         public DateTimeImmutable $createdAt = new DateTimeImmutable(),

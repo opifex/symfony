@@ -25,9 +25,9 @@ final class AccountBlockedHenryFixture extends Fixture implements FixtureInterfa
             id: $faker->unique()->uuid(),
             email: $faker->unique()->bothify(string: 'henry@example.com'),
             password: '$2y$04$MtKP5g6X5uDiiMJLsyvECuUIpD./6gmZ5of6yo2GXHgw/8fujhtpG',
-            locale: LocaleCode::EnUs->toString(),
+            locale: LocaleCode::EnUs,
             roles: [AccountRole::User->toString()],
-            status: AccountStatus::Blocked->toString(),
+            status: AccountStatus::Blocked,
             createdAt: DatePoint::createFromMutable(
                 object: $createdAt = $faker->dateTimeBetween(endDate: '-2 days'),
             ),

@@ -147,10 +147,10 @@ final readonly class AccountEntityRepository implements AccountEntityRepositoryI
         }
 
         $accountEntity->email = $account->email->toString();
-        $accountEntity->locale = $account->locale->toString();
+        $accountEntity->locale = $account->locale;
         $accountEntity->password = $account->password->toString();
         $accountEntity->roles = $account->roles->toArray();
-        $accountEntity->status = $account->status->toString();
+        $accountEntity->status = $account->status;
 
         if ($account->deletedAt?->equals($accountEntity->deletedAt) !== true) {
             $accountEntity->deletedAt = $account->deletedAt?->toImmutable();
