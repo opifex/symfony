@@ -83,6 +83,17 @@ final class DatabaseUserProviderTest extends TestCase
         $databaseUserProvider->loadUserByIdentifier(identifier: 'invalid@example.com');
     }
 
+    public function testLoadUserByIdentifierWithMalformedEmailThrowsUserNotFoundException(): void
+    {
+        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
+
+        $this->accountEntityRepository->expects($this->never())->method(constraint: 'findOneByEmail');
+
+        $this->expectException(UserNotFoundException::class);
+
+        $databaseUserProvider->loadUserByIdentifier(identifier: 'not-an-email');
+    }
+
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
         $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);

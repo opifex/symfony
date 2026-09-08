@@ -8,6 +8,7 @@ use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
+use DomainException;
 use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -27,11 +28,10 @@ final readonly class DatabaseUserProvider implements UserProviderInterface
     #[Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        $emailAddress = EmailAddress::fromString($identifier);
-
         try {
+            $emailAddress = EmailAddress::fromString($identifier);
             $account = $this->accountEntityRepository->findOneByEmail($emailAddress);
-        } catch (AccountNotFoundException $exception) {
+        } catch (DomainException|AccountNotFoundException $exception) {
             throw new UserNotFoundException(previous: $exception);
         }
 
