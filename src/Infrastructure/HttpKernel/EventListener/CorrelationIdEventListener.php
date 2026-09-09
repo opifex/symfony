@@ -22,9 +22,9 @@ final readonly class CorrelationIdEventListener
             return;
         }
 
+        $headers = $event->getResponse()->headers;
         $correlationId = $this->correlationIdProvider->getCorrelationId();
 
-        $headers = $event->getResponse()->headers;
         $headers->set(key: 'X-Correlation-Id', values: $correlationId);
     }
 }

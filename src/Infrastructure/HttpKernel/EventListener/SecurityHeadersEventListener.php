@@ -17,6 +17,7 @@ final readonly class SecurityHeadersEventListener
         }
 
         $headers = $event->getResponse()->headers;
+
         $headers->set(key: 'X-Content-Type-Options', values: 'nosniff');
         $headers->set(key: 'X-Frame-Options', values: 'DENY');
     }

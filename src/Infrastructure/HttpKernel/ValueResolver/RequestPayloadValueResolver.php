@@ -16,14 +16,12 @@ use Symfony\Component\Serializer\Exception\ExtraAttributesException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsTargetedValueResolver('payload')]
 final readonly class RequestPayloadValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private DenormalizerInterface $denormalizer,
-        private NormalizerInterface $normalizer,
     ) {
     }
 
@@ -34,7 +32,7 @@ final readonly class RequestPayloadValueResolver implements ValueResolverInterfa
     #[Override]
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $payload = (array) $this->normalizer->normalize($request);
+        $payload = (array) $request->attributes->get(key: '_payload');
         $context = [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false];
         $type = $argument->getType() ?? '';
 

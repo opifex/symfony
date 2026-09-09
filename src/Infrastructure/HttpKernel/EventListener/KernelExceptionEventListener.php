@@ -56,7 +56,7 @@ final readonly class KernelExceptionEventListener
             context: array_filter(
                 array: [
                     'route' => $event->getRequest()->attributes->get(key: '_route'),
-                    'request' => $this->normalizer->normalize($event->getRequest()),
+                    'request' => (array) $event->getRequest()->attributes->get(key: '_payload'),
                     'exception' => $exception,
                 ],
                 callback: static fn(mixed $value): bool => $value !== '' && $value !== [],
