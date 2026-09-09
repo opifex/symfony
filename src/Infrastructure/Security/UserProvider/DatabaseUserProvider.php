@@ -31,7 +31,7 @@ final readonly class DatabaseUserProvider implements UserProviderInterface
         try {
             $emailAddress = EmailAddress::fromString($identifier);
             $account = $this->accountEntityRepository->findOneByEmail($emailAddress);
-        } catch (DomainException|AccountNotFoundException $exception) {
+        } catch (DomainException | AccountNotFoundException $exception) {
             throw new UserNotFoundException(previous: $exception);
         }
 
