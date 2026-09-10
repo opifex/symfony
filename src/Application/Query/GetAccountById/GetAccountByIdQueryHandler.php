@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Application\Query\GetAccountById;
 
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final readonly class GetAccountByIdQueryHandler
 {
     public function __construct(
-        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountRepositoryInterface $accountRepository,
     ) {
     }
 
@@ -20,7 +20,7 @@ final readonly class GetAccountByIdQueryHandler
     {
         $accountId = AccountIdentifier::fromString($query->id);
 
-        $account = $this->accountEntityRepository->findOneById($accountId);
+        $account = $this->accountRepository->findOneById($accountId);
 
         return GetAccountByIdQueryResult::success($account);
     }

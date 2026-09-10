@@ -6,7 +6,7 @@ namespace App\Infrastructure\Doctrine\Repository\Account;
 
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountRepositoryInterface;
 use App\Domain\Account\Exception\AccountAlreadyExistsException;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Account\Exception\AccountRevisionConflictException;
@@ -23,7 +23,7 @@ use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Traversable;
 
-final readonly class AccountEntityRepository implements AccountEntityRepositoryInterface
+final readonly class AccountEntityRepository implements AccountRepositoryInterface
 {
     public function __construct(
         #[Autowire(service: 'doctrine.orm.default_entity_manager')]

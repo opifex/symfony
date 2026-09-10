@@ -10,7 +10,7 @@ use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountRoleSet;
 use App\Domain\Account\AccountStatus;
-use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
@@ -33,13 +33,13 @@ final class DatabaseUserProviderTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->accountEntityRepository = $this->createMock(type: AccountEntityRepositoryInterface::class);
+        $this->accountRepository = $this->createMock(type: AccountRepositoryInterface::class);
     }
 
     public function testLoadUserByIdentifierWithEmail(): void
     {
         $passwordHash = '$2y$13$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ01234';
-        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
         $account = new Account(
             id: AccountIdentifier::fromString(uuid: '00000000-0000-6000-8000-000000000000'),
             email: EmailAddress::fromString(email: 'email@example.com'),
@@ -57,7 +57,7 @@ final class DatabaseUserProviderTest extends TestCase
             enabled: true,
         );
 
-        $this->accountEntityRepository
+        $this->accountRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
             ->with($account->email)
@@ -71,9 +71,9 @@ final class DatabaseUserProviderTest extends TestCase
 
     public function testLoadUserByIdentifierWithInvalidIdentifier(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
 
-        $this->accountEntityRepository
+        $this->accountRepository
             ->expects($this->once())
             ->method(constraint: 'findOneByEmail')
             ->willThrowException(AccountNotFoundException::create());
@@ -85,9 +85,9 @@ final class DatabaseUserProviderTest extends TestCase
 
     public function testLoadUserByIdentifierWithMalformedEmailThrowsUserNotFoundException(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
 
-        $this->accountEntityRepository->expects($this->never())->method(constraint: 'findOneByEmail');
+        $this->accountRepository->expects($this->never())->method(constraint: 'findOneByEmail');
 
         $this->expectException(UserNotFoundException::class);
 
@@ -96,7 +96,7 @@ final class DatabaseUserProviderTest extends TestCase
 
     public function testRefreshUserThrowsUnsupportedUserException(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
         $passwordAuthenticatedUser = new PasswordAuthenticatedUser(
             userIdentifier: Uuid::v7()->hash(),
             password: 'password4#account',
@@ -111,7 +111,7 @@ final class DatabaseUserProviderTest extends TestCase
 
     public function testCheckSupportsClassWithMatchingClass(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
         $supports = $databaseUserProvider->supportsClass(class: PasswordAuthenticatedUser::class);
 
         self::assertTrue($supports);
@@ -119,7 +119,7 @@ final class DatabaseUserProviderTest extends TestCase
 
     public function testCheckSupportsClassWithNonMatchingClass(): void
     {
-        $databaseUserProvider = new DatabaseUserProvider($this->accountEntityRepository);
+        $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
         $supports = $databaseUserProvider->supportsClass(class: stdClass::class);
 
         self::assertFalse($supports);

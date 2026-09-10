@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security\UserProvider;
 
-use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountRepositoryInterface;
 use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser;
@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 final readonly class DatabaseUserProvider implements UserProviderInterface
 {
     public function __construct(
-        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountRepositoryInterface $accountRepository,
     ) {
     }
 
@@ -30,7 +30,7 @@ final readonly class DatabaseUserProvider implements UserProviderInterface
     {
         try {
             $emailAddress = EmailAddress::fromString($identifier);
-            $account = $this->accountEntityRepository->findOneByEmail($emailAddress);
+            $account = $this->accountRepository->findOneByEmail($emailAddress);
         } catch (DomainException | AccountNotFoundException $exception) {
             throw new UserNotFoundException(previous: $exception);
         }

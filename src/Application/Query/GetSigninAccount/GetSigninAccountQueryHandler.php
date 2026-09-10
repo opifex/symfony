@@ -6,14 +6,14 @@ namespace App\Application\Query\GetSigninAccount;
 
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final readonly class GetSigninAccountQueryHandler
 {
     public function __construct(
-        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountRepositoryInterface $accountRepository,
         private AuthorizationTokenStorageInterface $authorizationTokenStorage,
     ) {
     }
@@ -24,7 +24,7 @@ final readonly class GetSigninAccountQueryHandler
 
         $accountId = AccountIdentifier::fromString($userIdentifier);
 
-        $account = $this->accountEntityRepository->findOneById($accountId);
+        $account = $this->accountRepository->findOneById($accountId);
 
         return GetSigninAccountQueryResult::success($account);
     }

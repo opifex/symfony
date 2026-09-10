@@ -11,7 +11,7 @@ use App\Domain\Account\Exception\AccountNotFoundException;
 use App\Domain\Foundation\SearchResult;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 
-interface AccountEntityRepositoryInterface
+interface AccountRepositoryInterface
 {
     public function findByCriteria(
         ?string $accountEmail = null,

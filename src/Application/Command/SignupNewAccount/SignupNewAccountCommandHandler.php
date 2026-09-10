@@ -7,7 +7,7 @@ namespace App\Application\Command\SignupNewAccount;
 use App\Application\Contract\UuidIdentityGeneratorInterface;
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountRepositoryInterface;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Localization\LocaleCode;
@@ -17,7 +17,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final readonly class SignupNewAccountCommandHandler
 {
     public function __construct(
-        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountRepositoryInterface $accountRepository,
         private AccountPasswordHasherInterface $accountPasswordHasher,
         private UuidIdentityGeneratorInterface $uuidIdentityGenerator,
     ) {
@@ -32,8 +32,8 @@ final readonly class SignupNewAccountCommandHandler
             locale: LocaleCode::fromString($command->locale),
         )->register()->activate();
 
-        $this->accountEntityRepository->ensureEmailIsAvailable($account->email);
-        $this->accountEntityRepository->save($account);
+        $this->accountRepository->ensureEmailIsAvailable($account->email);
+        $this->accountRepository->save($account);
 
         return SignupNewAccountCommandResult::success();
     }

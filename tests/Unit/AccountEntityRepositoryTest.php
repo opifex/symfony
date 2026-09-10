@@ -38,7 +38,7 @@ final class AccountEntityRepositoryTest extends TestCase
     {
         $this->entityManager = $this->createMock(type: EntityManagerInterface::class);
         $this->domainEventCollector = new DomainEventCollector();
-        $this->accountEntityRepository = new AccountEntityRepository($this->entityManager, $this->domainEventCollector);
+        $this->accountRepository = new AccountEntityRepository($this->entityManager, $this->domainEventCollector);
     }
 
     public function testSaveRecordsEventsReleasedFromTheAccount(): void
@@ -55,7 +55,7 @@ final class AccountEntityRepositoryTest extends TestCase
         $repository->method(constraint: 'findOneBy')->willReturn(value: null);
         $this->entityManager->method(constraint: 'getRepository')->willReturn($repository);
 
-        $this->accountEntityRepository->save($account);
+        $this->accountRepository->save($account);
 
         self::assertSame($releasedEvents, $this->domainEventCollector->releaseEvents());
     }
@@ -72,7 +72,7 @@ final class AccountEntityRepositoryTest extends TestCase
 
         $this->expectException(AccountRevisionConflictException::class);
 
-        (void) $this->accountEntityRepository->save($account);
+        (void) $this->accountRepository->save($account);
     }
 
     public function testSaveConvertsOptimisticLockExceptionToDomainException(): void
@@ -89,7 +89,7 @@ final class AccountEntityRepositoryTest extends TestCase
 
         $this->expectException(AccountRevisionConflictException::class);
 
-        (void) $this->accountEntityRepository->save($account);
+        (void) $this->accountRepository->save($account);
     }
 
     public function testSaveConvertsUniqueConstraintViolationToDomainException(): void
@@ -106,7 +106,7 @@ final class AccountEntityRepositoryTest extends TestCase
 
         $this->expectException(AccountAlreadyExistsException::class);
 
-        (void) $this->accountEntityRepository->save($account);
+        (void) $this->accountRepository->save($account);
     }
 
     private function createAccount(): Account

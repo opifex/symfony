@@ -7,14 +7,14 @@ namespace App\Application\Command\SigninIntoAccount;
 use App\Application\Contract\AuthorizationTokenStorageInterface;
 use App\Application\Contract\JwtAccessTokenIssuerInterface;
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final readonly class SigninIntoAccountCommandHandler
 {
     public function __construct(
-        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountRepositoryInterface $accountRepository,
         private AuthorizationTokenStorageInterface $authorizationTokenStorage,
         private JwtAccessTokenIssuerInterface $jwtAccessTokenIssuer,
     ) {
@@ -26,7 +26,7 @@ final readonly class SigninIntoAccountCommandHandler
 
         $accountId = AccountIdentifier::fromString($userIdentifier);
 
-        $account = $this->accountEntityRepository->findOneById($accountId);
+        $account = $this->accountRepository->findOneById($accountId);
 
         $expiresIn = $this->jwtAccessTokenIssuer->lifetime();
         $accessToken = $this->jwtAccessTokenIssuer->issue(

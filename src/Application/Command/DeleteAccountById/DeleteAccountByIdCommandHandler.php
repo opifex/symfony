@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Application\Command\DeleteAccountById;
 
 use App\Domain\Account\AccountIdentifier;
-use App\Domain\Account\Contract\AccountEntityRepositoryInterface;
+use App\Domain\Account\Contract\AccountRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final readonly class DeleteAccountByIdCommandHandler
 {
     public function __construct(
-        private AccountEntityRepositoryInterface $accountEntityRepository,
+        private AccountRepositoryInterface $accountRepository,
     ) {
     }
 
@@ -20,8 +20,8 @@ final readonly class DeleteAccountByIdCommandHandler
     {
         $accountId = AccountIdentifier::fromString($command->id);
 
-        $this->accountEntityRepository->findOneById($accountId)->delete()
-            |> $this->accountEntityRepository->save(...);
+        $this->accountRepository->findOneById($accountId)->delete()
+            |> $this->accountRepository->save(...);
 
         return DeleteAccountByIdCommandResult::success();
     }
