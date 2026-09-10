@@ -26,7 +26,7 @@ final readonly class JwtAccessTokenIssuer implements JwtAccessTokenIssuerInterfa
     public function issue(string $userIdentifier, array $userRoles = []): string
     {
         $configuration = $this->jwtConfigurationBag->configuration();
-        $lifetimeInterval = new DateInterval(sprintf('PT%sS', $this->jwtConfigurationBag->lifetime));
+        $lifetimeInterval = new DateInterval(sprintf('PT%dS', $this->jwtConfigurationBag->lifetime));
         $tokenIssuedAt = $this->jwtConfigurationBag->clock->now();
 
         if ($userIdentifier === '') {
