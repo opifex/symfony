@@ -24,7 +24,7 @@ final readonly class FailedMessagesMonitoringTask
         if ($failedMessageCount > 0) {
             $this->logger->error(
                 message: 'Messenger failed transport contains unprocessed messages.',
-                context: ['count' => $failedMessageCount],
+                context: ['failed_message_count' => $failedMessageCount],
             );
         }
     }
