@@ -14,7 +14,7 @@ final readonly class SensitiveDataProcessor
     /** @var array<string, string> */
     private const array PATTERNS = [
         'email' => '/(?<=.).(?=.*.{1}@)/u',
-        'password' => '/./u',
+        'password' => '/\G(?:(?<=^.{0,6}).|.+)/su',
     ];
 
     public function __construct(
