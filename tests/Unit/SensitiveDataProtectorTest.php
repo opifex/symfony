@@ -27,7 +27,7 @@ final class SensitiveDataProtectorTest extends TestCase
         ];
         yield 'mask single password in array' => [
             'data' => ['password' => 'password4#account'],
-            'patterns' => ['password' => '/\G(?:(?<=^.{0,6}).|.+)/su'],
+            'patterns' => ['password' => '/\G(?:(?<=^|^.|^.{2}|^.{3}|^.{4}|^.{5}|^.{6}).|.+)/su'],
             'expected' => ['password' => '********'],
         ];
         yield 'mask email in nested array' => [
