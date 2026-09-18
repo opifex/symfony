@@ -51,9 +51,9 @@
         "symfony/webhook": "8.1.*",
         "symfony/yaml": "8.1.*",
         "twig/cssinliner-extra": "^3.26",
-        "twig/extra-bundle": "^3.24",
+        "twig/extra-bundle": "^3.29",
         "twig/inky-extra": "^3.26",
-        "twig/twig": "^3.28"
+        "twig/twig": "^3.29"
     },
     "config": {
         "allow-plugins": {
