@@ -15,7 +15,7 @@ use Twig\Error\Error;
 
 #[AllowDynamicProperties]
 #[AllowMockObjectsWithoutExpectations]
-final class SensiolabsTwigAdapterTest extends TestCase
+final class TwigTemplateRendererTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -25,7 +25,7 @@ final class SensiolabsTwigAdapterTest extends TestCase
 
     public function testRendersExistingTemplate(): void
     {
-        $sensiolabsTwigAdapter = new TwigTemplateRenderer($this->environment);
+        $twigTemplateRenderer = new TwigTemplateRenderer($this->environment);
         $content = 'content';
 
         $this->environment
@@ -33,14 +33,14 @@ final class SensiolabsTwigAdapterTest extends TestCase
             ->method(constraint: 'render')
             ->willReturn($content);
 
-        $rendered = $sensiolabsTwigAdapter->render(name: 'example.html.twig');
+        $rendered = $twigTemplateRenderer->render(name: 'example.html.twig');
 
         self::assertSame($content, $rendered);
     }
 
     public function testRenderThrowsExceptionOnTwigError(): void
     {
-        $sensiolabsTwigAdapter = new TwigTemplateRenderer($this->environment);
+        $twigTemplateRenderer = new TwigTemplateRenderer($this->environment);
 
         $this->environment
             ->expects($this->once())
@@ -49,6 +49,6 @@ final class SensiolabsTwigAdapterTest extends TestCase
 
         $this->expectException(RenderingFailedException::class);
 
-        $sensiolabsTwigAdapter->render(name: 'example.html.twig');
+        $twigTemplateRenderer->render(name: 'example.html.twig');
     }
 }

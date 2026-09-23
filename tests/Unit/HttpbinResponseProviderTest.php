@@ -15,7 +15,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 #[AllowDynamicProperties]
 #[AllowMockObjectsWithoutExpectations]
-final class KennethreitzHttpbinAdapterTest extends TestCase
+final class HttpbinResponseProviderTest extends TestCase
 {
     #[DataProvider(methodName: 'httpbinResponseProvider')]
     public function testGetJsonReturnsDecodedResponse(array $response): void
@@ -23,9 +23,9 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
         $apiUrl = 'https://api.example.com';
         $mockResponse = new MockResponse(json_encode($response));
         $mockHttpClient = new MockHttpClient($mockResponse);
-        $kennethreitzHttpbinAdapter = new HttpbinResponseProvider($apiUrl, $mockHttpClient);
+        $httpbinResponseProvider = new HttpbinResponseProvider($apiUrl, $mockHttpClient);
 
-        $json = $kennethreitzHttpbinAdapter->getJson();
+        $json = $httpbinResponseProvider->getJson();
 
         self::assertSame($json, $response);
     }
@@ -37,11 +37,11 @@ final class KennethreitzHttpbinAdapterTest extends TestCase
 
         $apiUrl = 'https://api.example.com';
         $mockHttpClient = new MockHttpClient($mockResponse);
-        $kennethreitzHttpbinAdapter = new HttpbinResponseProvider($apiUrl, $mockHttpClient);
+        $httpbinResponseProvider = new HttpbinResponseProvider($apiUrl, $mockHttpClient);
 
         $this->expectException(HttpRequestFailedException::class);
 
-        $kennethreitzHttpbinAdapter->getJson();
+        $httpbinResponseProvider->getJson();
     }
 
     public static function httpbinResponseProvider(): iterable
