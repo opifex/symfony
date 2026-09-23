@@ -38,7 +38,7 @@ final class PayPalWebhookWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testWebhookRejectsPayloadWithMissingEventType(): void
+    public function testWebhookReturnsNotAcceptableWhenEventTypeIsMissing(): void
     {
         $webhookToken = $_ENV['PAYPAL_WEBHOOK_TOKEN'];
         self::sendPostRequest(url: '/webhook/paypal?token=' . $webhookToken, params: [

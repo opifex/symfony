@@ -28,7 +28,7 @@ final class ExceptionNormalizerTest extends TestCase
         $this->translator = $this->createMock(type: TranslatorInterface::class);
     }
 
-    public function testNormalizeThrowsInvalidArgumentException(): void
+    public function testNormalizeReturnsGenericErrorMessageForNonThrowableInput(): void
     {
         $exceptionNormalizer = new ExceptionNormalizer($this->kernel);
         $normalized = $exceptionNormalizer->normalize(data: null);

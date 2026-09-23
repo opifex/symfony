@@ -197,7 +197,7 @@ final class JwtAccessTokenIssuerTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testDecodeAccessTokenThrowsExceptionWithExpiredToken(): void
+    public function testIssueProducesTokenThatFailsToParseWhenExpired(): void
     {
         $jwtConfigurationBag = new JwtConfigurationBag(
             issuer: 'https://example.com',

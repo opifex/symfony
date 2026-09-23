@@ -26,7 +26,7 @@ final class GetHealthStatusWebTest extends WebTestCase
         self::assertResponseSchema();
     }
 
-    public function testHealthEndpointRejectsInvalidHttpMethod(): void
+    public function testHealthEndpointReturnsMethodNotAllowedForPostRequest(): void
     {
         self::sendPostRequest(url: '/api/v1/health');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_METHOD_NOT_ALLOWED);

@@ -31,7 +31,7 @@ final class CommandMessageBusTest extends TestCase
      * @throws ExceptionInterface
      */
     #[DataProvider(methodName: 'handledStampsProvider')]
-    public function testInvokeThrowsLogicExceptionOnInvalidHandledResult(array $stamps): void
+    public function testDispatchThrowsLogicExceptionOnInvalidHandledResult(array $stamps): void
     {
         $messageBus = new CommandMessageBus($this->messageBus);
         $commandMessage = new stdClass();

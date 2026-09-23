@@ -31,7 +31,7 @@ final class QueryMessageBusTest extends TestCase
      * @throws ExceptionInterface
      */
     #[DataProvider(methodName: 'handledStampsProvider')]
-    public function testInvokeThrowsLogicExceptionOnInvalidHandledResult(array $stamps): void
+    public function testAskThrowsLogicExceptionOnInvalidHandledResult(array $stamps): void
     {
         $messageBus = new QueryMessageBus($this->messageBus);
         $queryMessage = new stdClass();

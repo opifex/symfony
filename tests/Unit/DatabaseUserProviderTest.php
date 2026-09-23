@@ -109,7 +109,7 @@ final class DatabaseUserProviderTest extends TestCase
         $databaseUserProvider->refreshUser($passwordAuthenticatedUser);
     }
 
-    public function testCheckSupportsClassWithMatchingClass(): void
+    public function testSupportsClassWithMatchingClass(): void
     {
         $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
         $supports = $databaseUserProvider->supportsClass(class: PasswordAuthenticatedUser::class);
@@ -117,7 +117,7 @@ final class DatabaseUserProviderTest extends TestCase
         self::assertTrue($supports);
     }
 
-    public function testCheckSupportsClassWithNonMatchingClass(): void
+    public function testSupportsClassWithNonMatchingClass(): void
     {
         $databaseUserProvider = new DatabaseUserProvider($this->accountRepository);
         $supports = $databaseUserProvider->supportsClass(class: stdClass::class);

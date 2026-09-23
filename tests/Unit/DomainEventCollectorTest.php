@@ -10,14 +10,14 @@ use stdClass;
 
 final class DomainEventCollectorTest extends TestCase
 {
-    public function testReleaseAllReturnsEmptyArrayWhenNothingRecorded(): void
+    public function testReleaseEventsReturnsEmptyArrayWhenNothingRecorded(): void
     {
         $domainEventCollector = new DomainEventCollector();
 
         self::assertSame([], $domainEventCollector->releaseEvents());
     }
 
-    public function testReleaseAllReturnsRecordedEventsInOrder(): void
+    public function testReleaseEventsReturnsRecordedEventsInOrder(): void
     {
         $domainEventCollector = new DomainEventCollector();
         $firstEvent = new stdClass();
@@ -29,7 +29,7 @@ final class DomainEventCollectorTest extends TestCase
         self::assertSame([$firstEvent, $secondEvent], $domainEventCollector->releaseEvents());
     }
 
-    public function testReleaseAllClearsTheBuffer(): void
+    public function testReleaseEventsClearsTheBuffer(): void
     {
         $domainEventCollector = new DomainEventCollector();
         $domainEventCollector->collect(new stdClass());
