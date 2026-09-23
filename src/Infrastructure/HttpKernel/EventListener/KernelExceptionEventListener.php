@@ -40,9 +40,9 @@ final readonly class KernelExceptionEventListener
         }
 
         $exception = (array) $this->normalizer->normalize($throwable);
-        $exceptionClass = new ReflectionClass($throwable);
-        $httpStatus = ($exceptionClass->getAttributes(name: WithHttpStatus::class)[0] ?? null)?->newInstance();
-        $logLevel = ($exceptionClass->getAttributes(name: WithLogLevel::class)[0] ?? null)?->newInstance();
+        $reflectionClass = new ReflectionClass($throwable);
+        $httpStatus = ($reflectionClass->getAttributes(name: WithHttpStatus::class)[0] ?? null)?->newInstance();
+        $logLevel = ($reflectionClass->getAttributes(name: WithLogLevel::class)[0] ?? null)?->newInstance();
 
         [$statusCode, $headers] = match (true) {
             $httpStatus instanceof WithHttpStatus => [$httpStatus->statusCode, $httpStatus->headers],

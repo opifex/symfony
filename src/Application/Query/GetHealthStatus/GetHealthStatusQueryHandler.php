@@ -12,8 +12,8 @@ final readonly class GetHealthStatusQueryHandler
 {
     public function __invoke(GetHealthStatusQuery $query): GetHealthStatusQueryResult
     {
-        $healthCheck = Healthcheck::ok();
+        $healthcheck = Healthcheck::ok();
 
-        return GetHealthStatusQueryResult::success($healthCheck);
+        return GetHealthStatusQueryResult::success($healthcheck);
     }
 }

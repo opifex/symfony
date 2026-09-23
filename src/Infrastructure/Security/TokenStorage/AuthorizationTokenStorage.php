@@ -46,12 +46,12 @@ final readonly class AuthorizationTokenStorage implements AuthorizationTokenStor
     #[Override]
     public function getUserIdentifier(): string
     {
-        $user = $this->tokenStorage->getToken();
+        $token = $this->tokenStorage->getToken();
 
-        if (!$user instanceof TokenInterface) {
+        if (!$token instanceof TokenInterface) {
             throw new AuthenticationException(message: 'Invalid authorization credentials provided.');
         }
 
-        return $user->getUserIdentifier();
+        return $token->getUserIdentifier();
     }
 }
