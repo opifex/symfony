@@ -22,7 +22,7 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->cache = $this->createMock(type: CacheItemPoolInterface::class);
+        $this->cacheItemPool = $this->createMock(type: CacheItemPoolInterface::class);
         $this->cacheItem = $this->createMock(type: CacheItemInterface::class);
         $this->clock = new MockClock(now: '2026-01-01T00:00:00+00:00');
     }
@@ -32,9 +32,9 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
      */
     public function testRevokeStoresTokenWithTtl(): void
     {
-        $revocation = new JwtAccessTokenRevokerCache($this->cache, $this->clock);
+        $revocation = new JwtAccessTokenRevokerCache($this->cacheItemPool, $this->clock);
 
-        $this->cache
+        $this->cacheItemPool
             ->expects($this->once())
             ->method(constraint: 'getItem')
             ->with('abc-jti-123')
@@ -52,7 +52,7 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
             ->with(3600)
             ->willReturn(value: $this->cacheItem);
 
-        $this->cache
+        $this->cacheItemPool
             ->expects($this->once())
             ->method(constraint: 'save')
             ->with($this->cacheItem);
@@ -68,9 +68,9 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
      */
     public function testRevokeIsNoOpWhenTokenAlreadyExpired(): void
     {
-        $revocation = new JwtAccessTokenRevokerCache($this->cache, $this->clock);
+        $revocation = new JwtAccessTokenRevokerCache($this->cacheItemPool, $this->clock);
 
-        $this->cache
+        $this->cacheItemPool
             ->expects($this->never())
             ->method(constraint: 'getItem');
 
@@ -85,9 +85,9 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
      */
     public function testIsRevokedReturnsTrueWhenItemExists(): void
     {
-        $revocation = new JwtAccessTokenRevokerCache($this->cache, $this->clock);
+        $revocation = new JwtAccessTokenRevokerCache($this->cacheItemPool, $this->clock);
 
-        $this->cache
+        $this->cacheItemPool
             ->expects($this->once())
             ->method(constraint: 'hasItem')
             ->with('abc-jti-123')
@@ -101,9 +101,9 @@ final class JwtAccessTokenRevokerCacheTest extends TestCase
      */
     public function testIsRevokedReturnsFalseWhenItemDoesNotExist(): void
     {
-        $revocation = new JwtAccessTokenRevokerCache($this->cache, $this->clock);
+        $revocation = new JwtAccessTokenRevokerCache($this->cacheItemPool, $this->clock);
 
-        $this->cache
+        $this->cacheItemPool
             ->expects($this->once())
             ->method(constraint: 'hasItem')
             ->with('abc-jti-123')

@@ -25,11 +25,11 @@ final class JsonLoginAuthenticatorTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->emailIpRateLimiterFactory = $this->createMock(type: RateLimiterFactoryInterface::class);
-        $this->ipRateLimiterFactory = $this->createMock(type: RateLimiterFactoryInterface::class);
+        $this->emailIpLoginRateLimiterFactory = $this->createMock(type: RateLimiterFactoryInterface::class);
+        $this->ipLoginRateLimiterFactory = $this->createMock(type: RateLimiterFactoryInterface::class);
         $this->authenticator = new JsonLoginAuthenticator(
-            $this->emailIpRateLimiterFactory,
-            $this->ipRateLimiterFactory,
+            $this->emailIpLoginRateLimiterFactory,
+            $this->ipLoginRateLimiterFactory,
         );
     }
 
@@ -38,12 +38,12 @@ final class JsonLoginAuthenticatorTest extends TestCase
      */
     public function testAuthenticateReturnsPassportWhenRateLimitNotExceeded(): void
     {
-        $this->emailIpRateLimiterFactory
+        $this->emailIpLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: true, expectedTokens: 0));
 
-        $this->ipRateLimiterFactory
+        $this->ipLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: true, expectedTokens: 0));
@@ -59,12 +59,12 @@ final class JsonLoginAuthenticatorTest extends TestCase
      */
     public function testAuthenticateThrowsThrottlingExceptionWithoutConsumingWhenEmailIpRateLimitAlreadyExceeded(): void
     {
-        $this->emailIpRateLimiterFactory
+        $this->emailIpLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: false, expectedTokens: 0));
 
-        $this->ipRateLimiterFactory
+        $this->ipLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: true, expectedTokens: 0));
@@ -79,12 +79,12 @@ final class JsonLoginAuthenticatorTest extends TestCase
      */
     public function testAuthenticateThrowsThrottlingExceptionWithoutConsumingWhenIpRateLimitAlreadyExceeded(): void
     {
-        $this->emailIpRateLimiterFactory
+        $this->emailIpLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: true, expectedTokens: 0));
 
-        $this->ipRateLimiterFactory
+        $this->ipLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: false, expectedTokens: 0));
@@ -99,12 +99,12 @@ final class JsonLoginAuthenticatorTest extends TestCase
      */
     public function testOnAuthenticationFailureConsumesOneTokenAndReturnsNullWhenRateLimitNotExceeded(): void
     {
-        $this->emailIpRateLimiterFactory
+        $this->emailIpLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: true, expectedTokens: 1));
 
-        $this->ipRateLimiterFactory
+        $this->ipLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: true, expectedTokens: 1));
@@ -122,12 +122,12 @@ final class JsonLoginAuthenticatorTest extends TestCase
      */
     public function testOnAuthenticationFailureThrowsThrottlingExceptionWhenEmailIpRateLimitExceeded(): void
     {
-        $this->emailIpRateLimiterFactory
+        $this->emailIpLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: false, expectedTokens: 1));
 
-        $this->ipRateLimiterFactory
+        $this->ipLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: true, expectedTokens: 1));
@@ -142,12 +142,12 @@ final class JsonLoginAuthenticatorTest extends TestCase
      */
     public function testOnAuthenticationFailureThrowsThrottlingExceptionWhenIpRateLimitExceeded(): void
     {
-        $this->emailIpRateLimiterFactory
+        $this->emailIpLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: true, expectedTokens: 1));
 
-        $this->ipRateLimiterFactory
+        $this->ipLoginRateLimiterFactory
             ->expects($this->once())
             ->method(constraint: 'create')
             ->willReturn($this->createLimiter(isAccepted: false, expectedTokens: 1));

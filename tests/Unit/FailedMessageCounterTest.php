@@ -12,10 +12,10 @@ final class FailedMessageCounterTest extends TestCase
 {
     public function testCountReturnsTransportMessageCount(): void
     {
-        $transport = $this->createStub(type: MessageCountAwareInterface::class);
-        $transport->method(constraint: 'getMessageCount')->willReturn(value: 7);
+        $messageCountAware = $this->createStub(type: MessageCountAwareInterface::class);
+        $messageCountAware->method(constraint: 'getMessageCount')->willReturn(value: 7);
 
-        $failedMessageCounter = new FailedMessageCounter($transport);
+        $failedMessageCounter = new FailedMessageCounter($messageCountAware);
 
         $this->assertSame(expected: 7, actual: $failedMessageCounter->count());
     }
