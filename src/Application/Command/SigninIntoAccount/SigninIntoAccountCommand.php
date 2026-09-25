@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Command\SigninIntoAccount;
 
+use SensitiveParameter;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final readonly class SigninIntoAccountCommand
@@ -14,6 +15,7 @@ final readonly class SigninIntoAccountCommand
         public string $email = '',
 
         #[Assert\NotBlank]
+        #[SensitiveParameter]
         public string $password = '',
     ) {
     }

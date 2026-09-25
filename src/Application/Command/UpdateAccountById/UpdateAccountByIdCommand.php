@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Command\UpdateAccountById;
 
 use App\Domain\Localization\LocaleCode;
+use SensitiveParameter;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final readonly class UpdateAccountByIdCommand
@@ -19,6 +20,7 @@ final readonly class UpdateAccountByIdCommand
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\PasswordStrength]
+        #[SensitiveParameter]
         public ?string $password = null,
 
         #[Assert\Locale]

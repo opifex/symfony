@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Command\CreateNewAccount;
 
 use App\Domain\Localization\LocaleCode;
+use SensitiveParameter;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final readonly class CreateNewAccountCommand
@@ -16,6 +17,7 @@ final readonly class CreateNewAccountCommand
 
         #[Assert\Length(min: 8, max: 32)]
         #[Assert\PasswordStrength]
+        #[SensitiveParameter]
         public string $password = '',
 
         #[Assert\Locale]

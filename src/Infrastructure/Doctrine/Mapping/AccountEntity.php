@@ -9,6 +9,7 @@ use App\Domain\Localization\LocaleCode;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use SensitiveParameter;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
@@ -25,6 +26,7 @@ final class AccountEntity
         public string $email = '',
 
         #[ORM\Column(name: 'password', type: Types::STRING, options: ['length' => 128])]
+        #[SensitiveParameter]
         public string $password = '',
 
         #[ORM\Column(name: 'locale', type: Types::ENUM, enumType: LocaleCode::class)]

@@ -6,6 +6,7 @@ namespace App\Application\Command\SigninIntoAccount;
 
 use JsonSerializable;
 use Override;
+use SensitiveParameter;
 
 final readonly class SigninIntoAccountCommandResult implements JsonSerializable
 {
@@ -14,7 +15,7 @@ final readonly class SigninIntoAccountCommandResult implements JsonSerializable
     ) {
     }
 
-    public static function success(string $accessToken, int $expiresIn): self
+    public static function success(#[SensitiveParameter] string $accessToken, int $expiresIn): self
     {
         return new self(
             payload: [
