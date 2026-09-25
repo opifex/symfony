@@ -22,9 +22,9 @@ final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorI
 {
     public function __construct(
         #[Autowire(service: 'limiter.email_ip_login')]
-        private RateLimiterFactoryInterface $emailIpRateLimiterFactory,
+        private RateLimiterFactoryInterface $emailIpLoginRateLimiterFactory,
         #[Autowire(service: 'limiter.ip_login')]
-        private RateLimiterFactoryInterface $ipRateLimiterFactory,
+        private RateLimiterFactoryInterface $ipLoginRateLimiterFactory,
     ) {
     }
 
@@ -82,8 +82,8 @@ final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorI
         $emailIpKey = hash(algo: 'sha256', data: $normalizedEmail . '|' . $normalizedIp);
         $ipKey = hash(algo: 'sha256', data: $normalizedIp);
 
-        $emailIpLimit = $this->emailIpRateLimiterFactory->create($emailIpKey)->consume($tokens);
-        $ipLimit = $this->ipRateLimiterFactory->create($ipKey)->consume($tokens);
+        $emailIpLimit = $this->emailIpLoginRateLimiterFactory->create($emailIpKey)->consume($tokens);
+        $ipLimit = $this->ipLoginRateLimiterFactory->create($ipKey)->consume($tokens);
 
         if (!$emailIpLimit->isAccepted() || !$ipLimit->isAccepted()) {
             throw new TooManyRequestsHttpException(message: 'Too many requests detected, please try again later.');

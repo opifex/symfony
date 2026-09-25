@@ -13,13 +13,13 @@ final readonly class FailedMessageCounter implements FailedMessageCounterInterfa
 {
     public function __construct(
         #[Autowire(service: 'messenger.transport.failed')]
-        private MessageCountAwareInterface $failedTransport,
+        private MessageCountAwareInterface $messageCountAware,
     ) {
     }
 
     #[Override]
     public function count(): int
     {
-        return $this->failedTransport->getMessageCount();
+        return $this->messageCountAware->getMessageCount();
     }
 }

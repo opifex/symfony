@@ -15,7 +15,7 @@ final readonly class HttpbinResponseProvider implements HttpbinResponseProviderI
 {
     public function __construct(
         #[Autowire(env: 'HTTPBIN_URL')]
-        private string $apiUrl,
+        private string $url,
         private HttpClientInterface $httpClient,
     ) {
     }
@@ -26,7 +26,7 @@ final readonly class HttpbinResponseProvider implements HttpbinResponseProviderI
         try {
             /** @var array<array-key, mixed> */
             return $this->httpClient->withOptions([
-                'base_uri' => $this->apiUrl,
+                'base_uri' => $this->url,
                 'headers' => [
                     'Accept' => 'application/json',
                 ],
