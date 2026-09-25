@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[AsController]
 final class SigninIntoAccountController extends AbstractController
 {
-    #[OA\Post(summary: 'Signin into account')]
+    #[OA\Post(summary: 'Sign in to account')]
     #[OA\Tag(name: 'Authorization')]
     #[OA\RequestBody(
         required: true,

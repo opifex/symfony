@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class UnblockAccountByIdController extends AbstractController
 {
-    #[OA\Post(summary: 'Unblock account by identifier', security: [['Bearer' => []]])]
+    #[OA\Post(summary: 'Unblock account', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Account')]
     #[OA\PathParameter(
         name: 'id',

@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class GetSigninAccountController extends AbstractController
 {
-    #[OA\Get(summary: 'Get signin account information', security: [['Bearer' => []]])]
+    #[OA\Get(summary: 'Get current account', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Authorization')]
     #[OA\Response(
         response: Response::HTTP_OK,

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class DeleteAccountByIdController extends AbstractController
 {
-    #[OA\Delete(summary: 'Delete account by identifier', security: [['Bearer' => []]])]
+    #[OA\Delete(summary: 'Delete account', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Account')]
     #[OA\PathParameter(
         name: 'id',

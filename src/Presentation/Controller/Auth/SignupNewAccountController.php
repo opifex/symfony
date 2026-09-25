@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[AsController]
 final class SignupNewAccountController extends AbstractController
 {
-    #[OA\Post(summary: 'Signup new account')]
+    #[OA\Post(summary: 'Sign up for account')]
     #[OA\Tag(name: 'Authorization')]
     #[OA\RequestBody(
         required: true,

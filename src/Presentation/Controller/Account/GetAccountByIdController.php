@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class GetAccountByIdController extends AbstractController
 {
-    #[OA\Get(summary: 'Get account by identifier', security: [['Bearer' => []]])]
+    #[OA\Get(summary: 'Get account', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Account')]
     #[OA\PathParameter(
         name: 'id',

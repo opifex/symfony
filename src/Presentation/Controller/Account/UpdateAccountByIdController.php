@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class UpdateAccountByIdController extends AbstractController
 {
-    #[OA\Patch(summary: 'Update account by identifier', security: [['Bearer' => []]])]
+    #[OA\Patch(summary: 'Update account', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Account')]
     #[OA\RequestBody(
         content: new OA\JsonContent(

@@ -1,4 +1,18 @@
 nelmio_api_doc:
+  html_config:
+    scalar_config:
+      agent:
+        disabled: true
+      darkMode: true
+      defaultOpenAllTags: true
+      hideClientButton: true
+      hideDarkModeToggle: true
+      hideModels: true
+      hideSearch: true
+      mcp:
+        disabled: true
+      showDeveloperTools: never
+      theme: fastify
   areas:
     default:
       path_patterns: [ ^/api ]

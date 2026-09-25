@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class CreateNewAccountController extends AbstractController
 {
-    #[OA\Post(summary: 'Create new account', security: [['Bearer' => []]])]
+    #[OA\Post(summary: 'Create account', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Account')]
     #[OA\RequestBody(
         required: true,

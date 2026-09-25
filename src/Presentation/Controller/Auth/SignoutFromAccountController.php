@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class SignoutFromAccountController extends AbstractController
 {
-    #[OA\Post(summary: 'Signout from account', security: [['Bearer' => []]])]
+    #[OA\Post(summary: 'Sign out of account', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Authorization')]
     #[OA\Response(
         response: Response::HTTP_NO_CONTENT,

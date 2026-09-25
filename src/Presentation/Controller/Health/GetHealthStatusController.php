@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[AsController]
 final class GetHealthStatusController extends AbstractController
 {
-    #[OA\Get(summary: 'Get health status')]
+    #[OA\Get(summary: 'Health check')]
     #[OA\Tag(name: 'Health')]
     #[OA\Response(
         response: Response::HTTP_OK,

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class BlockAccountByIdController extends AbstractController
 {
-    #[OA\Post(summary: 'Block account by identifier', security: [['Bearer' => []]])]
+    #[OA\Post(summary: 'Block account', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Account')]
     #[OA\PathParameter(
         name: 'id',

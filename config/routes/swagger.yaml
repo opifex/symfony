@@ -6,4 +6,4 @@ app_swagger_json:
 app_swagger_ui:
   path: /docs
   methods: GET
-  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+  defaults: { _controller: nelmio_api_doc.controller.scalar }

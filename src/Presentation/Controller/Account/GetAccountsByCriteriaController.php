@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[AsController]
 final class GetAccountsByCriteriaController extends AbstractController
 {
-    #[OA\Get(summary: 'Get accounts by criteria', security: [['Bearer' => []]])]
+    #[OA\Get(summary: 'List accounts', security: [['Bearer' => []]])]
     #[OA\Tag(name: 'Account')]
     #[OA\QueryParameter(
         name: 'email',
