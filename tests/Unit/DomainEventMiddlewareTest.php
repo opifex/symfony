@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
+use App\Domain\Foundation\Event\EventInterface;
 use App\Infrastructure\Messenger\DomainEventCollector;
-use App\Infrastructure\Messenger\MessageBus\EventMessageBus;
 use App\Infrastructure\Messenger\Middleware\DomainEventMiddleware;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use stdClass;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Throwable;
 
 #[AllowDynamicProperties]
@@ -30,7 +30,6 @@ final class DomainEventMiddlewareTest extends TestCase
         $this->stack = $this->createMock(type: StackInterface::class);
         $this->domainEventCollector = new DomainEventCollector();
         $this->messageBus = $this->createMock(type: MessageBusInterface::class);
-        $this->eventMessageBus = new EventMessageBus($this->messageBus);
     }
 
     /**
@@ -39,7 +38,7 @@ final class DomainEventMiddlewareTest extends TestCase
     public function testPublishesEventsRecordedWhileHandlingTheEnvelope(): void
     {
         $envelope = new Envelope(new stdClass());
-        $event = new stdClass();
+        $event = new class implements EventInterface {};
 
         $this->stack->method(constraint: 'next')->willReturn($this->nextMiddleware);
         $this->nextMiddleware
@@ -60,7 +59,7 @@ final class DomainEventMiddlewareTest extends TestCase
 
         $publishDomainEventMiddleware = new DomainEventMiddleware(
             $this->domainEventCollector,
-            $this->eventMessageBus,
+            $this->messageBus,
         );
 
         $result = $publishDomainEventMiddleware->handle($envelope, $this->stack);
@@ -75,8 +74,8 @@ final class DomainEventMiddlewareTest extends TestCase
     public function testPublishesEachRecordedEventInASeparateCall(): void
     {
         $envelope = new Envelope(new stdClass());
-        $firstEvent = new stdClass();
-        $secondEvent = new stdClass();
+        $firstEvent = new class implements EventInterface {};
+        $secondEvent = new class implements EventInterface {};
 
         $this->stack->method(constraint: 'next')->willReturn($this->nextMiddleware);
         $this->nextMiddleware
@@ -99,7 +98,7 @@ final class DomainEventMiddlewareTest extends TestCase
 
         $publishDomainEventMiddleware = new DomainEventMiddleware(
             $this->domainEventCollector,
-            $this->eventMessageBus,
+            $this->messageBus,
         );
 
         $publishDomainEventMiddleware->handle($envelope, $this->stack);
@@ -118,7 +117,9 @@ final class DomainEventMiddlewareTest extends TestCase
         $this->nextMiddleware
             ->method(constraint: 'handle')
             ->willReturnCallback(function (): never {
-                $this->domainEventCollector->collect(new stdClass());
+                $this->domainEventCollector->collect(
+                    new class implements EventInterface {},
+                );
 
                 throw new RuntimeException(message: 'handler failed');
             });
@@ -127,7 +128,7 @@ final class DomainEventMiddlewareTest extends TestCase
 
         $publishDomainEventMiddleware = new DomainEventMiddleware(
             $this->domainEventCollector,
-            $this->eventMessageBus,
+            $this->messageBus,
         );
 
         try {

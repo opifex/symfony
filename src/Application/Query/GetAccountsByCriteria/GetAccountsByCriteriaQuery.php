@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\Query\GetAccountsByCriteria;
 
+use App\Application\Query\QueryInterface;
 use App\Domain\Account\AccountStatus;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class GetAccountsByCriteriaQuery
+final readonly class GetAccountsByCriteriaQuery implements QueryInterface
 {
     public function __construct(
         #[Assert\Length(max: 320)]

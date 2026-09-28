@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Domain\Account\Event;
 
 use App\Domain\Account\Account;
+use App\Domain\Foundation\Event\EventInterface;
 
-final readonly class AccountRegisteredEvent
+final readonly class AccountRegisteredEvent implements EventInterface
 {
     private function __construct(
         public Account $account,

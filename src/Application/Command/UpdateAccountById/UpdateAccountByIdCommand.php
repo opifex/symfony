@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Application\Command\UpdateAccountById;
 
+use App\Application\Command\CommandInterface;
 use App\Domain\Localization\LocaleCode;
 use SensitiveParameter;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class UpdateAccountByIdCommand
+final readonly class UpdateAccountByIdCommand implements CommandInterface
 {
     public function __construct(
         #[Assert\NotBlank]

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Query\GetSigninAccount;
 
-final readonly class GetSigninAccountQuery
+use App\Application\Query\QueryInterface;
+
+final readonly class GetSigninAccountQuery implements QueryInterface
 {
 }

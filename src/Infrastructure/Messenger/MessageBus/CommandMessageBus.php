@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Messenger\MessageBus;
 
+use App\Application\Command\CommandInterface;
 use App\Application\Contract\CommandMessageBusInterface;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -26,7 +27,7 @@ final readonly class CommandMessageBus implements CommandMessageBusInterface
      * @throws ExceptionInterface
      */
     #[Override]
-    public function dispatch(object $command): mixed
+    public function dispatch(CommandInterface $command): mixed
     {
         $envelope = $this->messageBus->dispatch($command);
         $handledStamps = $envelope->all(stampFqcn: HandledStamp::class);

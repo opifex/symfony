@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\PayPal\RemoteEvent;
 
-use App\Domain\Payment\Event\PaymentReceivedEvent;
-use App\Infrastructure\Messenger\MessageBus\EventMessageBus;
 use Override;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\RemoteEvent\Attribute\AsRemoteEventConsumer;
 use Symfony\Component\RemoteEvent\Consumer\ConsumerInterface;
 use Symfony\Component\RemoteEvent\RemoteEvent;
@@ -15,20 +12,12 @@ use Symfony\Component\RemoteEvent\RemoteEvent;
 #[AsRemoteEventConsumer('paypal')]
 final readonly class PayPalRemoteEventConsumer implements ConsumerInterface
 {
-    public function __construct(
-        private EventMessageBus $eventMessageBus,
-    ) {
-    }
-
-    /**
-     * @throws ExceptionInterface
-     */
     #[Override]
     public function consume(RemoteEvent $event): void
     {
         if ($event instanceof PayPalPaymentCaptureEvent) {
             if ($event->getName() === PayPalPaymentCaptureEvent::COMPLETED) {
-                $this->eventMessageBus->publish(PaymentReceivedEvent::create());
+                return;
             }
         }
     }

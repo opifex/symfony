@@ -7,6 +7,7 @@ namespace App\Domain\Account;
 use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Domain\Account\Exception\AccountInvalidActionException;
 use App\Domain\Foundation\DomainEventsTrait;
+use App\Domain\Foundation\Event\EventInterface;
 use App\Domain\Foundation\ImmutableCloneTrait;
 use App\Domain\Foundation\ValueObject\DateTimeUtc;
 use App\Domain\Foundation\ValueObject\EmailAddress;
@@ -20,7 +21,7 @@ final readonly class Account
     use ImmutableCloneTrait;
 
     /**
-     * @param object[] $events
+     * @param EventInterface[] $events
      */
     public function __construct(
         public AccountIdentifier $id,

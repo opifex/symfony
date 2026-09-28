@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
+use App\Application\Command\CommandInterface;
 use App\Infrastructure\Messenger\MessageBus\CommandMessageBus;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\Exception\LogicException;
@@ -34,7 +34,7 @@ final class CommandMessageBusTest extends TestCase
     public function testDispatchThrowsLogicExceptionOnInvalidHandledResult(array $stamps): void
     {
         $messageBus = new CommandMessageBus($this->messageBus);
-        $commandMessage = new stdClass();
+        $commandMessage = new class implements CommandInterface {};
 
         $this->messageBus
             ->expects(self::once())

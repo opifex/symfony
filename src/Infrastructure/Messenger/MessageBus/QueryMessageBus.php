@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Messenger\MessageBus;
 
 use App\Application\Contract\QueryMessageBusInterface;
+use App\Application\Query\QueryInterface;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\Lazy;
@@ -26,7 +27,7 @@ final readonly class QueryMessageBus implements QueryMessageBusInterface
      * @throws ExceptionInterface
      */
     #[Override]
-    public function ask(object $query): mixed
+    public function ask(QueryInterface $query): mixed
     {
         $envelope = $this->messageBus->dispatch($query);
         $handledStamps = $envelope->all(stampFqcn: HandledStamp::class);

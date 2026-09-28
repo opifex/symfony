@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Infrastructure\Messenger\Middleware;
 
 use App\Infrastructure\Messenger\DomainEventCollector;
-use App\Infrastructure\Messenger\MessageBus\EventMessageBus;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\AsAlias;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 use Throwable;
@@ -18,7 +19,8 @@ final readonly class DomainEventMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private DomainEventCollector $domainEventCollector,
-        private EventMessageBus $eventMessageBus,
+        #[Autowire(service: 'event.bus')]
+        private MessageBusInterface $messageBus,
     ) {
     }
 
@@ -36,7 +38,7 @@ final readonly class DomainEventMiddleware implements MiddlewareInterface
         }
 
         foreach ($this->domainEventCollector->releaseEvents() as $event) {
-            $this->eventMessageBus->publish($event);
+            $this->messageBus->dispatch($event);
         }
 
         return $envelope;

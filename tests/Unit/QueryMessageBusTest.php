@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use AllowDynamicProperties;
+use App\Application\Query\QueryInterface;
 use App\Infrastructure\Messenger\MessageBus\QueryMessageBus;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\Exception\LogicException;
@@ -34,7 +34,7 @@ final class QueryMessageBusTest extends TestCase
     public function testAskThrowsLogicExceptionOnInvalidHandledResult(array $stamps): void
     {
         $messageBus = new QueryMessageBus($this->messageBus);
-        $queryMessage = new stdClass();
+        $queryMessage = new class implements QueryInterface {};
 
         $this->messageBus
             ->expects(self::once())

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Foundation;
 
+use App\Domain\Foundation\Event\EventInterface;
 use NoDiscard;
 
 trait DomainEventsTrait
@@ -11,13 +12,13 @@ trait DomainEventsTrait
     use ImmutableCloneTrait;
 
     #[NoDiscard]
-    private function withEvents(object ...$events): static
+    private function withEvents(EventInterface ...$events): static
     {
         return $this->withFields(['events' => [...$this->events, ...$events]]);
     }
 
     /**
-     * @return object[]
+     * @return EventInterface[]
      */
     #[NoDiscard]
     public function releaseEvents(): array

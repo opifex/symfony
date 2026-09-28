@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Domain\Foundation\Event\EventInterface;
 use App\Infrastructure\Messenger\DomainEventCollector;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 final class DomainEventCollectorTest extends TestCase
 {
@@ -20,8 +20,8 @@ final class DomainEventCollectorTest extends TestCase
     public function testReleaseEventsReturnsRecordedEventsInOrder(): void
     {
         $domainEventCollector = new DomainEventCollector();
-        $firstEvent = new stdClass();
-        $secondEvent = new stdClass();
+        $firstEvent = new class implements EventInterface {};
+        $secondEvent = new class implements EventInterface {};
 
         $domainEventCollector->collect($firstEvent);
         $domainEventCollector->collect($secondEvent);
@@ -32,7 +32,9 @@ final class DomainEventCollectorTest extends TestCase
     public function testReleaseEventsClearsTheBuffer(): void
     {
         $domainEventCollector = new DomainEventCollector();
-        $domainEventCollector->collect(new stdClass());
+        $domainEventCollector->collect(
+            new class implements EventInterface {},
+        );
 
         $domainEventCollector->releaseEvents();
 
@@ -42,7 +44,9 @@ final class DomainEventCollectorTest extends TestCase
     public function testResetClearsRecordedEventsWithoutPublishing(): void
     {
         $domainEventCollector = new DomainEventCollector();
-        $domainEventCollector->collect(new stdClass());
+        $domainEventCollector->collect(
+            new class implements EventInterface {},
+        );
 
         $domainEventCollector->reset();
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Query\GetHealthStatus;
 
-final readonly class GetHealthStatusQuery
+use App\Application\Query\QueryInterface;
+
+final readonly class GetHealthStatusQuery implements QueryInterface
 {
 }
