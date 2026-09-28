@@ -117,7 +117,7 @@ final class DomainEventMiddlewareTest extends TestCase
         $this->stack->method(constraint: 'next')->willReturn($this->nextMiddleware);
         $this->nextMiddleware
             ->method(constraint: 'handle')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): never {
                 $this->domainEventCollector->collect(new stdClass());
 
                 throw new RuntimeException(message: 'handler failed');
