@@ -7,8 +7,8 @@ namespace App\Application\Command\UpdateAccountById;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Contract\AccountPasswordHasherInterface;
 use App\Domain\Account\Contract\AccountRepositoryInterface;
+use App\Domain\Foundation\Enum\LocaleCode;
 use App\Domain\Foundation\ValueObject\EmailAddress;
-use App\Domain\Localization\LocaleCode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

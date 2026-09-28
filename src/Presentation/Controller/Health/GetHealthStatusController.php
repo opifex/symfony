@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Health;
 
 use App\Application\Query\GetHealthStatus\GetHealthStatusQuery;
 use App\Application\Query\GetHealthStatus\GetHealthStatusQueryResult;
-use App\Domain\Healthcheck\HealthStatus;
+use App\Domain\Foundation\Enum\HealthStatus;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

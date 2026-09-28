@@ -6,7 +6,7 @@ namespace App\Infrastructure\Doctrine\Fixture;
 
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountStatus;
-use App\Domain\Localization\LocaleCode;
+use App\Domain\Foundation\Enum\LocaleCode;
 use App\Infrastructure\Doctrine\Mapping\AccountEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;

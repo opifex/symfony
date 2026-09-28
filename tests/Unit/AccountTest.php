@@ -9,9 +9,9 @@ use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
 use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Domain\Account\Exception\AccountInvalidActionException;
+use App\Domain\Foundation\Enum\LocaleCode;
 use App\Domain\Foundation\ValueObject\EmailAddress;
 use App\Domain\Foundation\ValueObject\PasswordHash;
-use App\Domain\Localization\LocaleCode;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 

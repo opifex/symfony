@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use App\Domain\Localization\LocaleCode;
+use App\Domain\Foundation\Enum\LocaleCode;
 use Override;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;

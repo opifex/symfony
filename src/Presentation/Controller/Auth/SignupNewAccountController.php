@@ -6,7 +6,7 @@ namespace App\Presentation\Controller\Auth;
 
 use App\Application\Command\SignupNewAccount\SignupNewAccountCommand;
 use App\Application\Command\SignupNewAccount\SignupNewAccountCommandResult;
-use App\Domain\Localization\LocaleCode;
+use App\Domain\Foundation\Enum\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

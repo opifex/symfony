@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Doctrine\Mapping;
 
 use App\Domain\Account\AccountStatus;
-use App\Domain\Localization\LocaleCode;
+use App\Domain\Foundation\Enum\LocaleCode;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Localization;
+namespace App\Domain\Foundation\Enum;
 
 enum LocaleCode: string
 {

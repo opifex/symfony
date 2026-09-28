@@ -8,7 +8,7 @@ use App\Application\Query\GetAccountById\GetAccountByIdQuery;
 use App\Application\Query\GetAccountById\GetAccountByIdQueryResult;
 use App\Domain\Account\AccountRole;
 use App\Domain\Account\AccountStatus;
-use App\Domain\Localization\LocaleCode;
+use App\Domain\Foundation\Enum\LocaleCode;
 use App\Presentation\Controller\AbstractController;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;

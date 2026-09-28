@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Query\GetHealthStatus;
 
-use App\Domain\Healthcheck\Healthcheck;
+use App\Domain\Foundation\Enum\HealthStatus;
 use JsonSerializable;
 use Override;
 
@@ -15,11 +15,11 @@ final readonly class GetHealthStatusQueryResult implements JsonSerializable
     ) {
     }
 
-    public static function success(Healthcheck $healthcheck): self
+    public static function success(HealthStatus $healthStatus): self
     {
         return new self(
             payload: [
-                'status' => $healthcheck->status->toString(),
+                'status' => $healthStatus->toString(),
             ],
         );
     }

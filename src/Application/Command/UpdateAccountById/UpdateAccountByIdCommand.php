@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Command\UpdateAccountById;
 
 use App\Application\Command\CommandInterface;
-use App\Domain\Localization\LocaleCode;
+use App\Domain\Foundation\Enum\LocaleCode;
 use SensitiveParameter;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Query\GetHealthStatus;
 
-use App\Domain\Healthcheck\Healthcheck;
+use App\Domain\Foundation\Enum\HealthStatus;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -12,8 +12,8 @@ final readonly class GetHealthStatusQueryHandler
 {
     public function __invoke(GetHealthStatusQuery $query): GetHealthStatusQueryResult
     {
-        $healthcheck = Healthcheck::ok();
+        $healthStatus = HealthStatus::Ok;
 
-        return GetHealthStatusQueryResult::success($healthcheck);
+        return GetHealthStatusQueryResult::success($healthStatus);
     }
 }
