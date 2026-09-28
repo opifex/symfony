@@ -32,7 +32,7 @@ final readonly class PayPalPayloadConverter implements PayloadConverterInterface
 
         if ($violations->count() > 0) {
             $violationsList = array_map(
-                callback: fn(ConstraintViolationInterface $violation) => implode(separator: ' ', array: [
+                callback: fn(ConstraintViolationInterface $violation): string => implode(separator: ' ', array: [
                     $violation->getPropertyPath(),
                     $violation->getMessage(),
                 ]),

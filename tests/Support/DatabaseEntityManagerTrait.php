@@ -14,7 +14,11 @@ trait DatabaseEntityManagerTrait
     public static function loadFixtures(array $fixtures = []): void
     {
         $loader = new Loader();
-        array_walk($fixtures, fn(string $fixture) => $loader->addFixture(new $fixture()));
+
+        foreach ($fixtures as $fixture) {
+            $loader->addFixture(new $fixture());
+        }
+
         new ORMExecutor(self::getEntityManager(), new ORMPurger())->execute($loader->getFixtures());
     }
 

@@ -13,7 +13,7 @@ final class MethodParameterTypeSniff implements Sniff
     #[Override]
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
-        $methodName = $phpcsFile->getDeclarationName($stackPtr) ?? 'closure';
+        $methodName = $this->getMethodName($phpcsFile, $stackPtr);
         $methodParameters = $phpcsFile->getMethodParameters($stackPtr);
 
         foreach ($methodParameters as $parameter) {
@@ -31,6 +31,15 @@ final class MethodParameterTypeSniff implements Sniff
     #[Override]
     public function register(): array
     {
-        return [T_FUNCTION];
+        return [T_FUNCTION, T_FN, T_CLOSURE];
+    }
+
+    private function getMethodName(File $phpcsFile, mixed $stackPtr): string
+    {
+        return match ($phpcsFile->getTokens()[$stackPtr]['code']) {
+            T_FN => 'arrow function',
+            T_CLOSURE => 'closure',
+            default => $phpcsFile->getDeclarationName($stackPtr) ?? 'closure',
+        };
     }
 }

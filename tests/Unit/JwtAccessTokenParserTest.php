@@ -9,6 +9,7 @@ use App\Infrastructure\Adapter\Lcobucci\Exception\InvalidTokenException;
 use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenIssuer;
 use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenParser;
 use App\Infrastructure\Adapter\Lcobucci\JwtConfigurationBag;
+use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
@@ -77,7 +78,7 @@ final class JwtAccessTokenParserTest extends TestCase
             string: $result->identifier,
         );
         self::assertEquals(
-            expected: new \DateTimeImmutable('2026-01-01T01:00:00+00:00'),
+            expected: new DateTimeImmutable('2026-01-01T01:00:00+00:00'),
             actual: $result->expiresAt,
         );
         self::assertSame('user-123', $result->userIdentifier);

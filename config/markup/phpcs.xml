@@ -78,4 +78,8 @@
   <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">
     <severity>0</severity>
   </rule>
+
+  <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
+    <severity>0</severity>
+  </rule>
 </ruleset>

@@ -14,7 +14,7 @@ final class MethodReturnTypeSniff implements Sniff
     public function process(File $phpcsFile, mixed $stackPtr): void
     {
         $currentToken = $phpcsFile->getTokens()[$stackPtr];
-        $methodName = $phpcsFile->getDeclarationName($stackPtr) ?? 'closure';
+        $methodName = $this->getMethodName($phpcsFile, $stackPtr);
         $methodProperties = $phpcsFile->getMethodProperties($stackPtr);
         $methodReturnType = strval($methodProperties['return_type']);
         $methodScopeOpener = $currentToken['scope_opener'] ?? 0;
@@ -35,6 +35,15 @@ final class MethodReturnTypeSniff implements Sniff
     #[Override]
     public function register(): array
     {
-        return [T_FUNCTION];
+        return [T_FUNCTION, T_FN, T_CLOSURE];
+    }
+
+    private function getMethodName(File $phpcsFile, mixed $stackPtr): string
+    {
+        return match ($phpcsFile->getTokens()[$stackPtr]['code']) {
+            T_FN => 'arrow function',
+            T_CLOSURE => 'closure',
+            default => $phpcsFile->getDeclarationName($stackPtr) ?? 'closure',
+        };
     }
 }

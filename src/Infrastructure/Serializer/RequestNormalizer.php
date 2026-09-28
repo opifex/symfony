@@ -97,7 +97,7 @@ final readonly class RequestNormalizer implements NormalizerInterface
                 preg_match(pattern: '/^-?\d+\.\d+$/', subject: $data) === 1 => (float) $data,
                 default => $data,
             },
-            is_array($data) => array_map(fn($item): mixed => $this->transformTypes($item), $data),
+            is_array($data) => array_map(fn(mixed $item): mixed => $this->transformTypes($item), $data),
             default => $data,
         };
     }
@@ -108,7 +108,7 @@ final readonly class RequestNormalizer implements NormalizerInterface
      */
     private function transformFiles(array $files): array
     {
-        return array_map(function ($file): mixed {
+        return array_map(function (mixed $file): mixed {
             return match (true) {
                 $file instanceof UploadedFile => [
                     'filename' => $file->getClientOriginalName(),
