@@ -46,7 +46,7 @@ final class DomainEventMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method(constraint: 'handle')
             ->with($envelope, $this->stack)
-            ->willReturnCallback(function () use ($envelope, $event) {
+            ->willReturnCallback(function () use ($envelope, $event): Envelope {
                 $this->domainEventCollector->collect($event);
 
                 return $envelope;
@@ -81,7 +81,7 @@ final class DomainEventMiddlewareTest extends TestCase
         $this->stack->method(constraint: 'next')->willReturn($this->nextMiddleware);
         $this->nextMiddleware
             ->method(constraint: 'handle')
-            ->willReturnCallback(function () use ($envelope, $firstEvent, $secondEvent) {
+            ->willReturnCallback(function () use ($envelope, $firstEvent, $secondEvent): Envelope {
                 $this->domainEventCollector->collect($firstEvent, $secondEvent);
 
                 return $envelope;

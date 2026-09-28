@@ -29,6 +29,6 @@ final readonly class AccountRoleSet
      */
     public function toArray(): array
     {
-        return array_map(fn(AccountRole $role) => $role->toString(), $this->roles);
+        return array_map(fn(AccountRole $role): string => $role->toString(), $this->roles);
     }
 }

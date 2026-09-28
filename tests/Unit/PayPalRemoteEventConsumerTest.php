@@ -13,6 +13,7 @@ use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AllowDynamicProperties]
@@ -26,13 +27,16 @@ final class PayPalRemoteEventConsumerTest extends TestCase
         $this->eventMessageBus = new EventMessageBus($this->messageBus);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     public function testConsumeDispatchesPaymentReceivedEventOnCompleted(): void
     {
         $this->messageBus
             ->expects($this->once())
             ->method(constraint: 'dispatch')
             ->with($this->isInstanceOf(PaymentReceivedEvent::class))
-            ->willReturnCallback(fn (object $event) => new Envelope($event));
+            ->willReturnCallback(fn (object $event): Envelope => new Envelope($event));
 
         $payPalRemoteEventConsumer = new PayPalRemoteEventConsumer($this->eventMessageBus);
         $payPalRemoteEventConsumer->consume(
