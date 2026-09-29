@@ -7,7 +7,7 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Domain\Foundation\Event\EventInterface;
 use App\Infrastructure\Messenger\DomainEventCollector;
-use App\Infrastructure\Messenger\Middleware\DomainEventMiddleware;
+use App\Infrastructure\Messenger\Middleware\EventDispatcherMiddleware;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ use Throwable;
 
 #[AllowDynamicProperties]
 #[AllowMockObjectsWithoutExpectations]
-final class DomainEventMiddlewareTest extends TestCase
+final class EventDispatcherMiddlewareTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -57,7 +57,7 @@ final class DomainEventMiddlewareTest extends TestCase
             ->with($event)
             ->willReturn(new Envelope($event));
 
-        $publishDomainEventMiddleware = new DomainEventMiddleware(
+        $publishDomainEventMiddleware = new EventDispatcherMiddleware(
             $this->domainEventCollector,
             $this->messageBus,
         );
@@ -96,7 +96,7 @@ final class DomainEventMiddlewareTest extends TestCase
                 return new Envelope($event);
             });
 
-        $publishDomainEventMiddleware = new DomainEventMiddleware(
+        $publishDomainEventMiddleware = new EventDispatcherMiddleware(
             $this->domainEventCollector,
             $this->messageBus,
         );
@@ -126,7 +126,7 @@ final class DomainEventMiddlewareTest extends TestCase
 
         $this->messageBus->expects($this->never())->method(constraint: 'dispatch');
 
-        $publishDomainEventMiddleware = new DomainEventMiddleware(
+        $publishDomainEventMiddleware = new EventDispatcherMiddleware(
             $this->domainEventCollector,
             $this->messageBus,
         );

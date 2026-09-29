@@ -8,7 +8,7 @@ RUN composer install --ignore-platform-reqs --no-dev --no-plugins --no-scripts
 
 FROM ghcr.io/php/pie:bin AS pie
 
-FROM php:8.5.10-fpm-alpine AS php
+FROM php:8.5.11-fpm-alpine AS php
 # set temporary working directory
 WORKDIR /opt/project
 # copy pie binary for PHP extension installation

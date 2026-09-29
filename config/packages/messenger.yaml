@@ -16,7 +16,7 @@ framework:
           - doctrine_ping_connection
           - doctrine_close_connection
           - doctrine_transaction
-          - application_domain_event
+          - application_event_dispatcher
       query.bus:
         middleware:
           - application_correlation_id

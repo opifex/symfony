@@ -14,8 +14,8 @@ use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 use Throwable;
 
-#[AsAlias('application_domain_event')]
-final readonly class DomainEventMiddleware implements MiddlewareInterface
+#[AsAlias('application_event_dispatcher')]
+final readonly class EventDispatcherMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private DomainEventCollector $domainEventCollector,
