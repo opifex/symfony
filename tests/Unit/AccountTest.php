@@ -41,14 +41,14 @@ final class AccountTest extends TestCase
 
     public function testRegisterRaisesAccountRegisteredEvent(): void
     {
-        self::assertSame([], $this->account->releaseEvents());
+        self::assertSame(expected: [], actual: $this->account->releaseEvents());
 
         $registered = $this->account->register();
         $events = $registered->releaseEvents();
 
         self::assertCount(expectedCount: 1, haystack: $events);
         self::assertInstanceOf(expected: AccountRegisteredEvent::class, actual: $events[0]);
-        self::assertSame($registered->email, $events[0]->account->email);
+        self::assertSame(expected: $registered->email, actual: $events[0]->account->email);
     }
 
     public function testActivateThrowsWhenNotInRegisteredStatus(): void

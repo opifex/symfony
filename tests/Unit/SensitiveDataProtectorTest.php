@@ -15,7 +15,7 @@ final class SensitiveDataProtectorTest extends TestCase
     {
         $sensitiveDataProtector = new SensitiveDataProtector();
 
-        self::assertSame($expected, $sensitiveDataProtector->protect($data, $patterns));
+        self::assertSame(expected: $expected, actual: $sensitiveDataProtector->protect($data, $patterns));
     }
 
     public static function maskingDataProvider(): iterable

@@ -64,8 +64,8 @@ final class EventDispatcherMiddlewareTest extends TestCase
 
         $result = $publishDomainEventMiddleware->handle($envelope, $this->stack);
 
-        self::assertSame($envelope, $result);
-        self::assertSame([], $this->domainEventCollector->releaseEvents());
+        self::assertSame(expected: $envelope, actual: $result);
+        self::assertSame(expected: [], actual: $this->domainEventCollector->releaseEvents());
     }
 
     /**
@@ -103,7 +103,7 @@ final class EventDispatcherMiddlewareTest extends TestCase
 
         $publishDomainEventMiddleware->handle($envelope, $this->stack);
 
-        self::assertSame([$firstEvent, $secondEvent], $publishedEvents);
+        self::assertSame(expected: [$firstEvent, $secondEvent], actual: $publishedEvents);
     }
 
     /**
@@ -138,6 +138,6 @@ final class EventDispatcherMiddlewareTest extends TestCase
             self::assertSame(expected: 'handler failed', actual: $runtimeException->getMessage());
         }
 
-        self::assertSame([], $this->domainEventCollector->releaseEvents());
+        self::assertSame(expected: [], actual: $this->domainEventCollector->releaseEvents());
     }
 }

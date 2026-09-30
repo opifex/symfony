@@ -27,7 +27,7 @@ final class HttpbinResponseProviderTest extends TestCase
 
         $json = $httpbinResponseProvider->getJson();
 
-        self::assertSame($json, $response);
+        self::assertSame(expected: $json, actual: $response);
     }
 
     public function testGetJsonThrowsExceptionOnHttpError(): void

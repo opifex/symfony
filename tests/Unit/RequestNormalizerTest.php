@@ -33,7 +33,7 @@ final class RequestNormalizerTest extends TestCase
         $normalized = $requestNormalizer->normalize($request);
 
         self::assertArrayHasKey(key: 'value', array: $normalized);
-        self::assertSame($expected, $normalized['value']);
+        self::assertSame(expected: $expected, actual: $normalized['value']);
     }
 
     #[DataProvider(methodName: 'contentDataProvider')]
@@ -44,7 +44,7 @@ final class RequestNormalizerTest extends TestCase
         $normalized = $requestNormalizer->normalize($request);
 
         self::assertArrayHasKey(key: 'value', array: $normalized);
-        self::assertSame($expected, $normalized['value']);
+        self::assertSame(expected: $expected, actual: $normalized['value']);
     }
 
     public function testNormalizeUploadedFile(): void

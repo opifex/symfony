@@ -11,12 +11,6 @@ trait DomainEventsTrait
 {
     use ImmutableCloneTrait;
 
-    #[NoDiscard]
-    private function withEvents(EventInterface ...$events): static
-    {
-        return $this->withFields(['events' => [...$this->events, ...$events]]);
-    }
-
     /**
      * @return EventInterface[]
      */
@@ -24,5 +18,11 @@ trait DomainEventsTrait
     public function releaseEvents(): array
     {
         return $this->events;
+    }
+
+    #[NoDiscard]
+    private function withEvents(EventInterface ...$events): static
+    {
+        return $this->withFields(['events' => [...$this->events, ...$events]]);
     }
 }

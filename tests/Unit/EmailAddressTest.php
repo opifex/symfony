@@ -27,7 +27,7 @@ final class EmailAddressTest extends TestCase
     {
         $emailAddress = EmailAddress::fromString($value);
 
-        self::assertSame($expected, $emailAddress->toString());
+        self::assertSame(expected: $expected, actual: $emailAddress->toString());
     }
 
     public static function emailAddressProvider(): iterable

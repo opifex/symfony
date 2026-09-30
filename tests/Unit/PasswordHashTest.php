@@ -34,7 +34,7 @@ final class PasswordHashTest extends TestCase
     {
         $passwordHash = PasswordHash::fromString(passwordHash: $hash);
 
-        self::assertSame($hash, $passwordHash->toString());
+        self::assertSame(expected: $hash, actual: $passwordHash->toString());
     }
 
     public function testHashWithSurroundingSpacesIsTrimmed(): void
@@ -42,7 +42,7 @@ final class PasswordHashTest extends TestCase
         $hash = '$2y$12$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ01234';
         $passwordHash = PasswordHash::fromString(passwordHash: " {$hash} ");
 
-        self::assertSame($hash, $passwordHash->toString());
+        self::assertSame(expected: $hash, actual: $passwordHash->toString());
     }
 
     public static function validHashProvider(): iterable

@@ -20,7 +20,7 @@ final class CorrelationIdProviderTest extends TestCase
         $correlationId = '00000000-0000-6000-8000-000000000000';
         $correlationIdProvider->setCorrelationId($correlationId);
 
-        self::assertEquals($correlationId, $correlationIdProvider->getCorrelationId());
+        self::assertEquals(expected: $correlationId, actual: $correlationIdProvider->getCorrelationId());
 
         $correlationIdProvider->reset();
 

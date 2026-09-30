@@ -57,7 +57,7 @@ final class AccountEntityRepositoryTest extends TestCase
 
         $this->accountRepository->save($account);
 
-        self::assertSame($releasedEvents, $this->domainEventCollector->releaseEvents());
+        self::assertSame(expected: $releasedEvents, actual: $this->domainEventCollector->releaseEvents());
     }
 
     public function testSaveThrowsWhenStoredVersionDiffersFromAccountVersion(): void

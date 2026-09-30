@@ -65,8 +65,11 @@ final class DatabaseUserProviderTest extends TestCase
 
         $loadedUser = $databaseUserProvider->loadUserByIdentifier($account->email->toString());
 
-        self::assertEquals($passwordAuthenticatedUser->getUserIdentifier(), $loadedUser->getUserIdentifier());
-        self::assertEquals($passwordAuthenticatedUser->getRoles(), $loadedUser->getRoles());
+        self::assertEquals(
+            expected: $passwordAuthenticatedUser->getUserIdentifier(),
+            actual: $loadedUser->getUserIdentifier(),
+        );
+        self::assertEquals(expected: $passwordAuthenticatedUser->getRoles(), actual: $loadedUser->getRoles());
     }
 
     public function testLoadUserByIdentifierWithInvalidIdentifier(): void

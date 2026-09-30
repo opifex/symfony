@@ -20,14 +20,14 @@ final class AbstractUuidIdentifierTest extends TestCase
     {
         $identifier = AccountIdentifier::fromString(uuid: $uuid);
 
-        self::assertSame($uuid, $identifier->toString());
+        self::assertSame(expected: $uuid, actual: $identifier->toString());
     }
 
     #[DataProvider(methodName: 'invalidUuidProvider')]
     public function testInvalidUuidThrowsException(string $uuid): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage(message: 'Invalid UUID identifier provided.');
+        $this->expectExceptionMessageIsOrContains(message: 'Invalid UUID identifier provided.');
 
         AccountIdentifier::fromString(uuid: $uuid);
     }

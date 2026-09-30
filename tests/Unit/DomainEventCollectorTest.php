@@ -14,7 +14,7 @@ final class DomainEventCollectorTest extends TestCase
     {
         $domainEventCollector = new DomainEventCollector();
 
-        self::assertSame([], $domainEventCollector->releaseEvents());
+        self::assertSame(expected: [], actual: $domainEventCollector->releaseEvents());
     }
 
     public function testReleaseEventsReturnsRecordedEventsInOrder(): void
@@ -26,7 +26,7 @@ final class DomainEventCollectorTest extends TestCase
         $domainEventCollector->collect($firstEvent);
         $domainEventCollector->collect($secondEvent);
 
-        self::assertSame([$firstEvent, $secondEvent], $domainEventCollector->releaseEvents());
+        self::assertSame(expected: [$firstEvent, $secondEvent], actual: $domainEventCollector->releaseEvents());
     }
 
     public function testReleaseEventsClearsTheBuffer(): void
@@ -38,7 +38,7 @@ final class DomainEventCollectorTest extends TestCase
 
         $domainEventCollector->releaseEvents();
 
-        self::assertSame([], $domainEventCollector->releaseEvents());
+        self::assertSame(expected: [], actual: $domainEventCollector->releaseEvents());
     }
 
     public function testResetClearsRecordedEventsWithoutPublishing(): void
@@ -50,6 +50,6 @@ final class DomainEventCollectorTest extends TestCase
 
         $domainEventCollector->reset();
 
-        self::assertSame([], $domainEventCollector->releaseEvents());
+        self::assertSame(expected: [], actual: $domainEventCollector->releaseEvents());
     }
 }

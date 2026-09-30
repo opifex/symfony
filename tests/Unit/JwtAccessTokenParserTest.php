@@ -81,6 +81,6 @@ final class JwtAccessTokenParserTest extends TestCase
             expected: new DateTimeImmutable('2026-01-01T01:00:00+00:00'),
             actual: $result->expiresAt,
         );
-        self::assertSame('user-123', $result->userIdentifier);
+        self::assertSame(expected: 'user-123', actual: $result->userIdentifier);
     }
 }

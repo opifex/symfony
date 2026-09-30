@@ -35,7 +35,7 @@ final class TwigTemplateRendererTest extends TestCase
 
         $rendered = $twigTemplateRenderer->render(name: 'example.html.twig');
 
-        self::assertSame($content, $rendered);
+        self::assertSame(expected: $content, actual: $rendered);
     }
 
     public function testRenderThrowsExceptionOnTwigError(): void
