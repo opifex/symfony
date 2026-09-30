@@ -9,3 +9,5 @@ parameters:
   level: max
   paths:
     - ../../src
+  ignoreErrors:
+    - { identifier: method.unused, path: ../../src/Kernel.php }
