@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Account;
 
+use App\Domain\Account\Event\AccountBlockedEvent;
 use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Domain\Account\Exception\AccountInvalidActionException;
 use App\Domain\Foundation\DomainEventsTrait;
@@ -107,7 +108,9 @@ final readonly class Account
             throw AccountInvalidActionException::create();
         }
 
-        return $this->withFields(['status' => AccountStatus::Blocked]);
+        $account = $this->withFields(['status' => AccountStatus::Blocked]);
+
+        return $account->withEvents(AccountBlockedEvent::create($account));
     }
 
     #[NoDiscard]

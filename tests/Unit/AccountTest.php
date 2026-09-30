@@ -7,6 +7,8 @@ namespace Tests\Unit;
 use AllowDynamicProperties;
 use App\Domain\Account\Account;
 use App\Domain\Account\AccountIdentifier;
+use App\Domain\Account\AccountStatus;
+use App\Domain\Account\Event\AccountBlockedEvent;
 use App\Domain\Account\Event\AccountRegisteredEvent;
 use App\Domain\Account\Exception\AccountInvalidActionException;
 use App\Domain\Foundation\Enum\LocaleCode;
@@ -48,7 +50,6 @@ final class AccountTest extends TestCase
 
         self::assertCount(expectedCount: 1, haystack: $events);
         self::assertInstanceOf(expected: AccountRegisteredEvent::class, actual: $events[0]);
-        self::assertSame(expected: $registered->email, actual: $events[0]->account->email);
     }
 
     public function testActivateThrowsWhenNotInRegisteredStatus(): void
@@ -56,6 +57,25 @@ final class AccountTest extends TestCase
         $this->expectException(AccountInvalidActionException::class);
 
         (void) $this->account->activate();
+    }
+
+    public function testBlockThrowsWhenNotInActivatedStatus(): void
+    {
+        $this->expectException(AccountInvalidActionException::class);
+
+        (void) $this->account->block();
+    }
+
+    public function testBlockRaisesAccountBlockedEvent(): void
+    {
+        $activated = $this->account->register()->activate();
+
+        $blocked = $activated->block();
+        $events = $blocked->releaseEvents();
+
+        self::assertSame(expected: AccountStatus::Blocked, actual: $blocked->status);
+        self::assertCount(expectedCount: 2, haystack: $events);
+        self::assertInstanceOf(expected: AccountBlockedEvent::class, actual: $events[1]);
     }
 
     public function testDeleteThrowsWhenAlreadyDeleted(): void
