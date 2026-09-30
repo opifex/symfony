@@ -6,4 +6,5 @@ when@dev:
 
 when@test:
   framework:
-    profiler: true
+    profiler:
+      collect: false
