@@ -29,12 +29,9 @@ when@prod:
     orm:
       entity_managers:
         default:
-          metadata_cache_driver:
-            type: pool
-            pool: cache.doctrine
           query_cache_driver:
             type: pool
-            pool: cache.doctrine
+            pool: cache.system
           result_cache_driver:
             type: pool
             pool: cache.doctrine
