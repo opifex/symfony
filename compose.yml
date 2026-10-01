@@ -24,6 +24,7 @@ services:
     command: messenger
     container_name: "${APP_NAME}-messenger"
     restart: unless-stopped
+    stop_grace_period: 70s
     healthcheck:
       test: [ "CMD", "true" ]
     depends_on:
