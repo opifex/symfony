@@ -33,6 +33,7 @@ framework:
     transports:
       domain_events:
         dsn: doctrine://default?queue_name=domain_events
+        serializer: messenger.transport.symfony_serializer
         options:
           table_name: messenger
         retry_strategy:

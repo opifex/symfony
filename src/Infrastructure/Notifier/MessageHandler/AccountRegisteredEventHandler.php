@@ -25,9 +25,9 @@ final readonly class AccountRegisteredEventHandler
 
     public function __invoke(AccountRegisteredEvent $event): void
     {
-        $locale = $event->account->locale->toString();
+        $locale = $event->accountLocale;
         $subject = $this->translator->trans(self::SUBJECT, locale: $locale);
-        $context = ['account' => ['email' => $event->account->email->toString()]];
+        $context = ['account' => ['email' => $event->accountEmail]];
 
         $templatedEmail = new TemplatedEmail();
         $templatedEmail->subject($subject);
@@ -35,7 +35,7 @@ final readonly class AccountRegisteredEventHandler
         $templatedEmail->htmlTemplate(template: '@emails/account.registered.html.twig');
         $templatedEmail->context([...['locale' => $locale], ...$context]);
 
-        $recipient = new Recipient($event->account->email->toString());
+        $recipient = new Recipient($event->accountEmail);
         $notification = new TemplatedEmailNotification($templatedEmail);
 
         $this->notifier->send($notification, $recipient);

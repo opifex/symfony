@@ -9,13 +9,19 @@ use App\Domain\Foundation\Event\EventInterface;
 
 final readonly class AccountRegisteredEvent implements EventInterface
 {
-    private function __construct(
-        public Account $account,
+    public function __construct(
+        public string $accountId,
+        public string $accountEmail,
+        public string $accountLocale,
     ) {
     }
 
     public static function create(Account $account): self
     {
-        return new self($account);
+        return new self(
+            accountId: $account->id->toString(),
+            accountEmail: $account->email->toString(),
+            accountLocale: $account->locale->toString(),
+        );
     }
 }

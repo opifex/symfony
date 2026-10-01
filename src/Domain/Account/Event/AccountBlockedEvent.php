@@ -9,13 +9,13 @@ use App\Domain\Foundation\Event\EventInterface;
 
 final readonly class AccountBlockedEvent implements EventInterface
 {
-    private function __construct(
-        public Account $account,
+    public function __construct(
+        public string $accountId,
     ) {
     }
 
     public static function create(Account $account): self
     {
-        return new self($account);
+        return new self(accountId: $account->id->toString());
     }
 }
