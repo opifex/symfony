@@ -54,7 +54,7 @@ services:
       internal:
 
   redis:
-    image: redis:latest
+    image: redis:8.10.2
     hostname: redis
     container_name: "${APP_NAME}-redis"
     restart: unless-stopped
@@ -66,7 +66,7 @@ services:
       internal:
 
   rabbitmq:
-    image: rabbitmq:management
+    image: rabbitmq:4.3.6-management
     hostname: rabbitmq
     container_name: "${APP_NAME}-rabbitmq"
     restart: unless-stopped

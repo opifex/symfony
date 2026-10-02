@@ -43,14 +43,14 @@ COPY --from=composer /tmp/vendor ./vendor
 COPY . .
 # configure git, create dirs, set permissions, and dump composer autoload
 RUN git config --global --add safe.directory "$PWD" \
-    && mkdir -p "$PWD/public/bundles" "$PWD/var" \
-    && chown -R www-data:www-data "$PWD" \
+    && mkdir -p "$PWD/public/bundles" "$PWD/var" /var/lib/nginx/tmp \
+    && chown -R www-data:www-data "$PWD" /var/lib/nginx \
     && runuser -u www-data -- composer dump-autoload --classmap-authoritative \
     && runuser -u www-data -- composer dump-env prod --empty
 # expose ports
 EXPOSE 80
 # healthcheck for service availability
 HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
-    CMD curl -f http://localhost/api/v1/health || exit 1
+    CMD curl -fsS --max-time 2 http://127.0.0.1/api/v1/health > /dev/null || exit 1
 # set container entrypoint
 ENTRYPOINT ["./config/docker/entrypoint.conf"]
