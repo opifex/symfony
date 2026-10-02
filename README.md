@@ -19,8 +19,6 @@ APP_PORT=8030
 APP_SECRET=166f851291ebd0ebf805b0188f1d5e7a
 
 DEFAULT_URI=http://localhost:8030
-API_GATEWAY_URI=http://localhost:8030
-
 DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=17&charset=utf8
 HTTPBIN_URL=https://httpbin.org/
 JWT_PASSPHRASE=3a8d33b54f002565767e28d24743ad51b30a061ce31b9516b98efd64612009d721ca1c68fb7143193af754c352bf4edb2796fd13b89395d983c5c337d5a44be4
