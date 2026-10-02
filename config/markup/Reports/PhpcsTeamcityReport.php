@@ -9,8 +9,6 @@ use PHP_CodeSniffer\Reports\Report;
 
 final class PhpcsTeamcityReport implements Report
 {
-    private array $inspectionTypes = [];
-
     public function generateFileReport(
         mixed $report,
         File $phpcsFile,
@@ -20,12 +18,15 @@ final class PhpcsTeamcityReport implements Report
         $errorCount = $phpcsFile->getErrorCount();
         $warningCount = $phpcsFile->getWarningCount();
         $messages = ($errorCount !== 0 || $warningCount !== 0) ? $report['messages'] : [];
+        $inspectionTypes = [];
 
         foreach ($messages as $line => $lineErrors) {
             foreach ($lineErrors as $colErrors) {
                 foreach ($colErrors as $error) {
-                    if (!array_key_exists($error['source'], $this->inspectionTypes)) {
-                        $this->inspectionTypes[$error['source']] = $this->format(
+                    if (!isset($inspectionTypes[$error['source']])) {
+                        $inspectionTypes[$error['source']] = true;
+
+                        echo $this->format(
                             message: 'inspectionType',
                             parameters: [
                                 'id' => $error['source'],
@@ -65,11 +66,23 @@ final class PhpcsTeamcityReport implements Report
         mixed $interactive = false,
         mixed $toScreen = true,
     ): void {
-        foreach ($this->inspectionTypes as $inspectionType) {
+        // Worker state is not shared, so collect types from the cached report output.
+        $inspectionTypes = [];
+        $inspections = '';
+
+        foreach (explode(PHP_EOL, $cachedData) as $line) {
+            if (str_starts_with($line, '##teamcity[inspectionType ')) {
+                $inspectionTypes[$line] = $line . PHP_EOL;
+            } elseif ($line !== '') {
+                $inspections .= $line . PHP_EOL;
+            }
+        }
+
+        foreach ($inspectionTypes as $inspectionType) {
             echo $inspectionType;
         }
 
-        echo $cachedData;
+        echo $inspections;
     }
 
     private function extractCategoryFromSource(string $source): string
@@ -98,8 +111,13 @@ final class PhpcsTeamcityReport implements Report
 
     private function escape(string $string): string
     {
-        $replacements = ['~\n~' => '|n', '~\r~' => '|r', '~([\'\|\[\]])~' => '|$1'];
-
-        return preg_replace(array_keys($replacements), array_values($replacements), $string);
+        return strtr($string, [
+            '|' => '||',
+            "'" => "|'",
+            "\n" => '|n',
+            "\r" => '|r',
+            '[' => '|[',
+            ']' => '|]',
+        ]);
     }
 }

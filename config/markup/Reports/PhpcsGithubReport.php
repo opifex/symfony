@@ -57,10 +57,13 @@ final class PhpcsGithubReport implements Report
         $message = $this->escape($message);
 
         foreach ($parameters as $key => $value) {
-            $parameters[$key] = sprintf('%s=%s', $key, $value);
+            $parameters[$key] = sprintf('%s=%s', $key, strtr($this->escape((string) $value), [
+                ':' => '%3A',
+                ',' => '%2C',
+            ]));
         }
 
-        return sprintf('::%s %s::%s', $type, implode(separator: ' ', array: $parameters), $message) . PHP_EOL;
+        return sprintf('::%s %s::%s', $type, implode(separator: ',', array: $parameters), $message) . PHP_EOL;
     }
 
     private function convert(string $message, string $encoding): string
@@ -70,8 +73,10 @@ final class PhpcsGithubReport implements Report
 
     private function escape(string $string): string
     {
-        $replacements = ['~\n~' => '%0A'];
-
-        return preg_replace(array_keys($replacements), array_values($replacements), $string);
+        return strtr($string, [
+            '%' => '%25',
+            "\r" => '%0D',
+            "\n" => '%0A',
+        ]);
     }
 }
