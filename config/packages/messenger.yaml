@@ -39,7 +39,9 @@ framework:
         retry_strategy:
           delay: 60000
           max_retries: 3
-          multiplier: 1
+          multiplier: 2
+          max_delay: 300000
+          jitter: 0.1
       notifier_emails:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
@@ -53,7 +55,9 @@ framework:
         retry_strategy:
           delay: 60000
           max_retries: 3
-          multiplier: 1
+          multiplier: 2
+          max_delay: 300000
+          jitter: 0.1
       webhook_events:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
@@ -67,7 +71,9 @@ framework:
         retry_strategy:
           delay: 60000
           max_retries: 3
-          multiplier: 1
+          multiplier: 2
+          max_delay: 300000
+          jitter: 0.1
       failed:
         dsn: doctrine://default?queue_name=failed
         options:
