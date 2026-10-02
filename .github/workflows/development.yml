@@ -20,7 +20,7 @@ jobs:
           - 5432:5432
 
     env:
-      DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=17&charset=utf8
+      DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=18&charset=utf8
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
       PHP_VERSION: 8.5
