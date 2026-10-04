@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 final class SignoutFromAccountController extends AbstractController
@@ -29,7 +28,6 @@ final class SignoutFromAccountController extends AbstractController
         description: 'Client Error (401)',
         content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse'),
     )]
-    #[IsGranted(attribute: 'IS_AUTHENTICATED_FULLY')]
     #[Route(path: '/auth/signout', name: 'app_signout_from_account', methods: Request::METHOD_POST)]
     public function __invoke(#[ValueResolver('payload')] SignoutFromAccountCommand $command): Response
     {
