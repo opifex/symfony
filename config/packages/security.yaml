@@ -9,6 +9,9 @@ security:
     development:
       pattern: ^/(_(profiler|wdt))
       security: false
+    availability:
+      pattern: ^/api/v1/health$
+      security: false
     authentication:
       stateless: true
       pattern: ^/api/v1/auth/signin

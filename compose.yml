@@ -5,7 +5,7 @@ services:
     container_name: "${APP_NAME}-application"
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "true" ]
+      test: [ "NONE" ]
     ports:
       - "${APP_PORT:-80}:80"
     depends_on:
@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 70s
     healthcheck:
-      test: [ "CMD", "true" ]
+      test: [ "NONE" ]
     depends_on:
       - application
       - mailcatcher
@@ -44,7 +44,7 @@ services:
     command: migration
     container_name: "${APP_NAME}-migration"
     healthcheck:
-      test: [ "CMD", "true" ]
+      test: [ "NONE" ]
     depends_on:
       - application
       - postgres
