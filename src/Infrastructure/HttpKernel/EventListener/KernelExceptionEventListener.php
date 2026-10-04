@@ -51,7 +51,7 @@ final readonly class KernelExceptionEventListener
         };
 
         $this->logger->log(
-            level: $logLevel !== null ? $logLevel->level : LogLevel::ERROR,
+            level: $logLevel->level ?? ($statusCode >= 400 && $statusCode < 500 ? LogLevel::INFO : LogLevel::ERROR),
             message: $throwable->getMessage() !== '' ? $throwable->getMessage() : 'Application exception event.',
             context: array_filter(
                 array: [
