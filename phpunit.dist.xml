@@ -3,11 +3,17 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="tests/bootstrap.php"
          cacheDirectory="var/cache/test/phpunit"
+         displayDetailsOnPhpunitDeprecations="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
          executionOrder="random"
          failOnDeprecation="true"
+         failOnEmptyTestSuite="true"
          failOnNotice="true"
+         failOnPhpunitDeprecation="true"
+         failOnRisky="true"
          failOnWarning="true">
   <php>
+    <env name="APP_ENV" value="test" force="true"/>
     <ini name="display_errors" value="1"/>
     <ini name="error_reporting" value="-1"/>
     <server name="APP_ENV" value="test"/>
