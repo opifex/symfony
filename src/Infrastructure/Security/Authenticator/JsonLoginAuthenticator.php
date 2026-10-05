@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Infrastructure\Security\Authenticator;
 
 use Override;
+use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimit;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -21,6 +23,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorInterface
 {
     public function __construct(
+        private ClockInterface $clock,
         #[Autowire(service: 'limiter.email_ip_login')]
         private RateLimiterFactoryInterface $emailIpLoginRateLimiterFactory,
         #[Autowire(service: 'limiter.ip_login')]
@@ -86,7 +89,23 @@ final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorI
         $ipLimit = $this->ipLoginRateLimiterFactory->create($ipKey)->consume($tokens);
 
         if (!$emailIpLimit->isAccepted() || !$ipLimit->isAccepted()) {
-            throw new TooManyRequestsHttpException(message: 'Too many requests detected, please try again later.');
+            throw new TooManyRequestsHttpException(
+                retryAfter: $this->calculateRetryAfter($emailIpLimit, $ipLimit),
+                message: 'Too many requests detected, please try again later.',
+            );
         }
+    }
+
+    private function calculateRetryAfter(RateLimit ...$limits): int
+    {
+        $retryAtTimestamp = 0;
+
+        foreach ($limits as $limit) {
+            if (!$limit->isAccepted()) {
+                $retryAtTimestamp = max($retryAtTimestamp, $limit->getRetryAfter()->getTimestamp());
+            }
+        }
+
+        return max(1, $retryAtTimestamp - $this->clock->now()->getTimestamp());
     }
 }

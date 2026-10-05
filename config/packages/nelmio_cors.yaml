@@ -2,9 +2,9 @@ nelmio_cors:
   defaults:
     origin_regex: true
     allow_origin: [ '%env(CORS_ALLOW_ORIGIN)%' ]
-    allow_methods: [ 'GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE' ]
-    allow_headers: [ 'Content-Type', 'Authorization', 'X-Correlation-Id' ]
-    expose_headers: [ 'X-Correlation-Id' ]
+    allow_methods: [ 'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT' ]
+    allow_headers: [ 'Authorization', 'Content-Type', 'X-Correlation-Id' ]
+    expose_headers: [ 'Retry-After', 'X-Correlation-Id' ]
     max_age: 3600
   paths:
     '^/': null

@@ -6,10 +6,13 @@ namespace Tests\Unit;
 
 use AllowDynamicProperties;
 use App\Infrastructure\Security\Authenticator\JsonLoginAuthenticator;
+use DateMalformedStringException;
 use JsonException;
 use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Clock\MockClock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\LimiterInterface;
@@ -25,15 +28,19 @@ final class JsonLoginAuthenticatorTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
+        $this->clock = new MockClock(now: '2026-01-01T00:00:00+00:00');
         $this->emailIpLoginRateLimiterFactory = $this->createMock(type: RateLimiterFactoryInterface::class);
         $this->ipLoginRateLimiterFactory = $this->createMock(type: RateLimiterFactoryInterface::class);
         $this->authenticator = new JsonLoginAuthenticator(
+            $this->clock,
             $this->emailIpLoginRateLimiterFactory,
             $this->ipLoginRateLimiterFactory,
         );
     }
 
     /**
+     * @return void
+     * @throws DateMalformedStringException
      * @throws JsonException
      */
     public function testAuthenticateReturnsPassportWhenRateLimitNotExceeded(): void
@@ -55,6 +62,8 @@ final class JsonLoginAuthenticatorTest extends TestCase
     }
 
     /**
+     * @return void
+     * @throws DateMalformedStringException
      * @throws JsonException
      */
     public function testAuthenticateThrowsThrottlingExceptionWithoutConsumingWhenEmailIpRateLimitAlreadyExceeded(): void
@@ -75,6 +84,8 @@ final class JsonLoginAuthenticatorTest extends TestCase
     }
 
     /**
+     * @return void
+     * @throws DateMalformedStringException
      * @throws JsonException
      */
     public function testAuthenticateThrowsThrottlingExceptionWithoutConsumingWhenIpRateLimitAlreadyExceeded(): void
@@ -95,6 +106,8 @@ final class JsonLoginAuthenticatorTest extends TestCase
     }
 
     /**
+     * @return void
+     * @throws DateMalformedStringException
      * @throws JsonException
      */
     public function testOnAuthenticationFailureConsumesOneTokenAndReturnsNullWhenRateLimitNotExceeded(): void
@@ -118,6 +131,8 @@ final class JsonLoginAuthenticatorTest extends TestCase
     }
 
     /**
+     * @return void
+     * @throws DateMalformedStringException
      * @throws JsonException
      */
     public function testOnAuthenticationFailureThrowsThrottlingExceptionWhenEmailIpRateLimitExceeded(): void
@@ -138,6 +153,8 @@ final class JsonLoginAuthenticatorTest extends TestCase
     }
 
     /**
+     * @return void
+     * @throws DateMalformedStringException
      * @throws JsonException
      */
     public function testOnAuthenticationFailureThrowsThrottlingExceptionWhenIpRateLimitExceeded(): void
@@ -157,8 +174,59 @@ final class JsonLoginAuthenticatorTest extends TestCase
         $this->authenticator->onAuthenticationFailure($this->createSigninRequest(), new AuthenticationException());
     }
 
-    private function createLimiter(bool $isAccepted, int $expectedTokens): LimiterInterface
+    /**
+     * @throws JsonException
+     * @throws DateMalformedStringException
+     */
+    #[DataProvider(methodName: 'retryAfterProvider')]
+    public function testRetryAfterReflectsRejectedLimits(
+        bool $emailIpAccepted,
+        int $emailIpRetryAfter,
+        bool $ipAccepted,
+        int $ipRetryAfter,
+        int $expectedRetryAfter,
+    ): void {
+        $this->emailIpLoginRateLimiterFactory
+            ->method(constraint: 'create')
+            ->willReturn(
+                $this->createLimiter(
+                    isAccepted: $emailIpAccepted,
+                    expectedTokens: 1,
+                    retryAfterSeconds: $emailIpRetryAfter,
+                ),
+            );
+        $this->ipLoginRateLimiterFactory
+            ->method(constraint: 'create')
+            ->willReturn($this->createLimiter($ipAccepted, expectedTokens: 1, retryAfterSeconds: $ipRetryAfter));
+
+        try {
+            $this->authenticator->onAuthenticationFailure($this->createSigninRequest(), new AuthenticationException());
+            self::fail(message: 'Expected a throttling exception.');
+        } catch (TooManyRequestsHttpException $exception) {
+            $retryAfter = $exception->getHeaders()['Retry-After'];
+            self::assertSame($expectedRetryAfter, $retryAfter);
+        }
+    }
+
+    public static function retryAfterProvider(): array
     {
+        return [
+            'email IP rejected, accepted IP has a later retry' => [false, 120, true, 900, 120],
+            'IP rejected, accepted email IP has a later retry' => [true, 900, false, 120, 120],
+            'both rejected, IP has a later retry' => [false, 120, false, 300, 300],
+            'both rejected, email IP has a later retry' => [false, 300, false, 120, 300],
+            'retry time has passed' => [false, -10, true, 0, 1],
+        ];
+    }
+
+    /**
+     * @throws DateMalformedStringException
+     */
+    private function createLimiter(
+        bool $isAccepted,
+        int $expectedTokens,
+        int $retryAfterSeconds = 120,
+    ): LimiterInterface {
         $limiter = $this->createMock(type: LimiterInterface::class);
         $limiter
             ->expects($this->once())
@@ -167,7 +235,10 @@ final class JsonLoginAuthenticatorTest extends TestCase
             ->willReturn(
                 $this->createConfiguredMock(
                     type: RateLimit::class,
-                    configuration: ['isAccepted' => $isAccepted],
+                    configuration: [
+                        'isAccepted' => $isAccepted,
+                        'getRetryAfter' => $this->clock->now()->modify(sprintf('%+d seconds', $retryAfterSeconds)),
+                    ],
                 ),
             );
 
