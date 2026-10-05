@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Symfony\Component\RateLimiter\RateLimit;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -82,30 +81,28 @@ final readonly class JsonLoginAuthenticator implements InteractiveAuthenticatorI
         $normalizedEmail = mb_strtolower(trim($email), 'UTF-8');
         $normalizedIp = mb_strtolower(trim(string: $ip ?? 'unknown'), 'UTF-8');
 
-        $emailIpKey = hash(algo: 'sha256', data: $normalizedEmail . '|' . $normalizedIp);
-        $ipKey = hash(algo: 'sha256', data: $normalizedIp);
+        $rateLimits = [
+            $this->emailIpLoginRateLimiterFactory
+                ->create(hash(algo: 'sha256', data: $normalizedEmail . '|' . $normalizedIp))
+                ->consume($tokens),
+            $this->ipLoginRateLimiterFactory
+                ->create(hash(algo: 'sha256', data: $normalizedIp))
+                ->consume($tokens),
+        ];
 
-        $emailIpLimit = $this->emailIpLoginRateLimiterFactory->create($emailIpKey)->consume($tokens);
-        $ipLimit = $this->ipLoginRateLimiterFactory->create($ipKey)->consume($tokens);
+        $retryAtTimestamp = null;
 
-        if (!$emailIpLimit->isAccepted() || !$ipLimit->isAccepted()) {
-            throw new TooManyRequestsHttpException(
-                retryAfter: $this->calculateRetryAfter($emailIpLimit, $ipLimit),
-                message: 'Too many requests detected, please try again later.',
-            );
-        }
-    }
-
-    private function calculateRetryAfter(RateLimit ...$limits): int
-    {
-        $retryAtTimestamp = 0;
-
-        foreach ($limits as $limit) {
-            if (!$limit->isAccepted()) {
-                $retryAtTimestamp = max($retryAtTimestamp, $limit->getRetryAfter()->getTimestamp());
+        foreach ($rateLimits as $limit) {
+            if (!$limit->isAccepted() || ($tokens === 0 && $limit->getRemainingTokens() < 1)) {
+                $retryAtTimestamp = max($retryAtTimestamp ?? 0, $limit->getRetryAfter()->getTimestamp());
             }
         }
 
-        return max(1, $retryAtTimestamp - $this->clock->now()->getTimestamp());
+        if ($retryAtTimestamp !== null) {
+            throw new TooManyRequestsHttpException(
+                retryAfter: max(1, $retryAtTimestamp - $this->clock->now()->getTimestamp()),
+                message: 'Too many requests detected, please try again later.',
+            );
+        }
     }
 }

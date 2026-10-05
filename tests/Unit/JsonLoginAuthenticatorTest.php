@@ -179,28 +179,45 @@ final class JsonLoginAuthenticatorTest extends TestCase
      * @throws DateMalformedStringException
      */
     #[DataProvider(methodName: 'retryAfterProvider')]
-    public function testRetryAfterReflectsRejectedLimits(
+    public function testRetryAfterReflectsExceededLimits(
         bool $emailIpAccepted,
         int $emailIpRetryAfter,
         bool $ipAccepted,
         int $ipRetryAfter,
         int $expectedRetryAfter,
+        int $tokens = 1,
+        int $emailIpRemainingTokens = 1,
+        int $ipRemainingTokens = 1,
     ): void {
         $this->emailIpLoginRateLimiterFactory
             ->method(constraint: 'create')
             ->willReturn(
                 $this->createLimiter(
                     isAccepted: $emailIpAccepted,
-                    expectedTokens: 1,
+                    expectedTokens: $tokens,
                     retryAfterSeconds: $emailIpRetryAfter,
+                    remainingTokens: $emailIpRemainingTokens,
                 ),
             );
         $this->ipLoginRateLimiterFactory
             ->method(constraint: 'create')
-            ->willReturn($this->createLimiter($ipAccepted, expectedTokens: 1, retryAfterSeconds: $ipRetryAfter));
+            ->willReturn($this->createLimiter(
+                isAccepted: $ipAccepted,
+                expectedTokens: $tokens,
+                retryAfterSeconds: $ipRetryAfter,
+                remainingTokens: $ipRemainingTokens,
+            ));
 
         try {
-            $this->authenticator->onAuthenticationFailure($this->createSigninRequest(), new AuthenticationException());
+            if ($tokens === 0) {
+                $this->authenticator->authenticate($this->createSigninRequest());
+            }
+            if ($tokens !== 0) {
+                $this->authenticator->onAuthenticationFailure(
+                    $this->createSigninRequest(),
+                    new AuthenticationException(),
+                );
+            }
             self::fail(message: 'Expected a throttling exception.');
         } catch (TooManyRequestsHttpException $exception) {
             $retryAfter = $exception->getHeaders()['Retry-After'];
@@ -216,6 +233,9 @@ final class JsonLoginAuthenticatorTest extends TestCase
             'both rejected, IP has a later retry' => [false, 120, false, 300, 300],
             'both rejected, email IP has a later retry' => [false, 300, false, 120, 300],
             'retry time has passed' => [false, -10, true, 0, 1],
+            'accepted email IP limit is exhausted before authentication' => [true, 120, true, 900, 120, 0, 0, 1],
+            'accepted IP limit is exhausted before authentication' => [true, 900, true, 120, 120, 0, 1, 0],
+            'both accepted limits are exhausted before authentication' => [true, 120, true, 300, 300, 0, 0, 0],
         ];
     }
 
@@ -226,6 +246,7 @@ final class JsonLoginAuthenticatorTest extends TestCase
         bool $isAccepted,
         int $expectedTokens,
         int $retryAfterSeconds = 120,
+        int $remainingTokens = 1,
     ): LimiterInterface {
         $limiter = $this->createMock(type: LimiterInterface::class);
         $limiter
@@ -237,6 +258,7 @@ final class JsonLoginAuthenticatorTest extends TestCase
                     type: RateLimit::class,
                     configuration: [
                         'isAccepted' => $isAccepted,
+                        'getRemainingTokens' => $remainingTokens,
                         'getRetryAfter' => $this->clock->now()->modify(sprintf('%+d seconds', $retryAfterSeconds)),
                     ],
                 ),
