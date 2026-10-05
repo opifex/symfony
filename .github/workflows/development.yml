@@ -4,13 +4,46 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: read
+
 jobs:
-  run:
-    name: Build & Quality
+  build:
+    name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    permissions:
-      contents: read
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v7
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build production Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          pull: true
+          tags: symfony-application:${{ github.sha }}
+          outputs: type=docker,dest=${{ runner.temp }}/image.tar
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v7
+        with:
+          name: docker-image
+          path: ${{ runner.temp }}/image.tar
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+
+  quality:
+    name: Quality
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     services:
       postgres:
@@ -33,18 +66,14 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v7
 
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Build production Docker image
-        uses: docker/build-push-action@v7
+      - name: Download Docker image
+        uses: actions/download-artifact@v8
         with:
-          context: .
-          load: true
-          pull: true
-          tags: symfony-application:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          name: docker-image
+          path: ${{ runner.temp }}
+
+      - name: Load Docker image
+        run: docker load --input "$RUNNER_TEMP/image.tar"
 
       - name: Run static analysis, tests and quality checks
         run: |
@@ -66,11 +95,24 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: opifex/symfony
 
+  security:
+    name: Security
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Download Docker image
+        uses: actions/download-artifact@v8
+        with:
+          name: docker-image
+          path: ${{ runner.temp }}
+
       - name: Scan Docker image vulnerabilities
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: image
-          image-ref: symfony-application:${{ github.sha }}
+          input: ${{ runner.temp }}/image.tar
           scanners: vuln
           format: table
           severity: HIGH,CRITICAL
