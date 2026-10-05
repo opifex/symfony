@@ -6,7 +6,7 @@ on:
 
 jobs:
   run:
-    name: Build, analyze, test and scan Docker image
+    name: Build & Quality
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -21,11 +21,6 @@ jobs:
           POSTGRES_USER: root
         ports:
           - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U root -d root"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 10
 
     env:
       APP_ENV: test
