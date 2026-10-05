@@ -6,8 +6,11 @@ on:
 
 jobs:
   run:
+    name: Build, analyze, test and scan Docker image
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 30
+    permissions:
+      contents: read
 
     services:
       postgres:
@@ -18,59 +21,63 @@ jobs:
           POSTGRES_USER: root
         ports:
           - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U root -d root"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
 
     env:
-      DATABASE_URL: postgresql://root:root@localhost:5432/root?serverVersion=18&charset=utf8
+      APP_ENV: test
+      DATABASE_URL: postgresql://root:root@127.0.0.1:5432/root?serverVersion=18&charset=utf8
       MAILER_DSN: null://null
       MESSENGER_TRANSPORT_DSN: sync://
-      PHP_VERSION: 8.5
-      PHP_EXTENSIONS: amqp, apcu, gd, intl, pcntl, pdo_pgsql, redis, xsl, zip
+      XDEBUG_MODE: coverage
 
     steps:
-      - name: Prepare PHP extensions cache
-        id: extensions-cache
-        uses: shivammathur/cache-extensions@v1
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
-          key: php-extensions-cache
-
-      - name: Cache environment php extensions
-        uses: actions/cache@v6
-        with:
-          path: ${{ steps.extensions-cache.outputs.dir }}
-          key: ${{ steps.extensions-cache.outputs.key }}
-          restore-keys: ${{ steps.extensions-cache.outputs.key }}
-
-      - name: Setup PHP runtime
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
-
       - name: Checkout source code
         uses: actions/checkout@v7
 
-      - name: Load Composer dependencies cache
-        id: vendor-cache
-        uses: actions/cache@v6
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build production Docker image
+        uses: docker/build-push-action@v7
         with:
-          path: vendor
-          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-vendor-
+          context: .
+          load: true
+          pull: true
+          tags: symfony-application:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Install Composer dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
-        run: /usr/bin/composer install --no-interaction --no-scripts
+      - name: Run static analysis, tests and quality checks
+        run: |
+          docker run --name symfony-quality --network host \
+            --env APP_ENV --env DATABASE_URL --env MAILER_DSN \
+            --env MESSENGER_TRANSPORT_DSN --env XDEBUG_MODE \
+            --env COMPOSER_ROOT_VERSION=dev-main \
+            "symfony-application:${{ github.sha }}" quality
 
-      - name: Run static code analysis
-        run: /usr/bin/composer auto-analyze
-
-      - name: Run tests and quality checks
-        run: /usr/bin/composer auto-quality
+      - name: Copy code coverage reports
+        run: |
+          mkdir -p var/coverage
+          docker cp symfony-quality:/opt/project/var/coverage/. var/coverage/
 
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v7
         with:
+          files: var/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: opifex/symfony
+
+      - name: Scan Docker image vulnerabilities
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: image
+          image-ref: symfony-application:${{ github.sha }}
+          scanners: vuln
+          format: table
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+          version: v0.70.0
