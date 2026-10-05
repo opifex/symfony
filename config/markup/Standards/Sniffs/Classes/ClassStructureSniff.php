@@ -46,7 +46,7 @@ final class ClassStructureSniff implements Sniff
 
                     if (!in_array($this->sliceNamespace($dependencyName), $availableImports)) {
                         $phpcsFile->addError(
-                            error: 'Usage must starts with %s',
+                            error: 'Import must start with %s',
                             stackPtr: $stackPtr + 1,
                             code: 'ClassStructure',
                             data: [implode(separator: ' or ', array: $availableImports)],
