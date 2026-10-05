@@ -3,16 +3,24 @@ services:
     build: .
     hostname: application
     container_name: "${APP_NAME}-application"
+    environment:
+      APP_ENV: "${APP_ENV:-dev}"
     restart: unless-stopped
+    stop_grace_period: 190s
     healthcheck:
-      test: [ "NONE" ]
+      test: [ "CMD", "supervisorctl", "-c", "/etc/supervisor/supervisord.conf", "status", "all" ]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 3
     ports:
       - "${APP_PORT:-80}:80"
     depends_on:
-      - mailcatcher
-      - postgres
-      - rabbitmq
-      - redis
+      mailcatcher: { condition: service_healthy }
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      migration: { condition: service_completed_successfully }
     volumes:
       - ./:/opt/project:consistent
     networks:
@@ -23,16 +31,22 @@ services:
     hostname: messenger
     command: messenger
     container_name: "${APP_NAME}-messenger"
+    environment:
+      APP_ENV: "${APP_ENV:-dev}"
     restart: unless-stopped
     stop_grace_period: 70s
     healthcheck:
-      test: [ "NONE" ]
+      test: [ "CMD", "supervisorctl", "-c", "/etc/supervisor/messenger.conf", "status", "all" ]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 3
     depends_on:
-      - application
-      - mailcatcher
-      - postgres
-      - rabbitmq
-      - redis
+      mailcatcher: { condition: service_healthy }
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      migration: { condition: service_completed_successfully }
     volumes:
       - ./:/opt/project:consistent
     networks:
@@ -43,11 +57,14 @@ services:
     hostname: migration
     command: migration
     container_name: "${APP_NAME}-migration"
+    environment:
+      APP_ENV: "${APP_ENV:-dev}"
     healthcheck:
       test: [ "NONE" ]
     depends_on:
-      - application
-      - postgres
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+      redis: { condition: service_healthy }
     volumes:
       - ./:/opt/project:consistent
     networks:
@@ -58,6 +75,12 @@ services:
     hostname: redis
     container_name: "${APP_NAME}-redis"
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-e", "ping" ]
+      interval: 5s
+      timeout: 3s
+      start_period: 10s
+      retries: 10
     ports:
       - "6379:6379"
     volumes:
@@ -70,6 +93,12 @@ services:
     hostname: rabbitmq
     container_name: "${APP_NAME}-rabbitmq"
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "bash", "-ec", ": > /dev/tcp/127.0.0.1/5672" ]
+      interval: 5s
+      timeout: 3s
+      start_period: 30s
+      retries: 12
     ports:
       - "15672:15672"
     volumes:
@@ -82,6 +111,12 @@ services:
     hostname: postgres
     container_name: "${APP_NAME}-postgres"
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1 -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\" -t 2" ]
+      interval: 5s
+      timeout: 3s
+      start_period: 10s
+      retries: 10
     ports:
       - "5432:5432"
     environment:
@@ -98,6 +133,12 @@ services:
     hostname: mailcatcher
     container_name: "${APP_NAME}-mailcatcher"
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "-w", "2", "127.0.0.1", "1025" ]
+      interval: 5s
+      timeout: 3s
+      start_period: 10s
+      retries: 10
     ports:
       - "1088:1080"
     networks:

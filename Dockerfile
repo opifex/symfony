@@ -9,6 +9,8 @@ RUN composer install --ignore-platform-reqs --no-dev --no-plugins --no-scripts
 FROM ghcr.io/php/pie:bin AS pie
 
 FROM php:8.5.11-fpm-alpine AS php
+# set default application environment
+ENV APP_ENV=prod
 # set temporary working directory
 WORKDIR /opt/project
 # copy pie binary for PHP extension installation
@@ -49,8 +51,5 @@ RUN git config --global --add safe.directory "$PWD" \
     && runuser -u www-data -- composer dump-env prod --empty
 # expose ports
 EXPOSE 80
-# healthcheck for service availability
-HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
-    CMD curl -fsS --max-time 2 http://127.0.0.1/api/v1/health > /dev/null || exit 1
 # set container entrypoint
 ENTRYPOINT ["./config/docker/entrypoint.conf"]
