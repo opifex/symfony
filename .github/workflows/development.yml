@@ -83,10 +83,34 @@ jobs:
             --env COMPOSER_ROOT_VERSION=dev-main \
             "symfony-application:${{ github.sha }}" quality
 
-      - name: Copy code coverage reports
+      - name: Export code coverage reports
         run: |
           mkdir -p var/coverage
           docker cp symfony-quality:/opt/project/var/coverage/. var/coverage/
+
+      - name: Save code coverage artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: code-coverage
+          path: var/coverage
+          retention-days: 1
+          if-no-files-found: error
+
+  coverage:
+    name: Coverage
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v7
+
+      - name: Copy code coverage reports
+        uses: actions/download-artifact@v8
+        with:
+          name: code-coverage
+          path: var/coverage
 
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v7
