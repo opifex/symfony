@@ -6,10 +6,6 @@ COPY composer.json composer.lock ./
 # install production dependencies
 RUN composer install --ignore-platform-reqs --no-autoloader --no-dev --no-interaction --no-plugins --no-scripts
 
-FROM packages AS tools
-# install development dependencies
-RUN composer install --ignore-platform-reqs --no-autoloader --no-interaction --no-plugins --no-scripts
-
 FROM ghcr.io/php/pie:1.5.1-bin AS pie
 
 FROM php:8.5.11-fpm-alpine AS php
@@ -48,18 +44,7 @@ EXPOSE 80
 # set container entrypoint
 ENTRYPOINT ["./config/docker/entrypoint.conf"]
 
-FROM php AS development
-# set default environment
-ENV APP_ENV=dev
-# copy development PHP configuration
-COPY ./config/docker/development.conf /usr/local/etc/php/php.ini
-# copy dependencies and application code
-COPY --from=tools --chown=www-data:www-data /tmp/vendor ./vendor
-COPY --chown=www-data:www-data . .
-# dump composer autoload
-RUN runuser -u www-data -- composer dump-autoload --dev
-
-FROM php AS production
+FROM php AS application
 # set default environment
 ENV APP_ENV=prod
 # copy dependencies and application code

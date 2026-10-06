@@ -30,7 +30,6 @@ jobs:
           builder: default
           context: .
           pull: true
-          target: production
           tags: symfony-application:${{ github.sha }}
           outputs: type=docker,dest=${{ runner.temp }}/image.tar
           cache-from: type=gha
@@ -71,7 +70,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v7
 
-      - name: Build Docker development image
+      - name: Build Docker image
         uses: docker/build-push-action@v7
         env:
           DOCKER_BUILD_SUMMARY: 'false'
@@ -79,7 +78,6 @@ jobs:
         with:
           builder: default
           context: .
-          target: development
           tags: symfony-quality:${{ github.sha }}
           load: true
           cache-from: type=gha,scope=quality
