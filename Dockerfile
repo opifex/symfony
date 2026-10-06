@@ -10,17 +10,15 @@ FROM packages AS tools
 # install development dependencies
 RUN composer install --ignore-platform-reqs --no-autoloader --no-interaction --no-plugins --no-scripts
 
-FROM ghcr.io/php/pie:bin AS pie
+FROM ghcr.io/php/pie:1.5.1-bin AS pie
 
 FROM php:8.5.11-fpm-alpine AS php
 # set application working directory
 WORKDIR /opt/project
-# copy pie binary for PHP extension installation
-COPY --from=pie /pie /usr/local/bin/pie
-# install system packages, build dependencies, extensions, and update certificates
-RUN set -eux \
-    && apk add --no-cache ca-certificates curl git nginx p7zip runuser supervisor unzip \
-    && apk add --no-cache freetype icu libjpeg-turbo libpng libpq libxml2 libxslt libzip rabbitmq-c zlib \
+# install packages and extensions, update certificates, configure git, create dirs, and set permissions
+RUN --mount=type=bind,from=pie,source=/pie,target=/usr/local/bin/pie \
+        apk add --no-cache ca-certificates curl freetype git icu libjpeg-turbo libpng libpq libxml2 libxslt libzip \
+        nginx p7zip rabbitmq-c runuser supervisor unzip zlib \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS freetype-dev icu-dev libjpeg-turbo-dev libtool \
         libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev linux-headers rabbitmq-c-dev zlib-dev \
     && pie install --no-cache --no-interaction --skip-enable-extension \
@@ -29,13 +27,12 @@ RUN set -eux \
     && docker-php-ext-install -j"$(nproc)" gd intl pcntl pdo_pgsql xsl zip \
     && docker-php-ext-enable amqp apcu redis \
     && update-ca-certificates --fresh \
-    && apk del .build-deps \
-    && rm -rf /tmp/* /usr/local/lib/php/doc/*
-# configure git, create dirs, and set permissions
-RUN git config --system --add safe.directory "$PWD" \
+    && git config --system --add safe.directory "$PWD" \
     && mkdir -p "$PWD/public/bundles" "$PWD/var" /var/lib/nginx/tmp \
     && chown www-data:www-data "$PWD" "$PWD/public/bundles" "$PWD/var" \
-    && chown www-data:www-data /var/lib/nginx /var/lib/nginx/tmp
+    && chown www-data:www-data /var/lib/nginx /var/lib/nginx/tmp \
+    && rm -rf /tmp/* /usr/local/lib/php/doc/* \
+    && apk del .build-deps
 # copy configuration files for services and runtime
 COPY ./config/docker/messenger.conf /etc/supervisor/messenger.conf
 COPY ./config/docker/nginx.conf /etc/nginx/nginx.conf
