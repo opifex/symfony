@@ -11,7 +11,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-26.04-arm
-    timeout-minutes: 30
+    timeout-minutes: 15
 
     steps:
       - name: Checkout source code
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Build production Docker image
+      - name: Build Docker image
         uses: docker/build-push-action@v7
         env:
           DOCKER_BUILD_SUMMARY: 'false'
@@ -46,7 +46,7 @@ jobs:
     name: Quality
     needs: build
     runs-on: ubuntu-26.04-arm
-    timeout-minutes: 15
+    timeout-minutes: 5
 
     services:
       postgres:
@@ -78,7 +78,7 @@ jobs:
       - name: Load Docker image
         run: docker load --input "$RUNNER_TEMP/image.tar"
 
-      - name: Run static analysis, tests and quality checks
+      - name: Run code quality checks
         run: |
           docker run --name symfony-quality --network host \
             --env APP_ENV --env DATABASE_URL --env MAILER_DSN \
@@ -88,14 +88,14 @@ jobs:
 
       - name: Export code coverage reports
         run: |
-          mkdir -p var/coverage
-          docker cp symfony-quality:/opt/project/var/coverage/. var/coverage/
+          mkdir -p "$RUNNER_TEMP/coverage"
+          docker cp symfony-quality:/opt/project/var/coverage/. "$RUNNER_TEMP/coverage"
 
       - name: Save code coverage artifact
         uses: actions/upload-artifact@v7
         with:
           name: code-coverage
-          path: var/coverage
+          path: ${{ runner.temp }}/coverage
           retention-days: 1
           if-no-files-found: error
 
@@ -113,12 +113,12 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: code-coverage
-          path: var/coverage
+          path: ${{ runner.temp }}/coverage
 
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v7
         with:
-          files: var/coverage/clover.xml
+          files: ${{ runner.temp }}/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: opifex/symfony
 
@@ -126,7 +126,7 @@ jobs:
     name: Security
     needs: build
     runs-on: ubuntu-26.04-arm
-    timeout-minutes: 15
+    timeout-minutes: 5
 
     steps:
       - name: Download Docker image
