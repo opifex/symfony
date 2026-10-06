@@ -12,8 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build
+  build_production:
+    name: Build production
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 15
 
@@ -45,6 +45,15 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+  build_development:
+    name: Build development
+    runs-on: ubuntu-26.04-arm
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v7
+
       - name: Build Docker development image
         uses: docker/build-push-action@v7
         env:
@@ -70,7 +79,7 @@ jobs:
 
   quality:
     name: Quality
-    needs: build
+    needs: build_development
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
 
@@ -148,7 +157,7 @@ jobs:
 
   security:
     name: Security
-    needs: build
+    needs: build_production
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
 
