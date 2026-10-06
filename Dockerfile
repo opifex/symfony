@@ -28,7 +28,7 @@ RUN set -eux \
     && pie install --no-cache --skip-enable-extension phpredis/phpredis:6.3.0 \
     && pie install --no-cache --skip-enable-extension xdebug/xdebug:3.5.3 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd intl pcntl pdo_pgsql xsl zip \
+    && docker-php-ext-install -j"$(nproc)" gd intl pcntl pdo_pgsql xsl zip \
     && docker-php-ext-enable amqp apcu redis \
     && update-ca-certificates --fresh \
     && apk del .build-deps \
