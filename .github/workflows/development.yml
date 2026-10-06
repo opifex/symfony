@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
@@ -113,6 +117,8 @@ jobs:
       - name: Upload code coverage reports
         uses: codecov/codecov-action@v7
         with:
+          disable_search: true
+          fail_ci_if_error: true
           files: ${{ runner.temp }}/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: opifex/symfony
@@ -139,4 +145,4 @@ jobs:
           format: table
           severity: HIGH,CRITICAL
           exit-code: '1'
-          version: v0.70.0
+          version: v0.75.0
