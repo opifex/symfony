@@ -1,4 +1,4 @@
-FROM composer:2.10.3 AS composer
+FROM composer:2.10.3@sha256:af98f42dfff7c68ba8d53c2164fd9fde1087b7d449514baa38c418b1f6bc4bac AS composer
 # set temporary working directory
 WORKDIR /tmp
 # copy composer manifest files
@@ -6,9 +6,9 @@ COPY composer.json composer.lock ./
 # install production dependencies
 RUN composer install --ignore-platform-reqs --no-autoloader --no-dev --no-interaction --no-plugins --no-scripts
 
-FROM ghcr.io/php/pie:1.5.1-bin AS pie
+FROM ghcr.io/php/pie:1.5.1-bin@sha256:0ecfcffe6f22badd0ae9faa0279217d2aff24c4c1190b18ab82d3e1febc3877e AS pie
 
-FROM php:8.5.11-fpm-alpine AS php
+FROM php:8.5.11-fpm-alpine@sha256:fa01fb1645cd0fc566a5f146b099adace33b906571f972f71f2182a7c12d1cd7 AS php
 # set default environment
 ENV APP_ENV=prod
 # set application working directory
