@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build_production:
-    name: Build production
+    name: Build production image
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 15
 
@@ -46,7 +46,7 @@ jobs:
           if-no-files-found: error
 
   build_development:
-    name: Build development
+    name: Build development image
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 15
 
@@ -78,7 +78,7 @@ jobs:
           if-no-files-found: error
 
   quality:
-    name: Code quality checks
+    name: Run code quality checks
     needs: build_development
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
@@ -131,7 +131,7 @@ jobs:
           if-no-files-found: error
 
   coverage:
-    name: Code coverage upload
+    name: Upload code coverage
     needs: quality
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
@@ -156,7 +156,7 @@ jobs:
           slug: opifex/symfony
 
   security:
-    name: Image vulnerability scan
+    name: Scan image vulnerabilities
     needs: build_production
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
