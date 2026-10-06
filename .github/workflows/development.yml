@@ -12,8 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_production:
-    name: Build production image
+  build_image:
+    name: Build Docker image
     runs-on: ubuntu-26.04
     timeout-minutes: 10
 
@@ -21,7 +21,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v7
 
-      - name: Build Docker production image
+      - name: Build Docker image
         uses: docker/build-push-action@v7
         env:
           DOCKER_BUILD_SUMMARY: 'false'
@@ -35,7 +35,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Upload Docker production image
+      - name: Upload Docker image
         uses: actions/upload-artifact@v7
         with:
           name: docker-image
@@ -46,6 +46,7 @@ jobs:
 
   check_quality:
     name: Run code quality checks
+    needs: build_image
     runs-on: ubuntu-26.04
     timeout-minutes: 10
 
@@ -67,28 +68,21 @@ jobs:
       XDEBUG_MODE: coverage
 
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v7
-
-      - name: Build Docker image
-        uses: docker/build-push-action@v7
-        env:
-          DOCKER_BUILD_SUMMARY: 'false'
-          DOCKER_BUILD_RECORD_UPLOAD: 'false'
+      - name: Download Docker image
+        uses: actions/download-artifact@v8
         with:
-          builder: default
-          context: .
-          tags: symfony-quality:${{ github.sha }}
-          load: true
-          cache-from: type=gha,scope=quality
-          cache-to: type=gha,scope=quality,mode=max
+          name: docker-image
+          path: ${{ runner.temp }}
+
+      - name: Load Docker image
+        run: docker load --input "$RUNNER_TEMP/image.tar"
 
       - name: Run code quality checks
         run: |
           docker run --name symfony-quality --network host \
             --env APP_ENV --env DATABASE_URL --env MAILER_DSN \
             --env MESSENGER_TRANSPORT_DSN --env XDEBUG_MODE \
-            "symfony-quality:${{ github.sha }}" quality
+            "symfony-application:${{ github.sha }}" quality
 
       - name: Export code coverage reports
         run: |
@@ -130,18 +124,18 @@ jobs:
 
   scan_vulnerabilities:
     name: Scan image vulnerabilities
-    needs: build_production
+    needs: build_image
     runs-on: ubuntu-26.04
     timeout-minutes: 5
 
     steps:
-      - name: Download Docker production image
+      - name: Download Docker image
         uses: actions/download-artifact@v8
         with:
           name: docker-image
           path: ${{ runner.temp }}
 
-      - name: Scan Docker production image vulnerabilities
+      - name: Scan Docker image vulnerabilities
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: image
