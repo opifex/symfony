@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build_image:
-    name: Build Docker image
+    name: Build application image
     runs-on: ubuntu-26.04
     timeout-minutes: 10
 
