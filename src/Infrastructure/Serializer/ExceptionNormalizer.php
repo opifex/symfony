@@ -75,9 +75,11 @@ final readonly class ExceptionNormalizer implements NormalizerInterface
 
     private function extractViolationObject(ConstraintViolationInterface $violation): ?string
     {
+        $root = $violation->getRoot();
+
         return match (true) {
-            is_object($violation->getRoot()) => $violation->getRoot()::class,
-            is_string($violation->getRoot()) => $violation->getRoot(),
+            is_object($root) => $root::class,
+            is_string($root) => $root,
             default => null,
         };
     }

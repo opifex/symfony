@@ -13,7 +13,5 @@ parameters:
   checkUninitializedProperties: true
   paths:
     - ../../src
-  ignoreErrors:
-    - { identifier: method.unused, path: ../../src/Kernel.php }
 services:
   - { class: Tests\Architecture\LayerDependenciesTest, tags: [ phpat.test ] }
