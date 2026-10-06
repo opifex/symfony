@@ -1,4 +1,4 @@
-FROM composer:2.10.3 AS packages
+FROM composer:2.10.3 AS composer
 # set temporary working directory
 WORKDIR /tmp
 # copy composer manifest files
@@ -9,6 +9,8 @@ RUN composer install --ignore-platform-reqs --no-autoloader --no-dev --no-intera
 FROM ghcr.io/php/pie:1.5.1-bin AS pie
 
 FROM php:8.5.11-fpm-alpine AS php
+# set default environment
+ENV APP_ENV=prod
 # set application working directory
 WORKDIR /opt/project
 # install packages and extensions, update certificates, configure git, create dirs, and set permissions
@@ -36,20 +38,16 @@ COPY ./config/docker/php.conf /usr/local/etc/php/php.ini
 COPY ./config/docker/supervisor.conf /etc/supervisor/supervisord.conf
 COPY ./config/docker/www.conf /usr/local/etc/php-fpm.conf
 # copy composer keys and binary
-COPY --from=packages /tmp/keys.dev.pub /root/.composer/keys.dev.pub
-COPY --from=packages /tmp/keys.tags.pub /root/.composer/keys.tags.pub
-COPY --from=packages /usr/bin/composer /usr/bin/composer
-# expose HTTP port
-EXPOSE 80
-# set container entrypoint
-ENTRYPOINT ["./config/docker/entrypoint.conf"]
-
-FROM php AS application
-# set default environment
-ENV APP_ENV=prod
+COPY --from=composer /tmp/keys.dev.pub /root/.composer/keys.dev.pub
+COPY --from=composer /tmp/keys.tags.pub /root/.composer/keys.tags.pub
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 # copy dependencies and application code
-COPY --from=packages --chown=www-data:www-data /tmp/vendor ./vendor
+COPY --from=composer --chown=www-data:www-data /tmp/vendor ./vendor
 COPY --chown=www-data:www-data . .
 # dump composer autoload and environment
 RUN runuser -u www-data -- composer dump-autoload --classmap-authoritative \
     && runuser -u www-data -- composer dump-env prod --empty
+# expose HTTP port
+EXPOSE 80
+# set container entrypoint
+ENTRYPOINT ["./config/docker/entrypoint.conf"]
