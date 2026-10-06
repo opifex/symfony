@@ -41,12 +41,13 @@ COPY ./config/docker/www.conf /usr/local/etc/php-fpm.conf
 COPY --from=composer /tmp/keys.dev.pub /root/.composer/keys.dev.pub
 COPY --from=composer /tmp/keys.tags.pub /root/.composer/keys.tags.pub
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY --from=composer /tmp/vendor ./vendor
-COPY . .
+COPY --from=composer --chown=www-data:www-data /tmp/vendor ./vendor
+COPY --chown=www-data:www-data . .
 # configure git, create dirs, set permissions, and dump composer autoload
 RUN git config --global --add safe.directory "$PWD" \
     && mkdir -p "$PWD/public/bundles" "$PWD/var" /var/lib/nginx/tmp \
-    && chown -R www-data:www-data "$PWD" /var/lib/nginx \
+    && chown www-data:www-data "$PWD" "$PWD/public/bundles" "$PWD/var" \
+    && chown www-data:www-data /var/lib/nginx /var/lib/nginx/tmp \
     && runuser -u www-data -- composer dump-autoload --classmap-authoritative \
     && runuser -u www-data -- composer dump-env prod --empty
 # expose ports
