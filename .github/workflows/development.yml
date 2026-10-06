@@ -78,7 +78,7 @@ jobs:
           if-no-files-found: error
 
   quality:
-    name: Quality
+    name: Code quality checks
     needs: build_development
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
@@ -131,7 +131,7 @@ jobs:
           if-no-files-found: error
 
   coverage:
-    name: Coverage
+    name: Code coverage upload
     needs: quality
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
@@ -156,7 +156,7 @@ jobs:
           slug: opifex/symfony
 
   security:
-    name: Security
+    name: Image vulnerability scan
     needs: build_production
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
