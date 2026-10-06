@@ -44,9 +44,10 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 # copy dependencies and application code
 COPY --from=composer --chown=www-data:www-data /tmp/vendor ./vendor
 COPY --chown=www-data:www-data . .
-# dump composer autoload and environment
-RUN runuser -u www-data -- composer dump-autoload --classmap-authoritative \
-    && runuser -u www-data -- composer dump-env prod --empty
+# verify platform requirements, dump composer autoload and environment
+RUN runuser -u www-data -- composer check-platform-reqs --no-dev \
+    && runuser -u www-data -- composer dump-autoload --classmap-authoritative --no-dev \
+    && runuser -u www-data -- composer dump-env --empty prod
 # expose HTTP port
 EXPOSE 80
 # set container entrypoint
