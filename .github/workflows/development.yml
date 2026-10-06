@@ -82,7 +82,8 @@ jobs:
           docker run --name symfony-quality --network host \
             --env APP_ENV --env DATABASE_URL --env MAILER_DSN \
             --env MESSENGER_TRANSPORT_DSN --env XDEBUG_MODE \
-            "symfony-application:${{ github.sha }}" quality
+            --entrypoint sh "symfony-application:${{ github.sha }}" \
+            -x ./config/docker/entrypoint.conf quality
 
       - name: Export code coverage reports
         run: |
