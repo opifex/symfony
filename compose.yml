@@ -1,6 +1,8 @@
 services:
   application:
-    build: .
+    build:
+      context: .
+      target: development
     hostname: application
     container_name: "${APP_NAME}-application"
     environment:
@@ -27,7 +29,9 @@ services:
       internal:
 
   messenger:
-    build: .
+    build:
+      context: .
+      target: development
     hostname: messenger
     command: messenger
     container_name: "${APP_NAME}-messenger"
@@ -53,7 +57,9 @@ services:
       internal:
 
   migration:
-    build: .
+    build:
+      context: .
+      target: development
     hostname: migration
     command: migration
     container_name: "${APP_NAME}-migration"

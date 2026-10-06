@@ -30,6 +30,7 @@ jobs:
           builder: default
           context: .
           pull: true
+          target: production
           tags: symfony-application:${{ github.sha }}
           outputs: type=docker,dest=${{ runner.temp }}/image.tar
           cache-from: type=gha
@@ -40,6 +41,29 @@ jobs:
         with:
           name: docker-image
           path: ${{ runner.temp }}/image.tar
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Build quality image
+        uses: docker/build-push-action@v7
+        env:
+          DOCKER_BUILD_SUMMARY: 'false'
+          DOCKER_BUILD_RECORD_UPLOAD: 'false'
+        with:
+          builder: default
+          context: .
+          target: development
+          tags: symfony-quality:${{ github.sha }}
+          outputs: type=docker,dest=${{ runner.temp }}/quality-image.tar
+          cache-from: type=gha,scope=quality
+          cache-to: type=gha,scope=quality,mode=max
+
+      - name: Upload quality image
+        uses: actions/upload-artifact@v7
+        with:
+          name: quality-image
+          path: ${{ runner.temp }}/quality-image.tar
           compression-level: 0
           retention-days: 1
           if-no-files-found: error
@@ -71,19 +95,18 @@ jobs:
       - name: Download Docker image
         uses: actions/download-artifact@v8
         with:
-          name: docker-image
+          name: quality-image
           path: ${{ runner.temp }}
 
       - name: Load Docker image
-        run: docker load --input "$RUNNER_TEMP/image.tar"
+        run: docker load --input "$RUNNER_TEMP/quality-image.tar"
 
       - name: Run code quality checks
         run: |
           docker run --name symfony-quality --network host \
             --env APP_ENV --env DATABASE_URL --env MAILER_DSN \
             --env MESSENGER_TRANSPORT_DSN --env XDEBUG_MODE \
-            --env COMPOSER_ROOT_VERSION=dev-main \
-            "symfony-application:${{ github.sha }}" quality
+            "symfony-quality:${{ github.sha }}" quality
 
       - name: Export code coverage reports
         run: |
