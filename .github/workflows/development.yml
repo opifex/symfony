@@ -14,7 +14,7 @@ concurrency:
 jobs:
   build_production:
     name: Build production image
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
 
     steps:
@@ -47,7 +47,7 @@ jobs:
 
   build_development:
     name: Build development image
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
 
     steps:
@@ -80,7 +80,7 @@ jobs:
   check_quality:
     name: Run code quality checks
     needs: build_development
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
 
     services:
@@ -133,7 +133,7 @@ jobs:
   upload_coverage:
     name: Upload code coverage
     needs: check_quality
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
 
     steps:
@@ -158,7 +158,7 @@ jobs:
   scan_vulnerabilities:
     name: Scan image vulnerabilities
     needs: build_production
-    runs-on: ubuntu-26.04-arm
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
 
     steps:
