@@ -23,10 +23,8 @@ RUN set -eux \
     && apk add --no-cache freetype icu libjpeg-turbo libpng libpq libxml2 libxslt libzip rabbitmq-c zlib \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS freetype-dev icu-dev libjpeg-turbo-dev libtool \
         libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev linux-headers rabbitmq-c-dev zlib-dev \
-    && pie install --no-cache --skip-enable-extension php-amqp/php-amqp:2.2.0 \
-    && pie install --no-cache --skip-enable-extension apcu/apcu:5.1.28 \
-    && pie install --no-cache --skip-enable-extension phpredis/phpredis:6.3.0 \
-    && pie install --no-cache --skip-enable-extension xdebug/xdebug:3.5.3 \
+    && pie install --no-cache --no-interaction --skip-enable-extension \
+        php-amqp/php-amqp:2.2.0 apcu/apcu:5.1.28 phpredis/phpredis:6.3.0 xdebug/xdebug:3.5.3 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" gd intl pcntl pdo_pgsql xsl zip \
     && docker-php-ext-enable amqp apcu redis \
