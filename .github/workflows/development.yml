@@ -21,7 +21,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v7
 
-      - name: Build Docker image
+      - name: Build Docker production image
         uses: docker/build-push-action@v7
         env:
           DOCKER_BUILD_SUMMARY: 'false'
@@ -36,16 +36,16 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Upload Docker image
+      - name: Upload Docker production image
         uses: actions/upload-artifact@v7
         with:
-          name: docker-image
+          name: production-image
           path: ${{ runner.temp }}/image.tar
           compression-level: 0
           retention-days: 1
           if-no-files-found: error
 
-      - name: Build quality image
+      - name: Build Docker development image
         uses: docker/build-push-action@v7
         env:
           DOCKER_BUILD_SUMMARY: 'false'
@@ -59,10 +59,10 @@ jobs:
           cache-from: type=gha,scope=quality
           cache-to: type=gha,scope=quality,mode=max
 
-      - name: Upload quality image
+      - name: Upload Docker development image
         uses: actions/upload-artifact@v7
         with:
-          name: quality-image
+          name: development-image
           path: ${{ runner.temp }}/quality-image.tar
           compression-level: 0
           retention-days: 1
@@ -92,13 +92,13 @@ jobs:
       XDEBUG_MODE: coverage
 
     steps:
-      - name: Download Docker image
+      - name: Download Docker development image
         uses: actions/download-artifact@v8
         with:
-          name: quality-image
+          name: development-image
           path: ${{ runner.temp }}
 
-      - name: Load Docker image
+      - name: Load Docker development image
         run: docker load --input "$RUNNER_TEMP/quality-image.tar"
 
       - name: Run code quality checks
@@ -153,13 +153,13 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Download Docker image
+      - name: Download Docker production image
         uses: actions/download-artifact@v8
         with:
-          name: docker-image
+          name: production-image
           path: ${{ runner.temp }}
 
-      - name: Scan Docker image vulnerabilities
+      - name: Scan Docker production image vulnerabilities
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: image
