@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\Support\DatabaseEntityManagerTrait;
 use Tests\Support\Fixture\AccountActivatedAdminFixture;
-use Tests\Support\Fixture\AccountActivatedEmmaFixture;
 use Tests\Support\HttpClientRequestsTrait;
 use Tests\Support\MessengerTransportTrait;
 
@@ -28,16 +27,17 @@ final class SignupNewAccountWebTest extends WebTestCase
 
     public function testSignupWithValidEmailSendsConfirmation(): void
     {
-        self::loadFixtures([AccountActivatedEmmaFixture::class]);
         self::purgeMessengerTransport(name: 'domain_events');
         self::sendPostRequest(url: '/api/v1/auth/signup', params: [
-            'email' => 'admin@example.com',
+            'email' => 'user@example.com',
             'password' => 'password4#account',
             'locale' => LocaleCode::EnUs->toString(),
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
         self::consumeMessengerTransport(name: 'domain_events');
         self::assertEmailCount(count: 1);
+        self::assertEmailAddressContains(self::getMailerMessage(), headerName: 'To', expectedValue: 'user@example.com');
+        self::assertEmailSubjectContains(self::getMailerMessage(), expectedValue: 'Thank you for registration');
     }
 
     public function testSignupWithInvalidEmailFormatReturnsUnprocessableEntity(): void
