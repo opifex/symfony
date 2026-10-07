@@ -30,7 +30,7 @@ RUN --mount=type=bind,from=pie,source=/pie,target=/usr/local/bin/pie \
     && chown www-data:www-data "$PWD" "$PWD/public/bundles" "$PWD/var" \
     && chown www-data:www-data /var/lib/nginx /var/lib/nginx/tmp \
     && apk del .build-deps \
-    && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
+    && rm -rf /root/.pie /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 # copy configuration files for services and runtime
 COPY ./config/docker/messenger.conf /etc/supervisor/messenger.conf
 COPY ./config/docker/nginx.conf /etc/nginx/nginx.conf
