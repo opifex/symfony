@@ -19,7 +19,7 @@ APP_PORT=8030
 APP_SECRET=166f851291ebd0ebf805b0188f1d5e7a
 
 DEFAULT_URI=http://localhost:8030
-DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=17&charset=utf8
+DATABASE_URL=postgresql://admin:password@postgres:5432/symfony?serverVersion=18&charset=utf8
 HTTPBIN_URL=https://httpbin.org/
 JWT_PASSPHRASE=3a8d33b54f002565767e28d24743ad51b30a061ce31b9516b98efd64612009d721ca1c68fb7143193af754c352bf4edb2796fd13b89395d983c5c337d5a44be4
 LOCK_DSN=redis://redis:6379?timeout=1&read_timeout=1
@@ -52,7 +52,7 @@ params:
 Run all development services or specified containers as you need.
 
 ```
-$ docker-compose --env-file .env.local up -d [--no-deps] [containers]
+$ docker compose --env-file .env.local up -d [--no-deps] [containers]
 ```
 
 Main application containers list.
@@ -73,7 +73,7 @@ All you need to do is configure the debugger in the IDE, enter the required key 
 
 ## Architecture
 
-This **RESTful** application uses **Domain-Driven Design** (DDD) with **Command-Query Separation** (CSQ) principles and
+This **RESTful** application uses **Domain-Driven Design** (DDD) with **Command-Query Separation** (CQS) principles and
 provides **JSON-based** contracts with **JSON Web Token** (JWT) authorization.
 
 ```

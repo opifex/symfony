@@ -1,5 +1,8 @@
+**/.DS_Store
 .dockerignore
 .editorconfig
+.env.*.local
+.env.local
 .git/
 .github/
 .gitignore
@@ -7,5 +10,6 @@
 Dockerfile
 LICENSE
 compose.yml
+config/secrets/*/*.decrypt.private.php
 var/
 vendor/

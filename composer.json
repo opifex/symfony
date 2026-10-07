@@ -125,7 +125,7 @@
         "debug-composer": "composer validate --strict && composer audit && composer outdated && composer diagnose",
         "debug-container": "bin/console lint:container --no-interaction",
         "debug-mapping": "bin/console doctrine:mapping:info --no-interaction",
-        "debug-recipes": "composer symfony:recipes",
+        "debug-recipes": "composer symfony:recipes --outdated",
         "debug-router": "bin/console debug:router --no-interaction | grep -v '^  _'",
         "debug-scheduler": "bin/console debug:scheduler --no-interaction",
         "fix-code-style": "phpcbf --standard=config/markup/phpcs.xml",
