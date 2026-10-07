@@ -2,7 +2,7 @@
 
 An example application using Symfony Framework.
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/opifex/symfony/development.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/opifex/symfony/ci.yml)
 ![GitHub License](https://img.shields.io/github/license/opifex/symfony)
 ![Codecov](https://img.shields.io/codecov/c/github/opifex/symfony)
 
