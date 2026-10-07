@@ -17,7 +17,7 @@ services:
     ports:
       - "${APP_PORT:-80}:80"
     depends_on:
-      mailcatcher: { condition: service_healthy }
+      mailpit: { condition: service_healthy }
       postgres: { condition: service_healthy }
       rabbitmq: { condition: service_healthy }
       redis: { condition: service_healthy }
@@ -44,7 +44,7 @@ services:
       start_period: 20s
       retries: 3
     depends_on:
-      mailcatcher: { condition: service_healthy }
+      mailpit: { condition: service_healthy }
       postgres: { condition: service_healthy }
       rabbitmq: { condition: service_healthy }
       redis: { condition: service_healthy }
@@ -131,19 +131,19 @@ services:
     networks:
       internal:
 
-  mailcatcher:
-    image: opifex/mailcatcher:latest
-    hostname: mailcatcher
-    container_name: "${APP_NAME}-mailcatcher"
+  mailpit:
+    image: axllent/mailpit:v1.31.4
+    hostname: mailpit
+    container_name: "${APP_NAME}-mailpit"
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "nc", "-z", "-w", "2", "127.0.0.1", "1025" ]
+      test: [ "CMD", "/mailpit", "readyz" ]
       interval: 5s
       timeout: 3s
       start_period: 10s
       retries: 10
     ports:
-      - "1088:1080"
+      - "8025:8025"
     networks:
       internal:
 
