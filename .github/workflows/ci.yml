@@ -59,11 +59,6 @@ jobs:
           POSTGRES_DB: root
           POSTGRES_PASSWORD: root
           POSTGRES_USER: root
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 1s
-          --health-timeout 1s
-          --health-retries 10
         ports:
           - 5432:5432
 
