@@ -10,17 +10,17 @@ FROM ghcr.io/php/pie:1.5.1-bin@sha256:0ecfcffe6f22badd0ae9faa0279217d2aff24c4c11
 
 FROM php:8.5.11-fpm-alpine@sha256:fa01fb1645cd0fc566a5f146b099adace33b906571f972f71f2182a7c12d1cd7 AS php
 # set default environment
-ENV APP_ENV=prod
+ENV APP_ENV=prod PYTHONDONTWRITEBYTECODE=1
 # set application working directory
 WORKDIR /opt/project
 # install packages and extensions, update certificates, configure git, create dirs, and set permissions
 RUN --mount=type=bind,from=pie,source=/pie,target=/usr/local/bin/pie \
         apk add --no-cache ca-certificates curl freetype git icu libjpeg-turbo libpng libpq libxml2 libxslt libzip \
-        nginx p7zip rabbitmq-c runuser supervisor unzip zlib \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS freetype-dev icu-dev libjpeg-turbo-dev libtool \
-        libpng-dev libpq-dev libxml2-dev libxslt-dev libzip-dev linux-headers rabbitmq-c-dev zlib-dev \
+        nginx p7zip '!pyc' rabbitmq-c runuser supervisor unzip zlib \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS freetype-dev icu-dev libjpeg-turbo-dev \
+        libpng-dev libpq-dev libtool libxml2-dev libxslt-dev libzip-dev linux-headers rabbitmq-c-dev zlib-dev \
     && pie install --no-cache --no-interaction --skip-enable-extension \
-        php-amqp/php-amqp:2.2.0 apcu/apcu:5.1.28 phpredis/phpredis:6.3.0 xdebug/xdebug:3.5.3 \
+        apcu/apcu:5.1.28 php-amqp/php-amqp:2.2.0 phpredis/phpredis:6.3.0 xdebug/xdebug:3.5.3 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" gd intl pcntl pdo_pgsql xsl zip \
     && docker-php-ext-enable amqp apcu redis \
