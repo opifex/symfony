@@ -47,7 +47,7 @@ jobs:
           if-no-files-found: error
 
   check_quality:
-    name: Run code quality checks
+    name: Analyze code quality
     needs: build_image
     runs-on: ubuntu-26.04
     timeout-minutes: 10
@@ -86,10 +86,10 @@ jobs:
             --env MESSENGER_TRANSPORT_DSN --env XDEBUG_MODE \
             "symfony-application:${{ github.sha }}" quality
 
-      - name: Export code coverage report
+      - name: Copy code coverage report
         run: docker cp symfony-quality:/opt/project/var/coverage/clover.xml "$RUNNER_TEMP/coverage.xml"
 
-      - name: Save code coverage artifact
+      - name: Upload code coverage report
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: code-coverage
@@ -98,7 +98,7 @@ jobs:
           if-no-files-found: error
 
   upload_coverage:
-    name: Upload code coverage
+    name: Upload coverage report
     needs: check_quality
     runs-on: ubuntu-26.04
     timeout-minutes: 5
@@ -116,7 +116,7 @@ jobs:
           name: code-coverage
           path: ${{ runner.temp }}
 
-      - name: Upload code coverage report
+      - name: Export code coverage report to Codecov
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           use_oidc: true
@@ -137,7 +137,7 @@ jobs:
           name: docker-image
           path: ${{ runner.temp }}
 
-      - name: Scan Docker image vulnerabilities
+      - name: Scan Docker image for vulnerabilities
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           scan-type: image
