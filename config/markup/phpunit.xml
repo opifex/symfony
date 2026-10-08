@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="tests/bootstrap.php"
-         cacheDirectory="var/cache/test/phpunit"
+         xsi:noNamespaceSchemaLocation="../../vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="../../tests/bootstrap.php"
+         cacheDirectory="../../var/cache/test/phpunit"
          displayDetailsOnPhpunitDeprecations="true"
          displayDetailsOnTestsThatTriggerDeprecations="true"
          executionOrder="random"
@@ -22,15 +22,15 @@
 
   <testsuites>
     <testsuite name="Project Test Suite">
-      <directory>tests/Functional</directory>
-      <directory>tests/Unit</directory>
+      <directory>../../tests/Functional</directory>
+      <directory>../../tests/Unit</directory>
     </testsuite>
   </testsuites>
 
   <coverage>
     <report>
-      <clover outputFile="var/coverage/clover.xml"/>
-      <html outputDirectory="var/coverage/html"/>
+      <clover outputFile="../../var/coverage/clover.xml"/>
+      <html outputDirectory="../../var/coverage/html"/>
       <text outputFile="php://stdout" showOnlySummary="true"/>
     </report>
   </coverage>
@@ -40,13 +40,13 @@
           restrictWarnings="true"
           ignoreSuppressionOfDeprecations="true">
     <include>
-      <directory>src</directory>
+      <directory>../../src</directory>
     </include>
 
     <exclude>
-      <directory>src/Infrastructure/Doctrine/Fixture</directory>
-      <directory>src/Infrastructure/Doctrine/Migration</directory>
-      <file>src/Kernel.php</file>
+      <directory>../../src/Infrastructure/Doctrine/Fixture</directory>
+      <directory>../../src/Infrastructure/Doctrine/Migration</directory>
+      <file>../../src/Kernel.php</file>
     </exclude>
 
     <deprecationTrigger>

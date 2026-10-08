@@ -8,7 +8,7 @@ An example application using Symfony Framework.
 
 ## Configuration
 
-Create custom configuration files in the project root directory.
+Create custom configuration file in the project root directory.
 
 Create `.env.local` and set it as docker environment variables file.
 
@@ -34,37 +34,23 @@ SYMFONY_IDE=idea://open?file=%f&line=%l&/opt/project>/local/path
 Generate real values and set them in `.env.local`.
 
 ```
-$ openssl rand -hex 64   # JWT_PASSPHRASE  (256+ bits, required for HS256)
-$ openssl rand -hex 32   # PAYPAL_WEBHOOK_TOKEN
-```
-
-Create `codeception.yml` with the following set of parameters.
-
-```yaml
-params:
-  - .env
-  - .env.local
-  - .env.test
+$ openssl rand -hex 32 # APP_SECRET
+$ openssl rand -hex 32 # PAYPAL_WEBHOOK_TOKEN
+$ openssl rand -hex 64 # JWT_PASSPHRASE  (256+ bits, required for HS256)
 ```
 
 ## Development
 
-Run all development services or specified containers as you need.
+Run all development services or only the selected services as needed.
 
 ```
-$ docker compose --env-file .env.local up -d [--no-deps] [containers]
-```
-
-Main application containers list.
-
-```
-application crontab messenger migration
+$ docker compose --env-file .env.local up -d [--no-deps] [services]
 ```
 
 Use the following command when you need some data in the local database.
 
 ```
-$ composer load-fixtures
+$ docker compose exec application composer load-fixtures
 ```
 
 The xdebug extension is already included in the project and is activated for development environment.
