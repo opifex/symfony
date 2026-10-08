@@ -89,15 +89,6 @@
             "phpcs --standard=config/markup/phpcs.xml",
             "phpstan --configuration=config/markup/phpstan.neon --memory-limit=4G --no-progress"
         ],
-        "auto-deploy": [
-            "bin/console lint:yaml src config --env=prod --no-interaction",
-            "bin/console lint:twig src --env=prod --no-interaction",
-            "bin/console lint:container --env=prod --no-interaction",
-            "bin/console doctrine:migrations:sync-metadata-storage --env=prod --no-interaction",
-            "bin/console doctrine:migrations:migrate --env=prod --no-interaction",
-            "bin/console messenger:setup-transports --env=prod --no-interaction",
-            "bin/console cache:clear --env=prod --no-interaction"
-        ],
         "auto-migrate": [
             "bin/console doctrine:database:create --if-not-exists --no-interaction",
             "bin/console doctrine:migrations:sync-metadata-storage --no-interaction",
@@ -137,7 +128,6 @@
     },
     "scripts-descriptions": {
         "auto-analyze": "Analyze code quality with Composer, PHPCS, and PHPStan",
-        "auto-deploy": "Perform a full production deployment of the application",
         "auto-migrate": "Run database migrations and configure messenger transports",
         "auto-quality": "Run full quality assurance checks",
         "auto-scripts": "Install assets and clear the application cache",
