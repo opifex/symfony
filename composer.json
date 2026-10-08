@@ -78,7 +78,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Reports\\": "config/markup/Reports",
             "Standards\\": "config/markup/Standards",
             "Tests\\": "tests"
         }
@@ -116,7 +115,7 @@
             "bin/console doctrine:migrations:migrate --env=test --allow-no-migration --no-interaction",
             "bin/console messenger:setup-transports --env=test --no-interaction",
             "bin/console doctrine:schema:validate --env=test --no-interaction",
-            "env XDEBUG_MODE=coverage bin/phpunit --configuration=config/markup/phpunit.xml --no-progress"
+            "env XDEBUG_MODE=coverage phpunit --configuration=config/markup/phpunit.xml --no-progress"
         ],
         "auto-scripts": {
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
