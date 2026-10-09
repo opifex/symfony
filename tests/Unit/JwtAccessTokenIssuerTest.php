@@ -12,21 +12,13 @@ use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenIssuer;
 use App\Infrastructure\Adapter\Lcobucci\JwtAccessTokenParser;
 use App\Infrastructure\Adapter\Lcobucci\JwtConfigurationBag;
 use Exception;
-use Override;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Clock\MockClock;
 
 #[AllowDynamicProperties]
 #[AllowMockObjectsWithoutExpectations]
 final class JwtAccessTokenIssuerTest extends TestCase
 {
-    #[Override]
-    protected function setUp(): void
-    {
-        $this->clock = new MockClock();
-    }
-
     /**
      * @throws Exception
      */
