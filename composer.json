@@ -156,7 +156,7 @@
         "doctrine/doctrine-fixtures-bundle": "^4.3",
         "fakerphp/faker": "^1.24",
         "opis/json-schema": "^2.6",
-        "phpat/phpat": "^0.12.5",
+        "phpat/phpat": "^0.12",
         "phpstan/phpstan": "^2.3",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-doctrine": "^2.0",

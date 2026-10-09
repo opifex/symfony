@@ -16,8 +16,8 @@ interface AccountRepositoryInterface
     public function findByCriteria(
         ?string $accountEmail = null,
         ?string $accountStatus = null,
-        ?int $pageNumber = null,
-        ?int $pageSize = null,
+        int $pageNumber = 1,
+        int $pageSize = 100,
     ): SearchResult;
 
     /**

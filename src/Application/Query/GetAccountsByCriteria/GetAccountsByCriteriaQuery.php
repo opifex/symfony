@@ -24,7 +24,7 @@ final readonly class GetAccountsByCriteriaQuery implements QueryInterface
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\LessThanOrEqual(value: 100)]
         #[Assert\Positive]
-        public int $limit = 10,
+        public int $limit = 100,
     ) {
     }
 }

@@ -17,11 +17,11 @@ use App\Infrastructure\Messenger\DomainEventCollector;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\ORM\Tools\Pagination\OffsetPaginator;
+use Doctrine\ORM\Tools\Pagination\Window;
 use Exception;
 use Override;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Traversable;
 
 final readonly class AccountEntityRepository implements AccountRepositoryInterface
 {
@@ -39,8 +39,8 @@ final readonly class AccountEntityRepository implements AccountRepositoryInterfa
     public function findByCriteria(
         ?string $accountEmail = null,
         ?string $accountStatus = null,
-        ?int $pageNumber = null,
-        ?int $pageSize = null,
+        int $pageNumber = 1,
+        int $pageSize = 100,
     ): SearchResult {
         $builder = $this->entityManager->createQueryBuilder();
         $builder->select(['account'])->from(from: AccountEntity::class, alias: 'account');
@@ -58,24 +58,21 @@ final readonly class AccountEntityRepository implements AccountRepositoryInterfa
 
         $builder->addOrderBy($builder->expr()->desc(expr: 'account.createdAt'));
 
-        if ($pageNumber !== null && $pageSize !== null) {
-            $builder->setFirstResult(firstResult: ($pageNumber - 1) * $pageSize);
-            $builder->setMaxResults($pageSize);
-        }
+        $paginator = new OffsetPaginator(fetchJoinCollection: false);
+        $window = Window::fromPageNumberAndSize($pageNumber, $pageSize);
+        $page = $paginator->paginate($builder, $window);
+        /** @var list<AccountEntity> $accountEntities */
+        $accountEntities = $page->getItems();
 
-        $paginator = new Paginator($builder, fetchJoinCollection: false);
-        /** @var Traversable<int, AccountEntity> $iterator */
-        $iterator = $paginator->getIterator();
-
-        foreach ($iterator as $accountEntity) {
+        foreach ($accountEntities as $accountEntity) {
             $this->entityManager->detach($accountEntity);
         }
 
         return new SearchResult(
-            items: AccountEntityMapper::mapAll(...$iterator),
-            totalCount: $paginator->count(),
-            pageNumber: $pageNumber ?? 1,
-            pageSize: $pageSize ?? $paginator->count(),
+            items: AccountEntityMapper::mapAll(...$accountEntities),
+            totalCount: $page->getTotalCount(),
+            pageNumber: $pageNumber,
+            pageSize: $pageSize,
         );
     }
 

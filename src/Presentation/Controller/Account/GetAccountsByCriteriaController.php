@@ -44,8 +44,8 @@ final class GetAccountsByCriteriaController extends AbstractController
     #[OA\QueryParameter(
         name: 'limit',
         description: 'Result items limit',
-        schema: new OA\Schema(type: 'integer', default: 10, maximum: 100, minimum: 1),
-        example: 10,
+        schema: new OA\Schema(type: 'integer', default: 100, maximum: 100, minimum: 1),
+        example: 100,
     )]
     #[OA\Response(
         response: Response::HTTP_OK,
@@ -63,12 +63,12 @@ final class GetAccountsByCriteriaController extends AbstractController
                         new OA\Property(
                             property: 'items_per_page',
                             type: 'integer',
-                            example: 10,
+                            example: 100,
                         ),
                         new OA\Property(
                             property: 'total_items',
                             type: 'integer',
-                            example: 100,
+                            example: 1000,
                         ),
                     ],
                     type: 'object',
