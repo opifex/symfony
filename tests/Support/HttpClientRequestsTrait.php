@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Support;
 
+use Nelmio\ApiDocBundle\ApiDocGenerator;
 use Opis\JsonSchema\Errors\ValidationError;
 use Opis\JsonSchema\Validator;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,8 +46,15 @@ trait HttpClientRequestsTrait
     public static function sendAuthorizationRequest(string $email, string $password): void
     {
         self::sendPostRequest(url: '/api/v1/auth/signin', params: ['email' => $email, 'password' => $password]);
+
         $jsonResponse = json_decode(self::getClient()->getResponse()->getContent(), associative: true);
-        $httpAuthorization = 'Bearer ' . ($jsonResponse['access_token'] ?? '');
+        self::assertIsArray($jsonResponse);
+
+        $accessToken = $jsonResponse['access_token'] ?? null;
+        self::assertIsString($accessToken);
+
+        $httpAuthorization = 'Bearer ' . $accessToken;
+
         self::getClient()->setServerParameter(key: 'HTTP_AUTHORIZATION', value: $httpAuthorization);
     }
 
@@ -77,10 +85,13 @@ trait HttpClientRequestsTrait
 
     private static function loadOpenApiSpecification(): object
     {
+        /** @var object|null $specification */
         static $specification = null;
 
         if ($specification === null) {
+            /** @var ApiDocGenerator $generator */
             $generator = self::getContainer()->get(id: 'nelmio_api_doc.generator');
+            /** @var object $specification */
             $specification = json_decode($generator->generate()->toJson());
         }
 

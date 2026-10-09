@@ -8,6 +8,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 trait DatabaseEntityManagerTrait
 {
@@ -22,13 +23,18 @@ trait DatabaseEntityManagerTrait
         new ORMExecutor(self::getEntityManager(), new ORMPurger())->execute($loader->getFixtures());
     }
 
-    public static function getDatabaseEntity(string $entity, array $criteria = []): object
+    public static function getDatabaseEntity(string $entity, array $criteria = []): ?object
     {
         return self::getEntityManager()->getRepository($entity)->findOneBy($criteria);
     }
 
     private static function getEntityManager(): EntityManagerInterface
     {
-        return self::getContainer()->get(id: 'doctrine')->getManager();
+        /** @var ManagerRegistry $managerRegistry */
+        $managerRegistry = self::getContainer()->get(id: 'doctrine');
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $managerRegistry->getManager();
+
+        return $entityManager;
     }
 }

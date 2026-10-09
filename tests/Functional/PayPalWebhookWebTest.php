@@ -21,8 +21,9 @@ final class PayPalWebhookWebTest extends WebTestCase
 
     public function testWebhookAcceptsValidPayPalEvent(): void
     {
-        $webhookToken = $_ENV['PAYPAL_WEBHOOK_TOKEN'];
-        self::sendPostRequest(url: '/webhook/paypal?token=' . $webhookToken, params: [
+        $paypalWebhookToken = $_ENV['PAYPAL_WEBHOOK_TOKEN'] ?? null;
+        self::assertIsString($paypalWebhookToken);
+        self::sendPostRequest(url: '/webhook/paypal?token=' . $paypalWebhookToken, params: [
             'id' => '8PT597110X687430LKGECATA',
             'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
         ]);
@@ -40,8 +41,9 @@ final class PayPalWebhookWebTest extends WebTestCase
 
     public function testWebhookReturnsNotAcceptableWhenEventTypeIsMissing(): void
     {
-        $webhookToken = $_ENV['PAYPAL_WEBHOOK_TOKEN'];
-        self::sendPostRequest(url: '/webhook/paypal?token=' . $webhookToken, params: [
+        $paypalWebhookToken = $_ENV['PAYPAL_WEBHOOK_TOKEN'] ?? null;
+        self::assertIsString($paypalWebhookToken);
+        self::sendPostRequest(url: '/webhook/paypal?token=' . $paypalWebhookToken, params: [
             'id' => '8PT597110X687430LKGECATA',
         ]);
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NOT_ACCEPTABLE);

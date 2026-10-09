@@ -36,8 +36,10 @@ final class SignupNewAccountWebTest extends WebTestCase
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_NO_CONTENT);
         self::consumeMessengerTransport(name: 'domain_events');
         self::assertEmailCount(count: 1);
-        self::assertEmailAddressContains(self::getMailerMessage(), headerName: 'To', expectedValue: 'user@example.com');
-        self::assertEmailSubjectContains(self::getMailerMessage(), expectedValue: 'Thank you for registration');
+        $message = self::getMailerMessage();
+        self::assertNotNull($message);
+        self::assertEmailAddressContains($message, headerName: 'To', expectedValue: 'user@example.com');
+        self::assertEmailSubjectContains($message, expectedValue: 'Thank you for registration');
     }
 
     public function testSignupWithInvalidEmailFormatReturnsUnprocessableEntity(): void
