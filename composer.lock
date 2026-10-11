@@ -886,16 +886,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "3.7.4",
+            "version": "3.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "84e21e325e3da22e46d7facbccdc9258f2332b1e"
+                "reference": "00c2fd70da291cca1ec75f4dae5344fe3df588fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/84e21e325e3da22e46d7facbccdc9258f2332b1e",
-                "reference": "84e21e325e3da22e46d7facbccdc9258f2332b1e",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/00c2fd70da291cca1ec75f4dae5344fe3df588fa",
+                "reference": "00c2fd70da291cca1ec75f4dae5344fe3df588fa",
                 "shasum": ""
             },
             "require": {
@@ -970,9 +970,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/3.7.4"
+                "source": "https://github.com/doctrine/orm/tree/3.7.5"
             },
-            "time": "2026-10-05T18:31:26+00:00"
+            "time": "2026-10-09T05:58:13+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -1256,16 +1256,16 @@
         },
         {
             "name": "lcobucci/jwt",
-            "version": "5.6.0",
+            "version": "5.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "bb3e9f21e4196e8afc41def81ef649c164bca25e"
+                "reference": "482760068e5a55a9045feddb3e2fc3f878cbd577"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/bb3e9f21e4196e8afc41def81ef649c164bca25e",
-                "reference": "bb3e9f21e4196e8afc41def81ef649c164bca25e",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/482760068e5a55a9045feddb3e2fc3f878cbd577",
+                "reference": "482760068e5a55a9045feddb3e2fc3f878cbd577",
                 "shasum": ""
             },
             "require": {
@@ -1313,7 +1313,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lcobucci/jwt/issues",
-                "source": "https://github.com/lcobucci/jwt/tree/5.6.0"
+                "source": "https://github.com/lcobucci/jwt/tree/5.6.1"
             },
             "funding": [
                 {
@@ -1325,7 +1325,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-10-17T11:30:53+00:00"
+            "time": "2026-10-10T09:42:14+00:00"
         },
         {
             "name": "lorenzo/pinky",
@@ -8548,16 +8548,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "6.12.0",
+            "version": "6.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "f7c0fc65cb9cdb84bdf0e4e21460d348888b41a2"
+                "reference": "6cbca4b611f03ae9ee58a5f2d341a0bc685c4903"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/f7c0fc65cb9cdb84bdf0e4e21460d348888b41a2",
-                "reference": "f7c0fc65cb9cdb84bdf0e4e21460d348888b41a2",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/6cbca4b611f03ae9ee58a5f2d341a0bc685c4903",
+                "reference": "6cbca4b611f03ae9ee58a5f2d341a0bc685c4903",
                 "shasum": ""
             },
             "require": {
@@ -8592,7 +8592,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "OpenApi\\": "src"
+                    "OpenApi\\": "src",
+                    "OpenApi\\Rector\\": "rector/src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -8625,7 +8626,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/6.12.0"
+                "source": "https://github.com/zircote/swagger-php/tree/6.13.0"
             },
             "funding": [
                 {
@@ -8633,7 +8634,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-06T03:39:01+00:00"
+            "time": "2026-10-11T02:19:20+00:00"
         }
     ],
     "packages-dev": [
