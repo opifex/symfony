@@ -976,16 +976,16 @@
         },
         {
             "name": "doctrine/persistence",
-            "version": "4.2.0",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/persistence.git",
-                "reference": "49ab73e0d3e2ac8d1f5ecda3dd8acd5503781e8b"
+                "reference": "d8293831c5b99449b2f63eb1e1bbdc202118daa6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/persistence/zipball/49ab73e0d3e2ac8d1f5ecda3dd8acd5503781e8b",
-                "reference": "49ab73e0d3e2ac8d1f5ecda3dd8acd5503781e8b",
+                "url": "https://api.github.com/repos/doctrine/persistence/zipball/d8293831c5b99449b2f63eb1e1bbdc202118daa6",
+                "reference": "d8293831c5b99449b2f63eb1e1bbdc202118daa6",
                 "shasum": ""
             },
             "require": {
@@ -1050,7 +1050,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/persistence/issues",
-                "source": "https://github.com/doctrine/persistence/tree/4.2.0"
+                "source": "https://github.com/doctrine/persistence/tree/4.2.1"
             },
             "funding": [
                 {
@@ -1066,7 +1066,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-26T12:12:52+00:00"
+            "time": "2026-10-03T14:15:35+00:00"
         },
         {
             "name": "doctrine/sql-formatter",
@@ -2209,16 +2209,16 @@
         },
         {
             "name": "radebatz/type-info-extras",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DerManoMann/type-info-extras.git",
-                "reference": "2d9f01d60d642f890d9f170c0d8fde1f75ab17fb"
+                "reference": "1e71149dee7bf45f5cf208eb3c6c74d45a13d395"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DerManoMann/type-info-extras/zipball/2d9f01d60d642f890d9f170c0d8fde1f75ab17fb",
-                "reference": "2d9f01d60d642f890d9f170c0d8fde1f75ab17fb",
+                "url": "https://api.github.com/repos/DerManoMann/type-info-extras/zipball/1e71149dee7bf45f5cf208eb3c6c74d45a13d395",
+                "reference": "1e71149dee7bf45f5cf208eb3c6c74d45a13d395",
                 "shasum": ""
             },
             "require": {
@@ -2265,9 +2265,9 @@
             ],
             "support": {
                 "issues": "https://github.com/DerManoMann/type-info-extras/issues",
-                "source": "https://github.com/DerManoMann/type-info-extras/tree/1.0.9"
+                "source": "https://github.com/DerManoMann/type-info-extras/tree/1.0.10"
             },
-            "time": "2026-09-29T22:04:31+00:00"
+            "time": "2026-10-14T00:51:19+00:00"
         },
         {
             "name": "symfony/amqp-messenger",
@@ -8548,16 +8548,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "6.13.0",
+            "version": "6.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "6cbca4b611f03ae9ee58a5f2d341a0bc685c4903"
+                "reference": "c5361c2a43391fa3a4ca887cd0209d60ce32e7fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/6cbca4b611f03ae9ee58a5f2d341a0bc685c4903",
-                "reference": "6cbca4b611f03ae9ee58a5f2d341a0bc685c4903",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/c5361c2a43391fa3a4ca887cd0209d60ce32e7fa",
+                "reference": "c5361c2a43391fa3a4ca887cd0209d60ce32e7fa",
                 "shasum": ""
             },
             "require": {
@@ -8576,10 +8576,10 @@
             },
             "require-dev": {
                 "doctrine/annotations": "^2.0",
-                "friendsofphp/php-cs-fixer": "3.95.23",
-                "phpstan/phpstan": "2.2.12",
+                "friendsofphp/php-cs-fixer": "3.95.27",
+                "phpstan/phpstan": "2.3.1",
                 "phpunit/phpunit": "^11.5 || >=12.5.22",
-                "rector/rector": "2.6.5"
+                "rector/rector": "2.7.0"
             },
             "bin": [
                 "bin/openapi"
@@ -8626,7 +8626,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/6.13.0"
+                "source": "https://github.com/zircote/swagger-php/tree/6.14.0"
             },
             "funding": [
                 {
@@ -8634,7 +8634,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-11T02:19:20+00:00"
+            "time": "2026-10-14T05:49:26+00:00"
         }
     ],
     "packages-dev": [
