@@ -92,7 +92,7 @@ services:
       internal:
 
   rabbitmq:
-    image: rabbitmq:4.3.6-management
+    image: rabbitmq:4.4.0-management
     hostname: rabbitmq
     container_name: "${APP_NAME}-rabbitmq"
     restart: unless-stopped
@@ -132,7 +132,7 @@ services:
       internal:
 
   mailpit:
-    image: axllent/mailpit:v1.31.4
+    image: axllent/mailpit:v1.32.0
     hostname: mailpit
     container_name: "${APP_NAME}-mailpit"
     restart: unless-stopped
