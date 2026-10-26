@@ -1,4 +1,4 @@
-FROM composer:2.10.3@sha256:af98f42dfff7c68ba8d53c2164fd9fde1087b7d449514baa38c418b1f6bc4bac AS composer
+FROM composer:2.10.3@sha256:b6dcd72ca98fa19d0e5b8476de179859704891fad06dd9e0b96833d4c430a5fc AS composer
 # set temporary working directory
 WORKDIR /tmp
 # copy composer manifest files
@@ -8,7 +8,7 @@ RUN composer install --ignore-platform-reqs --no-autoloader --no-dev --no-intera
 
 FROM ghcr.io/php/pie:1.5.3-bin@sha256:9d3e6d9dafa5ae8cf034489260e206a5aa1b488b29c0ddaea9149826d9e32f52 AS pie
 
-FROM php:8.5.12-fpm-alpine@sha256:4c9541a4506014672d074652a1cc9754d3c5f97cad6c6027bae35be0e4a4dea9 AS php
+FROM php:8.5.12-fpm-alpine@sha256:4c2818074ec49f6abe46620f3965e0cb75bc3a5f2b417edd1aacaba6f091c40e AS php
 # set default environment
 ENV APP_ENV=prod PYTHONDONTWRITEBYTECODE=1
 # set application working directory
