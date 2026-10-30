@@ -1,10 +1,10 @@
 security:
-  providers:
-    database:
-      id: App\Infrastructure\Security\UserProvider\DatabaseUserProvider
   password_hashers:
     App\Infrastructure\Security\AuthenticatedUser\PasswordAuthenticatedUser:
       algorithm: argon2id
+  providers:
+    database:
+      id: App\Infrastructure\Security\UserProvider\DatabaseUserProvider
   firewalls:
     development:
       pattern: ^/(_(profiler|wdt))
