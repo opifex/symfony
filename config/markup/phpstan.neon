@@ -11,5 +11,9 @@ parameters:
   checkUninitializedProperties: true
   paths:
     - ../../src
+  ignoreErrors:
+    - { identifier: attribute.deprecated, message: '#OpenApi\\Attributes#', path: ../../src/Presentation/Controller }
+    - { identifier: method.deprecatedClass, message: '#OpenApi\\Attributes#', path: ../../src/Presentation/Controller }
+    - { identifier: new.deprecatedClass, message: '#OpenApi\\Attributes#', path: ../../src/Presentation/Controller }
 services:
   - { class: Tests\Architecture\LayerDependenciesTest, tags: [ phpat.test ] }
