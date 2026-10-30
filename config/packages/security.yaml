@@ -7,7 +7,7 @@ security:
       id: App\Infrastructure\Security\UserProvider\DatabaseUserProvider
   firewalls:
     development:
-      pattern: ^/(_(profiler|wdt))
+      pattern: ^/(_profiler(/|$)|(_wdt|assets)/)
       security: false
     availability:
       pattern: ^/api/v1/health$
