@@ -357,12 +357,12 @@
         ]
     },
     "symfony/notifier": {
-        "version": "6.3",
+        "version": "8.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "5.0",
-            "ref": "178877daf79d2dbd62129dd03612cb1a2cb407cc"
+            "ref": "b912054fd9639f5fad62493cc24439048c2fd045"
         },
         "files": [
             "config/packages/notifier.yaml"
