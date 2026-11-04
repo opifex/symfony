@@ -1,4 +1,4 @@
-FROM composer:2.11.1@sha256:537fb03057ed901ae06bde7ef25af348903485ae1acc7fc789b80d8bac666f35 AS composer
+FROM composer:2.11.1@sha256:5190d9b445add2fa26090108273cb1ef1e1af98175201c737b85b3c4f90fbf7c AS composer
 # set temporary working directory
 WORKDIR /tmp
 # copy composer manifest files
