@@ -8657,16 +8657,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "7.1.0",
+            "version": "7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "34ed0b26454ce32105773671fc42861f5ca50faa"
+                "reference": "59335dfc233a25fefd9b20cd797c059e5cbbd89a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/34ed0b26454ce32105773671fc42861f5ca50faa",
-                "reference": "34ed0b26454ce32105773671fc42861f5ca50faa",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/59335dfc233a25fefd9b20cd797c059e5cbbd89a",
+                "reference": "59335dfc233a25fefd9b20cd797c059e5cbbd89a",
                 "shasum": ""
             },
             "require": {
@@ -8688,9 +8688,9 @@
             "require-dev": {
                 "doctrine/annotations": "^2.0",
                 "friendsofphp/php-cs-fixer": "3.95.27",
-                "phpstan/phpstan": "2.3.1",
+                "phpstan/phpstan": "2.3.4",
                 "phpunit/phpunit": "^11.5 || >=12.5.22",
-                "rector/rector": "2.7.0"
+                "rector/rector": "2.8.3"
             },
             "bin": [
                 "bin/openapi"
@@ -8737,7 +8737,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/7.1.0"
+                "source": "https://github.com/zircote/swagger-php/tree/7.2.0"
             },
             "funding": [
                 {
@@ -8745,8 +8745,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-02T21:45:35+00:00",
-            "published-time": "2026-11-02T21:52:03+00:00"
+            "time": "2026-11-04T04:03:43+00:00",
+            "published-time": "2026-11-04T19:45:06+00:00"
         }
     ],
     "packages-dev": [
