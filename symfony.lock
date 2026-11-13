@@ -48,12 +48,11 @@
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "3.7",
-            "ref": "22bf81c4b6beb7c8258f08ab92f4007306880a18"
+            "version": "3.1",
+            "ref": "1d01ec03c6ecbd67c3375c5478c9a423ae5d6a33"
         },
         "files": [
-            "config/packages/doctrine_migrations.yaml",
-            "src/Migrations/.gitignore"
+            "config/packages/doctrine_migrations.yaml"
         ]
     },
     "doctrine/event-manager": {
