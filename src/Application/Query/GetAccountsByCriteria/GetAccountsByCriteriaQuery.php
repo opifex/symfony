@@ -17,10 +17,12 @@ final readonly class GetAccountsByCriteriaQuery implements QueryInterface
         #[Assert\Choice(callback: [AccountStatus::class, 'values'])]
         public ?string $status = null,
 
+        /** @var positive-int */
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\Positive]
         public int $page = 1,
 
+        /** @var positive-int */
         #[Assert\DivisibleBy(value: 1)]
         #[Assert\LessThanOrEqual(value: 100)]
         #[Assert\Positive]

@@ -13,6 +13,10 @@ use App\Domain\Foundation\ValueObject\EmailAddress;
 
 interface AccountRepositoryInterface
 {
+    /**
+     * @param positive-int $pageNumber
+     * @param positive-int $pageSize
+     */
     public function findByCriteria(
         ?string $accountEmail = null,
         ?string $accountStatus = null,
