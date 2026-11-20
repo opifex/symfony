@@ -20,7 +20,7 @@
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.8",
         "dragonmantank/cron-expression": "^3.6",
-        "lcobucci/jwt": "^5.6",
+        "lcobucci/jwt": "^5.7",
         "nelmio/api-doc-bundle": "^5.14",
         "nelmio/cors-bundle": "^2.6",
         "symfony/amqp-messenger": "8.1.*",
