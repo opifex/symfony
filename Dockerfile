@@ -1,4 +1,4 @@
-FROM composer:2.11.2@sha256:919efe8e62179c71dfd31fad035fd671fe7454211c6b2aa30a10af0ab4acedba AS composer
+FROM composer:2.11.2@sha256:cd3a90dc5624c59a2f9ddf80dad08569f06416db31de519024f249d63bca554b AS composer
 # set temporary working directory
 WORKDIR /tmp
 # copy composer manifest files
@@ -6,7 +6,7 @@ COPY composer.json composer.lock ./
 # install production dependencies
 RUN composer install --ignore-platform-reqs --no-autoloader --no-dev --no-interaction --no-plugins --no-scripts
 
-FROM ghcr.io/php/pie:1.5.5-bin@sha256:3fca03c16df842d02b654dc382db3756058d9c128064f57cace14f8728779ce9 AS pie
+FROM ghcr.io/php/pie:1.6.0-bin@sha256:f49c15dbb88a7aec373fdb15ab9004bf08958772db3b476c42364e10a8ea416f AS pie
 
 FROM php:8.5.13-fpm-alpine@sha256:51414d5291758fe27f58a64c7e8a078465d32cc7dcef7bda803f5b36019802e0 AS php
 # set default environment
@@ -52,3 +52,4 @@ RUN runuser -u www-data -- composer check-platform-reqs --no-dev \
 EXPOSE 80
 # set container entrypoint
 ENTRYPOINT ["./config/docker/entrypoint.conf"]
+оно
