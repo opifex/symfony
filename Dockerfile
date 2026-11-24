@@ -52,4 +52,3 @@ RUN runuser -u www-data -- composer check-platform-reqs --no-dev \
 EXPOSE 80
 # set container entrypoint
 ENTRYPOINT ["./config/docker/entrypoint.conf"]
-оно
