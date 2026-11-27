@@ -74,7 +74,7 @@ services:
       internal:
 
   redis:
-    image: redis:8.10.3-alpine
+    image: redis:8.12.0-alpine
     hostname: redis
     container_name: "${APP_NAME}-redis"
     restart: unless-stopped
